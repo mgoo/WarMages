@@ -1,0 +1,87 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Put any libraries here:
+    // for example, put this:
+    // compile group: 'com.google.code.gson', name: 'gson', version: '1.7.1'
+    // to include this library https://github.com/google/gson if you like ...
+
+    // Required dependencies for assignments:
+    // Include libraries in 'lib' directory
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+
+    // Tests are run in main module (which is unusual, but that's how SWEN221 is)
+    compile group: 'junit', name: 'junit', version: '4.11'
+}
+
+sourceSets {
+    test {
+        java.srcDir 'src/main/java'
+    }
+}
+
+run {
+    standardInput = System.in
+    enableAssertions = true
+}
+
+mainClassName = 'main.Main'
+
+// Submit task
+def withDependenciesTag = '-with-dependencies'
+def exportPath = './submit/'
+def exportedJarFileName = 'app.jar'
+task submit << {
+
+    println "Exporting Java files and resources for assignment submission: $exportPath"
+
+    // Copy jar
+    copy {
+        from './build/libs/'
+        include "$project.name$withDependenciesTag*.jar"
+        into exportPath
+        rename { fileName ->
+            if (fileName.endsWith(".jar")) {
+                return exportedJarFileName
+            }
+            return fileName
+        }
+    }
+}
+submit.dependsOn assemble
+
+// Export jar that includes the dependencies
+// (copied from http://www.mkyong.com/gradle/gradle-create-a-jar-file-with-dependencies/)
+task fatJar(type: Jar) {
+    manifest {
+        attributes(
+                'Implementation-Title': 'Gradle Project',
+                'Implementation-Version': version,
+                'Main-Class': mainClassName,
+        )
+    }
+    baseName = project.name + withDependenciesTag
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+jar.dependsOn fatJar
+
+jar {
+    // Copy Java files into jar
+    from sourceSets.main.allSource
+}
+
+clean {
+    delete exportPath
+}
