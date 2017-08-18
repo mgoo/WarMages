@@ -10,7 +10,7 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
 
 ### Setup IntelliJ project
 
-- Make sure the Gradle plugin is on: 
+- Make sure the Gradle plugin is on:
     - Go to `Settings/Preferences -> Plugins`
     - Then make sure the Gradle plugin is ticked
 - In IntelliJ, `Create New Project` (or File > New > Project if inside)
@@ -74,7 +74,7 @@ Put your test code in `src/main/java/` under the `test` package.
 
 ### Importing Jar files / Libraries
 
-The preferred way to add a library is to add to the `./build.gradle` file. 
+The preferred way to add a library is to add to the `./build.gradle` file.
 
 Put any `.jar` libraries in the `./lib`.
 
@@ -110,6 +110,60 @@ You can export the jar to the `./submit` directory for submitting jars
     - Run `./gradlew clean submit` (ignore the `./` if you are on Windows)
 
 Then open the `./submit directory`
+
+## Workflow Instructions
+
+Our current workflow will work like this (this is only a summary):
+
+1. Someone creates a new issue (it appears in a backlog)
+1. As a team we decide to move issues from the backlog into the TODO list on
+   the issues board page
+1. Someone decides to pick up the issue, or gets assigned to someone.
+1. They will drag the issue into the In Development list and create a branch
+1. When they are done they will create are merge request
+1. Someone reviews the code in the merge request, and then merges it
+1. The reviewer removes the labels from the issue
+
+### Creating A New Issue
+
+1. Go to the issues page and click `new issue`
+1. Enter your description and title - ideally include an checklist of things to
+   do if there are multiple things to do
+
+You don't need to assign it to anyone. Also, don't assign a label so that the
+issue appears in the backlog
+
+### Starting Development (and creating a new branch)
+
+1. Under the Board page (under Issues), drag your ticket from the TODO list
+   into the In Development list
+1. Click the little arrow next to the 'Create Merge Request' button, and click
+   the `Create A Branch` button
+1. On your computer, run `git fetch --all`, then `git checkout
+   your-branch-name`
+
+You can now commit and push to this branch
+
+### Submitting Your Code For Code Review (Creating A Merge Request)
+
+1. Push to the correct branch
+1. On the project page there will be a button to `Create Merge Request`. Click
+   it and create your merge request
+1. Go to the issues board and drag your ticket over the Code Review list
+
+### How To Do Code Review
+
+1. Find a ticket under the Code Review list in the issues board
+1. Open the merge request for this issue
+1. Have a look at the changes (there's a `Changes` button halfway down the
+   page) Look for any:
+    - Code styling issues
+    - Anything that looks wrong
+1. Ensure that all that the required tasks on the issue are done
+1. Fetch and check out the branch, run the app, and make sure that everything
+   works as intended. Try to break things to be a thorough tester!
+1. Click the merge button, or add a `+1` comment to the merge request and ask
+   someone else to click merge
 
 ### Code Linting
 
