@@ -133,7 +133,7 @@ Our current workflow will work like this (this is only a summary):
 You don't need to assign it to anyone. Also, don't assign a label so that the
 issue appears in the backlog
 
-### Starting Development (and creating a new branch)
+### Starting Development (creating a new branch)
 
 1. Under the Board page (under Issues), drag your ticket from the TODO list
    into the In Development list
@@ -151,14 +151,23 @@ You can now commit and push to this branch
    it and create your merge request
 1. Go to the issues board and drag your ticket over the Code Review list
 
+If don't you want anyone to merge your merge request at the moment, add `WIP`
+to the start of the merge request title.
+
+You don't need to set any labels on the merge request, because there are
+already labels on the issue.
+
 ### How To Do Code Review
 
 1. Find a ticket under the Code Review list in the issues board
 1. Open the merge request for this issue
+1. Assign the merge request to yourself, so other people know that you are
+   reviewing it
 1. Have a look at the changes (there's a `Changes` button halfway down the
    page) Look for any:
     - Code styling issues
     - Anything that looks wrong
+    - Better solutions to what was written
 1. Ensure that all that the required tasks on the issue are done
 1. Fetch and check out the branch, run the app, and make sure that everything
    works as intended. Try to break things to be a thorough tester!
