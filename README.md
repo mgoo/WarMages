@@ -31,6 +31,33 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
     - Click the blue refresh button to make IntelliJ load the Gradle stuff (if
       it isn't loading Gradle stuff already)
 
+#### Using the University Computers
+
+NOTE: Ideally you shouldn't use the uni computers because the proxy blocks
+gradle. But if you have to, follow these instructions to setup the IntelliJ
+project.
+
+1. Run in the repo: `rm -rf .gradle gradle gradlew gradlew.bat build.gradle
+   settings.gradle` (**remember not to commit these deleted files**)
+2. open intellij, create new project (not from existing sources) in the same
+   folder as this repo
+3. unmark `src/` as source folder, and mark `src/main/java/` as source folder -
+   required because intellij interprets the main/test modules as packages
+   without gradle
+4. open any file with an `@Test` in it and move the cursor on it. press
+   alt-enter then `add junit4 to classpath` (if it gives you the option select
+   `intellij distribution`) - not sure if this step works on uni computers. if
+   not, try using the including-library steps below
+
+You can then run the `Main` class or create a junit build configuration to run junit tests.
+
+If we add some libraries (other than junit) you can do this:
+
+1. download the jar from maven and put it somewhere (e.g. 'lib/' - **remember
+   not to commit the libraries**)
+2. in intellij, open project structure -> modules -> dependencies
+3. click the `+` at the bottom and then click `1 jars or directories`.
+
 ## Structure
 
 Put your java code in `src/main/java/` under the `main` package.
@@ -52,7 +79,7 @@ Put any `.jar` libraries in the `./lib`.
       should look like a simpler version of
       [this](https://i.stack.imgur.com/UkljJ.png))
     - Click `App`
-- Click the red debug button (or the run button) the top right
+- Click the debug button (or the run button) the top right
 
 ### Running JUnit tests
 
