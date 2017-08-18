@@ -28,11 +28,10 @@ lint:
   script:
    - codecheck/codecheck.sh
 
- staticAnalysis:
+analysis:
    stage: test
    script:
     - ./gradlew findbugsMain findbugsTest
-
 
 after_script:
   - echo "End CI"
