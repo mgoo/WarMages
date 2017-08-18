@@ -2,3 +2,9 @@
 /.idea/
 /out/
 /build/
+
+# Gradle
+/.gradle/
+
+# Assignment submit
+/submit/
