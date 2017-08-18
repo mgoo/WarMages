@@ -1,7 +1,9 @@
 # IntelliJ project
-/.idea/
+/.idea/*
 /out/
 /build/
+/*.iml
+!/.idea/runConfigurations/
 
 # Gradle
 /.gradle/
