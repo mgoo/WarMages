@@ -1,7 +1,8 @@
 # IntelliJ project
-/.idea/
+/.idea/*
 /out/
 /build/
+/*.iml
 
 # Gradle
 /.gradle/
