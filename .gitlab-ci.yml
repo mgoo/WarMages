@@ -6,7 +6,6 @@ stages:
 
 before_script:
   - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE"
-  - pwd
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 cache:
@@ -27,7 +26,7 @@ test:
 lint:
   stage: test
   script:
-   - codecheck/codecheck.sh
+   - codecheck/codecheck_ci.sh
 
 analysis:
    stage: test
