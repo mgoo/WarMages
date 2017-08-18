@@ -22,8 +22,17 @@ test:
   stage: test
   script:
     - ./gradlew check
-    - codecheck/codecheck.sh
+
+lint:
+  stage: test
+  script:
+   - codecheck/codecheck.sh
+
+ staticAnalysis:
+   stage: test
+   script:
     - ./gradlew findbugsMain findbugsTest
+
 
 after_script:
   - echo "End CI"
