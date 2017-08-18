@@ -8,14 +8,6 @@ findbugs {
     reportLevel = "high"
 }
 
-task(lint) {
-    doLast {
-
-    }
-}
-
-//apply plugin: 'nebula.lint'
-
 version '1.0-SNAPSHOT'
 
 repositories {
