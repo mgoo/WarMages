@@ -1,24 +1,16 @@
 package main;
 
 public class Main {
+
   class NonException {
-  }
 
-  public static class CircularClassInitialization {
-    static class InnerClassSingleton extends CircularClassInitialization {
-      static InnerClassSingleton singleton = new InnerClassSingleton();
-    }
-
-    static CircularClassInitialization foo = InnerClassSingleton.singleton;
-  }
-
-  // Should throw warning about naming
-  class NonException {
   }
 
   // SHould throw IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION error ?
   public static class CircularClassInitialization {
+
     static class InnerClassSingleton extends CircularClassInitialization {
+
       static InnerClassSingleton singleton = new InnerClassSingleton();
     }
 
