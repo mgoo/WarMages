@@ -102,3 +102,16 @@ You can export the jar to the `./submit` directory for submitting jars
     - Run `./gradlew clean submit` (ignore the `./` if you are on Windows)
 
 Then open the `./submit directory`
+
+### Code Linting
+
+All java code will be done to the Google Java coding style which can be found [here](https://google.github.io/styleguide/javaguide.html).
+
+
+If you want to check that the code passes the code linting process you can the linting tool with you could also add the command a run jar command in intellij
+
+    java -jar codecheck/checkstyle-8.1-all.jar -c codecheck/google_checks.xml src/
+
+
+You can import the style setting in intellij here is a explanation on how to do it [here](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
+This will make all the default code completion be styled correctly and allow you to reformat you code to match the guild lines (ctrl + alt + L or code > Reformat Code)
