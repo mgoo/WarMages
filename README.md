@@ -30,6 +30,14 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
           [Gradle icon](https://lh6.googleusercontent.com/-fvt5jz8KJ9E/AAAAAAAAAAI/AAAAAAAAAAc/-dxpnszHExs/photo.jpg)
     - Click the blue refresh button to make IntelliJ load the Gradle stuff (if
       it isn't loading Gradle stuff already)
+      
+- CodeLint
+    - to set the default styles [Follow this tutorial](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
+    the xml file can be found in codecheck/intellij-java-google-style.xml.
+    - add a lint run command by right clicking on codecheck/checkstyle-8.1-all.jar and selecting run then adding `-c codecheck/google_checks.xml src/` 
+     to the program arguments on the generated run configuration
+    - alternativly the command `java -jar codecheck/checkstyle-8.1-all.jar -c codecheck/google_checks.xml src/` will also do the linting
+    - nb commands not checked on windows.
 
 #### Using the University Computers
 
@@ -105,13 +113,12 @@ Then open the `./submit directory`
 
 ### Code Linting
 
-All java code will be done to the Google Java coding style which can be found [here](https://google.github.io/styleguide/javaguide.html).
-
-
-If you want to check that the code passes the code linting process you can the linting tool with you could also add the command a run jar command in intellij
-
-    java -jar codecheck/checkstyle-8.1-all.jar -c codecheck/google_checks.xml src/
-
-
-You can import the style setting in intellij here is a explanation on how to do it [here](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
-This will make all the default code completion be styled correctly and allow you to reformat you code to match the guild lines (ctrl + alt + L or code > Reformat Code)
+  All java code will be done to the Google Java coding style which can be found [here](https://google.github.io/styleguide/javaguide.html).
+  
+  
+  If you want to check that the code passes the code linting process you can the linting tool with you could also add the command a run jar command in intellij
+  
+      java -jar codecheck/checkstyle-8.1-all.jar -c codecheck/google_checks.xml src/
+  
+  Setting the default intelij styles will make all the default code completion be styled correctly and allow you to reformat you code to match the guild lines (ctrl + alt + L or code > Reformat Code)
+  But dont run this on all code as it make a large amout of changes just do files you are changing for the issue.
