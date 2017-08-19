@@ -1,9 +1,16 @@
 package main;
 
-/**
- * Delete this when you put your assignments here.
- */
 public class Main {
+  class NonException {
+  }
+
+  public static class CircularClassInitialization {
+    static class InnerClassSingleton extends CircularClassInitialization {
+      static InnerClassSingleton singleton = new InnerClassSingleton();
+    }
+
+    static CircularClassInitialization foo = InnerClassSingleton.singleton;
+  }
 
   // Should throw warning about naming
   class NonException {
@@ -25,5 +32,8 @@ public class Main {
     // Poor indenting
     // Long line
     System.out.println("The program ran!");
+  }
+
+  private void bla() {
   }
 }
