@@ -171,8 +171,12 @@ already labels on the issue.
 1. Ensure that all that the required tasks on the issue are done
 1. Fetch and check out the branch, run the app, and make sure that everything
    works as intended. Try to break things to be a thorough tester!
-1. Click the merge button, or add a `+1` comment to the merge request and ask
-   someone else to click merge
+
+If the code is ok, click the merge button, or add a thumbs up reaction to the
+merge request and ask someone else to click merge.
+
+If the code is not ok, drag the issue back to the In Development list, and
+assign back to the original developer.
 
 ### Code Linting
 
