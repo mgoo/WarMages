@@ -175,8 +175,7 @@ already labels on the issue.
 If the code is ok, click the merge button, or add a thumbs up reaction to the
 merge request and ask someone else to click merge.
 
-If the code is not ok, drag the issue back to the In Development list, and
-assign back to the original developer.
+If the code is not ok, drag the issue back to the In Development list.
 
 ### Code Linting
 
