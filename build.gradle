@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'findbugs'
@@ -40,7 +42,8 @@ run {
 }
 
 task(lint) {
-    doLast {
+    def lintOut = new ByteArrayOutputStream()
+    doFirst {
         javaexec {
             main = "-jar"
             args = [
@@ -49,6 +52,20 @@ task(lint) {
                     "codecheck/google_checks.xml",
                     "src/",
             ]
+            standardOutput = lintOut
+        }
+    }
+    doLast {
+        // Check for any [WARN] or any [STUFF] lines and fail if they exist
+
+        String output = lintOut.toString()
+        def errorPattern = Pattern.compile "^\\[\\w+].*", Pattern.MULTILINE
+        // Hack to check if multiline regex matches any line
+        if (output.replaceAll(errorPattern, "") != output) {
+            throw new Error(output)
+        } else {
+            // Just print output if no detected errors
+            println(output)
         }
     }
 }
