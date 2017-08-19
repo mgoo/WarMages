@@ -49,7 +49,6 @@ task(lint) {
                     "codecheck/google_checks.xml",
                     "src/",
             ]
-            standardOutput = System.out
         }
     }
 }

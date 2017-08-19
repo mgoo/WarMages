@@ -5,7 +5,7 @@ import org.junit.Test;
 public class ExampleTest {
 
   @Test
-  public void unitOfWork_someInput_expectedOutput() {
+  public void tempTest() {
     System.out.println("Temporary test");
   }
 
