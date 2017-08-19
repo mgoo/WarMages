@@ -138,6 +138,10 @@ You can now commit and push to this branch
 
 ### Submitting Your Code For Code Review (Creating A Merge Request)
 
+1. Make sure your code is reliable, and the tests and lint/code-analysis pass
+   (by either running the `All` build configuration or running `./gradlew
+   build` from the command line - replace `./gradlew` with `gradlew` if on
+   Windows)
 1. Push to the correct branch
 1. On the project page there will be a button to `Create Merge Request`. Click
    it and create your merge request
