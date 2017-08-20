@@ -9,6 +9,12 @@ findbugs {
     effort = "max"
     reportLevel = "high"
 }
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
 gradle.startParameter.excludedTaskNames.add("findbugsTest")
 
 version '1.0-SNAPSHOT'
