@@ -3,6 +3,7 @@
 /out/
 /build/
 /*.iml
+!/.idea/runConfigurations/
 
 # Gradle
 /.gradle/
