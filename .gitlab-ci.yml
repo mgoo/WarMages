@@ -33,20 +33,5 @@ analysis:
    script:
     - ./gradlew findbugsMain findbugsTest
 
-test:
-  stage: test
-  script:
-    - ./gradlew check
-
-lint:
-  stage: test
-  script:
-   - codecheck/codecheck_ci.sh
-
-analysis:
-   stage: test
-   script:
-    - ./gradlew findbugsMain findbugsTest
-
 after_script:
   - echo "End CI"
