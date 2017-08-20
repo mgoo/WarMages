@@ -9,6 +9,7 @@ findbugs {
     effort = "max"
     reportLevel = "high"
 }
+gradle.startParameter.excludedTaskNames.add("findbugsTest")
 
 version '1.0-SNAPSHOT'
 

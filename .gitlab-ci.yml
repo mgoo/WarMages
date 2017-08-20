@@ -31,7 +31,7 @@ lint:
 analysis:
    stage: test
    script:
-    - ./gradlew findbugsMain findbugsTest
+    - ./gradlew findbugsMain
 
 after_script:
   - echo "End CI"
