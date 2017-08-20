@@ -31,6 +31,13 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
     - Click the blue refresh button to make IntelliJ load the Gradle stuff (if
       it isn't loading Gradle stuff already)
 
+- CodeLint
+    - to set the default styles [Follow this
+      tutorial](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
+      the xml file can be found in codecheck/intellij-java-google-style.xml.
+    - Check the linting by running the `Lint` build configuration in intellij,
+      or by running `./gradlew lint`.
+
 #### Using the University Computers
 
 NOTE: Ideally you shouldn't use the uni computers because the proxy blocks
@@ -138,6 +145,10 @@ You can now commit and push to this branch
 
 ### Submitting Your Code For Code Review (Creating A Merge Request)
 
+1. Make sure your code is reliable, and the tests and lint/code-analysis pass
+   (by either running the `All` build configuration or running `./gradlew
+   build` from the command line - replace `./gradlew` with `gradlew` if on
+   Windows)
 1. Push to the correct branch
 1. On the project page there will be a button to `Create Merge Request`. Click
    it and create your merge request
@@ -168,3 +179,14 @@ If the code is ok, click the merge button, or add a thumbs up reaction to the
 merge request and ask someone else to click merge.
 
 If the code is not ok, drag the issue back to the In Development list.
+
+
+### Code Linting
+
+All java code will be done to the Google Java coding style which can be found
+[here](https://google.github.io/styleguide/javaguide.html).
+
+Setting the default intelij styles will make all the default code completion be
+styled correctly and allow you to reformat you code to match the guild lines
+(ctrl + alt + L or code > Reformat Code) But dont run this on all code as it
+make a large amout of changes just do files you are changing for the issue.

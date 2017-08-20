@@ -3,9 +3,12 @@
 /out/
 /build/
 /*.iml
+!/.idea/runConfigurations/
 
 # Gradle
 /.gradle/
 
 # Assignment submit
 /submit/
+
+/findbugsReports/
