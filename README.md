@@ -34,7 +34,7 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
 - CodeLint
     - to set the default styles [Follow this tutorial](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
     the xml file can be found in codecheck/intellij-java-google-style.xml.
-    - Check the linting by running the lint gradle command
+    - Check the linting by running the `Check (Test + Lint)` build configuration in intellij, or by running `./gradlew lint`
 
 #### Using the University Computers
 
