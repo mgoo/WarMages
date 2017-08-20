@@ -70,8 +70,6 @@ task(lint) {
     }
 }
 lint.dependsOn assemble
-lint.dependsOn findbugsMain
-lint.dependsOn findbugsTest
 
 check.dependsOn lint
 
