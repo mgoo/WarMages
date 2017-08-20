@@ -16,7 +16,22 @@ cache:
 build:
   stage: build
   script:
-    - ./gradlew build
+    - ./gradlew assemble
+
+test:
+  stage: test
+  script:
+    - ./gradlew test
+
+lint:
+  stage: test
+  script:
+   - ./gradlew lint
+
+analysis:
+   stage: test
+   script:
+    - ./gradlew findbugsMain findbugsTest
 
 test:
   stage: test
