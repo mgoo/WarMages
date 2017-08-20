@@ -1,3 +1,4 @@
+import java.awt.Desktop
 import java.util.regex.Pattern
 
 apply plugin: 'java'
@@ -16,6 +17,16 @@ tasks.withType(FindBugs) {
     }
 }
 gradle.startParameter.excludedTaskNames.add("findbugsTest")
+
+task(openFindbugsReport) {
+    onlyIf {
+        findbugsMain.state.failure != null
+    }
+    doFirst {
+        Desktop.desktop.browse new File("findbugsReports/main.html").toURI()
+    }
+}
+findbugsMain.finalizedBy openFindbugsReport
 
 version '1.0-SNAPSHOT'
 
