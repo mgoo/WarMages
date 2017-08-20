@@ -76,6 +76,13 @@ check.dependsOn lint
 
 mainClassName = 'main.Main'
 
+task(buildAndContinueWhenErrors) {
+}
+buildAndContinueWhenErrors.dependsOn(assemble)
+buildAndContinueWhenErrors.finalizedBy(lint)
+buildAndContinueWhenErrors.finalizedBy(findbugsMain)
+buildAndContinueWhenErrors.finalizedBy(test)
+
 // Submit task
 def withDependenciesTag = '-with-dependencies'
 def exportPath = './submit/'
