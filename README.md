@@ -180,7 +180,6 @@ merge request and ask someone else to click merge.
 
 If the code is not ok, drag the issue back to the In Development list.
 
-
 ### Code Linting
 
 All java code will be done to the Google Java coding style which can be found
