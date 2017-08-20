@@ -30,11 +30,13 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
           [Gradle icon](https://lh6.googleusercontent.com/-fvt5jz8KJ9E/AAAAAAAAAAI/AAAAAAAAAAc/-dxpnszHExs/photo.jpg)
     - Click the blue refresh button to make IntelliJ load the Gradle stuff (if
       it isn't loading Gradle stuff already)
-      
+
 - CodeLint
-    - to set the default styles [Follow this tutorial](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
-    the xml file can be found in codecheck/intellij-java-google-style.xml.
-    - Check the linting by running the `Check (Test + Lint)` build configuration in intellij, or by running `./gradlew lint`
+    - to set the default styles [Follow this
+      tutorial](https://github.com/HPI-Information-Systems/Metanome/wiki/Installing-the-google-styleguide-settings-in-intellij-and-eclipse)
+      the xml file can be found in codecheck/intellij-java-google-style.xml.
+    - Check the linting by running the `Lint` build configuration in intellij,
+      or by running `./gradlew lint`.
 
 #### Using the University Computers
 
@@ -181,8 +183,10 @@ If the code is not ok, drag the issue back to the In Development list.
 
 ### Code Linting
 
-All java code will be done to the Google Java coding style which can be found [here](https://google.github.io/styleguide/javaguide.html).
+All java code will be done to the Google Java coding style which can be found
+[here](https://google.github.io/styleguide/javaguide.html).
 
-
-Setting the default intelij styles will make all the default code completion be styled correctly and allow you to reformat you code to match the guild lines (ctrl + alt + L or code > Reformat Code)
-But dont run this on all code as it make a large amout of changes just do files you are changing for the issue.
+Setting the default intelij styles will make all the default code completion be
+styled correctly and allow you to reformat you code to match the guild lines
+(ctrl + alt + L or code > Reformat Code) But dont run this on all code as it
+make a large amout of changes just do files you are changing for the issue.
