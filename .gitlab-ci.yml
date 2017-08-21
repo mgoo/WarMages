@@ -2,7 +2,6 @@ image: java:8-jdk
 
 stages:
   - build
-  - test
 
 before_script:
   - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE"
@@ -16,22 +15,7 @@ cache:
 build:
   stage: build
   script:
-    - ./gradlew assemble
-
-test:
-  stage: test
-  script:
-    - ./gradlew test
-
-lint:
-  stage: test
-  script:
-   - ./gradlew lint
-
-analysis:
-   stage: test
-   script:
-    - ./gradlew findbugsMain
+    - ./gradlew buildAndContinueWhenErrors
 
 after_script:
   - echo "End CI"
