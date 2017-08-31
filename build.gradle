@@ -23,7 +23,9 @@ task(openFindbugsReport) {
         findbugsMain.state.failure != null
     }
     doFirst {
-        Desktop.desktop.browse new File("findbugsReports/main.html").toURI()
+        if (Desktop.isDesktopSupported()) {
+            Desktop.desktop.browse new File("findbugsReports/main.html").toURI()
+        }
     }
 }
 findbugsMain.finalizedBy openFindbugsReport
