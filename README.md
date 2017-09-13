@@ -144,7 +144,9 @@ You can now commit and push to this branch
    Windows)
 1. Push to the correct branch
 1. On the project page there will be a button to `Create Merge Request`. Click
-   it and create your merge request
+   it
+1. Set the template to the `default_merge_request_template`
+1. Create your merge request
 1. Go to the issues board and drag your ticket over the Code Review list
 
 If don't you want anyone to merge your merge request at the moment, add `WIP`
@@ -173,6 +175,8 @@ merge request and ask someone else to click merge.
 
 If the code is not ok, drag the issue back to the In Development list.
 
+**NOTE: Some of this information has been duplicated in the [merge request
+template](./.gitlab/merge_request_templates/default_merge_request_template.md)**
 
 ### Code Linting
 
