@@ -89,7 +89,6 @@ task(lint) {
         }
     }
 }
-lint.dependsOn assemble
 
 check.dependsOn lint
 
