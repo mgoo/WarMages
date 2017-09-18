@@ -6,12 +6,12 @@ import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
- * Loads a menu to the webEngine
+ * Esssentually a wrapper that brings the html and the controller together.
  */
 public abstract class Menu {
 
   /**
-   * Loads a menu into the webEngine and binds the contorller to the js
+   * Loads a menu into the webEngine and binds the controller to the js.
    */
   public void load(WebEngine webEngine) {
     webEngine.load(this.getURL().toExternalForm());
@@ -24,12 +24,12 @@ public abstract class Menu {
   }
 
   /**
-   * Gets the URL of the html file to load
+   * Gets the URL of the html file to load.
    */
-  abstract URL getURL();
+  abstract URL getUrl();
 
   /**
-   * Gets an instance of the object to bind to javascript
+   * Gets an instance of the object to bind to javascript.
    */
   abstract MenuController getMenuController();
 }

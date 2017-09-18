@@ -4,7 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by mgoo on 18/09/17.
+ * Wrapper for the MainMenu of the game.
+ * Includes play load and exit buttons
  */
 public class MainMenu extends Menu {
 

@@ -1,7 +1,8 @@
 package menu;
 
 /**
- * Created by mgoo on 18/09/17.
+ * Controller for the Main Menu.
+ * Responsible for makeing a new game loading a game and exiting.
  */
 public class MainMenuController implements MenuController {
   private final GameModelLoader gameModelLoader;
