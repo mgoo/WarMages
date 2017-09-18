@@ -7,7 +7,7 @@ package main;
  */
 public class GameController {
 
-  public GameController(GameView gameView){
+  public GameController(){
     //TODO
     throw new Error("NYI");
   }
