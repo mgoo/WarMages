@@ -14,7 +14,7 @@ public abstract class Menu {
    * Loads a menu into the webEngine and binds the controller to the js.
    */
   public void load(WebEngine webEngine) {
-    webEngine.load(this.getURL().toExternalForm());
+    webEngine.load(this.getUrl().toExternalForm());
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
       if (newState == Worker.State.SUCCEEDED) {
         JSObject window = (JSObject) webEngine.executeScript("window");
