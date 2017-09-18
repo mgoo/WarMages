@@ -6,6 +6,7 @@ import java.net.URL;
 /**
  * Wrapper for the MainMenu of the game.
  * Includes play load and exit buttons
+ * @author Andrew McGhie
  */
 public class MainMenu extends Menu {
 
