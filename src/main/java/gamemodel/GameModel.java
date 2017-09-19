@@ -13,10 +13,17 @@ public class GameModel {
   ) {
   }
 
+  /**
+   * A getter method to get all possible entities.
+   * @return a collection of all possible entities
+   */
   public Collection<Entity> getEntities(){
     throw new Error("NYI");
   }
 
+  /**
+   * Starts the main game loop of this app.
+   */
   public void startGame() {
     throw new Error("NYI");
   }
