@@ -1,0 +1,61 @@
+//This is a file for the global styles that should be applied everywhere
+
+@red: #ff995b;
+@blue: #6983ff;
+@green: #c5fba2;
+@orange: #b8b463;
+@black: #000;
+
+@button-spacing: 10px;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  padding: @button-spacing;
+  margin: @button-spacing;
+  cursor: pointer;
+  border-radius: 5px;
+
+  display: block;
+  width: 10vw;
+
+  text-align: center;
+
+  box-shadow: @black 3px 3px 3px;
+
+  &:hover {
+    box-shadow: #444 3px 3px 3px;
+  }
+
+  &:active {
+    box-shadow: #AAA 1px 1px 1px;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.red {
+  color: #000;
+  background-color: @red;
+}
+
+.blue {
+  color: #000;
+  background-color: @blue;
+}
+
+.green {
+  color: #000;
+  background-color: @green;
+}
+
+.orange {
+  color: #000;
+  background-color: @orange;
+}
+

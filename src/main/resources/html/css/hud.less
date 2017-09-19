@@ -1,0 +1,51 @@
+@tob-bar-height: 5vh;
+@bottom-bar-height: 30vh;
+@unit-holder-width: 70vw;
+
+div, body{
+  overflow: hidden;
+}
+
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 5vh;
+
+  border: #000 solid 1px; // TODO remove
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: @bottom-bar-height;
+
+  .holder {
+
+  }
+
+  .unit-holder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 70%;
+    width: @unit-holder-width;
+
+    border: #000 solid 1px; // TODO remove
+  }
+
+  .right-box {
+    position: absolute;
+    left: @unit-holder-width;
+    bottom: 0;
+
+    width: 100vw - @unit-holder-width;
+    height: 100%;
+    border: #000 solid 1px; // TODO remove
+  }
+}

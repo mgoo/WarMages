@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.btn {
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: block;
+  width: 10vw;
+  text-align: center;
+  box-shadow: #000 3px 3px 3px;
+}
+.btn:hover {
+  box-shadow: #444 3px 3px 3px;
+}
+.btn:active {
+  box-shadow: #AAA 1px 1px 1px;
+}
+a {
+  text-decoration: none;
+}
+.red {
+  color: #000;
+  background-color: #ff995b;
+}
+.blue {
+  color: #000;
+  background-color: #6983ff;
+}
+.green {
+  color: #000;
+  background-color: #c5fba2;
+}
+.orange {
+  color: #000;
+  background-color: #b8b463;
+}
+@keyframes title-drop {
+  0% {
+    bottom: calc(100vh + 130px);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+  80% {
+    bottom: 70vh;
+  }
+  80%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  85%,
+  95% {
+    transform: translate3d(2px, 0, 0);
+  }
+  85% {
+    transform: rotate(1deg);
+  }
+  87% {
+    transform: rotate(-1deg);
+  }
+  89% {
+    transform: rotate(0.5deg);
+  }
+  91% {
+    transform: rotate(-0.5deg);
+  }
+}
+@keyframes buttons-slide {
+  from {
+    left: 100vw;
+  }
+  to {
+    left: 70vw;
+  }
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body .title {
+  animation-name: title-drop, shake;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(1, -0.04, 0.91, 0.94);
+  width: 50vw;
+  position: absolute;
+  bottom: 70vh;
+  left: 25vw;
+}
+body .title h1 {
+  font-size: 130px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+body .mainmenu-buttons {
+  width: 10vw;
+  display: block;
+  position: absolute;
+  bottom: 10vh;
+  left: 70vw;
+  margin: 0;
+  padding: 0;
+  animation-name: buttons-slide;
+  animation-duration: 2s;
+}
+body .mainmenu-buttons li {
+  display: block;
+  list-style-type: none;
+  margin: 10px * 3;
+}
