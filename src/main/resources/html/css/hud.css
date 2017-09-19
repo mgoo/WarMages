@@ -1,0 +1,35 @@
+div,
+body {
+  overflow: hidden;
+}
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 5vh;
+  border: #000 solid 1px;
+}
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 30vh;
+}
+.bottom-bar .unit-holder {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 70%;
+  width: 70vw;
+  border: #000 solid 1px;
+}
+.bottom-bar .right-box {
+  position: absolute;
+  left: 70vw;
+  bottom: 0;
+  width: 30vw;
+  height: 100%;
+  border: #000 solid 1px;
+}
