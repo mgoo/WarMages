@@ -1,4 +1,4 @@
-package main.util;
+package util;
 
 public class MapSize {
   public final double width, height;
