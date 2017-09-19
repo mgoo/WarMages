@@ -1,4 +1,4 @@
-package main.util;
+package util;
 
 public class MapRect {
   public final MapPoint topLeft, bottomRight;
