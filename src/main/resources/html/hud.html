@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link type="text/css" href="css/styles.css" rel="stylesheet">
-    <link type="text/css" href="css/hud.css" rel="stylesheet">
+  <link type="text/css" href="css/styles.css" rel="stylesheet">
+  <link type="text/css" href="css/hud.css" rel="stylesheet">
 </head>
 <body>
-    <div class="top-bar"></div>
-    <div class="bottom-bar">
-        <div class="unit-holder holder"></div>
-        <div class="right-box">
-            <div class="item-holder holder"></div>
-            <div class="ability-holder holder"></div>
-        </div>
-    </div>
+<div class="top-bar"></div>
+<div class="bottom-bar">
+  <div class="unit-holder holder" id="unit-holder">
+
+  </div>
+  <div class="right-box">
+    <div class="item-holder holder" id="item-holder"></div>
+    <div class="ability-holder holder" id="ability-holder"></div>
+  </div>
+</div>
 </body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/hud.js"></script>
+
+<script>
+  addUnitIcon("download.jpg", "");
+</script>
 </html>
