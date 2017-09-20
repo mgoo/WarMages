@@ -1,4 +1,5 @@
 * {
+  background-color: rgba(0, 0, 0, 0);
   margin: 0;
   padding: 0;
 }
@@ -10,13 +11,13 @@
   display: block;
   width: 10vw;
   text-align: center;
-  box-shadow: #000 3px 3px 3px;
+  -fx-box-shadow: #000 3px 3px 3px;
 }
 .btn:hover {
-  box-shadow: #444 3px 3px 3px;
+  -fx-box-shadow: #444 3px 3px 3px;
 }
 .btn:active {
-  box-shadow: #AAA 1px 1px 1px;
+  -fx-box-shadow: #AAA 1px 1px 1px;
 }
 a {
   text-decoration: none;

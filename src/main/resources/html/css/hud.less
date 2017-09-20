@@ -6,6 +6,14 @@ div, body{
   overflow: hidden;
 }
 
+.game-view-proxy {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: -1;
+}
+
 .top-bar {
   position: absolute;
   top: 0;
@@ -28,10 +36,12 @@ div, body{
   .holder {
     .icon {
       display: inline-block;
-      width: 7vw;
-      height: 10vh;
+      width: 6vw;
+      height: 9vh;
 
       margin: 5px;
+
+      background-size: 100% 100%;
 
       border: #000 solid 1px; // TODO remove
     }
@@ -55,5 +65,13 @@ div, body{
     width: 100vw - @unit-holder-width;
     height: 100%;
     border: #000 solid 1px; // TODO remove
+
+    .holder {
+      border: #000 solid 1px; // TODO remove
+    }
+
+    .icon {
+      border: #f00 solid 1px;
+    }
   }
 }
