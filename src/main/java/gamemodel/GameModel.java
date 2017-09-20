@@ -1,5 +1,6 @@
 package gamemodel;
 
+import java.util.Collection;
 import util.MapRect;
 
 /**
@@ -34,7 +35,7 @@ public class GameModel {
    * A setter method to select a collection
    * @param selection points on the world that may contain entities
    */
-  public void setEntitySelection(MapRect selection){
+  public void setEntitySelection(Collection<Entity> entitySelection){
     throw new Error("NYI");
   }
 
