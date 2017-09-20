@@ -11,8 +11,8 @@ import java.io.IOException;
 public enum GameImage {
 
   // Values used in tests only
-  _TEST_FULL_SIZE("one.png"),
-  _TEST_PARTIAL_SIZE("two.png", 1, 1, 3, 2);
+  _TEST_FULL_SIZE("image_for_image_provider_tests.png"),
+  _TEST_PARTIAL_SIZE("", 1, 1, 3, 2);
 
   private static final int MAX_SIZE = Integer.MAX_VALUE;
 

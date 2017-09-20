@@ -16,7 +16,7 @@ public abstract class ImageProvider {
   /**
    * Loads a game image.
    *
-   * @param filename Filename without slashes.
+   * @param filename Filename without any directories.
    * @return The loaded image.
    * @throws IOException When the file is unable to load
    */

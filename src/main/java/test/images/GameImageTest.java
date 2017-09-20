@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import org.junit.Test;
 
+/**
+ * Test names here follow the test naming convention: unitOfWorkUnderTest_typeOfInput_expectedResult.
+ */
 public class GameImageTest {
 
   private final BufferedImage testImage = new BufferedImage(10, 5, TYPE_INT_ARGB);
@@ -27,7 +30,6 @@ public class GameImageTest {
 
     @Override
     protected void storeInCache(GameImage gameImage, BufferedImage image) {
-
     }
 
     @Override
@@ -50,9 +52,9 @@ public class GameImageTest {
     BufferedImage image = gameImage.load(imageProvider);
 
     // Assume default colours are not blue
-    assertNotEquals(testImage.getRGB(1, 0), Color.WHITE.getRGB());
+    assertNotEquals(Color.WHITE.getRGB(), testImage.getRGB(1, 0));
 
-    assertEquals(testImage.getRGB(1, 0), Color.BLUE.getRGB());
+    assertEquals(Color.BLUE.getRGB(), testImage.getRGB(1, 0));
     assertEquals(gameImage.width, image.getWidth());
     assertEquals(gameImage.height, image.getHeight());
   }
