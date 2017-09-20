@@ -1,6 +1,10 @@
 package main.game.model.world;
 
-import main.util.*;
+import java.util.Collection;
+import main.game.model.entity.Entity;
+import main.game.model.entity.MapEntity;
+import main.util.MapPoint;
+import main.util.MapRect;
 
 /**
  * World class is a representation of all the in-play entities and

@@ -2,6 +2,7 @@ package main.game.model.saveandload;
 
 import java.io.IOException;
 import java.util.Collection;
+import main.game.model.GameModel;
 
 public class GameSaveModel {
   public GameSaveModel(Filesystem filesystem) {

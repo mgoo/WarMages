@@ -1,7 +1,10 @@
-package gamemodel;
+package main.game.model;
 
 import java.util.Collection;
-import util.MapRect;
+import main.game.model.entity.Entity;
+import main.game.model.entity.Item;
+import main.game.model.entity.Unit;
+import main.game.model.world.World;
 
 /**
  * A container class for all model components (including units, items,
@@ -33,7 +36,7 @@ public class GameModel {
 
   /**
    * A setter method to select a collection
-   * @param selection points on the world that may contain entities
+   * @param entitySelection points on the world that may contain entities
    */
   public void setEntitySelection(Collection<Entity> entitySelection){
     throw new Error("NYI");

@@ -1,6 +1,7 @@
 package main.game.model.saveandload;
 
 import java.io.IOException;
+import main.game.model.GameModel;
 
 public class GameModelLoader {
   public GameModelLoader(FileLoader fileLoader) {

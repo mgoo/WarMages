@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
+
 /**
  * PizzaBall extends {@link Projectile}. It deals __ damage to it’s target
  */
@@ -17,7 +19,7 @@ public class PizzaBall extends Projectile{
   }
 
   @Override
-  public GameImage.Config getImage(){
+  public GameImage getImage(){
     throw new Error("NYI");
   }
 }
