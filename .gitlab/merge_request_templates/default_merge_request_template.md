@@ -9,6 +9,7 @@ Closes issue #YOUR_ISSUE_NUMBER_HERE
 * [ ] All tasks in the issue have been completed
 * [ ] App has been thorougly tested
 * [ ] Dragged this issue into the Code Review issue list
+* [ ] Assigned to the appropriate code reviewer for this API
 
 <!--
 Remember to drag your issue over to the Code Review list on the issues
@@ -17,6 +18,5 @@ page when it's ready to be code reviewed.
 
 ## Preliminary Code Review Reminder Checklist:
 
-* [ ] Reviewer is assigned the issue / assigned it to themself
 * [ ] All tasks in the issue have been completed by the developer
 * [ ] Issue has been dragged into the `Ready for Merge` list, or merged
