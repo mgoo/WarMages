@@ -19,7 +19,7 @@ public class GameModel {
    * A getter method to get all possible entities.
    * @return a collection of all possible entities
    */
-  public Collection<Entity> getEntities(){
+  public Collection<Entity> getAllEntities(){
     throw new Error("NYI");
   }
 
@@ -45,15 +45,4 @@ public class GameModel {
   public Collection<Entity> getEntitySelection() {
     throw new Error("NYI");
   }
-
-  /**
-   * A getter method which sets the selected collection and
-   * returns a collection selected entities
-   * @param selection points on the world that may contain entities
-   * @return a collection of selected entities
-   */
-  public Collection<Entity> getEntitySelection(MapRect selection) {
-    throw new Error("NYI");
-  }
-
 }
