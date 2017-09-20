@@ -1,4 +1,8 @@
-package pathfinder;
+package main.game.model.world.pathfinder;
+
+import java.util.List;
+import main.game.model.world.World;
+import main.util.MapPoint;
 
 /**
  * Implements the A* path finding algorithm to find the shortest path
@@ -7,7 +11,8 @@ package pathfinder;
  * go through it).
  */
 public class PathFinder {
-  public static List<MapPoint> findPath(World world, MapPoint start, MapPoint end){
+
+  public static List<MapPoint> findPath(World world, MapPoint start, MapPoint end) {
     //TODO
     throw new Error("NYI");
   }

@@ -2,6 +2,8 @@ package main.menu;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import main.game.model.saveandload.GameModelLoader;
+import main.game.model.saveandload.GameSaveModel;
 
 /**
  * Wrapper for the MainMenu of the game.
@@ -19,7 +21,7 @@ public class MainMenu extends Menu {
   }
 
   @Override
-  URL getURL() {
+  URL getUrl() {
     try {
       return new URL("resources/html/main_menu.html");
     } catch (MalformedURLException e) {

@@ -1,5 +1,9 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
+import main.util.MapPoint;
+import main.util.MapSize;
+
 /**
  * Entity Abstract class: entities have positions on the screen,
  * images, and sizes.
@@ -10,9 +14,9 @@ public abstract class Entity {
   protected float size;
 
   public Entity(MapPoint position, float size){
-    throw new Error("NYI");
     this.position=position;
     this.size=size;
+    throw new Error("NYI");
   }
 
   public MapPoint getPosition(){
@@ -31,6 +35,6 @@ public abstract class Entity {
     throw new Error("NYI");
   }
 
-  public abstract GameImage.Config getImage();
+  public abstract GameImage getImage();
 
 }

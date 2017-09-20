@@ -1,5 +1,8 @@
 package main.game.controller;
 
+import main.game.view.events.KeyEvent;
+import main.game.view.events.MouseClick;
+
 /**
  * Allows the user to control the game. Listens to user actions on the
  * view {@link GameView}, e.g. mouse and keyboard input, and calls methods on the model to

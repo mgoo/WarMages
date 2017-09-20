@@ -1,5 +1,10 @@
 package main.game.view;
 
+import java.util.Collection;
+import main.game.controller.GameController;
+import main.game.model.GameModel;
+import main.renderer.Renderable;
+
 /**
  * A View of the Game.
  * Is responsible for creating all the Renderable objects and keeping their

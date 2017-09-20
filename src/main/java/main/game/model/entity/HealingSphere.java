@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
+
 /**
  * HealingSphere extends {@link Projectile}. It heals a target by __ hp
  */
@@ -17,7 +19,7 @@ public class HealingSphere extends Projectile{
   }
 
   @Override
-  public GameImage.Config getImage(){
+  public GameImage getImage(){
     throw new Error("NYI");
   }
 }
