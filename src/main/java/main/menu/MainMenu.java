@@ -6,8 +6,8 @@ import main.game.model.saveandload.GameModelLoader;
 import main.game.model.saveandload.GameSaveModel;
 
 /**
- * Wrapper for the MainMenu of the game.
- * Includes play load and exit buttons
+ * Wrapper for the MainMenu of the game. Includes play load and exit buttons
+ *
  * @author Andrew McGhie
  */
 public class MainMenu extends Menu {

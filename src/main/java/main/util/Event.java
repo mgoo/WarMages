@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Event<ParamT> {
+
   private Collection<Listener<ParamT>> listeners = new ArrayList<>();
 
   public Runnable registerListener(Listener<ParamT> listener) {
@@ -17,6 +18,7 @@ public class Event<ParamT> {
 
   @FunctionalInterface
   public interface Listener<ParamT> {
+
     void onNotify(ParamT parameter);
   }
 }

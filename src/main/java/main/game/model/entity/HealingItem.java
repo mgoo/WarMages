@@ -13,12 +13,12 @@ public class HealingItem extends Item {
   }
 
   @Override
-  public GameImage getImage(){
+  public GameImage getImage() {
     throw new Error("NYI");
   }
 
   @Override
-  public void applyTo(Unit unit){
+  public void applyTo(Unit unit) {
     throw new Error("NYI");
   }
 }

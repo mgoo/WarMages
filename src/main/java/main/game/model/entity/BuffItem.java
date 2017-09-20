@@ -7,6 +7,7 @@ import main.util.MapPoint;
  * BuffItem extends{@link Item}. Gives the unit a buff ability
  */
 public class BuffItem extends Item {
+
   private Ability buff;
 
   public BuffItem(MapPoint coord, float size) {
@@ -14,12 +15,12 @@ public class BuffItem extends Item {
   }
 
   @Override
-  public void applyTo(Unit unit){
+  public void applyTo(Unit unit) {
     throw new Error("NYI");
   }
 
   @Override
-  public GameImage getImage(){
+  public GameImage getImage() {
     throw new Error("NYI");
   }
 }

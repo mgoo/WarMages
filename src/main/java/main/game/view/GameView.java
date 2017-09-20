@@ -6,12 +6,13 @@ import main.game.model.GameModel;
 import main.renderer.Renderable;
 
 /**
- * A View of the Game.
- * Is responsible for creating all the Renderable objects and keeping their
+ * A View of the Game. Is responsible for creating all the Renderable objects and keeping their
  * locations uptodate with the locations in the models.
+ *
  * @author Andrew McGhie
  */
 public class GameView {
+
   private final GameController gameController;
   private final GameModel gameModel;
 

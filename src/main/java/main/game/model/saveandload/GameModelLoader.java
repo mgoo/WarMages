@@ -4,6 +4,7 @@ import java.io.IOException;
 import main.game.model.GameModel;
 
 public class GameModelLoader {
+
   public GameModelLoader(FileLoader fileLoader) {
     throw new Error("NYI");
   }
@@ -13,6 +14,7 @@ public class GameModelLoader {
   }
 
   public interface FileLoader {
+
     String load(String filename) throws IOException;
   }
 }
