@@ -4,10 +4,11 @@ import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * Unit extends{@link Entity}. A unit is a part of a team, specified by
- * an enum colour. It has health, and can attack other team units.
+ * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
+ * health, and can attack other team units.
  */
 public class Unit extends Entity {
+
   protected int health;
 
   public Unit(MapPoint position, float size) {
@@ -15,20 +16,20 @@ public class Unit extends Entity {
   }
   //todo enum colour field
 
-  public void attack(Unit unit){
+  public void attack(Unit unit) {
     throw new Error("NYI");
   }
 
-  public void takeDamage(int amount){
+  public void takeDamage(int amount) {
     throw new Error("NYI");
   }
 
-  public void gainHealth(int amount){
+  public void gainHealth(int amount) {
     throw new Error("NYI");
   }
 
   @Override
-  public GameImage getImage(){
+  public GameImage getImage() {
     throw new Error("NYI");
   }
 }

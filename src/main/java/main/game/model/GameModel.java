@@ -7,8 +7,8 @@ import main.game.model.entity.Unit;
 import main.game.model.world.World;
 
 /**
- * A container class for all model components (including units, items,
- * projectiles, etc). This also handles the progression of the story/game
+ * A container class for all model components (including units, items, projectiles, etc). This also
+ * handles the progression of the story/game
  */
 public class GameModel {
 
@@ -21,9 +21,10 @@ public class GameModel {
 
   /**
    * A getter method to get all possible entities.
+   *
    * @return a collection of all possible entities
    */
-  public Collection<Entity> getAllEntities(){
+  public Collection<Entity> getAllEntities() {
     throw new Error("NYI");
   }
 
@@ -36,14 +37,16 @@ public class GameModel {
 
   /**
    * A setter method to select a collection
+   *
    * @param entitySelection points on the world that may contain entities
    */
-  public void setEntitySelection(Collection<Entity> entitySelection){
+  public void setEntitySelection(Collection<Entity> entitySelection) {
     throw new Error("NYI");
   }
 
   /**
    * A getter method get a previously selected collection
+   *
    * @return a collection of selected entities
    */
   public Collection<Entity> getEntitySelection() {

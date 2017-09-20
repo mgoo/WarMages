@@ -9,5 +9,6 @@ import java.io.IOException;
  * It may cache images.
  */
 public interface ImageProvider {
+
   BufferedImage load(GameImage gameImage) throws IOException;
 }

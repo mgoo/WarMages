@@ -7,6 +7,7 @@ import netscape.javascript.JSObject;
 
 /**
  * Esssentually a wrapper that brings the html and the controller together.
+ *
  * @author Andrew McGhie
  */
 public abstract class Menu {

@@ -5,8 +5,10 @@ import java.util.Collection;
 import main.game.model.GameModel;
 
 public class GameSaveModel {
+
   public GameSaveModel(Filesystem filesystem) {
   }
+
   public void save(GameModel gameModel, String filename) throws IOException {
     throw new Error("NYI");
   }
@@ -20,8 +22,11 @@ public class GameSaveModel {
   }
 
   public interface Filesystem {
+
     String load(String filename) throws IOException;
+
     Collection<String> availableFilenames() throws IOException;
+
     void save(String filename, String fileData) throws IOException;
   }
 }
