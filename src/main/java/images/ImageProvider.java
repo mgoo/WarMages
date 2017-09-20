@@ -6,9 +6,9 @@ import java.io.IOException;
 /**
  * DON'T USE METHODS DIRECTLY! THESE METHODS ARE FOR USE IN THE PACKAGE ONLY!
  * Use {@link GameImage#load(ImageProvider)} instead.
- *
+ * <p>
  * Provides an image file, potentially from the filesystem.
- *
+ * <p>
  * It may cache images.
  */
 public abstract class ImageProvider {

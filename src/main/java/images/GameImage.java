@@ -4,9 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Reference all of the image files in the app here by adding a new enum value
- *
- * @see ImageProvider for loading the images
+ * Reference all of the image files in the app here by adding a new enum value.
+ * <p>
+ * See {@link GameImage#load(ImageProvider)}
  */
 public enum GameImage {
 
@@ -34,6 +34,11 @@ public enum GameImage {
     this.height = height;
   }
 
+  /**
+   * Use this method to get an image.
+   *
+   * @throws IOException For file IO errors
+   */
   public BufferedImage load(ImageProvider imageProvider) throws IOException {
     BufferedImage fromCache = imageProvider.getFromCache(this);
     if (fromCache != null) {
@@ -48,6 +53,20 @@ public enum GameImage {
   }
 
   private BufferedImage clipToBounds(BufferedImage image) {
-    return image.getSubimage(startX, startY, width, height);
+    int w = width;
+    int h = height;
+
+    if (width == MAX_SIZE && height == MAX_SIZE) {
+      return image;
+    }
+
+    if (w == MAX_SIZE) {
+      w = image.getWidth();
+    }
+    if (h == MAX_SIZE) {
+      h = image.getHeight();
+    }
+
+    return image.getSubimage(startX, startY, w, h);
   }
 }

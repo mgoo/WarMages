@@ -15,4 +15,3 @@ public class GameModelLoader {
     String load(String filename) throws IOException;
   }
 }
-
