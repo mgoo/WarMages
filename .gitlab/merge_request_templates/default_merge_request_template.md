@@ -15,18 +15,8 @@ Remember to drag your issue over to the Code Review list on the issues
 page when it's ready to be code reviewed.
 -->
 
-## Code Review Reminder Checklist:
+## Preliminary Code Review Reminder Checklist:
 
-* [ ] Reviewer assigned this issue to themself
+* [ ] Reviewer is assigned the issue / assigned it to themself
 * [ ] All tasks in the issue have been completed by the developer
-* [ ] Reviewer has done a `git checkout` on this branch and has thoroughly
-  tested the program
-* [ ] Code changes have been reviewed for: Code styling issues
-* [ ] Code changes have been reviewed for: Anything that looks wrong
-* [ ] Code changes have been reviewed for: Better solutions to what was
-  written
-* [ ] Issue has been dragged into the `Ready for Merge` list
-
-<!--
-NOTE: The information on this page has been duplicated from the /README.md file
--->
+* [ ] Issue has been dragged into the `Ready for Merge` list, or merged
