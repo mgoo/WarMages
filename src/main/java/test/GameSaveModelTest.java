@@ -5,10 +5,69 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import main.game.model.GameModel;
+import main.game.model.saveandload.GameSaveModel;
 import main.game.model.saveandload.GameSaveModel.DefaultFilesystem;
+import main.game.model.saveandload.GameSaveModel.Filesystem;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class GameSaveModelTest {
+
+  private Filesystem stubFileSystem = new Filesystem() {
+    private final Map<String, String> datastore = new HashMap<>();
+
+    @Override
+    public String load(String filename) throws IOException {
+      if (!datastore.containsKey(filename)) {
+        throw new IOException();
+      }
+
+      return datastore.get(filename);
+    }
+
+    @Override
+    public Collection<String> availableFilenames() throws IOException {
+      return datastore.keySet();
+    }
+
+    @Override
+    public void save(String filename, String fileData) throws IOException {
+      datastore.put(
+          Objects.requireNonNull(filename),
+          Objects.requireNonNull(fileData)
+      );
+    }
+  };
+
+  @Test(expected = IllegalArgumentException.class)
+  public void save_nameWithSlashes_exceptionThrown() throws IOException {
+    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
+    GameModel gameModel = Mockito.mock(GameModel.class);
+    gameSaveModel.save(gameModel, "some/file");
+  }
+
+  @Test
+  public void save_withoutFileExtension_fileIsSavedWithExtension() throws IOException {
+    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
+    GameModel gameModel = Mockito.mock(GameModel.class);
+    gameSaveModel.save(gameModel, "filename");
+
+    assertTrue(
+        stubFileSystem
+            .availableFilenames()
+            .contains("filename." + GameSaveModel.SAVE_FILE_EXTENSION)
+    );
+  }
+
+  @Test
+  public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal() {
+
+  }
 
   public static class DefaultFileSystemTest {
 

@@ -17,25 +17,12 @@ import main.util.MapPoint;
 import main.util.MapRect;
 
 /**
- * Creates a new [@link GameModel} and it's required {@link World}, along with {@link Entity}
- * objects in the default positions in the {@link World}.
+ * Factory for {@link GameModel} and it's required {@link World}, along with {@link Entity} objects
+ * in the default positions in the {@link World}.
  */
 public class GameModelLoader {
 
-  private final FileLoader fileLoader;
-
-  public GameModelLoader(FileLoader fileLoader) {
-    this.fileLoader = fileLoader;
-  }
-
-  /**
-   * Creates a new {@link GameModel} by loading from the file.
-   */
-  public GameModel load(String filename) throws IOException {
-
-    // NOTE: Does not currently load from the file.
-    // This code is temporary so it is easier to test other parts of the system.
-
+  public static GameModel newBoringSingleLevelGameModel() {
     // NOTE 2: All of these values, including the sizes, are just temporarily values.
 
     HeroUnit heroUnit = new HeroUnit(new MapPoint(0, 0), 1, Team.PLAYER);
@@ -60,6 +47,23 @@ public class GameModelLoader {
     );
 
     return new GameModel(new World(mapEntities), Arrays.asList(level), heroUnit);
+  }
+
+  private final FileLoader fileLoader;
+
+  public GameModelLoader(FileLoader fileLoader) {
+    this.fileLoader = fileLoader;
+  }
+
+  /**
+   * Creates a new {@link GameModel} by loading from the file.
+   */
+  public GameModel load(String filename) throws IOException {
+
+    // NOTE: Does not currently load from the file.
+    // This code is temporary so it is easier to test other parts of the system.
+
+    return newBoringSingleLevelGameModel();
   }
 
   /**
