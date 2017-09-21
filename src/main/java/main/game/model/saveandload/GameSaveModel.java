@@ -3,6 +3,7 @@ package main.game.model.saveandload;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,15 +17,17 @@ import main.game.model.GameModel;
 public class GameSaveModel {
 
   /**
-   * File extension for saved files.
+   * This is public for testing only. File extension for saved files.
    */
   public static final String SAVE_FILE_EXTENSION = "sav";
 
   /**
-   * Place to save and load all the files.
-   * If you change this remember to update the .gitignore file.
+   * Place to save and load all the files. If you change this remember to update the .gitignore
+   * file.
    */
-  public static final String SAVE_FILE_DIRECTORY = "./saves/";
+  private static final String SAVE_FILE_DIRECTORY = "./saves/";
+
+  private static final Charset SAVE_FILE_CHARSET = Charset.defaultCharset();
 
   private final Filesystem filesystem;
 
@@ -34,8 +37,8 @@ public class GameSaveModel {
 
   /**
    * Stores the gameModel (through serialisation).
-   * @param filename Name with
-   * @throws IOException
+   *
+   * @param filename Name with no slashes is it.
    */
   public void save(GameModel gameModel, String filename) throws IOException {
     Objects.requireNonNull(gameModel);
@@ -56,6 +59,10 @@ public class GameSaveModel {
     throw new Error("NYI");
   }
 
+  /**
+   * Finds the file names of all the existing game saves. Each name in a SAVE_FILE_EXTENSION and
+   * does not contain any slashes.
+   */
   public Collection<String> getExistingGameSaves() throws IOException {
     return filesystem.availableFilenames()
         .stream()
@@ -70,8 +77,9 @@ public class GameSaveModel {
   public interface Filesystem {
 
     /**
+     * Loads the text contents of the file.
+     *
      * @param filename Filename without any slashes.
-     * @return The text contents of the file.
      */
     String load(String filename) throws IOException;
 
@@ -84,10 +92,16 @@ public class GameSaveModel {
 
     private final String saveDirectory;
 
+    /**
+     * The main constructor for this class.
+     */
     public DefaultFilesystem() {
       this(SAVE_FILE_DIRECTORY);
     }
 
+    /**
+     * Constructor for saving and loading files in a different directory to the default one.
+     */
     public DefaultFilesystem(String saveDirectory) {
       if (!saveDirectory.endsWith("/")) {
         throw new IllegalArgumentException();
@@ -100,7 +114,7 @@ public class GameSaveModel {
     public String load(String filename) throws IOException {
       File file = getFile(filename);
 
-      return Files.readAllLines(file.toPath())
+      return Files.readAllLines(file.toPath(), SAVE_FILE_CHARSET)
           .stream()
           .reduce(String::concat)
           .orElse("");
@@ -127,7 +141,7 @@ public class GameSaveModel {
       File file = getFile(filename);
       file.getParentFile().mkdirs();
 
-      try (PrintWriter writer = new PrintWriter(file)) {
+      try (PrintWriter writer = new PrintWriter(file, SAVE_FILE_CHARSET.name())) {
         writer.write(fileData);
       }
     }
