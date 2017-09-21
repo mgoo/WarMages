@@ -10,12 +10,13 @@ import main.images.GameImage;
 import org.junit.Test;
 
 /**
- * Test names here follow the test naming convention: unitOfWorkUnderTest_typeOfInput_expectedResult.
+ * Test names here follow the test naming convention:
+ * unitOfWorkUnderTest_typeOfInput_expectedResult.
  */
 public class DefaultImageProviderTest {
 
   @Test
-  public void loadImageFromFileSystem_usingTestImage_resultShouldLookCorrect() throws IOException {
+  public void load_usingTestImage_resultShouldLookCorrect() throws IOException {
     BufferedImage image = GameImage._TEST_FULL_SIZE.load(new DefaultImageProvider());
 
     assertEquals(20, image.getWidth());
@@ -25,9 +26,9 @@ public class DefaultImageProviderTest {
     assertEquals(Color.BLACK.getRGB(), image.getRGB(1, 1));
   }
 
-  // TODO Test these things before merge request
-  // - test on submit jar
-  // - test on intellij run
-  // - test on gradle run
-  // - test on test resource
+  @Test(expected = IOException.class)
+  public void load_nonExistentImage_throwsException() throws IOException {
+    new DefaultImageProvider().load("some_file_that_doesnt_exist.png");
+  }
+
 }

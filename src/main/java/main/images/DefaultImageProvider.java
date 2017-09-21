@@ -14,8 +14,13 @@ public class DefaultImageProvider extends ImageProvider {
 
   private Map<GameImage, BufferedImage> imageCache = new HashMap<>();
 
+  /**
+   * Public for testing only.
+   *
+   * @param filePath File path relative to the resources directory.
+   */
   @Override
-  protected BufferedImage load(String filePath) throws IOException {
+  public BufferedImage load(String filePath) throws IOException {
     if (filePath.startsWith("/")) {
       throw new IllegalArgumentException("Illegal file path: " + filePath);
     }
