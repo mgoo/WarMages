@@ -66,6 +66,12 @@ public class GameSaveModelTest {
     );
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void load_nonexistentFile_exceptionThrown() throws IOException {
+    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
+    gameSaveModel.load("some_nonexistent_file");
+  }
+
   @Test
   public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal()
       throws IOException {
