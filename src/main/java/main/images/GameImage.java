@@ -5,8 +5,8 @@ import java.io.IOException;
 
 /**
  * Reference all of the image files in the app here by adding a new enum value.
- * <p>
- * See {@link GameImage#load(ImageProvider)}
+ *
+ * @see {@link GameImage#load(ImageProvider)}
  */
 public enum GameImage {
 
@@ -61,10 +61,10 @@ public enum GameImage {
     }
 
     if (w == MAX_SIZE) {
-      w = image.getWidth();
+      w = image.getWidth() - startX;
     }
     if (h == MAX_SIZE) {
-      h = image.getHeight();
+      h = image.getHeight() - startY;
     }
 
     return image.getSubimage(startX, startY, w, h);
