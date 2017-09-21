@@ -3,10 +3,12 @@ package test.images;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import main.images.DefaultImageProvider;
 import main.images.GameImage;
 import main.images.ImageProvider;
 import org.junit.Test;
@@ -60,4 +62,13 @@ public class GameImageTest {
     assertEquals(gameImage.width, image.getWidth());
     assertEquals(gameImage.height, image.getHeight());
   }
+
+  @Test
+  public void loadImagesFromFileSystem_usingAllGameImages_allImagesExist() throws IOException {
+    for (GameImage gameImage : GameImage.values()) {
+      BufferedImage image = gameImage.load(new DefaultImageProvider());
+      assertNotNull(image);
+    }
+  }
+
 }
