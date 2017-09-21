@@ -1,5 +1,8 @@
 package main.game.model.saveandload;
 
+import com.owlike.genson.Genson;
+import com.owlike.genson.JsonBindingException;
+import com.owlike.genson.stream.JsonStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,9 +33,11 @@ public class GameSaveModel {
   private static final Charset SAVE_FILE_CHARSET = Charset.defaultCharset();
 
   private final Filesystem filesystem;
+  private final Genson genson;
 
   public GameSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
+    this.genson = new Genson();
   }
 
   /**
@@ -50,13 +55,24 @@ public class GameSaveModel {
       filename += "." + SAVE_FILE_EXTENSION;
     }
 
-    String fileData = ""; // TODO
-
-    filesystem.save(filename, fileData);
+    String serialisedData = genson.serialize(gameModel);
+    filesystem.save(filename, serialisedData);
   }
 
-  public GameModel load(String filename) throws IOException {
-    throw new Error("NYI");
+  /**
+   * Serialises is the game saved under filename.
+   * @throws IOException E.g. when the file doesn't exist
+   * @throws SerialisationFormatException When the file contains invalid data. This may happen
+   *     after a {@link GameModel} was saved, then fields were changed, then this method was
+   *     caught on the existing save.
+   */
+  public GameModel load(String filename) throws IOException, SerialisationFormatException {
+    String serialisedData = filesystem.load(filename);
+    try {
+      return genson.deserialize(serialisedData, GameModel.class);
+    } catch (JsonBindingException | JsonStreamException e) {
+      throw new SerialisationFormatException(e);
+    }
   }
 
   /**
@@ -117,7 +133,7 @@ public class GameSaveModel {
       return Files.readAllLines(file.toPath(), SAVE_FILE_CHARSET)
           .stream()
           .reduce(String::concat)
-          .orElse("");
+          .orElseThrow(IOException::new);
     }
 
     @Override

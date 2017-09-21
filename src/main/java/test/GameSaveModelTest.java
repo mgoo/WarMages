@@ -15,6 +15,7 @@ import main.game.model.saveandload.GameModelLoader;
 import main.game.model.saveandload.GameSaveModel;
 import main.game.model.saveandload.GameSaveModel.DefaultFilesystem;
 import main.game.model.saveandload.GameSaveModel.Filesystem;
+import main.game.model.saveandload.SerialisationFormatException;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -66,15 +67,16 @@ public class GameSaveModelTest {
     );
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void load_nonexistentFile_exceptionThrown() throws IOException {
+  @Test(expected = IOException.class)
+  public void load_nonexistentFile_exceptionThrown()
+      throws IOException, SerialisationFormatException {
     GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
     gameSaveModel.load("some_nonexistent_file");
   }
 
   @Test
   public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal()
-      throws IOException {
+      throws IOException, SerialisationFormatException {
     // Given these objects
     GameModel originalModel = GameModelLoader.newSingleLevelTestGame();
     GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
