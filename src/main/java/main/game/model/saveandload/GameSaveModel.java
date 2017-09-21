@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 
@@ -31,8 +32,24 @@ public class GameSaveModel {
     this.filesystem = filesystem;
   }
 
+  /**
+   * Stores the gameModel (through serialisation).
+   * @param filename Name with
+   * @throws IOException
+   */
   public void save(GameModel gameModel, String filename) throws IOException {
-    throw new Error("NYI");
+    Objects.requireNonNull(gameModel);
+
+    if (filename.contains("/")) {
+      throw new IllegalArgumentException("Filename should not contain slashes");
+    }
+    if (!filename.endsWith("." + SAVE_FILE_EXTENSION)) {
+      filename += "." + SAVE_FILE_EXTENSION;
+    }
+
+    String fileData = ""; // TODO
+
+    filesystem.save(filename, fileData);
   }
 
   public GameModel load(String filename) throws IOException {
@@ -120,4 +137,3 @@ public class GameSaveModel {
     }
   }
 }
-
