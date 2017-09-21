@@ -11,5 +11,5 @@ public abstract class Item extends MapEntity {
     super(coord, size);
   }
 
-  abstract void applyTo(Unit unit);
+  public abstract void applyTo(Unit unit);
 }
