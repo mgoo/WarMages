@@ -10,7 +10,7 @@ public class Main {
    * Start the app.
    */
   public static void main(String[] args) {
-    
+
   }
 
 }
