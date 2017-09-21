@@ -1,10 +1,20 @@
 package main;
 
+import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Robot;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.TimerTask;
+import java.util.Timer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,6 +24,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyCombination.Modifier;
 import javafx.scene.input.KeyCombination.ModifierValue;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -21,6 +32,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javax.imageio.ImageIO;
 import menu.MainMenuController;
 import netscape.javascript.JSObject;
@@ -30,8 +42,12 @@ import netscape.javascript.JSObject;
  * logic.
  */
 public class Main extends Application {
-
   private static String pwd;
+  private Robot robot = new Robot();
+
+  public Main() throws AWTException {
+  }
+
   /**
    * Start the app.
    */
@@ -54,6 +70,7 @@ public class Main extends Application {
     primaryStage.setFullScreen(true);
     primaryStage.setFullScreenExitHint("");
     primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    primaryStage.setAlwaysOnTop(true);
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 
@@ -97,10 +114,48 @@ public class Main extends Application {
 
     // Mouse events will be handled in html
     root.setOnKeyReleased(event -> {
+
       System.out.println("ALT: " + event.isAltDown());
       System.out.println("SHF: " + event.isShiftDown());
       System.out.println("CTTL: " + event.isControlDown());
       System.out.println("Code: " + event.getCode().toString());
+    });
+
+    browser.setOnMouseExited(event -> {
+      System.out.println("Mouse Exited");
+      Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+      Window viewBounds = scene.getWindow();
+
+      if (mouseLocation.x < (int)viewBounds.getX()) {
+        Main.this.robot.mouseMove((int)viewBounds.getX(), mouseLocation.y);
+      }
+      if (mouseLocation.x >= (int)(viewBounds.getX() + viewBounds.getWidth() - 1)) {
+        Main.this.robot.mouseMove((int)(viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
+      }
+      if (mouseLocation.y < (int)viewBounds.getY()) {
+        Main.this.robot.mouseMove(mouseLocation.x, (int)viewBounds.getY());
+      }
+      if (mouseLocation.y >= (int)(viewBounds.getY() + viewBounds.getHeight())) {
+        Main.this.robot.mouseMove(mouseLocation.x, (int)(viewBounds.getY() + viewBounds.getHeight()));
+      }
+    });
+
+    browser.setOnMouseMoved(event -> {
+      Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+      Window viewBounds = scene.getWindow();
+
+      if (mouseLocation.x < (int)viewBounds.getX()) {
+        Main.this.robot.mouseMove((int)viewBounds.getX(), mouseLocation.y);
+      }
+      if (mouseLocation.x >= (int)(viewBounds.getX() + viewBounds.getWidth() - 1)) {
+        Main.this.robot.mouseMove((int)(viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
+      }
+      if (mouseLocation.y < (int)viewBounds.getY()) {
+        Main.this.robot.mouseMove(mouseLocation.x, (int)viewBounds.getY());
+      }
+      if (mouseLocation.y >= (int)(viewBounds.getY() + viewBounds.getHeight())) {
+        Main.this.robot.mouseMove(mouseLocation.x, (int)(viewBounds.getY() + viewBounds.getHeight()));
+      }
     });
 
     root.getChildren().setAll(imageView, browser);
