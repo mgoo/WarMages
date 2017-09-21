@@ -1,7 +1,6 @@
 package main.images;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -16,12 +15,16 @@ public class DefaultImageProvider extends ImageProvider {
   private Map<GameImage, BufferedImage> imageCache = new HashMap<>();
 
   @Override
-  protected BufferedImage load(String filename) throws IOException {
-    if (filename.contains("/") || filename.contains(File.separator)) {
-      throw new IllegalArgumentException("Illegal filename: " + filename);
+  protected BufferedImage load(String filePath) throws IOException {
+    if (filePath.startsWith("/")) {
+      throw new IllegalArgumentException("Illegal file path: " + filePath);
     }
 
-    URL imageResource = getClass().getResource("/" + filename);
+    URL imageResource = getClass().getResource("/" + filePath);
+    if (imageResource == null) {
+      throw new IOException("Resource not found: " + filePath);
+    }
+
     return ImageIO.read(imageResource);
   }
 

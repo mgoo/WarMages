@@ -16,11 +16,11 @@ public abstract class ImageProvider {
   /**
    * Loads a game image.
    *
-   * @param filename Filename without any directories.
+   * @param filePath File path relative to the resources directory.
    * @return The loaded image.
    * @throws IOException When the file is unable to load
    */
-  protected abstract BufferedImage load(String filename) throws IOException;
+  protected abstract BufferedImage load(String filePath) throws IOException;
 
   /**
    * Maybe stores the (potentially preprocessed) image for fast reuse. Implementations are not
