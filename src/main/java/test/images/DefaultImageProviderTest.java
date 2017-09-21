@@ -3,11 +3,11 @@ package test.images;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import images.DefaultImageProvider;
-import images.GameImage;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import main.images.DefaultImageProvider;
+import main.images.GameImage;
 import org.junit.Test;
 
 /**

@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * DON'T USE METHODS DIRECTLY! THESE METHODS ARE FOR USE IN THE PACKAGE ONLY!
- * Use {@link GameImage#load(ImageProvider)} instead.
+ * DON'T USE METHODS DIRECTLY! THESE METHODS ARE FOR USE IN THE PACKAGE ONLY! Use {@link
+ * GameImage#load(ImageProvider)} instead.
  * <p>
- * Provides an image file, potentially from the filesystem.
- * <p>
- * It may cache images.
+ * Provides an image file, potentially from the
+ * filesystem. It may cache images.
+ * </p>
  */
 public abstract class ImageProvider {
 
@@ -23,8 +23,8 @@ public abstract class ImageProvider {
   protected abstract BufferedImage load(String filename) throws IOException;
 
   /**
-   * Maybe stores the (potentially preprocessed) image for fast reuse.
-   * Implementations are not required to actually cache anything.
+   * Maybe stores the (potentially preprocessed) image for fast reuse. Implementations are not
+   * required to actually cache anything.
    */
   protected abstract void storeInCache(GameImage gameImage, BufferedImage image);
 

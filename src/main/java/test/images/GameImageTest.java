@@ -4,15 +4,16 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import images.GameImage;
-import images.ImageProvider;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import main.images.GameImage;
+import main.images.ImageProvider;
 import org.junit.Test;
 
 /**
- * Test names here follow the test naming convention: unitOfWorkUnderTest_typeOfInput_expectedResult.
+ * Test names here follow the test naming convention:
+ * unitOfWorkUnderTest_typeOfInput_expectedResult.
  */
 public class GameImageTest {
 
