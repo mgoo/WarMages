@@ -7,8 +7,9 @@ public class MapRect {
 
   /**
    * Creates a {@link MapRect} without worrying about the order of the corners.
-   * @param cornerA
-   * @param cornerB
+   *
+   * @param cornerA Some corner (not necessarily the top left).
+   * @param cornerB Some corner (not necessarily the bottom right).
    */
   public MapRect(MapPoint cornerA, MapPoint cornerB) {
     double minX = Math.min(cornerA.x, cornerB.x);

@@ -23,7 +23,7 @@ public class Level {
   // TODO add getters
 
   /**
-   * @see CompletionChecker#isCompleted(GameModel)
+   * See CompletionChecker#isCompleted(GameModel).
    */
   public boolean isCompleted(GameModel gameModel) {
     throw new Error("NYI");
@@ -33,9 +33,10 @@ public class Level {
    * Strategy pattern for checking if the level is complete.
    */
   public interface CompletionChecker {
+
     /**
-     * Checks if the user has achieved the goals to finish this level (for example by killing all the
-     * enemies).
+     * Checks if the user has achieved the goals to finish this level (for example by killing all
+     * the enemies).
      */
     boolean isCompleted(GameModel gameModel);
   }
