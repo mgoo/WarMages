@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * Provides an image file, potentially from the filesystem.
- *
+ * <p></p>
  * It may cache images.
  */
 public interface ImageProvider {

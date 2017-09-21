@@ -1,7 +1,7 @@
 package main.images;
 
 /**
- * Reference all of the image files in the app here by adding a new enum value
+ * Reference all of the image files in the app here by adding a new enum value.
  *
  * @see ImageProvider for loading the images
  */

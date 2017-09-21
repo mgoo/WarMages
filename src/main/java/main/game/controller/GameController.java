@@ -16,11 +16,17 @@ public class GameController {
     throw new Error("NYI");
   }
 
+  /**
+   * TODO javadoc.
+   */
   public void onKeyPress(KeyEvent keyevent) {
     //TODO
     throw new Error("NYI");
   }
 
+  /**
+   * TODO javadoc.
+   */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
       //TODO

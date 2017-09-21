@@ -4,7 +4,8 @@ import java.awt.Point;
 
 public class MapPoint {
 
-  public final double x, y;
+  public final double x;
+  public final double y;
 
   public MapPoint(double x, double y) {
     this.x = x;

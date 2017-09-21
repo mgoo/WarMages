@@ -13,6 +13,9 @@ public abstract class Entity {
   protected GameImage image;
   protected float size;
 
+  /**
+   * TODO javadoc.
+   */
   public Entity(MapPoint position, float size) {
     this.position = position;
     this.size = size;
