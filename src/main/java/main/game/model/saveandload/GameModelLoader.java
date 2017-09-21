@@ -22,8 +22,11 @@ import main.util.MapRect;
  */
 public class GameModelLoader {
 
+  /**
+   * Creates a new {@link GameModel} with the single level and example data.
+   */
   public static GameModel newSingleLevelTestGame() {
-    // NOTE 2: All of these values, including the sizes, are just temporarily values.
+    // NOTE: All of these values, including the sizes, are just temporarily values.
 
     HeroUnit heroUnit = new HeroUnit(new MapPoint(0, 0), 1, Team.PLAYER);
 
