@@ -36,7 +36,7 @@ public class GameModel {
   }
 
   /**
-   * A setter method to select a collection
+   * A setter method to select a collection.
    *
    * @param entitySelection points on the world that may contain entities
    */
@@ -45,7 +45,7 @@ public class GameModel {
   }
 
   /**
-   * A getter method get a previously selected collection
+   * A getter method get a previously selected collection.
    *
    * @return a collection of selected entities
    */

@@ -3,7 +3,7 @@ package main.game.model.entity;
 import main.images.GameImage;
 
 /**
- * An ability can be applied to (a) Unit(s)
+ * An ability can be applied to (a) Unit(s).
  */
 public class Ability {
 
