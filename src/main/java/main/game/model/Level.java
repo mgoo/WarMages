@@ -12,10 +12,11 @@ import main.util.MapRect;
  */
 public class Level {
 
+  private final CompletionChecker completionChecker;
   private final Collection<Unit> units;
   private final Collection<Item> items;
-  private final CompletionChecker completionChecker;
   private final MapRect mapBounds;
+  private final String goalDescription;
 
   /**
    * Creates a new level with data which should not change overtime.
@@ -24,12 +25,14 @@ public class Level {
       Collection<Unit> units,
       Collection<Item> items,
       CompletionChecker completionChecker,
-      MapRect mapBounds
+      MapRect mapBounds,
+      String goalDescription
   ) {
     this.units = units;
     this.items = items;
     this.completionChecker = completionChecker;
     this.mapBounds = mapBounds;
+    this.goalDescription = goalDescription;
     throw new Error("NYI");
   }
 
@@ -45,10 +48,14 @@ public class Level {
     return mapBounds;
   }
 
+  public String getGoalDescription() {
+    return goalDescription;
+  }
+
   /**
-   * See CompletionChecker#isCompleted(GameModel).
+   * See CompletionChecker#areGoalsCompleted(GameModel).
    */
-  public boolean isCompleted(GameModel gameModel) {
+  public boolean areGoalsCompleted(GameModel gameModel) {
     throw new Error("NYI");
   }
 

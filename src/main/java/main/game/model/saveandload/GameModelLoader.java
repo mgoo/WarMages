@@ -50,7 +50,8 @@ public class GameModelLoader {
             new BuffItem(new MapPoint(3, 3), 0.2f)
         ),
         gameModel -> false, // Never complete this level for now
-        new MapRect(new MapPoint(0, 0), new MapPoint(10, 8))
+        new MapRect(new MapPoint(0, 0), new MapPoint(10, 8)),
+        "Maybe kill all the enemies or something I don't know"
     );
 
     Collection<MapEntity> mapEntities = Arrays.asList(
