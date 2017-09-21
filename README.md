@@ -155,7 +155,7 @@ to the start of the merge request title.
 You don't need to set any labels on the merge request, because there are
 already labels on the issue.
 
-### How To Do Code Review
+### How To Do Code Review (NEEDS UPDATING)
 
 1. Find a ticket under the Code Review list in the issues board
 1. Open the merge request for this issue
