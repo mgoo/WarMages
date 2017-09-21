@@ -25,7 +25,7 @@ public class GameImageTest {
 
   private final ImageProvider imageProvider = new ImageProvider() {
     @Override
-    protected BufferedImage load(String filename) throws IOException {
+    protected BufferedImage load(String filePath) throws IOException {
       return testImage;
     }
 
@@ -43,6 +43,7 @@ public class GameImageTest {
   public void load_noSizeSpecified_returnsEntireImage() throws IOException {
     BufferedImage image = GameImage._TEST_FULL_SIZE.load(imageProvider);
 
+    assertEquals(Color.BLUE.getRGB(), testImage.getRGB(2, 1));
     assertEquals(image.getWidth(), testImage.getWidth());
     assertEquals(image.getHeight(), testImage.getHeight());
   }
@@ -53,9 +54,9 @@ public class GameImageTest {
     BufferedImage image = gameImage.load(imageProvider);
 
     // Assume default colours are not blue
-    assertNotEquals(Color.WHITE.getRGB(), testImage.getRGB(1, 0));
+    assertNotEquals(Color.WHITE.getRGB(), testImage.getRGB(0, 0));
 
-    assertEquals(Color.BLUE.getRGB(), testImage.getRGB(1, 0));
+    assertEquals(Color.BLUE.getRGB(), image.getRGB(1, 0));
     assertEquals(gameImage.width, image.getWidth());
     assertEquals(gameImage.height, image.getHeight());
   }

@@ -11,23 +11,26 @@ import java.io.IOException;
 public enum GameImage {
 
   // Values used in tests only
-  _TEST_FULL_SIZE("image_for_image_provider_tests.png"),
-  _TEST_PARTIAL_SIZE("", 1, 1, 3, 2);
+  _TEST_FULL_SIZE("images/test/image_for_image_provider_tests.png"),
+  _TEST_PARTIAL_SIZE("images/test/image_for_image_provider_tests.png", 1, 1, 3, 2);
 
   private static final int MAX_SIZE = Integer.MAX_VALUE;
 
-  public final String filename;
+  /**
+   * File path relative to the resources directory.
+   */
+  public final String filePath;
   public final int startX;
   public final int startY;
   public final int width;
   public final int height;
 
-  GameImage(String filename) {
-    this(filename, 0, 0, MAX_SIZE, MAX_SIZE);
+  GameImage(String filePath) {
+    this(filePath, 0, 0, MAX_SIZE, MAX_SIZE);
   }
 
-  GameImage(String filename, int startX, int startY, int width, int height) {
-    this.filename = filename;
+  GameImage(String filePath, int startX, int startY, int width, int height) {
+    this.filePath = filePath;
     this.startX = startX;
     this.startY = startY;
     this.width = width;
@@ -45,7 +48,7 @@ public enum GameImage {
       return fromCache;
     }
 
-    BufferedImage image = imageProvider.load(filename);
+    BufferedImage image = imageProvider.load(filePath);
     image = clipToBounds(image);
 
     imageProvider.storeInCache(this, image);
