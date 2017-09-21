@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import main.game.model.GameModel;
+import main.game.model.saveandload.GameModelLoader;
 import main.game.model.saveandload.GameSaveModel;
 import main.game.model.saveandload.GameSaveModel.DefaultFilesystem;
 import main.game.model.saveandload.GameSaveModel.Filesystem;
@@ -65,8 +67,22 @@ public class GameSaveModelTest {
   }
 
   @Test
-  public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal() {
+  public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal()
+      throws IOException {
+    // Given these objects
+    GameModel originalModel = GameModelLoader.newSingleLevelTestGame();
+    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
+    String filename = "filename";
 
+    // when the model is saved
+    gameSaveModel.save(originalModel, filename);
+    // and then loaded
+    GameModel loadedModel = gameSaveModel.load(filename);
+
+    // then the references should be different
+    assertFalse(originalModel == loadedModel);
+    // and all the contents should be .equal
+    assertEquals(originalModel, loadedModel);
   }
 
   public static class DefaultFileSystemTest {
