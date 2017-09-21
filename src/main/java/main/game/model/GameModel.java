@@ -1,22 +1,24 @@
 package main.game.model;
 
 import java.util.Collection;
+import java.util.List;
 import main.game.model.entity.Entity;
-import main.game.model.entity.Item;
-import main.game.model.entity.Unit;
 import main.game.model.world.World;
 
 /**
- * A container class for all model components (including units, items, projectiles, etc). This also
- * handles the progression of the story/game
+ * Contains the main game loop, and controls the the progression of the story/game through the use
+ * of {@link Level}s.
  */
 public class GameModel {
 
-  public GameModel(
-      World world,
-      Collection<Unit> units,
-      Collection<Item> items
-  ) {
+  /**
+   * Creates a game model.
+   *
+   * @param world The world to use for the whole game
+   * @param levels The levels sorted from start to finish. The first level in this list is the
+   *     initial level.
+   */
+  public GameModel(World world, List<Level> levels) {
   }
 
   /**
