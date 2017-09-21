@@ -20,6 +20,9 @@ function addAbilityIcon(image, ability) {
       + 'onclick="controller.abililtyClick(ability)">'
       + '</div>');
   icon.css('background-image', 'url(' + image + ')');
+  icon.on('click', function(e) {
+    
+  })
   $('#ability-holder').append(icon);
 }
 
