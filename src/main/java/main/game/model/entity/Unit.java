@@ -11,10 +11,9 @@ public class Unit extends Entity {
 
   protected int health;
 
-  public Unit(MapPoint position, float size) {
+  public Unit(MapPoint position, float size, Team team) {
     super(position, size);
   }
-  //todo enum colour field
 
   public void attack(Unit unit) {
     throw new Error("NYI");
