@@ -5,19 +5,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import main.savemodel.GameSaveModel.DefaultFilesystem;
+import main.game.model.saveandload.GameSaveModel.DefaultFilesystem;
 import org.junit.Test;
 
 public class GameSaveModelTest {
 
   public static class DefaultFileSystemTest {
-
-    @Test
-    public void todoname() {
-      File file = new File(".");
-      // TODO
-      throw new RuntimeException(file.getAbsolutePath());
-    }
 
     @Test
     public void saveThenListAvailableFilenamesThenLoad() throws IOException {
@@ -36,6 +29,7 @@ public class GameSaveModelTest {
       filesystem.save(filename, fileContents);
 
       // then it should show in the list of availableFilenames
+      assertTrue(file.exists());
       assertTrue(filesystem.availableFilenames().contains(filename));
 
       // when the file of the same name is loaded
@@ -43,6 +37,9 @@ public class GameSaveModelTest {
 
       // then the loaded file contents should equal the original file contents
       assertEquals(fileContents, loadedFileContents);
+
+      // Cleanup
+      file.delete();
     }
   }
 }
