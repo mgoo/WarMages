@@ -12,8 +12,8 @@ public class HeroUnit extends Unit {
   private Collection<Ability> abilities; //todo decide collection type
   private Collection<Item> items; //todo decide collection type
 
-  public HeroUnit(MapPoint position, float size) {
-    super(position, size);
+  public HeroUnit(MapPoint position, float size, Team team) {
+    super(position, size, team);
   }
 
   public void pickUp(Item item) {
