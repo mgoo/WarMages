@@ -22,7 +22,7 @@ import main.util.MapRect;
  */
 public class GameModelLoader {
 
-  public static GameModel newBoringSingleLevelGameModel() {
+  public static GameModel newSingleLevelTestGame() {
     // NOTE 2: All of these values, including the sizes, are just temporarily values.
 
     HeroUnit heroUnit = new HeroUnit(new MapPoint(0, 0), 1, Team.PLAYER);
@@ -63,7 +63,7 @@ public class GameModelLoader {
     // NOTE: Does not currently load from the file.
     // This code is temporary so it is easier to test other parts of the system.
 
-    return newBoringSingleLevelGameModel();
+    return newSingleLevelTestGame();
   }
 
   /**
