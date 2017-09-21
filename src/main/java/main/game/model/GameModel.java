@@ -14,9 +14,11 @@ public class GameModel {
 
   /**
    * Creates a game model.
-   * @param world The world to use for the whole game
+   *
+   * @param world The world to use for the whole game.
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   * @param heroUnit
+   *     initial level.
+   * @param heroUnit The hero unit used throughout the whole game.
    */
   public GameModel(World world, List<Level> levels, HeroUnit heroUnit) {
   }

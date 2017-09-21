@@ -30,7 +30,6 @@ public class GameModelLoader {
 
   /**
    * Creates a new {@link GameModel} by loading from the file.
-   * @throws IOException
    */
   public GameModel load(String filename) throws IOException {
 
