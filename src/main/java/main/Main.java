@@ -58,7 +58,6 @@ public class Main extends Application {
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 
     Scene scene = new Scene(new Group());
-    scene.widthProperty();
     StackPane root = new StackPane();
 
     root.setPrefHeight(1920);
