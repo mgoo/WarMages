@@ -3,6 +3,7 @@ package main.game.model;
 import java.util.Collection;
 import java.util.List;
 import main.game.model.entity.Entity;
+import main.game.model.entity.HeroUnit;
 import main.game.model.world.World;
 
 /**
@@ -13,12 +14,11 @@ public class GameModel {
 
   /**
    * Creates a game model.
-   *
    * @param world The world to use for the whole game
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   *     initial level.
+   * @param heroUnit
    */
-  public GameModel(World world, List<Level> levels) {
+  public GameModel(World world, List<Level> levels, HeroUnit heroUnit) {
   }
 
   /**
