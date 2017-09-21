@@ -30,11 +30,11 @@ public abstract class Entity {
     throw new Error("NYI");
   }
 
-  void moveX(float amount) {
+  public void moveX(float amount) {
     throw new Error("NYI");
   }
 
-  void moveY(float amount) {
+  public void moveY(float amount) {
     throw new Error("NYI");
   }
 
