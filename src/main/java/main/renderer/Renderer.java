@@ -1,5 +1,6 @@
 package main.renderer;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
@@ -9,11 +10,49 @@ import main.game.view.GameView;
  * OpenGL to take advantage of hardware acceleration. This class should also be reponsible for
  * looping.
  */
-public abstract class Renderer {
+public class Renderer {
+  private final Thread thread;
 
+  /**
+   * Creates a Renderer and the rendering loop.
+   * @param gameView the object the contains the GUI.
+   * @param imageView the javaFX object that actually draws the GUI.
+   */
   public Renderer(GameView gameView, ImageView imageView) {
-    for (Renderable r : gameView.getRenderables()){
-      imageView.setImage(new Image(r.getImage()));
+    thread = new Thread(() -> {
+      while (true) {
+        drawAll(gameView, imageView);
+      }
+    });
+  }
+
+  /**
+   * A method which draws all the renderables in gameView and sets it to the imageView.
+   * @param gameView the object the contains the GUI.
+   * @param imageView the javaFX object that actually draws the GUI.
+   */
+  private void drawAll(GameView gameView, ImageView imageView) {
+    for (Renderable r : gameView.getRenderables()) {
+      imageView.setImage(SwingFXUtils.toFXImage(r.getImage(), null));
     }
+  }
+
+  /**
+   * Pauses the rendering loop.
+   * @throws InterruptedException InterruptedException if any thread interrupted the
+   *             current thread before or while the current thread
+   *             was waiting for a notification.  The <i>interrupted
+   *             status</i> of the current thread is cleared when
+   *             this exception is thrown.
+   */
+  public void pause() throws InterruptedException {
+    thread.wait();
+  }
+
+  /**
+   * Resumes the rendering loop. Assumes that rendering loop is currently waiting.
+   */
+  public void resume() {
+    thread.notify();
   }
 }
