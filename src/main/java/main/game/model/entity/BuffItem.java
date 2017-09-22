@@ -4,14 +4,20 @@ import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * BuffItem extends{@link Item}. Gives the unit a buff ability
+ * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other units).
  */
 public class BuffItem extends Item {
 
   private Ability buff;
 
-  public BuffItem(MapPoint coord, float size) {
-    super(coord, size);
+  /**
+   * Constructor takes the coords to create the item at.
+   * @param coord
+   */
+  public BuffItem(MapPoint coord) {
+    super(coord);
+    buff = new BuffAbility();
+    //todo set image
   }
 
   @Override
@@ -19,8 +25,4 @@ public class BuffItem extends Item {
     throw new Error("NYI");
   }
 
-  @Override
-  public GameImage getImage() {
-    throw new Error("NYI");
-  }
 }
