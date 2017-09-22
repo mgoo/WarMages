@@ -4,6 +4,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static test.images.DefaultImageProviderTest.IMAGE_PROVIDER_DIRECTORY;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -66,7 +67,8 @@ public class GameImageTest {
   @Test
   public void loadImagesFromFileSystem_usingAllGameImages_allImagesExist() throws IOException {
     for (GameImage gameImage : GameImage.values()) {
-      BufferedImage image = gameImage.load(new DefaultImageProvider());
+      DefaultImageProvider imageProvider = new DefaultImageProvider(IMAGE_PROVIDER_DIRECTORY);
+      BufferedImage image = gameImage.load(imageProvider);
       assertNotNull(image);
     }
   }
