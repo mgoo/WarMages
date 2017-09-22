@@ -25,5 +25,6 @@ public class Event<ParamT> {
   public interface Listener<ParamT> {
 
     void onNotify(ParamT parameter);
+
   }
 }
