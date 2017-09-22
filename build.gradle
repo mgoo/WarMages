@@ -121,6 +121,11 @@ task submit << {
             return fileName
         }
     }
+
+    copy {
+        from './src/main/resources/'
+        into './submit/resources'
+    }
 }
 submit.dependsOn assemble
 
