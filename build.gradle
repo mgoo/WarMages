@@ -107,6 +107,8 @@ def exportPath = './submit/'
 def exportedJarFileName = 'app.jar'
 task submit << {
 
+    delete exportPath
+
     println "Exporting Java files and resources for assignment submission: $exportPath"
 
     // Copy jar
@@ -123,8 +125,8 @@ task submit << {
     }
 
     copy {
-        from './src/main/resources/'
-        into './submit/resources'
+        from './resources/'
+        into exportPath + 'resources'
     }
 }
 submit.dependsOn assemble
@@ -157,4 +159,3 @@ jar {
 clean {
     delete exportPath
 }
-
