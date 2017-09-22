@@ -1,7 +1,6 @@
 package main.game.model.world;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,7 +35,11 @@ public class World {
    * @return returns converted map
    */
   private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
-    return mapEntities.stream().collect(Collectors.toMap(e -> e.getPosition(), e -> e));
+    return mapEntities.stream()
+        .collect(Collectors.toMap(
+            Entity::getPosition,
+            e -> e
+        ));
   }
 
   /**
