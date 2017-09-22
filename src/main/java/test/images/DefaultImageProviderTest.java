@@ -15,11 +15,9 @@ import org.junit.Test;
  */
 public class DefaultImageProviderTest {
 
-  public static final String IMAGE_PROVIDER_DIRECTORY = "src/main/resources/";
-
   @Test
   public void load_usingTestImage_resultShouldLookCorrect() throws IOException {
-    DefaultImageProvider imageProvider = new DefaultImageProvider(IMAGE_PROVIDER_DIRECTORY);
+    DefaultImageProvider imageProvider = new DefaultImageProvider();
     BufferedImage image = GameImage._TEST_FULL_SIZE.load(imageProvider);
 
     assertEquals(20, image.getWidth());
@@ -31,7 +29,7 @@ public class DefaultImageProviderTest {
 
   @Test(expected = IOException.class)
   public void load_nonExistentImage_throwsException() throws IOException {
-    new DefaultImageProvider(IMAGE_PROVIDER_DIRECTORY).load("some_file_that_doesnt_exist.png");
+    new DefaultImageProvider().load("some_file_that_doesnt_exist.png");
   }
 
 }

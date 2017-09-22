@@ -1,0 +1,1 @@
+Don't put resources here. Resources should into `$PROJECT_ROOT/resources/`.

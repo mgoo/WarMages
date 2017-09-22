@@ -23,18 +23,7 @@ public class DefaultImageProvider extends ImageProvider {
    * Default constructor for app.
    */
   public DefaultImageProvider() {
-    this(RESOURCES_DIRECTORY);
-  }
-
-  /**
-   * Customisable directory constructor (mainly for tests).
-   */
-  public DefaultImageProvider(String resourcesDirectory) {
-    if (!resourcesDirectory.endsWith("/")) {
-      resourcesDirectory += "/";
-    }
-
-    this.resourcesDirectory = resourcesDirectory;
+    this.resourcesDirectory = RESOURCES_DIRECTORY;
   }
 
   /**
