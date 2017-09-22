@@ -3,6 +3,11 @@ package main.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Similar to the Observable class in Java.
+ *
+ * @param <ParamT> the arg
+ */
 public class Event<ParamT> {
 
   private Collection<Listener<ParamT>> listeners = new ArrayList<>();
