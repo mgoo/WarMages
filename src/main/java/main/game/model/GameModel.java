@@ -2,6 +2,8 @@ package main.game.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.world.World;
@@ -12,8 +14,9 @@ import main.util.MapPoint;
  * of {@link Level}s.
  */
 public class GameModel {
-  private final World world;
+  public final long delay = 50;
 
+  private final World world;
 
   /**
    * Creates a game model.
@@ -31,13 +34,20 @@ public class GameModel {
    * @return a collection of all possible entities
    */
   public Collection<Entity> getAllEntities() {
-    throw new Error("NYI");
+    return world.getAllEntities();
   }
 
   /**
    * Starts the main game loop of this app.
    */
   public void startGame() {
+    Timer t = new Timer();
+    t.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        //TODO @DYLAN thank you.
+      }
+    }, delay, delay);
     throw new Error("NYI");
   }
 
@@ -47,7 +57,7 @@ public class GameModel {
    * @param entitySelection points on the world that may contain entities
    */
   public void setEntitySelection(Collection<Entity> entitySelection) {
-    throw new Error("NYI");
+    world.setEntitySelection(entitySelection);
   }
 
   /**
@@ -56,6 +66,6 @@ public class GameModel {
    * @return a collection of selected entities
    */
   public Collection<Entity> getEntitySelection() {
-    throw new Error("NYI");
+    return world.getSelectedEntity();
   }
 }

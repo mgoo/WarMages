@@ -54,7 +54,8 @@ public class MapRect {
    * @param mapPoint point to check
    * @return returns true if point is within rect. False otherwise.
    */
-  public boolean contains(MapPoint mapPoint){
-    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y && mapPoint.y < bottomRight.y;
+  public boolean contains(MapPoint mapPoint) {
+    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y
+        && mapPoint.y < bottomRight.y;
   }
 }
