@@ -12,6 +12,8 @@ import main.util.MapPoint;
  * of {@link Level}s.
  */
 public class GameModel {
+  private final World world;
+
 
   /**
    * Creates a game model.
@@ -19,7 +21,7 @@ public class GameModel {
    * @param world The world to use for the whole game.
    */
   public GameModel(World world) {
-
+    this.world = world;
   }
 
 

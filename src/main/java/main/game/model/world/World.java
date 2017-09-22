@@ -1,13 +1,18 @@
 package main.game.model.world;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Unit;
+import main.util.Event;
 import main.util.MapPoint;
 import main.util.MapRect;
 
@@ -16,6 +21,15 @@ import main.util.MapRect;
  * objects that have been instantiated.
  */
 public class World {
+  private final List<Level> levels;
+  private int levelIndex = 0;
+  private final Collection<MapEntity> mapEntities;
+
+  private final HeroUnit heroUnit;
+
+  private final Collection<Unit> units;
+  private final Collection<Item> items;
+  private final Collection<MapRect> bounds = new HashSet<>();
 
   /**
    * Creates the world.
@@ -25,7 +39,12 @@ public class World {
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
-
+    this.levels = levels;
+    this.heroUnit = heroUnit;
+    this.units = levels.get(levelIndex).getUnits();
+    this.items = levels.get(levelIndex).getItems();
+//    bounds.add(levels.get(levelIndex).getMapBounds());
+    mapEntities = levels.get(levelIndex).getMapEntities();
   }
 
   /**
@@ -43,13 +62,15 @@ public class World {
 
   /**
    * A getter method which returns all the entities in the world thats within the selection.
-   * The collection to be return must be ordered. (TODO ordering to be discussed)
+   * The collection to be return must be ordered.
    *
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.
    */
   public Collection<Entity> findEntities(MapRect rect) {
-    throw new Error("NYI");
+    return mapEntities.stream()
+        .filter(e -> rect.contains(e.getPosition()))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -60,24 +81,35 @@ public class World {
    * @return returns whether the point can be moved into.
    */
   public boolean isPassable(MapPoint point) {
-    throw new Error("NYI");
+    for (MapEntity mapEntity : mapEntities){
+      if (mapEntity.getPosition().equals(point))
+        return false;
+    }
+    boolean isPassable = false;
+    for (MapRect rect : bounds){
+      isPassable |= rect.contains(point);
+    }
+    return isPassable;
   }
 
   /**
    * A method specific for progression of game. Triggers are specific quests/goals to be achieved
    * for progression.
-   *
-   * @param index the index of selected trigger.
    */
-  public void easeTrigger(int index) {
-    throw new Error("NYI");
+  public void checkCompletion() {
+    if (levels.get(levelIndex).areGoalsCompleted(this)){
+      levelIndex = (levelIndex >= levels.size()) ? levels.size()-1 : levelIndex + 1;
+    }
   }
 
   /**
    * A method to change all the current positions/animations of all entities in the world.
    */
   public void tick(long timeSinceLastTick) {
-    throw new Error("NYI");
+    for (Unit unit : units){
+      throw new Error("tick not implemented");
+      //UNIT CANT BE CHANGED ATM.
+    }
   }
 
 }
