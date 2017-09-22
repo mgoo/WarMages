@@ -9,15 +9,17 @@ import main.util.MapSize;
  * health, and can attack other team units.
  */
 public class Unit extends Entity implements Damageable, Attackable {
-
+  private static int startingHealth = 200;
   protected int health;
   protected final Team team;
   protected final int baselineDamage = 5;
+  protected boolean isDead;
 
   public Unit(MapPoint position, MapSize size, Team team) {
     super(position, size);
     this.team=team;
-    //todo set starting health
+    isDead=false;
+    health = startingHealth;
   }
 
   @Override
@@ -30,6 +32,7 @@ public class Unit extends Entity implements Damageable, Attackable {
 
   @Override
   public void attack(Unit unit) {
+    if(isDead) return;
     if(!unit.team.equals(team)){
       unit.takeDamage(baselineDamage);
     }
@@ -37,13 +40,28 @@ public class Unit extends Entity implements Damageable, Attackable {
 
   @Override
   public void takeDamage(int amount) {
-    if(health-amount<0) health=0; //todo shiz when you die
-    else health-=amount;
+    if(isDead) return;
+    if(health-amount<0) {
+      isDead=true;
+    } else health-=amount;
   }
 
   @Override
   public void gainHealth(int amount) {
+    if(isDead) return;
     health+=amount;
+  }
+
+  @Override
+  public void moveY(float amount) {
+    if(isDead) return;
+    super.moveY(amount);
+  }
+
+  @Override
+  public void moveX(float amount) {
+    if(isDead) return;
+    super.moveX(amount);
   }
 }
 
