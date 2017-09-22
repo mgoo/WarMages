@@ -21,7 +21,7 @@ public class World {
   /**
    * Creates the world.
    *
-   * @param mapEntities A collection of the map entities
+   * @param mapEntities A collection of the map entities.
    * @param levels The levels sorted from start to finish. The first level in this list is the
    *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
@@ -31,17 +31,17 @@ public class World {
   }
 
   /**
-   * Converts a mapEntity collection into a map of MapPoints to Entities
+   * Converts a mapEntity collection into a map of MapPoints to Entities.
    * @param mapEntities collection of MapEntities
-   * @return
+   * @return returns converted map
    */
-  private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities){
-    return mapEntities.stream().collect(Collectors.toMap(e->e.getPosition(), e->e));
+  private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
+    return mapEntities.stream().collect(Collectors.toMap(e -> e.getPosition(), e -> e));
   }
 
   /**
-   * A getter method which returns all the entities in the world thats within the selection. The
-   * collection to be return must be ordered. (TODO ordering to be discussed)
+   * A getter method which returns all the entities in the world thats within the selection.
+   * The collection to be return must be ordered. (TODO ordering to be discussed)
    *
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.
