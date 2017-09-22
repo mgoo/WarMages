@@ -24,4 +24,28 @@ public class MapRect {
     this.bottomRight = new MapPoint(maxX, maxY);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    MapRect mapRect = (MapRect) o;
+
+    if (topLeft != null ? !topLeft.equals(mapRect.topLeft) : mapRect.topLeft != null) {
+      return false;
+    }
+    return bottomRight != null ? bottomRight.equals(mapRect.bottomRight)
+        : mapRect.bottomRight == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = topLeft != null ? topLeft.hashCode() : 0;
+    result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
+    return result;
+  }
 }
