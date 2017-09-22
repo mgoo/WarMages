@@ -1,6 +1,7 @@
 package main.game.model.saveandload;
 
 import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.JsonBindingException;
 import com.owlike.genson.stream.JsonStreamException;
 import java.io.File;
@@ -37,7 +38,9 @@ public class GameSaveModel {
 
   public GameSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
-    this.genson = new Genson();
+    this.genson = new GensonBuilder()
+        .useRuntimeType(true)
+        .create();
   }
 
   /**
