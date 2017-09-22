@@ -1,5 +1,7 @@
 package main.renderer;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.game.view.GameView;
 
 /**
@@ -9,6 +11,9 @@ import main.game.view.GameView;
  */
 public abstract class Renderer {
 
-  public Renderer(GameView gameView) {
+  public Renderer(GameView gameView, ImageView imageView) {
+    for (Renderable r : gameView.getRenderables()){
+      imageView.setImage(new Image(r.getImage()));
+    }
   }
 }
