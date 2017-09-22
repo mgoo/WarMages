@@ -17,14 +17,14 @@ import main.util.MapPoint;
 import main.util.MapRect;
 
 /**
- * Creates a new [@link GameModel} and it's required {@link World}, along with {@link Entity}
- * objects in the default positions in the {@link World}.
+ * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
+ * positions in the {@link World}.
  */
-public class GameModelLoader {
+public class WorldLoader {
 
   private final FileLoader fileLoader;
 
-  public GameModelLoader(FileLoader fileLoader) {
+  public WorldLoader(FileLoader fileLoader) {
     this.fileLoader = fileLoader;
   }
 
@@ -78,7 +78,7 @@ public class GameModelLoader {
   }
 
   /**
-   * The implementation of {@link FileLoader} that should be passed into {@link GameModelLoader}'s
+   * The implementation of {@link FileLoader} that should be passed into {@link WorldLoader}'s
    * constructor in the app.
    */
   public class DefaultFileLoader implements FileLoader {
