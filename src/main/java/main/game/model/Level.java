@@ -54,7 +54,7 @@ public class Level {
   /**
    * See CompletionChecker#areGoalsCompleted(GameModel).
    */
-  public boolean areGoalsCompleted(GameModel gameModel) {
+  public boolean areGoalsCompleted(World world) {
     throw new Error("NYI");
   }
 
