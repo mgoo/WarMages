@@ -18,17 +18,21 @@ tasks.withType(FindBugs) {
 }
 gradle.startParameter.excludedTaskNames.add("findbugsTest")
 
-task(openFindbugsReport) {
+task(handleFindbugsFailure) {
     onlyIf {
         findbugsMain.state.failure != null
     }
     doFirst {
+        print 'There were probably bugs found by Findbugs! If you see this error on the build ' +
+                'server, then build the project locally to see the error info.'
+
         if (Desktop.isDesktopSupported()) {
+            // Open findbugs report in system browser
             Desktop.desktop.browse new File("findbugsReports/main.html").toURI()
         }
     }
 }
-findbugsMain.finalizedBy openFindbugsReport
+findbugsMain.finalizedBy handleFindbugsFailure
 
 version '1.0-SNAPSHOT'
 
