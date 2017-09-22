@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -7,9 +8,22 @@ import main.util.MapPoint;
  */
 public abstract class Item extends MapEntity {
 
-  public Item(MapPoint coord, float size) {
-    super(coord, size);
+  /**
+   * Constructor takes the coordinates of the item
+   * @param coord
+   */
+  public Item(MapPoint coord) {
+    super(coord);
   }
 
+  /**
+   * Applies the item to the given unit.
+   * @param unit
+   */
   public abstract void applyTo(Unit unit);
+
+  @Override
+  public void setImage(GameImage image) {
+    throw new UnsupportedOperationException("Cannot change the image of an item");
+  }
 }

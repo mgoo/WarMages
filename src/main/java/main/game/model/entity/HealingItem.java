@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -8,13 +7,13 @@ import main.util.MapPoint;
  */
 public class HealingItem extends Item {
 
-  public HealingItem(MapPoint coord, float size) {
-    super(coord, size);
-  }
-
-  @Override
-  public GameImage getImage() {
-    throw new Error("NYI");
+  /**
+   * Constructor takes the coords of the HealingItem
+   * @param coord
+   */
+  public HealingItem(MapPoint coord) {
+    super(coord);
+    //todo set image
   }
 
   @Override
