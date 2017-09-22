@@ -41,4 +41,11 @@ public class MapRect {
     return bottomRight != null ? bottomRight.equals(mapRect.bottomRight)
         : mapRect.bottomRight == null;
   }
+
+  @Override
+  public int hashCode() {
+    int result = topLeft != null ? topLeft.hashCode() : 0;
+    result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
+    return result;
+  }
 }
