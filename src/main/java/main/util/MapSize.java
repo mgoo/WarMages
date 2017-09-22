@@ -29,4 +29,15 @@ public class MapSize {
     }
     return Double.compare(mapSize.height, height) == 0;
   }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    temp = Double.doubleToLongBits(width);
+    result = (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(height);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    return result;
+  }
 }
