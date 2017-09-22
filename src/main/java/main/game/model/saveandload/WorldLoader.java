@@ -2,7 +2,6 @@ package main.game.model.saveandload;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.BuffItem;
@@ -31,7 +30,7 @@ public class WorldLoader {
   /**
    * Creates a new {@link GameModel} by loading from the file.
    */
-  public GameModel load(String filename) throws IOException {
+  public World load(String filename) throws IOException {
 
     // NOTE: Does not currently load from the file.
     // This code is temporary so it is easier to test other parts of the system.
@@ -49,17 +48,16 @@ public class WorldLoader {
             new HealingItem(new MapPoint(2, 2), 0.2f),
             new BuffItem(new MapPoint(3, 3), 0.2f)
         ),
+        Arrays.asList(
+            new MapEntity(new MapPoint(2, 1), 0.1f),
+            new MapEntity(new MapPoint(5, 5), 0.1f)
+        ),
         gameModel -> false, // Never complete this level for now
         new MapRect(new MapPoint(0, 0), new MapPoint(10, 8)),
         "Maybe kill all the enemies or something I don't know"
     );
 
-    Collection<MapEntity> mapEntities = Arrays.asList(
-        new MapEntity(new MapPoint(2, 1), 0.1f),
-        new MapEntity(new MapPoint(5, 5), 0.1f)
-    );
-
-    return new GameModel(new World(mapEntities, Arrays.asList(level), heroUnit));
+    return new World(Arrays.asList(level), heroUnit);
   }
 
   /**
