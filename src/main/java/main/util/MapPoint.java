@@ -2,6 +2,9 @@ package main.util;
 
 import java.awt.Point;
 
+/**
+ * Represents a point on the Map.
+ */
 public class MapPoint {
 
   public final double x;

@@ -1,5 +1,8 @@
 package main.util;
 
+/**
+ * Represents a rectangle on the Map.
+ */
 public class MapRect {
 
   public final MapPoint topLeft;
