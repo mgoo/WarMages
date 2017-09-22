@@ -27,21 +27,21 @@ public class PathFinder {
     while(!fringe.isEmpty()){
       AStarNode tuple = fringe.poll();
 
-      if(!visited.contains(tuple.currentPoint)){
-        visited.add(tuple.currentPoint);
+      if(!visited.contains(tuple.getCurrentPoint())){
+        visited.add(tuple.getCurrentPoint());
 
-        if(tuple.currentPoint == end) {
-          return tuple.pathTaken;
+        if(tuple.getCurrentPoint() == end) {
+          return tuple.getPathTaken();
         }
 
-        for(MapPoint neigh: tuple.currentPoint.getNeighbours()){
+        for(MapPoint neigh: tuple.getCurrentPoint().getNeighbours()){
 
           if(!visited.contains(neigh)){
-            double costToNeigh = tuple.costFromStart + tuple.currentPoint.distance(neigh);
+            double costToNeigh = tuple.getCostFromStart() + tuple.getCurrentPoint().distance(neigh);
             double estTotal = costToNeigh + estimate(neigh, end);
-            List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.pathTaken);
+            List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.getPathTaken());
             neighPath.add(neigh);
-            fringe.add(new AStarNode(neigh, tuple.currentPoint, costToNeigh, estTotal, neighPath));
+            fringe.add(new AStarNode(neigh, tuple.getCurrentPoint(), costToNeigh, estTotal, neighPath));
           }
         }
       }

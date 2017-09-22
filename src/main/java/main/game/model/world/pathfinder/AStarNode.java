@@ -6,11 +6,11 @@ import main.util.MapPoint;
 
 public class AStarNode implements Comparable<AStarNode> {
 
-  public final MapPoint currentPoint;
-  public final MapPoint from;
-  public final double costFromStart;
-  public final double totalCost;
-  public List<MapPoint> pathTaken;
+  private final MapPoint currentPoint;
+  private final MapPoint from;
+  private final double costFromStart;
+  private final double totalCost;
+  private List<MapPoint> pathTaken;
 
   public AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
     this.currentPoint = currentPoint;
@@ -40,4 +40,15 @@ public class AStarNode implements Comparable<AStarNode> {
     return 0;
   }
 
+  public MapPoint getCurrentPoint() {
+    return currentPoint;
+  }
+
+  public double getCostFromStart() {
+    return costFromStart;
+  }
+
+  public List<MapPoint> getPathTaken() {
+    return pathTaken;
+  }
 }
