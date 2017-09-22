@@ -20,12 +20,11 @@ public class World {
   /**
    * Creates the world.
    *
-   * @param mapEntities A collection of the map entities.
    * @param levels The levels sorted from start to finish. The first level in this list is the
    *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(Collection<MapEntity> mapEntities, List<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit) {
 
   }
 
