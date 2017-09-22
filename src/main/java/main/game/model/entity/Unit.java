@@ -11,7 +11,8 @@ import main.util.MapSize;
 public class Unit extends Entity implements Damageable, Attackable {
 
   protected int health;
-  protected Team team;
+  protected final Team team;
+  protected final int baselineDamage = 5;
 
   public Unit(MapPoint position, MapSize size, Team team) {
     super(position, size);
@@ -29,7 +30,9 @@ public class Unit extends Entity implements Damageable, Attackable {
 
   @Override
   public void attack(Unit unit) {
-    throw new Error("NYI");
+    if(!unit.team.equals(team)){
+      unit.takeDamage(baselineDamage);
+    }
   }
 
   @Override
