@@ -53,7 +53,6 @@ public class WorldLoader {
             new MapEntity(new MapPoint(5, 5), 0.1f)
         ),
         gameModel -> false, // Never complete this level for now
-        new MapRect(new MapPoint(0, 0), new MapPoint(10, 8)),
         "Maybe kill all the enemies or something I don't know"
     );
 
