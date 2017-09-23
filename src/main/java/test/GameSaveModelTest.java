@@ -48,14 +48,16 @@ public class GameSaveModelTest {
   };
 
   @Test(expected = IllegalArgumentException.class)
-  public void save_nameWithSlashes_exceptionThrown() throws IOException {
+  public void save_nameWithSlashes_exceptionThrown()
+      throws IOException, SerialisationFormatException {
     GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
     GameModel gameModel = Mockito.mock(GameModel.class);
     gameSaveModel.save(gameModel, "some/file");
   }
 
   @Test
-  public void save_withoutFileExtension_fileIsSavedWithExtension() throws IOException {
+  public void save_withoutFileExtension_fileIsSavedWithExtension()
+      throws IOException, SerialisationFormatException {
     GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
     GameModel gameModel = Mockito.mock(GameModel.class);
     gameSaveModel.save(gameModel, "filename");
