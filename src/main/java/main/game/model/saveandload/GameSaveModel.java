@@ -3,6 +3,7 @@ package main.game.model.saveandload;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.JsonBindingException;
+import com.owlike.genson.reflect.VisibilityFilter;
 import com.owlike.genson.stream.JsonStreamException;
 import java.io.File;
 import java.io.IOException;
@@ -36,10 +37,16 @@ public class GameSaveModel {
   private final Filesystem filesystem;
   private final Genson genson;
 
+  /**
+   * Default constructor.
+   */
   public GameSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
     this.genson = new GensonBuilder()
+        .useIndentation(true)
+        .useClassMetadata(true)
         .useRuntimeType(true)
+        .useFields(true, VisibilityFilter.ALL)
         .create();
   }
 
@@ -48,7 +55,8 @@ public class GameSaveModel {
    *
    * @param filename Name with no slashes is it.
    */
-  public void save(GameModel gameModel, String filename) throws IOException {
+  public void save(GameModel gameModel, String filename)
+      throws IOException, SerialisationFormatException {
     Objects.requireNonNull(gameModel);
 
     if (filename.contains("/")) {
@@ -58,8 +66,12 @@ public class GameSaveModel {
       filename += "." + SAVE_FILE_EXTENSION;
     }
 
-    String serialisedData = genson.serialize(gameModel);
-    filesystem.save(filename, serialisedData);
+    try {
+      String serialisedData = genson.serialize(gameModel);
+      filesystem.save(filename, serialisedData);
+    } catch (JsonBindingException | JsonStreamException e) {
+      throw new SerialisationFormatException(e);
+    }
   }
 
   /**
