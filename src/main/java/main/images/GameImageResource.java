@@ -3,12 +3,13 @@ package main.images;
 /**
  * Defines all the {@link GameImage} objects with their filenames. All other {@link GameImage}
  * objects not defined here must be composed of {@link GameImage}s defined here.
- *
+ * <p>
  * This enum provides easy access to images to the rest of the app without the rest of the app
  * having to know about the file paths.
+ * </p>
  */
 public enum GameImageResource {
-
+  MALE_MAGE_SPRITE_SHEET(new GameImage("images/units/male_mage.png")),
   /**
    * For testing only.
    */

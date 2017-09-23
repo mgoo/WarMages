@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
@@ -17,7 +18,11 @@ public class DefaultImageProvider extends ImageProvider {
 
   private final String resourcesDirectory;
 
-  private Map<GameImage, BufferedImage> imageCache = new HashMap<>();
+  /**
+   * Cache the image for a given file path. Contents can be garbage collected if memory is needed.
+   */
+  private Map<String, BufferedImage> filePathCache = new WeakHashMap<>();
+  private Map<GameImage, BufferedImage> gameImageCache = new HashMap<>();
 
   /**
    * Default constructor for app.
@@ -37,9 +42,16 @@ public class DefaultImageProvider extends ImageProvider {
       throw new IllegalArgumentException("Illegal file path: " + filePath);
     }
 
+    BufferedImage cachedImage = filePathCache.get(filePath);
+    if (cachedImage != null) {
+      return cachedImage;
+    }
+
     File imageFile = new File(resourcesDirectory + filePath);
     try {
-      return ImageIO.read(imageFile);
+      BufferedImage image = ImageIO.read(imageFile);
+      filePathCache.put(filePath, image);
+      return image;
     } catch (IIOException e) {
       throw new IOException(e);
     }
@@ -47,11 +59,11 @@ public class DefaultImageProvider extends ImageProvider {
 
   @Override
   protected void storeInCache(GameImage gameImage, BufferedImage image) {
-    imageCache.put(gameImage, image);
+    gameImageCache.put(gameImage, image);
   }
 
   @Override
   protected BufferedImage getFromCache(GameImage gameImage) {
-    return imageCache.get(gameImage);
+    return gameImageCache.get(gameImage);
   }
 }

@@ -18,7 +18,9 @@ public class DefaultImageProviderTest {
   @Test
   public void load_usingTestImage_resultShouldLookCorrect() throws IOException {
     DefaultImageProvider imageProvider = new DefaultImageProvider();
-    BufferedImage image = GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage().load(imageProvider);
+    BufferedImage image = GameImageResource.TEST_IMAGE_FULL_SIZE
+        .getGameImage()
+        .load(imageProvider);
 
     assertEquals(20, image.getWidth());
     assertEquals(15, image.getHeight());
