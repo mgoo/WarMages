@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.images.DefaultImageProvider;
-import main.images.GameImage;
+import main.images.GameImageResource;
 import org.junit.Test;
 
 /**
@@ -18,7 +18,7 @@ public class DefaultImageProviderTest {
   @Test
   public void load_usingTestImage_resultShouldLookCorrect() throws IOException {
     DefaultImageProvider imageProvider = new DefaultImageProvider();
-    BufferedImage image = GameImage._TEST_FULL_SIZE.load(imageProvider);
+    BufferedImage image = GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage().load(imageProvider);
 
     assertEquals(20, image.getWidth());
     assertEquals(15, image.getHeight());
