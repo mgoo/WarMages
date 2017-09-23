@@ -6,7 +6,6 @@ import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.util.MapRect;
 
 /**
  * Represent the {@link World} state.
@@ -17,7 +16,6 @@ public class Level {
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
-  private final MapRect mapBounds;
   private final String goalDescription;
 
   /**
@@ -28,16 +26,13 @@ public class Level {
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
       CompletionChecker completionChecker,
-      MapRect mapBounds,
       String goalDescription
   ) {
     this.units = units;
     this.items = items;
     this.mapEntities = mapEntities;
     this.completionChecker = completionChecker;
-    this.mapBounds = mapBounds;
     this.goalDescription = goalDescription;
-    throw new Error("NYI");
   }
 
   public Collection<Unit> getUnits() {
@@ -50,10 +45,6 @@ public class Level {
 
   public Collection<MapEntity> getMapEntities() {
     return Collections.unmodifiableCollection(mapEntities);
-  }
-
-  public MapRect getMapBounds() {
-    return mapBounds;
   }
 
   public String getGoalDescription() {
