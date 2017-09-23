@@ -1,4 +1,4 @@
-image: java:8-jdk
+image: mgoo2/openjfx
 
 stages:
   - build

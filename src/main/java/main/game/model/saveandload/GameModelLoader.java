@@ -49,7 +49,7 @@ public class GameModelLoader {
         new MapEntity(new MapPoint(5, 5), 0.1f)
     );
 
-    return new GameModel(new World(mapEntities), Arrays.asList(level), heroUnit);
+    return new GameModel(new World(mapEntities, Arrays.asList(level), heroUnit));
   }
 
   private final FileLoader fileLoader;
@@ -97,4 +97,3 @@ public class GameModelLoader {
 
   }
 }
-
