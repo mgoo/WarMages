@@ -15,11 +15,12 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
+import main.game.model.world.World;
 
 /**
  * Deals with the saving and loading of {@link GameModel} to and from files.
  */
-public class GameSaveModel {
+public class WorldSaveModel {
 
   /**
    * This is public for testing only. File extension for saved files.
@@ -40,7 +41,7 @@ public class GameSaveModel {
   /**
    * Default constructor.
    */
-  public GameSaveModel(Filesystem filesystem) {
+  public WorldSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
     this.genson = new GensonBuilder()
         .useIndentation(true)
@@ -51,13 +52,14 @@ public class GameSaveModel {
   }
 
   /**
-   * Stores the gameModel (through serialisation).
+   * Stores the {@link main.game.model.world.World} (through serialisation).
    *
    * @param filename Name with no slashes is it.
    */
-  public void save(GameModel gameModel, String filename)
+  public void save(World world, String filename)
       throws IOException, SerialisationFormatException {
-    Objects.requireNonNull(gameModel);
+
+    Objects.requireNonNull(world);
 
     if (filename.contains("/")) {
       throw new IllegalArgumentException("Filename should not contain slashes");
@@ -67,7 +69,7 @@ public class GameSaveModel {
     }
 
     try {
-      String serialisedData = genson.serialize(gameModel);
+      String serialisedData = genson.serialize(world);
       filesystem.save(filename, serialisedData);
     } catch (JsonBindingException | JsonStreamException e) {
       throw new SerialisationFormatException(e);
@@ -81,10 +83,10 @@ public class GameSaveModel {
    *     after a {@link GameModel} was saved, then fields were changed, then this method was
    *     caught on the existing save.
    */
-  public GameModel load(String filename) throws IOException, SerialisationFormatException {
+  public World load(String filename) throws IOException, SerialisationFormatException {
     String serialisedData = filesystem.load(filename);
     try {
-      return genson.deserialize(serialisedData, GameModel.class);
+      return genson.deserialize(serialisedData, World.class);
     } catch (JsonBindingException | JsonStreamException e) {
       throw new SerialisationFormatException(e);
     }
