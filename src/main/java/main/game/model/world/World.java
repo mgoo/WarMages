@@ -54,7 +54,6 @@ public class World {
 
   /**
    * A getter method which checks if a certain point in the map can be moved into.
-   *
    * TODO - make sure that the method returns false for points outside the Map
    *
    * @param point a point in the map.
