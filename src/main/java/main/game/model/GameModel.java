@@ -1,11 +1,15 @@
 package main.game.model;
 
+import com.sun.javafx.UnmodifiableArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.Events;
 import main.util.Events.MainGameTick;
@@ -21,6 +25,7 @@ public class GameModel {
   private final World world;
   private final MainGameTick mainGameTick;
 
+  private Collection<Entity> selectedUnits;
 
   /**
    * Creates a game model.
@@ -30,6 +35,7 @@ public class GameModel {
   public GameModel(World world, Events.MainGameTick mainGameTick) {
     this.world = world;
     this.mainGameTick = mainGameTick;
+    selectedUnits = new HashSet<>();
   }
 
 
@@ -50,7 +56,7 @@ public class GameModel {
     t.schedule(new TimerTask() {
       @Override
       public void run() {
-        mainGameTick.broadcast(DELAY);
+        mainGameTick.broadcast(delay);
       }
     }, delay, delay);
     throw new Error("NYI");
@@ -62,7 +68,7 @@ public class GameModel {
    * @param entitySelection points on the world that may contain entities
    */
   public void setEntitySelection(Collection<Entity> entitySelection) {
-    world.setEntitySelection(entitySelection);
+    selectedUnits = entitySelection;
   }
 
   /**
@@ -71,6 +77,6 @@ public class GameModel {
    * @return a collection of selected entities
    */
   public Collection<Entity> getEntitySelection() {
-    return world.getSelectedEntity();
+    return Collections.unmodifiableCollection(selectedUnits);
   }
 }
