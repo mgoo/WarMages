@@ -20,23 +20,28 @@ public class AStarNode implements Comparable<AStarNode> {
     this.pathTaken = new ArrayList<>();
   }
 
-  public AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost, List<MapPoint> pathTaken) {
+  public AStarNode(
+      MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost,
+      List<MapPoint> pathTaken
+  ) {
     this(currentPoint, from, costFromStart, totalCost);
     this.pathTaken = pathTaken;
   }
 
-//TODO Hrshikesh - remove or include?
-//  public Map getPrevPoint(){
-//    if(pathTaken.isEmpty()) return null;
-//    return pathTaken.get(pathTaken.size()-1);
-//  }
+  //TODO Hrshikesh - remove or include?
+  //  public Map getPrevPoint(){
+  //    if(pathTaken.isEmpty()) return null;
+  //    return pathTaken.get(pathTaken.size()-1);
+  //  }
 
   @Override
   public int compareTo(AStarNode other) {
-    if (this.totalCost < other.totalCost)
+    if (this.totalCost < other.totalCost) {
       return -1;
-    if (this.totalCost > other.totalCost)
+    }
+    if (this.totalCost > other.totalCost) {
       return 1;
+    }
     return 0;
   }
 

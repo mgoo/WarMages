@@ -54,7 +54,7 @@ public class MapPoint {
     return 0.0;
   }
 
-  public List<MapPoint> getNeighbours(){
+  public List<MapPoint> getNeighbours() {
     //TODO Hrshikesh
     return null;
   }

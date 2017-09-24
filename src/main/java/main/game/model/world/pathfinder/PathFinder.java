@@ -18,30 +18,40 @@ import main.util.MapPoint;
  */
 public class PathFinder {
 
+  /**
+   * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
+   * on the world returning a list of points along this path.
+   *
+   * @param world the world to find the path in
+   * @param start the start point of the path
+   * @param end the end/goal point of the path
+   * @return a list of points representing the shortest path
+   */
   public static List<MapPoint> findPath(World world, MapPoint start, MapPoint end) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<AStarNode>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
     Set<MapPoint> visited = new HashSet<MapPoint>();
 
-    while(!fringe.isEmpty()){
+    while (!fringe.isEmpty()) {
       AStarNode tuple = fringe.poll();
 
-      if(!visited.contains(tuple.getCurrentPoint())){
+      if (!visited.contains(tuple.getCurrentPoint())) {
         visited.add(tuple.getCurrentPoint());
 
-        if(tuple.getCurrentPoint() == end) {
+        if (tuple.getCurrentPoint() == end) {
           return tuple.getPathTaken();
         }
 
-        for(MapPoint neigh: tuple.getCurrentPoint().getNeighbours()){
+        for (MapPoint neigh : tuple.getCurrentPoint().getNeighbours()) {
 
-          if(!visited.contains(neigh)){
+          if (!visited.contains(neigh) && world.isPassable(neigh)) {
             double costToNeigh = tuple.getCostFromStart() + tuple.getCurrentPoint().distance(neigh);
             double estTotal = costToNeigh + estimate(neigh, end);
             List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.getPathTaken());
             neighPath.add(neigh);
-            fringe.add(new AStarNode(neigh, tuple.getCurrentPoint(), costToNeigh, estTotal, neighPath));
+            fringe.add(
+                new AStarNode(neigh, tuple.getCurrentPoint(), costToNeigh, estTotal, neighPath));
           }
         }
       }
@@ -49,7 +59,7 @@ public class PathFinder {
     return new ArrayList<MapPoint>();
   }
 
-  private static double estimate(MapPoint current, MapPoint goal){
+  private static double estimate(MapPoint current, MapPoint goal) {
     return current.distance(goal);
   }
 }
