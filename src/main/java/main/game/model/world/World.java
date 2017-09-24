@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
@@ -28,7 +29,6 @@ public class World {
   private final Collection<MapEntity> mapEntities;
 
   private final HeroUnit heroUnit;
-
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapRect> bounds = new HashSet<>();
@@ -76,8 +76,10 @@ public class World {
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.
    */
-  public Collection<Entity> getEntities(MapRect rect) {
-    throw new Error("NYI");
+  public Collection<Unit> getUnits(MapRect rect) {
+    return units.stream()
+        .filter(e->rect.contains(e.getPosition()))
+        .collect(Collectors.toList());
   }
 
   /**
