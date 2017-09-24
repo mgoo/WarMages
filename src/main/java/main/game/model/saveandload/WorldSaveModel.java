@@ -47,7 +47,7 @@ public class WorldSaveModel {
         .useIndentation(true)
         .useClassMetadata(true)
         .useRuntimeType(true)
-        .useFields(true, VisibilityFilter.ALL)
+        .useFields(true, VisibilityFilter.PRIVATE)
         .create();
   }
 

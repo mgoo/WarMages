@@ -93,10 +93,9 @@ public class WorldSaveModelTest {
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
-  private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World world)
+  private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World originalWorld)
       throws IOException, SerialisationFormatException {
     // Given these objects
-    World originalWorld = world;
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     String filename = "filename";
 

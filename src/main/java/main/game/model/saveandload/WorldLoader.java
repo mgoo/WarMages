@@ -65,10 +65,6 @@ public class WorldLoader {
    * Creates a new {@link World} by loading from the file.
    */
   public World load(String filename) throws IOException {
-
-    // NOTE: Does not currently load from the file.
-    // This code is temporary so it is easier to test other parts of the system.
-
     return newSingleLevelTestWorld();
   }
 
