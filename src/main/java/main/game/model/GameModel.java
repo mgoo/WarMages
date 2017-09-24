@@ -13,6 +13,8 @@ import main.util.MapPoint;
  */
 public class GameModel {
 
+  public static long delay = 20;
+
   /**
    * Creates a game model.
    *
