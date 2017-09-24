@@ -1,7 +1,6 @@
 package main.game.model.world;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,12 +20,11 @@ public class World {
   /**
    * Creates the world.
    *
-   * @param mapEntities A collection of the map entities.
    * @param levels The levels sorted from start to finish. The first level in this list is the
    *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(Collection<MapEntity> mapEntities, List<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit) {
 
   }
 
@@ -36,7 +34,11 @@ public class World {
    * @return returns converted map
    */
   private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
-    return mapEntities.stream().collect(Collectors.toMap(e -> e.getPosition(), e -> e));
+    return mapEntities.stream()
+        .collect(Collectors.toMap(
+            Entity::getPosition,
+            e -> e
+        ));
   }
 
   /**
