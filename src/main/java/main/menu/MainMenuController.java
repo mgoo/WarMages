@@ -1,6 +1,6 @@
 package main.menu;
 
-import main.game.model.saveandload.GameModelLoader;
+import main.game.model.saveandload.WorldLoader;
 import main.game.model.saveandload.GameSaveModel;
 
 /**
@@ -10,11 +10,11 @@ import main.game.model.saveandload.GameSaveModel;
  */
 public class MainMenuController implements MenuController {
 
-  private final GameModelLoader gameModelLoader;
+  private final WorldLoader worldLoader;
   private final GameSaveModel gameSaveModel;
 
-  MainMenuController(GameModelLoader gameModelLoader, GameSaveModel gameSaveModel) {
-    this.gameModelLoader = gameModelLoader;
+  MainMenuController(WorldLoader worldLoader, GameSaveModel gameSaveModel) {
+    this.worldLoader = worldLoader;
     this.gameSaveModel = gameSaveModel;
   }
 }
