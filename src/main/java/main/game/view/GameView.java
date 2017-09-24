@@ -43,12 +43,12 @@ public class GameView {
    * @param currentTime the time stap for the render iteration
    * @return
    */
-  public synchronized Collection<Renderable> getRenderables(long currentTime) {
+  public synchronized List<Renderable> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
   }
 
-  private synchronized void updateRenderables(long tickTime) throws IOException {
+  public synchronized void updateRenderables(long tickTime) {
     final Set<EntityRenderable> toRemove = new HashSet<>();
     final Set<Entity> enitiesToCheck = new HashSet<>(this.gameModel.getAllEntities());
 
