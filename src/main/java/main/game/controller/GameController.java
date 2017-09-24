@@ -13,7 +13,7 @@ public class GameController {
 
   public GameController() {
     //TODO
-    throw new Error("NYI");
+//    throw new Error("NYI");
   }
 
   /**
