@@ -13,7 +13,6 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.MapPoint;
-import main.util.MapRect;
 
 /**
  * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
@@ -21,10 +20,12 @@ import main.util.MapRect;
  */
 public class WorldLoader {
 
+  public static final String PRIMARY_WORLD_FILEPATH = "TODO"; // TODO
+
   /**
    * Creates a new {@link GameModel} with the single level and example data.
    */
-  public static World newSingleLevelTestGame() { // todo
+  public static World newSingleLevelTestWorld() {
     // NOTE: All of these values, including the sizes, are just temporarily values.
 
     // NOTE: Does not currently load from the file.
@@ -68,7 +69,7 @@ public class WorldLoader {
     // NOTE: Does not currently load from the file.
     // This code is temporary so it is easier to test other parts of the system.
 
-    return newSingleLevelTestGame();
+    return newSingleLevelTestWorld();
   }
 
   /**
@@ -90,7 +91,7 @@ public class WorldLoader {
    * The implementation of {@link FileLoader} that should be passed into {@link WorldLoader}'s
    * constructor in the app.
    */
-  public class DefaultFileLoader implements FileLoader {
+  public static class DefaultFileLoader implements FileLoader {
 
     @Override
     public String load(String filename) throws IOException {

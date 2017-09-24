@@ -10,16 +10,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import main.game.model.GameModel;
-import main.game.model.saveandload.GameModelLoader;
-import main.game.model.saveandload.GameSaveModel;
-import main.game.model.saveandload.GameSaveModel.DefaultFilesystem;
-import main.game.model.saveandload.GameSaveModel.Filesystem;
 import main.game.model.saveandload.SerialisationFormatException;
+import main.game.model.saveandload.WorldLoader;
+import main.game.model.saveandload.WorldLoader.DefaultFileLoader;
+import main.game.model.saveandload.WorldSaveModel;
+import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.game.model.saveandload.WorldSaveModel.Filesystem;
+import main.game.model.world.World;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class GameSaveModelTest {
+public class WorldSaveModelTest {
 
   private Filesystem stubFileSystem = new Filesystem() {
     private final Map<String, String> datastore = new HashMap<>();
@@ -50,49 +51,64 @@ public class GameSaveModelTest {
   @Test(expected = IllegalArgumentException.class)
   public void save_nameWithSlashes_exceptionThrown()
       throws IOException, SerialisationFormatException {
-    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
-    GameModel gameModel = Mockito.mock(GameModel.class);
-    gameSaveModel.save(gameModel, "some/file");
+    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    World world = Mockito.mock(World.class);
+    worldSaveModel.save(world, "some/file");
   }
 
   @Test
   public void save_withoutFileExtension_fileIsSavedWithExtension()
       throws IOException, SerialisationFormatException {
-    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
-    GameModel gameModel = Mockito.mock(GameModel.class);
-    gameSaveModel.save(gameModel, "filename");
+    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    World world = Mockito.mock(World.class);
+    worldSaveModel.save(world, "filename");
 
     assertTrue(
         stubFileSystem
             .availableFilenames()
-            .contains("filename." + GameSaveModel.SAVE_FILE_EXTENSION)
+            .contains("filename." + WorldSaveModel.SAVE_FILE_EXTENSION)
     );
   }
 
   @Test(expected = IOException.class)
   public void load_nonexistentFile_exceptionThrown()
       throws IOException, SerialisationFormatException {
-    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
-    gameSaveModel.load("some_nonexistent_file");
+    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    worldSaveModel.load("some_nonexistent_file");
   }
 
   @Test
-  public void saveAndThenLoad_withBoringGameModel_loadedCopyShouldEqualOriginal()
+  public void saveAndThenLoad_singleLevelWorld_loadedCopyShouldEqualOriginal()
+      throws IOException, SerialisationFormatException {
+    saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(
+        WorldLoader.newSingleLevelTestWorld()
+    );
+  }
+
+  @Test
+  public void saveAndThenLoad_realWorld_loadedCopyShouldEqualOriginal()
+      throws IOException, SerialisationFormatException {
+    WorldLoader worldLoader = new WorldLoader(new DefaultFileLoader());
+    World world = worldLoader.load(WorldLoader.PRIMARY_WORLD_FILEPATH);
+    saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
+  }
+
+  private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World world)
       throws IOException, SerialisationFormatException {
     // Given these objects
-    GameModel originalModel = GameModelLoader.newSingleLevelTestGame();
-    GameSaveModel gameSaveModel = new GameSaveModel(stubFileSystem);
+    World originalWorld = world;
+    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     String filename = "filename";
 
     // when the model is saved
-    gameSaveModel.save(originalModel, filename);
+    worldSaveModel.save(originalWorld, filename);
     // and then loaded
-    GameModel loadedModel = gameSaveModel.load(filename);
+    World loadedModel = worldSaveModel.load(filename);
 
     // then the references should be different
-    assertFalse(originalModel == loadedModel);
+    assertFalse(originalWorld == loadedModel);
     // and all the contents should be .equal
-    assertEquals(originalModel, loadedModel);
+    assertEquals(originalWorld, loadedModel);
   }
 
   public static class DefaultFileSystemTest {
