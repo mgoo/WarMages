@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
@@ -42,12 +43,16 @@ public class World {
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
+    if (levels == null)
+      throw new NullPointerException("levels queue cannot be null");
+    if (heroUnit == null)
+      throw new NullPointerException("heroUnit cannot be null");
     this.levels = levels;
     this.heroUnit = heroUnit;
-    this.units = levels.get(levelIndex).getUnits();
-    this.items = levels.get(levelIndex).getItems();
-    //    bounds.add(levels.get(levelIndex).getMapBounds());
-    mapEntities = levels.get(levelIndex).getMapEntities();
+      this.units = levels.get(levelIndex).getUnits();
+      this.items = levels.get(levelIndex).getItems();
+//          bounds.add(levels.get(levelIndex).getMapBounds());
+      mapEntities = levels.get(levelIndex).getMapEntities();
   }
 
   /**
