@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import main.images.GameImage;
+import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -9,17 +10,33 @@ import main.util.MapSize;
  * health, and can attack other team units.
  */
 public class Unit extends Entity implements Damageable, Attackable {
-  private static int startingHealth = 200;
+  public static int startingHealth = 200; //todo refactor for special starting health per unit
   protected int health;
   protected final Team team;
   protected final int baselineDamage = 5;
   protected boolean isDead;
+  protected UnitSpriteSheet spriteSheet;
 
-  public Unit(MapPoint position, MapSize size, Team team) {
+  /**
+   * Constructor takes the unit's position, size, and team.
+   * @param position
+   * @param size
+   * @param team
+   */
+  public Unit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet) {
     super(position, size);
-    this.team=team;
-    isDead=false;
+    this.team = team;
+    isDead = false;
     health = startingHealth;
+    spriteSheet=sheet;
+  }
+
+  /**
+   * Returns the current health of the given unit
+   * @return
+   */
+  public int getCurrentHealth(){
+    return health;
   }
 
   @Override
@@ -27,7 +44,8 @@ public class Unit extends Entity implements Damageable, Attackable {
     if (image == null) {
       throw new NullPointerException("Parameter image cannot be null");
     }
-    this.image=image;
+    this.image = image;
+    //todo spriteSheet.getImagesForSequence(Sequence.WALK, Direction.LEFT) ?? utilize shiz
   }
 
   @Override
@@ -41,8 +59,8 @@ public class Unit extends Entity implements Damageable, Attackable {
   @Override
   public void takeDamage(int amount) {
     if(isDead) return;
-    if(health-amount<0) {
-      isDead=true;
+    if(health-amount < 0) {
+      isDead = true;
     } else health-=amount;
   }
 
