@@ -76,6 +76,14 @@ public class World {
   }
 
   /**
+   * Gets all map entities in the world
+   * @return an unmodifiable collection of all the mapEntities.
+   */
+  public Collection<MapEntity> getAllMapEntities(){
+    return mapEntities;
+  }
+
+  /**
    * A getter method which checks if a certain point in the map can be moved into. TODO - make sure
    * that the method returns false for points outside the Map
    *
