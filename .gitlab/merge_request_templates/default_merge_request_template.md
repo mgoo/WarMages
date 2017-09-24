@@ -19,4 +19,6 @@ page when it's ready to be code reviewed.
 ## Preliminary Code Review Reminder Checklist:
 
 * [ ] All tasks in the issue have been completed by the developer
+* [ ] You have pulled the branch and run `./gradlew build` - and it builds
+  successfully
 * [ ] Issue has been dragged into the `Ready for Merge` list, or merged
