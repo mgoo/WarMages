@@ -1,7 +1,12 @@
 package main.game.model.world;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import main.game.model.Level;
 import main.game.model.entity.Entity;
+import main.game.model.entity.HeroUnit;
 import main.game.model.entity.MapEntity;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -12,12 +17,33 @@ import main.util.MapRect;
  */
 public class World {
 
-  public World(Collection<MapEntity> mapEntities) {
+  /**
+   * Creates the world.
+   *
+   * @param levels The levels sorted from start to finish. The first level in this list is the
+   *     initial level.
+   * @param heroUnit The hero unit used throughout the whole game.
+   */
+  public World(List<Level> levels, HeroUnit heroUnit) {
+
   }
 
   /**
-   * A getter method which returns all the entities in the world thats within the selection. The
-   * collection to be return must be ordered. (TODO ordering to be discussed)
+   * Converts a mapEntity collection into a map of MapPoints to Entities.
+   * @param mapEntities collection of MapEntities
+   * @return returns converted map
+   */
+  private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
+    return mapEntities.stream()
+        .collect(Collectors.toMap(
+            Entity::getPosition,
+            e -> e
+        ));
+  }
+
+  /**
+   * A getter method which returns all the entities in the world thats within the selection.
+   * The collection to be return must be ordered. (TODO ordering to be discussed)
    *
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.

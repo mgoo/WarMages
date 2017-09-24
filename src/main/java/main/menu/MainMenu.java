@@ -2,7 +2,7 @@ package main.menu;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import main.game.model.saveandload.GameModelLoader;
+import main.game.model.saveandload.WorldLoader;
 import main.game.model.saveandload.GameSaveModel;
 
 /**
@@ -12,11 +12,11 @@ import main.game.model.saveandload.GameSaveModel;
  */
 public class MainMenu extends Menu {
 
-  private final GameModelLoader gameModelLoader;
+  private final WorldLoader worldLoader;
   private final GameSaveModel gameSaveModel;
 
-  public MainMenu(GameModelLoader gameModelLoader, GameSaveModel gameSaveModel) {
-    this.gameModelLoader = gameModelLoader;
+  public MainMenu(WorldLoader worldLoader, GameSaveModel gameSaveModel) {
+    this.worldLoader = worldLoader;
     this.gameSaveModel = gameSaveModel;
   }
 
@@ -31,6 +31,6 @@ public class MainMenu extends Menu {
 
   @Override
   MenuController getMenuController() {
-    return new MainMenuController(gameModelLoader, gameSaveModel);
+    return new MainMenuController(worldLoader, gameSaveModel);
   }
 }
