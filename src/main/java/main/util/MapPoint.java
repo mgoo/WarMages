@@ -1,6 +1,8 @@
 package main.util;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,7 +56,15 @@ public class MapPoint {
   }
 
   public List<MapPoint> getNeighbours() {
-    //TODO Hrshikesh
-    return null;
+    return new ArrayList<MapPoint>(
+        Arrays.asList(new MapPoint(this.x-1, this.y), //left
+                      new MapPoint(this.x+1, this.y), //right
+                      new MapPoint(this.x, this.y-1), //top
+                      new MapPoint(this.x, this.y+1), //bottom
+                      new MapPoint(this.x-1, this.y-1), //top-left
+                      new MapPoint(this.x+1, this.y-1), //top-right
+                      new MapPoint(this.x-1, this.y+1), //bottom-left
+                      new MapPoint(this.x+1, this.y+1) //bottom-right
+        ));
   }
 }
