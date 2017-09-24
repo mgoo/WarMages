@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.images.DefaultImageProvider;
 import main.images.GameImage;
+import main.images.GameImageResource;
 import main.images.ImageProvider;
 import org.junit.Test;
 
@@ -43,7 +44,8 @@ public class GameImageTest {
 
   @Test
   public void load_noSizeSpecified_returnsEntireImage() throws IOException {
-    BufferedImage image = GameImage._TEST_FULL_SIZE.load(imageProvider);
+    GameImage gameImage = GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage();
+    BufferedImage image = gameImage.load(imageProvider);
 
     assertEquals(Color.BLUE.getRGB(), testImage.getRGB(2, 1));
     assertEquals(image.getWidth(), testImage.getWidth());
@@ -52,22 +54,22 @@ public class GameImageTest {
 
   @Test
   public void load_sizeSpecified_returnsSubImage() throws IOException {
-    GameImage gameImage = GameImage._TEST_PARTIAL_SIZE;
+    GameImage gameImage = GameImageResource.TEST_IMAGE_PARTIAL_SIZE.getGameImage();
     BufferedImage image = gameImage.load(imageProvider);
 
     // Assume default colours are not blue
     assertNotEquals(Color.WHITE.getRGB(), testImage.getRGB(0, 0));
 
     assertEquals(Color.BLUE.getRGB(), image.getRGB(1, 0));
-    assertEquals(gameImage.width, image.getWidth());
-    assertEquals(gameImage.height, image.getHeight());
+    assertEquals(gameImage.getWidth(), image.getWidth());
+    assertEquals(gameImage.getHeight(), image.getHeight());
   }
 
   @Test
   public void loadImagesFromFileSystem_usingAllGameImages_allImagesExist() throws IOException {
-    for (GameImage gameImage : GameImage.values()) {
+    for (GameImageResource gameImageResource : GameImageResource.values()) {
       DefaultImageProvider imageProvider = new DefaultImageProvider();
-      BufferedImage image = gameImage.load(imageProvider);
+      BufferedImage image = gameImageResource.getGameImage().load(imageProvider);
       assertNotNull(image);
     }
   }
