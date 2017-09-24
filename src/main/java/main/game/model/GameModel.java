@@ -7,6 +7,8 @@ import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.world.World;
+import main.util.Events;
+import main.util.Events.MainGameTick;
 import main.util.MapPoint;
 
 /**
@@ -14,17 +16,23 @@ import main.util.MapPoint;
  * of {@link Level}s.
  */
 public class GameModel {
+<<<<<<< HEAD
   public final long delay = 50;
+=======
+  public final long DELAY = 50L;
+>>>>>>> Created MainGameTick event and added it to the contructor for GameModel
 
   private final World world;
+  private final MainGameTick mainGameTick;
 
   /**
    * Creates a game model.
    *
    * @param world The world to use for the whole game.
    */
-  public GameModel(World world) {
+  public GameModel(World world, Events.MainGameTick mainGameTick) {
     this.world = world;
+    this.mainGameTick = mainGameTick;
   }
 
 
