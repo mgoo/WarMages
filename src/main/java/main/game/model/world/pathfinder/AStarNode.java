@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import main.util.MapPoint;
 
+/**
+ * Represents a Node in the A* path finding algorithm. Each node stores the following information:
+ *  - Current point
+ *  - How did we get to this point? I.e. parent point
+ *  - Cost from start
+ *  - Estimated cost to the goal
+ *  - The path taken to get to this node
+ */
 public class AStarNode implements Comparable<AStarNode> {
 
   private final MapPoint currentPoint;
@@ -27,12 +35,6 @@ public class AStarNode implements Comparable<AStarNode> {
     this(currentPoint, from, costFromStart, totalCost);
     this.pathTaken = pathTaken;
   }
-
-  //TODO Hrshikesh - remove or include?
-  //  public Map getPrevPoint(){
-  //    if(pathTaken.isEmpty()) return null;
-  //    return pathTaken.get(pathTaken.size()-1);
-  //  }
 
   @Override
   public int compareTo(AStarNode other) {
