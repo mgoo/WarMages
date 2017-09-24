@@ -50,8 +50,7 @@ public class MapPoint {
   }
 
   public double distance(MapPoint other) {
-    //TODO Hrshikesh
-    return 0.0;
+    return Math.hypot(Math.abs(this.x - other.x), Math.abs(this.y - other.y));
   }
 
   public List<MapPoint> getNeighbours() {
