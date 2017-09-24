@@ -2,6 +2,7 @@ package main.game.model.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -13,8 +14,8 @@ public class HeroUnit extends Unit {
   private ArrayList<Ability> abilities;
   private ArrayList<Item> items;
 
-  public HeroUnit(MapPoint position, MapSize size, Team team) {
-    super(position, size, team);
+  public HeroUnit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet) {
+    super(position, size, team, sheet);
     abilities = new ArrayList<>();
     items = new ArrayList<>();
   }
@@ -43,7 +44,7 @@ public class HeroUnit extends Unit {
    * @return
    */
   public ArrayList<Ability> getAbilities() {
-    return new ArrayList<Ability>(abilities);
+    return new ArrayList<>(abilities);
   }
 
   /**
@@ -51,6 +52,6 @@ public class HeroUnit extends Unit {
    * @return
    */
   public ArrayList<Item> getItems() {
-    return new ArrayList<Item>(items);
+    return new ArrayList<>(items);
   }
 }
