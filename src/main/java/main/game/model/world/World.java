@@ -65,16 +65,14 @@ public class World {
   }
 
   /**
-   * A getter method which returns all the entities in the world thats within the selection. The
-   * collection to be return must be ordered.
+   * A getter method which returns all the entities in the world thats within the selection.
+   * The collection to be return must be ordered.
    *
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.
    */
-  public Collection<Entity> findEntities(MapRect rect) {
-    return mapEntities.stream()
-        .filter(e -> rect.contains(e.getPosition()))
-        .collect(Collectors.toList());
+  public Collection<Entity> getEntities(MapRect rect) {
+    throw new Error("NYI");
   }
 
   /**
