@@ -1,15 +1,21 @@
 package main.game.view;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
+import main.game.view.EntityRenderable.EntityRenderableComparator;
 import main.renderer.Renderable;
+import main.util.MapPoint;
+import main.util.MapRect;
 
 /**
  * A View of the Game. Is responsible for creating all the EntityRenderable objects and keeping their
@@ -22,26 +28,29 @@ public class GameView {
   private final GameController gameController;
   private final GameModel gameModel;
 
-  private Collection<EntityRenderable> renderablesCache =
-      new PriorityQueue<>(new RenderableComparator());
+  private MapRect viewBox;
+
+  private List<EntityRenderable> renderablesCache =
+      Collections.synchronizedList(new ArrayList<>());
 
   public GameView(GameController gameController, GameModel gameModel) {
     this.gameController = gameController;
     this.gameModel = gameModel;
-
   }
 
-  public Collection<Renderable> getRenderables() {
-    // TODO
-    return null;
+  /**
+   * Gets a sorted unmodifible list of renderables.
+   * @param currentTime the time stap for the render iteration
+   * @return
+   */
+  public synchronized Collection<Renderable> getRenderables(long currentTime) {
+    this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
+    return Collections.unmodifiableList(this.renderablesCache);
   }
 
-  private void updateRenderables() {
+  private synchronized void updateRenderables(long tickTime) throws IOException {
     final Set<EntityRenderable> toRemove = new HashSet<>();
     final Set<Entity> enitiesToCheck = new HashSet<>(this.gameModel.getAllEntities());
-
-    EntityRenderable.lastTickTime = System.currentTimeMillis();
-    EntityRenderable.nextTickTime = EntityRenderable.lastTickTime + 20;
 
     this.renderablesCache.forEach(renderable -> {
       if (!enitiesToCheck.contains(renderable.getEntity())) {
@@ -50,28 +59,19 @@ public class GameView {
         enitiesToCheck.remove(renderable.getEntity());
       }
     });
-    toRemove.forEach(renderable -> {
-      this.renderablesCache.remove(renderable);
-    });
+
+    this.renderablesCache.removeAll(toRemove);
 
     enitiesToCheck.forEach(entity -> {
       this.renderablesCache.add(new EntityRenderable(entity));
     });
 
     this.renderablesCache.forEach(entityRenderable -> {
-      entityRenderable.update();
+      entityRenderable.update(tickTime);
     });
-
-
   }
 
-
-  private class RenderableComparator implements Comparator<Renderable> {
-
-    @Override
-    public int compare(Renderable r1, Renderable r2) {
-      return (int) ((r1.getEffectiveEntityPosition().x + r1.getEffectiveEntityPosition().y) -
-                (r2.getEffectiveEntityPosition().x + r2.getEffectiveEntityPosition().y));
-    }
+  public MapRect getViewBox() {
+    return this.viewBox;
   }
 }
