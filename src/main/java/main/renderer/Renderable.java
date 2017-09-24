@@ -13,7 +13,7 @@ public interface Renderable {
    *
    * @return the point on map which this Renderable object is on
    */
-  MapPoint getImagePosition();
+  MapPoint getImagePosition(long currentTime);
 
   /**
    * Simple getter method to get the image file of this object.
@@ -27,5 +27,5 @@ public interface Renderable {
    *
    * @return the MapPoint of the object considering the animation state
    */
-  MapPoint getEffectiveEntityPosition();
+  MapPoint getEffectiveEntityPosition(long currentTime);
 }
