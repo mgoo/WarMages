@@ -16,14 +16,11 @@ import main.util.MapPoint;
  * of {@link Level}s.
  */
 public class GameModel {
-<<<<<<< HEAD
   public final long delay = 50;
-=======
-  public final long DELAY = 50L;
->>>>>>> Created MainGameTick event and added it to the contructor for GameModel
 
   private final World world;
   private final MainGameTick mainGameTick;
+
 
   /**
    * Creates a game model.
@@ -53,7 +50,7 @@ public class GameModel {
     t.schedule(new TimerTask() {
       @Override
       public void run() {
-        //TODO @DYLAN thank you.
+        mainGameTick.broadcast(DELAY);
       }
     }, delay, delay);
     throw new Error("NYI");
