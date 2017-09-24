@@ -97,7 +97,7 @@ public class EntityRenderable implements main.renderer.Renderable {
    * Calculates the multiplier for a linear animation
    */
   private double calculateAnimationMultiplyer(long currentTime) {
-    return (this.lastTickTime - currentTime) / GameModel.delay;
+    return 1D - (((double)this.lastTickTime) - ((double)currentTime)) / ((double)GameModel.delay);
   }
 
   static class EntityRenderableComparator implements Comparator<EntityRenderable> {

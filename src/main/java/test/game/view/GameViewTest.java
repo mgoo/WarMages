@@ -74,16 +74,14 @@ public class GameViewTest {
     // Then it should continue afterwards until the next tick.
     for (int i = 0; i < GameModel.delay; i++) {
       MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals(i/GameModel.delay, effEntityPos.x);
-      assertEquals(0, effEntityPos.y);
+      assertEquals((double)i/(double)GameModel.delay, effEntityPos.x, 0.001);
+      assertEquals(0D, effEntityPos.y, 0.001);
     }
 
     this.gameView.updateRenderables(GameModel.delay*2);
     MapPoint effEntityPos = er.getEffectiveEntityPosition(GameModel.delay);
-    assertEquals(1, effEntityPos.x);
-    assertEquals(0, effEntityPos.y);
-
-
+    assertEquals(1D, effEntityPos.x, 0.001);
+    assertEquals(0D, effEntityPos.y, 0.001);
   }
 
   private class GameModelMock extends GameModel {
