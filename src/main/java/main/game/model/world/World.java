@@ -61,7 +61,7 @@ public class World {
    * @param mapEntities collection of MapEntities
    * @return returns converted map
    */
-  private Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
+  private static Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
     return mapEntities.stream()
         .collect(Collectors.toMap(
             Entity::getPosition,
@@ -77,9 +77,22 @@ public class World {
    * @return A collection of Entities within the given selection rect.
    */
   public Collection<Unit> getUnits(MapRect rect) {
-    return units.stream()
+    return Collections.unmodifiableCollection(new ArrayList<Unit>(units){{add(heroUnit);}}.stream()
         .filter(e->rect.contains(e.getPosition()))
-        .collect(Collectors.toList());
+        .collect(Collectors.toList()));
+  }
+
+  /**
+   * Gets all entities in the world (including map entities, units, projectiles and other entities.
+   * @return an unmodifiable collection of all Entities in the world.
+   */
+  public Collection<Entity> getAllEntities(){
+    return Collections.unmodifiableCollection(new ArrayList<Entity>(){{
+      addAll(units);
+      add(heroUnit);
+      addAll(mapEntities);
+      addAll(items);
+    }});
   }
 
   /**
@@ -87,7 +100,7 @@ public class World {
    * @return an unmodifiable collection of all the mapEntities.
    */
   public Collection<MapEntity> getAllMapEntities(){
-    return mapEntities;
+    return Collections.unmodifiableCollection(mapEntities);
   }
 
   /**
@@ -99,15 +112,11 @@ public class World {
    */
   public boolean isPassable(MapPoint point) {
     for (MapEntity mapEntity : mapEntities) {
-      if (mapEntity.getPosition().equals(point)) {
-        return false;
-      }
+//      if (mapEntity.contains(point)){
+//        return false;
+//      }
     }
-    boolean isPassable = false;
-    for (MapRect rect : bounds) {
-      isPassable |= rect.contains(point);
-    }
-    return isPassable;
+    return true;
   }
 
   /**
@@ -128,20 +137,6 @@ public class World {
       throw new Error("tick not implemented");
       //UNIT CANT BE CHANGED ATM.
     }
-  }
-
-  /**
-   * Returns all the entities including units, items and mapEntities.
-   *
-   * @return a collection of all entities
-   */
-  public Collection<Entity> getAllEntities() {
-    return Collections.unmodifiableCollection(new ArrayList<Entity>(units) {
-      {
-        addAll(items);
-        addAll(mapEntities);
-      }
-    });
   }
 
   public void setEntitySelection(Collection<Entity> selection) {
