@@ -1,5 +1,5 @@
 package test.game.model.saveandload;
 
-public class GameModelLoaderTest {
+public class WorldLoaderTest {
   // TODO
 }

@@ -1,4 +1,4 @@
-package test;
+package test.game.model.saveandload;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -135,7 +135,7 @@ public class WorldSaveModelTest {
       // when the file of the same name is loaded
       String loadedFileContents = filesystem.load(filename);
 
-      // then the loaded file contents should equal the original file contents
+      // then the loaded file contents should equal the original file contents.
       assertEquals(fileContents, loadedFileContents);
 
       // Cleanup
