@@ -1,8 +1,8 @@
-package test.game.model.saveandload;
+package test.game.model.world.saveandload;
 
 import static org.junit.Assert.assertNotNull;
 
-import main.game.model.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.World;
 import org.junit.Test;
 

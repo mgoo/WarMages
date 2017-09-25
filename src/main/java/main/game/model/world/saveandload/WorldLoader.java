@@ -1,4 +1,4 @@
-package main.game.model.saveandload;
+package main.game.model.world.saveandload;
 
 import java.util.Arrays;
 import main.game.model.GameModel;

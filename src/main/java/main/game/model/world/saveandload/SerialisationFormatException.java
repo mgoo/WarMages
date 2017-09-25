@@ -1,4 +1,4 @@
-package main.game.model.saveandload;
+package main.game.model.world.saveandload;
 
 public class SerialisationFormatException extends Exception {
 

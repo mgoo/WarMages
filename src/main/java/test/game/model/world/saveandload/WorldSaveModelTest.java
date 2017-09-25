@@ -1,4 +1,4 @@
-package test.game.model.saveandload;
+package test.game.model.world.saveandload;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import main.game.model.saveandload.SerialisationFormatException;
-import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.WorldSaveModel;
-import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
-import main.game.model.saveandload.WorldSaveModel.Filesystem;
+import main.game.model.world.saveandload.SerialisationFormatException;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
+import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.game.model.world.saveandload.WorldSaveModel.Filesystem;
 import main.game.model.world.World;
 import org.junit.Test;
 
