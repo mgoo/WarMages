@@ -1,5 +1,8 @@
 package main.game.model.entity;
 
+/**
+ * This enum represents the state of a Unit. It can be either attacking, hit, default, or walking.
+ */
 public enum UnitState {
 
   ATTACKING(),

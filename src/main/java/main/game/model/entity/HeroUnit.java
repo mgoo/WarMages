@@ -36,7 +36,8 @@ public class HeroUnit extends Unit {
    * @param item
    */
   public void use(Item item) {
-    throw new Error("NYI");
+    assert item!=null;
+    item.applyTo(this);
   }
 
   /**

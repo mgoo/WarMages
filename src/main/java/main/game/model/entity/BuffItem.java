@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -16,13 +15,14 @@ public class BuffItem extends Item {
    */
   public BuffItem(MapPoint coord) {
     super(coord);
-    buff = new BuffAbility();
-    //todo set image
+    buff = new BuffAbility(null);
+    //todo pass image
   }
 
   @Override
   public void applyTo(Unit unit) {
-    throw new Error("NYI");
+    assert unit!=null;
+    buff.apply(unit);
   }
 
 }

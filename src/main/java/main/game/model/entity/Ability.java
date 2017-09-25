@@ -11,13 +11,12 @@ public abstract class Ability {
 
   /**
    * Constructor takes a string description of the ability, and the icon that represent the ability.
-   * @param descrip
+   * @param description
    * @param icon
    */
-  public Ability(String descrip, GameImage icon){
-    description = descrip;
+  public Ability(String description, GameImage icon){
+    this.description = description;
     iconImage = icon;
-    //todo set icon image?
   }
 
   /**

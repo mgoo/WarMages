@@ -8,7 +8,7 @@ import main.util.MapSize;
  * affects it in some way upon impact.
  */
 public abstract class Projectile extends Entity {
-  private final Unit target;
+  protected final Unit target;
 
   public Projectile(MapPoint coordinates, MapSize size, Unit target) {
     super(coordinates,size);
