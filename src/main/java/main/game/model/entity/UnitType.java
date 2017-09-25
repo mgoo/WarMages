@@ -19,9 +19,9 @@ public enum UnitType {
         case WALKING:
           return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
         case DEFAULT_STATE:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
         default:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
       }
     }
   },
@@ -37,9 +37,9 @@ public enum UnitType {
         case WALKING:
           return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
         case DEFAULT_STATE:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
         default:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
       }
     }
   },
@@ -55,9 +55,9 @@ public enum UnitType {
       case WALKING:
         return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
       case DEFAULT_STATE:
-        return null; //todo
+        return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
       default:
-        return null; //todo
+        return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
     }
     }
   },
@@ -73,9 +73,9 @@ public enum UnitType {
         case WALKING:
           return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
         case DEFAULT_STATE:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
         default:
-          return null; //todo
+          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
       }
     }
   };
