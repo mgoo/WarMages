@@ -157,13 +157,13 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   }
 
   @Override
-  public void moveY(float amount) {
+  public void moveY(double amount) {
     if(isDead) return;
     super.moveY(amount);
   }
 
   @Override
-  public void moveX(float amount) {
+  public void moveX(double amount) {
     if(isDead) return;
     super.moveX(amount);
   }
