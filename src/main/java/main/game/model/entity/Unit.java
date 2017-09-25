@@ -12,6 +12,7 @@ import main.util.MapSize;
  * health, and can attack other team units.
  */
 public class Unit extends MovableEntity implements Damageable, Attackable {
+
   public static int startingHealth = 200; //todo refactor for special starting health per unit
   protected int health;
   protected final Team team;
@@ -25,11 +26,10 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
 
   /**
    * Constructor takes the unit's position, size, and team.
-   * @param position
-   * @param size
-   * @param team
    */
-  public Unit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType unitType) {
+  public Unit(
+      MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType unitType
+  ) {
     super(position, size);
     this.team = team;
     this.unitType = unitType;
@@ -47,26 +47,25 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
 
   /**
    * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100
-   * @param amount
    */
-  public void setDamageAmount(int amount){
-    assert amount>0&&amount<100;
-    damageAmount=amount;
+  public void setDamageAmount(int amount) {
+    assert amount > 0 && amount < 100;
+    damageAmount = amount;
   }
 
   /**
    * Returns the current health of the given unit
+   *
    * @return current health of Unit
    */
-  public int getCurrentHealth(){
+  public int getCurrentHealth() {
     return health;
   }
 
   /**
    * Sets the Unit's state to the given state
-   * @param state
    */
-  private void setStateTo(UnitState state){
+  private void setStateTo(UnitState state) {
     Direction direction = unitState.getDirection();
     unitState = state;
     unitState.setDirection(direction);
@@ -78,44 +77,48 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   public void tick(long timeSinceLastTick) {
     MapPoint oldPosition = position;
     //update image
-    if(imagesIdx == images.size()-1){
+    if (imagesIdx == images.size() - 1) {
       //reset state back to default
       setStateTo(UnitState.DEFAULT_STATE);
     }
-    image=images.get(imagesIdx);
+    image = images.get(imagesIdx);
     super.tick(timeSinceLastTick);
     //set direction of state based on movement gradient.
     updateDirection(oldPosition);
   }
 
   /**
-   * Sets direction of Unit based on x and y coordinate differences between the given oldPosition and the current position.
-   * @param oldPosition
+   * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
+   * and the current position.
    */
-  private void updateDirection(MapPoint oldPosition){
-    if(position.x<oldPosition.x){ //moved left
-      if(position.y<oldPosition.y){ //moved left and up
-        if(Math.abs(position.y-oldPosition.y)<Math.abs(position.x-oldPosition.x)){ //greater change in y
+  private void updateDirection(MapPoint oldPosition) {
+    if (position.x < oldPosition.x) { //moved left
+      if (position.y < oldPosition.y) { //moved left and up
+        if (Math.abs(position.y - oldPosition.y) < Math
+            .abs(position.x - oldPosition.x)) { //greater change in y
           unitState.setDirection(Direction.UP);
         } else { //greater change in x
           unitState.setDirection(Direction.LEFT);
         }
       } else { //moved left and down
-        if(Math.abs(position.y-oldPosition.y)<Math.abs(position.x-oldPosition.x)){ //greater change in y
+        if (Math.abs(position.y - oldPosition.y) < Math
+            .abs(position.x - oldPosition.x)) { //greater change in y
           unitState.setDirection(Direction.DOWN);
         } else { //greater change in x
           unitState.setDirection(Direction.LEFT);
         }
       }
     } else { //moved right
-      if(position.y<oldPosition.y){ //moved right and up
-        if(Math.abs(position.y-oldPosition.y)<Math.abs(position.x-oldPosition.x)){ //greater change in y
+      if (position.y < oldPosition.y) { //moved right and up
+        if (Math.abs(position.y - oldPosition.y) < Math
+            .abs(position.x - oldPosition.x)) { //greater change in y
           unitState.setDirection(Direction.UP);
         } else { //greater change in x
           unitState.setDirection(Direction.RIGHT);
         }
       } else { //moved right and down
-        if(Math.abs(position.y-oldPosition.y)<Math.abs(position.x-oldPosition.x)){ //greater change in y
+        if (Math.abs(position.y - oldPosition.y) < Math
+            .abs(position.x - oldPosition.x)) { //greater change in y
           unitState.setDirection(Direction.DOWN);
         } else { //greater change in x
           unitState.setDirection(Direction.RIGHT);
@@ -131,8 +134,10 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
 
   @Override
   public void attack(Unit unit) {
-    if(isDead) return;
-    if(team.canAttackOtherTeam(unit.team)){
+    if (isDead) {
+      return;
+    }
+    if (team.canAttackOtherTeam(unit.team)) {
       setStateTo(UnitState.ATTACKING);
       unit.takeDamage(damageAmount);
     }
@@ -140,31 +145,39 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
 
   @Override
   public void takeDamage(int amount) {
-    if(isDead) return;
-    if(health-amount < 0) {
+    if (isDead) {
+      return;
+    }
+    if (health - amount < 0) {
       isDead = true;
-      health=0;
+      health = 0;
     } else {
       setStateTo(UnitState.BEEN_HIT);
-      health-=amount;
+      health -= amount;
     }
   }
 
   @Override
   public void gainHealth(int amount) {
-    if(isDead) return;
-    health+=amount;
+    if (isDead) {
+      return;
+    }
+    health += amount;
   }
 
   @Override
   public void moveY(double amount) {
-    if(isDead) return;
+    if (isDead) {
+      return;
+    }
     super.moveY(amount);
   }
 
   @Override
   public void moveX(double amount) {
-    if(isDead) return;
+    if (isDead) {
+      return;
+    }
     super.moveX(amount);
   }
 }
