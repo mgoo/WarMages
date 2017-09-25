@@ -10,9 +10,11 @@ import java.util.List;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
-import main.game.view.EntityRenderable;
+import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.images.GameImage;
+import main.images.GameImageResource;
+import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapSize;
 import org.junit.Before;
@@ -39,7 +41,7 @@ public class GameViewTest {
   public void setUp() {
     GameControllerMock gameController = new GameControllerMock();
     this.gameModelMock = new GameModelMock();
-    this.gameView = new GameView(gameController, gameModelMock);
+    this.gameView = new GameView(new Config(), gameController, gameModelMock);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), 1);
     entityList = new ArrayList<>();
@@ -68,7 +70,7 @@ public class GameViewTest {
     ((EntityMock) this.entityList.get(0)).move(1, 0);
     this.gameView.updateRenderables(GameModel.delay);
 
-    EntityRenderable er = ((EntityRenderable) this.gameView.getRenderables(0).get(0));
+    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 1,0
     // Then it should continue afterwards until the next tick.
@@ -90,7 +92,7 @@ public class GameViewTest {
     ((EntityMock) this.entityList.get(0)).move(0, 1);
     this.gameView.updateRenderables(GameModel.delay);
 
-    EntityRenderable er = ((EntityRenderable) this.gameView.getRenderables(0).get(0));
+    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 0,1
     // Then it should continue afterwards until the next tick.
@@ -112,7 +114,7 @@ public class GameViewTest {
     ((EntityMock) this.entityList.get(0)).move(5, 5);
     this.gameView.updateRenderables(GameModel.delay);
 
-    EntityRenderable er = ((EntityRenderable) this.gameView.getRenderables(0).get(0));
+    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 5,5
     // Then it should continue afterwards until the next tick to 10,10.
@@ -162,7 +164,7 @@ public class GameViewTest {
 
     @Override
     public GameImage getImage() {
-      return GameImage._TEST_FULL_SIZE;
+      return GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage();
     }
 
     @Override
