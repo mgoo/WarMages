@@ -2,7 +2,7 @@
 
 EXPORT_DIR="$HOME/.gradle/"
 EXPORT_FILE="gradle.properties"
-EXPORT_PATH="$EXPORT_DIR/$EXPORT_FILE"
+EXPORT_PATH="$EXPORT_DIR$EXPORT_FILE"
 
 mkdir -p "$EXPORT_DIR"
 
@@ -21,3 +21,4 @@ if [ -d ".git" ]; then
 fi
 
 cp "$BASE_FILE" "$EXPORT_PATH"
+echo "Successfully added $EXPORT_PATH"
