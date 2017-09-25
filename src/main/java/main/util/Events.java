@@ -6,7 +6,7 @@ public class Events  {
 
   }
 
-  public static class MainGameTick extends Event<Long>{
+  public static class MainGameTick extends Event<Long> {
 
 
 

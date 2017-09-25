@@ -50,6 +50,7 @@ public class MapRect {
   }
 
   /**
+<<<<<<< HEAD
    * Checks whether a point is inside this MapRect.
    * @param mapPoint point to check
    * @return returns true if point is within rect. False otherwise.
