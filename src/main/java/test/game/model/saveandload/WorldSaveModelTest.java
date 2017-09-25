@@ -18,7 +18,6 @@ import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.game.model.saveandload.WorldSaveModel.Filesystem;
 import main.game.model.world.World;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class WorldSaveModelTest {
 
@@ -52,7 +51,7 @@ public class WorldSaveModelTest {
   public void save_nameWithSlashes_exceptionThrown()
       throws IOException, SerialisationFormatException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
-    World world = Mockito.mock(World.class);
+    World world = WorldLoader.newSingleLevelTestWorld();
     worldSaveModel.save(world, "some/file");
   }
 
@@ -60,7 +59,7 @@ public class WorldSaveModelTest {
   public void save_withoutFileExtension_fileIsSavedWithExtension()
       throws IOException, SerialisationFormatException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
-    World world = Mockito.mock(World.class);
+    World world = WorldLoader.newSingleLevelTestWorld();
     worldSaveModel.save(world, "filename");
 
     assertTrue(

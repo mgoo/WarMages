@@ -52,7 +52,6 @@ dependencies {
 
     // Tests are run in main module (which is unusual, but that's how SWEN221 is)
     compile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
 }
 
 sourceSets {
