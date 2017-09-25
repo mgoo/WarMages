@@ -32,12 +32,6 @@ public class GameViewTest {
   @Before
   public void setUp() {
     GameControllerMock gameController = new GameControllerMock();
-    World world = null;
-    try {
-      world = new WorldLoader(null).load("Test");
-    } catch (IOException e) {
-      // unreachable
-    }
     this.gameModelMock = new GameModelMock();
     this.gameView = new GameView(gameController, gameModelMock);
 
@@ -72,7 +66,7 @@ public class GameViewTest {
 
     // By time 50 the entitys effective position should have arrived to 1,0
     // Then it should continue afterwards until the next tick.
-    for (int i = 0; i < GameModel.delay; i++) {
+    for (int i = 0; i < GameModel.delay * 2; i++) {
       MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
       assertEquals((double)i/(double)GameModel.delay, effEntityPos.x, 0.001);
       assertEquals(0D, effEntityPos.y, 0.001);
