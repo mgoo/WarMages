@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# Script to get Gradle to work on Victoria University ECS computers
+EXPORT_DIR="$HOME/.gradle/"
+EXPORT_FILE="gradle.properties"
+EXPORT_PATH="$EXPORT_DIR/$EXPORT_FILE"
 
-EXPORT_PATH="$HOME/.gradle/settings.gradle"
+mkdir -p "$EXPORT_DIR"
 
 if [ -f "$EXPORT_PATH" ]; then
     echo "You already have a $EXPORT_PATH file."
