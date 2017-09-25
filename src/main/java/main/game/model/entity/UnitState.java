@@ -17,7 +17,7 @@ public enum UnitState {
 
   /**
    * Sets the direction of the unit to the given direction.
-   * @param direction
+   * @param direction to be set to.
    */
   public void setDirection(Direction direction) {
     if (direction == null) {
@@ -28,7 +28,7 @@ public enum UnitState {
 
   /**
    * Returns the current direction of the unit state.
-   * @return
+   * @return current unit direction.
    */
   public Direction getDirection() {
     if (direction == null) {
