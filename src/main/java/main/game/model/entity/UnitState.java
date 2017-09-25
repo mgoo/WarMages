@@ -15,14 +15,22 @@ public enum UnitState {
 
   private Direction direction;
 
-  public void setDirection(Direction direction){
+  /**
+   * Sets the direction of the unit to the given direction.
+   * @param direction
+   */
+  public void setDirection(Direction direction) {
     if (direction == null) {
       throw new IllegalArgumentException("Direction cannot be null!");
     }
-    this.direction=direction;
+    this.direction = direction;
   }
 
-  public Direction getDirection(){
+  /**
+   * Returns the current direction of the unit state.
+   * @return
+   */
+  public Direction getDirection() {
     if (direction == null) {
       throw new NullPointerException("Direction has not been set!");
     }

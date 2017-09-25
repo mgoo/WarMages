@@ -12,29 +12,27 @@ import main.util.MapSize;
 public abstract class MapEntity extends Entity {
 
   /**
-   * Constructor takes the coordinates of the MapEntity
-   * @param coord
+   * Constructor takes the coordinates of the MapEntity.
    */
   public MapEntity(MapPoint coord) {
-    super(coord, new  MapSize(1, 1));
+    super(coord, new MapSize(1, 1));
   }
 
   @Override
-  public void moveX(float amount) {
+  public void moveX(double amount) {
     throw new ActionNotSupportedException("MapEntity cannot move");
   }
 
   @Override
-  public void moveY(float amount) {
+  public void moveY(double amount) {
     throw new ActionNotSupportedException("MapEntity cannot move");
   }
 
   /**
-   * Returns boolean representing whether the given point lies inside the MapEntity
-   * @param point
-   * @return
+   * Returns boolean representing whether the given point lies inside the MapEntity.
    */
-  public boolean contains(MapPoint point){
-    return (point.x>=position.x&&point.y>=position.y&&point.x<=position.x+size.width&&point.y<=position.y+size.height);
+  public boolean contains(MapPoint point) {
+    return (point.x >= position.x && point.y >= position.y && point.x <= position.x + size.width
+        && point.y <= position.y + size.height);
   }
 }

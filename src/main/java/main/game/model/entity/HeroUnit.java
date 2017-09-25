@@ -11,38 +11,42 @@ import main.util.MapSize;
  * abilities, and is able to pick up items and use the items.
  */
 public class HeroUnit extends Unit {
+
   private ArrayList<Ability> abilities;
   private ArrayList<Item> items;
 
-  public HeroUnit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType type) {
-    super(position, size, team, sheet, type);
+  /**
+   * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
+   * @param position of HeroUnit.
+   * @param size of HeroUnit on Map.
+   * @param sheet SpriteSheet of HeroUnit images.
+   * @param type of HeroUnit.
+   */
+  public HeroUnit(MapPoint position, MapSize size, UnitSpriteSheet sheet, UnitType type) {
+    super(position, size, Team.PLAYER, sheet, type);
     abilities = new ArrayList<>();
     items = new ArrayList<>();
   }
 
   /**
-   * Adds the given item to the HeroUnit's items.
-   * Requires the item is not null.
-   * @param item
+   * Adds the given item to the HeroUnit's items. Requires the item is not null.
    */
   public void pickUp(Item item) {
-    assert item!=null;
+    assert item != null;
     items.add(item);
     //todo if item has ability, include in abilities
   }
 
   /**
    * Activates the given item.
-   * @param item
    */
   public void use(Item item) {
-    assert item!=null;
+    assert item != null;
     item.applyTo(this);
   }
 
   /**
    * Returns the HeroUnit's abilities.
-   * @return
    */
   public ArrayList<Ability> getAbilities() {
     return new ArrayList<>(abilities);
@@ -50,7 +54,6 @@ public class HeroUnit extends Unit {
 
   /**
    * Returns the HeroUnit's items.
-   * @return
    */
   public ArrayList<Item> getItems() {
     return new ArrayList<>(items);
