@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -16,6 +18,10 @@ public class Unit extends Entity implements Damageable, Attackable {
   protected final int baselineDamage = 5;
   protected boolean isDead;
   protected UnitSpriteSheet spriteSheet;
+  protected UnitType unitType;
+  protected UnitState unitState;
+  protected List<GameImage> images;
+  protected int imagesIdx;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -23,12 +29,17 @@ public class Unit extends Entity implements Damageable, Attackable {
    * @param size
    * @param team
    */
-  public Unit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet) {
+  public Unit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType unitType) {
     super(position, size);
     this.team = team;
     isDead = false;
     health = startingHealth;
     spriteSheet=sheet;
+    images = new ArrayList<>();
+    this.unitType = unitType(sheet);
+    unitState = UnitState.DEFAULT_STATE;
+    images = unitType.getImagesFor(unitState);
+    imagesIdx = 0;
   }
 
   /**
@@ -40,12 +51,17 @@ public class Unit extends Entity implements Damageable, Attackable {
   }
 
   @Override
+  public GameImage getImage() {
+    return images.get(imagesIdx);
+  }
+
+  @Override
   public void setImage(GameImage image) {
     if (image == null) {
       throw new NullPointerException("Parameter image cannot be null");
     }
     this.image = image;
-    //todo spriteSheet.getImagesForSequence(Sequence.WALK, Direction.LEFT) ?? utilize shiz
+    //todo spriteSheet.getImagesForSequence(Sequence.WALK, Direction.LEFT) ?? use when changing x and y position? ASK DYLAN
   }
 
   @Override
