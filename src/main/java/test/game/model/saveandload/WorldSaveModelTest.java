@@ -18,6 +18,10 @@ import main.game.model.saveandload.WorldSaveModel.Filesystem;
 import main.game.model.world.World;
 import org.junit.Test;
 
+/**
+ * Test names here follow the test naming convention:
+ * unitOfWorkUnderTest_typeOfInput_expectedResult.
+ */
 public class WorldSaveModelTest {
 
   private Filesystem stubFileSystem = new Filesystem() {
