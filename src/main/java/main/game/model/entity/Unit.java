@@ -21,7 +21,7 @@ public class Unit extends Entity implements Damageable, Attackable {
   protected UnitType unitType;
   protected UnitState unitState;
   protected List<GameImage> images;
-  protected int imagesIdx;
+  protected int imagesIdx, damageAmount;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -38,13 +38,19 @@ public class Unit extends Entity implements Damageable, Attackable {
     images = new ArrayList<>();
     this.unitType = unitType;
     unitState = UnitState.DEFAULT_STATE;
+    unitState.setDirection(Direction.LEFT);
     images = unitType.getImagesFor(unitState, spriteSheet);
     imagesIdx = 0;
   }
 
+  public void setDamageAmount(int amount){
+    assert amount>0&&amount<100;
+    damageAmount=amount;
+  }
+
   /**
    * Returns the current health of the given unit
-   * @return
+   * @return current health of Unit
    */
   public int getCurrentHealth(){
     return health;
@@ -73,19 +79,15 @@ public class Unit extends Entity implements Damageable, Attackable {
 
   @Override
   public void setImage(GameImage image) {
-    if (image == null) {
-      throw new NullPointerException("Parameter image cannot be null");
-    }
-    this.image = image;
-    //todo still want to be able to set image to something else or no? will all image stuff be handled by getImage?
+    //will not change anything
   }
 
   @Override
   public void attack(Unit unit) {
     if(isDead) return;
-    if(!unit.team.equals(team)){
+    if(team.canAttackOtherTeam(unit.team)){
       setStateTo(UnitState.ATTACKING);
-      unit.takeDamage(baselineDamage);
+      unit.takeDamage(damageAmount);
     }
   }
 
@@ -94,6 +96,7 @@ public class Unit extends Entity implements Damageable, Attackable {
     if(isDead) return;
     if(health-amount < 0) {
       isDead = true;
+      health=0;
     } else {
       setStateTo(UnitState.BEEN_HIT);
       health-=amount;

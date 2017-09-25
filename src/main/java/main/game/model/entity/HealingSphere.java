@@ -22,7 +22,9 @@ public class HealingSphere extends Projectile {
 
   @Override
   public void hits(Unit unit) {
-        unit.gainHealth(healingAmount);
+    assert unit!=null;
+    assert unit.equals(target);
+    unit.gainHealth(healingAmount);
   }
 
   @Override

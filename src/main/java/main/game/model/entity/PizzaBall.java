@@ -22,14 +22,14 @@ public class PizzaBall extends Projectile {
 
   @Override
   public void hits(Unit unit) {
-        unit.takeDamage(damageAmount);
+    assert unit!=null;
+    assert unit.equals(target);
+    unit.takeDamage(damageAmount);
   }
 
   @Override
   public void setImage(GameImage image) {
-    if (image == null) {
-      throw new NullPointerException("Parameter image cannot be null!");
-    }
+    assert image != null;
     this.image=image;
   }
 }

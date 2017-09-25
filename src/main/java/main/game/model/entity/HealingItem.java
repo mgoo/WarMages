@@ -18,6 +18,7 @@ public class HealingItem extends Item {
 
   @Override
   public void applyTo(Unit unit) {
-    throw new Error("NYI");
+    assert unit!=null;
+    //todo implement healing
   }
 }
