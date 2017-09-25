@@ -1,7 +1,8 @@
 package main.util;
 
 /**
- * Created by mgoo on 25/09/17.
+ * Holds the config and context of the game
+ * @author Andrew McGhie
  */
 public class Config {
 
