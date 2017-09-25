@@ -34,10 +34,16 @@ public class GameView {
   private List<EntityView> renderablesCache =
       Collections.synchronizedList(new ArrayList<>());
 
+  /**
+   * Constructor for game view sets the viewBox to start at origin 0,0.
+   * @param config screen width and height must be set here
+   */
   public GameView(Config config, GameController gameController, GameModel gameModel) {
     this.config = config;
     this.gameController = gameController;
     this.gameModel = gameModel;
+    this.viewBox = new MapRect(0, 0,
+        this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
   }
 
   /**

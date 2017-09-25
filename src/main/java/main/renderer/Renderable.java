@@ -17,9 +17,9 @@ public interface Renderable {
   MapPoint getImagePosition(long currentTime);
 
   /**
-   * Gets the size of the image to draw
+   * Gets the size of the image to draw.
    *
-   * @return
+   * @return the size of the image to display
    */
   MapSize getImageSize();
 

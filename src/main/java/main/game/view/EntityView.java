@@ -55,16 +55,13 @@ public class EntityView implements main.renderer.Renderable {
     MapPoint entityPosition = this.getEffectiveEntityPosition(currentTime);
     MapPoint entityScreenPosition = this.tileToPix(entityPosition);
 
-    MapSize entityScreenSize = new MapSize(
-        (int)(this.entity.getSize().width * this.config.getEntityViewTilePixelsX()),
-        (int)(this.entity.getSize().height * this.config.getEntityViewTilePixelsY())
-    );
+    MapSize imageSize = this.getImageSize();
 
-    int entitySpriteHeight =
-        (int)(currentImage.getHeight() * (entityScreenSize.width / currentImage.getWidth()));
-
-    return new MapPoint(entityScreenPosition.x - entityScreenSize.width / 2,
-        entityScreenPosition.y - (entitySpriteHeight - entityScreenSize.height / 2));
+    return new MapPoint(entityScreenPosition.x - imageSize.width / 2D,
+        entityScreenPosition.y
+            - (imageSize.height
+              - (int)(this.entity.getSize().height * (double)this.config.getEntityViewTilePixelsY())
+                / 2D));
   }
 
   @Override
@@ -75,7 +72,8 @@ public class EntityView implements main.renderer.Renderable {
     );
 
     int entitySpriteHeight =
-        (int)(currentImage.getHeight() * (entityScreenSize.width / currentImage.getWidth()));
+        (int)Math.round(currentImage.getHeight()
+            * (entityScreenSize.width / (double)currentImage.getWidth()));
 
     return new MapSize(entityScreenSize.width, entitySpriteHeight);
   }
@@ -88,8 +86,8 @@ public class EntityView implements main.renderer.Renderable {
    */
   private MapPoint tileToPix(MapPoint tilePosition) {
     return new MapPoint(
-        (int)((this.config.getEntityViewTilePixelsX() / 2) * (tilePosition.x + tilePosition.y)),
-        (int)((this.config.getEntityViewTilePixelsY() / 2) * (tilePosition.x - tilePosition.y))
+        ((double)this.config.getEntityViewTilePixelsX() / 2D) * (tilePosition.x - tilePosition.y),
+        ((double)this.config.getEntityViewTilePixelsY() / 2D) * (tilePosition.x + tilePosition.y)
     );
   }
 
@@ -110,7 +108,8 @@ public class EntityView implements main.renderer.Renderable {
    * Calculates the multiplier for a linear animation.
    */
   private double calculateAnimationMultiplyer(long currentTime) {
-    return 1D - (((double)this.lastTickTime) - ((double)currentTime)) / ((double)GameModel.delay);
+    return 1D - (((double)this.lastTickTime)
+        - ((double)currentTime)) / ((double)this.config.getGameModelDelay());
   }
 
   static class EntityRenderableComparator implements Comparator<EntityView> {
