@@ -24,7 +24,8 @@ import main.util.MapRect;
  */
 public class World {
 
-  private final List<Level> levels;
+  private final Queue<Level> levels;
+
   private int levelIndex = 0;
   private final Collection<MapEntity> mapEntities;
 
@@ -42,17 +43,19 @@ public class World {
    *        initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(List<Level> levels, HeroUnit heroUnit) {
-    if (levels == null)
+  public World(Queue<Level> levels, HeroUnit heroUnit) {
+    if (levels == null) {
       throw new NullPointerException("levels queue cannot be null");
-    if (heroUnit == null)
+    }
+    if (heroUnit == null) {
       throw new NullPointerException("heroUnit cannot be null");
+    }
     this.levels = levels;
     this.heroUnit = heroUnit;
-      this.units = levels.get(levelIndex).getUnits();
-      this.items = levels.get(levelIndex).getItems();
-//          bounds.add(levels.get(levelIndex).getMapBounds());
-      mapEntities = levels.get(levelIndex).getMapEntities();
+    this.units = levels.peek().getUnits();
+    this.items = levels.peek().getItems();
+    //bounds.add(levels.get(levelIndex).getMapBounds());
+    mapEntities = levels.peek().getMapEntities();
   }
 
   /**
@@ -70,36 +73,46 @@ public class World {
   }
 
   /**
-   * A getter method which returns all the entities in the world thats within the selection.
-   * The collection to be return must be ordered.
+   * A getter method which returns all the entities in the world thats within the selection. The
+   * collection to be return must be ordered.
    *
    * @param rect a selection box.
    * @return A collection of Entities within the given selection rect.
    */
   public Collection<Unit> getUnits(MapRect rect) {
-    return Collections.unmodifiableCollection(new ArrayList<Unit>(units){{add(heroUnit);}}.stream()
-        .filter(e->rect.contains(e.getPosition()))
-        .collect(Collectors.toList()));
+    return Collections.unmodifiableCollection(
+        new ArrayList<Unit>(units) {
+          {
+            add(heroUnit);
+          }
+        }.stream()
+            .filter(e -> rect.contains(e.getPosition()))
+            .collect(Collectors.toList()));
   }
 
   /**
    * Gets all entities in the world (including map entities, units, projectiles and other entities.
+   *
    * @return an unmodifiable collection of all Entities in the world.
    */
-  public Collection<Entity> getAllEntities(){
-    return Collections.unmodifiableCollection(new ArrayList<Entity>(){{
-      addAll(units);
-      add(heroUnit);
-      addAll(mapEntities);
-      addAll(items);
-    }});
+  public Collection<Entity> getAllEntities() {
+    return Collections.unmodifiableCollection(
+        new ArrayList<Entity>() {
+          {
+            addAll(units);
+            add(heroUnit);
+            addAll(mapEntities);
+            addAll(items);
+          }
+        });
   }
 
   /**
-   * Gets all map entities in the world
+   * Gets all map entities in the world.
+   *
    * @return an unmodifiable collection of all the mapEntities.
    */
-  public Collection<MapEntity> getAllMapEntities(){
+  public Collection<MapEntity> getAllMapEntities() {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
@@ -112,9 +125,9 @@ public class World {
    */
   public boolean isPassable(MapPoint point) {
     for (MapEntity mapEntity : mapEntities) {
-//      if (mapEntity.contains(point)){
-//        return false;
-//      }
+      //      if (mapEntity.contains(point)){
+      //        return false;
+      //      }
     }
     return true;
   }
@@ -123,20 +136,30 @@ public class World {
    * A method specific for progression of game. Triggers are specific quests/goals to be achieved
    * for progression.
    */
-  public void checkCompletion() {
-    if (levels.get(levelIndex).areGoalsCompleted(this)) {
-      levelIndex = (levelIndex >= levels.size()) ? levels.size() - 1 : levelIndex + 1;
+  public void easeTrigger() {
+    if (levels.peek().areGoalsCompleted(this)) {
+      nextLevel();
     }
+  }
+
+  /**
+   * A method which moves to the next level.
+   */
+  private void nextLevel() {
+    levels.poll();
+    items.addAll(levels.peek().getItems());
+    mapEntities.clear();
+    mapEntities.addAll(levels.peek().getMapEntities());
+    units.addAll(levels.peek().getUnits());
   }
 
   /**
    * A method to change all the current positions/animations of all entities in the world.
    */
-  public void tick() {
-    for (Unit unit : units) {
-      throw new Error("tick not implemented");
-      //UNIT CANT BE CHANGED ATM.
-    }
+  public void tick(long timeSinceLastTick) {
+    //    getAllEntities().stream().forEach(e -> e.tick);
+
+    throw new Error("Requires entities to have a tick");
   }
 
   public void setEntitySelection(Collection<Entity> selection) {

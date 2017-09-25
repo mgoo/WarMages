@@ -1,19 +1,14 @@
 package main.game.model;
 
-import com.sun.javafx.UnmodifiableArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import main.game.model.entity.Entity;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.Events;
 import main.util.Events.MainGameTick;
-import main.util.MapPoint;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
@@ -59,7 +54,6 @@ public class GameModel {
         mainGameTick.broadcast(delay);
       }
     }, delay, delay);
-    throw new Error("NYI");
   }
 
   /**
