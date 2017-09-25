@@ -1,25 +1,21 @@
 package main.game.view;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Set;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityRenderable.EntityRenderableComparator;
 import main.renderer.Renderable;
-import main.util.MapPoint;
 import main.util.MapRect;
 
 /**
- * A View of the Game. Is responsible for creating all the EntityRenderable objects and keeping their
- * locations uptodate with the locations in the models.
+ * A View of the Game.
+ * Is responsible for creating all the EntityRenderable objects and keeping their
+ * locations up-to-date with the locations in the models.
  *
  * @author Andrew McGhie
  */
@@ -39,15 +35,21 @@ public class GameView {
   }
 
   /**
-   * Gets a sorted unmodifible list of renderables.
+   * Gets a list of the renderables.
+   *
+   * <b>N.B.</b> sorts the list so try to minimise calls.
    * @param currentTime the time stap for the render iteration
-   * @return
+   * @return unmodifiable sorted list
    */
   public synchronized List<Renderable> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
   }
 
+  /**
+   * called when the Main Game Loop ticks. It updates the current renderables.
+   * @param tickTime the time that the tick happened.
+   */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityRenderable> toRemove = new HashSet<>();
     final Set<Entity> enitiesToCheck = new HashSet<>(this.gameModel.getAllEntities());

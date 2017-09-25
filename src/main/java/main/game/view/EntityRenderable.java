@@ -24,13 +24,13 @@ public class EntityRenderable implements main.renderer.Renderable {
   private MapPoint destination;
   private long lastTickTime;
 
-  EntityRenderable(Entity entity){
+  EntityRenderable(Entity entity) {
     this.entity = entity;
     this.oldPosition = entity.getPosition();
     this.destination = entity.getPosition();
   }
 
-  void update(long tickTime){
+  void update(long tickTime) {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
     this.destination = entity.getPosition();
@@ -38,7 +38,9 @@ public class EntityRenderable implements main.renderer.Renderable {
     try {
       this.currentImage = entity.getImage().load(new DefaultImageProvider());
     } catch (IOException e) {
-      System.err.println("Could not load Image " + entity.getImage().name() + ". Using previous image");
+      System.err.println("Could not load Image "
+          + entity.getImage().name()
+          + ". Using previous image");
       e.printStackTrace();
     }
   }
@@ -50,34 +52,29 @@ public class EntityRenderable implements main.renderer.Renderable {
   @Override
   public MapPoint getImagePosition(long currentTime) {
     MapPoint entityPosition = this.getEffectiveEntityPosition(currentTime);
-    MapPoint entityScreenPosition = new MapPoint(this.calcScreenX(entityPosition),
-        this.calcScreenY(entityPosition));
+    MapPoint entityScreenPosition = this.tileToPix(entityPosition);
 
-    MapSize entityScreenSize = new MapSize((int)(this.entity.getSize().width * EntityRenderable.tileSize),
-        (int)(this.entity.getSize().height * EntityRenderable.tileSize));
+    MapSize entityScreenSize = new MapSize(
+        (int)(this.entity.getSize().width * EntityRenderable.tileSize),
+        (int)(this.entity.getSize().height * EntityRenderable.tileSize)
+    );
 
-    int entitySpriteHeight = (int)(currentImage.getHeight() * (entityScreenSize.width / currentImage.getWidth()));
+    int entitySpriteHeight =
+        (int)(currentImage.getHeight() * (entityScreenSize.width / currentImage.getWidth()));
 
-    return new MapPoint(entityScreenPosition.x - entityScreenSize.width/2,
-        entityScreenPosition.y - (entitySpriteHeight - entityScreenSize.height/2));
+    return new MapPoint(entityScreenPosition.x - entityScreenSize.width / 2,
+        entityScreenPosition.y - (entitySpriteHeight - entityScreenSize.height / 2));
   }
 
   /**
-   * Calculates the pixel position from a poistion on the tile grid.
-   * @param entityPosition
-   * @return
+   * Calculates a pixel position (relative to the origin of the view) from a position on the map
+   * of tiles for example entity position.
+   * @param tilePosition Position in the model
+   * @return pixel position still needs to br translated by current origin
    */
-  private int calcScreenX(MapPoint entityPosition) {
-    return (int)((EntityRenderable.tileSize/2) * (entityPosition.x - entityPosition.y));
-  }
-
-  /**
-   * Calculates the pixel position from a poistion on the tile grid.
-   * @param entityPosition
-   * @return
-   */
-  private int calcScreenY(MapPoint entityPosition) {
-    return (int)((EntityRenderable.tileSize/2) * (entityPosition.x - entityPosition.y));
+  private MapPoint tileToPix(MapPoint tilePosition) {
+    return new MapPoint((int)((EntityRenderable.tileSize / 2) * (tilePosition.x - tilePosition.y)),
+        (int)((EntityRenderable.tileSize / 2) * (tilePosition.x - tilePosition.y)));
   }
 
   @Override
@@ -94,7 +91,7 @@ public class EntityRenderable implements main.renderer.Renderable {
   }
 
   /**
-   * Calculates the multiplier for a linear animation
+   * Calculates the multiplier for a linear animation.
    */
   private double calculateAnimationMultiplyer(long currentTime) {
     return 1D - (((double)this.lastTickTime) - ((double)currentTime)) / ((double)GameModel.delay);
@@ -104,6 +101,7 @@ public class EntityRenderable implements main.renderer.Renderable {
     private final long currentTime;
 
     /**
+     * .
      * @param currentTime The time stamp for when you want to sort for
      */
     EntityRenderableComparator(long currentTime) {

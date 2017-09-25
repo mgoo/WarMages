@@ -12,8 +12,8 @@ import main.game.view.events.MouseClick;
 public class GameController {
 
   public GameController() {
-    //TODO
-//    throw new Error("NYI");
+    // TODO
+    // throw new Error("NYI");
   }
 
   /**
