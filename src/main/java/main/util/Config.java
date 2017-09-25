@@ -6,7 +6,7 @@ package main.util;
  */
 public class Config {
 
-  private final int notSet = -1;
+  private static final int notSet = -1;
 
   private int gameModelDelay = 50;
 
