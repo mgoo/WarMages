@@ -37,7 +37,7 @@ public class GameView {
   /**
    * Gets a list of the renderables.
    *
-   * <b>N.B.</b> sorts the list so try to minimise calls.
+   * <p><b>N.B.</b> sorts the list so try to minimise calls.</p>
    * @param currentTime the time stap for the render iteration
    * @return unmodifiable sorted list
    */
@@ -75,5 +75,9 @@ public class GameView {
 
   public MapRect getViewBox() {
     return this.viewBox;
+  }
+
+  public void moveViewBox(int x, int y) {
+    this.viewBox = this.viewBox.move(x, y);
   }
 }
