@@ -16,13 +16,15 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   public static int startingHealth = 200; //todo refactor for special starting health per unit
   protected int health;
   protected final Team team;
-  protected final int baselineDamage = 5, startingSpeed = 5;
+  protected final int baselineDamage = 5;
+  protected final int startingSpeed = 5;
   protected boolean isDead;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
   protected List<GameImage> images;
-  protected int imagesIdx, damageAmount;
+  protected int imagesIdx;
+  protected int damageAmount;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -46,7 +48,7 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   }
 
   /**
-   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100
+   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
    */
   public void setDamageAmount(int amount) {
     assert amount > 0 && amount < 100;
@@ -54,16 +56,18 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   }
 
   /**
-   * Returns the current health of the given unit
+   * Returns the current health of the given unit.
    *
-   * @return current health of Unit
+   * @return current health of Unit.
    */
   public int getCurrentHealth() {
     return health;
   }
 
   /**
-   * Sets the Unit's state to the given state
+   * Sets the Unit's state to the given state.
+   *
+   * @param state to be changed to.
    */
   private void setStateTo(UnitState state) {
     Direction direction = unitState.getDirection();

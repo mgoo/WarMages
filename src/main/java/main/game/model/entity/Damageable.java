@@ -6,16 +6,13 @@ package main.game.model.entity;
 public interface Damageable {
 
   /**
-   * Applies the given damage to the Damageable.
-   * Requires the amount given is a positive integer.
-   * @param amount
+   * Applies the given damage to the Damageable. Requires the amount given is a positive integer.
    */
   void takeDamage(int amount);
 
   /**
-   * Gives the Damageable the given amount of health.
-   * Requires the amount given is a positive integer.
-   * @param amount
+   * Gives the Damageable the given amount of health. Requires the amount given is a positive
+   * integer.
    */
   void gainHealth(int amount);
 }

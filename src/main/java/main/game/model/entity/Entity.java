@@ -15,8 +15,9 @@ public abstract class Entity {
 
   /**
    * Constructor takes the position of the entity and the size.
-   * @param position = position of Entity
-   * @param size = size of Entity
+   *
+   * @param position position of Entity.
+   * @param size size of Entity.
    */
   public Entity(MapPoint position, MapSize size) {
     this.position = position;
@@ -25,15 +26,17 @@ public abstract class Entity {
 
   /**
    * Returns the position of the Entity.
-   * @return the entity's position
+   *
+   * @return the entity's position.
    */
   public MapPoint getPosition() {
     return new MapPoint(position.x, position.y);
   }
 
   /**
-   * Returns the size of the Entity
-   * @return the entity's size
+   * Returns the size of the Entity.
+   *
+   * @return the entity's size.
    */
   public MapSize getSize() {
     return new MapSize(size.width, size.height);
@@ -41,25 +44,28 @@ public abstract class Entity {
 
   /**
    * Moves the position of the Entity by amount in the x direction.
-   * @param amount to be moved by
+   *
+   * @param amount to be moved by.
    */
   public void moveX(double amount) {
-    position = new MapPoint(position.x+amount, position.y);
+    position = new MapPoint(position.x + amount, position.y);
   }
 
   /**
    * Moves the position of the Entity by amount in the y direction.
-   * @param amount to be moved by
+   *
+   * @param amount to be moved by.
    */
   public void moveY(double amount) {
-    position = new MapPoint(position.x, position.y+amount);
+    position = new MapPoint(position.x, position.y + amount);
   }
 
   /**
-   * Returns the image representing the Entity
-   * @return GameImage of the Entity
+   * Returns the image representing the Entity.
+   *
+   * @return GameImage of the Entity.
    */
-  public GameImage getImage(){
+  public GameImage getImage() {
     if (image == null) {
       throw new NullPointerException("The Entity's image has not been set yet");
     }
@@ -67,9 +73,7 @@ public abstract class Entity {
   }
 
   /**
-   * Sets the Entity's image to the given image.
-   * Requires that the image is not null
-   * @param image
+   * Sets the Entity's image to the given image. Requires that the image is not null.
    */
   public abstract void setImage(GameImage image);
 

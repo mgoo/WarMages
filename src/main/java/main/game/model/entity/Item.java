@@ -4,13 +4,12 @@ import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * Item extends {@link Entity}. An item is something that can be picked up and used by HeroUnit
+ * Item extends {@link Entity}. An item is something that can be picked up and used by HeroUnit.
  */
 public abstract class Item extends MapEntity {
 
   /**
-   * Constructor takes the coordinates of the item
-   * @param coord
+   * Constructor takes the coordinates of the item.
    */
   public Item(MapPoint coord) {
     super(coord);
@@ -18,7 +17,6 @@ public abstract class Item extends MapEntity {
 
   /**
    * Applies the item to the given unit.
-   * @param unit
    */
   public abstract void applyTo(Unit unit);
 

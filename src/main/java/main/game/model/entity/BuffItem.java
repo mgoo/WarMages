@@ -3,7 +3,8 @@ package main.game.model.entity;
 import main.util.MapPoint;
 
 /**
- * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other units).
+ * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other
+ * units).
  */
 public class BuffItem extends Item {
 
@@ -11,7 +12,6 @@ public class BuffItem extends Item {
 
   /**
    * Constructor takes the coords to create the item at.
-   * @param coord
    */
   public BuffItem(MapPoint coord) {
     super(coord);
@@ -21,8 +21,12 @@ public class BuffItem extends Item {
 
   @Override
   public void applyTo(Unit unit) {
-    assert unit!=null;
+    assert unit != null;
     buff.apply(unit);
   }
 
+  @Override
+  public void tick(long timeSinceLastTick) {
+    //todo
+  }
 }

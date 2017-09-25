@@ -5,16 +5,15 @@ import main.util.MapPoint;
 import main.util.MapSize;
 
 /**
- * HealingSphere extends {@link Projectile}. It heals a target by 5 hp
+ * HealingSphere extends {@link Projectile}. It heals a target by 5 hp.
  */
 public class HealingSphere extends Projectile {
+
   private final int healingAmount = 5;
 
   /**
-   * The constructor takes the coordinates and size f the HealingSphere, and the Unit target to be hit by the HealingSphere
-   * @param coordinates
-   * @param size
-   * @param target
+   * The constructor takes the coordinates and size f the HealingSphere, and the Unit target to be
+   * hit by the HealingSphere.
    */
   public HealingSphere(MapPoint coordinates, MapSize size, Unit target) {
     super(coordinates, size, target);
@@ -22,7 +21,7 @@ public class HealingSphere extends Projectile {
 
   @Override
   public void hits(Unit unit) {
-    assert unit!=null;
+    assert unit != null;
     assert unit.equals(target);
     unit.gainHealth(healingAmount);
   }
@@ -32,6 +31,6 @@ public class HealingSphere extends Projectile {
     if (image == null) {
       throw new NullPointerException("Parameter image cannot be null!");
     }
-    this.image=image;
+    this.image = image;
   }
 }

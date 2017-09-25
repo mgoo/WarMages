@@ -10,13 +10,13 @@ public class BuffAbility extends Ability {
   /**
    * Constructor takes no parameters.
    */
-  public BuffAbility(GameImage icon){
+  public BuffAbility(GameImage icon) {
     super("This ability buffs the unit using it, allowing the unit to cause more damage.", icon);
   }
 
   @Override
-  public void apply(Unit unit){
-    assert unit!=null;
+  public void apply(Unit unit) {
+    assert unit != null;
     unit.setDamageAmount(10);
   }
 }
