@@ -10,6 +10,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityRenderable.EntityRenderableComparator;
 import main.renderer.Renderable;
+import main.util.MapPoint;
 import main.util.MapRect;
 
 /**
@@ -21,10 +22,13 @@ import main.util.MapRect;
  */
 public class GameView {
 
+  public final static double scrollSpeed = 1;
+
   private final GameController gameController;
   private final GameModel gameModel;
 
   private MapRect viewBox;
+  private MapPoint mousePosition;
 
   private List<EntityRenderable> renderablesCache =
       Collections.synchronizedList(new ArrayList<>());
@@ -71,13 +75,19 @@ public class GameView {
     this.renderablesCache.forEach(entityRenderable -> {
       entityRenderable.update(tickTime);
     });
+
+
   }
 
   public MapRect getViewBox() {
     return this.viewBox;
   }
 
-  public void moveViewBox(int x, int y) {
+  public void moveViewBox(double x, double y) {
     this.viewBox = this.viewBox.move(x, y);
+  }
+
+  public void updateMousePosition(int x, int y) {
+    this.mousePosition = new MapPoint(x, y);
   }
 }

@@ -129,7 +129,7 @@ public class GameViewTest {
   }
 
   @Test
-  public void test_getImageSize() {
+  public void test_getImagePosition() {
 
   }
 
