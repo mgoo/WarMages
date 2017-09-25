@@ -8,21 +8,22 @@ import java.util.Set;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
-import main.game.view.EntityRenderable.EntityRenderableComparator;
+import main.game.view.EntityView.EntityRenderableComparator;
 import main.renderer.Renderable;
+import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapRect;
 
 /**
  * A View of the Game.
- * Is responsible for creating all the EntityRenderable objects and keeping their
+ * Is responsible for creating all the EntityView objects and keeping their
  * locations up-to-date with the locations in the models.
  *
  * @author Andrew McGhie
  */
 public class GameView {
 
-  public final static double scrollSpeed = 1;
+  private final Config config;
 
   private final GameController gameController;
   private final GameModel gameModel;
@@ -30,10 +31,11 @@ public class GameView {
   private MapRect viewBox;
   private MapPoint mousePosition;
 
-  private List<EntityRenderable> renderablesCache =
+  private List<EntityView> renderablesCache =
       Collections.synchronizedList(new ArrayList<>());
 
-  public GameView(GameController gameController, GameModel gameModel) {
+  public GameView(Config config, GameController gameController, GameModel gameModel) {
+    this.config = config;
     this.gameController = gameController;
     this.gameModel = gameModel;
   }
@@ -55,7 +57,7 @@ public class GameView {
    * @param tickTime the time that the tick happened.
    */
   public synchronized void updateRenderables(long tickTime) {
-    final Set<EntityRenderable> toRemove = new HashSet<>();
+    final Set<EntityView> toRemove = new HashSet<>();
     final Set<Entity> enitiesToCheck = new HashSet<>(this.gameModel.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
@@ -69,11 +71,11 @@ public class GameView {
     this.renderablesCache.removeAll(toRemove);
 
     enitiesToCheck.forEach(entity -> {
-      this.renderablesCache.add(new EntityRenderable(entity));
+      this.renderablesCache.add(new EntityView(this.config, entity));
     });
 
-    this.renderablesCache.forEach(entityRenderable -> {
-      entityRenderable.update(tickTime);
+    this.renderablesCache.forEach(entityView -> {
+      entityView.update(tickTime);
     });
 
 
