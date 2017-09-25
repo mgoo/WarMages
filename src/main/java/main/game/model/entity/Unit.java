@@ -79,13 +79,13 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    MapPoint oldPosition = position;
     //update image
     if (imagesIdx == images.size() - 1) {
       //reset state back to default
       setStateTo(UnitState.DEFAULT_STATE);
     }
     image = images.get(imagesIdx);
+    MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     //set direction of state based on movement gradient.
     updateDirection(oldPosition);

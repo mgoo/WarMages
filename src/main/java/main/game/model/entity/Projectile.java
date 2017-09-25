@@ -13,10 +13,11 @@ public abstract class Projectile extends Entity {
   protected final int speed = 6;
 
   /**
-   * Constructor takes the starting coordinates of the projectile, the size, and the target of the projectile.
-   * @param coordinates
-   * @param size
-   * @param target
+   * Constructor takes the starting coordinates of the projectile, the size,
+   * and the target of the projectile.
+   * @param coordinates at start of projectile path.
+   * @param size of projectile.
+   * @param target unit of projectile.
    */
   public Projectile(MapPoint coordinates, MapSize size, Unit target) {
     super(coordinates, size);
@@ -25,7 +26,7 @@ public abstract class Projectile extends Entity {
 
   /**
    * Applies actions to given unit when it is hit by the Projectile.
-   * @param unit
+   * @param unit to be hit.
    */
   public abstract void hits(Unit unit);
 
@@ -37,7 +38,8 @@ public abstract class Projectile extends Entity {
     double percentage = distToBeTravelled / distToTarget;
     moveX(percentage * (target.getPosition().x - position.x));
     moveY(percentage * (target.getPosition().y - position.y));
-    //todo check dist to target and if close enough, hit target. projectile change image at which point?
+    //todo check dist to target and if close enough, hit target.
+    //projectile change image at which point?
   }
 }
 
