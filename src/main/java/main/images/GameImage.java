@@ -6,35 +6,63 @@ import java.io.IOException;
 /**
  * Reference all of the image files in the app here by adding a new enum value.
  *
- * @see {@link GameImage#load(ImageProvider)}
+ * @see {@link GameImage#load(ImageProvider)} To get a {@link BufferedImage}.
  */
-public enum GameImage {
-
-  // Values used in tests only
-  _TEST_FULL_SIZE("fixtures/images/image_for_image_provider_tests.png"),
-  _TEST_PARTIAL_SIZE("fixtures/images/image_for_image_provider_tests.png", 1, 1, 3, 2);
+public class GameImage {
 
   private static final int MAX_SIZE = Integer.MAX_VALUE;
 
   /**
    * File path relative to the resources directory.
    */
-  public final String filePath;
-  public final int startX;
-  public final int startY;
-  public final int width;
-  public final int height;
+  private final String filePath;
+  private final int startX;
+  private final int startY;
+  private final int width;
+  private final int height;
 
+  /**
+   * For use only within the package.
+   * @param filePath See {@link GameImage#filePath}
+   */
   GameImage(String filePath) {
     this(filePath, 0, 0, MAX_SIZE, MAX_SIZE);
   }
 
+  /**
+   * For use only within the package.
+   * @param filePath See {@link GameImage#filePath}
+   */
   GameImage(String filePath, int startX, int startY, int width, int height) {
+    if (filePath.startsWith("/")) {
+      throw new IllegalArgumentException();
+    }
+
     this.filePath = filePath;
     this.startX = startX;
     this.startY = startY;
     this.width = width;
     this.height = height;
+  }
+
+  public String getFilePath() {
+    return filePath;
+  }
+
+  public int getStartX() {
+    return startX;
+  }
+
+  public int getStartY() {
+    return startY;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
   }
 
   /**
