@@ -43,7 +43,7 @@ public abstract class Entity {
    * Moves the position of the Entity by amount in the x direction.
    * @param amount to be moved by
    */
-  public void moveX(float amount) {
+  public void moveX(double amount) {
     position = new MapPoint(position.x+amount, position.y);
   }
 
@@ -51,7 +51,7 @@ public abstract class Entity {
    * Moves the position of the Entity by amount in the y direction.
    * @param amount to be moved by
    */
-  public void moveY(float amount) {
+  public void moveY(double amount) {
     position = new MapPoint(position.x, position.y+amount);
   }
 

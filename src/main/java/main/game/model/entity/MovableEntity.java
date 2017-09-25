@@ -28,7 +28,7 @@ public abstract class MovableEntity extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    long distToBeTravelled = speed*timeSinceLastTick;
+    long distToBeTravelled = speed*timeSinceLastTick; //todo finalize
     int leway = 5; //todo finalize
     //update position
     if(path!=null&&!path.isEmpty()){
