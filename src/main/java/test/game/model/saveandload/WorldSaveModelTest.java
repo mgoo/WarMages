@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 import main.game.model.saveandload.SerialisationFormatException;
 import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.WorldLoader.DefaultFileLoader;
 import main.game.model.saveandload.WorldSaveModel;
 import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.game.model.saveandload.WorldSaveModel.Filesystem;
@@ -87,8 +86,8 @@ public class WorldSaveModelTest {
   @Test
   public void saveAndThenLoad_realWorld_loadedCopyShouldEqualOriginal()
       throws IOException, SerialisationFormatException {
-    WorldLoader worldLoader = new WorldLoader(new DefaultFileLoader());
-    World world = worldLoader.load(WorldLoader.PRIMARY_WORLD_FILEPATH);
+    WorldLoader worldLoader = new WorldLoader();
+    World world = worldLoader.load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 

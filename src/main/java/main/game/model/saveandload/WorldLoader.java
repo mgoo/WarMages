@@ -1,6 +1,5 @@
 package main.game.model.saveandload;
 
-import java.io.IOException;
 import java.util.Arrays;
 import main.game.model.GameModel;
 import main.game.model.Level;
@@ -17,10 +16,12 @@ import main.util.MapPoint;
 /**
  * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
  * positions in the {@link World}.
+ * <p>
+ * NOTE: We decided not to load the world from a file for now because that does not provide any
+ * improvements to the game or requirements of the game.
+ * </p>
  */
 public class WorldLoader {
-
-  public static final String PRIMARY_WORLD_FILEPATH = "TODO"; // TODO
 
   /**
    * Creates a new {@link GameModel} with the single level and example data.
@@ -55,44 +56,12 @@ public class WorldLoader {
     return new World(Arrays.asList(level), heroUnit);
   }
 
-  private final FileLoader fileLoader;
-
-  public WorldLoader(FileLoader fileLoader) {
-    this.fileLoader = fileLoader;
-  }
-
   /**
-   * Creates a new {@link World} by loading from the file.
+   * Creates a new {@link World}.
    */
-  public World load(String filename) throws IOException {
+  public World load() {
+    // TODO create a more complex world/levels
     return newSingleLevelTestWorld();
   }
 
-  /**
-   * Adapter around the filesystem for loading resource files.
-   */
-  public interface FileLoader {
-
-    /**
-     * Loads the file contents of the given name.
-     *
-     * @param filename Filename without any slashes.
-     * @return The file contents
-     */
-    String load(String filename) throws IOException;
-
-  }
-
-  /**
-   * The implementation of {@link FileLoader} that should be passed into {@link WorldLoader}'s
-   * constructor in the app.
-   */
-  public static class DefaultFileLoader implements FileLoader {
-
-    @Override
-    public String load(String filename) throws IOException {
-      throw new Error("NYI");
-    }
-
-  }
 }
