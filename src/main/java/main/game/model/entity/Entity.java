@@ -73,4 +73,8 @@ public abstract class Entity {
    */
   public abstract void setImage(GameImage image);
 
+  public void tick(){
+
+  }
+
 }
