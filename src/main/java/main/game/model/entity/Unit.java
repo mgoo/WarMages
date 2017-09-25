@@ -70,6 +70,10 @@ public class Unit extends Entity implements Damageable, Attackable {
     imagesIdx = 0;
   }
 
+  public void moveTowards(Point targetPoint){
+
+  }
+
   @Override
   public void tick(long timeSinceLastTick) {
     //update image
@@ -132,22 +136,12 @@ public class Unit extends Entity implements Damageable, Attackable {
   public void moveY(float amount) {
     if(isDead) return;
     super.moveY(amount);
-    if(amount>0 && !unitState.getDirection().equals(Direction.DOWN)) {
-      unitState.setDirection(Direction.DOWN);
-    } else if (amount<0&& !unitState.getDirection().equals(Direction.UP)){
-      unitState.setDirection(Direction.UP);
-    }
   }
 
   @Override
   public void moveX(float amount) {
     if(isDead) return;
     super.moveX(amount);
-    if(amount>0 && !unitState.getDirection().equals(Direction.RIGHT)){
-      unitState.setDirection(Direction.RIGHT);
-    } else if(amount<0 && !unitState.getDirection().equals(Direction.LEFT)){
-      unitState.setDirection(Direction.LEFT);
-    }
   }
 }
 
