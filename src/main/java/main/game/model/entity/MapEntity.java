@@ -28,4 +28,13 @@ public abstract class MapEntity extends Entity {
   public void moveY(float amount) {
     throw new ActionNotSupportedException("MapEntity cannot move");
   }
+
+  /**
+   * Returns boolean representing whether the given point lies inside the MapEntity
+   * @param point
+   * @return
+   */
+  public boolean contains(MapPoint point){
+    return (point.x>=position.x&&point.y>=position.y&&point.x<=position.x+size.width&&point.y<=position.y+size.height);
+  }
 }
