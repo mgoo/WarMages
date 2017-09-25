@@ -7,6 +7,7 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
@@ -33,15 +34,18 @@ public class GameViewTest {
   GameView gameView;
   GameModelMock gameModelMock;
   List<Entity> entityList;
+  Config config;
 
   /**
    * sets up the class variables that are used in every test.
    */
   @Before
   public void setUp() {
-    GameControllerMock gameController = new GameControllerMock();
+    final GameControllerMock gameController = new GameControllerMock();
     this.gameModelMock = new GameModelMock();
-    this.gameView = new GameView(new Config(), gameController, gameModelMock);
+    this.config = new Config();
+    this.config.setScreenDim(1000, 1000);
+    this.gameView = new GameView(config, gameController, gameModelMock);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), 1);
     entityList = new ArrayList<>();
@@ -68,20 +72,20 @@ public class GameViewTest {
   public void testAnimation_x_correctPosition() {
     this.gameView.updateRenderables(0);
     ((EntityMock) this.entityList.get(0)).move(1, 0);
-    this.gameView.updateRenderables(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 1,0
     // Then it should continue afterwards until the next tick.
-    for (int i = 0; i < GameModel.delay * 2; i++) {
+    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
       MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals((double) i / (double) GameModel.delay, effEntityPos.x, 0.001);
+      assertEquals((double) i / (double) this.config.getGameModelDelay(), effEntityPos.x, 0.001);
       assertEquals(0D, effEntityPos.y, 0.001);
     }
 
-    this.gameView.updateRenderables(GameModel.delay);
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
+    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
     assertEquals(1D, effEntityPos.x, 0.001);
     assertEquals(0D, effEntityPos.y, 0.001);
   }
@@ -90,20 +94,20 @@ public class GameViewTest {
   public void testAnimation_y_correctPosition() {
     this.gameView.updateRenderables(0);
     ((EntityMock) this.entityList.get(0)).move(0, 1);
-    this.gameView.updateRenderables(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 0,1
     // Then it should continue afterwards until the next tick.
-    for (int i = 0; i < GameModel.delay * 2; i++) {
+    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
       MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
       assertEquals(0D, effEntityPos.x, 0.001);
-      assertEquals((double) i / (double) GameModel.delay, effEntityPos.y, 0.001);
+      assertEquals((double) i / (double) this.config.getGameModelDelay(), effEntityPos.y, 0.001);
     }
 
-    this.gameView.updateRenderables(GameModel.delay);
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
+    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
     assertEquals(0D, effEntityPos.x, 0.001);
     assertEquals(1D, effEntityPos.y, 0.001);
   }
@@ -112,26 +116,86 @@ public class GameViewTest {
   public void testAnimation_xy_correctPosition() {
     this.gameView.updateRenderables(0);
     ((EntityMock) this.entityList.get(0)).move(5, 5);
-    this.gameView.updateRenderables(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
 
     // By time 50 the entities effective position should have arrived to 5,5
     // Then it should continue afterwards until the next tick to 10,10.
-    for (int i = 0; i < GameModel.delay * 2; i++) {
+    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
       MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals(5D * (double) i / (double) GameModel.delay, effEntityPos.x, 0.001);
-      assertEquals(5D * (double) i / (double) GameModel.delay, effEntityPos.y, 0.001);
+      assertEquals(5D * (double) i / (double) this.config.getGameModelDelay(),
+          effEntityPos.x,
+          0.001);
+      assertEquals(5D * (double) i / (double) this.config.getGameModelDelay(),
+          effEntityPos.y,
+          0.001);
     }
 
-    this.gameView.updateRenderables(GameModel.delay);
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(GameModel.delay);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
+    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
     assertEquals(5D, effEntityPos.x, 0.001);
     assertEquals(5D, effEntityPos.y, 0.001);
   }
 
   @Test
-  public void test_getImagePosition() {
+  public void testAnimation_screenPosition() {
+    this.gameView.updateRenderables(0);
+    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
+    ((EntityMock) this.entityList.get(0)).move(1, 1);
+    this.gameView.updateRenderables(this.config.getGameModelDelay());
+
+    for (double i = 0; i < this.config.getGameModelDelay(); i++) {
+      MapPoint imagePosition = er.getImagePosition((long)i);
+      MapPoint effEntityPos = er.getEffectiveEntityPosition((long)i);
+
+      assertEquals(i / (double) this.config.getGameModelDelay(), effEntityPos.x, 0.001);
+      assertEquals(-25,
+          imagePosition.x,
+          0.001);
+      assertEquals(
+          config.getEntityViewTilePixelsY() * i / (double)this.config.getGameModelDelay()
+              - config.getEntityViewTilePixelsY() / 2D,
+          imagePosition.y,
+          0.001);
+    }
+
+    this.gameView.updateRenderables(this.config.getGameModelDelay() * 2);
+    ((EntityMock) this.entityList.get(0)).move(1, 0);
+    this.gameView.updateRenderables(this.config.getGameModelDelay() * 3);
+
+    // effective position should have arrived to 10,10
+    // image dimensions are 1x1
+    for (int i = this.config.getGameModelDelay() * 2; i < this.config.getGameModelDelay() * 3;i++) {
+      MapPoint imagePosition = er.getImagePosition(i);
+
+      assertEquals(
+          (config.getEntityViewTilePixelsX() / 2)
+              * (i - this.config.getGameModelDelay() * 2) / (double)this.config.getGameModelDelay()
+            - config.getEntityViewTilePixelsX() / 2D,
+          imagePosition.x, 0.001);
+      assertEquals(config.getEntityViewTilePixelsY()
+          + (config.getEntityViewTilePixelsY() / 2)
+              * (i - this.config.getGameModelDelay() * 2) / (double)this.config.getGameModelDelay()
+          - config.getEntityViewTilePixelsY() / 2D,
+          imagePosition.y, 0.001);
+    }
+  }
+
+  @Test
+  public void testImageSize_basecase() {
+    this.gameView.updateRenderables(0);
+    EntityView er1 = ((EntityView) this.gameView.getRenderables(0).get(0));
+    MapSize imageSize = er1.getImageSize();
+    assertEquals(50D, imageSize.width, 0.001);
+    assertEquals(50D, imageSize.height,0.001);
+
+    this.entityList.add(new EntityMock(new MapPoint(1, 1), 0.2F));
+    this.gameView.updateRenderables(1);
+    EntityView er2 = ((EntityView) this.gameView.getRenderables(0).get(1));
+    imageSize = er2.getImageSize();
+    assertEquals(10D, imageSize.width, 0.001);
+    assertEquals(10D, imageSize.height,0.001);
 
   }
 
@@ -164,7 +228,7 @@ public class GameViewTest {
 
     @Override
     public GameImage getImage() {
-      return GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage();
+      return GameImageResource.TEST_IMAGE_1_1.getGameImage();
     }
 
     @Override

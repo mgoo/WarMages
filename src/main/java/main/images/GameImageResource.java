@@ -15,6 +15,10 @@ public enum GameImageResource {
    */
   TEST_IMAGE_FULL_SIZE(new GameImage("fixtures/images/image_for_image_provider_tests.png")),
   /**
+   * For testing or blank image only.
+   */
+  TEST_IMAGE_1_1(new GameImage("fixtures/images/test11.png")),
+  /**
    * For testing only.
    */
   TEST_IMAGE_PARTIAL_SIZE(new GameImage(
