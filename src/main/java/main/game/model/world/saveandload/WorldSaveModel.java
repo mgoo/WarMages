@@ -1,4 +1,4 @@
-package main.game.model.saveandload;
+package main.game.model.world.saveandload;
 
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;

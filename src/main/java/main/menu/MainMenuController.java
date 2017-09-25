@@ -1,7 +1,7 @@
 package main.menu;
 
-import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.WorldSaveModel;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
 
 /**
  * Controller for the Main Menu. Responsible for makeing a new game loading a game and exiting.
