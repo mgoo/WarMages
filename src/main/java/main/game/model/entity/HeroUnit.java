@@ -14,8 +14,8 @@ public class HeroUnit extends Unit {
   private ArrayList<Ability> abilities;
   private ArrayList<Item> items;
 
-  public HeroUnit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet) {
-    super(position, size, team, sheet);
+  public HeroUnit(MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType type) {
+    super(position, size, team, sheet, type);
     abilities = new ArrayList<>();
     items = new ArrayList<>();
   }
