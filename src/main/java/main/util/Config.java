@@ -59,9 +59,4 @@ public class Config {
     this.contextScreenWidth = width;
     this.contextScreenHeight = height;
   }
-
-
-
-
-
 }
