@@ -15,13 +15,13 @@ public class Unit extends Entity implements Damageable, Attackable {
   public static int startingHealth = 200; //todo refactor for special starting health per unit
   protected int health;
   protected final Team team;
-  protected final int baselineDamage = 5;
+  protected final int baselineDamage = 5, startingSpeed = 5;
   protected boolean isDead;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
   protected List<GameImage> images;
-  protected int imagesIdx, damageAmount;
+  protected int imagesIdx, damageAmount, speed;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -34,6 +34,7 @@ public class Unit extends Entity implements Damageable, Attackable {
     this.team = team;
     isDead = false;
     health = startingHealth;
+    speed = startingSpeed;
     spriteSheet=sheet;
     images = new ArrayList<>();
     this.unitType = unitType;
@@ -41,6 +42,7 @@ public class Unit extends Entity implements Damageable, Attackable {
     unitState.setDirection(Direction.LEFT);
     images = unitType.getImagesFor(unitState, spriteSheet);
     imagesIdx = 0;
+    damageAmount = baselineDamage;
   }
 
   public void setDamageAmount(int amount){
@@ -69,12 +71,29 @@ public class Unit extends Entity implements Damageable, Attackable {
   }
 
   @Override
-  public GameImage getImage() {
+  public void tick(long timeSinceLastTick) {
+    //update image
     if(imagesIdx == images.size()-1){
       //reset state back to default
       setStateTo(UnitState.DEFAULT_STATE);
     }
-    return images.get(imagesIdx);
+    image=images.get(imagesIdx);
+    //update position
+    switch(unitState.getDirection()){
+      case UP:
+        moveY(-1*speed*timeSinceLastTick);
+        return;
+      case DOWN:
+        moveY(speed*timeSinceLastTick);
+        return;
+      case LEFT:
+        moveX(-1*speed*timeSinceLastTick);
+        return;
+      case RIGHT:
+        moveX(speed*timeSinceLastTick);
+        return;
+      default:
+    }
   }
 
   @Override
@@ -113,9 +132,9 @@ public class Unit extends Entity implements Damageable, Attackable {
   public void moveY(float amount) {
     if(isDead) return;
     super.moveY(amount);
-    if(amount>0) {
+    if(amount>0 && !unitState.getDirection().equals(Direction.DOWN)) {
       unitState.setDirection(Direction.DOWN);
-    } else {
+    } else if (amount<0&& !unitState.getDirection().equals(Direction.UP)){
       unitState.setDirection(Direction.UP);
     }
   }
@@ -124,9 +143,9 @@ public class Unit extends Entity implements Damageable, Attackable {
   public void moveX(float amount) {
     if(isDead) return;
     super.moveX(amount);
-    if(amount>0){
+    if(amount>0 && !unitState.getDirection().equals(Direction.RIGHT)){
       unitState.setDirection(Direction.RIGHT);
-    } else {
+    } else if(amount<0 && !unitState.getDirection().equals(Direction.LEFT)){
       unitState.setDirection(Direction.LEFT);
     }
   }

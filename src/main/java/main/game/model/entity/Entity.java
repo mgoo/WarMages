@@ -73,8 +73,8 @@ public abstract class Entity {
    */
   public abstract void setImage(GameImage image);
 
-  public void tick(){
-
-  }
-
+  /**
+   * Updates the Entity's position.
+   */
+  public abstract void tick(long timeSinceLastTick);
 }
