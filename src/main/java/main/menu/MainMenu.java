@@ -2,8 +2,8 @@ package main.menu;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.GameSaveModel;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
 
 /**
  * Wrapper for the MainMenu of the game. Includes play load and exit buttons
@@ -13,11 +13,11 @@ import main.game.model.saveandload.GameSaveModel;
 public class MainMenu extends Menu {
 
   private final WorldLoader worldLoader;
-  private final GameSaveModel gameSaveModel;
+  private final WorldSaveModel worldSaveModel;
 
-  public MainMenu(WorldLoader worldLoader, GameSaveModel gameSaveModel) {
+  public MainMenu(WorldLoader worldLoader, WorldSaveModel worldSaveModel) {
     this.worldLoader = worldLoader;
-    this.gameSaveModel = gameSaveModel;
+    this.worldSaveModel = worldSaveModel;
   }
 
   @Override
@@ -31,6 +31,6 @@ public class MainMenu extends Menu {
 
   @Override
   MenuController getMenuController() {
-    return new MainMenuController(worldLoader, gameSaveModel);
+    return new MainMenuController(worldLoader, worldSaveModel);
   }
 }
