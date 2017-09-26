@@ -77,12 +77,12 @@ public class Main extends Application {
     Scene scene = new Scene(new Group());
     StackPane root = new StackPane();
 
-    root.setPrefHeight(1080);
     root.setPrefWidth(1920);
+    root.setPrefHeight(1080);
 
     WebView browser = new WebView();
-    browser.setPrefHeight(1920);
     browser.setPrefWidth(1080);
+    browser.setPrefHeight(1920);
     WebEngine webEngine = browser.getEngine();
 
     //        URL url = getClass().getResource("../index.html");
