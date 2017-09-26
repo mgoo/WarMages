@@ -59,4 +59,9 @@ public class AStarNode implements Comparable<AStarNode> {
   public List<MapPoint> getPath() {
     return pathTaken;
   }
+
+  @Override
+  public String toString() {
+    return currentPoint.toString() + " c:"+totalCost;
+  }
 }

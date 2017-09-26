@@ -22,7 +22,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(3, 1));
-    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1, 1), mp(2, 1), mp(3, 1)));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 1), mp(3, 1)));
 
     assertEquals(expected, actual);
   }
@@ -37,7 +37,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(1, 3));
-    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1, 1), mp(1, 2), mp(1, 3)));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1, 2), mp(1, 3)));
 
     assertEquals(expected, actual);
   }
@@ -52,7 +52,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(3, 3));
-    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1, 1), mp(2, 2), mp(3, 3)));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 2), mp(3, 3)));
 
     assertEquals(expected, actual);
   }
@@ -68,7 +68,7 @@ public class PathFinderTest {
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(5, 5));
     List<MapPoint> expected = new ArrayList<>(
-        Arrays.asList(mp(1, 1), mp(2, 2), mp(3, 3), mp(4, 4), mp(5, 5)));
+        Arrays.asList(mp(2, 2), mp(3, 3), mp(4, 4), mp(5, 5)));
 
     assertEquals(expected, actual);
   }
@@ -93,7 +93,7 @@ public class PathFinderTest {
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(5, 2));
     List<MapPoint> expected = new ArrayList<>(
-        Arrays.asList(mp(1, 1), mp(2, 1), mp(3, 1), mp(4, 1), mp(5, 1), mp(5, 2)));
+        Arrays.asList(mp(2, 1), mp(3, 1), mp(4, 1), mp(5, 1), mp(5, 2)));
 
     assertEquals(expected, actual);
   }

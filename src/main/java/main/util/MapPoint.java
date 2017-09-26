@@ -51,6 +51,11 @@ public class MapPoint {
     return result;
   }
 
+  @Override
+  public String toString() {
+    return "(" + x + ", " + y + ")";
+  }
+
   /**
    * Returns the distance to another MapPoint object. Uses the Math.hypot function to find this
    * distance.
@@ -60,6 +65,7 @@ public class MapPoint {
    */
   public double distance(MapPoint other) {
     return Math.hypot(this.x - other.x, this.y - other.y);
+    //return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
   }
 
   /**

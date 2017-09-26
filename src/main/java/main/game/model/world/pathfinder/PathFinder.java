@@ -34,8 +34,9 @@ public class PathFinder {
 
     while (!fringe.isEmpty()) {
       System.out.println(fringe.size());
+      System.out.println("fringe = "+fringe);
       AStarNode tuple = fringe.poll();
-      System.out.println(tuple.getTotalCost());
+      System.out.println("polling lowest size node with total cost "+tuple.getTotalCost());
 
       if (visited.contains(tuple.getPoint())) {
         continue;
@@ -43,7 +44,7 @@ public class PathFinder {
 
       visited.add(tuple.getPoint());
 
-      if (tuple.getPoint() == end) {
+      if (tuple.getPoint().equals(end)) {
         return tuple.getPath();
       }
 
