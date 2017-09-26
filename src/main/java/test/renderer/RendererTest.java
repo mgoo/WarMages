@@ -1,5 +1,7 @@
 package test.renderer;
 
+import javafx.scene.image.ImageView;
+import main.game.view.GameView;
 import main.renderer.Renderer;
 import org.junit.Test;
 
@@ -12,7 +14,17 @@ public class RendererTest {
 
   @Test
   public void checkIfRendererDrawsEntities(){
+    Renderer renderer = new Renderer(mockGameView(), mockImageView());
+  }
+
+  private ImageView mockImageView() {
     //TODO
+    return null;
+  }
+
+  private GameView mockGameView() {
+    //TODO
+    return null;
   }
 
 }
