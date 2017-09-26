@@ -3,7 +3,6 @@ package main.game.model.world.pathfinder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import main.game.model.world.World;
@@ -28,10 +27,10 @@ public class PathFinder {
    * @return a list of points representing the shortest path
    */
   public static List<MapPoint> findPath(World world, MapPoint start, MapPoint end) {
-    PriorityQueue<AStarNode> fringe = new PriorityQueue<AStarNode>();
+    PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
-    Set<MapPoint> visited = new HashSet<MapPoint>();
+    Set<MapPoint> visited = new HashSet<>();
 
     while (!fringe.isEmpty()) {
       System.out.println(fringe.size());
@@ -54,7 +53,7 @@ public class PathFinder {
 
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
-          List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.getPath());
+          List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
           neighPath.add(neigh);
           fringe.add(
               new AStarNode(neigh, tuple.getPoint(), costToNeigh, estTotal, neighPath));
@@ -62,7 +61,7 @@ public class PathFinder {
       }
 
     }
-    return new ArrayList<MapPoint>();
+    return new ArrayList<>();
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
