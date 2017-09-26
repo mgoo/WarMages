@@ -12,8 +12,7 @@ import main.game.view.events.MouseClick;
 public class GameController {
 
   public GameController() {
-    //TODO
-    throw new Error("NYI");
+    throw new Error("NYI"); //TODO
   }
 
   /**
@@ -22,8 +21,38 @@ public class GameController {
    * @param keyevent -- the KeyEvent object for the current key press
    */
   public void onKeyPress(KeyEvent keyevent) {
-    //TODO
-    throw new Error("NYI");
+    char key = keyevent.getKey();
+
+    switch(key){
+      case 'w': //up
+        if(keyevent.wasCtrlDown()){
+          throw new Error("NYI"); //TODO
+        }
+        if (keyevent.wasShiftDown()){
+          throw new Error("NYI"); //TODO
+        }
+      case 'a': //left
+        if(keyevent.wasCtrlDown()){
+          throw new Error("NYI"); //TODO
+        }
+        if (keyevent.wasShiftDown()){
+          throw new Error("NYI"); //TODO
+        }
+      case 's': //down
+        if(keyevent.wasCtrlDown()){
+          throw new Error("NYI"); //TODO
+        }
+        if (keyevent.wasShiftDown()){
+          throw new Error("NYI"); //TODO
+        }
+      case 'd': //right
+        if(keyevent.wasCtrlDown()){
+          throw new Error("NYI"); //TODO
+        }
+        if (keyevent.wasShiftDown()){
+          throw new Error("NYI"); //TODO
+        }
+    }
   }
 
   /**
@@ -33,11 +62,9 @@ public class GameController {
    */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
-      //TODO
-      throw new Error("NYI");
+      throw new Error("NYI"); //TODO
     } else {
-      //TODO
-      throw new Error("NYI");
+      throw new Error("NYI"); //TODO
     }
   }
 }
