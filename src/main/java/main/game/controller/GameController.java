@@ -17,7 +17,9 @@ public class GameController {
   }
 
   /**
-   * TODO javadoc.
+   * Calls the appropriate method in the model depending on the user's key press.
+   *
+   * @param keyevent -- the KeyEvent object for the current key press
    */
   public void onKeyPress(KeyEvent keyevent) {
     //TODO
@@ -25,7 +27,9 @@ public class GameController {
   }
 
   /**
-   * TODO javadoc.
+   * Calls the appropriate method in the model depending on the user' mouse click.
+   *
+   * @param mouseevent -- the MouseClick object for the current mouse click
    */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
