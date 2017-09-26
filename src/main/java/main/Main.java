@@ -77,8 +77,8 @@ public class Main extends Application {
     Scene scene = new Scene(new Group());
     StackPane root = new StackPane();
 
-    root.setPrefHeight(1920);
-    root.setPrefWidth(1080);
+    root.setPrefHeight(1080);
+    root.setPrefWidth(1920);
 
     WebView browser = new WebView();
     browser.setPrefHeight(1920);
