@@ -1,0 +1,87 @@
+@import "styles.less";
+
+@keyframes title-drop {
+  0% {
+    bottom: calc(100vh + 130px);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+  80% {
+    bottom: 70vh;
+  }
+
+  80%, 90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  85%, 95% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  85% {
+    transform: rotate(1deg);
+  }
+  87% {
+    transform: rotate(-1deg);
+  }
+  89% {
+    transform: rotate(0.5deg);
+  }
+  91% {
+    transform: rotate(-0.5deg);
+  }
+}
+
+
+@keyframes buttons-slide {
+  from {left: 100vw;}
+  to {left: 70vw;}
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  .title {
+    h1 {
+      font-size: 130px;
+      display: block;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    animation-name: title-drop, shake;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-timing-function: cubic-bezier(1,-0.04,.91,.94);
+
+    width: 50vw;
+    position: absolute;
+    bottom: 70vh;
+    left: 25vw;
+  }
+
+
+  .mainmenu-buttons {
+    width: 10vw;
+    display: block;
+    position: absolute;
+    bottom: 10vh;
+    left: 70vw;
+
+    margin: 0;
+    padding: 0;
+
+    animation-name: buttons-slide;
+    animation-duration: 2s;
+
+    li {
+      display: block;
+      list-style-type: none;
+      margin: @button-spacing * 3;
+    }
+  }
+}

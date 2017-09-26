@@ -29,4 +29,26 @@ public class MainMenuController implements MenuController {
   public void load(String filename) {
 
   }
+
+  /**
+   * Starts a new game from the begining.
+   */
+  public void start() {
+    // TODO integration stuff here linking everything
+  }
+
+  /**
+   * Starts a new game from the save file that was choosen.
+   * @param fileName
+   */
+  public void load(String fileName) {
+    // TODO integration stuff here linking everything
+  }
+
+  /**
+   * Exits the program imediatly.
+   */
+  public void exit() {
+    System.exit(0);
+  }
 }

@@ -26,12 +26,8 @@ public class MainMenu extends Menu {
   }
 
   @Override
-  URL getUrl() {
-    try {
-      return new URL("resources/html/main_menu.html");
-    } catch (MalformedURLException e) {
-      throw new Error(e);
-    }
+  public String getHtml() {
+    return this.fileToString("resources/html/main_menu.html");
   }
 
   @Override
