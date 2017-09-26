@@ -88,6 +88,13 @@ public class WorldSaveModelTest {
   }
 
   @Test
+  public void saveAndThenLoad_loadMultilevelWorld_loadedCopyShouldEqualOriginal()
+      throws IOException, SerialisationFormatException {
+    World world = new WorldLoader().loadMultilevelWorld();
+    saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
+  }
+
+  @Test
   public void saveAndThenLoad_defaultWorld_loadedCopyShouldEqualOriginal()
       throws IOException, SerialisationFormatException {
     World world = new WorldLoader().load();

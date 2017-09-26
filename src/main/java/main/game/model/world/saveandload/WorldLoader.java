@@ -3,7 +3,7 @@ package main.game.model.world.saveandload;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.function.Function;
 import main.game.model.GameModel;
 import main.game.model.Level;
@@ -25,6 +25,8 @@ import main.util.MapRect;
  * because that does not provide any improvements to the game or requirements of the game. </p>
  */
 public class WorldLoader {
+
+  private static final int TRANSITION_AREA_WIDTH = 3;
 
   public static Collection<MapEntity> generateBorderEntities(
       MapRect bounds,
@@ -70,8 +72,9 @@ public class WorldLoader {
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new HeroUnit(new MapPoint(0, 0), 1, Team.PLAYER);
 
+    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(10, 8));
     Level level = new Level(
-        new MapRect(new MapPoint(0, 0), new MapPoint(10, 8)),
+        bounds,
         Arrays.asList(
             new Unit(new MapPoint(3, 0), 0.5f, Team.PLAYER),
             new Unit(new MapPoint(9, 7), 0.5f, Team.ENEMY)
@@ -84,36 +87,69 @@ public class WorldLoader {
             new MapEntity(new MapPoint(2, 1), 0.1f),
             new MapEntity(new MapPoint(5, 5), 0.1f)
         ),
+        generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
         new Goal.AllEnemiesKilled(),
-        "Maybe kill all the enemies or something I don't know"
+        "Maybe kill all the enemies"
     );
 
     return new World(Arrays.asList(level), heroUnit);
   }
 
   /**
-   * Create a complex enough level to play the game.
+   * Create a complex enough level to play the game. For simplicity, the y axis has a
+   * fixed width and the player moves along the x axis.
    */
   public World loadMultilevelWorld() {
     HeroUnit heroUnit = new HeroUnit(new MapPoint(3, 4), 1, Team.PLAYER);
-    List<Level> levels = new ArrayList<>();
+    LinkedList<Level> levels = new LinkedList<>();
 
     {
-      MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(15, 10));
       // Example level to allow the player to learn how to attack
+      MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(15, 10));
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(2, 1), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 2), 0.5f, Team.PLAYER),
               new Unit(new MapPoint(2, 3), 0.5f, Team.PLAYER),
               new Unit(new MapPoint(2, 4), 0.5f, Team.PLAYER),
+              new Unit(new MapPoint(2, 5), 0.5f, Team.PLAYER),
+              new Unit(new MapPoint(2, 6), 0.5f, Team.PLAYER),
+              new Unit(new MapPoint(2, 7), 0.5f, Team.PLAYER),
+              new Unit(new MapPoint(2, 8), 0.5f, Team.PLAYER),
               new Unit(new MapPoint(8, 8), 0.5f, Team.ENEMY)
           ),
           Arrays.asList(),
+          Arrays.asList(
+              new MapEntity(bounds.getCenter().rounded(), 0.1f)
+          ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
-          "Try to kill the enemy soldier with your units"
+          "Kill the enemy soldier with your units"
+      ));
+    }
+
+    {
+      // A level with more units
+      MapRect bounds = new MapRect(
+          levels.getFirst().getBounds().topLeft,
+          new MapPoint(30, 10)
+      );
+      levels.add(new Level(
+          bounds,
+          Arrays.asList(
+              new Unit(new MapPoint(23, 4), 0.5f, Team.ENEMY),
+              new Unit(new MapPoint(23, 5), 0.5f, Team.ENEMY),
+              new Unit(new MapPoint(23, 6), 0.5f, Team.ENEMY)
+          ),
+          Arrays.asList(
+              new HealingItem(new MapPoint(21, 1), 0.2f),
+              new BuffItem(new MapPoint(24, 5), 0.2f)
+          ),
+          Arrays.asList(
+              new MapEntity(bounds.getCenter().rounded(), 0.1f)
+          ),
+          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          new Goal.AllEnemiesKilled(),
+          "Kill all enemy soldiers!"
       ));
     }
 

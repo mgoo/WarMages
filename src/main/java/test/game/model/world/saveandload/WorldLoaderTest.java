@@ -33,6 +33,12 @@ public class WorldLoaderTest {
   }
 
   @Test
+  public void loadMultilevelWorld_noInputs_returnsNonNullAndDoesNotCrash() {
+    World load = new WorldLoader().loadMultilevelWorld();
+    assertNotNull(load);
+  }
+
+  @Test
   public void generateBoundEntities_3x4Bounds_borderGeneratedProperly() {
     // The method should generate the edges as well, but only top-left and bottom-right corners
     // are checked.

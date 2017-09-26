@@ -20,6 +20,13 @@ public class MapPoint {
     this.y = p.y;
   }
 
+  public MapPoint rounded() {
+    return new MapPoint(
+        Math.round(x),
+        Math.round(y)
+    );
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
