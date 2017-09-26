@@ -48,7 +48,6 @@ dependencies {
 
     // Required dependencies for assignments (not tests):
     compile fileTree(dir: 'lib', include: ['*.jar']) // Include libraries in 'lib' directory
-    compile group: 'com.owlike', name: 'genson', version: '1.4'
 
     // Tests are run in main module (which is unusual, but that's how SWEN221 is)
     compile group: 'junit', name: 'junit', version: '4.11'
