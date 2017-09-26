@@ -33,6 +33,7 @@ public enum Team {
 
   public Collection<Team> getEnemies() {
     return Arrays.stream(Team.values())
+        .filter(team -> team != this)
         .filter(this::canAttack)
         .collect(Collectors.toList());
   }

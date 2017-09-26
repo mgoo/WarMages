@@ -1,5 +1,7 @@
 package main.util;
 
+import main.game.model.entity.Entity;
+
 /**
  * Represents a rectangle on the Map.
  */
@@ -36,6 +38,23 @@ public class MapRect {
         topLeft.y <= rect.topLeft.y &&
         bottomRight.x >= rect.bottomRight.x &&
         bottomRight.y >= rect.bottomRight.y;
+  }
+
+  /**
+   * Returns true iff the entity (including size) is inside the bounds.
+   */
+  public boolean contains(Entity entity) {
+    return contains(new MapRect(
+        entity.getPosition(),
+        entity.getSize()
+    ));
+  }
+
+  public MapPoint getCenter() {
+    return new MapPoint(
+        getWidth() / 2 + topLeft.x,
+        getHeight() / 2 + topLeft.y
+    );
   }
 
   public double getWidth() {

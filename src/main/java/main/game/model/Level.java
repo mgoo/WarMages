@@ -18,6 +18,7 @@ import main.util.MapRect;
 public class Level {
 
   private final Goal goal;
+  private final MapRect bounds;
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
@@ -27,15 +28,19 @@ public class Level {
    * Creates a new level with data which should not change overtime.
    *
    * @param bounds All entities must be contained within this levelBounds.
+   * @param borderEntities Entities that should be removed when the level is complete. They
+   *     only there to stop the user from moving out of bounds.
    */
   public Level(
       MapRect bounds,
       Collection<Unit> units,
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
+      Collection<MapEntity> borderEntities,
       Goal goal,
       String goalDescription
   ) {
+    this.bounds = bounds;
     this.units = units;
     this.items = items;
     this.mapEntities = mapEntities;
@@ -46,6 +51,10 @@ public class Level {
     if (!outOfBoundsEntities.isEmpty()) {
       throw new IllegalArgumentException("Items out of bounds: " + outOfBoundsEntities);
     }
+  }
+
+  public MapRect getBounds() {
+    return bounds;
   }
 
   public Collection<Unit> getUnits() {
@@ -65,10 +74,10 @@ public class Level {
   }
 
   /**
-   * See {@link Goal#isCompleted(World, Level)}
+   * See {@link Goal#isCompleted(Level)}
    */
-  public boolean areGoalsCompleted(World world) {
-    return goal.isCompleted(world, this);
+  public boolean areGoalsCompleted() {
+    return goal.isCompleted(this);
   }
 
   private Collection<Entity> findOutOfBoundsEntities(MapRect bounds) {
@@ -95,23 +104,24 @@ public class Level {
      * Checks if the user has achieved the goals to finish this level (for example by killing all
      * the enemies).
      *
-     * @param world The world containing the level.
      * @param level The level that contains this {@link Goal}.
      */
-    boolean isCompleted(World world, Level level);
+    boolean isCompleted(Level level);
 
     class AllEnemiesKilled implements Goal {
 
       @Override
-      public boolean isCompleted(World world, Level level) {
+      public boolean isCompleted(Level level) {
+        // TODO write tests
         Collection<Team> enemies = Team.PLAYER.getEnemies();
         return level.getUnits()
             .stream()
             .filter(Unit.class::isInstance)
             .map(Unit.class::cast)
-            .filter(unit -> enemies.contains(unit.getTeam()))
+            .filter(unit -> enemies.contains(unit.getTeam())) // find enemy units
             .allMatch(unit -> unit.getHealth() == 0);
       }
+
     }
   }
 }
