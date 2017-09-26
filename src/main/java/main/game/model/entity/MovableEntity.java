@@ -5,7 +5,7 @@ import main.util.MapPoint;
 import main.util.MapSize;
 
 public abstract class MovableEntity extends Entity {
-
+  public static final int startingSpeed = 5;
   protected List<MapPoint> path;
   protected int speed;
 
