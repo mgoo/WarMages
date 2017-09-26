@@ -47,7 +47,7 @@ public class AStarNode implements Comparable<AStarNode> {
     return 0;
   }
 
-  public MapPoint getCurrentPoint() {
+  public MapPoint getPoint() {
     return currentPoint;
   }
 
@@ -55,7 +55,7 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
-  public List<MapPoint> getPathTaken() {
+  public List<MapPoint> getPath() {
     return pathTaken;
   }
 }
