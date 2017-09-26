@@ -5,12 +5,9 @@ import java.util.List;
 import main.util.MapPoint;
 
 /**
- * Represents a Node in the A* path finding algorithm. Each node stores the following information:
- *  - Current point
- *  - How did we get to this point? I.e. parent point
- *  - Cost from start
- *  - Estimated cost to the goal
- *  - The path taken to get to this node
+ * Represents a Node in the A* path finding algorithm. Each node stores the following information: -
+ * Current point - How did we get to this point? I.e. parent point - Cost from start - Estimated
+ * cost to the goal - The path taken to get to this node
  */
 public class AStarNode implements Comparable<AStarNode> {
 
