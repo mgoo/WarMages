@@ -1,15 +1,14 @@
 package main.game.model.world.saveandload;
 
-import com.owlike.genson.Genson;
-import com.owlike.genson.GensonBuilder;
-import com.owlike.genson.JsonBindingException;
-import com.owlike.genson.reflect.VisibilityFilter;
-import com.owlike.genson.stream.JsonStreamException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -36,19 +35,12 @@ public class WorldSaveModel {
   private static final Charset SAVE_FILE_CHARSET = Charset.defaultCharset();
 
   private final Filesystem filesystem;
-  private final Genson genson;
 
   /**
    * Default constructor.
    */
   public WorldSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
-    this.genson = new GensonBuilder()
-        .useIndentation(true)
-        .useClassMetadata(true)
-        .useRuntimeType(true)
-        .useFields(true, VisibilityFilter.PRIVATE)
-        .create();
   }
 
   /**
@@ -57,7 +49,7 @@ public class WorldSaveModel {
    * @param filename Name with no slashes is it.
    */
   public void save(World world, String filename)
-      throws IOException, SerialisationFormatException {
+      throws IOException {
 
     Objects.requireNonNull(world);
 
@@ -68,28 +60,23 @@ public class WorldSaveModel {
       filename += "." + SAVE_FILE_EXTENSION;
     }
 
-    try {
-      String serialisedData = genson.serialize(world);
-      filesystem.save(filename, serialisedData);
-    } catch (JsonBindingException | JsonStreamException e) {
-      throw new SerialisationFormatException(e);
-    }
+    filesystem.save(filename, outputStream -> {
+      ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+      objectOutputStream.writeObject(world);
+    });
   }
 
   /**
    * Serialises is the game saved under filename.
-   * @throws IOException E.g. when the file doesn't exist
-   * @throws SerialisationFormatException When the file contains invalid data. This may happen
-   *     after a {@link GameModel} was saved, then fields were changed, then this method was
-   *     caught on the existing save.
+   * @throws IOException E.g. when the file doesn't exist, or data is not deserialisable.
    */
-  public World load(String filename) throws IOException, SerialisationFormatException {
-    String serialisedData = filesystem.load(filename);
-    try {
-      return genson.deserialize(serialisedData, World.class);
-    } catch (JsonBindingException | JsonStreamException e) {
-      throw new SerialisationFormatException(e);
-    }
+  public World load(String filename) throws IOException, ClassNotFoundException {
+    return filesystem.load(filename, inputStream -> {
+      try (ObjectInputStream objectIn = new ObjectInputStream(inputStream)) {
+        Object world = objectIn.readObject();
+        return World.class.cast(world);
+      }
+    });
   }
 
   /**
@@ -112,13 +99,24 @@ public class WorldSaveModel {
     /**
      * Loads the text contents of the file.
      *
+     * @param <T> The type to cast to.
+     * @param loader A function that loads the object from the stream and casts. The implementer of
+     *     this method should catch any {@link ClassCastException}.
      * @param filename Filename without any slashes.
      */
-    String load(String filename) throws IOException;
+    <T> T load(String filename, Loader<T> loader) throws IOException, ClassNotFoundException;
 
     Collection<String> availableFilenames() throws IOException;
 
-    void save(String filename, String fileData) throws IOException;
+    void save(String filename, Saver saver) throws IOException;
+
+    interface Loader<T> {
+      T loadFromStream(InputStream inputStream) throws IOException, ClassNotFoundException;
+    }
+
+    interface Saver {
+      void saveToStream(OutputStream outputStream) throws IOException;
+    }
   }
 
   public static class DefaultFilesystem implements Filesystem {
@@ -144,13 +142,15 @@ public class WorldSaveModel {
     }
 
     @Override
-    public String load(String filename) throws IOException {
+    public <T> T load(String filename, Loader<T> loader)
+        throws IOException, ClassNotFoundException {
       File file = getFile(filename);
 
-      return Files.readAllLines(file.toPath(), SAVE_FILE_CHARSET)
-          .stream()
-          .reduce(String::concat)
-          .orElseThrow(IOException::new);
+      try (FileInputStream inputStream = new FileInputStream(file)) {
+        return loader.loadFromStream(inputStream);
+      } catch (ClassNotFoundException e) {
+        throw new IOException(e);
+      }
     }
 
     @Override
@@ -170,12 +170,12 @@ public class WorldSaveModel {
     }
 
     @Override
-    public void save(String filename, String fileData) throws IOException {
+    public void save(String filename, Saver saver) throws IOException {
       File file = getFile(filename);
       file.getParentFile().mkdirs();
 
-      try (PrintWriter writer = new PrintWriter(file, SAVE_FILE_CHARSET.name())) {
-        writer.write(fileData);
+      try (FileOutputStream outputStream = new FileOutputStream(file)) {
+        saver.saveToStream(outputStream);
       }
     }
 
