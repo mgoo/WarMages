@@ -34,27 +34,32 @@ public class PathFinder {
     Set<MapPoint> visited = new HashSet<MapPoint>();
 
     while (!fringe.isEmpty()) {
+      System.out.println(fringe.size());
       AStarNode tuple = fringe.poll();
 
-      if (!visited.contains(tuple.getCurrentPoint())) {
-        visited.add(tuple.getCurrentPoint());
+      if (visited.contains(tuple.getPoint())) {
+        continue;
+      }
 
-        if (tuple.getCurrentPoint() == end) {
-          return tuple.getPathTaken();
-        }
+      visited.add(tuple.getPoint());
 
-        for (MapPoint neigh : tuple.getCurrentPoint().getNeighbours()) {
+      if (tuple.getPoint() == end) {
+        return tuple.getPath();
+      }
 
-          if (!visited.contains(neigh) && world.isPassable(neigh)) {
-            double costToNeigh = tuple.getCostFromStart() + tuple.getCurrentPoint().distance(neigh);
-            double estTotal = costToNeigh + estimate(neigh, end);
-            List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.getPathTaken());
-            neighPath.add(neigh);
-            fringe.add(
-                new AStarNode(neigh, tuple.getCurrentPoint(), costToNeigh, estTotal, neighPath));
-          }
+      for (MapPoint neigh : tuple.getPoint().getNeighbours()) {
+
+        if (!visited.contains(neigh) && world.isPassable(neigh)) {
+
+          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
+          double estTotal = costToNeigh + estimate(neigh, end);
+          List<MapPoint> neighPath = new ArrayList<MapPoint>(tuple.getPath());
+          neighPath.add(neigh);
+          fringe.add(
+              new AStarNode(neigh, tuple.getPoint(), costToNeigh, estTotal, neighPath));
         }
       }
+
     }
     return new ArrayList<MapPoint>();
   }
