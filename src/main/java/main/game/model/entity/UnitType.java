@@ -11,79 +11,15 @@ import main.images.UnitSpriteSheet.Sequence;
  */
 public enum UnitType {
 
-  ARCHER() {
-    @Override
-    public List<GameImage> getImagesFor(UnitState state, UnitSpriteSheet sheet) {
-      switch (state) {
-        case ATTACKING:
-          return sheet.getImagesForSequence(Sequence.SHOOT, state.getDirection());
-        case BEEN_HIT:
-          return sheet.getImagesForSequence(Sequence.HURT, state.getDirection());
-        case WALKING:
-          return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
-        case DEFAULT_STATE:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-      }
-    }
-  },
+  ARCHER(),
 
-  SWORDSMAN() {
-    @Override
-    public List<GameImage> getImagesFor(UnitState state, UnitSpriteSheet sheet) {
-      switch (state) {
-        case ATTACKING:
-          return sheet.getImagesForSequence(Sequence.SLASH, state.getDirection());
-        case BEEN_HIT:
-          return sheet.getImagesForSequence(Sequence.HURT, state.getDirection());
-        case WALKING:
-          return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
-        case DEFAULT_STATE:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-      }
-    }
-  },
+  SWORDSMAN(),
 
-  SPEARMAN() {
-    @Override
-    public List<GameImage> getImagesFor(UnitState state, UnitSpriteSheet sheet) {
-      switch (state) {
-        case ATTACKING:
-          return sheet.getImagesForSequence(Sequence.THRUST, state.getDirection());
-        case BEEN_HIT:
-          return sheet.getImagesForSequence(Sequence.HURT, state.getDirection());
-        case WALKING:
-          return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
-        case DEFAULT_STATE:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-      }
-    }
-  },
+  SPEARMAN(),
 
-  MAGICIAN() {
-    @Override
-    public List<GameImage> getImagesFor(UnitState state, UnitSpriteSheet sheet) {
-      switch (state) {
-        case ATTACKING:
-          return sheet.getImagesForSequence(Sequence.SPELL_CAST, state.getDirection());
-        case BEEN_HIT:
-          return sheet.getImagesForSequence(Sequence.HURT, state.getDirection());
-        case WALKING:
-          return sheet.getImagesForSequence(Sequence.WALK, state.getDirection());
-        case DEFAULT_STATE:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, state.getDirection());
-      }
-    }
-  };
+  MAGICIAN()
 
-  protected abstract List<GameImage> getImagesFor(UnitState state, UnitSpriteSheet sheet);
+
 }
 
 
