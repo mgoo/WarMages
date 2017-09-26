@@ -39,7 +39,7 @@ public class Unit extends Attackable implements Damageable {
     images = new ArrayList<>();
     unitState = UnitState.DEFAULT_STATE;
     unitState.setDirection(Direction.LEFT);
-    images = unitType.getImagesFor(unitState, spriteSheet);
+    images = unitState.getImagesFor(unitType, spriteSheet);
     imagesIdx = 0;
   }
 
@@ -61,7 +61,7 @@ public class Unit extends Attackable implements Damageable {
     Direction direction = unitState.getDirection();
     unitState = state;
     unitState.setDirection(direction);
-    images = unitType.getImagesFor(unitState, spriteSheet);
+    images = unitState.getImagesFor(unitType, spriteSheet);
     imagesIdx = 0;
   }
 
