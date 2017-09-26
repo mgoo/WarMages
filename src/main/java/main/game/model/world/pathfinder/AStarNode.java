@@ -52,6 +52,10 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
+  public double getTotalCost() {
+    return totalCost;
+  }
+
   public List<MapPoint> getPath() {
     return pathTaken;
   }
