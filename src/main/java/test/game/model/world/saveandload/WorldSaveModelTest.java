@@ -54,7 +54,7 @@ public class WorldSaveModelTest {
   public void save_nameWithSlashes_exceptionThrown()
       throws IOException, SerialisationFormatException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
-    World world = WorldLoader.newSingleLevelTestWorld();
+    World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "some/file");
   }
 
@@ -62,7 +62,7 @@ public class WorldSaveModelTest {
   public void save_withoutFileExtension_fileIsSavedWithExtension()
       throws IOException, SerialisationFormatException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
-    World world = WorldLoader.newSingleLevelTestWorld();
+    World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filename");
 
     assertTrue(
@@ -83,15 +83,14 @@ public class WorldSaveModelTest {
   public void saveAndThenLoad_singleLevelWorld_loadedCopyShouldEqualOriginal()
       throws IOException, SerialisationFormatException {
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(
-        WorldLoader.newSingleLevelTestWorld()
+        new WorldLoader().loadSingleLevelTestWorld()
     );
   }
 
   @Test
-  public void saveAndThenLoad_realWorld_loadedCopyShouldEqualOriginal()
+  public void saveAndThenLoad_defaultWorld_loadedCopyShouldEqualOriginal()
       throws IOException, SerialisationFormatException {
-    WorldLoader worldLoader = new WorldLoader();
-    World world = worldLoader.load();
+    World world = new WorldLoader().load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 

@@ -10,6 +10,7 @@ import main.util.MapPoint;
 public class Unit extends Entity {
 
   protected int health;
+  private Team team; // TODO remove me
 
   public Unit(MapPoint position, float size, Team team) {
     super(position, size);
@@ -30,6 +31,14 @@ public class Unit extends Entity {
   @Override
   public GameImage getImage() {
     throw new Error("NYI");
+  }
+
+  public Team getTeam() { // TODO remove me
+    return team;
+  }
+
+  public int getHealth() { // TODO remove me
+    return health;
   }
 }
 
