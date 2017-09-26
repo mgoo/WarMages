@@ -17,6 +17,14 @@ public class AStarNode implements Comparable<AStarNode> {
   private final double totalCost;
   private List<MapPoint> pathTaken;
 
+  /**
+   * Constructor for this AStarNode class.
+   *
+   * @param currentPoint -- the point that this AStarNode is at
+   * @param from -- the point that this node came from
+   * @param costFromStart -- the cost to get up to this node
+   * @param totalCost -- the total estimated cost to the goal
+   */
   public AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
     this.currentPoint = currentPoint;
     this.from = from;

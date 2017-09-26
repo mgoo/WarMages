@@ -1,5 +1,7 @@
 package test.game.model.world.pathfinder;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,8 +9,6 @@ import main.game.model.world.World;
 import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class PathFinderTest {
 
