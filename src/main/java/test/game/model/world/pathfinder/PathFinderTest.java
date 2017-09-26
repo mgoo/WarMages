@@ -26,7 +26,22 @@ public class PathFinderTest {
     List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1,1), mp(2,2), mp(3,3)));
 
     assertEquals(expected, actual);
-}
+  }
+
+  @Test
+  public void test02_testStraightPath(){
+    World world = new World(null, null) {
+      @Override
+      public boolean isPassable(MapPoint point) {
+        return true;
+      }
+    };
+
+    List<MapPoint> actual = PathFinder.findPath(world, mp(1,1), mp(5,5));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1,1), mp(2,2), mp(3,3), mp(4,4), mp(5,5)));
+
+    assertEquals(expected, actual);
+  }
 
   private MapPoint mp(double x, double y){
     return new MapPoint(x,y);
