@@ -36,6 +36,7 @@ public class PathFinder {
     while (!fringe.isEmpty()) {
       System.out.println(fringe.size());
       AStarNode tuple = fringe.poll();
+      System.out.println(tuple.getTotalCost());
 
       if (visited.contains(tuple.getPoint())) {
         continue;
