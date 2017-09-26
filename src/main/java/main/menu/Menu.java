@@ -1,6 +1,7 @@
 package main.menu;
 
 import java.net.URL;
+import java.util.Scanner;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -16,30 +17,32 @@ public abstract class Menu {
    * Loads a menu into the webEngine and binds the controller to the js.
    */
   public void load(WebEngine webEngine) {
-    webEngine.load(this.getUrl().toExternalForm());
+    webEngine.loadContent(this.getHtml());
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
       if (newState == Worker.State.SUCCEEDED) {
-        System.out.println("Bound javaObj");
         JSObject window = (JSObject) webEngine.executeScript("window");
         window.setMember("controller", this.getMenuController());
-        webEngine.executeScript(this.getListeners());
-        System.out.println(this.getListeners());
       }
     });
   }
 
   /**
-   * Gets the URL of the html file to load.
+   * Turns a file into a string.
    */
-  abstract URL getUrl();
+  String fileToString(String fileName) {
+    try (Scanner scanner = new Scanner(fileName)) {
+      scanner.useDelimiter("\\A");
+      return scanner.next();
+    }
+  }
+
+  /**
+   * Gets the HTML to display on the page.
+   */
+  abstract String getHtml();
 
   /**
    * Gets an instance of the object to bind to javascript.
    */
   abstract MenuController getMenuController();
-
-  /**
-   * gets the javascript that adds the listeners to the buttons
-   */
-  abstract String getListeners();
 }
