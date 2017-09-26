@@ -14,7 +14,37 @@ import static org.junit.Assert.*;
 public class PathFinderTest {
 
   @Test
-  public void test01_testStraightPath(){
+  public void test01_testHorizontalPath(){
+    World world = new World(null, null) {
+      @Override
+      public boolean isPassable(MapPoint point) {
+        return true;
+      }
+    };
+
+    List<MapPoint> actual = PathFinder.findPath(world, mp(1,1), mp(3,1));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1,1), mp(2,1), mp(3,1)));
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void test02_testVerticalPath(){
+    World world = new World(null, null) {
+      @Override
+      public boolean isPassable(MapPoint point) {
+        return true;
+      }
+    };
+
+    List<MapPoint> actual = PathFinder.findPath(world, mp(1,1), mp(1,3));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1,1), mp(1,2), mp(1,3)));
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void test03_testDiagonalPath(){
     World world = new World(null, null) {
       @Override
       public boolean isPassable(MapPoint point) {
@@ -29,7 +59,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test02_testStraightPath(){
+  public void test04_testDiagonalPath(){
     World world = new World(null, null) {
       @Override
       public boolean isPassable(MapPoint point) {
