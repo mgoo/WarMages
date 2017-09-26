@@ -32,9 +32,9 @@ public class Unit extends Attackable implements Damageable {
     this.team = team;
     this.unitType = unitType;
     isDead = false;
-    health = startingHealth;
-    speed = startingSpeed;
-    damageAmount = baselineDamage;
+    health = unitType.getStartingHealth();
+    speed = unitType.getSpeed();
+    damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
     images = new ArrayList<>();
     unitState = UnitState.DEFAULT_STATE;

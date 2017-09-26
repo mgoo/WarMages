@@ -11,15 +11,35 @@ import main.images.UnitSpriteSheet.Sequence;
  */
 public enum UnitType {
 
-  ARCHER(),
+  ARCHER(5, 200, 5),
 
-  SWORDSMAN(),
+  SWORDSMAN(10, 250, 6),
 
-  SPEARMAN(),
+  SPEARMAN(7, 150, 7),
 
-  MAGICIAN()
+  MAGICIAN(15, 300, 8);
 
+  protected int baselineDamage;
+  protected int startingHealth;
+  protected int speed;
 
+  public int getBaselineDamage() {
+    return baselineDamage;
+  }
+
+  public int getStartingHealth() {
+    return startingHealth;
+  }
+
+  public int getSpeed(){
+    return speed;
+  }
+
+  UnitType(int baselineDamage, int startingHealth, int speed){
+    this.baselineDamage=baselineDamage;
+    this.startingHealth=startingHealth;
+    this.speed=speed;
+  }
 }
 
 

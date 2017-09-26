@@ -7,8 +7,6 @@ import main.util.MapSize;
  * Attackables can attack units.
  */
 public abstract class Attackable extends MovableEntity {
-
-  public static final int baselineDamage = 5;
   public static final int leeway = 5;
   protected Unit target;
   protected int damageAmount;
