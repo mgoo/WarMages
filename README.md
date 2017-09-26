@@ -33,30 +33,17 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
 
 #### Using the University Computers
 
-NOTE: Ideally you shouldn't use the uni computers because the proxy blocks
-gradle. But if you have to, follow these instructions to setup the IntelliJ
-project.
+Make sure the file doesn’t already exist:
 
-1. Run in the repo: `rm -rf .gradle gradle gradlew gradlew.bat build.gradle
-   settings.gradle` (**remember not to commit these deleted files**)
-2. open intellij, create new project (not from existing sources) in the same
-   folder as this repo
-3. unmark `src/` as source folder, and mark `src/main/java/` as source folder -
-   required because intellij interprets the main/test modules as packages
-   without gradle
-4. open any file with an `@Test` in it and move the cursor on it. press
-   alt-enter then `add junit4 to classpath` (if it gives you the option select
-   `intellij distribution`) - not sure if this step works on uni computers. if
-   not, try using the including-library steps below
+    mv ~/.gradle/gradle.properties ~/.gradle/gradle.propertiesBACKUP
 
-You can then run the `Main` class or create a junit build configuration to run junit tests.
+Setup proxy settings:
 
-If we add some libraries (other than junit) you can do this:
+    ./scripts/install-uni.sh
 
-1. download the jar from maven and put it somewhere (e.g. 'lib/' - **remember
-   not to commit the libraries**)
-2. in intellij, open project structure -> modules -> dependencies
-3. click the `+` at the bottom and then click `1 jars or directories`.
+Running this should not throw errors:
+
+    ./gradlew build
 
 ## Structure
 
