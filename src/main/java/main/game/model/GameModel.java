@@ -1,5 +1,6 @@
 package main.game.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -62,7 +63,8 @@ public class GameModel {
    * @param entitySelection points on the world that may contain entities
    */
   public void setEntitySelection(Collection<Entity> entitySelection) {
-    selectedUnits = entitySelection;
+    selectedUnits = new HashSet<>();
+    entitySelection.forEach(entity -> selectedUnits.add(entity));
   }
 
   /**
