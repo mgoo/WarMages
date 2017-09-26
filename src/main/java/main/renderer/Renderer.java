@@ -1,9 +1,13 @@
 package main.renderer;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
+import main.util.MapPoint;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
@@ -32,9 +36,20 @@ public class Renderer {
    * @param imageView the javaFX object that actually draws the GUI.
    */
   private void drawAll(GameView gameView, ImageView imageView) {
+    BufferedImage image = null;
     for (Renderable r : gameView.getRenderables()) {
-      imageView.setImage(SwingFXUtils.toFXImage(r.getImage(), null));
+      if (image == null) {
+        r.getImage();
+      }
+      MapPoint position = r.getImagePosition();
+      Graphics2D g = image.createGraphics();
+      RenderingHints rh = new RenderingHints(
+          RenderingHints.KEY_ANTIALIASING,
+          RenderingHints.VALUE_ANTIALIAS_ON);
+      g.setRenderingHints(rh);
+      g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
     }
+    imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
 
   /**
