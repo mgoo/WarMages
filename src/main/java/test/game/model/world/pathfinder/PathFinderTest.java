@@ -73,6 +73,30 @@ public class PathFinderTest {
     assertEquals(expected, actual);
   }
 
+  @Test
+  public void test05_testPathWithObstacle(){
+    World world = new World(null, null) {
+      @Override
+      public boolean isPassable(MapPoint point) {
+        if(point.y == 2 && (point.x == 2 || point.x == 3 || point.x == 4)) {
+          return false;
+        }
+        return true;
+      }
+    };
+
+    //  12345
+    //1 S++++
+    //2 +xxxG
+
+    //S = start; G = goal; x = obstacle; + = free space
+
+    List<MapPoint> actual = PathFinder.findPath(world, mp(1,1), mp(5,2));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1,1), mp(2,1), mp(3,1), mp(4,1), mp(5,1), mp(5,2)));
+
+    assertEquals(expected, actual);
+  }
+
   private MapPoint mp(double x, double y){
     return new MapPoint(x,y);
   }
