@@ -57,8 +57,10 @@ public class WorldLoader {
             new BuffItem(new MapPoint(3, 3))
         ),
         Arrays.asList(
-            new UninteractableEntity(new MapPoint(2, 1), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()),
-            new UninteractableEntity(new MapPoint(5, 5), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage())
+            new UninteractableEntity(new MapPoint(2, 1),
+                GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()),
+            new UninteractableEntity(new MapPoint(5, 5),
+                GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage())
         ),
         gameModel -> false, // Never complete this level for now
         "Maybe kill all the enemies or something I don't know"

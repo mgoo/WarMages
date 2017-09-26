@@ -10,7 +10,7 @@ public class UninteractableEntity extends MapEntity {
    */
   public UninteractableEntity(MapPoint coord, GameImage image) {
     super(coord);
-    this.image=image;
+    this.image = image;
   }
 
   @Override

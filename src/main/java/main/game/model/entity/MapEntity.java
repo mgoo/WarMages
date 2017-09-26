@@ -1,7 +1,5 @@
 package main.game.model.entity;
 
-import com.sun.xml.internal.ws.addressing.model.ActionNotSupportedException;
-import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -20,12 +18,12 @@ public abstract class MapEntity extends Entity {
 
   @Override
   public void moveX(double amount) {
-    throw new ActionNotSupportedException("MapEntity cannot move");
+    //do nothing
   }
 
   @Override
   public void moveY(double amount) {
-    throw new ActionNotSupportedException("MapEntity cannot move");
+    //do nothing
   }
 
   /**

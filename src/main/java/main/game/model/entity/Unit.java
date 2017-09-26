@@ -12,6 +12,7 @@ import main.util.MapSize;
  * health, and can attack other team units.
  */
 public class Unit extends Attackable implements Damageable {
+
   protected final Team team;
   protected int imagesIdx;
   protected boolean isDead;
@@ -47,8 +48,8 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param healing either true for healing or false for hurting.
    */
-  public void setHealing(boolean healing){
-    this.healing=healing;
+  public void setHealing(boolean healing) {
+    this.healing = healing;
   }
 
   /**
@@ -66,24 +67,29 @@ public class Unit extends Attackable implements Damageable {
 
   /**
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
-   *
    * and the current position.
    */
   private void updateDirection(MapPoint oldPosition) {
-    double gradient = (position.y-oldPosition.y)/(position.x-oldPosition.x);
-    if(gradient<1){
-      if(position.y<oldPosition.y) unitState.setDirection(Direction.UP);
-      else unitState.setDirection(Direction.DOWN);
+    double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
+    if (gradient < 1) {
+      if (position.y < oldPosition.y) {
+        unitState.setDirection(Direction.UP);
+      } else {
+        unitState.setDirection(Direction.DOWN);
+      }
     } else {
-      if(position.x<oldPosition.x) unitState.setDirection(Direction.LEFT);
-      else unitState.setDirection(Direction.RIGHT);
+      if (position.x < oldPosition.x) {
+        unitState.setDirection(Direction.LEFT);
+      } else {
+        unitState.setDirection(Direction.RIGHT);
+      }
     }
   }
 
   @Override
-  public void setTarget(Unit target){
-    assert target!=null;
-    this.target=target;
+  public void setTarget(Unit target) {
+    assert target != null;
+    this.target = target;
   }
 
   @Override
@@ -97,7 +103,7 @@ public class Unit extends Attackable implements Damageable {
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     updateDirection(oldPosition);
-    if(checkTargetWithinProximity()){
+    if (checkTargetWithinProximity()) {
       setStateTo(UnitState.ATTACKING);
     }
   }
