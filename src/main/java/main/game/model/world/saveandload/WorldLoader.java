@@ -1,6 +1,5 @@
-package main.game.model.saveandload;
+package main.game.model.world.saveandload;
 
-import java.io.IOException;
 import java.util.Arrays;
 import main.game.model.GameModel;
 import main.game.model.Level;
@@ -13,24 +12,22 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.MapPoint;
-import main.util.MapRect;
 
 /**
  * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
  * positions in the {@link World}.
+ * <p>
+ * NOTE: We decided not to load the world from a file for now because that does not provide any
+ * improvements to the game or requirements of the game.
+ * </p>
  */
 public class WorldLoader {
 
-  private final FileLoader fileLoader;
-
-  public WorldLoader(FileLoader fileLoader) {
-    this.fileLoader = fileLoader;
-  }
-
   /**
-   * Creates a new {@link GameModel} by loading from the file.
+   * Creates a new {@link GameModel} with the single level and example data.
    */
-  public World load(String filename) throws IOException {
+  public static World newSingleLevelTestWorld() {
+    // NOTE: All of these values, including the sizes, are just temporarily values.
 
     // NOTE: Does not currently load from the file.
     // This code is temporary so it is easier to test other parts of the system.
@@ -60,30 +57,11 @@ public class WorldLoader {
   }
 
   /**
-   * Adapter around the filesystem for loading resource files.
+   * Creates a new {@link World}.
    */
-  public interface FileLoader {
-
-    /**
-     * Loads the file contents of the given name.
-     *
-     * @param filename Filename without any slashes.
-     * @return The file contents
-     */
-    String load(String filename) throws IOException;
-
+  public World load() {
+    // TODO create a more complex world/levels
+    return newSingleLevelTestWorld();
   }
 
-  /**
-   * The implementation of {@link FileLoader} that should be passed into {@link WorldLoader}'s
-   * constructor in the app.
-   */
-  public class DefaultFileLoader implements FileLoader {
-
-    @Override
-    public String load(String filename) throws IOException {
-      throw new Error("NYI");
-    }
-
-  }
 }
