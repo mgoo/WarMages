@@ -29,14 +29,14 @@ public abstract class MovableEntity extends Entity {
   @Override
   public void tick(long timeSinceLastTick) {
     long distToBeTravelled = speed * timeSinceLastTick; //todo finalize
-    int leway = 5; //todo finalize
+    int leeway = 5; //todo finalize
     //update position
     if (path != null && !path.isEmpty()) {
       for (MapPoint mp : path) {
         double distFromCurrent = Math
             .sqrt((Math.pow(mp.x - position.x, 2) + Math.pow(mp.y - position.y, 2)));
-        if (distFromCurrent < distToBeTravelled + leway
-            && distFromCurrent > distToBeTravelled - leway) {
+        if (distFromCurrent < distToBeTravelled + leeway
+            && distFromCurrent > distToBeTravelled - leeway) {
           position = mp;
           return;
         }

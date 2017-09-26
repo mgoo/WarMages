@@ -8,7 +8,7 @@ import main.util.MapSize;
  */
 public abstract class Attackable extends MovableEntity {
   public static final int baselineDamage = 5;
-  public static final int leway = 5;
+  public static final int leeway = 5;
   protected Unit target;
   protected int damageAmount;
   protected int health;
@@ -55,8 +55,13 @@ public abstract class Attackable extends MovableEntity {
     return health;
   }
 
+  /**
+   * Returns boolean whether the distance between the target and the Attackable is less than the leway.
+   *
+   * @return boolean representing distance less than leeway.
+   */
   public boolean checkTargetWithinProximity(){
-    if(Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math.pow(target.getPosition().y - position.y, 2))<leway){
+    if(Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math.pow(target.getPosition().y - position.y, 2))<leeway){
       attack(target);
       return true;
     }
