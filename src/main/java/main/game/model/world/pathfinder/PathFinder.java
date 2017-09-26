@@ -33,10 +33,7 @@ public class PathFinder {
     Set<MapPoint> visited = new HashSet<>();
 
     while (!fringe.isEmpty()) {
-      System.out.println(fringe.size());
-      System.out.println("fringe = "+fringe);
       AStarNode tuple = fringe.poll();
-      System.out.println("polling lowest size node with total cost "+tuple.getTotalCost());
 
       if (visited.contains(tuple.getPoint())) {
         continue;
