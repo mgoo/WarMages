@@ -52,44 +52,48 @@ public class GameModel {
   /**
    * A getter method get a previously selected collection.
    *
-   * @return a collection of selected entities
+   * @return a collection of selected entities.
    */
   public Collection<Entity> getEntitySelection() {
     throw new Error("NYI");
   }
 
   /**
-   * A setter method which sets the states of all selectedEntities
-   * @param point point in the map for selected entities to move
+   * A setter method which sets the states of all selectedEntities.
+   *
+   * @param point point in the map for selected entities to move.
    */
-  public void setSelectionMovement(MapPoint point){
+  public void setSelectionMovement(MapPoint point) {
     throw new Error("NYI");
   }
 
   /**
-   * A setter method which sets the states of a collection of Units.
-   * This method will generally be used by enemies.
-   * @param point point in the map for units to move
-   * @param units set of units to change state
+   * A setter method which sets the states of a collection of Units. This method will generally be
+   * used by enemies.
+   *
+   * @param point point in the map for units to move.
+   * @param units set of units to change state.
    */
-  public void setUnitsMovement(MapPoint point, Collection<Unit> units){
+  public void setUnitsMovement(MapPoint point, Collection<Unit> units) {
     throw new Error("NYI");
   }
 
   /**
-   * A setter method which tells the selected units to attack
-   * @param target the unit to be attacked
+   * A setter method which tells the selected units to attack.
+   *
+   * @param target the unit to be attacked.
    */
-  public void setSelectionAttack(Unit target){
+  public void setSelectionAttack(Unit target) {
     throw new Error("NYI");
   }
 
   /**
-   * Tells a collection of units to attack a target unit
-   * @param target unit to be attacked
-   * @param units units that attack the target
+   * Tells a collection of units to attack a target unit.
+   *
+   * @param target unit to be attacked.
+   * @param units units that attack the target.
    */
-  public void setUnitsAttack(Unit target, Collection<Unit> units){
+  public void setUnitsAttack(Unit target, Collection<Unit> units) {
     throw new Error("NYI");
   }
 }
