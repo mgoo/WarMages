@@ -111,7 +111,7 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void attack(Unit unit) {
-    if(!unit.equals(target) || isDead || target == null) {
+    if (!unit.equals(target) || isDead || target == null) {
       return;
     }
     if (team.canAttackOtherTeam(unit.team)) {
