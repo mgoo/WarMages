@@ -74,7 +74,7 @@ public class Level {
   }
 
   /**
-   * See {@link Goal#isCompleted(Level)}
+   * See {@link Goal#isCompleted(Level)}.
    */
   public boolean areGoalsCompleted() {
     return goal.isCompleted(this);

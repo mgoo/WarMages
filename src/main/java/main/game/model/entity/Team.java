@@ -31,6 +31,9 @@ public enum Team {
     return canAttackOtherTeam(team);
   }
 
+  /**
+   * The teams that can this team can attack.
+   */
   public Collection<Team> getEnemies() {
     return Arrays.stream(Team.values())
         .filter(team -> team != this)

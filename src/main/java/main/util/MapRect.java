@@ -34,10 +34,10 @@ public class MapRect {
    * Returns true iff the rect is inside this (which includes when this and rect are equal).
    */
   public boolean contains(MapRect rect) {
-    return topLeft.x <= rect.topLeft.x &&
-        topLeft.y <= rect.topLeft.y &&
-        bottomRight.x >= rect.bottomRight.x &&
-        bottomRight.y >= rect.bottomRight.y;
+    return topLeft.x <= rect.topLeft.x
+        && topLeft.y <= rect.topLeft.y
+        && bottomRight.x >= rect.bottomRight.x
+        && bottomRight.y >= rect.bottomRight.y;
   }
 
   /**
@@ -50,6 +50,10 @@ public class MapRect {
     ));
   }
 
+  /**
+   * The point in the exact centre of this rectangle. The coordinates, of course, may not be
+   * rounded.
+   */
   public MapPoint getCenter() {
     return new MapPoint(
         getWidth() / 2 + topLeft.x,

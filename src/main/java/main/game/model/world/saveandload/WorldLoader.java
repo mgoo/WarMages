@@ -26,8 +26,9 @@ import main.util.MapRect;
  */
 public class WorldLoader {
 
-  private static final int TRANSITION_AREA_WIDTH = 3;
-
+  /**
+   * Generates the rectangle of of entities that are around the edge (but inside) bounds.
+   */
   public static Collection<MapEntity> generateBorderEntities(
       MapRect bounds,
       Function<MapPoint, MapEntity> entityGenerator
