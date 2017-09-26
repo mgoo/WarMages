@@ -19,11 +19,11 @@ public abstract class Entity {
   public Entity(MapPoint position, float size) {
     this.position = position;
     this.size = size;
-//    throw new Error("NYI");
+    //    throw new Error("NYI");
   }
 
   public MapPoint getPosition() {
-//    throw new Error("NYI");
+    //    throw new Error("NYI");
     return position; // TODO remove
   }
 

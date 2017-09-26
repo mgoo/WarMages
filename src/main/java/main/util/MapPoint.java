@@ -20,6 +20,9 @@ public class MapPoint {
     this.y = p.y;
   }
 
+  /**
+   * Rounds x and y.
+   */
   public MapPoint rounded() {
     return new MapPoint(
         Math.round(x),
