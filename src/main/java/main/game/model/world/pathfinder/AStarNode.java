@@ -62,6 +62,6 @@ public class AStarNode implements Comparable<AStarNode> {
 
   @Override
   public String toString() {
-    return currentPoint.toString() + " c:"+totalCost;
+    return "[point: "+ currentPoint.toString() + " cost:"+totalCost+ "]";
   }
 }
