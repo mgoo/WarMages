@@ -7,7 +7,8 @@ import main.util.MapSize;
  * Attackables can attack units.
  */
 public abstract class Attackable extends MovableEntity {
-  public static final int leeway = 5;
+
+  public static final int LEEWAY = 5;
   protected Unit target;
   protected int damageAmount;
   protected int health;
@@ -17,8 +18,8 @@ public abstract class Attackable extends MovableEntity {
   /**
    * Constructor takes the position of the entity and the size.
    *
-   * @param position = position of Entity
-   * @param size = size of Entity
+   * @param position = position of Entity.
+   * @param size = size of Entity.
    */
   public Attackable(MapPoint position, MapSize size) {
     super(position, size);
@@ -37,7 +38,7 @@ public abstract class Attackable extends MovableEntity {
    * @param target to be attacked
    */
   public void setTarget(Unit target) {
-    assert target!=null;
+    assert target != null;
     this.target = target;
   }
 
@@ -71,7 +72,7 @@ public abstract class Attackable extends MovableEntity {
       return false;
     }
     if (Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math
-        .pow(target.getPosition().y - position.y, 2)) < leeway) {
+        .pow(target.getPosition().y - position.y, 2)) < LEEWAY) {
       return true;
     }
     return false;

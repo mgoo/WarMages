@@ -31,14 +31,14 @@ public enum UnitType {
     return startingHealth;
   }
 
-  public int getSpeed(){
+  public int getSpeed() {
     return speed;
   }
 
-  UnitType(int baselineDamage, int startingHealth, int speed){
-    this.baselineDamage=baselineDamage;
-    this.startingHealth=startingHealth;
-    this.speed=speed;
+  UnitType(int baselineDamage, int startingHealth, int speed) {
+    this.baselineDamage = baselineDamage;
+    this.startingHealth = startingHealth;
+    this.speed = speed;
   }
 }
 

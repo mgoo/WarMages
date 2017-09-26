@@ -13,7 +13,7 @@ public enum UnitState {
   ATTACKING() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      switch(type){
+      switch (type) {
         case ARCHER:
           return sheet.getImagesForSequence(Sequence.SHOOT, direction);
         case SPEARMAN:
@@ -53,6 +53,7 @@ public enum UnitState {
 
   /**
    * Sets the direction of the unit to the given direction.
+   *
    * @param direction to be set to.
    */
   public void setDirection(Direction direction) {
@@ -64,6 +65,7 @@ public enum UnitState {
 
   /**
    * Returns the current direction of the unit state.
+   *
    * @return current unit direction.
    */
   public Direction getDirection() {
