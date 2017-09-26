@@ -102,7 +102,6 @@ task(buildAndContinueWhenErrors) {
 }
 buildAndContinueWhenErrors.dependsOn(assemble)
 buildAndContinueWhenErrors.finalizedBy(lint)
-buildAndContinueWhenErrors.finalizedBy(findbugsMain)
 buildAndContinueWhenErrors.finalizedBy(test)
 
 // Submit task
