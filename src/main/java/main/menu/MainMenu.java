@@ -1,7 +1,12 @@
 package main.menu;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
+import main.game.model.saveandload.WorldLoader;
+import main.game.model.saveandload.GameSaveModel;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 
@@ -31,6 +36,6 @@ public class MainMenu extends Menu {
 
   @Override
   MenuController getMenuController() {
-    return new MainMenuController(worldLoader, worldSaveModel);
+    return new MainMenuController(worldLoader, gameSaveModel);
   }
 }
