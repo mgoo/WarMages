@@ -74,11 +74,14 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test05_testPathWithObstacle() {
+  public void test06_testPathWithObstacle() {
     World world = new World(null, null) {
       @Override
       public boolean isPassable(MapPoint point) {
         if (point.y == 2 && (point.x == 2 || point.x == 3 || point.x == 4)) {
+          return false;
+        }
+        if (point.y == 1 && point.x == 4) {
           return false;
         }
         return true;
@@ -86,14 +89,15 @@ public class PathFinderTest {
     };
 
     //  12345
-    //1 S++++
+    //1 S++x+
     //2 +xxxG
+    //3 +++++
 
     //S = start; G = goal; x = obstacle; + = free space
 
     List<MapPoint> actual = PathFinder.findPath(world, mp(1, 1), mp(5, 2));
     List<MapPoint> expected = new ArrayList<>(
-        Arrays.asList(mp(2, 1), mp(3, 1), mp(4, 1), mp(5, 1), mp(5, 2)));
+        Arrays.asList(mp(2, 1), mp(2,3), mp(3,3), mp(4,3), mp(2,5)));
 
     assertEquals(expected, actual);
   }
