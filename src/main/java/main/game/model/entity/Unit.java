@@ -87,23 +87,19 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void setTarget(Unit target) {
-    assert target != null;
-    this.target = target;
-  }
-
-  @Override
   public void tick(long timeSinceLastTick) {
     //update image
     if (imagesIdx == images.size() - 1) {
-      //reset state back to default
+      //reset state back to default todo confirm when to change back to default state
       setStateTo(UnitState.DEFAULT_STATE);
     }
     image = images.get(imagesIdx);
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     updateDirection(oldPosition);
+    //check if has target and target is within attacking proximity
     if (checkTargetWithinProximity()) {
+      attack(target);
       setStateTo(UnitState.ATTACKING);
     }
   }
@@ -115,7 +111,7 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void attack(Unit unit) {
-    if (isDead) {
+    if(!unit.equals(target) || isDead || target == null) {
       return;
     }
     if (team.canAttackOtherTeam(unit.team)) {
