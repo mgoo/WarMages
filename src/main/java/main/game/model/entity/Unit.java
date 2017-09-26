@@ -19,6 +19,7 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
   protected final int baselineDamage = 5;
   protected final int startingSpeed = 5;
   protected boolean isDead;
+  protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
@@ -45,6 +46,15 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
     unitState.setDirection(Direction.LEFT);
     images = unitType.getImagesFor(unitState, spriteSheet);
     imagesIdx = 0;
+  }
+
+  /**
+   * Sets the type of attack the Unit will apply to it's targets.
+   *
+   * @param healing either true for healing or false for hurting.
+   */
+  public void setHealing(boolean healing){
+    this.healing=healing;
   }
 
   /**
@@ -96,38 +106,13 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
    * and the current position.
    */
   private void updateDirection(MapPoint oldPosition) {
-    if (position.x < oldPosition.x) { //moved left
-      if (position.y < oldPosition.y) { //moved left and up
-        if (Math.abs(position.y - oldPosition.y) < Math
-            .abs(position.x - oldPosition.x)) { //greater change in y
-          unitState.setDirection(Direction.UP);
-        } else { //greater change in x
-          unitState.setDirection(Direction.LEFT);
-        }
-      } else { //moved left and down
-        if (Math.abs(position.y - oldPosition.y) < Math
-            .abs(position.x - oldPosition.x)) { //greater change in y
-          unitState.setDirection(Direction.DOWN);
-        } else { //greater change in x
-          unitState.setDirection(Direction.LEFT);
-        }
-      }
-    } else { //moved right
-      if (position.y < oldPosition.y) { //moved right and up
-        if (Math.abs(position.y - oldPosition.y) < Math
-            .abs(position.x - oldPosition.x)) { //greater change in y
-          unitState.setDirection(Direction.UP);
-        } else { //greater change in x
-          unitState.setDirection(Direction.RIGHT);
-        }
-      } else { //moved right and down
-        if (Math.abs(position.y - oldPosition.y) < Math
-            .abs(position.x - oldPosition.x)) { //greater change in y
-          unitState.setDirection(Direction.DOWN);
-        } else { //greater change in x
-          unitState.setDirection(Direction.RIGHT);
-        }
-      }
+    double gradient = (position.y-oldPosition.y)/(position.x-oldPosition.x);
+    if(gradient<1){
+      if(position.y<oldPosition.y) unitState.setDirection(Direction.UP);
+      else unitState.setDirection(Direction.DOWN);
+    } else {
+      if(position.x<oldPosition.x) unitState.setDirection(Direction.LEFT);
+      else unitState.setDirection(Direction.RIGHT);
     }
   }
 
@@ -143,7 +128,11 @@ public class Unit extends MovableEntity implements Damageable, Attackable {
     }
     if (team.canAttackOtherTeam(unit.team)) {
       setStateTo(UnitState.ATTACKING);
-      unit.takeDamage(damageAmount);
+      if (healing) {
+        unit.gainHealth(damageAmount);
+      } else {
+        unit.takeDamage(damageAmount);
+      }
     }
   }
 

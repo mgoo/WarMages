@@ -18,11 +18,13 @@ public class HealingItem extends Item {
   @Override
   public void applyTo(Unit unit) {
     assert unit != null;
+    unit.setHealing(true);
     //todo implement healing
   }
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //todo
+    //todo expire
+    //unit.setHealing(false);
   }
 }

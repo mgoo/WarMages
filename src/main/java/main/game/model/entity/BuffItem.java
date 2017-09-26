@@ -23,10 +23,11 @@ public class BuffItem extends Item {
   public void applyTo(Unit unit) {
     assert unit != null;
     buff.apply(unit);
+    //todo make last for certain amount of time
   }
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //todo
+    //todo expire
   }
 }
