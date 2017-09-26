@@ -19,8 +19,11 @@ public abstract class Menu {
     webEngine.load(this.getUrl().toExternalForm());
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
       if (newState == Worker.State.SUCCEEDED) {
+        System.out.println("Bound javaObj");
         JSObject window = (JSObject) webEngine.executeScript("window");
-        window.setMember("main/game/controller", this.getMenuController());
+        window.setMember("controller", this.getMenuController());
+        webEngine.executeScript(this.getListeners());
+        System.out.println(this.getListeners());
       }
     });
   }
@@ -34,4 +37,9 @@ public abstract class Menu {
    * Gets an instance of the object to bind to javascript.
    */
   abstract MenuController getMenuController();
+
+  /**
+   * gets the javascript that adds the listeners to the buttons
+   */
+  abstract String getListeners();
 }

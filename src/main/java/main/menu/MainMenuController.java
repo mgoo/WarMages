@@ -17,4 +17,16 @@ public class MainMenuController implements MenuController {
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
   }
+
+  public void exit() {
+    System.exit(0);
+  }
+
+  public void start() {
+
+  }
+
+  public void load(String filename) {
+
+  }
 }
