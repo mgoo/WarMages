@@ -1,5 +1,6 @@
 package main.game.controller;
 
+import main.game.model.GameModel;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 
@@ -11,8 +12,10 @@ import main.game.view.events.MouseClick;
  */
 public class GameController {
 
-  public GameController() {
-    throw new Error("NYI"); //TODO
+  private final GameModel gamemodel;
+
+  public GameController(GameModel m) {
+    this.gamemodel = m;
   }
 
   /**
@@ -24,6 +27,8 @@ public class GameController {
     char key = keyevent.getKey();
 
     switch(key){
+      case '.':
+        gamemodel.setEntitySelection(gamemodel.getAllEntities());
       case 'w': //up
         if(keyevent.wasCtrlDown()){
           throw new Error("NYI"); //TODO
@@ -62,7 +67,9 @@ public class GameController {
    */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
-      throw new Error("NYI"); //TODO
+      //deselects all previous units then select the unit under the click if there is one
+      gamemodel.getEntitySelection().clear();
+      gamemodel.
     } else {
       throw new Error("NYI"); //TODO
     }
