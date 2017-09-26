@@ -15,15 +15,15 @@ public enum UnitState {
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
       switch(type){
         case ARCHER:
-          return sheet.getImagesForSequence(Sequence.SHOOT, getDirection());
+          return sheet.getImagesForSequence(Sequence.SHOOT, direction);
         case SPEARMAN:
-          return sheet.getImagesForSequence(Sequence.THRUST, getDirection());
+          return sheet.getImagesForSequence(Sequence.THRUST, direction);
         case SWORDSMAN:
-          return sheet.getImagesForSequence(Sequence.SLASH, getDirection());
+          return sheet.getImagesForSequence(Sequence.SLASH, direction);
         case MAGICIAN:
-          return sheet.getImagesForSequence(Sequence.SPELL_CAST, getDirection());
+          return sheet.getImagesForSequence(Sequence.SPELL_CAST, direction);
         default:
-          return sheet.getImagesForSequence(Sequence.IDLE, getDirection());
+          return sheet.getImagesForSequence(Sequence.IDLE, direction);
       }
     }
   },
@@ -31,25 +31,25 @@ public enum UnitState {
   BEEN_HIT() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.HURT, getDirection());
+      return sheet.getImagesForSequence(Sequence.HURT, direction);
     }
   },
 
   DEFAULT_STATE() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.IDLE, getDirection());
+      return sheet.getImagesForSequence(Sequence.IDLE, direction);
     }
   },
 
   WALKING() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.WALK, getDirection());
+      return sheet.getImagesForSequence(Sequence.WALK, direction);
     }
   };
 
-  private Direction direction;
+  protected Direction direction;
 
   /**
    * Sets the direction of the unit to the given direction.
