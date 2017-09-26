@@ -1,5 +1,9 @@
 package main.game.model.entity;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 public enum Team {
   PLAYER {
     @Override
@@ -25,6 +29,12 @@ public enum Team {
     }
 
     return canAttackOtherTeam(team);
+  }
+
+  public Collection<Team> getEnemies() {
+    return Arrays.stream(Team.values())
+        .filter(this::canAttack)
+        .collect(Collectors.toList());
   }
 
   protected abstract boolean canAttackOtherTeam(Team otherTeam);
