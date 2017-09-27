@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Reference all of the image files in the app here by adding a new enum value.
  *
- * @see {@link GameImage#load(ImageProvider)} To get a {@link BufferedImage}.
+ * @see GameImage#load(ImageProvider) To get a {@link BufferedImage}.
  */
 public class GameImage {
 

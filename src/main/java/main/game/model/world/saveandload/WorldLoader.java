@@ -5,6 +5,8 @@ import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.images.GameImageResource.POTION_BLUE_ITEM;
+import static main.images.GameImageResource.RING_BLUE_ITEM;
 import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.TEST_IMAGE_FULL_SIZE;
 
@@ -33,8 +35,11 @@ import main.util.MapSize;
 
 /**
  * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
- * positions in the {@link World}. <p> NOTE: We decided not to load the world from a file for now
- * because that does not provide any improvements to the game or requirements of the game. </p>
+ * positions in the {@link World}.
+ * <p>
+ * NOTE: We decided not to load the world from a file for now
+ * because that does not provide any improvements to the game or requirements of the game.
+ * </p>
  */
 public class WorldLoader {
 
@@ -111,8 +116,8 @@ public class WorldLoader {
             )
         ),
         Arrays.asList(
-            new HealingItem(new MapPoint(2, 2)),
-            new BuffItem(new MapPoint(3, 3))
+            new HealingItem(new MapPoint(2, 2), POTION_BLUE_ITEM.getGameImage()),
+            new BuffItem(new MapPoint(3, 3), RING_BLUE_ITEM.getGameImage())
         ),
         Arrays.asList(
             new UninteractableEntity(
@@ -193,8 +198,14 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
+              new Unit(new MapPoint(15, 3), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(15, 3), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
               new Unit(new MapPoint(23, 4), new MapSize(0.5, 0.5), Team.ENEMY,
-                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(23, 5), new MapSize(0.5, 0.5), Team.ENEMY,
                   new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
@@ -204,8 +215,8 @@ public class WorldLoader {
               )
           ),
           Arrays.asList(
-              new HealingItem(new MapPoint(21, 1)),
-              new BuffItem(new MapPoint(24, 5))
+              new HealingItem(new MapPoint(21, 1), POTION_BLUE_ITEM.getGameImage()),
+              new BuffItem(new MapPoint(24, 5), RING_BLUE_ITEM.getGameImage())
           ),
           Arrays.asList(
               new UninteractableEntity(
