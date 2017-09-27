@@ -22,7 +22,6 @@ import main.game.model.entity.BuffItem;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HealingItem;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
