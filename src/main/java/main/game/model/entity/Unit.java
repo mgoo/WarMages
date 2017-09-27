@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import main.images.GameImage;
@@ -11,7 +12,9 @@ import main.util.MapSize;
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
  * health, and can attack other team units.
  */
-public class Unit extends Attackable implements Damageable {
+public class Unit extends Attackable implements Damageable, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   protected final Team team;
   protected int imagesIdx;

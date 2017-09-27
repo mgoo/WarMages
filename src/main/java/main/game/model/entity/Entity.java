@@ -1,13 +1,18 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
+
+  private static final long serialVersionUID = 1L;
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   protected MapPoint position;
   protected GameImage image;

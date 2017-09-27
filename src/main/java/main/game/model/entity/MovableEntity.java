@@ -1,10 +1,13 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import main.util.MapPoint;
 import main.util.MapSize;
 
-public abstract class MovableEntity extends Entity {
+public abstract class MovableEntity extends Entity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
   protected List<MapPoint> path;
   protected int speed;
 

@@ -1,12 +1,15 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.util.MapPoint;
 
 /**
  * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other
  * units).
  */
-public class BuffItem extends Item {
+public class BuffItem extends Item implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private Ability buff;
 
