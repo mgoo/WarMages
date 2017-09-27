@@ -1,11 +1,14 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.images.GameImage;
 
 /**
  * An ability can be applied to (a) Unit(s).
  */
-public abstract class Ability {
+public abstract class Ability implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   protected GameImage iconImage;
   protected String description;

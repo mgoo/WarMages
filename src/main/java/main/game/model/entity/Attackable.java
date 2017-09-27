@@ -1,12 +1,15 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.util.MapPoint;
 import main.util.MapSize;
 
 /**
  * Attackables can attack units.
  */
-public abstract class Attackable extends MovableEntity {
+public abstract class Attackable extends MovableEntity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public static final int LEEWAY = 5;
   protected Unit target;

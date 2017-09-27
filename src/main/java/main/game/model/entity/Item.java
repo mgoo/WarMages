@@ -1,12 +1,15 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
  * Item extends {@link Entity}. An item is something that can be picked up and used by HeroUnit.
  */
-public abstract class Item extends MapEntity {
+public abstract class Item extends MapEntity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coordinates of the item.

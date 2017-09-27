@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -7,7 +8,9 @@ import main.util.MapSize;
  * An {@link Entity} that cannot move / be moved on the map, and takes up a whole square {@link
  * Unit}s cannot move through one of these.
  */
-public abstract class MapEntity extends Entity {
+public abstract class MapEntity extends Entity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coordinates of the MapEntity.

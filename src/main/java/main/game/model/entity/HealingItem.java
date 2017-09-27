@@ -1,11 +1,14 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.util.MapPoint;
 
 /**
  * HealingItem extends{@link Item}. Can be used to heal a unit.
  */
-public class HealingItem extends Item {
+public class HealingItem extends Item implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coords of the HealingItem.
