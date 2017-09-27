@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import main.game.model.world.World;
-import main.game.model.world.saveandload.SerialisationFormatException;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
@@ -61,16 +60,14 @@ public class WorldSaveModelTest {
   };
 
   @Test(expected = IllegalArgumentException.class)
-  public void save_nameWithSlashes_exceptionThrown()
-      throws IOException, SerialisationFormatException {
+  public void save_nameWithSlashes_exceptionThrown() throws IOException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "some/file");
   }
 
   @Test
-  public void save_withoutFileExtension_fileIsSavedWithExtension()
-      throws IOException, SerialisationFormatException {
+  public void save_withoutFileExtension_fileIsSavedWithExtension() throws IOException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filename");
@@ -84,14 +81,14 @@ public class WorldSaveModelTest {
 
   @Test(expected = IOException.class)
   public void load_nonexistentFile_exceptionThrown()
-      throws IOException, SerialisationFormatException, ClassNotFoundException {
+      throws IOException, ClassNotFoundException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     worldSaveModel.load("some_nonexistent_file");
   }
 
   @Test
   public void saveAndThenLoad_singleLevelWorld_loadedCopyShouldEqualOriginal()
-      throws IOException, SerialisationFormatException, ClassNotFoundException {
+      throws IOException, ClassNotFoundException {
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(
         new WorldLoader().loadSingleLevelTestWorld()
     );
@@ -99,20 +96,20 @@ public class WorldSaveModelTest {
 
   @Test
   public void saveAndThenLoad_loadMultilevelWorld_loadedCopyShouldEqualOriginal()
-      throws IOException, SerialisationFormatException {
+      throws IOException, ClassNotFoundException {
     World world = new WorldLoader().loadMultilevelWorld();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
   @Test
   public void saveAndThenLoad_defaultWorld_loadedCopyShouldEqualOriginal()
-      throws IOException, SerialisationFormatException {
+      throws IOException, ClassNotFoundException {
     World world = new WorldLoader().load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
   private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World originalWorld)
-      throws IOException, SerialisationFormatException, ClassNotFoundException {
+      throws IOException, ClassNotFoundException {
     // Given these objects
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     String filename = "filename." + WorldSaveModel.SAVE_FILE_EXTENSION;

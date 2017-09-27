@@ -10,8 +10,8 @@ package main.images;
  */
 public enum GameImageResource {
   // Items
-  POTION_BLUE_ITEM(new GameImage("images/units/potion-blue.png")),
-  RING_BLUE_ITEM(new GameImage("images/units/ring-blue.png")),
+  POTION_BLUE_ITEM(new GameImage("images/items/potion-blue.png")),
+  RING_BLUE_ITEM(new GameImage("images/items/ring-gold.png")),
 
   // Projectiles
   //   NOTE: For consistency, if there are projectiles that have a direction (e.g. an arrow),
