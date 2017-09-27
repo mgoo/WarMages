@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import java.io.Serializable;
 /**
  * Represents one of the 90 degree directions that a {@link Unit} can move in.
  * <p>
