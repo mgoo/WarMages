@@ -9,6 +9,7 @@ import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
+import main.images.ImageProvider;
 import main.renderer.Renderable;
 import main.util.Config;
 import main.util.MapPoint;
@@ -27,6 +28,7 @@ public class GameView {
 
   private final GameController gameController;
   private final GameModel gameModel;
+  private final ImageProvider imageProvider;
 
   private MapRect viewBox;
   private MapPoint mousePosition;
@@ -38,10 +40,14 @@ public class GameView {
    * Constructor for game view sets the viewBox to start at origin 0,0.
    * @param config screen width and height must be set here
    */
-  public GameView(Config config, GameController gameController, GameModel gameModel) {
+  public GameView(Config config,
+                  GameController gameController,
+                  GameModel gameModel,
+                  ImageProvider imageProvider) {
     this.config = config;
     this.gameController = gameController;
     this.gameModel = gameModel;
+    this.imageProvider = imageProvider;
     this.viewBox = new MapRect(0, 0,
         this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
   }
@@ -77,7 +83,7 @@ public class GameView {
     this.renderablesCache.removeAll(toRemove);
 
     enitiesToCheck.forEach(entity -> {
-      this.renderablesCache.add(new EntityView(this.config, entity));
+      this.renderablesCache.add(new EntityView(this.config, entity, this.imageProvider));
     });
 
     this.renderablesCache.forEach(entityView -> {

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.images.DefaultImageProvider;
+import main.images.ImageProvider;
 import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -18,17 +19,20 @@ public class EntityView implements main.renderer.Renderable {
   private final Config config;
 
   private final Entity entity;
+  private final ImageProvider imageProvider;
+
   private BufferedImage currentImage;
   private MapPoint oldPosition;
   private MapPoint destination;
 
   private long lastTickTime;
 
-  EntityView(Config config, Entity entity) {
+  EntityView(Config config, Entity entity, ImageProvider imageProvider) {
     this.config = config;
     this.entity = entity;
     this.oldPosition = entity.getPosition();
     this.destination = entity.getPosition();
+    this.imageProvider = imageProvider;
   }
 
   void update(long tickTime) {
@@ -37,12 +41,9 @@ public class EntityView implements main.renderer.Renderable {
     this.destination = entity.getPosition();
 
     try {
-      this.currentImage = entity.getImage().load(new DefaultImageProvider());
+      this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
-      System.err.println("Could not load Image "
-          + entity.getImage().getFilePath()
-          + ". Using previous image");
-      e.printStackTrace();
+      // unreachable code
     }
   }
 
