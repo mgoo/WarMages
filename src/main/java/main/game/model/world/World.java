@@ -125,9 +125,9 @@ public class World {
    */
   public boolean isPassable(MapPoint point) {
     for (MapEntity mapEntity : mapEntities) {
-      //      if (mapEntity.contains(point)){
-      //        return false;
-      //      }
+      if (mapEntity.contains(point)) {
+        return false;
+      }
     }
     return true;
   }
@@ -157,7 +157,7 @@ public class World {
    * A method to change all the current positions/animations of all entities in the world.
    */
   public void tick(long timeSinceLastTick) {
-    //    getAllEntities().stream().forEach(e -> e.tick);
+    getAllEntities().stream().forEach(e -> e.tick(timeSinceLastTick));
 
     throw new Error("Requires entities to have a tick");
   }
