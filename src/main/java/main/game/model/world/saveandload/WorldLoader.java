@@ -60,8 +60,15 @@ public class WorldLoader {
     return mapEntities;
   }
 
+  /**
+   * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
+   * the user from leaving the area.
+   */
   public static MapEntity newBorderEntityAt(MapPoint point) {
-    return new MapEntity(point, 0.5f);
+    return new UninteractableEntity(
+        point,
+        GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+    );
   }
 
   /**
@@ -73,11 +80,12 @@ public class WorldLoader {
 
   /**
    * Creates a new {@link GameModel} with the single level and example data. This level doesn't have
-   * a wall of {@link MapEntity}s around the bounds.
+   * a wall of {@link MapEntity}s around the bounds. This should have every {@link Entity} in the
+   * {@link main.game.model.entity} package for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new HeroUnit(
-        new MapPoint(0, 0),
+        new MapPoint(1, 1),
         new MapSize(0.5, 0.5),
         new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
@@ -87,21 +95,23 @@ public class WorldLoader {
     Level level = new Level(
         bounds,
         Arrays.asList(
-            new Unit(new MapPoint(3, 0), new MapSize(0.5, 0.5), Team.PLAYER, new UnitSpriteSheet(
-                GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER),
-            new Unit(new MapPoint(9, 7), new MapSize(0.5, 0.5), Team.ENEMY, new UnitSpriteSheet(
-                GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER)
+            new Unit(new MapPoint(3, 0), new MapSize(0.5, 0.5), Team.PLAYER,
+                new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+            ),
+            new Unit(new MapPoint(9, 7), new MapSize(0.5, 0.5), Team.PLAYER,
+                new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+            )
         ),
         Arrays.asList(
             new HealingItem(new MapPoint(2, 2)),
             new BuffItem(new MapPoint(3, 3))
         ),
         Arrays.asList(
-            new UninteractableEntity(new MapPoint(2, 1),
-                GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+            new UninteractableEntity(
+                new MapPoint(2, 1), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
             ),
-            new UninteractableEntity(new MapPoint(5, 5),
-                GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+            new UninteractableEntity(
+                new MapPoint(5, 5), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
             )
         ),
         generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
@@ -113,11 +123,16 @@ public class WorldLoader {
   }
 
   /**
-   * Create a complex enough level to play the game. For simplicity, the y axis has a
-   * fixed width and the player moves along the x axis.
+   * Create a complex enough level to play the game. For simplicity, the y axis has a fixed width
+   * and the player moves along the x axis.
    */
   public World loadMultilevelWorld() {
-    HeroUnit heroUnit = new HeroUnit(new MapPoint(3, 4), 1, Team.PLAYER);
+    HeroUnit heroUnit = new HeroUnit(
+        new MapPoint(3, 4),
+        new MapSize(0.5, 0.5),
+        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
     LinkedList<Level> levels = new LinkedList<>();
 
     {
@@ -126,17 +141,34 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(2, 3), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 4), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 5), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 6), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 7), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(2, 8), 0.5f, Team.PLAYER),
-              new Unit(new MapPoint(8, 8), 0.5f, Team.ENEMY)
+              new Unit(new MapPoint(2, 3), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(2, 4), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(2, 5), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new Unit(new MapPoint(2, 6), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new Unit(new MapPoint(2, 7), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(2, 8), new MapSize(0.5, 0.5), Team.PLAYER,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(8, 8), new MapSize(0.5, 0.5), Team.ENEMY,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+              )
           ),
           Arrays.asList(),
           Arrays.asList(
-              new MapEntity(bounds.getCenter().rounded(), 0.1f)
+              new UninteractableEntity(
+                  bounds.getCenter().rounded(),
+                  GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+              )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
@@ -153,16 +185,25 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(23, 4), 0.5f, Team.ENEMY),
-              new Unit(new MapPoint(23, 5), 0.5f, Team.ENEMY),
-              new Unit(new MapPoint(23, 6), 0.5f, Team.ENEMY)
+              new Unit(new MapPoint(23, 4), new MapSize(0.5, 0.5), Team.ENEMY,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new Unit(new MapPoint(23, 5), new MapSize(0.5, 0.5), Team.ENEMY,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(23, 6), new MapSize(0.5, 0.5), Team.ENEMY,
+                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+              )
           ),
           Arrays.asList(
-              new HealingItem(new MapPoint(21, 1), 0.2f),
-              new BuffItem(new MapPoint(24, 5), 0.2f)
+              new HealingItem(new MapPoint(21, 1)),
+              new BuffItem(new MapPoint(24, 5))
           ),
           Arrays.asList(
-              new MapEntity(bounds.getCenter().rounded(), 0.1f)
+              new UninteractableEntity(
+                  bounds.getCenter().rounded(),
+                  GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+              )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
