@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -31,8 +30,6 @@ public class WorldSaveModel {
    * file.
    */
   private static final String SAVE_FILE_DIRECTORY = "./saves/";
-
-  private static final Charset SAVE_FILE_CHARSET = Charset.defaultCharset();
 
   private final Filesystem filesystem;
 
