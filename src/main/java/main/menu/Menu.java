@@ -1,10 +1,10 @@
 package main.menu;
 
-import java.net.URL;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
-import javafx.concurrent.Worker;
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import main.Main;
+import main.menu.controller.MenuController;
 
 /**
  * Esssentually a wrapper that brings the html and the controller together.
@@ -13,36 +13,45 @@ import netscape.javascript.JSObject;
  */
 public abstract class Menu {
 
-  /**
-   * Loads a menu into the webEngine and binds the controller to the js.
-   */
-  public void load(WebEngine webEngine) {
-    webEngine.loadContent(this.getHtml());
-    webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
-      if (newState == Worker.State.SUCCEEDED) {
-        JSObject window = (JSObject) webEngine.executeScript("window");
-        window.setMember("controller", this.getMenuController());
-      }
-    });
+  final Main main;
+  MenuController menuController;
+
+  public Menu(Main main) {
+    this.main = main;
   }
 
   /**
    * Turns a file into a string.
    */
   String fileToString(String fileName) {
-    try (Scanner scanner = new Scanner(fileName)) {
+    try (Scanner scanner = new Scanner(new File(fileName))) {
       scanner.useDelimiter("\\A");
       return scanner.next();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
     }
+    return "";
   }
 
   /**
    * Gets the HTML to display on the page.
    */
-  abstract String getHtml();
+  public abstract String getHtml();
+
+  /**
+   * Gets the addresses to the css files to use.
+   */
+  public abstract String getStyleSheetLocation();
+
+  /**
+   * Gets the scripts to run.
+   */
+  public abstract String[] getScripts();
 
   /**
    * Gets an instance of the object to bind to javascript.
    */
-  abstract MenuController getMenuController();
+  public MenuController getMenuController() {
+    return this.menuController;
+  }
 }

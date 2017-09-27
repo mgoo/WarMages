@@ -1,19 +1,37 @@
 package main.menu;
 
-import java.net.URL;
+import java.io.File;
+import main.Main;
+import main.menu.controller.HudController;
+import main.menu.generators.ScriptFileGenerator;
 
 /**
- * Created by mgoo on 26/09/17.
+ * The definitions of the file paths to the html file for the Heads Up Display.
+ *
+ * @author Andrew McGhie
  */
 public class Hud extends Menu {
 
-  @Override
-  String getHtml() {
-    return null;
+  public Hud(Main main, MainMenu mainMenu) {
+    super(main);
+    this.menuController = new HudController(main, mainMenu);
   }
 
   @Override
-  MenuController getMenuController() {
-    return null;
+  public String getHtml() {
+    return this.fileToString("resources/html/hud.html");
+  }
+
+  @Override
+  public String getStyleSheetLocation() {
+    return new File("resources/html/css/hud.css").toURI().toString();
+  }
+
+  @Override
+  public String[] getScripts() {
+    return new String[]{
+      new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
+      new ScriptFileGenerator().setFile("resources/html/js/hud.js").getScript()
+    };
   }
 }
