@@ -1,5 +1,13 @@
 package main.game.model.world.saveandload;
 
+import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
+import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
+import static main.images.GameImageResource.TEST_IMAGE_FULL_SIZE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,7 +26,6 @@ import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -67,7 +74,7 @@ public class WorldLoader {
   public static MapEntity newBorderEntityAt(MapPoint point) {
     return new UninteractableEntity(
         point,
-        GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+        TEST_IMAGE_FULL_SIZE.getGameImage()
     );
   }
 
@@ -80,15 +87,16 @@ public class WorldLoader {
 
   /**
    * Creates a new {@link GameModel} with the single level and example data. This level doesn't have
-   * a wall of {@link MapEntity}s around the bounds. This should have every {@link Entity} in the
-   * {@link main.game.model.entity} package for maximum coverage in tests.
+   * a wall of {@link MapEntity}s around the bounds. This should have every non {@link
+   * main.game.model.entity.Projectile} {@link Entity} in the {@link main.game.model.entity} package
+   * for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
-        new MapSize(0.5, 0.5),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN
     );
 
     MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(10, 8));
@@ -96,10 +104,10 @@ public class WorldLoader {
         bounds,
         Arrays.asList(
             new Unit(new MapPoint(3, 0), new MapSize(0.5, 0.5), Team.PLAYER,
-                new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
-            new Unit(new MapPoint(9, 7), new MapSize(0.5, 0.5), Team.PLAYER,
-                new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+            new Unit(new MapPoint(9, 7), new MapSize(0.5, 0.5), Team.ENEMY,
+                new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),
         Arrays.asList(
@@ -108,10 +116,10 @@ public class WorldLoader {
         ),
         Arrays.asList(
             new UninteractableEntity(
-                new MapPoint(2, 1), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+                new MapPoint(2, 1), TEST_IMAGE_FULL_SIZE.getGameImage()
             ),
             new UninteractableEntity(
-                new MapPoint(5, 5), GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+                new MapPoint(5, 5), TEST_IMAGE_FULL_SIZE.getGameImage()
             )
         ),
         generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
@@ -129,9 +137,9 @@ public class WorldLoader {
   public World loadMultilevelWorld() {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(3, 4),
-        new MapSize(0.5, 0.5),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN
     );
     LinkedList<Level> levels = new LinkedList<>();
 
@@ -142,32 +150,32 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(2, 3), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(2, 4), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(2, 5), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(2, 6), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(2, 7), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(2, 8), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(8, 8), new MapSize(0.5, 0.5), Team.ENEMY,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(),
           Arrays.asList(
               new UninteractableEntity(
                   bounds.getCenter().rounded(),
-                  GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+                  TEST_IMAGE_FULL_SIZE.getGameImage()
               )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
@@ -186,13 +194,13 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(23, 4), new MapSize(0.5, 0.5), Team.ENEMY,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(23, 5), new MapSize(0.5, 0.5), Team.ENEMY,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.ARCHER
+                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(23, 6), new MapSize(0.5, 0.5), Team.ENEMY,
-                  new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(
@@ -202,7 +210,7 @@ public class WorldLoader {
           Arrays.asList(
               new UninteractableEntity(
                   bounds.getCenter().rounded(),
-                  GameImageResource.TEST_IMAGE_FULL_SIZE.getGameImage()
+                  TEST_IMAGE_FULL_SIZE.getGameImage()
               )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
