@@ -16,6 +16,7 @@ public enum Team {
 
   /**
    * Check with the units of this team can attack units of the given team.
+   *
    * @param team A team that you may be able to attack.
    * @return Whether this can attack team.
    */
