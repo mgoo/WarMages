@@ -59,7 +59,8 @@ public class UnitSpriteSheet {
     WALK(8, 9, true),
     SLASH(12, 6, true),
     SHOOT(16, 13, true),
-    HURT(20, 6, false);
+    HURT(20, 6, false),
+    IDLE(8, 3, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;
