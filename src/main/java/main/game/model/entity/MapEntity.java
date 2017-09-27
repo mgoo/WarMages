@@ -1,20 +1,36 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * An {@link Entity} that cannot move / be moved on the map, and takes up a whole square {@link
  * Unit}s cannot move through one of these.
  */
-public class MapEntity extends Entity {
+public abstract class MapEntity extends Entity {
 
-  public MapEntity(MapPoint coord, float size) {
-    super(coord, size);
+  /**
+   * Constructor takes the coordinates of the MapEntity.
+   */
+  public MapEntity(MapPoint coord) {
+    super(coord, new MapSize(1, 1));
   }
 
   @Override
-  public GameImage getImage() {
-    throw new Error("NYI");
+  public void moveX(double amount) {
+    //do nothing
+  }
+
+  @Override
+  public void moveY(double amount) {
+    //do nothing
+  }
+
+  /**
+   * Returns boolean representing whether the given point lies inside the MapEntity.
+   */
+  public boolean contains(MapPoint point) {
+    return (point.x >= position.x && point.y >= position.y && point.x <= position.x + size.width
+        && point.y <= position.y + size.height);
   }
 }
