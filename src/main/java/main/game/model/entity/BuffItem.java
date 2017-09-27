@@ -1,26 +1,33 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * BuffItem extends{@link Item}. Gives the unit a buff ability
+ * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other
+ * units).
  */
 public class BuffItem extends Item {
 
   private Ability buff;
 
-  public BuffItem(MapPoint coord, float size) {
-    super(coord, size);
+  /**
+   * Constructor takes the coords to create the item at.
+   */
+  public BuffItem(MapPoint coord) {
+    super(coord);
+    buff = new BuffAbility(null);
+    //todo pass image
   }
 
   @Override
   public void applyTo(Unit unit) {
-    throw new Error("NYI");
+    assert unit != null;
+    buff.apply(unit);
+    //todo make last for certain amount of time
   }
 
   @Override
-  public GameImage getImage() {
-    throw new Error("NYI");
+  public void tick(long timeSinceLastTick) {
+    //todo expire
   }
 }
