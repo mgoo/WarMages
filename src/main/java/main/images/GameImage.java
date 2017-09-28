@@ -112,7 +112,7 @@ public class GameImage {
   }
 
   /**
-   * Public for testing only!
+   * Public for testing only.
    * Use this method to get the sub-image, but prefer to use {@link GameImage#drawOnto};
    *
    * @throws IOException For file IO errors

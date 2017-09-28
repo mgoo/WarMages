@@ -23,7 +23,15 @@ public enum GameImageResource {
   ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
 
   // Map Entities (Landmark stuff)
-  // TODO
+  TREE(
+      new GameImageBuilder("images/map-entities/magecity.png")
+          .setStartX(128)
+          .setStartY(448)
+          .setWidth(128)
+          .setHeight(160)
+          .setOverflowTop(160 - 128)
+          .create()
+  ),
 
   // Unit Sprite Sheets
   ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/archer.png").create()),
