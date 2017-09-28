@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
 import main.util.MapPoint;
@@ -36,10 +35,13 @@ public class Renderer {
    * @param imageView the javaFX object that actually draws the GUI.
    */
   private void drawAll(GameView gameView, ImageView imageView) {
+    if (gameView == null || imageView == null) {
+      throw new IllegalArgumentException("Cannot have null arguments");
+    }
     BufferedImage image = null;
     for (Renderable r : gameView.getRenderables()) {
       if (image == null) {
-        r.getImage();
+        image = r.getImage();
       }
       MapPoint position = r.getImagePosition();
       Graphics2D g = image.createGraphics();
@@ -49,7 +51,9 @@ public class Renderer {
       g.setRenderingHints(rh);
       g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
     }
-    imageView.setImage(SwingFXUtils.toFXImage(image, null));
+    if (image != null) {
+      imageView.setImage(SwingFXUtils.toFXImage(image, null));
+    }
   }
 
   /**
