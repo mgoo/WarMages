@@ -1,24 +1,30 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * HealingItem extends{@link Item}. Can be used to heal a unit
+ * HealingItem extends{@link Item}. Can be used to heal a unit.
  */
 public class HealingItem extends Item {
 
-  public HealingItem(MapPoint coord, float size) {
-    super(coord, size);
-  }
-
-  @Override
-  public GameImage getImage() {
-    throw new Error("NYI");
+  /**
+   * Constructor takes the coords of the HealingItem.
+   */
+  public HealingItem(MapPoint coord) {
+    super(coord);
+    //todo set image
   }
 
   @Override
   public void applyTo(Unit unit) {
-    throw new Error("NYI");
+    assert unit != null;
+    unit.setHealing(true);
+    //todo implement healing
+  }
+
+  @Override
+  public void tick(long timeSinceLastTick) {
+    //todo expire
+    //unit.setHealing(false);
   }
 }
