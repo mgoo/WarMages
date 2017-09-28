@@ -24,7 +24,7 @@ import main.util.MapRect;
  */
 public class World {
 
-  private final Queue<Level> levels;
+  private final List<Level> levels;
 
   private int levelIndex = 0;
   private final Collection<MapEntity> mapEntities;
@@ -42,7 +42,7 @@ public class World {
    *        initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(Queue<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit) {
     if (levels == null) {
       throw new NullPointerException("levels queue cannot be null");
     }
@@ -51,9 +51,9 @@ public class World {
     }
     this.levels = levels;
     this.heroUnit = heroUnit;
-    this.units = levels.peek().getUnits();
-    this.items = levels.peek().getItems();
-    mapEntities = levels.peek().getMapEntities();
+    this.units = levels.get(0).getUnits();
+    this.items = levels.get(0).getItems();
+    mapEntities = levels.get(0).getMapEntities();
   }
 
   /**
@@ -135,7 +135,7 @@ public class World {
    * for progression.
    */
   public void easeTrigger() {
-    if (levels.peek().areGoalsCompleted(this)) {
+    if (levels.get(0).areGoalsCompleted(this)) {
       nextLevel();
     }
   }
@@ -144,11 +144,11 @@ public class World {
    * A method which moves to the next level.
    */
   private void nextLevel() {
-    levels.poll();
-    items.addAll(levels.peek().getItems());
+    levels.remove(0);
+    items.addAll(levels.get(0).getItems());
     mapEntities.clear();
-    mapEntities.addAll(levels.peek().getMapEntities());
-    units.addAll(levels.peek().getUnits());
+    mapEntities.addAll(levels.get(0).getMapEntities());
+    units.addAll(levels.get(0).getUnits());
   }
 
   /**
