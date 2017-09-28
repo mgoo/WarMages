@@ -2,6 +2,7 @@ package main.images;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import main.game.model.world.World;
 
 /**
  * Reference all of the image files in the app here by adding a new enum value.
@@ -10,39 +11,66 @@ import java.io.IOException;
  */
 public class GameImage {
 
-  private static final int MAX_SIZE = Integer.MAX_VALUE;
+  static final int FILL_SPACE = Integer.MAX_VALUE;
 
   /**
    * File path relative to the resources directory.
    */
   private final String filePath;
+
+  /**
+   * Fields for selecting a sub-image.
+   */
   private final int startX;
   private final int startY;
   private final int width;
   private final int height;
 
   /**
-   * For use only within the package.
-   * @param filePath See {@link GameImage#filePath}
+   * Overflow space variables. E.g. Say this {@link GameImage} represents a tree, and this image is
+   * 25x45 pixels (width x height). Also, this tree should only take up one grid cell in the
+   * {@link World}. We don't want to vertically 'squish' the tree image into this cell, we want it
+   * to draw extra space above the cell. If one cell is 25x25 pixels on the screen, then we can
+   * set overflowTop = 20 to say that the top 20 pixels of this image should be overflowed outside
+   * the designated drawing area.
+   * <p>
+   * The overflows refer to the image after sub-image processing.
+   * </p>
    */
-  GameImage(String filePath) {
-    this(filePath, 0, 0, MAX_SIZE, MAX_SIZE);
-  }
+  private final int overflowTop;
+  private final int overflowRight;
+  private final int overflowBottom;
+  private final int overflowLeft;
 
   /**
-   * For use only within the package.
-   * @param filePath See {@link GameImage#filePath}
+   * Don't use this directly. Use {@link GameImageBuilder}.
    */
-  GameImage(String filePath, int startX, int startY, int width, int height) {
+  GameImage(
+      String filePath,
+      int startX,
+      int startY,
+      int width,
+      int height,
+      int overflowTop,
+      int overflowRight,
+      int overflowBottom,
+      int overflowLeft
+  ) {
     if (filePath.startsWith("/")) {
       throw new IllegalArgumentException();
     }
 
     this.filePath = filePath;
+
     this.startX = startX;
     this.startY = startY;
     this.width = width;
     this.height = height;
+
+    this.overflowTop = overflowTop;
+    this.overflowRight = overflowRight;
+    this.overflowBottom = overflowBottom;
+    this.overflowLeft = overflowLeft;
   }
 
   public String getFilePath() {
@@ -87,17 +115,18 @@ public class GameImage {
     int w = width;
     int h = height;
 
-    if (width == MAX_SIZE && height == MAX_SIZE) {
+    if (width == FILL_SPACE && height == FILL_SPACE) {
       return image;
     }
 
-    if (w == MAX_SIZE) {
+    if (w == FILL_SPACE) {
       w = image.getWidth() - startX;
     }
-    if (h == MAX_SIZE) {
+    if (h == FILL_SPACE) {
       h = image.getHeight() - startY;
     }
 
     return image.getSubimage(startX, startY, w, h);
   }
+
 }

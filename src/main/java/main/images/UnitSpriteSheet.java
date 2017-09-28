@@ -79,13 +79,14 @@ public class UnitSpriteSheet {
       int row = supportsDirections ? rowWithDirection(direction) : firstRow;
 
       return IntStream.range(0, numberOfColumns)
-          .mapToObj(col -> new GameImage(
-              filePath,
-              col * UNIT_WIDTH,
-              row * UNIT_HEIGHT,
-              UNIT_WIDTH,
-              UNIT_HEIGHT
-          ))
+          .mapToObj(col ->
+              new GameImageBuilder(filePath)
+                  .setStartX(col * UNIT_WIDTH)
+                  .setStartY(row * UNIT_HEIGHT)
+                  .setWidth(UNIT_WIDTH)
+                  .setHeight(UNIT_HEIGHT)
+                  .create()
+          )
           .collect(Collectors.toList());
     }
 
