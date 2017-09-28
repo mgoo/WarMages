@@ -22,8 +22,11 @@ public enum GameImageResource {
   ),
   ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
 
+  // Tiles
+  GRASS_TILE(new GameImageBuilder("images/tiles/grass.png").create()),
+
   // Map Entities (Landmark stuff)
-  TREE(
+  TREE_MAP_ENTITY(
       new GameImageBuilder("images/map-entities/magecity.png")
           .setStartX(128)
           .setStartY(448)
