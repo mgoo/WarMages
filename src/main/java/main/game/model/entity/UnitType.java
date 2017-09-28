@@ -11,17 +11,18 @@ import main.images.UnitSpriteSheet.Sequence;
  */
 public enum UnitType {
 
-  ARCHER(5, 200, 5),
+  ARCHER(5, 200, 5, Sequence.SHOOT),
 
-  SWORDSMAN(10, 250, 6),
+  SWORDSMAN(10, 250, 6, Sequence.SLASH),
 
-  SPEARMAN(7, 150, 7),
+  SPEARMAN(7, 150, 7, Sequence.THRUST),
 
-  MAGICIAN(15, 300, 8);
+  MAGICIAN(15, 300, 8, Sequence.SPELL_CAST);
 
   protected int baselineDamage;
   protected int startingHealth;
   protected int speed;
+  protected Sequence attackSequence;
 
   public int getBaselineDamage() {
     return baselineDamage;
@@ -35,10 +36,15 @@ public enum UnitType {
     return speed;
   }
 
-  UnitType(int baselineDamage, int startingHealth, int speed) {
+  public Sequence getAttackSequence(){
+    return attackSequence;
+  }
+
+  UnitType(int baselineDamage, int startingHealth, int speed, Sequence attackSequence) {
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
     this.speed = speed;
+    this.attackSequence=attackSequence;
   }
 }
 
