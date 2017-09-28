@@ -3,6 +3,7 @@ package main.renderer;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.Collection;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
@@ -42,14 +43,16 @@ public class Renderer {
     for (Renderable r : gameView.getRenderables()) {
       if (image == null) {
         image = r.getImage();
+      } else {
+        MapPoint position = r.getImagePosition();
+        Graphics2D g = image.createGraphics();
+        RenderingHints rh = new RenderingHints(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+        );
+        g.setRenderingHints(rh);
+        g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
       }
-      MapPoint position = r.getImagePosition();
-      Graphics2D g = image.createGraphics();
-      RenderingHints rh = new RenderingHints(
-          RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON);
-      g.setRenderingHints(rh);
-      g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
     }
     if (image != null) {
       imageView.setImage(SwingFXUtils.toFXImage(image, null));
