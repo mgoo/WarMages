@@ -6,6 +6,8 @@ package main.util;
  */
 public class Config {
 
+  private static final int CONTEXT_SCREEN_SIZE_NOT_SET = -1;
+
   private int gameModelDelay = 50;
 
   private double gameViewScrollSpeed = 1;
@@ -13,8 +15,8 @@ public class Config {
   private int entityViewTilePixelsX = 50;
   private int entityViewTilePixelsY = 50;
 
-  private int contextScreenWidth = -1;
-  private int contextScreenHeight = -1;
+  private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
+  private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
 
   public int getGameModelDelay() {
     return gameModelDelay;
@@ -38,8 +40,8 @@ public class Config {
    * @throws Error if screenWidth not set
    */
   public int getContextScreenWidth() {
-    if (contextScreenWidth == -1) {
-      throw new Error("You have not set the screen height yet");
+    if (contextScreenWidth == CONTEXT_SCREEN_SIZE_NOT_SET) {
+      throw new IllegalStateException("You have not set the screen height yet");
     }
     return contextScreenWidth;
   }
@@ -50,8 +52,8 @@ public class Config {
    * @throws Error if screenHeight not set
    */
   public int getContextScreenHeight() {
-    if (contextScreenHeight == -1) {
-      throw new Error("You have not set the screen height yet");
+    if (contextScreenHeight == CONTEXT_SCREEN_SIZE_NOT_SET) {
+      throw new IllegalStateException("You have not set the screen height yet");
     }
     return contextScreenHeight;
   }

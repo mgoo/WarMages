@@ -5,39 +5,80 @@ import main.util.MapPoint;
 import main.util.MapSize;
 
 /**
- * Entity Abstract class: entities have positions on the screen, images, and sizes.
+ * Entity class: entities have positions on the screen, images, and sizes.
  */
 public abstract class Entity {
 
   protected MapPoint position;
   protected GameImage image;
-  protected float size;
+  protected MapSize size;
 
   /**
-   * TODO javadoc.
+   * Constructor takes the position of the entity and the size.
+   *
+   * @param position position of Entity.
+   * @param size size of Entity.
    */
-  public Entity(MapPoint position, float size) {
+  public Entity(MapPoint position, MapSize size) {
     this.position = position;
     this.size = size;
-    // throw new Error("NYI");
   }
 
+  /**
+   * Returns the position of the Entity.
+   *
+   * @return the entity's position.
+   */
   public MapPoint getPosition() {
-    throw new Error("NYI");
+    return new MapPoint(position.x, position.y);
   }
 
+  /**
+   * Returns the size of the Entity.
+   *
+   * @return the entity's size.
+   */
   public MapSize getSize() {
-    throw new Error("NYI");
+    return new MapSize(size.width, size.height);
   }
 
-  public void moveX(float amount) {
-    throw new Error("NYI");
+  /**
+   * Moves the position of the Entity by amount in the x direction.
+   *
+   * @param amount to be moved by.
+   */
+  public void moveX(double amount) {
+    position = new MapPoint(position.x + amount, position.y);
   }
 
-  public void moveY(float amount) {
-    throw new Error("NYI");
+  /**
+   * Moves the position of the Entity by amount in the y direction.
+   *
+   * @param amount to be moved by.
+   */
+  public void moveY(double amount) {
+    position = new MapPoint(position.x, position.y + amount);
   }
 
-  public abstract GameImage getImage();
+  /**
+   * Returns the image representing the Entity.
+   *
+   * @return GameImage of the Entity.
+   */
+  public GameImage getImage() {
+    if (image == null) {
+      throw new NullPointerException("The Entity's image has not been set yet");
+    }
+    return image;
+  }
 
+  /**
+   * Sets the Entity's image to the given image. Requires that the image is not null.
+   */
+  public abstract void setImage(GameImage image);
+
+  /**
+   * Updates the Entity's position.
+   */
+  public abstract void tick(long timeSinceLastTick);
 }
