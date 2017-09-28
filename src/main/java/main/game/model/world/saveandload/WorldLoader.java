@@ -9,7 +9,7 @@ import static main.images.GameImageResource.POTION_BLUE_ITEM;
 import static main.images.GameImageResource.RING_BLUE_ITEM;
 import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.TEST_IMAGE_FULL_SIZE;
-import static main.images.GameImageResource.TREE;
+import static main.images.GameImageResource.TREE_MAP_ENTITY;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +80,7 @@ public class WorldLoader {
   public static MapEntity newBorderEntityAt(MapPoint point) {
     return new UninteractableEntity(
         point,
-        TREE.getGameImage()
+        TREE_MAP_ENTITY.getGameImage()
     );
   }
 
@@ -122,10 +122,10 @@ public class WorldLoader {
         ),
         Arrays.asList(
             new UninteractableEntity(
-                new MapPoint(2, 1), TREE.getGameImage()
+                new MapPoint(2, 1), TREE_MAP_ENTITY.getGameImage()
             ),
             new UninteractableEntity(
-                new MapPoint(5, 5), TREE.getGameImage()
+                new MapPoint(5, 5), TREE_MAP_ENTITY.getGameImage()
             )
         ),
         generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
@@ -181,7 +181,7 @@ public class WorldLoader {
           Arrays.asList(
               new UninteractableEntity(
                   bounds.getCenter().rounded(),
-                  TREE.getGameImage()
+                  TREE_MAP_ENTITY.getGameImage()
               )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
