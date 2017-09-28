@@ -1,8 +1,5 @@
 package main.game.model.entity;
 
-import java.util.List;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 
 /**

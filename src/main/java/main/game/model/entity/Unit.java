@@ -14,13 +14,11 @@ import main.util.MapSize;
 public class Unit extends Attackable implements Damageable {
 
   protected final Team team;
-  protected int imagesIdx;
   protected boolean isDead;
   protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
-  protected List<GameImage> images;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -36,11 +34,8 @@ public class Unit extends Attackable implements Damageable {
     speed = unitType.getSpeed();
     damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
-    images = new ArrayList<>();
     unitState = UnitState.DEFAULT_STATE;
     unitState.setDirection(Direction.LEFT);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
   }
 
   /**
@@ -58,11 +53,10 @@ public class Unit extends Attackable implements Damageable {
    * @param state to be changed to.
    */
   private void setStateTo(UnitState state) {
+    //todo change
     Direction direction = unitState.getDirection();
     unitState = state;
     unitState.setDirection(direction);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
   }
 
   /**
@@ -88,12 +82,9 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //update image
-    if (imagesIdx == images.size() - 1) {
-      //reset state back to default todo confirm when to change back to default state
-      setStateTo(UnitState.DEFAULT_STATE);
-    }
-    image = images.get(imagesIdx);
+    //update image todo set in state?
+    unitState.tick(timeSinceLastTick);
+    //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     updateDirection(oldPosition);
@@ -102,6 +93,11 @@ public class Unit extends Attackable implements Damageable {
       attack(target);
       setStateTo(UnitState.ATTACKING);
     }
+  }
+
+  @Override
+  public GameImage getImage() {
+    return unitState.getImage();
   }
 
   @Override
