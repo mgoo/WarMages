@@ -58,28 +58,6 @@ public class Renderer {
   }
 
   /**
-   * Creates a buffered image of the correct size based on the renderables.
-   *
-   * @param renderables collection of renderable objects
-   * @return correct sized image
-   */
-  private BufferedImage getCorrectSizeBlankImage(Collection<Renderable> renderables) {
-    double left = Double.MAX_VALUE;
-    double top = Double.MAX_VALUE;
-    double bottom = Double.MIN_VALUE;
-    double right = Double.MIN_VALUE;
-    for (Renderable r : renderables) { //Calculations based on top left corner
-      BufferedImage image = r.getImage();
-      left = Math.min(left, r.getImagePosition().x);
-      top = Math.min(top, r.getImagePosition().y);
-      right = Math.max(right, r.getImagePosition().x + image.getWidth());
-      bottom = Math.max(bottom, r.getImagePosition().y + image.getHeight());
-    }
-    return new BufferedImage(
-        (int) (right - left), (int) (bottom - top), BufferedImage.TYPE_INT_ARGB);
-  }
-
-  /**
    * Pauses the rendering loop.
    *
    * @throws InterruptedException InterruptedException if any thread interrupted the current thread
