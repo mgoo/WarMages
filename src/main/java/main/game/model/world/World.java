@@ -32,7 +32,6 @@ public class World {
   private final HeroUnit heroUnit;
   private final Collection<Unit> units;
   private final Collection<Item> items;
-  private final Collection<MapRect> bounds = new HashSet<>();
 
   private Collection<Entity> selectedEntities;
 
@@ -54,7 +53,6 @@ public class World {
     this.heroUnit = heroUnit;
     this.units = levels.peek().getUnits();
     this.items = levels.peek().getItems();
-    //bounds.add(levels.get(levelIndex).getMapBounds());
     mapEntities = levels.peek().getMapEntities();
   }
 
@@ -158,8 +156,6 @@ public class World {
    */
   public void tick(long timeSinceLastTick) {
     getAllEntities().stream().forEach(e -> e.tick(timeSinceLastTick));
-
-    throw new Error("Requires entities to have a tick");
   }
 
   public void setEntitySelection(Collection<Entity> selection) {
