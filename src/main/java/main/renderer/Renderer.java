@@ -43,7 +43,7 @@ public class Renderer {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
     BufferedImage image = new BufferedImage(
-        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_RGB);
+        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     RenderingHints rh = new RenderingHints(
         RenderingHints.KEY_ANTIALIASING,
@@ -87,7 +87,7 @@ public class Renderer {
    *        status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
-    thread.wait();
+    thread.wait(); // TODO TO BE CHANGED
   }
 
   /**
