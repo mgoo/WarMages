@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import main.game.model.world.World;
 import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import org.junit.Test;
@@ -15,7 +14,9 @@ public class PathFinderTest {
 
   @Test
   public void test01_testHorizontalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return true;};
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return true;
+    };
 
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(3, 1));
     List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 1), mp(3, 1)));
@@ -25,7 +26,9 @@ public class PathFinderTest {
 
   @Test
   public void test02_testVerticalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return true;};
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return true;
+    };
 
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(1, 3));
     List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(1, 2), mp(1, 3)));
@@ -35,7 +38,9 @@ public class PathFinderTest {
 
   @Test
   public void test03_testDiagonalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return true;};
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return true;
+    };
 
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(3, 3));
     List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 2), mp(3, 3)));
@@ -45,7 +50,9 @@ public class PathFinderTest {
 
   @Test
   public void test04_testDiagonalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return true;};
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return true;
+    };
 
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(5, 5));
     List<MapPoint> expected = new ArrayList<>(

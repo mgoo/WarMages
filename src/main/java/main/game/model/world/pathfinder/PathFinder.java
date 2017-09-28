@@ -26,7 +26,9 @@ public class PathFinder {
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  public static List<MapPoint> findPath(Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end) {
+  public static List<MapPoint> findPath(
+      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  ) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
