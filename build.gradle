@@ -6,6 +6,7 @@ apply plugin: 'application'
 apply plugin: 'findbugs'
 
 findbugs {
+    toolVersion = "3.0.1"
     reportsDir = file("$projectDir/findbugsReports")
     effort = "max"
     reportLevel = "high"
