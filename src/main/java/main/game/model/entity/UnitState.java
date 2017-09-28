@@ -15,12 +15,22 @@ public enum UnitState {
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
         return sheet.getImagesForSequence(type.getAttackSequence(), direction);
     }
+
+    @Override
+    public void tick(Long timeSinceLastTick) {
+      //todo cooldown
+    }
   },
 
   BEEN_HIT() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
       return sheet.getImagesForSequence(Sequence.HURT, direction);
+    }
+
+    @Override
+    public void tick(Long timeSinceLastTick) {
+      //todo recovery?
     }
   },
 
@@ -29,6 +39,11 @@ public enum UnitState {
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
       return sheet.getImagesForSequence(Sequence.IDLE, direction);
     }
+
+    @Override
+    public void tick(Long timeSinceLastTick) {
+      imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
+    }
   },
 
   WALKING() {
@@ -36,9 +51,25 @@ public enum UnitState {
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
       return sheet.getImagesForSequence(Sequence.WALK, direction);
     }
+
+    @Override
+    public void tick(Long timeSinceLastTick) {
+      imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
+    }
   };
 
   protected Direction direction;
+  protected List<GameImage> images;
+  protected int imagesIdx;
+
+  /**
+   * Constructor takes no arguments. It sets a random initial direction for the state.
+   */
+  UnitState(){
+    direction = (Math.random()<0.5) ? ((Math.random()<0.5) ? Direction.LEFT : Direction.RIGHT) :
+        ((Math.random()<0.5) ? Direction.UP : Direction.DOWN);
+    imagesIdx=0;
+  }
 
   /**
    * Sets the direction of the unit to the given direction.
@@ -58,11 +89,19 @@ public enum UnitState {
    * @return current unit direction.
    */
   public Direction getDirection() {
-    if (direction == null) {
-      throw new NullPointerException("Direction has not been set!");
-    }
     return direction;
   }
 
+  /**
+   * Returns the current image of the state.
+   *
+   * @return GameImage image of the state at this current point.
+   */
+  public GameImage getImage(){
+    return images.get(imagesIdx);
+  }
+
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
+
+  public abstract void tick(Long timeSinceLastTick);
 }
