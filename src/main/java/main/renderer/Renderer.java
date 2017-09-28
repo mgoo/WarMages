@@ -76,7 +76,7 @@ public class Renderer {
       bottom = Math.max(bottom, r.getImagePosition().y + image.getHeight());
     }
     return new BufferedImage(
-        (int) (right - left), (int) (bottom - top), BufferedImage.TYPE_INT_RGB);
+        (int) (right - left), (int) (bottom - top), BufferedImage.TYPE_INT_ARGB);
   }
 
   /**
