@@ -13,18 +13,7 @@ public enum UnitState {
   ATTACKING() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      switch (type) {
-        case ARCHER:
-          return sheet.getImagesForSequence(Sequence.SHOOT, direction);
-        case SPEARMAN:
-          return sheet.getImagesForSequence(Sequence.THRUST, direction);
-        case SWORDSMAN:
-          return sheet.getImagesForSequence(Sequence.SLASH, direction);
-        case MAGICIAN:
-          return sheet.getImagesForSequence(Sequence.SPELL_CAST, direction);
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, direction);
-      }
+        return sheet.getImagesForSequence(type.getAttackSequence(), direction);
     }
   },
 
