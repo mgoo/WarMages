@@ -41,7 +41,7 @@ public class Renderer {
    */
   private void drawAll(GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
-    Objects.requireNonNull(gameView);
+    Objects.requireNonNull(imageView);
     Collection<Renderable> renderables = gameView.getRenderables();
     BufferedImage image = getCorrectSizeBlankImage(renderables);
     for (Renderable r : gameView.getRenderables()) {
