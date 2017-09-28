@@ -59,8 +59,8 @@ public class Renderer {
    * Pauses the rendering loop.
    *
    * @throws InterruptedException InterruptedException if any thread interrupted the current thread
-   * before or while the current thread was waiting for a notification.  The <i>interrupted
-   * status</i> of the current thread is cleared when this exception is thrown.
+   *     before or while the current thread was waiting for a notification.  The <i>interrupted
+   *     status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
     thread.wait();
