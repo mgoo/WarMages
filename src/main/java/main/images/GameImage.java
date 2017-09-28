@@ -1,13 +1,12 @@
 package main.images;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.game.model.world.World;
 
 /**
  * Reference all of the image files in the app here by adding a new enum value.
- *
- * @see GameImage#load(ImageProvider) To get a {@link BufferedImage}.
  */
 public class GameImage {
 
@@ -34,7 +33,7 @@ public class GameImage {
    * set overflowTop = 20 to say that the top 20 pixels of this image should be overflowed outside
    * the designated drawing area.
    * <p>
-   * The overflows refer to the image after sub-image processing.
+   * The overflow variables refer to the image after sub-image processing.
    * </p>
    */
   private final int overflowTop;
@@ -94,7 +93,27 @@ public class GameImage {
   }
 
   /**
-   * Use this method to get an image.
+   * Draws this image onto the graphics2D. The last four parameters designate the area where this
+   * image should be drawn to. If there are any offsets (e.g. overflowTop > 0), then the offset
+   * areas of this image should be drawn outside the designated area.
+   */
+  public void drawOnto(
+      Graphics2D graphics2D,
+      ImageProvider imageProvider,
+      int x,
+      int y,
+      int width,
+      int height
+  ) throws IOException {
+    BufferedImage subImage = load(imageProvider);
+    graphics2D.drawImage(subImage, x, y, width, height, null);
+
+    // TODO eric - remember to take into account the offset fields
+  }
+
+  /**
+   * Public for testing only!
+   * Use this method to get the sub-image, but prefer to use {@link GameImage#drawOnto};
    *
    * @throws IOException For file IO errors
    */
