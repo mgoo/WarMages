@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
-import main.game.model.world.World;
+import java.util.function.Function;
 import main.util.MapPoint;
 
 /**
@@ -21,12 +21,12 @@ public class PathFinder {
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
    * on the world returning a list of points along this path.
    *
-   * @param world the world to find the path in
+   * @param isPassable a function that determines whether a given point is passable or not
    * @param start the start point of the path
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  public static List<MapPoint> findPath(World world, MapPoint start, MapPoint end) {
+  public static List<MapPoint> findPath(Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
@@ -47,7 +47,7 @@ public class PathFinder {
 
       for (MapPoint neigh : tuple.getPoint().getNeighbours()) {
 
-        if (!visited.contains(neigh) && world.isPassable(neigh)) {
+        if (!visited.contains(neigh) && isPassable.apply(neigh)) {
 
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
