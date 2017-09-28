@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -8,7 +7,7 @@ import main.util.MapSize;
 /**
  * HealingSphere extends {@link Projectile}. It heals a target by 5 hp.
  */
-public class HealingSphere extends Projectile implements Serializable {
+public class HealingSphere extends Projectile {
 
   private static final long serialVersionUID = 1L;
 

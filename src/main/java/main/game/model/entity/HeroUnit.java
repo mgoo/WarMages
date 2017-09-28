@@ -1,8 +1,6 @@
 package main.game.model.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -11,7 +9,7 @@ import main.util.MapSize;
  * HeroUnit extends {@link Unit}. This unit is the main unit to be controlled by the user. It has
  * abilities, and is able to pick up items and use the items.
  */
-public class HeroUnit extends Unit implements Serializable {
+public class HeroUnit extends Unit {
 
   private static final long serialVersionUID = 1L;
 

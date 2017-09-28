@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -8,7 +7,7 @@ import main.util.MapSize;
 /**
  * PizzaBall extends {@link Projectile}. It deals 5 damage to it’s target
  */
-public class PizzaBall extends Projectile implements Serializable {
+public class PizzaBall extends Projectile {
 
   private static final long serialVersionUID = 1L;
 

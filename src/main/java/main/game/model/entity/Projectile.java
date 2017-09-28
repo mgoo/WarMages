@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import java.io.Serializable;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -8,7 +7,7 @@ import main.util.MapSize;
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
  * affects it in some way upon impact.
  */
-public abstract class Projectile extends Entity implements Serializable {
+public abstract class Projectile extends Entity {
 
   private static final long serialVersionUID = 1L;
 
