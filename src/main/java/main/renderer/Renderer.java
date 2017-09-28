@@ -44,14 +44,14 @@ public class Renderer {
     Objects.requireNonNull(imageView);
     BufferedImage image = new BufferedImage(
         (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_RGB);
+    Graphics2D g = image.createGraphics();
+    RenderingHints rh = new RenderingHints(
+        RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON
+    );
+    g.setRenderingHints(rh);
     for (Renderable r : gameView.getRenderables()) {
       MapPoint position = r.getImagePosition();
-      Graphics2D g = image.createGraphics();
-      RenderingHints rh = new RenderingHints(
-          RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON
-      );
-      g.setRenderingHints(rh);
       g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
