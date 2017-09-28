@@ -15,10 +15,12 @@ import main.util.MapPoint;
  * looping.
  */
 public class Renderer {
+
   private final Thread thread;
 
   /**
    * Creates a Renderer and the rendering loop.
+   *
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
@@ -32,33 +34,33 @@ public class Renderer {
 
   /**
    * A method which draws all the renderables in gameView and sets it to the imageView.
+   *
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
   private void drawAll(GameView gameView, ImageView imageView) {
-    BufferedImage image = null;
-    for (Renderable r : gameView.getRenderables()) {
-      if (image == null) {
-        r.getImage();
-      }
-      MapPoint position = r.getImagePosition();
-      Graphics2D g = image.createGraphics();
-      RenderingHints rh = new RenderingHints(
-          RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON);
-      g.setRenderingHints(rh);
-      g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
-    }
-    imageView.setImage(SwingFXUtils.toFXImage(image, null));
+    //    BufferedImage image = null;
+    //    for (Renderable r : gameView.getRenderables()) {
+    //      if (image == null) {
+    //        r.getImage();
+    //      }
+    //      MapPoint position = r.getImagePosition();
+    //      Graphics2D g = image.createGraphics();
+    //      RenderingHints rh = new RenderingHints(
+    //          RenderingHints.KEY_ANTIALIASING,
+    //          RenderingHints.VALUE_ANTIALIAS_ON);
+    //      g.setRenderingHints(rh);
+    //      g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
+    //    }
+    //    imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
 
   /**
    * Pauses the rendering loop.
-   * @throws InterruptedException InterruptedException if any thread interrupted the
-   *             current thread before or while the current thread
-   *             was waiting for a notification.  The <i>interrupted
-   *             status</i> of the current thread is cleared when
-   *             this exception is thrown.
+   *
+   * @throws InterruptedException InterruptedException if any thread interrupted the current thread
+   *     before or while the current thread was waiting for a notification.  The <i>interrupted
+   *     status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
     thread.wait();
