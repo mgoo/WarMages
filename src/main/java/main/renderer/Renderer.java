@@ -42,8 +42,8 @@ public class Renderer {
   private void drawAll(GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
-    Collection<Renderable> renderables = gameView.getRenderables();
-    BufferedImage image = getCorrectSizeBlankImage(renderables);
+    BufferedImage image = new BufferedImage(
+        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_RGB);
     for (Renderable r : gameView.getRenderables()) {
       MapPoint position = r.getImagePosition();
       Graphics2D g = image.createGraphics();
