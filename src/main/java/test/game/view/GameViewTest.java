@@ -13,8 +13,10 @@ import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView;
 import main.game.view.GameView;
+import main.images.DefaultImageProvider;
 import main.images.GameImage;
 import main.images.GameImageResource;
+import main.images.ImageProvider;
 import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -41,11 +43,13 @@ public class GameViewTest {
    */
   @Before
   public void setUp() {
+    final ImageProvider imageProvider = new DefaultImageProvider();
     final GameControllerMock gameController = new GameControllerMock();
     this.gameModelMock = new GameModelMock();
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
-    this.gameView = new GameView(config, gameController, gameModelMock);
+    this.gameView = new GameView(config,
+        gameController, gameModelMock, imageProvider);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), 1);
     entityList = new ArrayList<>();
