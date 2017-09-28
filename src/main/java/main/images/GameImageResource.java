@@ -10,32 +10,41 @@ package main.images;
  */
 public enum GameImageResource {
   // Items
-  POTION_BLUE_ITEM(new GameImage("images/items/potion-blue.png")),
-  RING_BLUE_ITEM(new GameImage("images/items/ring-gold.png")),
+  POTION_BLUE_ITEM(new GameImageBuilder("images/items/potion-blue.png").create()),
+  RING_BLUE_ITEM(new GameImageBuilder("images/items/ring-gold.png").create()),
 
   // Projectiles
   //   NOTE: For consistency, if there are projectiles that have a direction (e.g. an arrow),
   //   the image should have the projectile pointing upwards.
   // Use this one as static image, rather than a sequence of images:
-  WHITE_BALL_PROJECTILE(new GameImage("images/projectiles/whitemissile-impact-3.png")),
-  ARROW_PROJECTILE(new GameImage("images/projectiles/missile-n.png")),
+  WHITE_BALL_PROJECTILE(
+      new GameImageBuilder("images/projectiles/whitemissile-impact-3.png").create()
+  ),
+  ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
 
   // Map Entities (Landmark stuff)
   // TODO
 
   // Unit Sprite Sheets
-  ARCHER_SPRITE_SHEET(new GameImage("images/units/archer.png")),
-  FOOT_KNIGHT_SPRITE_SHEET(new GameImage("images/units/footknight.png")),
-  GOLDEN_HERO_SPRITE_SHEET(new GameImage("images/units/golden_hero.png")),
-  MALE_MAGE_SPRITE_SHEET(new GameImage("images/units/male_mage.png")),
-  ORC_SPEARMAN_SPRITE_SHEET(new GameImage("images/units/orc_spearman.png")),
-  SKELETON_ARCHER_SPRITE_SHEET(new GameImage("images/units/skeleton_archer.png")),
+  ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/archer.png").create()),
+  FOOT_KNIGHT_SPRITE_SHEET(new GameImageBuilder("images/units/footknight.png").create()),
+  GOLDEN_HERO_SPRITE_SHEET(new GameImageBuilder("images/units/golden_hero.png").create()),
+  MALE_MAGE_SPRITE_SHEET(new GameImageBuilder("images/units/male_mage.png").create()),
+  ORC_SPEARMAN_SPRITE_SHEET(new GameImageBuilder("images/units/orc_spearman.png").create()),
+  SKELETON_ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/skeleton_archer.png").create()),
 
   // Test Images
-  TEST_IMAGE_FULL_SIZE(new GameImage("fixtures/images/image_for_image_provider_tests.png")),
-  TEST_IMAGE_PARTIAL_SIZE(new GameImage(
-      "fixtures/images/image_for_image_provider_tests.png", 1, 1, 3, 2
-  ));
+  TEST_IMAGE_FULL_SIZE(
+      new GameImageBuilder("fixtures/images/image_for_image_provider_tests.png").create()
+  ),
+  TEST_IMAGE_PARTIAL_SIZE(
+      new GameImageBuilder("fixtures/images/image_for_image_provider_tests.png")
+          .setStartX(1)
+          .setStartY(1)
+          .setWidth(3)
+          .setHeight(2)
+          .create()
+  );
 
   private final GameImage gameImage;
 
