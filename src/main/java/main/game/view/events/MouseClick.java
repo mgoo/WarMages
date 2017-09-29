@@ -11,5 +11,9 @@ public interface MouseClick {
 
   boolean wasLeft();
 
+  boolean wasShiftDown();
+
+  boolean wasCtrlDown();
+
   MapPoint getLocation();
 }

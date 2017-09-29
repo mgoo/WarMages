@@ -9,6 +9,8 @@ import main.util.MapSize;
  */
 public class PizzaBall extends Projectile {
 
+  private static final long serialVersionUID = 1L;
+
   private final int damageAmount = 5;
 
   /**

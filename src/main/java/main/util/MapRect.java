@@ -1,11 +1,13 @@
 package main.util;
 
-import main.game.model.entity.Entity;
+import java.io.Serializable;
 
 /**
  * Represents a rectangle on the Map.
  */
-public class MapRect {
+public class MapRect implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final MapPoint topLeft;
   public final MapPoint bottomRight;
@@ -38,16 +40,6 @@ public class MapRect {
         && topLeft.y <= rect.topLeft.y
         && bottomRight.x >= rect.bottomRight.x
         && bottomRight.y >= rect.bottomRight.y;
-  }
-
-  /**
-   * Returns true iff the entity (including size) is inside the bounds.
-   */
-  public boolean contains(Entity entity) {
-    return contains(new MapRect(
-        entity.getPosition(),
-        entity.getSize()
-    ));
   }
 
   /**
@@ -92,5 +84,15 @@ public class MapRect {
     int result = topLeft != null ? topLeft.hashCode() : 0;
     result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
     return result;
+  }
+
+  /**
+   * Checks whether a point is inside this MapRect.
+   * @param mapPoint point to check
+   * @return returns true if point is within rect. False otherwise.
+   */
+  public boolean contains(MapPoint mapPoint) {
+    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y
+        && mapPoint.y < bottomRight.y;
   }
 }
