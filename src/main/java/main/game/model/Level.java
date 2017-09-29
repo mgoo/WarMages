@@ -1,5 +1,6 @@
 package main.game.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import main.game.model.entity.Item;
@@ -10,7 +11,9 @@ import main.game.model.world.World;
 /**
  * Represent the {@link World} state.
  */
-public class Level {
+public class Level implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private final CompletionChecker completionChecker;
   private final Collection<Unit> units;
@@ -61,7 +64,7 @@ public class Level {
   /**
    * Strategy for checking if the level is complete.
    */
-  public interface CompletionChecker {
+  public interface CompletionChecker extends Serializable {
 
     /**
      * Checks if the user has achieved the goals to finish this level (for example by killing all

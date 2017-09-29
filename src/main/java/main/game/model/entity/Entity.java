@@ -7,8 +7,6 @@ import main.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
-
-  private static final long serialVersionUID = 1L;
  */
 public abstract class Entity implements Serializable {
 
