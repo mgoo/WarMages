@@ -1,9 +1,13 @@
 package main.util;
 
+import java.io.Serializable;
+
 /**
  * Represents a rectangle on the Map.
  */
-public class MapRect {
+public class MapRect implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final MapPoint topLeft;
   public final MapPoint bottomRight;
