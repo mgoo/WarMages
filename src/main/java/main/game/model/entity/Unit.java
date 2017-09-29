@@ -112,11 +112,13 @@ public class Unit extends Attackable implements Damageable {
     if (!unit.equals(target) || isDead || target == null) {
       return;
     }
-    if (team.canAttackOtherTeam(unit.team)) {
-      setStateTo(UnitState.ATTACKING);
-      if (healing) {
+    setStateTo(UnitState.ATTACKING);
+    if(healing){
+      if(target.team.equals(team)){
         unit.gainHealth(damageAmount);
-      } else {
+      }
+    } else {
+      if (team.canAttackOtherTeam(unit.team)) {
         unit.takeDamage(damageAmount);
       }
     }
