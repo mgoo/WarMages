@@ -41,7 +41,7 @@ public class World {
    * Creates the world.
    *
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   * initial level.
+   *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
