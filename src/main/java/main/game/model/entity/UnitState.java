@@ -17,8 +17,10 @@ public enum UnitState {
     }
 
     @Override
-    public void changeImage() {
+    public void changeImage(Long timeSinceLastTick) {
       //todo cooldown, projectile if applicable
+      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
+      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
     }
   },
 
@@ -29,8 +31,10 @@ public enum UnitState {
     }
 
     @Override
-    public void changeImage() {
+    public void changeImage(Long timeSinceLastTick) {
       //todo recovery?
+      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
+      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
     }
   },
 
@@ -41,8 +45,9 @@ public enum UnitState {
     }
 
     @Override
-    public void changeImage() {
-      imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
+    public void changeImage(Long timeSinceLastTick) {
+      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
+      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
     }
   },
 
@@ -53,11 +58,13 @@ public enum UnitState {
     }
 
     @Override
-    public void changeImage() {
-      imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
+    public void changeImage(Long timeSinceLastTick) {
+      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
+      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
     }
   };
 
+  public static final long TIME_BETWEEN_TICKS = 100; //todo confirm with people
   protected Direction direction;
   protected List<GameImage> images;
   protected int imagesIdx;
@@ -103,7 +110,13 @@ public enum UnitState {
 
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
 
-  protected abstract void changeImage();
+  //todo take into account attack speed
+  /**
+   * Changes the image of the UnitState depending on the amount of time
+   * that has passed.
+   * @param timeSinceLastTick time that has passed since last tick.
+   */
+  protected abstract void changeImage(Long timeSinceLastTick);
 
   /**
    * Updates the image of the UnitState.
@@ -111,6 +124,6 @@ public enum UnitState {
    * @param timeSinceLastTick time past since last update.
    */
   public void tick(Long timeSinceLastTick){
-    changeImage();
+    changeImage(timeSinceLastTick);
   }
 }

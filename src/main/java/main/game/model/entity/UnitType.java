@@ -8,17 +8,19 @@ import main.images.UnitSpriteSheet.Sequence;
  */
 public enum UnitType {
 
-  ARCHER(5, 200, 5, Sequence.SHOOT),
+  //todo confirm attack and moving speeds
+  ARCHER(5, 200, 5, 5, Sequence.SHOOT),
 
-  SWORDSMAN(10, 250, 6, Sequence.SLASH),
+  SWORDSMAN(10, 250, 6, 5, Sequence.SLASH),
 
-  SPEARMAN(7, 150, 7, Sequence.THRUST),
+  SPEARMAN(7, 150, 5, 5, Sequence.THRUST),
 
-  MAGICIAN(15, 300, 8, Sequence.SPELL_CAST);
+  MAGICIAN(15, 300, 8, 7, Sequence.SPELL_CAST);
 
   protected int baselineDamage;
   protected int startingHealth;
-  protected int speed;
+  protected int attackSpeed;
+  protected int movingSpeed;
   protected Sequence attackSequence;
 
   public int getBaselineDamage() {
@@ -29,18 +31,21 @@ public enum UnitType {
     return startingHealth;
   }
 
-  public int getSpeed() {
-    return speed;
+  public int getAttackSpeed() {
+    return attackSpeed;
   }
+
+  public int getMovingSpeed() { return movingSpeed; }
 
   public Sequence getAttackSequence(){
     return attackSequence;
   }
 
-  UnitType(int baselineDamage, int startingHealth, int speed, Sequence attackSequence) {
+  UnitType(int baselineDamage, int startingHealth, int attackSpeed, int movingSpeed, Sequence attackSequence) {
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
-    this.speed = speed;
+    this.attackSpeed = attackSpeed;
+    this.movingSpeed=movingSpeed;
     this.attackSequence=attackSequence;
   }
 }
