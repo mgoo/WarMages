@@ -56,7 +56,10 @@ public class MainMenuController implements MenuController {
       World world = this.worldLoader.load();
       GameModel gameModel = new GameModel(world, new MainGameTick());
       GameController gameController = new GameController(gameModel);
-      GameView gameView = new GameView(this.config, gameController, gameModel, new DefaultImageProvider());
+      GameView gameView = new GameView(this.config,
+          gameController,
+          gameModel,
+          new DefaultImageProvider());
       Renderer renderer = new Renderer(gameView, this.imageView) {};
       // TODO start the game properly
 
