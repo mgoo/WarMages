@@ -1,7 +1,10 @@
 package main.game.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import main.game.model.GameModel;
+import main.game.model.entity.Unit;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 
@@ -27,35 +30,35 @@ public class GameController {
   public void onKeyPress(KeyEvent keyevent) {
     char key = keyevent.getKey();
 
-    switch(key){
+    switch (key) {
       case '.':
-        gamemodel.setEntitySelection(gamemodel.getAllEntities());
+        gamemodel.setUnitSelection(gamemodel.getAllEntities());
       case 'w': //up
-        if(keyevent.wasCtrlDown()){
+        if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
         }
-        if (keyevent.wasShiftDown()){
+        if (keyevent.wasShiftDown()) {
           throw new Error("NYI"); //TODO
         }
       case 'a': //left
-        if(keyevent.wasCtrlDown()){
+        if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
         }
-        if (keyevent.wasShiftDown()){
+        if (keyevent.wasShiftDown()) {
           throw new Error("NYI"); //TODO
         }
       case 's': //down
-        if(keyevent.wasCtrlDown()){
+        if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
         }
-        if (keyevent.wasShiftDown()){
+        if (keyevent.wasShiftDown()) {
           throw new Error("NYI"); //TODO
         }
       case 'd': //right
-        if(keyevent.wasCtrlDown()){
+        if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
         }
-        if (keyevent.wasShiftDown()){
+        if (keyevent.wasShiftDown()) {
           throw new Error("NYI"); //TODO
         }
     }
@@ -69,8 +72,14 @@ public class GameController {
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
       //deselects all previous units then select the unit under the click if there is one
-      gamemodel.setEntitySelection(new ArrayList<>());
-      gamemodel.getAllEntities();
+      gamemodel.setUnitSelection(new ArrayList<>());
+
+      Collection<Unit> selectedUnits = gamemodel.getAllUnits().stream().filter(
+          u -> u.getPosition().distance(mouseevent.getLocation()) <= Math
+              .max(u.getSize().width, u.getSize().height))
+          .collect(Collectors.toList());
+
+      gamemodel.setUnitSelection(selectedUnits);
     } else {
       throw new Error("NYI"); //TODO
     }
