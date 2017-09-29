@@ -28,6 +28,23 @@ public class MapRect implements Serializable {
     this.bottomRight = new MapPoint(maxX, maxY);
   }
 
+  public MapRect(double x, double y, double width, double height) {
+    this.topLeft = new MapPoint(x, y);
+    this.bottomRight = new MapPoint(x + width, y + height);
+  }
+
+  public MapRect move(double x, double y) {
+    return new MapRect(this.topLeft.x + x, this.topLeft.y, this.getWidth(), this.getHeight());
+  }
+
+  public double getWidth() {
+    return Math.abs(this.bottomRight.x - this.topLeft.x);
+  }
+
+  public double getHeight() {
+    return Math.abs(this.bottomRight.y - this.topLeft.y);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

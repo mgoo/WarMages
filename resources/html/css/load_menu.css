@@ -1,0 +1,60 @@
+* {
+  background-color: rgba(0, 0, 0, 0);
+  margin: 0;
+  padding: 0;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+.btn-list {
+  width: 10vw;
+  display: block;
+}
+.btn-list li {
+  display: block;
+  list-style-type: none;
+  margin: calc(10px);
+}
+.btn {
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: block;
+  width: 10vw;
+  text-align: center;
+  box-shadow: #000 3px 3px 3px;
+}
+.btn:hover {
+  box-shadow: #444 3px 3px 3px;
+}
+.btn:active {
+  box-shadow: #AAA 1px 1px 1px;
+}
+a {
+  text-decoration: none;
+}
+.red {
+  color: #000;
+  background-color: #ff995b;
+}
+.blue {
+  color: #000;
+  background-color: #6983ff;
+}
+.green {
+  color: #000;
+  background-color: #c5fba2;
+}
+.orange {
+  color: #000;
+  background-color: #b8b463;
+}
+select {
+  width: 100%;
+}
