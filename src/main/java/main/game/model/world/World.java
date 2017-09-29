@@ -1,18 +1,21 @@
 package main.game.model.world;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -21,12 +24,11 @@ import main.util.MapRect;
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
  */
-public class World implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class World {
 
   private final List<Level> levels;
 
+  private int levelIndex = 0;
   private final Collection<MapEntity> mapEntities;
 
   private final HeroUnit heroUnit;
@@ -39,7 +41,7 @@ public class World implements Serializable {
    * Creates the world.
    *
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   *        initial level.
+   * initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
@@ -82,6 +84,17 @@ public class World implements Serializable {
         }.stream()
             .filter(e -> rect.contains(e.getPosition()))
             .collect(Collectors.toList()));
+  }
+
+  /**
+   * A getter method to get all possible units.
+   *
+   * @return a collection of all possible units
+   */
+  public Collection<Unit> getAllUnits() {
+    return Collections.unmodifiableCollection(
+        units.stream().filter(u -> u.getTeam().equals(Team.PLAYER)).collect(Collectors.toList())
+    );
   }
 
   /**
