@@ -13,14 +13,13 @@ public enum UnitState {
   ATTACKING() {
     @Override
     protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-        return sheet.getImagesForSequence(type.getAttackSequence(), direction);
+      return sheet.getImagesForSequence(type.getAttackSequence(), direction);
     }
 
     @Override
     public void changeImage(Long timeSinceLastTick) {
       //todo cooldown, projectile if applicable
-      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
-      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
+      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
   },
 
@@ -33,8 +32,7 @@ public enum UnitState {
     @Override
     public void changeImage(Long timeSinceLastTick) {
       //todo recovery?
-      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
-      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
+      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
   },
 
@@ -46,8 +44,7 @@ public enum UnitState {
 
     @Override
     public void changeImage(Long timeSinceLastTick) {
-      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
-      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
+      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
   },
 
@@ -59,23 +56,21 @@ public enum UnitState {
 
     @Override
     public void changeImage(Long timeSinceLastTick) {
-      int diff = (int)(timeSinceLastTick/TIME_BETWEEN_TICKS);
-      imagesIdx = (imagesIdx+diff>=images.size()) ? 0 : imagesIdx+diff;
+      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
   };
 
-  public static final long TIME_BETWEEN_TICKS = 100; //todo confirm with people
   protected Direction direction;
   protected List<GameImage> images;
-  protected int imagesIdx;
+  protected float imagesIdx;
 
   /**
    * Constructor takes no arguments. It sets a random initial direction for the state.
    */
-  UnitState(){
-    direction = (Math.random()<0.5) ? ((Math.random()<0.5) ? Direction.LEFT : Direction.RIGHT) :
-        ((Math.random()<0.5) ? Direction.UP : Direction.DOWN);
-    imagesIdx=0;
+  UnitState() {
+    direction = (Math.random() < 0.5) ? ((Math.random() < 0.5) ? Direction.LEFT : Direction.RIGHT) :
+        ((Math.random() < 0.5) ? Direction.UP : Direction.DOWN);
+    imagesIdx = 0;
   }
 
   /**
@@ -104,26 +99,40 @@ public enum UnitState {
    *
    * @return GameImage image of the state at this current point.
    */
-  public GameImage getImage(){
+  public GameImage getImage() {
     return images.get(imagesIdx);
   }
 
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
 
   //todo take into account attack speed
+
   /**
-   * Changes the image of the UnitState depending on the amount of time
-   * that has passed.
+   * Changes the image of the UnitState depending on the amount of time that has passed.
+   *
    * @param timeSinceLastTick time that has passed since last tick.
    */
   protected abstract void changeImage(Long timeSinceLastTick);
+
+  /**
+   * Sets the "next" state to be the requested state, if there isn't already a requested state.
+   */
+  protected abstract void requestState(UnitState nextState);
+
+  /**
+   * Returns the UnitState which may be different from the current state, depending on whether a
+   * state has been requested or not.
+   *
+   * @return UnitState to be changed to
+   */
+  protected abstract UnitState updateState();
 
   /**
    * Updates the image of the UnitState.
    *
    * @param timeSinceLastTick time past since last update.
    */
-  public void tick(Long timeSinceLastTick){
+  public void tick(Long timeSinceLastTick) {
     changeImage(timeSinceLastTick);
   }
 }
