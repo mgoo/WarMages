@@ -73,7 +73,7 @@ public class GameController {
    */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
-      if(mouseevent.wasShiftDown()) {
+      if (mouseevent.wasShiftDown()) {
         //deselect all previous selected units
         gamemodel.setUnitSelection(new ArrayList<>());
       }
@@ -85,7 +85,7 @@ public class GameController {
           .collect(Collectors.toList());
 
       //set unit selection
-      if(mouseevent.wasShiftDown()) {
+      if (mouseevent.wasShiftDown()) {
         //add the new selected units to previously selected ones
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gamemodel.getUnitSelection());
         updatedUnitSelection.addAll(selectedUnits);
