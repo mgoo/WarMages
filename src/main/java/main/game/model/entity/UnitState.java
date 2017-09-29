@@ -21,6 +21,11 @@ public enum UnitState {
       //todo cooldown, projectile if applicable
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
+
+    @Override
+    protected UnitState updateState() {
+      return (requestedNext == null || imagesIdx!=images.size()) ? this : requestedNext;
+    }
   },
 
   BEEN_HIT() {
@@ -34,6 +39,11 @@ public enum UnitState {
       //todo recovery?
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
+
+    @Override
+    protected UnitState updateState() {
+      return (requestedNext == null || imagesIdx!=images.size()) ? this : requestedNext;
+    }
   },
 
   DEFAULT_STATE() {
@@ -45,6 +55,11 @@ public enum UnitState {
     @Override
     public void changeImage(Long timeSinceLastTick) {
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
+    }
+
+    @Override
+    protected UnitState updateState() {
+      return requestedNext == null ? this : requestedNext;
     }
   },
 
@@ -58,11 +73,17 @@ public enum UnitState {
     public void changeImage(Long timeSinceLastTick) {
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
+
+    @Override
+    protected UnitState updateState() {
+      return (requestedNext == null) ? this : requestedNext;
+    }
   };
 
   protected Direction direction;
   protected List<GameImage> images;
   protected float imagesIdx;
+  protected UnitState requestedNext;
 
   /**
    * Constructor takes no arguments. It sets a random initial direction for the state.
@@ -100,7 +121,7 @@ public enum UnitState {
    * @return GameImage image of the state at this current point.
    */
   public GameImage getImage() {
-    return images.get(imagesIdx);
+    return images.get((int)imagesIdx);
   }
 
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
@@ -113,11 +134,6 @@ public enum UnitState {
    * @param timeSinceLastTick time that has passed since last tick.
    */
   protected abstract void changeImage(Long timeSinceLastTick);
-
-  /**
-   * Sets the "next" state to be the requested state, if there isn't already a requested state.
-   */
-  protected abstract void requestState(UnitState nextState);
 
   /**
    * Returns the UnitState which may be different from the current state, depending on whether a
@@ -134,5 +150,14 @@ public enum UnitState {
    */
   public void tick(Long timeSinceLastTick) {
     changeImage(timeSinceLastTick);
+  }
+
+  /**
+   * Sets the "next" state to be the requested state, if there isn't already a requested state.
+   *
+   * @param nextState the requested state.
+   */
+  protected void requestState(UnitState nextState){
+    requestedNext=nextState;
   }
 }
