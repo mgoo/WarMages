@@ -47,28 +47,10 @@ public class World {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
     this.heroUnit = heroUnit;
-    this.levels = new ArrayList<>();
-    Collections.copy(this.levels, levels);
-    this.units = copy(levels.get(0).getUnits());
-    this.items = copy(levels.get(0).getItems());
-    mapEntities = copy(levels.get(0).getMapEntities());
-  }
-
-  /**
-   * Creates a new arraylist and copies all values into it.
-   *
-   * @param src collection that stores values to be copied
-   * @param <T> generic type of src
-   * @return a new arraylist with all the data in src
-   */
-  public static <T> Collection<T> copy(Collection<T> src) {
-    return new ArrayList<T>() {
-      {
-        for (T value : src) {
-          add(value);
-        }
-      }
-    };
+    this.levels = new ArrayList<>(levels);
+    this.units = new ArrayList<>(levels.get(0).getUnits());
+    this.items = new ArrayList<>(levels.get(0).getItems());
+    this.mapEntities = new ArrayList<>(levels.get(0).getMapEntities());
   }
 
   /**
