@@ -153,6 +153,7 @@ public class World {
    */
   public void tick(long timeSinceLastTick) {
     getAllEntities().stream().forEach(e -> e.tick(timeSinceLastTick));
+    easeTrigger();
   }
 
   public void setEntitySelection(Collection<Entity> selection) {
