@@ -1,3 +1,3 @@
 Taken from open source project: https://opengameart.org/content/mage-city-arcanos
 
-License: https://www.youtube.com/watch?v=qJE4ip55hFk
+License: https://creativecommons.org/publicdomain/zero/1.0/
