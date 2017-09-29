@@ -1,7 +1,7 @@
 package main.menu;
 
-import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.GameSaveModel;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
 
 /**
  * Controller for the Main Menu. Responsible for makeing a new game loading a game and exiting.
@@ -11,10 +11,10 @@ import main.game.model.saveandload.GameSaveModel;
 public class MainMenuController implements MenuController {
 
   private final WorldLoader worldLoader;
-  private final GameSaveModel gameSaveModel;
+  private final WorldSaveModel worldSaveModel;
 
-  MainMenuController(WorldLoader worldLoader, GameSaveModel gameSaveModel) {
+  MainMenuController(WorldLoader worldLoader, WorldSaveModel worldSaveModel) {
     this.worldLoader = worldLoader;
-    this.gameSaveModel = gameSaveModel;
+    this.worldSaveModel = worldSaveModel;
   }
 }

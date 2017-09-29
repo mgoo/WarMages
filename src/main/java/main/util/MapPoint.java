@@ -1,6 +1,7 @@
 package main.util;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.List;
 /**
  * Represents a point on the Map.
  */
-public class MapPoint {
+public class MapPoint implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final double x;
   public final double y;

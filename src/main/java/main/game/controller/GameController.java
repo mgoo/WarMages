@@ -1,5 +1,6 @@
 package main.game.controller;
 
+import main.game.model.GameModel;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 
@@ -11,9 +12,10 @@ import main.game.view.events.MouseClick;
  */
 public class GameController {
 
-  public GameController() {
-    // TODO
-    // throw new Error("NYI");
+  private final GameModel gameModel;
+
+  public GameController(GameModel model) {
+    this.gameModel = model;
   }
 
   /**
