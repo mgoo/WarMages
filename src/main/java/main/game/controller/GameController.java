@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
+import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 
@@ -32,7 +33,7 @@ public class GameController {
 
     switch (key) {
       case '.':
-        gamemodel.setUnitSelection(gamemodel.getAllEntities());
+        gamemodel.setUnitSelection(gamemodel.getAllUnits());
       case 'w': //up
         if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
