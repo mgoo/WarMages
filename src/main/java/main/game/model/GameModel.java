@@ -6,21 +6,25 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import main.game.model.entity.Entity;
+import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.Events;
 import main.util.Events.MainGameTick;
+import main.util.MapPoint;
+import main.util.MapRect;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
  * of {@link Level}s.
  */
 public class GameModel {
+
   public static final long DELAY = 50;
 
   private final World world;
   private final MainGameTick mainGameTick;
 
-  private Collection<Entity> selectedUnits;
+  private Collection<Unit> selectedUnits;
 
   /**
    * Creates a game model.
@@ -32,7 +36,6 @@ public class GameModel {
     this.mainGameTick = mainGameTick;
     selectedUnits = new HashSet<>();
   }
-
 
   /**
    * A getter method to get all possible entities.
@@ -59,10 +62,10 @@ public class GameModel {
   /**
    * A setter method to select a collection.
    *
-   * @param entitySelection points on the world that may contain entities
+   * @param unitSelection Selection points on the world that may contain units
    */
-  public void setEntitySelection(Collection<Entity> entitySelection) {
-    selectedUnits = entitySelection;
+  public void setUnitSelection(Collection<Unit> unitSelection) {
+    selectedUnits = unitSelection;
   }
 
   /**
@@ -70,7 +73,16 @@ public class GameModel {
    *
    * @return a collection of selected entities
    */
-  public Collection<Entity> getEntitySelection() {
+  public Collection<Unit> getUnitSelection() {
     return Collections.unmodifiableCollection(selectedUnits);
+  }
+
+  /**
+   * A getter method to get all possible units.
+   *
+   * @return a collection of all possible units
+   */
+  public Collection<Unit> getAllUnits() {
+    return world.getAllUnits();
   }
 }
