@@ -1,22 +1,18 @@
 package main.menu.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
+import javafx.scene.image.ImageView;
 import main.Main;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.game.model.saveandload.WorldLoader;
+import main.game.model.saveandload.WorldSaveModel;
 import main.game.view.GameView;
-import main.images.DefaultImageProvider;
-import main.images.GameImageResource;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
+import main.util.Events.MainGameTick;
 
 /**
  * Controller for the Main Menu. Responsible for making a new game loading a game and exiting.
@@ -29,6 +25,7 @@ public class MainMenuController implements MenuController {
   private final WorldSaveModel worldSaveModel;
   private final MainMenu mainMenu;
   private final Main main;
+  private final ImageView imageView;
 
   /**
    * inject the dependencies.
@@ -36,11 +33,13 @@ public class MainMenuController implements MenuController {
   public MainMenuController(Main main,
                             MainMenu mainMenu,
                             WorldLoader worldLoader,
-                            WorldSaveModel worldSaveModel) {
+                            WorldSaveModel worldSaveModel,
+                            ImageView imageView) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
+    this.imageView = imageView;
   }
 
   /**
@@ -49,11 +48,11 @@ public class MainMenuController implements MenuController {
    */
   public void startBtn() {
     try {
-      World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world);
+      World world = this.worldLoader.load("");
+      GameModel gameModel = new GameModel(world, new MainGameTick());
       GameController gameController = new GameController();
       GameView gameView = new GameView(gameController, gameModel);
-      Renderer renderer = new Renderer(gameView) {};
+      Renderer renderer = new Renderer(gameView, this.imageView) {};
       // TODO start the game properly
 
       this.main.loadMenu(new Hud(this.main, this.mainMenu));

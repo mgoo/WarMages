@@ -3,10 +3,8 @@ package main;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.MouseInfo;
-import java.awt.Panel;
 import java.awt.Point;
 import java.awt.Robot;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.Arrays;
 import javafx.application.Application;
@@ -23,9 +21,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
-import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.game.model.saveandload.WorldLoader;
+import main.game.model.saveandload.WorldLoader.DefaultFileLoader;
+import main.game.model.saveandload.WorldSaveModel;
+import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import netscape.javascript.JSObject;
@@ -76,12 +75,13 @@ public class Main extends Application {
     final Scene scene = new Scene(new Group());
     final StackPane root = new StackPane();
     final WebView browser = new WebView();
+    final ImageView imageView = new ImageView();
     final MainMenu mainMenu = new MainMenu(
         this,
-        new WorldLoader(),
-        new WorldSaveModel(new DefaultFilesystem())
+        new WorldLoader(new DefaultFileLoader()),
+        new WorldSaveModel(new DefaultFilesystem()),
+        imageView
     );
-    final ImageView imageView = new ImageView();
 
     root.setPrefWidth(1920);
     root.setPrefHeight(1080);

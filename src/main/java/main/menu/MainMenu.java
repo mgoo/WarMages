@@ -1,6 +1,7 @@
 package main.menu;
 
 import java.io.File;
+import javafx.scene.image.ImageView;
 import main.Main;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
@@ -19,11 +20,17 @@ public class MainMenu extends Menu {
   /**
    * Injects the decencies.
    */
-  public MainMenu(Main main, WorldLoader worldLoader, WorldSaveModel worldSaveModel) {
+  public MainMenu(Main main,
+                  WorldLoader worldLoader,
+                  WorldSaveModel worldSaveModel,
+                  ImageView imageView) {
     super(main);
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
-    this.menuController = new MainMenuController(this.main, this, worldLoader, worldSaveModel);
+    this.menuController = new MainMenuController(this.main,
+        this, worldLoader,
+        worldSaveModel,
+        imageView);
   }
 
   @Override
