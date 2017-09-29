@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -43,17 +44,31 @@ public class World {
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
-    if (levels == null) {
-      throw new NullPointerException("levels queue cannot be null");
-    }
-    if (heroUnit == null) {
-      throw new NullPointerException("heroUnit cannot be null");
-    }
-    this.levels = levels;
+    Objects.requireNonNull(levels);
+    Objects.requireNonNull(heroUnit);
     this.heroUnit = heroUnit;
-    this.units = levels.get(0).getUnits();
-    this.items = levels.get(0).getItems();
-    mapEntities = levels.get(0).getMapEntities();
+    this.levels = new ArrayList<>();
+    Collections.copy(this.levels, levels);
+    this.units = copy(levels.get(0).getUnits());
+    this.items = copy(levels.get(0).getItems());
+    mapEntities = copy(levels.get(0).getMapEntities());
+  }
+
+  /**
+   * Creates a new arraylist and copies all values into it.
+   *
+   * @param src collection that stores values to be copied
+   * @param <T> generic type of src
+   * @return a new arraylist with all the data in src
+   */
+  public static <T> Collection<T> copy(Collection<T> src) {
+    return new ArrayList<T>() {
+      {
+        for (T value : src) {
+          add(value);
+        }
+      }
+    };
   }
 
   /**
@@ -134,7 +149,7 @@ public class World {
    * A method specific for progression of game. Triggers are specific quests/goals to be achieved
    * for progression.
    */
-  public void easeTrigger() {
+  private void easeTrigger() {
     if (levels.get(0).areGoalsCompleted(this)) {
       nextLevel();
     }
