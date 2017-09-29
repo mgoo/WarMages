@@ -51,7 +51,7 @@ public class GameViewTest {
     this.gameView = new GameView(config,
         gameController, gameModelMock, imageProvider);
 
-    EntityMock entity = new EntityMock(new MapPoint(0, 0), 1);
+    EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
     entityList.add(entity);
     this.gameModelMock.setEntities(entityList);
@@ -66,7 +66,7 @@ public class GameViewTest {
 
     assertEquals(1, this.gameView.getRenderables(0).size());
 
-    entityList.add(new EntityMock(new MapPoint(1, 3), 1));
+    entityList.add(new EntityMock(new MapPoint(1, 3), new MapSize(1, 1)));
     this.gameView.updateRenderables(0);
 
     assertEquals(2, this.gameView.getRenderables(0).size());
@@ -194,7 +194,7 @@ public class GameViewTest {
     assertEquals(50D, imageSize.width, 0.001);
     assertEquals(50D, imageSize.height,0.001);
 
-    this.entityList.add(new EntityMock(new MapPoint(1, 1), 0.2F));
+    this.entityList.add(new EntityMock(new MapPoint(1, 1), new MapSize(0.2F, 0.2F)));
     this.gameView.updateRenderables(1);
     EntityView er2 = ((EntityView) this.gameView.getRenderables(0).get(1));
     imageSize = er2.getImageSize();
@@ -226,7 +226,7 @@ public class GameViewTest {
 
   private class EntityMock extends Entity {
 
-    public EntityMock(MapPoint position, float size) {
+    public EntityMock(MapPoint position, MapSize size) {
       super(position, size);
     }
 
@@ -236,13 +236,23 @@ public class GameViewTest {
     }
 
     @Override
+    public void setImage(GameImage image) {
+
+    }
+
+    @Override
+    public void tick(long timeSinceLastTick) {
+
+    }
+
+    @Override
     public MapPoint getPosition() {
       return this.position;
     }
 
     @Override
     public MapSize getSize() {
-      return new MapSize(this.size, this.size);
+      return this.size;
     }
 
     void move(double dX, double dY) {
