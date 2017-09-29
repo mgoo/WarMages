@@ -15,7 +15,7 @@ import main.util.Events.MainGameTick;
  * of {@link Level}s.
  */
 public class GameModel {
-  public static final long delay = 50;
+  public static final long DELAY = 50;
 
   private final World world;
   private final MainGameTick mainGameTick;
@@ -51,9 +51,9 @@ public class GameModel {
     t.schedule(new TimerTask() {
       @Override
       public void run() {
-        mainGameTick.broadcast(delay);
+        mainGameTick.broadcast(DELAY);
       }
-    }, delay, delay);
+    }, DELAY, DELAY);
   }
 
   /**
