@@ -1,5 +1,6 @@
 package main.util;
 
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 /**
@@ -79,6 +80,10 @@ public class MapRect implements Serializable {
     return new MapRect(this.topLeft.x + x, this.topLeft.y, this.getWidth(), this.getHeight());
   }
 
+  public boolean overlapsWith(MapRect mapRect) {
+    return toAwtRectangle().intersects(mapRect.toAwtRectangle());
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -102,5 +107,25 @@ public class MapRect implements Serializable {
     int result = topLeft != null ? topLeft.hashCode() : 0;
     result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return String.format(
+        "MapRect(x=%f, y=%f, w=%f, h=%f)",
+        topLeft.x,
+        topLeft.y,
+        getWidth(),
+        getHeight()
+      );
+  }
+
+  private Rectangle2D.Double toAwtRectangle() {
+    return new Rectangle2D.Double(
+        topLeft.x,
+        topLeft.y,
+        getWidth(),
+        getHeight()
+    );
   }
 }

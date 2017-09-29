@@ -66,7 +66,7 @@ public class MapPoint implements Serializable {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return "MapPoint(" + x + ", " + y + ")";
   }
 
   /**
