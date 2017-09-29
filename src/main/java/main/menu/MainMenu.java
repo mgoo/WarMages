@@ -1,12 +1,15 @@
 package main.menu;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
+import javafx.scene.image.ImageView;
+import main.Main;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
+import main.menu.controller.MainMenuController;
+import main.util.Config;
 
 /**
- * Wrapper for the MainMenu of the game. Includes play load and exit buttons
+ * The definitions of the file paths to the html file for the Main Menu.
  *
  * @author Andrew McGhie
  */
@@ -15,22 +18,40 @@ public class MainMenu extends Menu {
   private final WorldLoader worldLoader;
   private final WorldSaveModel worldSaveModel;
 
-  public MainMenu(WorldLoader worldLoader, WorldSaveModel worldSaveModel) {
+  /**
+   * Injects the decencies.
+   */
+  public MainMenu(Main main,
+                  WorldLoader worldLoader,
+                  WorldSaveModel worldSaveModel,
+                  ImageView imageView,
+                  Config config) {
+    super(main);
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
+    this.menuController = new MainMenuController(this.main,
+        this, worldLoader,
+        worldSaveModel,
+        imageView,
+        config);
   }
 
   @Override
-  URL getUrl() {
-    try {
-      return new URL("resources/html/main_menu.html");
-    } catch (MalformedURLException e) {
-      throw new Error(e);
-    }
+  public String getHtml() {
+    return this.fileToString("resources/html/main_menu.html");
   }
 
   @Override
-  MenuController getMenuController() {
-    return new MainMenuController(worldLoader, worldSaveModel);
+  public String getStyleSheetLocation() {
+    return new File("resources/html/css/main_menu.css").toURI().toString();
+
+  }
+
+  /**
+   * The main menu has no scripts.
+   */
+  @Override
+  public String[] getScripts() {
+    return new String[0];
   }
 }

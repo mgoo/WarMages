@@ -1,0 +1,103 @@
+@tob-bar-height: 5vh;
+@bottom-bar-height: 30vh;
+@unit-holder-width: 70vw;
+
+@import "styles.less";
+
+div, body{
+  overflow: hidden;
+}
+
+.game-view-proxy {
+   position: absolute;
+   width: 100vw;
+   height: 100vh;
+
+   z-index: -1;
+}
+
+.pause-menu {
+  position: fixed;
+  left: 40vw;
+  top: 20vh;
+  width: 20vw;
+  z-index: 10;
+
+  background-color: whitesmoke;
+  border: #AAAAAA inset 5px;
+
+  h2 {
+    text-align: center;
+  }
+
+  li {
+    width: 20vw;
+  }
+}
+
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 5vh;
+
+  background-color: #EEEEEE;
+  border: #b7b141 solid 5px;
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: @bottom-bar-height;
+
+  .holder {
+    .icon {
+      display: inline-block;
+      width: 6vw;
+      height: 9vh;
+
+      margin: 5px;
+
+      background-size: 100% 100%;
+
+      border: #000 solid 1px; // TODO remove
+    }
+  }
+
+  .unit-holder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 70%;
+    width: @unit-holder-width;
+
+    background-color: #EEEEEE;
+    border: #b7b141 solid 5px;
+  }
+
+  .right-box {
+    display: block;
+    position: absolute;
+    left: @unit-holder-width;
+    bottom: 0;
+
+    width: calc(100vw - @unit-holder-width);
+    height: 100%;
+
+    background-color: #EEEEEE;
+    border: #b7b141 solid 5px;
+
+    .holder {
+      width: 100%;
+    }
+
+    .icon {
+
+    }
+  }
+}
