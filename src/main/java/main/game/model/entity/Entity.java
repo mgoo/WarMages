@@ -3,6 +3,7 @@ package main.game.model.entity;
 import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
+import main.util.MapRect;
 import main.util.MapSize;
 
 /**
@@ -43,6 +44,13 @@ public abstract class Entity implements Serializable {
    */
   public MapSize getSize() {
     return new MapSize(size.width, size.height);
+  }
+
+  /**
+   * The bounding box of this entity.
+   */
+  public MapRect getRect() {
+    return new MapRect(getPosition(), getSize());
   }
 
   /**
