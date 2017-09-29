@@ -2,13 +2,16 @@ package main.images;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Reference all of the image files in the app here by adding a new enum value.
  *
  * @see {@link GameImage#load(ImageProvider)} To get a {@link BufferedImage}.
  */
-public class GameImage {
+public class GameImage implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private static final int MAX_SIZE = Integer.MAX_VALUE;
 

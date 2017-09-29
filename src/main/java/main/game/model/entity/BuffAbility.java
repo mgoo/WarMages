@@ -7,6 +7,8 @@ import main.images.GameImage;
  */
 public class BuffAbility extends Ability {
 
+  private static final long serialVersionUID = 1L;
+
   /**
    * Constructor takes no parameters.
    */

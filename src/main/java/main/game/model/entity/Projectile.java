@@ -9,6 +9,8 @@ import main.util.MapSize;
  */
 public abstract class Projectile extends Entity {
 
+  private static final long serialVersionUID = 1L;
+
   protected final Unit target;
   protected final int speed = 6;
 
