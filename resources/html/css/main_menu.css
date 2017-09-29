@@ -1,6 +1,24 @@
 * {
+  background-color: rgba(0, 0, 0, 0);
   margin: 0;
   padding: 0;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+.btn-list {
+  width: 10vw;
+  display: block;
+}
+.btn-list li {
+  display: block;
+  list-style-type: none;
+  margin: calc(10px);
 }
 .btn {
   padding: 10px;
@@ -39,7 +57,7 @@ a {
 }
 @keyframes title-drop {
   0% {
-    bottom: calc(100vh + 110px);
+    bottom: calc(100vh + 130px);
   }
   75% {
     transform: rotate(30deg);
@@ -83,7 +101,7 @@ body {
 }
 body .title {
   animation-name: title-drop, shake;
-  animation-duration: 3s;
+  animation-duration: 1s;
   animation-iteration-count: 1;
   animation-timing-function: cubic-bezier(1, -0.04, 0.91, 0.94);
   width: 50vw;
@@ -92,26 +110,17 @@ body .title {
   left: 25vw;
 }
 body .title h1 {
-  font-size: 110px;
+  font-size: 130px;
   display: block;
-  white-space: nowrap;
   position: absolute;
   top: 0;
   left: 0;
+  overflow: visible;
 }
 body .mainmenu-buttons {
-  width: 10vw;
-  display: block;
   position: absolute;
   bottom: 10vh;
   left: 70vw;
-  margin: 0;
-  padding: 0;
   animation-name: buttons-slide;
-  animation-duration: 2s;
-}
-body .mainmenu-buttons li {
-  display: block;
-  list-style-type: none;
-  margin: 10px * 3;
+  animation-duration: 1.5s;
 }

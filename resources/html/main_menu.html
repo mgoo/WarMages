@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link type="text/css" href="css/styles.css" rel="stylesheet">
-  <link type="text/css" href="css/main_menu.css" rel="stylesheet">
 </head>
-<body>
+<body oncontextmenu="return false;">
 <div class="title">
   <h1>Marco the Mage</h1>
 </div>
-<ul class="mainmenu-buttons">
-  <li><a class="btn green" onClick="controller.startGame()">Start</a></li>
-  <li><a class="btn red" href="load_menu.html">Load</a></li>
-  <li><a class="btn blue" onClick="controller.exit()">Exit</a></li>
+<ul class="btn-list mainmenu-buttons">
+  <li><a class="btn green" onClick="controller.startBtn()" href="#">Start</a></li>
+  <li><a class="btn red" onClick="controller.loadBtn()" href="#">Load</a></li>
+  <li><a class="btn blue" onClick="controller.exitBtn()" href="#">Exit</a></li>
 </ul>
 </body>
 </html>

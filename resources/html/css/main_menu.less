@@ -51,10 +51,12 @@ body {
       position: absolute;
       top: 0;
       left: 0;
+
+      overflow: visible;
     }
 
     animation-name: title-drop, shake;
-    animation-duration: 3s;
+    animation-duration: 1s;
     animation-iteration-count: 1;
     animation-timing-function: cubic-bezier(1,-0.04,.91,.94);
 
@@ -66,22 +68,11 @@ body {
 
 
   .mainmenu-buttons {
-    width: 10vw;
-    display: block;
     position: absolute;
     bottom: 10vh;
     left: 70vw;
 
-    margin: 0;
-    padding: 0;
-
     animation-name: buttons-slide;
-    animation-duration: 2s;
-
-    li {
-      display: block;
-      list-style-type: none;
-      margin: @button-spacing * 3;
-    }
+    animation-duration: 1.5s;
   }
 }
