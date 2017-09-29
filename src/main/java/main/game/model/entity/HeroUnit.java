@@ -1,7 +1,6 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -11,6 +10,8 @@ import main.util.MapSize;
  * abilities, and is able to pick up items and use the items.
  */
 public class HeroUnit extends Unit {
+
+  private static final long serialVersionUID = 1L;
 
   private ArrayList<Ability> abilities;
   private ArrayList<Item> items;

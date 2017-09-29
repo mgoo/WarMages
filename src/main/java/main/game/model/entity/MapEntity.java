@@ -9,6 +9,8 @@ import main.util.MapSize;
  */
 public abstract class MapEntity extends Entity {
 
+  private static final long serialVersionUID = 1L;
+
   /**
    * Constructor takes the coordinates of the MapEntity.
    */
