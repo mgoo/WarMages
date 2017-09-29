@@ -18,6 +18,7 @@ import main.util.MapRect;
  * of {@link Level}s.
  */
 public class GameModel {
+
   public static final long DELAY = 50;
 
   private final World world;
@@ -44,6 +45,7 @@ public class GameModel {
   public Collection<Entity> getAllEntities() {
     return world.getAllEntities();
   }
+
   /**
    * A getter method to get all possible units.
    *
