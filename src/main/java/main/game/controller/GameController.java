@@ -2,7 +2,6 @@ package main.game.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
@@ -18,10 +17,10 @@ import main.game.view.events.MouseClick;
  */
 public class GameController {
 
-  private final GameModel gamemodel;
+  private final GameModel gameModel;
 
-  public GameController(GameModel m) {
-    this.gamemodel = m;
+  public GameController(GameModel model) {
+    this.gameModel = model;
   }
 
   /**
@@ -34,7 +33,7 @@ public class GameController {
 
     switch (key) {
       case '.':
-        gamemodel.setUnitSelection(gamemodel.getAllUnits());
+        gameModel.setUnitSelection(gameModel.getAllUnits());
       case 'w': //up
         if (keyevent.wasCtrlDown()) {
           throw new Error("NYI"); //TODO
@@ -75,11 +74,11 @@ public class GameController {
     if (mouseevent.wasLeft()) {
       if (mouseevent.wasShiftDown()) {
         //deselect all previous selected units
-        gamemodel.setUnitSelection(new ArrayList<>());
+        gameModel.setUnitSelection(new ArrayList<>());
       }
 
       //select the unit under the click if there is one
-      Collection<Unit> selectedUnits = gamemodel.getAllUnits().stream().filter(
+      Collection<Unit> selectedUnits = gameModel.getAllUnits().stream().filter(
           u -> u.getPosition().distance(mouseevent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .collect(Collectors.toList());
@@ -87,11 +86,11 @@ public class GameController {
       //set unit selection
       if (mouseevent.wasShiftDown()) {
         //add the new selected units to previously selected ones
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gamemodel.getUnitSelection());
+        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         updatedUnitSelection.addAll(selectedUnits);
-        gamemodel.setUnitSelection(updatedUnitSelection);
+        gameModel.setUnitSelection(updatedUnitSelection);
       } else {
-        gamemodel.setUnitSelection(selectedUnits);
+        gameModel.setUnitSelection(selectedUnits);
       }
 
     } else {
