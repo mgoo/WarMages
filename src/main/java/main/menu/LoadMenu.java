@@ -43,16 +43,11 @@ public class LoadMenu extends Menu {
    */
   @Override
   public String[] getScripts() {
-    try {
-      return new String[]{
-          new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
-          new SaveFilesScriptGenerator()
-              .setData(this.worldSaveModel.getExistingGameSaves())
-              .getScript()
-      };
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return new String[0];
+    return new String[]{
+        new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
+        new SaveFilesScriptGenerator()
+            .setData(this.worldSaveModel.getExistingGameSaves())
+            .getScript()
+    };
   }
 }
