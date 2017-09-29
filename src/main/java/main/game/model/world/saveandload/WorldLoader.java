@@ -199,10 +199,10 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(15, 3), new MapSize(0.5, 0.5), Team.PLAYER,
+              new Unit(new MapPoint(15, 2), new MapSize(0.5, 0.5), Team.PLAYER,
                   new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(15, 3), new MapSize(0.5, 0.5), Team.PLAYER,
+              new Unit(new MapPoint(15, 8), new MapSize(0.5, 0.5), Team.PLAYER,
                   new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(23, 4), new MapSize(0.5, 0.5), Team.ENEMY,
