@@ -2,6 +2,7 @@ package main.game.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
@@ -72,15 +73,27 @@ public class GameController {
    */
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
-      //deselects all previous units then select the unit under the click if there is one
-      gamemodel.setUnitSelection(new ArrayList<>());
+      if(mouseevent.wasShiftDown()) {
+        //deselect all previous selected units
+        gamemodel.setUnitSelection(new ArrayList<>());
+      }
 
+      //select the unit under the click if there is one
       Collection<Unit> selectedUnits = gamemodel.getAllUnits().stream().filter(
           u -> u.getPosition().distance(mouseevent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .collect(Collectors.toList());
 
-      gamemodel.setUnitSelection(selectedUnits);
+      //set unit selection
+      if(mouseevent.wasShiftDown()) {
+        //add the new selected units to previously selected ones
+        Collection<Unit> updatedUnitSelection = new ArrayList<>(gamemodel.getUnitSelection());
+        updatedUnitSelection.addAll(selectedUnits);
+        gamemodel.setUnitSelection(updatedUnitSelection);
+      } else {
+        gamemodel.setUnitSelection(selectedUnits);
+      }
+
     } else {
       throw new Error("NYI"); //TODO
     }
