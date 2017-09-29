@@ -83,13 +83,15 @@ public class Unit extends Attackable implements Damageable {
   @Override
   public void tick(long timeSinceLastTick) {
     //update image todo set in state?
+    //todo maybe check for state change?
     unitState.tick(timeSinceLastTick);
+
     //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     updateDirection(oldPosition);
     //check if has target and target is within attacking proximity
-    if (checkTargetWithinProximity()) {
+    if (targetWithinProximity()) {
       attack(target);
       setStateTo(UnitState.ATTACKING);
     }

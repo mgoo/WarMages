@@ -17,8 +17,8 @@ public enum UnitState {
     }
 
     @Override
-    public void tick(Long timeSinceLastTick) {
-      //todo cooldown
+    public void changeImage() {
+      //todo cooldown, projectile if applicable
     }
   },
 
@@ -29,7 +29,7 @@ public enum UnitState {
     }
 
     @Override
-    public void tick(Long timeSinceLastTick) {
+    public void changeImage() {
       //todo recovery?
     }
   },
@@ -41,7 +41,7 @@ public enum UnitState {
     }
 
     @Override
-    public void tick(Long timeSinceLastTick) {
+    public void changeImage() {
       imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
     }
   },
@@ -53,7 +53,7 @@ public enum UnitState {
     }
 
     @Override
-    public void tick(Long timeSinceLastTick) {
+    public void changeImage() {
       imagesIdx = (imagesIdx+1==images.size()) ? 0 : imagesIdx+1;
     }
   };
@@ -103,5 +103,14 @@ public enum UnitState {
 
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
 
-  public abstract void tick(Long timeSinceLastTick);
+  protected abstract void changeImage();
+
+  /**
+   * Updates the image of the UnitState.
+   *
+   * @param timeSinceLastTick time past since last update.
+   */
+  public void tick(Long timeSinceLastTick){
+    changeImage();
+  }
 }
