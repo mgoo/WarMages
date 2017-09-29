@@ -55,7 +55,11 @@ public enum GameImageResource {
           .setWidth(3)
           .setHeight(2)
           .create()
-  );
+  ),
+  /**
+   * For testing or blank image only.
+   */
+  TEST_IMAGE_1_1(new GameImageBuilder("fixtures/images/test11.png").create());
 
   private final GameImage gameImage;
 
