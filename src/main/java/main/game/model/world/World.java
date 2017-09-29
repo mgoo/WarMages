@@ -4,12 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
@@ -31,12 +28,12 @@ public class World implements Serializable {
 
   private final List<Level> levels;
 
-  private int levelIndex = 0;
-  private final Collection<MapEntity> mapEntities;
+  private int levelIndex = 0; // TODO ERIC unused
 
   private final HeroUnit heroUnit;
   private final Collection<Unit> units;
   private final Collection<Item> items;
+  private final Collection<MapEntity> mapEntities;
 
   private Collection<Entity> selectedEntities;
 
@@ -52,14 +49,15 @@ public class World implements Serializable {
     Objects.requireNonNull(heroUnit);
     this.heroUnit = heroUnit;
     this.levels = new ArrayList<>(levels);
-    this.units = new ArrayList<>(levels.get(0).getUnits());
+    this.units = new ArrayList<>(levels.get(0).getUnits()); // TODO eric tidy get(0)
     this.items = new ArrayList<>(levels.get(0).getItems());
     this.mapEntities = new ArrayList<>(levels.get(0).getMapEntities());
+    this.mapEntities.addAll(levels.get(0).getBorderEntities());
   }
 
   /**
    * Converts a mapEntity collection into a map of MapPoints to Entities.
-   *
+   * TODO ERIC unused
    * @param mapEntities collection of MapEntities
    * @return returns converted map
    */
@@ -91,6 +89,7 @@ public class World implements Serializable {
 
   /**
    * A getter method to get all possible units of type=PLAYER.
+   * TODO ERIC this is method name is really misleading!!! Also it doesnt include the heroUnit
    *
    * @return a collection of all possible player units
    */
@@ -118,7 +117,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Gets all map entities in the world.
+   * Gets all map entities in the world, including {@link Level#borderEntities}.
    *
    * @return an unmodifiable collection of all the mapEntities.
    */
@@ -145,6 +144,7 @@ public class World implements Serializable {
   /**
    * A method specific for progression of game. Triggers are specific quests/goals to be achieved
    * for progression.
+   * TODO ERIC update method name and doc
    */
   private void easeTrigger() {
     if (levels.get(0).areGoalsCompleted()) {
@@ -157,10 +157,12 @@ public class World implements Serializable {
    */
   private void nextLevel() {
     // TODO eric add precondition
+    mapEntities.removeAll(levels.get(0).getBorderEntities());
     levels.remove(0);
+
     items.addAll(levels.get(0).getItems());
-    mapEntities.clear();
     mapEntities.addAll(levels.get(0).getMapEntities());
+    mapEntities.addAll(levels.get(0).getBorderEntities());
     units.addAll(levels.get(0).getUnits());
   }
 

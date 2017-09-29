@@ -34,6 +34,7 @@ public class Level implements Serializable {
    * Creates a new level with data which should not change overtime.
    *
    * @param bounds All entities must be contained within this levelBounds.
+   * @param mapEntities E.g. trees, rocks, etc, that are in the middle of the map.
    * @param borderEntities Entities that should be removed when the level is complete. They
    *     only there to stop the user from moving out of bounds.
    */
@@ -74,6 +75,10 @@ public class Level implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  public Collection<MapEntity> getBorderEntities() {
+    return borderEntities;
+  }
+
   public String getGoalDescription() {
     return goalDescription;
   }
@@ -91,7 +96,7 @@ public class Level implements Serializable {
   }
 
   private void ensureNoMapEntitiesOverlap() {
-    List<MapEntity> allMapEntities = Stream.of(mapEntities, borderEntities)
+    List<MapEntity> allMapEntities = Stream.of(mapEntities, borderEntities, items)
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
     List<MapEntity[]> overlappingPairs = new ArrayList<>();
@@ -152,7 +157,7 @@ public class Level implements Serializable {
 
       @Override
       public boolean isCompleted(Level level) {
-        // TODO write tests
+        // TODO ERIC write tests
         Collection<Team> enemies = Team.PLAYER.getEnemies();
         return level.getUnits()
             .stream()
