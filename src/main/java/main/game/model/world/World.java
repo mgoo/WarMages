@@ -15,6 +15,7 @@ import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -83,6 +84,17 @@ public class World {
         }.stream()
             .filter(e -> rect.contains(e.getPosition()))
             .collect(Collectors.toList()));
+  }
+
+  /**
+   * A getter method to get all possible units.
+   *
+   * @return a collection of all possible units
+   */
+  public Collection<Unit> getAllUnits() {
+    return Collections.unmodifiableCollection(
+        units.stream().filter(u -> u.getTeam().equals(Team.PLAYER)).collect(Collectors.toList())
+    );
   }
 
   /**

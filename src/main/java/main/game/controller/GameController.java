@@ -1,5 +1,6 @@
 package main.game.controller;
 
+import java.util.ArrayList;
 import main.game.model.GameModel;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
@@ -68,8 +69,8 @@ public class GameController {
   public void onMouseEvent(MouseClick mouseevent) {
     if (mouseevent.wasLeft()) {
       //deselects all previous units then select the unit under the click if there is one
-      gamemodel.getEntitySelection().clear();
-      gamemodel.
+      gamemodel.setEntitySelection(new ArrayList<>());
+      gamemodel.getAllEntities();
     } else {
       throw new Error("NYI"); //TODO
     }

@@ -6,9 +6,12 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import main.game.model.entity.Entity;
+import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.Events;
 import main.util.Events.MainGameTick;
+import main.util.MapPoint;
+import main.util.MapRect;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
@@ -33,7 +36,6 @@ public class GameModel {
     selectedUnits = new HashSet<>();
   }
 
-
   /**
    * A getter method to get all possible entities.
    *
@@ -41,6 +43,14 @@ public class GameModel {
    */
   public Collection<Entity> getAllEntities() {
     return world.getAllEntities();
+  }
+  /**
+   * A getter method to get all possible units.
+   *
+   * @return a collection of all possible units
+   */
+  public Collection<Unit> getAllUnits() {
+    return world.getAllUnits();
   }
 
   /**
