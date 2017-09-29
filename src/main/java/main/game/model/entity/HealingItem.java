@@ -8,6 +8,8 @@ import main.util.MapPoint;
  */
 public class HealingItem extends Item {
 
+  private static final long serialVersionUID = 1L;
+
   /**
    * Constructor takes the coords of the HealingItem.
    */

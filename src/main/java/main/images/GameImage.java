@@ -4,11 +4,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.game.model.world.World;
+import java.io.Serializable;
 
 /**
  * Reference all of the image files in the app here by adding a new enum value.
  */
-public class GameImage {
+public class GameImage implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   static final int FILL_SPACE = Integer.MAX_VALUE;
 

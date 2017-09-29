@@ -1,5 +1,6 @@
 package main.game.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -15,7 +16,9 @@ import main.util.MapRect;
 /**
  * Represent the {@link World} state.
  */
-public class Level {
+public class Level implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private final Goal goal;
   private final MapRect bounds;
@@ -98,7 +101,7 @@ public class Level {
    * main.game.model.world.saveandload.WorldSaveModel}.
    * </p>
    */
-  public interface Goal {
+  public interface Goal extends Serializable {
 
     /**
      * Checks if the user has achieved the goals to finish this level (for example by killing all
@@ -109,6 +112,8 @@ public class Level {
     boolean isCompleted(Level level);
 
     class AllEnemiesKilled implements Goal {
+
+      private static final long serialVersionUID = 1L;
 
       @Override
       public boolean isCompleted(Level level) {

@@ -1,25 +1,36 @@
 package main.game.model;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 import main.game.model.entity.Entity;
-import main.game.model.entity.HeroUnit;
 import main.game.model.world.World;
-import main.util.MapPoint;
+import main.util.Events;
+import main.util.Events.MainGameTick;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
  * of {@link Level}s.
  */
 public class GameModel {
+  public static final long DELAY = 50;
+
+  private final World world;
+  private final MainGameTick mainGameTick;
+
+  private Collection<Entity> selectedUnits;
 
   /**
    * Creates a game model.
    *
    * @param world The world to use for the whole game.
    */
-  public GameModel(World world) {
-
+  public GameModel(World world, Events.MainGameTick mainGameTick) {
+    this.world = world;
+    this.mainGameTick = mainGameTick;
+    selectedUnits = new HashSet<>();
   }
 
 
@@ -29,14 +40,20 @@ public class GameModel {
    * @return a collection of all possible entities
    */
   public Collection<Entity> getAllEntities() {
-    throw new Error("NYI");
+    return world.getAllEntities();
   }
 
   /**
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    throw new Error("NYI");
+    Timer t = new Timer();
+    t.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        mainGameTick.broadcast(DELAY);
+      }
+    }, DELAY, DELAY);
   }
 
   /**
@@ -45,7 +62,7 @@ public class GameModel {
    * @param entitySelection points on the world that may contain entities
    */
   public void setEntitySelection(Collection<Entity> entitySelection) {
-    throw new Error("NYI");
+    selectedUnits = entitySelection;
   }
 
   /**
@@ -54,6 +71,6 @@ public class GameModel {
    * @return a collection of selected entities
    */
   public Collection<Entity> getEntitySelection() {
-    throw new Error("NYI");
+    return Collections.unmodifiableCollection(selectedUnits);
   }
 }
