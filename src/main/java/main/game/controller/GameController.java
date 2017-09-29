@@ -36,31 +36,31 @@ public class GameController {
         gameModel.setUnitSelection(gameModel.getAllUnits());
       case 'w': //up
         if (keyevent.wasCtrlDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
         if (keyevent.wasShiftDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
       case 'a': //left
         if (keyevent.wasCtrlDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
         if (keyevent.wasShiftDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
       case 's': //down
         if (keyevent.wasCtrlDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
         if (keyevent.wasShiftDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
       case 'd': //right
         if (keyevent.wasCtrlDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
         if (keyevent.wasShiftDown()) {
-          throw new Error("NYI"); //TODO
+          throw new Error("Not yet implemented!"); //TODO
         }
     }
   }
@@ -94,7 +94,7 @@ public class GameController {
       }
 
     } else {
-      throw new Error("NYI"); //TODO
+      throw new Error("Not yet implemented!"); //TODO
     }
   }
 }
