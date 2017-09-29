@@ -1,5 +1,6 @@
 package main.game.model.world;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +25,9 @@ import main.util.MapRect;
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
  */
-public class World {
+public class World implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private final List<Level> levels;
 
