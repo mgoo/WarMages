@@ -2,16 +2,37 @@
 @bottom-bar-height: 30vh;
 @unit-holder-width: 70vw;
 
+@import "styles.less";
+
 div, body{
   overflow: hidden;
 }
 
 .game-view-proxy {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
+   position: absolute;
+   width: 100vw;
+   height: 100vh;
 
-  z-index: -1;
+   z-index: -1;
+}
+
+.pause-menu {
+  position: fixed;
+  left: 40vw;
+  top: 20vh;
+  width: 20vw;
+  z-index: 10;
+
+  background-color: whitesmoke;
+  border: #AAAAAA inset 5px;
+
+  h2 {
+    text-align: center;
+  }
+
+  li {
+    width: 20vw;
+  }
 }
 
 .top-bar {
@@ -22,7 +43,8 @@ div, body{
   width: 100vw;
   height: 5vh;
 
-  border: #000 solid 1px; // TODO remove
+  background-color: #EEEEEE;
+  border: #b7b141 solid 5px;
 }
 
 .bottom-bar {
@@ -54,24 +76,28 @@ div, body{
     height: 70%;
     width: @unit-holder-width;
 
-    border: #000 solid 1px; // TODO remove
+    background-color: #EEEEEE;
+    border: #b7b141 solid 5px;
   }
 
   .right-box {
+    display: block;
     position: absolute;
     left: @unit-holder-width;
     bottom: 0;
 
-    width: 100vw - @unit-holder-width;
+    width: calc(100vw - @unit-holder-width);
     height: 100%;
-    border: #000 solid 1px; // TODO remove
+
+    background-color: #EEEEEE;
+    border: #b7b141 solid 5px;
 
     .holder {
-      border: #000 solid 1px; // TODO remove
+      width: 100%;
     }
 
     .icon {
-      border: #f00 solid 1px;
+
     }
   }
 }

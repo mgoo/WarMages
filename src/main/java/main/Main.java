@@ -21,12 +21,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import main.game.model.saveandload.WorldLoader;
-import main.game.model.saveandload.WorldLoader.DefaultFileLoader;
-import main.game.model.saveandload.WorldSaveModel;
-import main.game.model.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
+import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.menu.MainMenu;
 import main.menu.Menu;
+import main.util.Config;
 import netscape.javascript.JSObject;
 
 /**
@@ -76,11 +76,14 @@ public class Main extends Application {
     final StackPane root = new StackPane();
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
+    final Config config = new Config();
+    config.setScreenDim((int)scene.getWidth(), (int)scene.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
-        new WorldLoader(new DefaultFileLoader()),
+        new WorldLoader(),
         new WorldSaveModel(new DefaultFilesystem()),
-        imageView
+        imageView,
+        config
     );
 
     root.setPrefWidth(1920);

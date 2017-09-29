@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link type="text/css" href="css/styles.css" rel="stylesheet">
-  <link type="text/css" href="css/hud.css" rel="stylesheet">
 </head>
-<body>
-<div class="top-bar"></div>
+<body oncontextmenu="return false;">
+<div class="top-bar">
+  <a class="btn blue" id="menu-button" onclick="controller.pause()">Menu</a>
+</div>
 <div class="bottom-bar">
-  <div class="unit-holder holder" id="unit-holder">
+  <div class="unit-holder holder" id="unit-holder" onclick="controller.onLeftClick(1,2)">
 
   </div>
   <div class="right-box">
@@ -15,11 +15,18 @@
     <div class="ability-holder holder" id="ability-holder"></div>
   </div>
 </div>
-</body>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/hud.js"></script>
 
+<div class="overlay" id="overlay" style="display: none"></div>
+<div class="pause-menu" id="pause-menu" style="display: none">
+  <h2>Paused</h2>
+  <ul class="btn-list">
+    <li><a class="btn orange" onclick="controller.quitBtn()">Exit Game</a></li>
+    <li><a class="btn blue" onclick="controller.save()">Save</a></li>
+    <li><a id="resume-btn" class="btn green" onclick="controller.resume()">Resume</a></li>
+  </ul>
+</div>
+</body>
 <script>
-  addUnitIcon("download.jpg", "");
+
 </script>
 </html>

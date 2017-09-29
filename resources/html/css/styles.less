@@ -14,6 +14,27 @@
   padding: 0;
 }
 
+.overlay {
+  background-color: rgba(0,0,0,0.7);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+
+.btn-list {
+  width: 10vw;
+  display: block;
+
+  li {
+    display: block;
+    list-style-type: none;
+    margin: calc(@button-spacing);
+  }
+}
+
 .btn {
   padding: @button-spacing;
   margin: @button-spacing;
@@ -25,14 +46,14 @@
 
   text-align: center;
 
-  -fx-box-shadow: @black 3px 3px 3px;
+  box-shadow: @black 3px 3px 3px;
 
   &:hover {
-    -fx-box-shadow: #444 3px 3px 3px;
+    box-shadow: #444 3px 3px 3px;
   }
 
   &:active {
-    -fx-box-shadow: #AAA 1px 1px 1px;
+    box-shadow: #AAA 1px 1px 1px;
   }
 }
 

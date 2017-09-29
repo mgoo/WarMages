@@ -1,6 +1,7 @@
 package main.menu;
 
 import java.io.File;
+import java.io.IOException;
 import main.Main;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.menu.controller.LoadMenuController;
@@ -42,11 +43,16 @@ public class LoadMenu extends Menu {
    */
   @Override
   public String[] getScripts() {
-    return new String[]{
-        new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
-        new SaveFilesScriptGenerator()
-            .setData(this.worldSaveModel.getExistingGameSaves())
-            .getScript()
-    };
+    try {
+      return new String[]{
+          new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
+          new SaveFilesScriptGenerator()
+              .setData(this.worldSaveModel.getExistingGameSaves())
+              .getScript()
+      };
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return new String[0];
   }
 }
