@@ -164,11 +164,11 @@ public class Unit extends Attackable implements Damageable {
     health += amount;
   }
 
-  public Team getTeam() { // TODO remove me
+  public Team getTeam() {
     return team;
   }
 
-  public int getHealth() { // TODO remove me
+  public int getHealth() {
     return health;
   }
 }

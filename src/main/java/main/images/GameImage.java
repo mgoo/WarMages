@@ -115,8 +115,7 @@ public class GameImage implements Serializable {
   }
 
   /**
-   * Public for testing only.
-   * Use this method to get the sub-image, but prefer to use {@link GameImage#drawOnto};
+   * Use this method to get the sub-image, but prefer to use {@link GameImage#drawOnto}.
    *
    * @throws IOException For file IO errors
    */

@@ -131,7 +131,7 @@ public class World implements Serializable {
    * for progression.
    */
   private void easeTrigger() {
-    if (levels.get(0).areGoalsCompleted(this)) {
+    if (levels.get(0).areGoalsCompleted()) {
       nextLevel();
     }
   }
@@ -140,6 +140,7 @@ public class World implements Serializable {
    * A method which moves to the next level.
    */
   private void nextLevel() {
+    // TODO eric add precondition
     levels.remove(0);
     items.addAll(levels.get(0).getItems());
     mapEntities.clear();
