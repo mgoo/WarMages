@@ -1,0 +1,128 @@
+* {
+  background-color: rgba(0, 0, 0, 0);
+  margin: 0;
+  padding: 0;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+.btn-list {
+  width: 10vw;
+  display: block;
+}
+.btn-list li {
+  display: block;
+  list-style-type: none;
+  margin: calc(10px);
+}
+.btn {
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: block;
+  width: 10vw;
+  text-align: center;
+  box-shadow: #000 3px 3px 3px;
+}
+.btn:hover {
+  box-shadow: #444 3px 3px 3px;
+}
+.btn:active {
+  box-shadow: #AAA 1px 1px 1px;
+}
+a {
+  text-decoration: none;
+}
+.red {
+  color: #000;
+  background-color: #ff995b;
+}
+.blue {
+  color: #000;
+  background-color: #6983ff;
+}
+.green {
+  color: #000;
+  background-color: #c5fba2;
+}
+.orange {
+  color: #000;
+  background-color: #b8b463;
+}
+div,
+body {
+  overflow: hidden;
+}
+.game-view-proxy {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+.pause-menu {
+  position: fixed;
+  left: 40vw;
+  top: 20vh;
+  width: 20vw;
+  z-index: 10;
+  background-color: whitesmoke;
+  border: #AAAAAA inset 5px;
+}
+.pause-menu h2 {
+  text-align: center;
+}
+.pause-menu li {
+  width: 20vw;
+}
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 5vh;
+  background-color: #EEEEEE;
+  border: #b7b141 solid 5px;
+}
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 30vh;
+}
+.bottom-bar .holder .icon {
+  display: inline-block;
+  width: 6vw;
+  height: 9vh;
+  margin: 5px;
+  background-size: 100% 100%;
+  border: #000 solid 1px;
+}
+.bottom-bar .unit-holder {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 70%;
+  width: 70vw;
+  background-color: #EEEEEE;
+  border: #b7b141 solid 5px;
+}
+.bottom-bar .right-box {
+  display: block;
+  position: absolute;
+  left: 70vw;
+  bottom: 0;
+  width: calc(100vw - 70vw);
+  height: 100%;
+  background-color: #EEEEEE;
+  border: #b7b141 solid 5px;
+}
+.bottom-bar .right-box .holder {
+  width: 100%;
+}
