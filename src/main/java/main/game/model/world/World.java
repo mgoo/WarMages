@@ -1,5 +1,6 @@
 package main.game.model.world;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +25,9 @@ import main.util.MapRect;
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
  */
-public class World {
+public class World implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private final List<Level> levels;
 
@@ -41,7 +44,7 @@ public class World {
    * Creates the world.
    *
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   * initial level.
+   *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
@@ -87,9 +90,9 @@ public class World {
   }
 
   /**
-   * A getter method to get all possible units.
+   * A getter method to get all possible units of type=PLAYER.
    *
-   * @return a collection of all possible units
+   * @return a collection of all possible player units
    */
   public Collection<Unit> getAllUnits() {
     return Collections.unmodifiableCollection(

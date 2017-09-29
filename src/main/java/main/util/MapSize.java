@@ -1,9 +1,13 @@
 package main.util;
 
+import java.io.Serializable;
+
 /**
  * Represents the size of the Map as width and height.
  */
-public class MapSize {
+public class MapSize implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final double width;
   public final double height;

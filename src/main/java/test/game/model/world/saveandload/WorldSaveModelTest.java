@@ -4,18 +4,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+import main.game.model.world.World;
 import main.game.model.world.saveandload.SerialisationFormatException;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.game.model.world.saveandload.WorldSaveModel.Filesystem;
-import main.game.model.world.World;
 import org.junit.Test;
 
 /**
@@ -25,28 +31,32 @@ import org.junit.Test;
 public class WorldSaveModelTest {
 
   private Filesystem stubFileSystem = new Filesystem() {
-    private final Map<String, String> datastore = new HashMap<>();
+    private final Map<String, byte[]> filenameToData = new HashMap<>();
 
     @Override
-    public String load(String filename) throws IOException {
-      if (!datastore.containsKey(filename)) {
-        throw new IOException();
+    public <T> T load(String filename, Loader<T> loader)
+        throws IOException, ClassNotFoundException {
+      if (!filenameToData.containsKey(filename)) {
+        throw new IOException("Key not found");
       }
 
-      return datastore.get(filename);
+      try (InputStream inputStream = new ByteArrayInputStream(filenameToData.get(filename))) {
+        return loader.loadFromStream(inputStream);
+      }
     }
 
     @Override
     public Collection<String> availableFilenames() throws IOException {
-      return datastore.keySet();
+      return filenameToData.keySet();
     }
 
     @Override
-    public void save(String filename, String fileData) throws IOException {
-      datastore.put(
-          Objects.requireNonNull(filename),
-          Objects.requireNonNull(fileData)
-      );
+    public void save(String filename, Saver saver)
+        throws IOException {
+      try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+        saver.saveToStream(stream);
+        filenameToData.put(filename, stream.toByteArray());
+      }
     }
   };
 
@@ -74,14 +84,14 @@ public class WorldSaveModelTest {
 
   @Test(expected = IOException.class)
   public void load_nonexistentFile_exceptionThrown()
-      throws IOException, SerialisationFormatException {
+      throws IOException, SerialisationFormatException, ClassNotFoundException {
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
     worldSaveModel.load("some_nonexistent_file");
   }
 
   @Test
   public void saveAndThenLoad_singleLevelWorld_loadedCopyShouldEqualOriginal()
-      throws IOException, SerialisationFormatException {
+      throws IOException, SerialisationFormatException, ClassNotFoundException {
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(
         WorldLoader.newSingleLevelTestWorld()
     );
@@ -89,17 +99,17 @@ public class WorldSaveModelTest {
 
   @Test
   public void saveAndThenLoad_realWorld_loadedCopyShouldEqualOriginal()
-      throws IOException, SerialisationFormatException {
+      throws IOException, SerialisationFormatException, ClassNotFoundException {
     WorldLoader worldLoader = new WorldLoader();
     World world = worldLoader.load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
   private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World originalWorld)
-      throws IOException, SerialisationFormatException {
+      throws IOException, SerialisationFormatException, ClassNotFoundException {
     // Given these objects
     WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
-    String filename = "filename";
+    String filename = "filename." + WorldSaveModel.SAVE_FILE_EXTENSION;
 
     // when the model is saved
     worldSaveModel.save(originalWorld, filename);
@@ -108,14 +118,27 @@ public class WorldSaveModelTest {
 
     // then the references should be different
     assertFalse(originalWorld == loadedModel);
-    // and all the contents should be .equal
-    assertEquals(originalWorld, loadedModel);
+    // and all the contents should be the same (by checking that there are the same number of
+    // each entity class
+    assertEquals(
+        getSortedClassNames(originalWorld.getAllEntities()),
+        getSortedClassNames(loadedModel.getAllEntities())
+    );
+  }
+
+  private List<String> getSortedClassNames(Collection<?> list) {
+    return list.stream()
+        .map(Object::getClass)
+        .map(Object::toString)
+        .sorted()
+        .collect(Collectors.toList());
   }
 
   public static class DefaultFileSystemTest {
 
     @Test
-    public void saveThenListAvailableFilenamesThenLoad() throws IOException {
+    public void saveThenListAvailableFilenamesThenLoad()
+        throws IOException, ClassNotFoundException {
       // Given this file data
       String filename = ".test-save.temp";
       String fileContents = Math.random() + "";
@@ -128,14 +151,27 @@ public class WorldSaveModelTest {
       }
 
       // when save is called
-      filesystem.save(filename, fileContents);
+      filesystem.save(filename, outputStream -> {
+        try (PrintWriter writer = new PrintWriter(outputStream)) {
+          writer.write(fileContents);
+        }
+      });
 
       // then it should show in the list of availableFilenames
       assertTrue(file.exists());
       assertTrue(filesystem.availableFilenames().contains(filename));
 
       // when the file of the same name is loaded
-      String loadedFileContents = filesystem.load(filename);
+      String loadedFileContents = filesystem.load(filename, inputStream -> {
+        try (Scanner scanner = new Scanner(inputStream)) {
+          StringBuilder result = new StringBuilder();
+          scanner.useDelimiter("");
+          while (scanner.hasNext()) {
+            result.append(scanner.next());
+          }
+          return result.toString();
+        }
+      });
 
       // then the loaded file contents should equal the original file contents.
       assertEquals(fileContents, loadedFileContents);
