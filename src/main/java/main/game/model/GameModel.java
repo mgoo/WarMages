@@ -15,7 +15,7 @@ import main.util.Events.MainGameTick;
  * of {@link Level}s.
  */
 public class GameModel {
-  public final long delay = 50;
+  public static final long delay = 50;
 
   private final World world;
   private final MainGameTick mainGameTick;
