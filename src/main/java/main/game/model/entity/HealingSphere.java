@@ -9,6 +9,8 @@ import main.util.MapSize;
  */
 public class HealingSphere extends Projectile {
 
+  private static final long serialVersionUID = 1L;
+
   private final int healingAmount = 5;
 
   /**

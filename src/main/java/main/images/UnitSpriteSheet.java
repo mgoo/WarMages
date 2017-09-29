@@ -1,5 +1,6 @@
 package main.images;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,11 @@ import main.game.model.entity.Direction;
 /**
  * Represents an image with multiple images on it.
  */
-public class UnitSpriteSheet {
+public class UnitSpriteSheet implements Serializable {
 
-  private final GameImage baseImage;
+  private static final long serialVersionUID = 1L;
+
+  private final GameImageResource resource;
   private final transient Map<MapKey, List<GameImage>> sequenceToImages = new HashMap<>();
 
   /**
@@ -20,9 +23,9 @@ public class UnitSpriteSheet {
    * @param baseImageResource A sprite sheet image.
    */
   public UnitSpriteSheet(GameImageResource baseImageResource) {
-    this.baseImage = baseImageResource.getGameImage();
+    this.resource = baseImageResource;
 
-    if (baseImage.getStartX() != 0 || baseImage.getStartY() != 0) {
+    if (resource.getGameImage().getStartX() != 0 || resource.getGameImage().getStartY() != 0) {
       throw new IllegalArgumentException(
           "Base images with an offset are not supported yet: " + baseImageResource
       );
@@ -42,7 +45,10 @@ public class UnitSpriteSheet {
   public List<GameImage> getImagesForSequence(Sequence sequence, Direction unitDirection) {
     return sequenceToImages.computeIfAbsent(
         new MapKey(sequence, unitDirection),
-        mapKey -> mapKey.sequence.getImages(mapKey.direction, baseImage.getFilePath())
+        mapKey -> mapKey.sequence.getImages(
+            mapKey.direction,
+            resource.getGameImage().getFilePath()
+        )
     );
   }
 

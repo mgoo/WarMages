@@ -8,6 +8,8 @@ import main.util.MapSize;
  */
 public abstract class Attackable extends MovableEntity {
 
+  private static final long serialVersionUID = 1L;
+
   public static final int LEEWAY = 5;
   protected Unit target;
   protected int damageAmount;
