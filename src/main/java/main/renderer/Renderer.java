@@ -27,7 +27,7 @@ public class Renderer {
   public Renderer(GameView gameView, ImageView imageView) {
     thread = new Thread(() -> {
       while (true) {
-        drawAll(gameView, imageView);
+        drawAll(System.currentTimeMillis(), gameView, imageView);
       }
     });
   }
@@ -38,7 +38,7 @@ public class Renderer {
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
-  private void drawAll(GameView gameView, ImageView imageView) {
+  private void drawAll(long currentTime, GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
     BufferedImage image = new BufferedImage(
@@ -49,8 +49,8 @@ public class Renderer {
         RenderingHints.VALUE_ANTIALIAS_ON
     );
     g.setRenderingHints(rh);
-    for (Renderable r : gameView.getRenderables()) {
-      MapPoint position = r.getImagePosition();
+    for (Renderable r : gameView.getRenderables(currentTime)) {
+      MapPoint position = r.getImagePosition(currentTime);
       g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));

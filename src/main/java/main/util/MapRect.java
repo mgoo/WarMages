@@ -32,6 +32,10 @@ public class MapRect implements Serializable {
     this(topLeft, new MapPoint(topLeft.x + size.width, topLeft.y + size.height));
   }
 
+  public MapRect(double x, double y, double width, double height) {
+    this(new MapPoint(x, y), new MapPoint(x + width, y + height));
+  }
+
   /**
    * Returns true iff the rect is inside this (which includes when this and rect are equal).
    */
@@ -69,6 +73,10 @@ public class MapRect implements Serializable {
 
   public double getHeight() {
     return bottomRight.y - topLeft.y;
+  }
+
+  public MapRect move(double x, double y) {
+    return new MapRect(this.topLeft.x + x, this.topLeft.y, this.getWidth(), this.getHeight());
   }
 
   @Override
