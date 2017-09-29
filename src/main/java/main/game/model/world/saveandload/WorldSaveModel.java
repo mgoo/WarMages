@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
@@ -77,10 +78,10 @@ public class WorldSaveModel {
   }
 
   /**
-   * Finds the file names of all the existing game saves. Each name in a SAVE_FILE_EXTENSION and
+   * Finds the file names of all the existing game saves. Each name has a SAVE_FILE_EXTENSION and
    * does not contain any slashes.
    */
-  public Collection<String> getExistingGameSaves() throws IOException {
+  public Collection<String> getExistingGameSaves() {
     return filesystem.availableFilenames()
         .stream()
         .filter(filename -> filename.endsWith(SAVE_FILE_EXTENSION))
@@ -103,7 +104,7 @@ public class WorldSaveModel {
      */
     <T> T load(String filename, Loader<T> loader) throws IOException, ClassNotFoundException;
 
-    Collection<String> availableFilenames() throws IOException;
+    Collection<String> availableFilenames();
 
     void save(String filename, Saver saver) throws IOException;
 
@@ -151,14 +152,12 @@ public class WorldSaveModel {
     }
 
     @Override
-    public Collection<String> availableFilenames() throws IOException {
+    public Collection<String> availableFilenames() {
       File[] files = new File(saveDirectory)
           .listFiles(File::isFile);
 
       if (files == null) {
-        throw new IOException(
-            "There was some error loading the files in the current directory"
-        );
+        return Collections.emptyList();
       }
 
       return Arrays.stream(files)
