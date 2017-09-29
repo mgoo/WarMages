@@ -45,7 +45,7 @@ public class WorldSaveModelTest {
     }
 
     @Override
-    public Collection<String> availableFilenames() throws IOException {
+    public Collection<String> availableFilenames() {
       return filenameToData.keySet();
     }
 
