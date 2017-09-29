@@ -43,6 +43,16 @@ public class MapRect implements Serializable {
   }
 
   /**
+   * Checks whether a point is inside this MapRect.
+   * @param mapPoint point to check
+   * @return returns true if point is within rect. False otherwise.
+   */
+  public boolean contains(MapPoint mapPoint) {
+    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y
+        && mapPoint.y < bottomRight.y;
+  }
+
+  /**
    * The point in the exact centre of this rectangle. The coordinates, of course, may not be
    * rounded.
    */
@@ -84,15 +94,5 @@ public class MapRect implements Serializable {
     int result = topLeft != null ? topLeft.hashCode() : 0;
     result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
     return result;
-  }
-
-  /**
-   * Checks whether a point is inside this MapRect.
-   * @param mapPoint point to check
-   * @return returns true if point is within rect. False otherwise.
-   */
-  public boolean contains(MapPoint mapPoint) {
-    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y
-        && mapPoint.y < bottomRight.y;
   }
 }
