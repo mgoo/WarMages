@@ -3,8 +3,9 @@ package main.renderer;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.Collection;
+import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
 import main.util.MapPoint;
@@ -39,31 +40,32 @@ public class Renderer {
    * @param imageView the javaFX object that actually draws the GUI.
    */
   private void drawAll(GameView gameView, ImageView imageView) {
-    //    BufferedImage image = null;
-    //    for (Renderable r : gameView.getRenderables()) {
-    //      if (image == null) {
-    //        r.getImage();
-    //      }
-    //      MapPoint position = r.getImagePosition();
-    //      Graphics2D g = image.createGraphics();
-    //      RenderingHints rh = new RenderingHints(
-    //          RenderingHints.KEY_ANTIALIASING,
-    //          RenderingHints.VALUE_ANTIALIAS_ON);
-    //      g.setRenderingHints(rh);
-    //      g.drawImage(r.getImage(), (int)position.x, (int)position.y, null);
-    //    }
-    //    imageView.setImage(SwingFXUtils.toFXImage(image, null));
+    Objects.requireNonNull(gameView);
+    Objects.requireNonNull(imageView);
+    BufferedImage image = new BufferedImage(
+        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g = image.createGraphics();
+    RenderingHints rh = new RenderingHints(
+        RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON
+    );
+    g.setRenderingHints(rh);
+    for (Renderable r : gameView.getRenderables()) {
+      MapPoint position = r.getImagePosition();
+      g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
+    }
+    imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
 
   /**
    * Pauses the rendering loop.
    *
    * @throws InterruptedException InterruptedException if any thread interrupted the current thread
-   *     before or while the current thread was waiting for a notification.  The <i>interrupted
-   *     status</i> of the current thread is cleared when this exception is thrown.
+   *        before or while the current thread was waiting for a notification.  The <i>interrupted
+   *        status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
-    thread.wait();
+    thread.wait(); // TODO TO BE CHANGED
   }
 
   /**
