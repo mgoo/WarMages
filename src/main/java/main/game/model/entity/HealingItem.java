@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -12,7 +13,7 @@ public class HealingItem extends Item {
   /**
    * Constructor takes the coords of the HealingItem.
    */
-  public HealingItem(MapPoint coord) {
+  public HealingItem(MapPoint coord, GameImage image) {
     super(coord);
     //todo set image
   }
