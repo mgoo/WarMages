@@ -48,15 +48,12 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Sets the Unit's state to the given state.
+   * Sets the Unit's next state to be the given state.
    *
    * @param state to be changed to.
    */
   private void setStateTo(UnitState state) {
-    //todo change
-    Direction direction = unitState.getDirection();
-    unitState = state;
-    unitState.setDirection(direction);
+    unitState.requestState(state);
   }
 
   /**
@@ -82,14 +79,17 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //update image todo set in state?
-    //todo maybe check for state change?
+    //update image and state if applicable
     unitState.tick(timeSinceLastTick);
-
+    unitState = unitState.updateState();
     //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
-    updateDirection(oldPosition);
+    //check if position changed
+    if(!oldPosition.equals(position)) {
+      setStateTo(UnitState.WALKING);
+      updateDirection(oldPosition);
+    }
     //check if has target and target is within attacking proximity
     if (targetWithinProximity()) {
       attack(target);

@@ -158,6 +158,7 @@ public enum UnitState {
    * @param nextState the requested state.
    */
   protected void requestState(UnitState nextState){
+    if(this==nextState) return;
     requestedNext=nextState;
   }
 }
