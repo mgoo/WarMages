@@ -26,6 +26,16 @@ public class MapPoint implements Serializable {
     this.y = p.y;
   }
 
+  /**
+   * Rounds x and y.
+   */
+  public MapPoint rounded() {
+    return new MapPoint(
+        Math.round(x),
+        Math.round(y)
+    );
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -56,7 +66,7 @@ public class MapPoint implements Serializable {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return "MapPoint(" + x + ", " + y + ")";
   }
 
   /**
