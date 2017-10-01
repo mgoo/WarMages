@@ -29,16 +29,25 @@ public abstract class Entity implements Serializable {
   }
 
   /**
-   * Returns the position of the Entity.
+   * Returns the position at the top left of the Entity.
    *
-   * @return the entity's position.
+   * @return the entity's top left position.
    */
-  public MapPoint getPosition() {
+  public MapPoint getTopLeft() {
     return new MapPoint(position.x, position.y);
   }
 
   /**
-   * Returns the size of the Entity.
+   * Returns the position at the centre of the Entity.
+   *
+   * @return the entity's central position.
+   */
+  public MapPoint getCentre() {
+    return new MapPoint(position.x+size.width/2, position.y+size.height/2);
+  }
+
+  /**
+   * Returns the size/diameter of the Entity.
    *
    * @return the entity's size.
    */
@@ -50,7 +59,7 @@ public abstract class Entity implements Serializable {
    * The bounding box of this entity.
    */
   public MapRect getRect() {
-    return new MapRect(getPosition(), getSize());
+    return new MapRect(getTopLeft(), getSize());
   }
 
   /**
