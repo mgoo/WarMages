@@ -36,7 +36,7 @@ public class EntityTest {
     );
     int healthBefore = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(unit2.getCurrentHealth(), healthBefore);
+    assertEquals(healthBefore, unit2.getCurrentHealth());
   }
 
   @Test
@@ -49,7 +49,7 @@ public class EntityTest {
     );
     int prevHealth = unit.getCurrentHealth();
     unit.takeDamage(5);
-    assertEquals(unit.getCurrentHealth(), prevHealth-5);
+    assertEquals(prevHealth-5, unit.getCurrentHealth());
   }
 
   @Test
@@ -69,7 +69,7 @@ public class EntityTest {
     //note: archer baseline damage is 5
     int prevHealth = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(unit2.getCurrentHealth(), prevHealth-5);
+    assertEquals(prevHealth-5, unit2.getCurrentHealth());
   }
 
   @Test
@@ -82,7 +82,7 @@ public class EntityTest {
     );
     int prevHealth = unit.getCurrentHealth();
     unit.gainHealth(5);
-    assertEquals(unit.getCurrentHealth(), prevHealth+5);
+    assertEquals(prevHealth+5, unit.getCurrentHealth());
   }
 
   @Test
@@ -103,7 +103,7 @@ public class EntityTest {
     int prevHealth = unit2.getCurrentHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
-    assertEquals(unit2.getCurrentHealth(), prevHealth+5);
+    assertEquals(prevHealth+5, unit2.getCurrentHealth());
   }
 
   @Test
