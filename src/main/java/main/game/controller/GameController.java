@@ -37,6 +37,7 @@ public class GameController {
     switch (key) {
       case '.':
         gameModel.setUnitSelection(gameModel.getAllUnits());
+        break;
       case 'w': //up
         if (keyevent.wasCtrlDown()) {
           throw new Error("Not yet implemented!"); //TODO
@@ -44,6 +45,7 @@ public class GameController {
         if (keyevent.wasShiftDown()) {
           throw new Error("Not yet implemented!"); //TODO
         }
+        break;
       case 'a': //left
         if (keyevent.wasCtrlDown()) {
           throw new Error("Not yet implemented!"); //TODO
@@ -51,6 +53,7 @@ public class GameController {
         if (keyevent.wasShiftDown()) {
           throw new Error("Not yet implemented!"); //TODO
         }
+        break;
       case 's': //down
         if (keyevent.wasCtrlDown()) {
           throw new Error("Not yet implemented!"); //TODO
@@ -58,6 +61,7 @@ public class GameController {
         if (keyevent.wasShiftDown()) {
           throw new Error("Not yet implemented!"); //TODO
         }
+        break;
       case 'd': //right
         if (keyevent.wasCtrlDown()) {
           throw new Error("Not yet implemented!"); //TODO
@@ -65,6 +69,9 @@ public class GameController {
         if (keyevent.wasShiftDown()) {
           throw new Error("Not yet implemented!"); //TODO
         }
+        break;
+      default:
+        break;
     }
   }
 
