@@ -90,7 +90,7 @@ public class GameController {
 
         //add the new selected units to previously selected ones
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-        if(!selectedUnits.isEmpty()) {
+        if (!selectedUnits.isEmpty()) {
           updatedUnitSelection.add(selectedUnit);
         }
 
@@ -110,7 +110,7 @@ public class GameController {
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
         //if unit already selected, deselct it
-        if(updatedUnits.contains(selectedUnit)) {
+        if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
         } else { //if not, select it
           updatedUnits.add(selectedUnit);
@@ -132,7 +132,7 @@ public class GameController {
 
         Unit selectedUnit = (selectedUnits.isEmpty()) ? null : selectedUnits.get(0);
 
-        if(!selectedUnits.isEmpty()) {
+        if (!selectedUnits.isEmpty()) {
           gameModel.setUnitSelection(new ArrayList<>(Arrays.asList(selectedUnit)));
         }
       }
