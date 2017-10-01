@@ -208,7 +208,11 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    PizzaBall pizza = new PizzaBall(new MapPoint(22, 22), new MapSize(2, 2), unit);
+    PizzaBall pizza = new PizzaBall(
+        new MapPoint(22, 22),
+        new MapSize(2, 2),
+        unit
+    );
     int prevHealth = unit.getCurrentHealth();
     pizza.hits(unit);
     assertEquals(prevHealth - 5, unit.getCurrentHealth());
@@ -220,10 +224,15 @@ public class EntityTest {
     Unit unit = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
-        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        Team.PLAYER,
+        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    HealingSphere sphere = new HealingSphere(new MapPoint(22, 22), new MapSize(2, 2), unit);
+    HealingSphere sphere = new HealingSphere(
+        new MapPoint(22, 22),
+        new MapSize(2, 2),
+        unit
+    );
     int prevHealth = unit.getCurrentHealth();
     sphere.hits(unit);
     assertEquals(prevHealth + 5, unit.getCurrentHealth());
