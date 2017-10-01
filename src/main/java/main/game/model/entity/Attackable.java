@@ -8,6 +8,8 @@ import main.util.MapSize;
  */
 public abstract class Attackable extends MovableEntity {
 
+  private static final long serialVersionUID = 1L;
+
   public static final int LEEWAY = 5;
   protected Unit target;
   protected int damageAmount;
@@ -48,15 +50,6 @@ public abstract class Attackable extends MovableEntity {
   public void setDamageAmount(int amount) {
     assert amount > 0 && amount < 100;
     damageAmount = amount;
-  }
-
-  /**
-   * Returns the current health of the given unit.
-   *
-   * @return current health of Unit.
-   */
-  public int getCurrentHealth() {
-    return health;
   }
 
   /**

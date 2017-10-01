@@ -13,6 +13,8 @@ import main.util.MapSize;
  */
 public class Unit extends Attackable implements Damageable {
 
+  private static final long serialVersionUID = 1L;
+
   protected final Team team;
   protected boolean isDead;
   protected boolean healing;
@@ -158,6 +160,14 @@ public class Unit extends Attackable implements Damageable {
       return;
     }
     health += amount;
+  }
+
+  public Team getTeam() {
+    return team;
+  }
+
+  public int getHealth() {
+    return health;
   }
 }
 
