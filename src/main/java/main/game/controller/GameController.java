@@ -70,21 +70,21 @@ public class GameController {
   /**
    * Calls the appropriate method in the model depending on the user' mouse click.
    *
-   * @param mouseevent -- the MouseClick object for the current mouse click
+   * @param mouseEvent -- the MouseClick object for the current mouse click
    */
-  public void onMouseEvent(MouseClick mouseevent) {
+  public void onmouseEvent(MouseClick mouseEvent) {
 
-    if (mouseevent.wasLeft()) {
+    if (mouseEvent.wasLeft()) {
 
       //select the unit under the click if there is one
       List<Unit> selectedUnits = gameModel.getAllUnits().stream().filter(
-          u -> u.getPosition().distance(mouseevent.getLocation()) <= Math
+          u -> u.getPosition().distance(mouseEvent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .collect(Collectors.toList());
 
       Unit selectedUnit = (selectedUnits.isEmpty()) ? null : selectedUnits.get(0);
 
-      if (mouseevent.wasShiftDown()) {
+      if (mouseEvent.wasShiftDown()) {
         //CASE 1 => LEFT + SHIFT
 
         //add the new selected units to previously selected ones
@@ -95,7 +95,7 @@ public class GameController {
 
         gameModel.setUnitSelection(updatedUnitSelection);
 
-      } else if (mouseevent.wasCtrlDown()) {
+      } else if (mouseEvent.wasCtrlDown()) {
         //CASE 2 => LEFT + CTRL
 
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
