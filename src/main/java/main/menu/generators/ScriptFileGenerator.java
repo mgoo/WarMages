@@ -2,6 +2,7 @@ package main.menu.generators;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -10,24 +11,29 @@ import java.util.Scanner;
  * @author Andrew McGhie
  */
 public class ScriptFileGenerator extends ScriptGenerator {
+  private /*@ spec_public @*/ String file = "";
 
-  private String file;
-
-  public ScriptFileGenerator setFile(String file) {
+  /*@
+    requires !this.isLocked();
+   @*/
+  public /*@ non_null @*/ ScriptFileGenerator setFile(String file) {
     this.file = file;
+    this.preload();
+    this.lock();
     return this;
   }
 
+  /*@
+    requires !this.file.equals("");
+   @*/
   @Override
-  String load() {
-    assert file != null : "Set the File path before generating the script. call setFile(String)";
-
+  Optional<String> load() {
     try (Scanner scanner = new Scanner(new File(this.file))) {
       scanner.useDelimiter("\\A");
-      return scanner.next();
+      return Optional.of(scanner.next());
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    return "";
+    return Optional.empty();
   }
 }

@@ -1,6 +1,7 @@
 package main.menu.generators;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Generates a script that sets the values of the files in the load menu.
@@ -9,24 +10,33 @@ import java.util.Collection;
  */
 public class SaveFilesScriptGenerator extends ScriptGenerator {
 
-  private Collection<String> files;
-  private String perLoadedScript;
+  private /*@ nullable; spec_public @*/ Collection<String> files;
 
-  public SaveFilesScriptGenerator setData(Collection<String> files) {
+  /*@
+    ensures this.files != null;
+   @*/
+  public void setData(/*@ non_null @*/ Collection<String> files) {
     this.files = files;
-    return this;
   }
 
+  /*@
+    requires this.files != null;
+    ensures \result.isPresent();
+  also
+    requires this.files == null;
+    signals_only IllegalStateException;
+   @*/
   @Override
-  String load() {
-    assert files != null : "The data (filenames) has not being set. Please call setData(String[])";
-
-    StringBuilder script = new StringBuilder("$('#files').html('");
-    files.forEach(fileName -> {
+  Optional<String> load() {
+    if (this.files == null){
+      throw new IllegalStateException("Files need to be set before generating script");
+    }
+    StringBuffer script = new StringBuffer("$('#files').html('");
+    this.files.forEach(fileName -> {
       script.append(fileName);
       script.append(",");
     });
     script.append("')");
-    return script.toString();
+    return Optional.of(script.toString());
   }
 }
