@@ -43,7 +43,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's central position.
    */
   public MapPoint getCentre() {
-    return new MapPoint(position.x+size.width/2, position.y+size.height/2);
+    return new MapPoint(position.x + size.width / 2, position.y + size.height / 2);
   }
 
   /**
