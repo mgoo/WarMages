@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class EntityTest {
 
-  //test changing item position but position isn't changed.
+  //test changing item position but position isn't changed (item shouldn't move).
   @Test
   public void test_no_change_position(){
     BuffItem buff = new BuffItem(new MapPoint(20, 40));
@@ -124,6 +124,57 @@ public class EntityTest {
     int prevHealth = unit2.getCurrentHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
-    assertEquals(unit2.getCurrentHealth(), prevHealth);
+    assertEquals(prevHealth, unit2.getCurrentHealth());
   }
+
+  @Test
+  public void test_use_healing_item(){
+    Unit unit1 = new Unit(
+        new MapPoint(20, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    Unit unit2 = new Unit(
+        new MapPoint(50, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    HealingItem healing  = new HealingItem(new MapPoint(50, 150));
+    healing.applyTo(unit1);
+    int prevHealth = unit2.getCurrentHealth();
+    unit1.attack(unit2);
+    assertEquals(prevHealth+5, unit2.getCurrentHealth());
+  }
+
+  @Test
+  public void test_use_buff_item(){
+    //note that buff currently increases damage to 10
+    Unit unit1 = new Unit(
+        new MapPoint(20, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    Unit unit2 = new Unit(
+        new MapPoint(50, 20),
+        new MapSize(5, 5),
+        Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    BuffItem buff = new BuffItem(new MapPoint(150, 150));
+    buff.applyTo(unit1);
+    int prevHealth = unit2.getCurrentHealth();
+    unit1.attack(unit2);
+    assertEquals(prevHealth-10, unit2.getCurrentHealth());
+  }
+
+  @Test
+  public void test_team_attackable(){
+    assertTrue(Team.ENEMY.canAttack(Team.PLAYER));
+    assertFalse(Team.PLAYER.canAttack(Team.PLAYER));
+  }
+
+
 }
