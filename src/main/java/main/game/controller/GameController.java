@@ -97,7 +97,7 @@ public class GameController {
         gameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseevent.wasCtrlDown()) {
-        //CASE 1 => LEFT + CTRL
+        //CASE 2 => LEFT + CTRL
 
         //select the unit under the click if there is one
         List<Unit> selectedUnits = gameModel.getAllUnits().stream().filter(
