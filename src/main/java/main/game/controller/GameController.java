@@ -116,7 +116,7 @@ public class GameController {
         gameModel.setUnitSelection(new ArrayList<>());
 
         if (!selectedUnits.isEmpty()) {
-          gameModel.setUnitSelection(new ArrayList<>(Arrays.asList(selectedUnit)));
+          gameModel.setUnitSelection(Arrays.asList(selectedUnit));
         }
       }
 

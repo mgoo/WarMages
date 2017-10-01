@@ -12,6 +12,8 @@
         <list>
           <option value="build" />
           <option value="run" />
+          <option value="-x" />
+          <option value="findbugsMain" />
         </list>
       </option>
       <option name="vmOptions" value="" />
