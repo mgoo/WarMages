@@ -15,8 +15,6 @@ public abstract class Attackable extends MovableEntity {
   protected int damageAmount;
   protected int health;
 
-  //todo maybe have states Ready, Attacking, and CoolingDown ??? look at state/strategy pattern
-
   /**
    * Constructor takes the position of the entity and the size.
    *
@@ -60,7 +58,7 @@ public abstract class Attackable extends MovableEntity {
    *
    * @return boolean representing distance less than leeway.
    */
-  public boolean checkTargetWithinProximity() {
+  public boolean targetWithinProximity() {
     if (target == null) {
       return false;
     }

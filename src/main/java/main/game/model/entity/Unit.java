@@ -16,13 +16,11 @@ public class Unit extends Attackable implements Damageable {
   private static final long serialVersionUID = 1L;
 
   protected final Team team;
-  protected int imagesIdx;
   protected boolean isDead;
   protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
-  protected List<GameImage> images;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -35,14 +33,11 @@ public class Unit extends Attackable implements Damageable {
     this.unitType = unitType;
     isDead = false;
     health = unitType.getStartingHealth();
-    speed = unitType.getSpeed();
+    speed = unitType.getMovingSpeed();
     damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
-    images = new ArrayList<>();
     unitState = UnitState.DEFAULT_STATE;
     unitState.setDirection(Direction.LEFT);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
   }
 
   /**
@@ -55,16 +50,12 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Sets the Unit's state to the given state.
+   * Sets the Unit's next state to be the given state.
    *
    * @param state to be changed to.
    */
   private void setStateTo(UnitState state) {
-    Direction direction = unitState.getDirection();
-    unitState = state;
-    unitState.setDirection(direction);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
+    unitState.requestState(state);
   }
 
   /**
@@ -90,20 +81,27 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //update image
-    if (imagesIdx == images.size() - 1) {
-      //reset state back to default todo confirm when to change back to default state
-      setStateTo(UnitState.DEFAULT_STATE);
-    }
-    image = images.get(imagesIdx);
+    //update image and state if applicable
+    unitState.tick(timeSinceLastTick);
+    unitState = unitState.updateState();
+    //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
-    updateDirection(oldPosition);
+    //check if position changed
+    if (!oldPosition.equals(position)) {
+      setStateTo(UnitState.WALKING);
+      updateDirection(oldPosition);
+    }
     //check if has target and target is within attacking proximity
-    if (checkTargetWithinProximity()) {
+    if (targetWithinProximity()) {
       attack(target);
       setStateTo(UnitState.ATTACKING);
     }
+  }
+
+  @Override
+  public GameImage getImage() {
+    return unitState.getImage();
   }
 
   @Override
@@ -116,13 +114,13 @@ public class Unit extends Attackable implements Damageable {
     if (!unit.equals(target) || isDead || target == null) {
       return;
     }
-    if (team.canAttackOtherTeam(unit.team)) {
-      setStateTo(UnitState.ATTACKING);
-      if (healing) {
+    setStateTo(UnitState.ATTACKING);
+    if (healing) {
+      if (unit.team.equals(team)) {
         unit.gainHealth(damageAmount);
-      } else {
-        unit.takeDamage(damageAmount);
       }
+    } else if (team.canAttackOtherTeam(unit.team)) {
+      unit.takeDamage(damageAmount);
     }
   }
 
