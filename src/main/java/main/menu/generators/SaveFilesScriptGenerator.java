@@ -14,9 +14,11 @@ public class SaveFilesScriptGenerator extends ScriptGenerator {
 
   /*@
     ensures this.files != null;
+    ensures \result == this;
    @*/
-  public void setData(/*@ non_null @*/ Collection<String> files) {
+  public SaveFilesScriptGenerator setData(/*@ non_null @*/ Collection<String> files) {
     this.files = files;
+    return this;
   }
 
   /*@
