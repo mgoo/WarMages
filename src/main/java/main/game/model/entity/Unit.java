@@ -86,7 +86,7 @@ public class Unit extends Attackable implements Damageable {
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     //check if position changed
-    if(!oldPosition.equals(position)) {
+    if (!oldPosition.equals(position)) {
       setStateTo(UnitState.WALKING);
       updateDirection(oldPosition);
     }
@@ -113,8 +113,8 @@ public class Unit extends Attackable implements Damageable {
       return;
     }
     setStateTo(UnitState.ATTACKING);
-    if(healing){
-      if(target.team.equals(team)){
+    if (healing) {
+      if (target.team.equals(team)) {
         unit.gainHealth(damageAmount);
       }
     } else {

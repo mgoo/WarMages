@@ -24,7 +24,7 @@ public enum UnitState {
 
     @Override
     protected UnitState updateState() {
-      return (requestedNext == null || imagesIdx!=images.size()) ? this : requestedNext;
+      return (requestedNext == null || imagesIdx != images.size()) ? this : requestedNext;
     }
   },
 
@@ -42,7 +42,7 @@ public enum UnitState {
 
     @Override
     protected UnitState updateState() {
-      return (requestedNext == null || imagesIdx!=images.size()) ? this : requestedNext;
+      return (requestedNext == null || imagesIdx != images.size()) ? this : requestedNext;
     }
   },
 
@@ -121,7 +121,7 @@ public enum UnitState {
    * @return GameImage image of the state at this current point.
    */
   public GameImage getImage() {
-    return images.get((int)imagesIdx);
+    return images.get((int) imagesIdx);
   }
 
   protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
@@ -157,8 +157,10 @@ public enum UnitState {
    *
    * @param nextState the requested state.
    */
-  protected void requestState(UnitState nextState){
-    if(this==nextState) return;
-    requestedNext=nextState;
+  protected void requestState(UnitState nextState) {
+    if (this == nextState) {
+      return;
+    }
+    requestedNext = nextState;
   }
 }
