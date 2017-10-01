@@ -35,18 +35,23 @@ public enum UnitType {
     return attackSpeed;
   }
 
-  public int getMovingSpeed() { return movingSpeed; }
+  public int getMovingSpeed() {
+    return movingSpeed;
+  }
 
-  public Sequence getAttackSequence(){
+  public Sequence getAttackSequence() {
     return attackSequence;
   }
 
-  UnitType(int baselineDamage, int startingHealth, int attackSpeed, int movingSpeed, Sequence attackSequence) {
+  UnitType(
+      int baselineDamage, int startingHealth, int attackSpeed, int movingSpeed,
+      Sequence attackSequence
+  ) {
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
-    this.movingSpeed=movingSpeed;
-    this.attackSequence=attackSequence;
+    this.movingSpeed = movingSpeed;
+    this.attackSequence = attackSequence;
   }
 }
 
