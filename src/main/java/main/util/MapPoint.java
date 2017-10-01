@@ -1,6 +1,7 @@
 package main.util;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.List;
 /**
  * Represents a point on the Map.
  */
-public class MapPoint {
+public class MapPoint implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final double x;
   public final double y;
@@ -21,6 +24,16 @@ public class MapPoint {
   public MapPoint(Point p) {
     this.x = p.x;
     this.y = p.y;
+  }
+
+  /**
+   * Rounds x and y.
+   */
+  public MapPoint rounded() {
+    return new MapPoint(
+        Math.round(x),
+        Math.round(y)
+    );
   }
 
   @Override
@@ -53,7 +66,7 @@ public class MapPoint {
 
   @Override
   public String toString() {
-    return "(" + x + ", " + y + ")";
+    return "MapPoint(" + x + ", " + y + ")";
   }
 
   /**
