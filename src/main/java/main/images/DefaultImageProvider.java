@@ -53,7 +53,7 @@ public class DefaultImageProvider extends ImageProvider {
       filePathCache.put(filePath, image);
       return image;
     } catch (IIOException e) {
-      throw new IOException(e);
+      throw new IOException("Can't read image file: " + filePath, e);
     }
   }
 

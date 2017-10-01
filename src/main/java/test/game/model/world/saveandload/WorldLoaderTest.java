@@ -1,9 +1,16 @@
 package test.game.model.world.saveandload;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
+import main.game.model.entity.MapEntity;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.World;
+import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 import org.junit.Test;
 
 /**
@@ -21,8 +28,37 @@ public class WorldLoaderTest {
 
   @Test
   public void newSingleLevelTest_noInputs_returnsNonNullAndDoesNotCrash() {
-    World load = WorldLoader.newSingleLevelTestWorld();
+    World load = new WorldLoader().loadSingleLevelTestWorld();
     assertNotNull(load);
+  }
+
+  @Test
+  public void loadMultilevelWorld_noInputs_returnsNonNullAndDoesNotCrash() {
+    World load = new WorldLoader().loadMultilevelWorld();
+    assertNotNull(load);
+  }
+
+  @Test
+  public void generateBoundEntities_3x4Bounds_borderGeneratedProperly() {
+    // The method should generate the edges as well, but only top-left and bottom-right corners
+    // are checked.
+
+    MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
+    Collection<MapEntity> boundEntities = WorldLoader.generateBorderEntities(
+        bounds,
+        WorldLoader::newBorderEntityAt
+    );
+
+    assertEquals(boundEntities.size(), 10); // 10 edge squares inside a 3x4 grid
+    assertTrue(boundEntities.stream().anyMatch(
+        entity -> entity.getPosition().equals(bounds.topLeft)
+    ));
+    assertTrue(boundEntities.stream().anyMatch(
+        entity -> entity.getPosition().equals(new MapPoint(
+            bounds.bottomRight.x - 1,
+            bounds.bottomRight.y - 1
+        ))
+    ));
   }
 
 }

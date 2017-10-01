@@ -35,6 +35,11 @@ public class MapSize implements Serializable {
   }
 
   @Override
+  public String toString() {
+    return "MapSize(" + width + ", " + height + ")";
+  }
+
+  @Override
   public int hashCode() {
     int result;
     long temp;

@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -15,7 +16,7 @@ public class BuffItem extends Item {
   /**
    * Constructor takes the coords to create the item at.
    */
-  public BuffItem(MapPoint coord) {
+  public BuffItem(MapPoint coord, GameImage image) {
     super(coord);
     buff = new BuffAbility(null);
     //todo pass image
