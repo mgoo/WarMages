@@ -85,21 +85,19 @@ public class GameController {
     if (mouseEvent.wasLeft()) {
 
       //select the unit under the click if there is one
-      List<Unit> selectedUnits = gameModel.getAllUnits().stream().filter(
+      Unit selectedUnit = gameModel.getAllUnits().stream().filter(
           u -> u.getPosition().distance(mouseEvent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .sorted(
               Comparator.comparingDouble(s -> s.getPosition().distance(mouseEvent.getLocation())))
-          .collect(Collectors.toList());
-
-      Unit selectedUnit = (selectedUnits.isEmpty()) ? null : selectedUnits.get(0);
+          .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
         //CASE 1 => LEFT + SHIFT
 
         //add the new selected units to previously selected ones
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-        if (!selectedUnits.isEmpty()) {
+        if (selectedUnit != null) {
           updatedUnitSelection.add(selectedUnit);
         }
 
@@ -125,7 +123,7 @@ public class GameController {
         //deselect all previous selected units
         gameModel.setUnitSelection(new ArrayList<>());
 
-        if (!selectedUnits.isEmpty()) {
+        if (selectedUnit != null) {
           gameModel.setUnitSelection(Arrays.asList(selectedUnit));
         }
       }
