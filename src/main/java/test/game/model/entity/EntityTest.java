@@ -172,10 +172,60 @@ public class EntityTest {
   }
 
   @Test
+  public void test_use_buff_ability() {
+    //note that buff currently increases damage to 10
+    Unit unit1 = new Unit(
+        new MapPoint(20, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    Unit unit2 = new Unit(
+        new MapPoint(50, 20),
+        new MapSize(5, 5),
+        Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    BuffItem buff = new BuffItem(new MapPoint(150, 150));
+    buff.applyTo(unit1);
+    int prevHealth = unit2.getCurrentHealth();
+    unit1.attack(unit2);
+    assertEquals(prevHealth - 10, unit2.getCurrentHealth());
+  }
+
+  @Test
   public void test_team_attackable() {
     assertTrue(Team.ENEMY.canAttack(Team.PLAYER));
     assertFalse(Team.PLAYER.canAttack(Team.PLAYER));
   }
 
+  @Test
+  public void test_pizza_ball_hit() {
+    //note that pizza ball damage = 5
+    Unit unit = new Unit(
+        new MapPoint(20, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    PizzaBall pizza = new PizzaBall(new MapPoint(22, 22), new MapSize(2, 2), unit);
+    int prevHealth = unit.getCurrentHealth();
+    pizza.hits(unit);
+    assertEquals(prevHealth - 5, unit.getCurrentHealth());
+  }
 
+  @Test
+  public void test_healing_sphere_hit() {
+    //note that healing sphere heals 5
+    Unit unit = new Unit(
+        new MapPoint(20, 20),
+        new MapSize(5, 5),
+        Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER
+    );
+    HealingSphere sphere = new HealingSphere(new MapPoint(22, 22), new MapSize(2, 2), unit);
+    int prevHealth = unit.getCurrentHealth();
+    sphere.hits(unit);
+    assertEquals(prevHealth + 5, unit.getCurrentHealth());
+  }
 }
