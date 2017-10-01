@@ -3,6 +3,7 @@ package main.game.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
@@ -80,6 +81,8 @@ public class GameController {
       List<Unit> selectedUnits = gameModel.getAllUnits().stream().filter(
           u -> u.getPosition().distance(mouseEvent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
+          .sorted(
+              Comparator.comparingDouble(s -> s.getPosition().distance(mouseEvent.getLocation())))
           .collect(Collectors.toList());
 
       Unit selectedUnit = (selectedUnits.isEmpty()) ? null : selectedUnits.get(0);
