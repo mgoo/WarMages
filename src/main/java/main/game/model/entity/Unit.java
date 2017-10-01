@@ -167,5 +167,9 @@ public class Unit extends Attackable implements Damageable {
   public Team getTeam() {
     return team;
   }
+
+  public int getHealth() {
+    return health;
+  }
 }
 

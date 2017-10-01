@@ -55,15 +55,6 @@ public abstract class Attackable extends MovableEntity {
   }
 
   /**
-   * Returns the current health of the given unit.
-   *
-   * @return current health of Unit.
-   */
-  public int getCurrentHealth() {
-    return health;
-  }
-
-  /**
    * Returns boolean whether the distance between the target and the Attackable is less than the
    * leeway.
    *
