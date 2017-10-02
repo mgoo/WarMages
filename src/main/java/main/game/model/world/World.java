@@ -56,20 +56,6 @@ public class World implements Serializable {
   }
 
   /**
-   * Converts a mapEntity collection into a map of MapPoints to Entities.
-   * TODO ERIC unused, check correct method used (getTopLeft vs getCentre)
-   * @param mapEntities collection of MapEntities
-   * @return returns converted map
-   */
-  private static Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
-    return mapEntities.stream()
-        .collect(Collectors.toMap(
-            Entity::getTopLeft,
-            e -> e
-        ));
-  }
-
-  /**
    * A getter method which returns all the entities in the world thats within the selection. The
    * collection to be return must be ordered.
    *
