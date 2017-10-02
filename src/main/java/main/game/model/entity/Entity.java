@@ -34,7 +34,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's top left position.
    */
   public MapPoint getTopLeft() {
-    return new MapPoint(position.x, position.y);
+    return position;
   }
 
   /**
