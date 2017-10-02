@@ -5,7 +5,7 @@ import main.images.UnitSpriteSheet.Sequence;
 
 public class WalkingUnitState extends AbstractUnitState {
 
-  public WalkingUnitState(Direction direction, UnitSpriteSheet sheet){
+  public WalkingUnitState(Direction direction, UnitSpriteSheet sheet) {
     super(Sequence.WALK, direction, sheet);
   }
 

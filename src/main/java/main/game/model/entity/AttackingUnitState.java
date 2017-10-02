@@ -4,7 +4,7 @@ import main.images.UnitSpriteSheet;
 
 public class AttackingUnitState extends AbstractUnitState {
 
-  public AttackingUnitState(Direction direction, UnitSpriteSheet sheet, UnitType type){
+  public AttackingUnitState(Direction direction, UnitSpriteSheet sheet, UnitType type) {
     super(type.getAttackSequence(), direction, sheet);
   }
 
