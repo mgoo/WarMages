@@ -17,8 +17,8 @@ public class PizzaBall extends Projectile {
    * Constructor takes the coordinates and size of the PizzaBall, and the Unit to be targeted by the
    * PizzaBall.
    */
-  public PizzaBall(MapPoint coordinates, MapSize size, Unit target) {
-    super(coordinates, size, target);
+  public PizzaBall(MapPoint coordinates, MapSize size, Unit target, GameImage gameImage) {
+    super(coordinates, size, target, gameImage);
   }
 
   @Override
@@ -28,9 +28,4 @@ public class PizzaBall extends Projectile {
     unit.takeDamage(damageAmount);
   }
 
-  @Override
-  public void setImage(GameImage image) {
-    assert image != null;
-    this.image = image;
-  }
 }

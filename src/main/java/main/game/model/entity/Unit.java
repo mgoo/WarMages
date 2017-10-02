@@ -56,6 +56,10 @@ public class Unit extends Attackable implements Damageable {
     unitState.requestState(state);
   }
 
+  public UnitType getUnitType() {
+    return unitType;
+  }
+
   /**
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
@@ -100,11 +104,6 @@ public class Unit extends Attackable implements Damageable {
   @Override
   public GameImage getImage() {
     return unitState.getImage();
-  }
-
-  @Override
-  public void setImage(GameImage image) {
-    //will not change anything
   }
 
   @Override

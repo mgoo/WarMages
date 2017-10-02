@@ -16,11 +16,6 @@ public class UninteractableEntity extends MapEntity {
   }
 
   @Override
-  public void setImage(GameImage image) {
-    //no change
-  }
-
-  @Override
   public void tick(long timeSinceLastTick) {
     //no change
   }

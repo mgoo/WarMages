@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -21,7 +22,7 @@ public abstract class Projectile extends Entity {
    * @param size of projectile.
    * @param target unit of projectile.
    */
-  public Projectile(MapPoint coordinates, MapSize size, Unit target) {
+  public Projectile(MapPoint coordinates, MapSize size, Unit target, GameImage gameImage) {
     super(coordinates, size);
     this.target = target;
   }
