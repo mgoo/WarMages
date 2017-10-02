@@ -7,7 +7,6 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
@@ -233,11 +232,6 @@ public class GameViewTest {
     @Override
     public GameImage getImage() {
       return GameImageResource.TEST_IMAGE_1_1.getGameImage();
-    }
-
-    @Override
-    public void setImage(GameImage image) {
-
     }
 
     @Override

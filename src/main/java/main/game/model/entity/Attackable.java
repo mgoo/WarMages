@@ -58,7 +58,7 @@ public abstract class Attackable extends MovableEntity {
    */
   public boolean targetWithinProximity() {
     if (target == null) {
-       throw new IllegalStateException("No target set");
+      throw new IllegalStateException("No target set");
     }
     if (Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math
         .pow(target.getPosition().y - position.y, 2)) < LEEWAY) {

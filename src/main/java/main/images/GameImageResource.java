@@ -21,6 +21,7 @@ public enum GameImageResource {
       new GameImageBuilder("images/projectiles/whitemissile-impact-3.png").create()
   ),
   ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
+  FIREBALL_PROJECTILE(new GameImageBuilder("images/projectiles/fireball-impact-1.png").create()),
 
   // Tiles
   GRASS_TILE(new GameImageBuilder("images/tiles/grass.png").create()),

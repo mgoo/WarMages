@@ -98,6 +98,10 @@ public class UnitSpriteSheet implements Serializable {
       this.attackFrame = attackFrame;
     }
 
+    /**
+     * Returns the index of the frame where the attack action should occur (whether it be launching
+     * a projectile or applying damage with the sword attack.
+     */
     public int getAttackFrame() {
       if (attackFrame == NOT_AN_ATTACK_SEQUENCE) {
         throw new IllegalStateException("This is not an attack sequence" + name());
