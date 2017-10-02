@@ -5,6 +5,8 @@ import main.images.UnitSpriteSheet.Sequence;
 
 public class WalkingUnitState extends UnitState {
 
+  private static final long serialVersionUID = 1L;
+
   public WalkingUnitState(Direction direction, UnitSpriteSheet sheet) {
     super(Sequence.WALK, direction, sheet);
   }
