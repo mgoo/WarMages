@@ -247,6 +247,12 @@ public class GameViewTest {
 
     @Override
     public MapPoint getTopLeft() {
+      assert false : "This method is not used here";
+      return this.position;
+    }
+
+    @Override
+    public MapPoint getCentre() {
       return this.position;
     }
 
