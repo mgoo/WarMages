@@ -78,6 +78,15 @@ public class Unit extends Attackable implements Damageable {
     }
   }
 
+  /**
+   * Returns a DeadUnit to replace the current Unit when it dies.
+   *
+   * @return DeadUnit to represent dead current Unit.
+   */
+  public DeadUnit getDeadUnit(){
+    return new DeadUnit(position);
+  }
+
   @Override
   public void tick(long timeSinceLastTick) {
     //update image and state if applicable
