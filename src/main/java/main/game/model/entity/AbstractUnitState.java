@@ -8,10 +8,11 @@ import main.images.UnitSpriteSheet.Sequence;
  * An interface for the states of a unit.
  */
 public abstract class AbstractUnitState {
+
   protected UnitImagesComponent imagesComponent;
   protected AbstractUnitState nextState;
 
-  public AbstractUnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet){
+  public AbstractUnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet) {
     imagesComponent = new UnitImagesComponent(sequence, sheet, direction);
   }
 
@@ -20,7 +21,7 @@ public abstract class AbstractUnitState {
    *
    * @param timeSinceLastTick time passed since last tick call.
    */
-  public void tick(Long timeSinceLastTick){
+  public void tick(Long timeSinceLastTick) {
     imagesComponent.changeImage(timeSinceLastTick);
   }
 
@@ -29,7 +30,7 @@ public abstract class AbstractUnitState {
    *
    * @return GameImage image of current state.
    */
-  public GameImage getImage(){
+  public GameImage getImage() {
     return imagesComponent.getImage();
   }
 
@@ -38,7 +39,7 @@ public abstract class AbstractUnitState {
    *
    * @param nextState the requested state.
    */
-  public void requestState(AbstractUnitState nextState){
+  public void requestState(AbstractUnitState nextState) {
     if (this.getClass().equals(nextState.getClass())) {
       return;
     }
@@ -50,8 +51,8 @@ public abstract class AbstractUnitState {
    *
    * @param newDirection direction to be changed to.
    */
-  public void setDirection(Direction newDirection){
-    if(imagesComponent.getDirection()!=newDirection) {
+  public void setDirection(Direction newDirection) {
+    if (imagesComponent.getDirection() != newDirection) {
       imagesComponent = new UnitImagesComponent(
           imagesComponent.getSequence(), imagesComponent.getSpriteSheet(), newDirection);
     }
@@ -62,7 +63,7 @@ public abstract class AbstractUnitState {
    *
    * @return Direction of the current state.
    */
-  public Direction getDirection(){
+  public Direction getDirection() {
     return imagesComponent.getDirection();
   }
 

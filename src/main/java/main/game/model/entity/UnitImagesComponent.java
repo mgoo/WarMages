@@ -6,20 +6,29 @@ import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 
 public class UnitImagesComponent implements ImagesComponent {
+
   public static final int TICKS_TO_CHANGE = 5;
   private Sequence sequence;
   private int imagesIdx;
-  private int tickCount=0;
+  private int tickCount = 0;
   private List<GameImage> images;
   private Direction direction;
   private UnitSpriteSheet spriteSheet;
 
 
-  public UnitImagesComponent(Sequence sequence, UnitSpriteSheet sheet, Direction direction){
-    this.sequence=sequence;
-    this.direction=direction;
-    this.spriteSheet=sheet;
-    imagesIdx=0;
+  /**
+   * Constructor takes the sequence relevant to the unit's state, the sprite sheet for the unit, and
+   * the direction of the unit.
+   *
+   * @param sequence sequence of unit's state.
+   * @param sheet sprite sheet of relevant unit.
+   * @param direction direction of unit.
+   */
+  public UnitImagesComponent(Sequence sequence, UnitSpriteSheet sheet, Direction direction) {
+    this.sequence = sequence;
+    this.direction = direction;
+    this.spriteSheet = sheet;
+    imagesIdx = 0;
     images = sheet.getImagesForSequence(sequence, direction);
   }
 
@@ -28,7 +37,7 @@ public class UnitImagesComponent implements ImagesComponent {
    *
    * @return Direction of images.
    */
-  public Direction getDirection(){
+  public Direction getDirection() {
     return direction;
   }
 
@@ -53,7 +62,7 @@ public class UnitImagesComponent implements ImagesComponent {
   @Override
   public void changeImage(Long timeSinceLastTick) {
     tickCount++;
-    if(tickCount%TICKS_TO_CHANGE==0) { //change image every certain number of ticks.
+    if (tickCount % TICKS_TO_CHANGE == 0) { //change image every certain number of ticks.
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
     }
   }
@@ -65,6 +74,6 @@ public class UnitImagesComponent implements ImagesComponent {
 
   @Override
   public boolean readyToTransition() {
-    return imagesIdx==images.size()-1;
+    return imagesIdx == images.size() - 1;
   }
 }
