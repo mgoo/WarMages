@@ -16,13 +16,11 @@ public class Unit extends Attackable implements Damageable {
   private static final long serialVersionUID = 1L;
 
   protected final Team team;
-  protected int imagesIdx;
   protected boolean isDead;
   protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
-  protected List<GameImage> images;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -35,14 +33,10 @@ public class Unit extends Attackable implements Damageable {
     this.unitType = unitType;
     isDead = false;
     health = unitType.getStartingHealth();
-    speed = unitType.getSpeed();
+    speed = unitType.getMovingSpeed();
     damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
-    images = new ArrayList<>();
-    unitState = UnitState.DEFAULT_STATE;
-    unitState.setDirection(Direction.LEFT);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
+    unitState = new DefaultUnitState(Direction.LEFT, sheet);
   }
 
   /**
@@ -55,55 +49,57 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Sets the Unit's state to the given state.
+   * Sets the Unit's next state to be the given state.
    *
    * @param state to be changed to.
    */
   private void setStateTo(UnitState state) {
-    Direction direction = unitState.getDirection();
-    unitState = state;
-    unitState.setDirection(direction);
-    images = unitState.getImagesFor(unitType, spriteSheet);
-    imagesIdx = 0;
+    unitState.requestState(state);
   }
 
   /**
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
    */
-  private void updateDirection(MapPoint oldPosition) {
+  private Direction updateDirection(MapPoint oldPosition) {
     double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
     if (gradient < 1) {
       if (position.y < oldPosition.y) {
-        unitState.setDirection(Direction.UP);
+        return Direction.UP;
       } else {
-        unitState.setDirection(Direction.DOWN);
+        return Direction.DOWN;
       }
     } else {
       if (position.x < oldPosition.x) {
-        unitState.setDirection(Direction.LEFT);
+        return Direction.LEFT;
       } else {
-        unitState.setDirection(Direction.RIGHT);
+        return Direction.RIGHT;
       }
     }
   }
 
   @Override
   public void tick(long timeSinceLastTick) {
-    //update image
-    if (imagesIdx == images.size() - 1) {
-      //reset state back to default todo confirm when to change back to default state
-      setStateTo(UnitState.DEFAULT_STATE);
-    }
-    image = images.get(imagesIdx);
+    //update image and state if applicable
+    unitState.tick(timeSinceLastTick);
+    unitState = unitState.updateState();
+    //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
-    updateDirection(oldPosition);
-    //check if has target and target is within attacking proximity
-    if (checkTargetWithinProximity()) {
-      attack(target);
-      setStateTo(UnitState.ATTACKING);
+    //check if position changed
+    if (!oldPosition.equals(position)) {
+      setStateTo(new WalkingUnitState(updateDirection(oldPosition), spriteSheet));
     }
+    //check if has target and target is within attacking proximity
+    if (targetWithinProximity()) {
+      attack(target);
+      setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+    }
+  }
+
+  @Override
+  public GameImage getImage() {
+    return unitState.getImage();
   }
 
   @Override
@@ -116,13 +112,13 @@ public class Unit extends Attackable implements Damageable {
     if (!unit.equals(target) || isDead || target == null) {
       return;
     }
-    if (team.canAttackOtherTeam(unit.team)) {
-      setStateTo(UnitState.ATTACKING);
-      if (healing) {
+    setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+    if (healing) {
+      if (unit.team.equals(team)) {
         unit.gainHealth(damageAmount);
-      } else {
-        unit.takeDamage(damageAmount);
       }
+    } else if (team.canAttackOtherTeam(unit.team)) {
+      unit.takeDamage(damageAmount);
     }
   }
 
@@ -151,7 +147,7 @@ public class Unit extends Attackable implements Damageable {
       isDead = true;
       health = 0;
     } else {
-      setStateTo(UnitState.BEEN_HIT);
+      setStateTo(new BeenHitUnitState(unitState.getDirection(), spriteSheet));
       health -= amount;
     }
   }
