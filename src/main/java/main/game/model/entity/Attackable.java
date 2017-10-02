@@ -64,8 +64,8 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       return false;
     }
-    if (Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math
-        .pow(target.getPosition().y - position.y, 2)) < LEEWAY) {
+    if (Math.sqrt(Math.pow(target.getCentre().x - position.x, 2) + Math
+        .pow(target.getCentre().y - position.y, 2)) < LEEWAY) {
       return true;
     }
     return false;

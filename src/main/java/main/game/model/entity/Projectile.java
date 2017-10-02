@@ -34,12 +34,12 @@ public abstract class Projectile extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick) {
-    double distToTarget = Math.sqrt((Math.pow(target.getPosition().x - position.x, 2) + Math
-        .pow(target.getPosition().y - position.y, 2)));
+    double distToTarget = Math.sqrt((Math.pow(target.getCentre().x - position.x, 2) + Math
+        .pow(target.getCentre().y - position.y, 2)));
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;
-    moveX(percentage * (target.getPosition().x - position.x));
-    moveY(percentage * (target.getPosition().y - position.y));
+    moveX(percentage * (target.getCentre().x - position.x));
+    moveY(percentage * (target.getCentre().y - position.y));
     //todo check dist to target and if close enough, hit target.
     //projectile change image at which point?
   }

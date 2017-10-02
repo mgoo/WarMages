@@ -51,10 +51,10 @@ public class WorldLoaderTest {
 
     assertEquals(boundEntities.size(), 10); // 10 edge squares inside a 3x4 grid
     assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getPosition().equals(bounds.topLeft)
+        entity -> entity.getTopLeft().equals(bounds.topLeft)
     ));
     assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getPosition().equals(new MapPoint(
+        entity -> entity.getTopLeft().equals(new MapPoint(
             bounds.bottomRight.x - 1,
             bounds.bottomRight.y - 1
         ))
