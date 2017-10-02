@@ -246,7 +246,7 @@ public class GameViewTest {
     }
 
     @Override
-    public MapPoint getPosition() {
+    public MapPoint getTopLeft() {
       return this.position;
     }
 
