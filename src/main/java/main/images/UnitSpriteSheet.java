@@ -60,25 +60,50 @@ public class UnitSpriteSheet implements Serializable {
    *     animations examples.
    */
   public enum Sequence {
-    SPELL_CAST(0, 7, true),
-    THRUST(4, 8, true),
+    SPELL_CAST(0, 7, true, 6),
+    THRUST(4, 8, true, 5),
     WALK(8, 9, true),
-    SLASH(12, 6, true),
-    SHOOT(16, 13, true),
+    SLASH(12, 6, true, 4),
+    SHOOT(16, 13, true, 9),
     HURT(20, 6, false),
+    /**
+     * Just reuses the first few frames of the {@link Sequence#WALK} sequence.
+     */
     IDLE(8, 3, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;
+    private static final int NOT_AN_ATTACK_SEQUENCE = -1;
 
     private final int firstRow;
     private final int numberOfColumns;
     private final boolean supportsDirections;
+    private final int attackFrame;
 
     Sequence(int firstRow, int numberOfColumns, boolean supportsDirections) {
       this.firstRow = firstRow;
       this.numberOfColumns = numberOfColumns;
       this.supportsDirections = supportsDirections;
+      this.attackFrame = NOT_AN_ATTACK_SEQUENCE;
+    }
+
+    Sequence(int firstRow, int numberOfColumns, boolean supportsDirections, int attackFrame) {
+      if (attackFrame < 0 || attackFrame > numberOfColumns) {
+        throw new IllegalArgumentException();
+      }
+
+      this.firstRow = firstRow;
+      this.numberOfColumns = numberOfColumns;
+      this.supportsDirections = supportsDirections;
+      this.attackFrame = attackFrame;
+    }
+
+    public int getAttackFrame() {
+      if (attackFrame == NOT_AN_ATTACK_SEQUENCE) {
+        throw new IllegalStateException("There is no attackFrame on " + name());
+      }
+
+      return attackFrame;
     }
 
     List<GameImage> getImages(Direction direction, String filePath) {
