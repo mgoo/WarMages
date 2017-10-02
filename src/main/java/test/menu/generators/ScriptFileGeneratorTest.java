@@ -15,7 +15,5 @@ public class ScriptFileGeneratorTest {
     ScriptFileGenerator generator = new ScriptFileGenerator();
     generator.setFile("resources/fixtures/html/testfile.txt");
     assertEquals("testfile", generator.getScript());
-    generator.setFile("resources/fixtures/html/testfile2.txt");
-    assertEquals("testfile2", generator.getScript());
   }
 }
