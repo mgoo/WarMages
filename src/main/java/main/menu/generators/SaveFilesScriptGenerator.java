@@ -28,7 +28,7 @@ public class SaveFilesScriptGenerator extends ScriptGenerator {
    @*/
   @Override
   Optional<String> load() {
-    if (this.files == null){
+    if (this.files == null) {
       throw new IllegalStateException("Files need to be set before generating script");
     }
     StringBuffer script = new StringBuffer("$('#files').html('");

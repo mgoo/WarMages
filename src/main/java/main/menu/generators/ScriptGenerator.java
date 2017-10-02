@@ -32,6 +32,10 @@ public abstract class ScriptGenerator {
       ensures this.locked == false;
       signals_only IllegalStateException;
    @*/
+  /**
+   * Locks the generator so that the script cannot be changed.
+   * You must preload the script before locking.
+   */
   public /*@ non_null @*/ ScriptGenerator lock() {
     if (this.preloadScript == null) {
       throw new IllegalStateException("Cannot lock if script has not being preloaded");
@@ -40,9 +44,6 @@ public abstract class ScriptGenerator {
     return this;
   }
 
-  /**
-   * Caches the script that is generated at this point.
-   */
   /*@
   normal_behavior
     requires !this.isLocked();
@@ -55,6 +56,9 @@ public abstract class ScriptGenerator {
     assignable \nothing;
     signals_only IllegalStateException;
    @*/
+  /**
+   * Caches the script that is generated at this point.
+   */
   public /*@ non_null @*/ ScriptGenerator preload() {
     if (this.isLocked()) {
       throw new IllegalStateException("you cannot preload a locked generator");
@@ -63,9 +67,7 @@ public abstract class ScriptGenerator {
     return this;
   }
 
-  /**
-   * Resets the cache so a new script can be loaded if need be.
-   */
+
   /*@
   normal_behavior
     requires !this.isLocked();
@@ -78,6 +80,9 @@ public abstract class ScriptGenerator {
     assignable \nothing
     signals_only IllegalStateException;
    @*/
+  /**
+   * Resets the cache so a new script can be loaded if need be.
+   */
   public /*@ non_null @*/ ScriptGenerator invalidateCache() {
     if (this.isLocked()) {
       throw new IllegalStateException("you cannot invalidate a locked generator");
@@ -86,9 +91,6 @@ public abstract class ScriptGenerator {
     return this;
   }
 
-  /**
-   * Gets a string that is the script ready to be loaded into a javascript engine.
-   */
   /*@
     requires this.preloadScript != null;
     ensures \result.equals(this.preloadScript);
@@ -96,6 +98,9 @@ public abstract class ScriptGenerator {
     requires this.preloadScript == null;
     ensures \result != null;
    @*/
+  /**
+   * Gets a string that is the script ready to be loaded into a javascript engine.
+   */
   public /*@ pure; non_null @*/ String getScript() {
     if (this.preloadScript != null) {
       return this.preloadScript;

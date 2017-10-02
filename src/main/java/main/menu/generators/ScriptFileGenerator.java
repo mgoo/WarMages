@@ -16,6 +16,9 @@ public class ScriptFileGenerator extends ScriptGenerator {
   /*@
     requires !this.isLocked();
    @*/
+  /**
+   * Loads a file and locks the generator.
+   */
   public /*@ non_null @*/ ScriptFileGenerator setFile(String file) {
     this.file = file;
     this.preload();
