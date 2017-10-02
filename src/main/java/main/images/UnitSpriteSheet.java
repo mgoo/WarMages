@@ -100,7 +100,7 @@ public class UnitSpriteSheet implements Serializable {
 
     public int getAttackFrame() {
       if (attackFrame == NOT_AN_ATTACK_SEQUENCE) {
-        throw new IllegalStateException("There is no attackFrame on " + name());
+        throw new IllegalStateException("This is not an attack sequence" + name());
       }
 
       return attackFrame;

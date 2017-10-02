@@ -10,7 +10,7 @@ public abstract class Attackable extends MovableEntity {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int LEEWAY = 5;
+  public static final int LEEWAY = 5; // TODO don't hard code
   protected Unit target;
   protected int damageAmount;
   protected int health;
@@ -26,11 +26,9 @@ public abstract class Attackable extends MovableEntity {
   }
 
   /**
-   * Attacks the given unit.
-   *
-   * @param unit to be attacked
+   * Attacks the current target.
    */
-  abstract void attack(Unit unit);
+  protected abstract void attack();
 
   /**
    * Set's the Unit's target to the given Unit.
@@ -60,7 +58,7 @@ public abstract class Attackable extends MovableEntity {
    */
   public boolean targetWithinProximity() {
     if (target == null) {
-      return false;
+       throw new IllegalStateException("No target set");
     }
     if (Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math
         .pow(target.getPosition().y - position.y, 2)) < LEEWAY) {

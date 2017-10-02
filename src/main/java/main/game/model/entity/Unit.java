@@ -1,7 +1,5 @@
 package main.game.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -93,8 +91,8 @@ public class Unit extends Attackable implements Damageable {
       updateDirection(oldPosition);
     }
     //check if has target and target is within attacking proximity
-    if (targetWithinProximity()) {
-      attack(target);
+    if (target != null && targetWithinProximity()) {
+      attack();
       setStateTo(UnitState.ATTACKING);
     }
   }
@@ -110,18 +108,17 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void attack(Unit unit) {
-    if (!unit.equals(target) || isDead || target == null) {
-      return;
+  protected void attack() {
+    if (isDead) {
+      throw new IllegalStateException("Is dead");
     }
+    if (target == null) {
+      throw new IllegalStateException(
+          "No target to attack. Check if there is a target before calling attack"
+      );
+    }
+
     setStateTo(UnitState.ATTACKING);
-    if (healing) {
-      if (unit.team.equals(team)) {
-        unit.gainHealth(damageAmount);
-      }
-    } else if (team.canAttackOtherTeam(unit.team)) {
-      unit.takeDamage(damageAmount);
-    }
   }
 
   @Override
