@@ -30,15 +30,15 @@ public class EntityView implements main.renderer.Renderable {
   EntityView(Config config, Entity entity, ImageProvider imageProvider) {
     this.config = config;
     this.entity = entity;
-    this.oldPosition = entity.getPosition();
-    this.destination = entity.getPosition();
+    this.oldPosition = entity.getCentre();
+    this.destination = entity.getCentre();
     this.imageProvider = imageProvider;
   }
 
   void update(long tickTime) {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
-    this.destination = entity.getPosition();
+    this.destination = entity.getCentre();
 
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
