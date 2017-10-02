@@ -31,7 +31,7 @@ public class ScriptFileGenerator extends ScriptGenerator {
    @*/
   @Override
   Optional<String> load() {
-    try (Scanner scanner = new Scanner(new File(this.file))) {
+    try (Scanner scanner = new Scanner(new File(this.file), "utf-8")) {
       scanner.useDelimiter("\\A");
       return Optional.of(scanner.next());
     } catch (FileNotFoundException e) {
