@@ -24,7 +24,7 @@ public abstract class Menu {
    * Turns a file into a string.
    */
   String fileToString(String fileName) {
-    try (Scanner scanner = new Scanner(new File(fileName))) {
+    try (Scanner scanner = new Scanner(new File(fileName), "utf-8")) {
       scanner.useDelimiter("\\A");
       return scanner.next();
     } catch (FileNotFoundException e) {
