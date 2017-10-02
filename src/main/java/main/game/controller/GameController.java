@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
 import main.game.view.GameView;
@@ -86,10 +84,10 @@ public class GameController {
 
       //select the unit under the click if there is one
       Unit selectedUnit = gameModel.getAllUnits().stream().filter(
-          u -> u.getPosition().distance(mouseEvent.getLocation()) <= Math
+          u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .sorted(
-              Comparator.comparingDouble(s -> s.getPosition().distance(mouseEvent.getLocation())))
+              Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
           .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
