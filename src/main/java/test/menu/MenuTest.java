@@ -1,8 +1,18 @@
 package test.menu;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+
 /**
- * Created by mgoo on 1/10/17.
+ * @author Andrew McGhie
  */
 public class MenuTest {
-
+    
+    @Test
+    public void testMenu() {
+        LoadMenu loadMenu = new LoadMenu(null, null, null);
+        assertTrue(loadMenu.getHtml().contains("<html>"));
+    }
 }
