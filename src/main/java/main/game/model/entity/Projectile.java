@@ -37,8 +37,8 @@ public abstract class Projectile extends Entity {
     double distToTarget = getCentre().distance(target.getCentre());
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;
-    moveX(percentage * (target.getCentre().x - (position.x+size.width/2)));
-    moveY(percentage * (target.getCentre().y - (position.y+size.height/2)));
+    moveX(percentage * (target.getCentre().x - getCentre().x));
+    moveY(percentage * (target.getCentre().y - getCentre().y));
     //todo check dist to target and if close enough, hit target.
     //projectile change image at which point?
   }
