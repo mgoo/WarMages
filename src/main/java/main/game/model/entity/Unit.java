@@ -20,7 +20,7 @@ public class Unit extends Attackable implements Damageable {
   protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
-  protected AbstractUnitState unitState;
+  protected UnitState unitState;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -53,7 +53,7 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param state to be changed to.
    */
-  private void setStateTo(AbstractUnitState state) {
+  private void setStateTo(UnitState state) {
     unitState.requestState(state);
   }
 

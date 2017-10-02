@@ -7,12 +7,12 @@ import main.images.UnitSpriteSheet.Sequence;
 /**
  * An interface for the states of a unit.
  */
-public abstract class AbstractUnitState {
+public abstract class UnitState {
 
   protected UnitImagesComponent imagesComponent;
-  protected AbstractUnitState nextState;
+  protected UnitState nextState;
 
-  public AbstractUnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet) {
+  public UnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet) {
     imagesComponent = new UnitImagesComponent(sequence, sheet, direction);
   }
 
@@ -39,7 +39,7 @@ public abstract class AbstractUnitState {
    *
    * @param nextState the requested state.
    */
-  public void requestState(AbstractUnitState nextState) {
+  public void requestState(UnitState nextState) {
     if (this.getClass().equals(nextState.getClass())) {
       return;
     }
@@ -67,5 +67,5 @@ public abstract class AbstractUnitState {
     return imagesComponent.getDirection();
   }
 
-  abstract AbstractUnitState updateState();
+  abstract UnitState updateState();
 }
