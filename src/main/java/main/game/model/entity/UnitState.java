@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
@@ -7,7 +8,9 @@ import main.images.UnitSpriteSheet.Sequence;
 /**
  * An interface for the states of a unit.
  */
-public abstract class UnitState {
+public abstract class UnitState implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   protected UnitImagesComponent imagesComponent;
   protected UnitState nextState;

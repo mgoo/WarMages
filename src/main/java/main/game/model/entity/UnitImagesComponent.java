@@ -7,7 +7,10 @@ import main.images.UnitSpriteSheet.Sequence;
 
 public class UnitImagesComponent implements ImagesComponent {
 
+  private static final long serialVersionUID = 1L;
+
   public static final int TICKS_TO_CHANGE = 5;
+
   private Sequence sequence;
   private int imagesIdx;
   private int tickCount = 0;
