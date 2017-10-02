@@ -124,7 +124,7 @@ public class Level implements Serializable {
   private void ensureNoEntitiesOutOfBounds() {
     Collection<Entity> outOfBoundsEntities = allEntities()
         .filter((entity) -> !bounds.contains(new MapRect(
-            entity.getPosition(),
+            entity.getTopLeft(),
             entity.getSize()
         )))
         .collect(Collectors.toList());
