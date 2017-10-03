@@ -57,13 +57,6 @@ public class WorldTest {
   }
 
   @Test
-  public void testInitialisation() {
-    assertNull(world);
-    assertNotNull(heroUnit);
-    assertNotNull(config);
-  }
-
-  @Test
   public void testGetAllEntitiesHasHeroUnit() {
     world = createWorld(createLevels(createEmptyLevel()), heroUnit);
     assertEquals(1, world.getAllEntities().size());
