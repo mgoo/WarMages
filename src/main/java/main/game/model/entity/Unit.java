@@ -97,7 +97,7 @@ public class Unit extends Attackable implements Damageable {
     unitState.tick(timeSinceLastTick, world);
     unitState = unitState.updateState();
     //update path in case there is a target and it has moved.
-    updatePath();
+    updatePath(world);
     //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick, world);
