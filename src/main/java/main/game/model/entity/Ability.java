@@ -4,7 +4,7 @@ import java.io.Serializable;
 import main.images.GameImage;
 
 /**
- * An ability can be applied to (a) Unit(s).
+ * An ability can be applied to (a) HeroUnit(s).
  */
 public abstract class Ability implements Serializable {
 
@@ -23,11 +23,26 @@ public abstract class Ability implements Serializable {
   }
 
   /**
-   * Applies this Ability to the given unit.
+   * Applies this Ability to the given HeroUnit.
    *
-   * @param unit to apply the Ability to.
+   * @param heroUnit to apply the Ability to.
    */
-  public abstract void apply(Unit unit);
+  public abstract void apply(HeroUnit heroUnit);
+
+  /**
+   * Disables the ability on the given unit.
+   *
+   * @param heroUnit ability is to be disabled on.
+   */
+  public abstract void disableOn(HeroUnit heroUnit);
+
+  /**
+   * Returns a boolean depending on whether the Ability has timed out/expired or not.
+   *
+   * @param tickCount current tick count.
+   * @return boolean if time out has been reached.
+   */
+  public abstract boolean tickTimedOut(int tickCount);
 
   /**
    * Returns the GameImage of this Ability.
