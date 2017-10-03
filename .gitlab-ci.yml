@@ -23,7 +23,7 @@ verify:
   image: mgoo2/openjfx:jml
   allow_failure: true
   stage: test
-  only: master
+  only: [master]
   script:
    - java -jar /openjml/openjml.jar -Werror -esc -dir src/main/java/main/ -exec /z3/bin/z3
 
