@@ -18,9 +18,9 @@ public abstract class Item extends MapEntity {
   }
 
   /**
-   * Applies the item to the given unit.
+   * Applies the item to the given HeroUnit.
    */
-  public abstract void applyTo(Unit unit);
+  public abstract void applyTo(HeroUnit heroUnit);
 
   @Override
   public void setImage(GameImage image) {

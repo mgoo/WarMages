@@ -4,13 +4,12 @@ import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * BuffItem extends{@link Item}. Gives the unit a buff ability (increases damage made to other
+ * BuffItem extends{@link Item}. Gives the HeroUnit a buff ability (increases damage made to other
  * units).
  */
 public class BuffItem extends Item {
 
   private static final long serialVersionUID = 1L;
-
   private Ability buff;
 
   /**
@@ -23,9 +22,9 @@ public class BuffItem extends Item {
   }
 
   @Override
-  public void applyTo(Unit unit) {
-    assert unit != null;
-    buff.apply(unit);
+  public void applyTo(HeroUnit heroUnit) {
+    assert heroUnit != null;
+    buff.apply(heroUnit);
     //todo make last for certain amount of time
   }
 

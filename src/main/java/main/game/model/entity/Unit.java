@@ -17,7 +17,6 @@ public class Unit extends Attackable implements Damageable {
 
   protected final Team team;
   protected boolean isDead;
-  protected boolean healing;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
@@ -37,15 +36,6 @@ public class Unit extends Attackable implements Damageable {
     damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
     unitState = new DefaultUnitState(Direction.LEFT, sheet);
-  }
-
-  /**
-   * Sets the type of attack the Unit will apply to it's targets.
-   *
-   * @param healing either true for healing or false for hurting.
-   */
-  public void setHealing(boolean healing) {
-    this.healing = healing;
   }
 
   /**
@@ -114,11 +104,7 @@ public class Unit extends Attackable implements Damageable {
       return;
     }
     setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
-    if (healing) {
-      if (unit.team.equals(team)) {
-        unit.gainHealth(damageAmount);
-      }
-    } else if (team.canAttackOtherTeam(unit.team)) {
+    if (team.canAttackOtherTeam(unit.team)) {
       unit.takeDamage(damageAmount);
     }
   }

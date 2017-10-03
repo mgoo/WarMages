@@ -3,22 +3,41 @@ package main.game.model.entity;
 import main.images.GameImage;
 
 /**
- * The BuffAbility is a type of Ability that allows the unit using it to deal more damage.
+ * The BuffAbility is a type of Ability that allows the HeroUnit using it to deal more damage.
  */
 public class BuffAbility extends Ability {
 
   private static final long serialVersionUID = 1L;
+  private final int tickTimeout = 60; //todo finalize
 
   /**
-   * Constructor takes no parameters.
+   * Constructor takes the relevant GameImage icon as a parameter.
    */
   public BuffAbility(GameImage icon) {
-    super("This ability buffs the unit using it, allowing the unit to cause more damage.", icon);
+    super(
+        "This ability buffs the heroUnit using it, allowing the heroUnit to cause more damage.",
+        icon
+    );
   }
 
   @Override
-  public void apply(Unit unit) {
-    assert unit != null;
-    unit.setDamageAmount(10);
+  public void apply(HeroUnit heroUnit) {
+    if (heroUnit == null) {
+      throw new IllegalArgumentException("Null HeroUnit");
+    }
+    heroUnit.setDamageAmount(10);
+  }
+
+  @Override
+  public void disableOn(HeroUnit heroUnit) {
+    if (heroUnit == null) {
+      throw new IllegalArgumentException("Null HeroUnit");
+    }
+    heroUnit.resetDamage();
+  }
+
+  @Override
+  public boolean tickTimedOut(int tickCount) {
+    return (tickCount == tickTimeout);
   }
 }
