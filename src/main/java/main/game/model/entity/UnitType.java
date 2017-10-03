@@ -89,7 +89,7 @@ public enum UnitType {
    */
   public final Projectile createProjectile(Unit creator, Unit target) {
     if (!canShootProjectiles()) {
-      throw new IllegalStateException();
+      throw new UnsupportedOperationException();
     }
     if (creator.getUnitType() != this) {
       throw new IllegalArgumentException();
@@ -118,7 +118,11 @@ public enum UnitType {
       try {
         attackSequence.getAttackFrame();
       } catch (IllegalStateException e) {
-        throw new Error("%s maps to a sequence that cannot attack");
+        throw new Error(String.format(
+            "%s maps to %s that cannot attack",
+            this,
+            attackSequence
+        ));
       }
     }
   }
