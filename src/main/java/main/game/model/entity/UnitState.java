@@ -2,7 +2,6 @@ package main.game.model.entity;
 
 import java.io.Serializable;
 import main.images.GameImage;
-import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 
 /**
@@ -12,11 +11,14 @@ public abstract class UnitState implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  protected final Unit unit;
+
   protected UnitImagesComponent imagesComponent;
   protected UnitState nextState;
 
-  public UnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet) {
-    imagesComponent = new UnitImagesComponent(sequence, sheet, direction);
+  public UnitState(Sequence sequence, Direction direction, Unit unit) {
+    this.unit = unit;
+    imagesComponent = new UnitImagesComponent(sequence, unit.spriteSheet, direction);
   }
 
   /**

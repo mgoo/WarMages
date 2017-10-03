@@ -1,13 +1,11 @@
 package main.game.model.entity;
 
-import main.images.UnitSpriteSheet;
-
 public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(Direction direction, UnitSpriteSheet sheet, UnitType type) {
-    super(type.getAttackSequence(), direction, sheet);
+  public AttackingUnitState(Direction direction, Unit unit) {
+    super(unit.getUnitType().getAttackSequence(), direction, unit);
   }
 
   @Override

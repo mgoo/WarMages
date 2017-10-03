@@ -34,7 +34,7 @@ public class Unit extends Attackable implements Damageable {
     speed = unitType.getMovingSpeed();
     damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
-    unitState = new DefaultUnitState(Direction.LEFT, sheet);
+    unitState = new IdleUnitState(Direction.DOWN, this);
   }
 
   /**
@@ -95,17 +95,17 @@ public class Unit extends Attackable implements Damageable {
     unitState.tick(timeSinceLastTick);
     unitState = unitState.updateState();
     //update path in case there is a target and it has moved.
-    super.updatePath();
+    updatePath();
     //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
     if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setStateTo(new WalkingUnitState(updateDirection(oldPosition), spriteSheet));
+      setStateTo(new WalkingUnitState(updateDirection(oldPosition), this));
     }
     //check if has target and target is within attacking proximity. Request state change.
     if (targetWithinProximity()) {
-      attack(target);
-      setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+      attack();
+      setStateTo(new AttackingUnitState(unitState.getDirection(), this));
     }
   }
 
@@ -124,7 +124,8 @@ public class Unit extends Attackable implements Damageable {
           "No target to attack. Check if there is a target before calling attack"
       );
     }
-    setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+
+    setStateTo(new AttackingUnitState(unitState.getDirection(), this));
   }
 
   @Override
@@ -152,7 +153,7 @@ public class Unit extends Attackable implements Damageable {
       isDead = true;
       health = 0;
     } else {
-      setStateTo(new BeenHitUnitState(unitState.getDirection(), spriteSheet));
+      setStateTo(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     }
   }
