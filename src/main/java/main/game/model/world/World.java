@@ -55,7 +55,7 @@ public class World implements Serializable {
   private Level currentLevel(){
     Objects.requireNonNull(levels);
     if (levels.isEmpty()) {
-      throw new IllegalStateException("Can't have no levels");
+      throw new IllegalStateException("No levels left");
     }
     return levels.get(0);
   }
