@@ -71,14 +71,6 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesIsCloned() {
-    Unit unit = createDefaultEnemyOrc();
-    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
-    assertEquals(2, world.getAllEntities().size());
-    assertTrue(world.getAllEntities().contains(unit));
-  }
-
-  @Test
   public void testGetAllEntitiesHasOneUnitOneLevel() {
     Unit unit = createDefaultEnemyOrc();
     world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
