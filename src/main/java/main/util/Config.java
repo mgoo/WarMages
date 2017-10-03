@@ -12,8 +12,8 @@ public class Config {
 
   private double gameViewScrollSpeed = 1;
 
-  private int entityRenderableTilePixelsX = 50;
-  private int entityRenderableTilePixelsY = 50;
+  private int entityViewTilePixelsX = 50;
+  private int entityViewTilePixelsY = 50;
 
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
@@ -26,12 +26,12 @@ public class Config {
     return gameViewScrollSpeed;
   }
 
-  public int getEntityRenderableTilePixelsX() {
-    return entityRenderableTilePixelsX;
+  public int getEntityViewTilePixelsX() {
+    return entityViewTilePixelsX;
   }
 
-  public int getEntityRenderableTilePixelsY() {
-    return entityRenderableTilePixelsY;
+  public int getEntityViewTilePixelsY() {
+    return entityViewTilePixelsY;
   }
 
   /**

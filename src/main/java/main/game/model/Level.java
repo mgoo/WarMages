@@ -1,18 +1,30 @@
 package main.game.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import main.game.model.entity.Entity;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
+import main.util.MapRect;
 
 /**
  * Represent the {@link World} state.
  */
-public class Level {
+public class Level implements Serializable {
 
-  private final CompletionChecker completionChecker;
+  private static final long serialVersionUID = 1L;
+
+  private final Collection<MapEntity> borderEntities;
+  private final Goal goal;
+  private final MapRect bounds;
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
@@ -20,19 +32,35 @@ public class Level {
 
   /**
    * Creates a new level with data which should not change overtime.
+   *
+   * @param bounds All entities must be contained within this levelBounds.
+   * @param mapEntities E.g. trees, rocks, etc, that are in the middle of the map.
+   * @param borderEntities Entities that should be removed when the level is complete. They
+   *     only there to stop the user from moving out of bounds.
    */
   public Level(
+      MapRect bounds,
       Collection<Unit> units,
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
-      CompletionChecker completionChecker,
+      Collection<MapEntity> borderEntities,
+      Goal goal,
       String goalDescription
   ) {
+    this.bounds = bounds;
     this.units = units;
     this.items = items;
     this.mapEntities = mapEntities;
-    this.completionChecker = completionChecker;
+    this.borderEntities = borderEntities;
+    this.goal = goal;
     this.goalDescription = goalDescription;
+
+    ensureNoMapEntitiesOverlap();
+    ensureNoEntitiesOutOfBounds();
+  }
+
+  public MapRect getBounds() {
+    return bounds;
   }
 
   public Collection<Unit> getUnits() {
@@ -47,26 +75,98 @@ public class Level {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  public Collection<MapEntity> getBorderEntities() {
+    return borderEntities;
+  }
+
   public String getGoalDescription() {
     return goalDescription;
   }
 
   /**
-   * See CompletionChecker#areGoalsCompleted(GameModel).
+   * See {@link Goal#isCompleted(Level)}.
    */
-  public boolean areGoalsCompleted(World world) {
-    throw new Error("NYI");
+  public boolean areGoalsCompleted() {
+    return goal.isCompleted(this);
+  }
+
+  public Stream<Entity> allEntities() {
+    return Stream.of(units, items, mapEntities, borderEntities)
+        .flatMap(Collection::stream);
+  }
+
+  private void ensureNoMapEntitiesOverlap() {
+    List<MapEntity> allMapEntities = Stream.of(mapEntities, borderEntities, items)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
+    List<MapEntity[]> overlappingPairs = new ArrayList<>();
+
+    for (int i = 0; i < allMapEntities.size() - 1; i++) {
+      MapEntity currentEntity = allMapEntities.get(i);
+
+      for (int j = i + 1; j < allMapEntities.size(); j++) {
+        MapEntity entityToCompareWith = allMapEntities.get(j);
+
+        MapRect rectA = currentEntity.getRect();
+        MapRect rectB = entityToCompareWith.getRect();
+
+        if (rectA.overlapsWith(rectB)) {
+          overlappingPairs.add(new MapEntity[]{currentEntity, entityToCompareWith});
+        }
+      }
+    }
+
+    if (!overlappingPairs.isEmpty()) {
+      throw new IllegalStateException("Some MapEntities overlap: " + overlappingPairs);
+    }
+  }
+
+  private void ensureNoEntitiesOutOfBounds() {
+    Collection<Entity> outOfBoundsEntities = allEntities()
+        .filter((entity) -> !bounds.contains(new MapRect(
+            entity.getTopLeft(),
+            entity.getSize()
+        )))
+        .collect(Collectors.toList());
+    if (!outOfBoundsEntities.isEmpty()) {
+      throw new IllegalStateException("Entities out of bounds: " + outOfBoundsEntities);
+    }
   }
 
   /**
    * Strategy for checking if the level is complete.
+   * <p>
+   * NOTE: No anonymous classes should be
+   * created for this as this would break that the serialisation in {@link
+   * main.game.model.world.saveandload.WorldSaveModel}.
+   * </p>
    */
-  public interface CompletionChecker {
+  public interface Goal extends Serializable {
 
     /**
      * Checks if the user has achieved the goals to finish this level (for example by killing all
      * the enemies).
+     *
+     * @param level The level that contains this {@link Goal}.
      */
-    boolean isCompleted(GameModel gameModel);
+    boolean isCompleted(Level level);
+
+    class AllEnemiesKilled implements Goal {
+
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCompleted(Level level) {
+        // TODO ERIC write tests
+        Collection<Team> enemies = Team.PLAYER.getEnemies();
+        return level.getUnits()
+            .stream()
+            .filter(Unit.class::isInstance)
+            .map(Unit.class::cast)
+            .filter(unit -> enemies.contains(unit.getTeam())) // find enemy units
+            .allMatch(unit -> unit.getHealth() == 0);
+      }
+
+    }
   }
 }

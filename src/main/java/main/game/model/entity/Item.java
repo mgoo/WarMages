@@ -4,9 +4,11 @@ import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
- * Item extends {@link Entity}. An item is something that can be picked up and used by HeroUnit.
+ * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.
  */
 public abstract class Item extends MapEntity {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coordinates of the item.

@@ -1,79 +1,74 @@
 package main.game.model.entity;
 
-import java.util.List;
+import java.io.Serializable;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 
 /**
- * This enum represents the state of a Unit. It can be either attacking, hit, default, or walking.
+ * An interface for the states of a unit.
  */
-public enum UnitState {
+public abstract class UnitState implements Serializable {
 
-  ATTACKING() {
-    @Override
-    protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      switch (type) {
-        case ARCHER:
-          return sheet.getImagesForSequence(Sequence.SHOOT, direction);
-        case SPEARMAN:
-          return sheet.getImagesForSequence(Sequence.THRUST, direction);
-        case SWORDSMAN:
-          return sheet.getImagesForSequence(Sequence.SLASH, direction);
-        case MAGICIAN:
-          return sheet.getImagesForSequence(Sequence.SPELL_CAST, direction);
-        default:
-          return sheet.getImagesForSequence(Sequence.IDLE, direction);
-      }
-    }
-  },
+  private static final long serialVersionUID = 1L;
 
-  BEEN_HIT() {
-    @Override
-    protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.HURT, direction);
-    }
-  },
+  protected UnitImagesComponent imagesComponent;
+  protected UnitState nextState;
 
-  DEFAULT_STATE() {
-    @Override
-    protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.IDLE, direction);
-    }
-  },
-
-  WALKING() {
-    @Override
-    protected List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet) {
-      return sheet.getImagesForSequence(Sequence.WALK, direction);
-    }
-  };
-
-  protected Direction direction;
-
-  /**
-   * Sets the direction of the unit to the given direction.
-   *
-   * @param direction to be set to.
-   */
-  public void setDirection(Direction direction) {
-    if (direction == null) {
-      throw new IllegalArgumentException("Direction cannot be null!");
-    }
-    this.direction = direction;
+  public UnitState(Sequence sequence, Direction direction, UnitSpriteSheet sheet) {
+    imagesComponent = new UnitImagesComponent(sequence, sheet, direction);
   }
 
   /**
-   * Returns the current direction of the unit state.
+   * Updates the state.
    *
-   * @return current unit direction.
+   * @param timeSinceLastTick time passed since last tick call.
+   */
+  public void tick(Long timeSinceLastTick) {
+    imagesComponent.changeImage(timeSinceLastTick);
+  }
+
+  /**
+   * Returns the current image of the AbstractUnitState.
+   *
+   * @return GameImage image of current state.
+   */
+  public GameImage getImage() {
+    return imagesComponent.getImage();
+  }
+
+  /**
+   * Sets the "next" state to be the requested state, if there isn't already a requested state.
+   *
+   * @param nextState the requested state.
+   */
+  public void requestState(UnitState nextState) {
+    if (this.getClass().equals(nextState.getClass())) {
+      return;
+    }
+    this.nextState = nextState;
+  }
+
+  /**
+   * Updates the imagesComponent if the given direction differs to the current direction.
+   *
+   * @param newDirection direction to be changed to.
+   */
+  public void setDirection(Direction newDirection) {
+    if (imagesComponent.getDirection() != newDirection) {
+      imagesComponent = new UnitImagesComponent(
+          imagesComponent.getSequence(), imagesComponent.getSpriteSheet(), newDirection);
+    }
+  }
+
+  /**
+   * Returns the direction of this state.
+   *
+   * @return Direction of the current state.
    */
   public Direction getDirection() {
-    if (direction == null) {
-      throw new NullPointerException("Direction has not been set!");
-    }
-    return direction;
+    return imagesComponent.getDirection();
   }
 
-  protected abstract List<GameImage> getImagesFor(UnitType type, UnitSpriteSheet sheet);
+  abstract UnitState updateState();
 }

@@ -1,20 +1,19 @@
 package main.game.model.world;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -23,16 +22,18 @@ import main.util.MapRect;
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
  */
-public class World {
+public class World implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private final List<Level> levels;
 
-  private int levelIndex = 0;
-  private final Collection<MapEntity> mapEntities;
+  private int levelIndex = 0; // TODO ERIC unused
 
   private final HeroUnit heroUnit;
   private final Collection<Unit> units;
   private final Collection<Item> items;
+  private final Collection<MapEntity> mapEntities;
 
   private Collection<Entity> selectedEntities;
 
@@ -40,7 +41,7 @@ public class World {
    * Creates the world.
    *
    * @param levels The levels sorted from start to finish. The first level in this list is the
-   *        initial level.
+   *     initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
@@ -48,23 +49,10 @@ public class World {
     Objects.requireNonNull(heroUnit);
     this.heroUnit = heroUnit;
     this.levels = new ArrayList<>(levels);
-    this.units = new ArrayList<>(levels.get(0).getUnits());
+    this.units = new ArrayList<>(levels.get(0).getUnits()); // TODO eric tidy get(0)
     this.items = new ArrayList<>(levels.get(0).getItems());
     this.mapEntities = new ArrayList<>(levels.get(0).getMapEntities());
-  }
-
-  /**
-   * Converts a mapEntity collection into a map of MapPoints to Entities.
-   *
-   * @param mapEntities collection of MapEntities
-   * @return returns converted map
-   */
-  private static Map<MapPoint, Entity> convertMapEntitiesToMap(Collection<MapEntity> mapEntities) {
-    return mapEntities.stream()
-        .collect(Collectors.toMap(
-            Entity::getPosition,
-            e -> e
-        ));
+    this.mapEntities.addAll(levels.get(0).getBorderEntities());
   }
 
   /**
@@ -81,8 +69,20 @@ public class World {
             add(heroUnit);
           }
         }.stream()
-            .filter(e -> rect.contains(e.getPosition()))
+            .filter(e -> rect.contains(e.getCentre()))
             .collect(Collectors.toList()));
+  }
+
+  /**
+   * A getter method to get all possible units of type=PLAYER.
+   * TODO ERIC this is method name is really misleading!!! Also it doesnt include the heroUnit
+   *
+   * @return a collection of all possible player units
+   */
+  public Collection<Unit> getAllUnits() {
+    return Collections.unmodifiableCollection(
+        units.stream().filter(u -> u.getTeam().equals(Team.PLAYER)).collect(Collectors.toList())
+    );
   }
 
   /**
@@ -103,7 +103,7 @@ public class World {
   }
 
   /**
-   * Gets all map entities in the world.
+   * Gets all map entities in the world, including {@link Level#borderEntities}.
    *
    * @return an unmodifiable collection of all the mapEntities.
    */
@@ -130,9 +130,10 @@ public class World {
   /**
    * A method specific for progression of game. Triggers are specific quests/goals to be achieved
    * for progression.
+   * TODO ERIC update method name and doc
    */
   private void easeTrigger() {
-    if (levels.get(0).areGoalsCompleted(this)) {
+    if (levels.get(0).areGoalsCompleted()) {
       nextLevel();
     }
   }
@@ -141,10 +142,13 @@ public class World {
    * A method which moves to the next level.
    */
   private void nextLevel() {
+    // TODO eric add precondition
+    mapEntities.removeAll(levels.get(0).getBorderEntities());
     levels.remove(0);
+
     items.addAll(levels.get(0).getItems());
-    mapEntities.clear();
     mapEntities.addAll(levels.get(0).getMapEntities());
+    mapEntities.addAll(levels.get(0).getBorderEntities());
     units.addAll(levels.get(0).getUnits());
   }
 

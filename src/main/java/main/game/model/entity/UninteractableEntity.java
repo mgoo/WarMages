@@ -5,6 +5,8 @@ import main.util.MapPoint;
 
 public class UninteractableEntity extends MapEntity {
 
+  private static final long serialVersionUID = 1L;
+
   /**
    * Constructor takes the coordinates of the MapEntity.
    */

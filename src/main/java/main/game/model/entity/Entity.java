@@ -1,13 +1,17 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import main.images.GameImage;
 import main.util.MapPoint;
+import main.util.MapRect;
 import main.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   protected MapPoint position;
   protected GameImage image;
@@ -25,21 +29,37 @@ public abstract class Entity {
   }
 
   /**
-   * Returns the position of the Entity.
+   * Returns the position at the top left of the Entity.
    *
-   * @return the entity's position.
+   * @return the entity's top left position.
    */
-  public MapPoint getPosition() {
-    return new MapPoint(position.x, position.y);
+  public MapPoint getTopLeft() {
+    return position;
   }
 
   /**
-   * Returns the size of the Entity.
+   * Returns the position at the centre of the Entity.
+   *
+   * @return the entity's central position.
+   */
+  public MapPoint getCentre() {
+    return new MapPoint(position.x + size.width / 2, position.y + size.height / 2);
+  }
+
+  /**
+   * Returns the size/diameter of the Entity.
    *
    * @return the entity's size.
    */
   public MapSize getSize() {
     return new MapSize(size.width, size.height);
+  }
+
+  /**
+   * The bounding box of this entity.
+   */
+  public MapRect getRect() {
+    return new MapRect(getTopLeft(), getSize());
   }
 
   /**

@@ -2,6 +2,7 @@ package main.renderer;
 
 import java.awt.image.BufferedImage;
 import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Represents the a drawable object. E.g: entities, projectiles, mapComponents, etc...
@@ -9,11 +10,18 @@ import main.util.MapPoint;
 public interface Renderable {
 
   /**
-   * Simple getter method to get the position of this object.
+   * Getter method to get the position of this object.
    *
    * @return the point on map which this Renderable object is on
    */
-  MapPoint getImagePosition();
+  MapPoint getImagePosition(long currentTime);
+
+  /**
+   * Gets the size of the image to draw.
+   *
+   * @return the size of the image to display
+   */
+  MapSize getImageSize();
 
   /**
    * Simple getter method to get the image file of this object.
@@ -24,8 +32,9 @@ public interface Renderable {
 
   /**
    * Calculates the actual MapPoint of this object based on the animation state.
+   * This is the position relative to the map not the screen
    *
    * @return the MapPoint of the object considering the animation state
    */
-  MapPoint getEffectiveEntityPosition();
+  MapPoint getEffectiveEntityPosition(long currentTime);
 }
