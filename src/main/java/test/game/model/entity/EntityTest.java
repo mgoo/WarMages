@@ -12,6 +12,9 @@ import org.junit.Test;
 
 public class EntityTest {
 
+  private final int archerDamage = 5;
+  private final int buffDamage = 10;
+
   //test changing item position but position isn't changed (item shouldn't move).
   @Test
   public void test_no_change_position() {
@@ -49,8 +52,8 @@ public class EntityTest {
         UnitType.ARCHER
     );
     int prevHealth = unit.getCurrentHealth();
-    unit.takeDamage(5);
-    assertEquals(prevHealth - 5, unit.getCurrentHealth());
+    unit.takeDamage(archerDamage);
+    assertEquals(prevHealth - archerDamage, unit.getCurrentHealth());
   }
 
   @Test
@@ -67,10 +70,9 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    //note: archer baseline damage is 5
     int prevHealth = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - 5, unit2.getCurrentHealth());
+    assertEquals(prevHealth - archerDamage, unit2.getCurrentHealth());
   }
 
   @Test
@@ -82,8 +84,8 @@ public class EntityTest {
         UnitType.ARCHER
     );
     int prevHealth = unit.getCurrentHealth();
-    unit.gainHealth(5);
-    assertEquals(prevHealth + 5, unit.getCurrentHealth());
+    unit.gainHealth(archerDamage);
+    assertEquals(prevHealth + archerDamage, unit.getCurrentHealth());
   }
 
   @Test
@@ -104,7 +106,7 @@ public class EntityTest {
     int prevHealth = unit2.getCurrentHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
-    assertEquals(prevHealth + 5, unit2.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit2.getCurrentHealth());
   }
 
   @Test
@@ -121,7 +123,6 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    //note: archer baseline damage is 5
     int prevHealth = unit2.getCurrentHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
@@ -146,12 +147,11 @@ public class EntityTest {
     healing.applyTo(unit1);
     int prevHealth = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth + 5, unit2.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit2.getCurrentHealth());
   }
 
   @Test
   public void test_use_buff_item() {
-    //note that buff currently increases damage to 10
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -168,7 +168,7 @@ public class EntityTest {
     buff.applyTo(unit1);
     int prevHealth = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - 10, unit2.getCurrentHealth());
+    assertEquals(prevHealth - buffDamage, unit2.getCurrentHealth());
   }
 
   @Test
@@ -190,7 +190,7 @@ public class EntityTest {
     buff.applyTo(unit1);
     int prevHealth = unit2.getCurrentHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - 10, unit2.getCurrentHealth());
+    assertEquals(prevHealth - buffDamage, unit2.getCurrentHealth());
   }
 
   @Test
@@ -215,7 +215,7 @@ public class EntityTest {
     );
     int prevHealth = unit.getCurrentHealth();
     pizza.hits(unit);
-    assertEquals(prevHealth - 5, unit.getCurrentHealth());
+    assertEquals(prevHealth - archerDamage, unit.getCurrentHealth());
   }
 
   @Test
@@ -235,6 +235,6 @@ public class EntityTest {
     );
     int prevHealth = unit.getCurrentHealth();
     sphere.hits(unit);
-    assertEquals(prevHealth + 5, unit.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit.getCurrentHealth());
   }
 }
