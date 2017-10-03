@@ -9,13 +9,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
-import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
@@ -294,9 +291,10 @@ public class WorldTest {
   }
 
   @Test
-  public void testIsPassableWithUnPassableEntity() {
-    //CURRENTLY UNAVAILABLE TO BE DONE.
-    //TODO DYLAN or GABIE - How should I know if map entity if it's passable?
+  public void testPointIsUnPassableBecauseOfMapEntity() {
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    assertFalse(world.isPassable(new MapPoint(0,0)));
   }
 
   @Test(expected = IllegalStateException.class)
