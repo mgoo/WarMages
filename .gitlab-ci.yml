@@ -35,11 +35,13 @@ findbugs:
      - beefy
   script:
    - ./gradlew assemble
-   - java -Xmx2g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/ | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util'
+   - java -Xmx4g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/ | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util'
 
 integration:
   stage: test
   script:
+    - git config --global user.email "runner@runner.com"
+    - git config --global user.name "Runner"
     - git pull origin master
     - ./gradlew buildAndContinueWhenErrors
 
