@@ -41,10 +41,6 @@ findbugs:
     paths:
      - findbugsReports/
 
-
-#   - java -Xmx4g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/
-   #  | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util' temp just to so long to test
-
 integration:
   stage: test
   script:
