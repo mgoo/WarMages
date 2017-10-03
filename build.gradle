@@ -1,4 +1,4 @@
-import java.awt.Desktop
+import java.awt.*
 import java.util.regex.Pattern
 
 apply plugin: 'java'
@@ -6,6 +6,7 @@ apply plugin: 'application'
 apply plugin: 'findbugs'
 
 findbugs {
+    toolVersion = "3.0.1"
     reportsDir = file("$projectDir/findbugsReports")
     effort = "max"
     reportLevel = "high"
@@ -46,9 +47,8 @@ dependencies {
     // compile group: 'com.google.code.gson', name: 'gson', version: '1.7.1'
     // to include this library https://github.com/google/gson if you like ...
 
-    // Required dependencies for assignments:
-    // Include libraries in 'lib' directory
-    compile fileTree(dir: 'lib', include: ['*.jar'])
+    // Required dependencies for assignments (not tests):
+    compile fileTree(dir: 'lib', include: ['*.jar']) // Include libraries in 'lib' directory
 
     // Tests are run in main module (which is unusual, but that's how SWEN221 is)
     compile group: 'junit', name: 'junit', version: '4.11'

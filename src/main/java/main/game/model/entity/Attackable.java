@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import java.util.function.Function;
+import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -8,12 +10,12 @@ import main.util.MapSize;
  */
 public abstract class Attackable extends MovableEntity {
 
+  private static final long serialVersionUID = 1L;
+
   public static final int LEEWAY = 5;
   protected Unit target;
   protected int damageAmount;
   protected int health;
-
-  //todo maybe have states Ready, Attacking, and CoolingDown ??? look at state/strategy pattern
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -39,7 +41,19 @@ public abstract class Attackable extends MovableEntity {
    */
   public void setTarget(Unit target) {
     assert target != null;
-    this.target = target;
+    //todo isPassable function
+    updatePath();
+  }
+
+  /**
+   * Updates the path in case target has moved.
+   */
+  public void updatePath() {
+    //todo isPassable function
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+    if (target != null) {
+      super.setPath(PathFinder.findPath(isPassable, position, target.getCentre()));
+    }
   }
 
   /**
@@ -53,29 +67,16 @@ public abstract class Attackable extends MovableEntity {
   }
 
   /**
-   * Returns the current health of the given unit.
-   *
-   * @return current health of Unit.
-   */
-  public int getCurrentHealth() {
-    return health;
-  }
-
-  /**
    * Returns boolean whether the distance between the target and the Attackable is less than the
    * leeway.
    *
    * @return boolean representing distance less than leeway.
    */
-  public boolean checkTargetWithinProximity() {
+  public boolean targetWithinProximity() {
     if (target == null) {
       return false;
     }
-    if (Math.sqrt(Math.pow(target.getPosition().x - position.x, 2) + Math
-        .pow(target.getPosition().y - position.y, 2)) < LEEWAY) {
-      return true;
-    }
-    return false;
+    return target.getCentre().distance(getCentre()) < LEEWAY;
   }
 
 }
