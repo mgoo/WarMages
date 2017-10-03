@@ -60,7 +60,7 @@ public class MainMenuController implements MenuController {
           gameController,
           gameModel,
           new DefaultImageProvider());
-      Renderer renderer = new Renderer(gameView, this.imageView) {};
+      new Renderer(gameView, this.imageView);
       // TODO start the game properly
 
       this.main.loadMenu(new Hud(this.main, this.mainMenu));
