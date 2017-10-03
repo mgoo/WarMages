@@ -19,7 +19,8 @@ public class EntityTest {
   //test changing item position but position isn't changed (item shouldn't move).
   @Test
   public void test_no_change_position() {
-    BuffItem buff = new BuffItem(new MapPoint(20, 40), GameImageResource.POTION_BLUE_ITEM.getGameImage());
+    BuffItem buff = new BuffItem(
+        new MapPoint(20, 40), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.moveX(20);
     assertEquals(buff.getTopLeft(), new MapPoint(20, 40));
   }
@@ -144,7 +145,8 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    HealingItem healing = new HealingItem(new MapPoint(50, 150), GameImageResource.RING_BLUE_ITEM.getGameImage());
+    HealingItem healing = new HealingItem(
+        new MapPoint(50, 150), GameImageResource.RING_BLUE_ITEM.getGameImage());
     healing.applyTo(unit1);
     int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
@@ -165,7 +167,8 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    BuffItem buff = new BuffItem(new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
+    BuffItem buff = new BuffItem(
+        new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);
     int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
@@ -187,7 +190,8 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    BuffItem buff = new BuffItem(new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
+    BuffItem buff = new BuffItem(
+        new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);
     int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
