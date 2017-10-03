@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import java.io.Serializable;
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet.Sequence;
 
@@ -18,7 +19,7 @@ public abstract class UnitState implements Serializable {
 
   public UnitState(Sequence sequence, Direction direction, Unit unit) {
     this.unit = unit;
-    imagesComponent = new UnitImagesComponent(sequence, unit.spriteSheet, direction);
+    imagesComponent = new UnitImagesComponent(sequence, direction, unit);
   }
 
   /**
@@ -26,7 +27,7 @@ public abstract class UnitState implements Serializable {
    *
    * @param timeSinceLastTick time passed since last tick call.
    */
-  public void tick(Long timeSinceLastTick) {
+  public void tick(Long timeSinceLastTick, World world) {
     imagesComponent.changeImage(timeSinceLastTick);
   }
 
@@ -59,7 +60,10 @@ public abstract class UnitState implements Serializable {
   public void setDirection(Direction newDirection) {
     if (imagesComponent.getDirection() != newDirection) {
       imagesComponent = new UnitImagesComponent(
-          imagesComponent.getSequence(), imagesComponent.getSpriteSheet(), newDirection);
+          imagesComponent.getSequence(),
+          newDirection,
+          unit
+      );
     }
   }
 

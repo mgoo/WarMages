@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -34,7 +35,7 @@ public abstract class Projectile extends Entity {
   public abstract void hits(Unit unit);
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     double distToTarget = getCentre().distance(target.getCentre());
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;

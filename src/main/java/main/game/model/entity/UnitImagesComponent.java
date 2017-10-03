@@ -17,22 +17,24 @@ public class UnitImagesComponent implements ImagesComponent {
   private List<GameImage> images;
   private Direction direction;
   private UnitSpriteSheet spriteSheet;
+  private final Unit unit;
 
 
   /**
    * Constructor takes the sequence relevant to the unit's state, the sprite sheet for the unit, and
    * the direction of the unit.
-   *
-   * @param sequence sequence of unit's state.
-   * @param sheet sprite sheet of relevant unit.
-   * @param direction direction of unit.
    */
-  public UnitImagesComponent(Sequence sequence, UnitSpriteSheet sheet, Direction direction) {
+  public UnitImagesComponent(
+      Sequence sequence,
+      Direction direction,
+      Unit unit
+  ) {
     this.sequence = sequence;
     this.direction = direction;
-    this.spriteSheet = sheet;
+    this.spriteSheet = unit.spriteSheet;
+    this.unit = unit;
     imagesIdx = 0;
-    images = sheet.getImagesForSequence(sequence, direction);
+    images = spriteSheet.getImagesForSequence(sequence, direction);
   }
 
   /**
@@ -78,5 +80,9 @@ public class UnitImagesComponent implements ImagesComponent {
   @Override
   public boolean readyToTransition() {
     return imagesIdx == images.size() - 1;
+  }
+
+  public boolean isOnAttackFrame() {
+    return sequence.getAttackFrame() == imagesIdx;
   }
 }

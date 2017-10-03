@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.util.MapPoint;
 
 public class DeadUnit extends MapEntity {
@@ -13,7 +14,7 @@ public class DeadUnit extends MapEntity {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //does nothing
   }
 }

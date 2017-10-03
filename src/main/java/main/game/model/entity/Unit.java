@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -32,9 +33,10 @@ public class Unit extends Attackable implements Damageable {
     isDead = false;
     health = unitType.getStartingHealth();
     speed = unitType.getMovingSpeed();
-    damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
     unitState = new IdleUnitState(Direction.DOWN, this);
+
+    setDamageAmount(unitType.getBaselineDamage());
   }
 
   /**
@@ -90,22 +92,21 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
-    unitState.tick(timeSinceLastTick);
+    unitState.tick(timeSinceLastTick, world);
     unitState = unitState.updateState();
     //update path in case there is a target and it has moved.
     updatePath();
     //update position
     MapPoint oldPosition = position;
-    super.tick(timeSinceLastTick);
+    super.tick(timeSinceLastTick, world);
     if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
       setStateTo(new WalkingUnitState(updateDirection(oldPosition), this));
     }
     //check if has target and target is within attacking proximity. Request state change.
     if (targetWithinProximity()) {
       attack();
-      setStateTo(new AttackingUnitState(unitState.getDirection(), this));
     }
   }
 
@@ -123,6 +124,10 @@ public class Unit extends Attackable implements Damageable {
       throw new IllegalStateException(
           "No target to attack. Check if there is a target before calling attack"
       );
+    }
+    if (unitState instanceof AttackingUnitState) {
+      // Already attacking
+      return;
     }
 
     setStateTo(new AttackingUnitState(unitState.getDirection(), this));
@@ -172,6 +177,10 @@ public class Unit extends Attackable implements Damageable {
 
   public int getHealth() {
     return health;
+  }
+
+  public Unit getTarget() {
+    return target;
   }
 }
 

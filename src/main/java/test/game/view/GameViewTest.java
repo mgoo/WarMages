@@ -10,6 +10,7 @@ import java.util.List;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
+import main.game.model.world.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
@@ -235,7 +236,7 @@ public class GameViewTest {
     }
 
     @Override
-    public void tick(long timeSinceLastTick) {
+    public void tick(long timeSinceLastTick, World world) {
 
     }
 
