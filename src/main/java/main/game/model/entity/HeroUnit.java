@@ -115,6 +115,7 @@ public class HeroUnit extends Unit {
     if (ability != null) {
       if (ability.tickTimedOut(++tickCount)) {
         ability.disableOn(this);
+        ability = null;
       }
     }
     super.tick(timeSinceLastTick);

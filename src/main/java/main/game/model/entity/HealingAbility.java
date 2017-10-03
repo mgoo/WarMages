@@ -16,11 +16,17 @@ public class HealingAbility extends Ability {
 
   @Override
   public void apply(HeroUnit heroUnit) {
+    if (heroUnit == null) {
+      throw new IllegalArgumentException("Null HeroUnit");
+    }
     heroUnit.setHealing(true);
   }
 
   @Override
   public void disableOn(HeroUnit heroUnit) {
+    if (heroUnit == null) {
+      throw new IllegalArgumentException("Null HeroUnit");
+    }
     heroUnit.setHealing(false);
   }
 
