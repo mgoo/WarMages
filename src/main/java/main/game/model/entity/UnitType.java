@@ -19,7 +19,7 @@ public enum UnitType {
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new PizzaBall(
-          creator.getPosition(), // TODO change to centre
+          creator.getCentre(),
           creator.getSize().scaledBy(0.5),
           target,
           GameImageResource.ARROW_PROJECTILE.getGameImage()
@@ -50,7 +50,7 @@ public enum UnitType {
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new PizzaBall(
-          creator.getPosition(), // TODO change to centre
+          creator.getCentre(),
           creator.getSize().scaledBy(0.3),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage()
