@@ -1,4 +1,0 @@
-<Project projectName="swen222">
-  <Jar>.</Jar>
-  <SrcDir>./src/main/java/main</SrcDir>
-</Project>
