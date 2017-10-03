@@ -48,14 +48,6 @@ public class WorldTest {
   );
   private Config config = new Config();
 
-  /**
-   * Sets up class variables that are used in every test.
-   */
-  @Before
-  public void initialise() {
-    world = null;
-  }
-
   @Test
   public void testGetAllEntitiesHasHeroUnit() {
     world = createWorld(createLevels(createEmptyLevel()), heroUnit);
