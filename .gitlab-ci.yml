@@ -37,7 +37,6 @@ findbugs:
    - ./gradlew findbugsMain
   artifacts:
     when: on_failure
-    untracked: true
     expire_in: 1 week
     paths:
      - findbugsReports/
