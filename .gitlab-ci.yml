@@ -2,6 +2,7 @@ image: mgoo2/openjfx
 
 stages:
   - build
+  - test
 
 before_script:
   - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE"
@@ -16,6 +17,22 @@ build:
   stage: build
   script:
     - ./gradlew buildAndContinueWhenErrors
+
+verify:
+  image: mgoo2/openjfx:jml
+  allow_failure: true
+  stage: test
+  script:
+   - java -jar /openjml/openjml.jar -Werror -esc -dir src/main/java/main/ -exec /z3/bin/z3
+
+# This is disabled  due to it taking to long
+#findbugs:
+#  image: mgoo2/openjfx:findbugs
+#  allow_failure: true
+#  stage: test
+#  script:
+#   - ./gradlew assemble
+#   - java -Xmx2g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/ | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util'
 
 after_script:
   - echo "End CI"

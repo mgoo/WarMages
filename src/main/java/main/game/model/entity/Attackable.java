@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import java.util.function.Function;
+import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -39,7 +41,19 @@ public abstract class Attackable extends MovableEntity {
    */
   public void setTarget(Unit target) {
     assert target != null;
-    this.target = target;
+    //todo isPassable function
+    updatePath();
+  }
+
+  /**
+   * Updates the path in case target has moved.
+   */
+  public void updatePath() {
+    //todo isPassable function
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+    if (target != null) {
+      super.setPath(PathFinder.findPath(isPassable, position, target.getCentre()));
+    }
   }
 
   /**

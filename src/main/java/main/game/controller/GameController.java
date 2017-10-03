@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
 import main.game.view.GameView;
