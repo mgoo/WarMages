@@ -297,6 +297,15 @@ public class WorldTest {
     assertFalse(world.isPassable(new MapPoint(0,0)));
   }
 
+  @Test
+  public void testPointIsUnpassableBecauseOutOfMap() {
+    world = createWorld(createLevels(createEmptyLevel()), heroUnit);
+    assertFalse(world.isPassable(new MapPoint(-200,0)));
+    assertFalse(world.isPassable(new MapPoint(200,0)));
+    assertFalse(world.isPassable(new MapPoint(0,-200)));
+    assertFalse(world.isPassable(new MapPoint(0,200)));
+  }
+
   @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntitiesOverlap() {
     MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
