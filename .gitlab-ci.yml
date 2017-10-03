@@ -3,7 +3,6 @@ image: mgoo2/openjfx
 stages:
   - build
   - test
-  - staging
 
 before_script:
   - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE"
@@ -39,7 +38,7 @@ findbugs:
    - java -Xmx2g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/ | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util'
 
 integration:
-  stage: staging
+  stage: test
   script:
     - git pull origin master
     - ./gradlew buildAndContinueWhenErrors
