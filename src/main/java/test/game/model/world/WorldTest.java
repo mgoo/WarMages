@@ -231,34 +231,6 @@ public class WorldTest {
     assertFalse(world.getAllEntities().contains(mapEntity4));
   }
 
-  @Test
-  public void testSetSelectionAndGetSelection() {
-    Unit unit = createDefaultEnemyOrc();
-    Unit unit2 = createDefaultPlayerKnight();
-    Unit unit3 = createDefaultPlayerArcher();
-    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
-    world.setEntitySelection(Arrays.asList(unit, unit2, unit3));
-    Collection<Entity> selection = world.getSelectedEntity();
-    assertEquals(3, selection.size());
-    assertTrue(selection.contains(unit));
-    assertTrue(selection.contains(unit2));
-    assertTrue(selection.contains(unit3));
-  }
-
-  @Test
-  public void testSelectionIsCloned() {
-    Unit unit = createDefaultEnemyOrc();
-    Unit unit2 = createDefaultPlayerKnight();
-    Unit unit3 = createDefaultPlayerArcher();
-    List<Entity> units = new ArrayList<>(Arrays.asList(unit, unit2));
-    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
-    world.setEntitySelection(units);
-    units.add(unit3);
-    Collection<Entity> selection = world.getSelectedEntity();
-    assertEquals(2, selection.size());
-    assertFalse(selection.contains(unit3));
-  }
-
 
   @Test
   public void testGetAllUnitsHasHeroUnit() {
