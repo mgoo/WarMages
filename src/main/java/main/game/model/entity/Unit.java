@@ -83,7 +83,7 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return DeadUnit to represent dead current Unit.
    */
-  public DeadUnit getDeadUnit(){
+  public DeadUnit getDeadUnit() {
     return new DeadUnit(position);
   }
 
