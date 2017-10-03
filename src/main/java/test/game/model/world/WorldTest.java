@@ -76,7 +76,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasUnitInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveUnitInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(unit)), heroUnit);
     assertEquals(world.getAllEntities().size(), 1);
@@ -84,7 +84,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasManyUnitsInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveManyUnitsInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
@@ -97,7 +97,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasSomeUnitsInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveSomeUnitsInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
@@ -132,7 +132,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasOneItemInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveOneItemInAnotherLevel() {
     Item item = createDefaultItem(new MapPoint(0, 0));
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(item)), heroUnit);
     assertEquals(1, world.getAllEntities().size());
@@ -140,7 +140,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasManyItemsAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveManyItemsAnotherLevel() {
     Item item = createDefaultItem(new MapPoint(0, 0));
     Item item2 = createDefaultItem(new MapPoint(20, 20));
     Item item3 = createDefaultItem(new MapPoint(40, 20));
@@ -155,7 +155,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasSomeItemsAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveSomeItemsAnotherLevel() {
     Item item = createDefaultItem(new MapPoint(0, 0));
     Item item2 = createDefaultItem(new MapPoint(20, 20));
     Item item3 = createDefaultItem(new MapPoint(40, 20));
@@ -193,7 +193,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasOneMapEntityInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveOneMapEntityInAnotherLevel() {
     MapEntity mapEntity = createDefaultItem(new MapPoint(0, 0));
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(mapEntity)), heroUnit);
     assertEquals(1, world.getAllEntities().size());
@@ -201,7 +201,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasManyMapEntityInAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveManyMapEntityInAnotherLevel() {
     MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
     MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(20, 20));
     MapEntity mapEntity3 = createDefaultMapEntity(new MapPoint(40, 20));
@@ -219,7 +219,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllEntitiesHasSomeMapEntityAnotherLevel() {
+  public void testGetAllEntitiesDoesNotHaveSomeMapEntityAnotherLevel() {
     MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
     MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(20, 20));
     MapEntity mapEntity3 = createDefaultMapEntity(new MapPoint(40, 20));
@@ -293,7 +293,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllUnitsHasUnitInAnotherLevel() {
+  public void testGetAllUnitsDoesNotHaveUnitInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(unit)), heroUnit);
     assertEquals(1, world.getAllUnits().size());
@@ -301,7 +301,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllUnitsHasManyUnitsInAnotherLevel() {
+  public void testGetAllUnitsDoesNotHaveManyUnitsInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
@@ -314,7 +314,7 @@ public class WorldTest {
   }
 
   @Test
-  public void testGetAllUnitsHasSomeUnitsInAnotherLevel() {
+  public void testGetAllUnitsDoesNotHaveSomeUnitsInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
