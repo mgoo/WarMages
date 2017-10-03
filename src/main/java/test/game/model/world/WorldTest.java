@@ -9,6 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -351,9 +352,173 @@ public class WorldTest {
   @Test
   public void testIsPassableWithUnPassableEntity() {
     //CURRENTLY UNAVAILABLE TO BE DONE.
-    //TODO DYLAN or GABIE - How should I know if it's passable?
+    //TODO DYLAN or GABIE - How should I know map entity if it's passable?
   }
+
+  @Test
+  public void ensureNoMapEntitiesOverlap() {
+    try {
+      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+      MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(0, 0));
+      world = createWorld(
+          createLevels(
+              createLevelWith(mapEntity, mapEntity2)),
+          heroUnit
+      );
+      fail();
+    } catch (Exception e) {
+
+    }
+  }
+
+  @Test
+  public void ensureNoUnitOutOfBoundsLeft() {
+    try {
+      Unit unit = createUnit(new MapPoint(-200, 0));
+      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoUnitOutOfBoundsRight() {
+    try {
+      Unit unit = createUnit(new MapPoint(200, 0));
+      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoUnitOutOfBoundsUp() {
+    try {
+      Unit unit = createUnit(new MapPoint(0, -200));
+      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoUnitOutOfBoundsDown() {
+    try {
+      Unit unit = createUnit(new MapPoint(0, 200));
+      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoItemOutOfBoundsLeft() {
+    try {
+      Item item = createDefaultItem(new MapPoint(-200, 0));
+      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoItemOutOfBoundsRight() {
+    try {
+      Item item = createDefaultItem(new MapPoint(200, 0));
+      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoItemOutOfBoundsUp() {
+    try {
+      Item item = createDefaultItem(new MapPoint(0, -200));
+      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoItemOutOfBoundsDown() {
+    try {
+      Item item = createDefaultItem(new MapPoint(0, 200));
+      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoMapEntityOutOfBoundsLeft() {
+    try {
+      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(-200, 0));
+      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoMapEntityOutOfBoundsRight() {
+    try {
+      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(200, 0));
+      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoMapEntityOutOfBoundsUp() {
+    try {
+      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
+      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+  @Test
+  public void ensureNoMapEntityOutOfBoundsDown() {
+    try {
+      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
+      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+      fail();
+    } catch (Exception e){
+
+    }
+  }
+
+
   //PRIVATE METHODS
+
+  /**
+   * Creates a unit outside the bounds (less than -100 more than 100 x and y).
+   * @return an out of bounds unit
+   */
+  private Unit createUnit(MapPoint point) {
+    return new Unit(
+        point,
+        new MapSize(30, 30),
+        Team.ENEMY,
+        new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
+        UnitType.SPEARMAN
+    );
+  }
 
   /**
    * Creates a level with unit args.
