@@ -43,7 +43,7 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param state to be changed to.
    */
-  private void setStateTo(UnitState state) {
+  protected void setStateTo(UnitState state) {
     unitState.requestState(state);
   }
 
@@ -51,7 +51,7 @@ public class Unit extends Attackable implements Damageable {
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
    */
-  private Direction updateDirection(MapPoint oldPosition) {
+  protected Direction updateDirection(MapPoint oldPosition) {
     double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
     if (gradient < 1) {
       if (position.y < oldPosition.y) {
@@ -147,10 +147,20 @@ public class Unit extends Attackable implements Damageable {
     health += amount;
   }
 
+  /**
+   * Returns the team that the Unit belongs to.
+   *
+   * @return Team Unit is a part of.
+   */
   public Team getTeam() {
     return team;
   }
 
+  /**
+   * Returns the current health of the unit.
+   *
+   * @return int health of the Unit.
+   */
   public int getHealth() {
     return health;
   }
