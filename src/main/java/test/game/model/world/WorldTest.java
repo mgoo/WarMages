@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
@@ -147,7 +146,7 @@ public class WorldTest {
   public void testGetAllEntitiesHasOneItemInAnotherLevel() {
     Item item = createDefaultItem(new MapPoint(0, 0));
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(item)), heroUnit);
-    assertEquals(2, world.getAllEntities().size());
+    assertEquals(1, world.getAllEntities().size());
     assertFalse(world.getAllEntities().contains(item));
   }
 
@@ -276,6 +275,69 @@ public class WorldTest {
     assertFalse(selection.contains(unit3));
   }
 
+
+  @Test
+  public void testGetAllUnitsHasHeroUnit() {
+    world = createWorld(createOneEmptyLevel(), heroUnit);
+    assertEquals(1, world.getAllUnits().size());
+    assertTrue(world.getAllUnits().contains(heroUnit));
+  }
+
+  @Test
+  public void testGetAllUnitsHasOneUnitOneLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    assertEquals(2, world.getAllUnits().size());
+    assertTrue(world.getAllUnits().contains(unit));
+  }
+
+  @Test
+  public void testGetAllUnitsHasManyUnitsOneLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
+    assertEquals(4, world.getAllUnits().size());
+    assertTrue(world.getAllUnits().contains(unit));
+    assertTrue(world.getAllUnits().contains(unit2));
+    assertTrue(world.getAllUnits().contains(unit3));
+  }
+
+  @Test
+  public void testGetAllUnitsHasUnitInAnotherLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    world = createWorld(createLevels(createEmptyLevel(), createLevelWith(unit)), heroUnit);
+    assertEquals(1, world.getAllUnits().size());
+    assertFalse(world.getAllUnits().contains(unit));
+  }
+
+  @Test
+  public void testGetAllUnitsHasManyUnitsInAnotherLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(
+        createLevels(createEmptyLevel(), createLevelWith(unit, unit2, unit3)), heroUnit);
+    assertEquals(1, world.getAllUnits().size());
+    assertFalse(world.getAllUnits().contains(unit));
+    assertFalse(world.getAllUnits().contains(unit2));
+    assertFalse(world.getAllUnits().contains(unit3));
+  }
+
+  @Test
+  public void testGetAllUnitsHasSomeUnitsInAnotherLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(
+        createLevels(createLevelWith(unit), createLevelWith(unit2, unit3)), heroUnit);
+    assertEquals(2, world.getAllUnits().size());
+    assertTrue(world.getAllUnits().contains(unit));
+    assertFalse(world.getAllUnits().contains(unit2));
+    assertFalse(world.getAllUnits().contains(unit3));
+  }
+
+
   //PRIVATE METHODS
 
   private Level createLevelWith(MapEntity... mapEntity) {
@@ -332,20 +394,6 @@ public class WorldTest {
 
   private List<Level> createLevels(Level... levels) {
     return Arrays.asList(levels);
-  }
-
-  private List<Level> createSingletonLevelListWith(Unit unit) {
-    return new ArrayList<Level>() {{
-      add(new Level(
-          new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
-          Collections.singletonList(unit),
-          Collections.emptyList(),
-          Collections.emptyList(),
-          Collections.emptyList(),
-          e -> false,
-          ""
-      ));
-    }};
   }
 
   private Level createEmptyLevel() {
