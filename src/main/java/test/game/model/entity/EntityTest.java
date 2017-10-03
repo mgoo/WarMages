@@ -1,6 +1,7 @@
 package test.game.model.entity;
 
 import main.game.model.entity.*;
+import main.images.GameImage;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -18,9 +19,9 @@ public class EntityTest {
   //test changing item position but position isn't changed (item shouldn't move).
   @Test
   public void test_no_change_position() {
-    BuffItem buff = new BuffItem(new MapPoint(20, 40));
+    BuffItem buff = new BuffItem(new MapPoint(20, 40), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.moveX(20);
-    assertEquals(buff.getPosition(), new MapPoint(20, 40));
+    assertEquals(buff.getTopLeft(), new MapPoint(20, 40));
   }
 
   //test unit cannot attack another teammate.
@@ -38,9 +39,9 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    int healthBefore = unit2.getCurrentHealth();
+    int healthBefore = unit2.getHealth();
     unit1.attack(unit2);
-    assertEquals(healthBefore, unit2.getCurrentHealth());
+    assertEquals(healthBefore, unit2.getHealth());
   }
 
   @Test
@@ -51,9 +52,9 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    int prevHealth = unit.getCurrentHealth();
+    int prevHealth = unit.getHealth();
     unit.takeDamage(archerDamage);
-    assertEquals(prevHealth - archerDamage, unit.getCurrentHealth());
+    assertEquals(prevHealth - archerDamage, unit.getHealth());
   }
 
   @Test
@@ -70,9 +71,9 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - archerDamage, unit2.getCurrentHealth());
+    assertEquals(prevHealth - archerDamage, unit2.getHealth());
   }
 
   @Test
@@ -83,9 +84,9 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    int prevHealth = unit.getCurrentHealth();
+    int prevHealth = unit.getHealth();
     unit.gainHealth(archerDamage);
-    assertEquals(prevHealth + archerDamage, unit.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit.getHealth());
   }
 
   @Test
@@ -103,10 +104,10 @@ public class EntityTest {
         UnitType.ARCHER
     );
     //note: archer baseline damage is 5
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
-    assertEquals(prevHealth + archerDamage, unit2.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit2.getHealth());
   }
 
   @Test
@@ -123,10 +124,10 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.setHealing(true);
     unit1.attack(unit2);
-    assertEquals(prevHealth, unit2.getCurrentHealth());
+    assertEquals(prevHealth, unit2.getHealth());
   }
 
   @Test
@@ -143,11 +144,11 @@ public class EntityTest {
         Team.PLAYER, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    HealingItem healing = new HealingItem(new MapPoint(50, 150));
+    HealingItem healing = new HealingItem(new MapPoint(50, 150), GameImageResource.RING_BLUE_ITEM.getGameImage());
     healing.applyTo(unit1);
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth + archerDamage, unit2.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit2.getHealth());
   }
 
   @Test
@@ -164,11 +165,11 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    BuffItem buff = new BuffItem(new MapPoint(150, 150));
+    BuffItem buff = new BuffItem(new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - buffDamage, unit2.getCurrentHealth());
+    assertEquals(prevHealth - buffDamage, unit2.getHealth());
   }
 
   @Test
@@ -186,11 +187,11 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
-    BuffItem buff = new BuffItem(new MapPoint(150, 150));
+    BuffItem buff = new BuffItem(new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);
-    int prevHealth = unit2.getCurrentHealth();
+    int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
-    assertEquals(prevHealth - buffDamage, unit2.getCurrentHealth());
+    assertEquals(prevHealth - buffDamage, unit2.getHealth());
   }
 
   @Test
@@ -213,9 +214,9 @@ public class EntityTest {
         new MapSize(2, 2),
         unit
     );
-    int prevHealth = unit.getCurrentHealth();
+    int prevHealth = unit.getHealth();
     pizza.hits(unit);
-    assertEquals(prevHealth - archerDamage, unit.getCurrentHealth());
+    assertEquals(prevHealth - archerDamage, unit.getHealth());
   }
 
   @Test
@@ -233,8 +234,8 @@ public class EntityTest {
         new MapSize(2, 2),
         unit
     );
-    int prevHealth = unit.getCurrentHealth();
+    int prevHealth = unit.getHealth();
     sphere.hits(unit);
-    assertEquals(prevHealth + archerDamage, unit.getCurrentHealth());
+    assertEquals(prevHealth + archerDamage, unit.getHealth());
   }
 }
