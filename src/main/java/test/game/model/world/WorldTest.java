@@ -1,5 +1,7 @@
 package test.game.model.world;
 
+import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static org.junit.Assert.assertEquals;
@@ -10,10 +12,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import main.game.model.Level;
+import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
@@ -43,101 +49,275 @@ public class WorldTest {
    * Sets up class variables that are used in every test
    */
   @Before
-  public void initialise(){
+  public void initialise() {
     world = null;
   }
 
   @Test
-  public void testInitialisation(){
+  public void testInitialisation() {
     assertNull(world);
     assertNotNull(heroUnit);
     assertNotNull(config);
   }
 
   @Test
-  public void testGetAllEntitiesHasHeroUnit(){
+  public void testGetAllEntitiesHasHeroUnit() {
     world = createWorld(createOneEmptyLevel(), heroUnit);
     assertEquals(1, world.getAllEntities().size());
     assertTrue(world.getAllEntities().contains(heroUnit));
   }
 
   @Test
-  public void testGetAllEntitiesHasOneUnit(){
+  public void testGetAllEntitiesHasOneUnitOneLevel() {
     Unit unit = createDefaultEnemyOrc();
-    world = createWorld(createSingletonLevelListWith(unit), heroUnit);
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
     assertEquals(2, world.getAllEntities().size());
     assertTrue(world.getAllEntities().contains(unit));
   }
 
-  public void testGetAlLEntitiesHasManyUnits(){
-    Unit[] units = {createDefaultEnemyOrc(), createDefaultEnemyOrc(), createDefaultEnemyOrc()};
-    world = createWorld(createSingleLevelListWith(units), heroUnit);
-    assertEquals(world.getAllEntities().size(), 1 + units.length);
-    assertTrue(world.getAllEntities().contains(units));
+  @Test
+  public void testGetAllEntitiesHasManyUnitsOneLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
+    assertEquals(4, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(unit));
+    assertTrue(world.getAllEntities().contains(unit2));
+    assertTrue(world.getAllEntities().contains(unit3));
   }
 
   @Test
-  public void testGetAllEntitiesHasUnitInAnotherLevel(){
+  public void testGetAllEntitiesHasUnitInAnotherLevel() {
     Unit unit = createDefaultEnemyOrc();
-    world = createWorld(createLevels(createEmptyLevel(), createLevelWithUnit()), heroUnit);
+    world = createWorld(createLevels(createEmptyLevel(), createLevelWith(unit)), heroUnit);
     assertEquals(world.getAllEntities().size(), 1);
     assertFalse(world.getAllEntities().contains(unit));
   }
 
   @Test
-  public void testGetAllEntitiesHasMapEntities(){
-    MapEntity mapEntity = createMapEntity();
-    world = createWorld(createLevels(createLevelWithMapEntities(mapEntity)), heroUnit);
-    assertEquals(world.getAllEntities().size(), 2);
-    assertTrue(world.getAllEntities().contains(mapEntity));
-
-//    MapEntity[] mapEntities = {createMapEntity(), createMapEntity(), createMapEntity()};
-//    world = createWorld(createLevels(createLevelWithMapEntities(mapEntities)), heroUnit);
-//    assertEquals(world.getAllEntities().size(), 1 + mapEntities.length);
-//    for (MapEntity me :
-//        mapEntities) {
-//      assertTrue(world.getAllEntities().contains(me));
-//    }
+  public void testGetAllEntitiesHasManyUnitsInAnotherLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(
+        createLevels(createEmptyLevel(), createLevelWith(unit, unit2, unit3)), heroUnit);
+    assertEquals(world.getAllEntities().size(), 1);
+    assertFalse(world.getAllEntities().contains(unit));
+    assertFalse(world.getAllEntities().contains(unit2));
+    assertFalse(world.getAllEntities().contains(unit3));
   }
 
   @Test
-  public void testGetAllEntitiesHasMapEntitiesInAnotherLevel(){
-    MapEntity mapEntity = createMapEntity();
-    world = createWorld(createLevels(createEmptyLevel(), createLevelWithMapEntities(mapEntity)), heroUnit);
+  public void testGetAllEntitiesHasSomeUnitsInAnotherLevel() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(
+        createLevels(createLevelWith(unit), createLevelWith(unit2, unit3)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(unit));
+    assertFalse(world.getAllEntities().contains(unit2));
+    assertFalse(world.getAllEntities().contains(unit3));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasOneItemOneLevel() {
+    Item item = createDefaultItem(new MapPoint(0, 0));
+    world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(item));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasManyItemOneLevel() {
+    Item item = createDefaultItem(new MapPoint(0, 0));
+    Item item2 = createDefaultItem(new MapPoint(20, 20));
+    Item item3 = createDefaultItem(new MapPoint(40, 20));
+    Item item4 = createDefaultItem(new MapPoint(20, 40));
+    world = createWorld(createLevels(createLevelWith(item, item2, item3, item4)), heroUnit);
+    assertEquals(5, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(item));
+    assertTrue(world.getAllEntities().contains(item2));
+    assertTrue(world.getAllEntities().contains(item3));
+    assertTrue(world.getAllEntities().contains(item4));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasOneItemInAnotherLevel() {
+    Item item = createDefaultItem(new MapPoint(0, 0));
+    world = createWorld(createLevels(createEmptyLevel(), createLevelWith(item)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
+    assertFalse(world.getAllEntities().contains(item));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasManyItemsAnotherLevel() {
+    Item item = createDefaultItem(new MapPoint(0, 0));
+    Item item2 = createDefaultItem(new MapPoint(20, 20));
+    Item item3 = createDefaultItem(new MapPoint(40, 20));
+    Item item4 = createDefaultItem(new MapPoint(20, 40));
+    world = createWorld(
+        createLevels(createEmptyLevel(), createLevelWith(item, item2, item3, item4)), heroUnit);
     assertEquals(1, world.getAllEntities().size());
+    assertFalse(world.getAllEntities().contains(item));
+    assertFalse(world.getAllEntities().contains(item2));
+    assertFalse(world.getAllEntities().contains(item3));
+    assertFalse(world.getAllEntities().contains(item4));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasSomeItemsAnotherLevel() {
+    Item item = createDefaultItem(new MapPoint(0, 0));
+    Item item2 = createDefaultItem(new MapPoint(20, 20));
+    Item item3 = createDefaultItem(new MapPoint(40, 20));
+    Item item4 = createDefaultItem(new MapPoint(20, 40));
+    world = createWorld(
+        createLevels(createLevelWith(item, item2), createLevelWith(item3, item4)), heroUnit);
+    assertEquals(3, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(item));
+    assertTrue(world.getAllEntities().contains(item2));
+    assertFalse(world.getAllEntities().contains(item3));
+    assertFalse(world.getAllEntities().contains(item4));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasOneMapEntityOneLevel() {
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(mapEntity));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasManyMapEntityOneLevel() {
+    MapEntity mapEntity = createDefaultItem(new MapPoint(0, 0));
+    MapEntity mapEntity2 = createDefaultItem(new MapPoint(40, 0));
+    MapEntity mapEntity3 = createDefaultItem(new MapPoint(0, 40));
+    MapEntity mapEntity4 = createDefaultItem(new MapPoint(40, 40));
+    world = createWorld(
+        createLevels(createLevelWith(mapEntity, mapEntity2, mapEntity3, mapEntity4)), heroUnit);
+    assertEquals(5, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(mapEntity));
+    assertTrue(world.getAllEntities().contains(mapEntity2));
+    assertTrue(world.getAllEntities().contains(mapEntity3));
+    assertTrue(world.getAllEntities().contains(mapEntity4));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasOneMapEntityInAnotherLevel() {
+    MapEntity mapEntity = createDefaultItem(new MapPoint(0, 0));
+    world = createWorld(createLevels(createEmptyLevel(), createLevelWith(mapEntity)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
     assertFalse(world.getAllEntities().contains(mapEntity));
   }
 
+  @Test
+  public void testGetAllEntitiesHasManyMapEntityInAnotherLevel() {
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(20, 20));
+    MapEntity mapEntity3 = createDefaultMapEntity(new MapPoint(40, 20));
+    MapEntity mapEntity4 = createDefaultMapEntity(new MapPoint(20, 40));
+    world = createWorld(
+        createLevels(
+            createEmptyLevel(), createLevelWith(mapEntity, mapEntity2, mapEntity3, mapEntity4)),
+        heroUnit
+    );
+    assertEquals(1, world.getAllEntities().size());
+    assertFalse(world.getAllEntities().contains(mapEntity));
+    assertFalse(world.getAllEntities().contains(mapEntity2));
+    assertFalse(world.getAllEntities().contains(mapEntity3));
+    assertFalse(world.getAllEntities().contains(mapEntity4));
+  }
+
+  @Test
+  public void testGetAllEntitiesHasSomeMapEntityAnotherLevel() {
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(20, 20));
+    MapEntity mapEntity3 = createDefaultMapEntity(new MapPoint(40, 20));
+    MapEntity mapEntity4 = createDefaultMapEntity(new MapPoint(20, 40));
+    world = createWorld(
+        createLevels(
+            createLevelWith(mapEntity, mapEntity2), createLevelWith(mapEntity3, mapEntity4)),
+        heroUnit
+    );
+    assertEquals(3, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(mapEntity));
+    assertTrue(world.getAllEntities().contains(mapEntity2));
+    assertFalse(world.getAllEntities().contains(mapEntity3));
+    assertFalse(world.getAllEntities().contains(mapEntity4));
+  }
+
+  @Test
+  public void testSetSelectionAndGetSelection() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
+    world.setEntitySelection(Arrays.asList(unit, unit2, unit3));
+    Collection<Entity> selection = world.getSelectedEntity();
+    assertEquals(3, selection.size());
+    assertTrue(selection.contains(unit));
+    assertTrue(selection.contains(unit2));
+    assertTrue(selection.contains(unit3));
+  }
+
+  @Test
+  public void testSelectionIsCloned() {
+    Unit unit = createDefaultEnemyOrc();
+    Unit unit2 = createDefaultPlayerKnight();
+    Unit unit3 = createDefaultPlayerArcher();
+    List<Entity> units = Arrays.asList(unit, unit2);
+    world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
+    world.setEntitySelection(units);
+    units.add(unit3);
+    Collection<Entity> selection = world.getSelectedEntity();
+    assertEquals(2, selection.size());
+    assertFalse(selection.contains(unit3));
+  }
 
   //PRIVATE METHODS
 
-  private List<Level> createSingleLevelListWith(Unit[] units) {
-    return new ArrayList<Level>(){{
-      add(new Level(new MapRect(new MapPoint(-100,-100), new MapPoint(100,100)),
-          Arrays.asList(units),
-          Collections.emptyList(),
-          Collections.emptyList(),
-          Collections.emptyList(),
-          e -> false,
-          ""
-      ));
-    }};
-  }
-
-
-  private Level createLevelWithMapEntities(MapEntity... mapEntities) {
-    return new Level(new MapRect(new MapPoint(-100,-100), new MapPoint(100,100)),
+  private Level createLevelWith(MapEntity... mapEntity) {
+    return new Level(
+        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
         Collections.emptyList(),
         Collections.emptyList(),
-        Arrays.asList(mapEntities),
+        Arrays.asList(mapEntity),
         Collections.emptyList(),
         e -> false,
         ""
     );
   }
 
-  private MapEntity createMapEntity() {
-    return new MapEntity(new MapPoint(0,0)) {
+  private Level createLevelWith(Item... item) {
+    return new Level(
+        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
+        Collections.emptyList(),
+        Arrays.asList(item),
+        Collections.emptyList(),
+        Collections.emptyList(),
+        e -> false,
+        ""
+    );
+  }
+
+  private Item createDefaultItem(MapPoint point) {
+    return new Item(point) {
+      @Override
+      public void applyTo(Unit unit) {
+        //NOTHING
+      }
+
+      @Override
+      public void tick(long timeSinceLastTick) {
+        //NOTHING
+      }
+    };
+  }
+
+  private MapEntity createDefaultMapEntity(MapPoint mapPoint) {
+    return new MapEntity(mapPoint) {
       @Override
       public void setImage(GameImage image) {
         //DO NOTHING
@@ -155,8 +335,9 @@ public class WorldTest {
   }
 
   private List<Level> createSingletonLevelListWith(Unit unit) {
-    return new ArrayList<Level>(){{
-      add(new Level(new MapRect(new MapPoint(-100,-100), new MapPoint(100,100)),
+    return new ArrayList<Level>() {{
+      add(new Level(
+          new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
           Collections.singletonList(unit),
           Collections.emptyList(),
           Collections.emptyList(),
@@ -167,8 +348,9 @@ public class WorldTest {
     }};
   }
 
-  private Level createEmptyLevel(){
-    return new Level(new MapRect(new MapPoint(-100,-100), new MapPoint(100,100)),
+  private Level createEmptyLevel() {
+    return new Level(
+        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
         Collections.emptyList(),
         Collections.emptyList(),
         Collections.emptyList(),
@@ -178,8 +360,9 @@ public class WorldTest {
     );
   }
 
-  private Level createLevelWithUnit(Unit... units){
-    return new Level(new MapRect(new MapPoint(-100,-100), new MapPoint(100,100)),
+  private Level createLevelWith(Unit... units) {
+    return new Level(
+        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
         Arrays.asList(units),
         Collections.emptyList(),
         Collections.emptyList(),
@@ -190,15 +373,15 @@ public class WorldTest {
   }
 
 
-
   private List<Level> createOneEmptyLevel() {
-    return new ArrayList<Level>(){{
+    return new ArrayList<Level>() {{
       add(createEmptyLevel());
     }};
   }
 
   /**
    * Creates a world based on parameters.
+   *
    * @param levels levels in a world
    * @param heroUnit herounit in a world
    * @return a new world
@@ -210,15 +393,46 @@ public class WorldTest {
 
   /**
    * Creates an enemy orc
+   *
    * @return an enemy orc unit
    */
-  private Unit createDefaultEnemyOrc(){
+  private Unit createDefaultEnemyOrc() {
     return new Unit(
-        new MapPoint(20,20),
-        new MapSize(30,30),
+        new MapPoint(20, 20),
+        new MapSize(30, 30),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
+    );
+  }
+
+  /**
+   * Creates a player knight
+   *
+   * @return a player knight unit
+   */
+  private Unit createDefaultPlayerKnight() {
+    return new Unit(
+        new MapPoint(20, 20),
+        new MapSize(30, 30),
+        Team.PLAYER,
+        new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
+        UnitType.SWORDSMAN
+    );
+  }
+
+  /**
+   * Creates a player knight
+   *
+   * @return a player knight unit
+   */
+  private Unit createDefaultPlayerArcher() {
+    return new Unit(
+        new MapPoint(20, 20),
+        new MapSize(30, 30),
+        Team.PLAYER,
+        new UnitSpriteSheet(ARCHER_SPRITE_SHEET),
+        UnitType.ARCHER
     );
   }
 }
