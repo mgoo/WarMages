@@ -118,6 +118,10 @@ public class World implements Serializable {
     projectiles.add(projectile);
   }
 
+  public Collection<Projectile> getProjectiles() {
+    return Collections.unmodifiableCollection(projectiles);
+  }
+
   /**
    * A getter method which checks if a certain point in the map can be moved into. TODO - make sure
    * that the method returns false for points outside the Map

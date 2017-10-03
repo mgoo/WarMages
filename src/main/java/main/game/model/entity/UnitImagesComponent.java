@@ -17,7 +17,6 @@ public class UnitImagesComponent implements ImagesComponent {
   private List<GameImage> images;
   private Direction direction;
   private UnitSpriteSheet spriteSheet;
-  private final Unit unit;
 
 
   /**
@@ -32,7 +31,6 @@ public class UnitImagesComponent implements ImagesComponent {
     this.sequence = sequence;
     this.direction = direction;
     this.spriteSheet = unit.spriteSheet;
-    this.unit = unit;
     imagesIdx = 0;
     images = spriteSheet.getImagesForSequence(sequence, direction);
   }
