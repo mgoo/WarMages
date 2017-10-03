@@ -6,8 +6,6 @@ import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -27,11 +25,9 @@ import main.game.model.entity.UnitType;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
-import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -46,7 +42,6 @@ public class WorldTest {
       new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
       UnitType.SWORDSMAN
   );
-  private Config config = new Config();
 
   @Test
   public void testGetAllEntitiesHasHeroUnit() {
