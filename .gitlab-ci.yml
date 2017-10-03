@@ -22,17 +22,31 @@ verify:
   image: mgoo2/openjfx:jml
   allow_failure: true
   stage: test
+  tags:
+   - beefy
   script:
    - java -jar /openjml/openjml.jar -Werror -esc -dir src/main/java/main/ -exec /z3/bin/z3
 
-# This is disabled  due to it taking to long
-#findbugs:
-#  image: mgoo2/openjfx:findbugs
-#  allow_failure: true
-#  stage: test
-#  script:
-#   - ./gradlew assemble
-#   - java -Xmx2g -jar /findbugs/lib/findbugs.jar -textui -effort:min -project findbugsReports.fbp -sourcepath src/main/java/main/ | grep 'main.game\|main,renderer\|main.images\|main.menu\|main.util'
+findbugs:
+  allow_failure: true
+  stage: test
+  tags:
+   - beefy
+  script:
+   - ./gradlew assemble
+   - ./gradlew findbugsMain
+  artifacts:
+    when: on_failure
+    expire_in: 1 week
+    paths:
+     - findbugsReports/
+
+integration:
+  stage: test
+  script:
+
+    - scripts/ci-pull.sh
+    - ./gradlew buildAndContinueWhenErrors
 
 after_script:
   - echo "End CI"
