@@ -33,6 +33,9 @@ import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests all the methods and invariants of the WorldClass.
+ */
 public class WorldTest {
 
   private World world = null;
@@ -45,7 +48,7 @@ public class WorldTest {
   private Config config = new Config();
 
   /**
-   * Sets up class variables that are used in every test
+   * Sets up class variables that are used in every test.
    */
   @Before
   public void initialise() {
@@ -61,13 +64,13 @@ public class WorldTest {
 
   @Test
   public void testGetAllEntitiesHasHeroUnit() {
-    world = createWorld(createOneEmptyLevel(), heroUnit);
+    world = createWorld(createLevels(createEmptyLevel()), heroUnit);
     assertEquals(1, world.getAllEntities().size());
     assertTrue(world.getAllEntities().contains(heroUnit));
   }
 
   @Test
-  public void testGetAllEntitiesIsCloned(){
+  public void testGetAllEntitiesIsCloned() {
     Unit unit = createDefaultEnemyOrc();
     world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
     assertEquals(2, world.getAllEntities().size());
@@ -286,7 +289,7 @@ public class WorldTest {
 
   @Test
   public void testGetAllUnitsHasHeroUnit() {
-    world = createWorld(createOneEmptyLevel(), heroUnit);
+    world = createWorld(createLevels(createEmptyLevel()), heroUnit);
     assertEquals(1, world.getAllUnits().size());
     assertTrue(world.getAllUnits().contains(heroUnit));
   }
@@ -346,12 +349,36 @@ public class WorldTest {
   }
 
   @Test
-  public void testIsPassableWithUnPassableEntity(){
+  public void testIsPassableWithUnPassableEntity() {
     //CURRENTLY UNAVAILABLE TO BE DONE.
     //TODO DYLAN or GABIE - How should I know if it's passable?
   }
   //PRIVATE METHODS
 
+  /**
+   * Creates a level with unit args.
+   *
+   * @param units units in level
+   * @return a new level
+   */
+  private Level createLevelWith(Unit... units) {
+    return new Level(
+        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
+        Arrays.asList(units),
+        Collections.emptyList(),
+        Collections.emptyList(),
+        Collections.emptyList(),
+        e -> false,
+        ""
+    );
+  }
+
+  /**
+   * Creates a level with mapEntities.
+   *
+   * @param mapEntity mapEntities in a level
+   * @return a new level with the map entities
+   */
   private Level createLevelWith(MapEntity... mapEntity) {
     return new Level(
         new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
@@ -364,6 +391,12 @@ public class WorldTest {
     );
   }
 
+  /**
+   * Creates a level based on items.
+   *
+   * @param item items in a level
+   * @return a new level with the items args
+   */
   private Level createLevelWith(Item... item) {
     return new Level(
         new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
@@ -376,6 +409,12 @@ public class WorldTest {
     );
   }
 
+  /**
+   * Creates an item.
+   *
+   * @param point a position in the world
+   * @return an Item at the position point
+   */
   private Item createDefaultItem(MapPoint point) {
     return new Item(point) {
       @Override
@@ -390,6 +429,12 @@ public class WorldTest {
     };
   }
 
+  /**
+   * Creates a mapEntity with the correct MapPoint.
+   *
+   * @param mapPoint point in the world
+   * @return a new MapEntity
+   */
   private MapEntity createDefaultMapEntity(MapPoint mapPoint) {
     return new MapEntity(mapPoint) {
       @Override
@@ -404,10 +449,21 @@ public class WorldTest {
     };
   }
 
+  /**
+   * Creates a list of levels based on args.
+   *
+   * @param levels levels
+   * @return a list of levels
+   */
   private List<Level> createLevels(Level... levels) {
     return Arrays.asList(levels);
   }
 
+  /**
+   * Creates an empty level.
+   *
+   * @return an empty level
+   */
   private Level createEmptyLevel() {
     return new Level(
         new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
@@ -418,25 +474,6 @@ public class WorldTest {
         e -> false,
         ""
     );
-  }
-
-  private Level createLevelWith(Unit... units) {
-    return new Level(
-        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
-        Arrays.asList(units),
-        Collections.emptyList(),
-        Collections.emptyList(),
-        Collections.emptyList(),
-        e -> false,
-        ""
-    );
-  }
-
-
-  private List<Level> createOneEmptyLevel() {
-    return new ArrayList<Level>() {{
-      add(createEmptyLevel());
-    }};
   }
 
   /**
@@ -452,7 +489,7 @@ public class WorldTest {
 
 
   /**
-   * Creates an enemy orc
+   * Creates an enemy orc.
    *
    * @return an enemy orc unit
    */
@@ -467,7 +504,7 @@ public class WorldTest {
   }
 
   /**
-   * Creates a player knight
+   * Creates a player knight.
    *
    * @return a player knight unit
    */
@@ -482,9 +519,9 @@ public class WorldTest {
   }
 
   /**
-   * Creates a player knight
+   * Creates a player knight.
    *
-   * @return a player knight unit
+   * @return a player knight unit.
    */
   private Unit createDefaultPlayerArcher() {
     return new Unit(
