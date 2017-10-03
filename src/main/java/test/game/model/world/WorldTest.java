@@ -67,6 +67,14 @@ public class WorldTest {
   }
 
   @Test
+  public void testGetAllEntitiesIsCloned(){
+    Unit unit = createDefaultEnemyOrc();
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    assertEquals(2, world.getAllEntities().size());
+    assertTrue(world.getAllEntities().contains(unit));
+  }
+
+  @Test
   public void testGetAllEntitiesHasOneUnitOneLevel() {
     Unit unit = createDefaultEnemyOrc();
     world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
@@ -337,7 +345,11 @@ public class WorldTest {
     assertFalse(world.getAllUnits().contains(unit3));
   }
 
-
+  @Test
+  public void testIsPassableWithUnPassableEntity(){
+    //CURRENTLY UNAVAILABLE TO BE DONE.
+    //TODO DYLAN or GABIE - How should I know if it's passable?
+  }
   //PRIVATE METHODS
 
   private Level createLevelWith(MapEntity... mapEntity) {
