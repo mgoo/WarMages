@@ -34,14 +34,13 @@ public class World implements Serializable {
   /**
    * Creates the world.
    *
-   * @param levels The levels sorted from start to finish. The first level in this list is the
-   *     initial level.
+   * @param levels The levels sorted from start to finish. The first level is the initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
   public World(List<Level> levels, HeroUnit heroUnit) {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
-    if (levels.isEmpty()){
+    if (levels.isEmpty()) {
       throw new IllegalArgumentException("Cannot have empty levels");
     }
     this.heroUnit = heroUnit;
@@ -52,7 +51,7 @@ public class World implements Serializable {
     this.mapEntities.addAll(currentLevel().getBorderEntities());
   }
 
-  private Level currentLevel(){
+  private Level currentLevel() {
     Objects.requireNonNull(levels);
     if (levels.isEmpty()) {
       throw new IllegalStateException("No levels left");
@@ -89,8 +88,8 @@ public class World implements Serializable {
   }
 
   /**
-   * A getter method which checks if a certain point in the map can be moved into.
-   * Returns false for points outside the Map.
+   * A getter method which checks if a certain point in the map can be moved into. Returns false for
+   * points outside the Map.
    *
    * @param point a point in the map.
    * @return returns whether the point can be moved into.

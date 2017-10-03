@@ -329,162 +329,115 @@ public class WorldTest {
   @Test
   public void testIsPassableWithUnPassableEntity() {
     //CURRENTLY UNAVAILABLE TO BE DONE.
-    //TODO DYLAN or GABIE - How should I know map entity if it's passable?
+    //TODO DYLAN or GABIE - How should I know if map entity if it's passable?
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntitiesOverlap() {
-    try {
-      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
-      MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(0, 0));
-      world = createWorld(
-          createLevels(
-              createLevelWith(mapEntity, mapEntity2)),
-          heroUnit
-      );
-      fail();
-    } catch (Exception e) {
-
-    }
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    MapEntity mapEntity2 = createDefaultMapEntity(new MapPoint(0, 0));
+    world = createWorld(
+        createLevels(
+            createLevelWith(mapEntity, mapEntity2)),
+        heroUnit
+    );
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoUnitOutOfBoundsLeft() {
-    try {
-      Unit unit = createUnit(new MapPoint(-200, 0));
-      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    Unit unit = createUnit(new MapPoint(-200, 0));
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    fail();
   }
 
-  @Test
+
+  @Test(expected = IllegalStateException.class)
   public void ensureNoUnitOutOfBoundsRight() {
-    try {
-      Unit unit = createUnit(new MapPoint(200, 0));
-      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
-      fail();
-    } catch (Exception e){
+    Unit unit = createUnit(new MapPoint(200, 0));
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    fail();
 
-    }
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoUnitOutOfBoundsUp() {
-    try {
-      Unit unit = createUnit(new MapPoint(0, -200));
-      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
-      fail();
-    } catch (Exception e){
+    Unit unit = createUnit(new MapPoint(0, -200));
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    fail();
 
-    }
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoUnitOutOfBoundsDown() {
-    try {
-      Unit unit = createUnit(new MapPoint(0, 200));
-      world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
-      fail();
-    } catch (Exception e){
+    Unit unit = createUnit(new MapPoint(0, 200));
+    world = createWorld(createLevels(createLevelWith(unit)), heroUnit);
+    fail();
 
-    }
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoItemOutOfBoundsLeft() {
-    try {
-      Item item = createDefaultItem(new MapPoint(-200, 0));
-      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
-      fail();
-    } catch (Exception e){
+    Item item = createDefaultItem(new MapPoint(-200, 0));
+    world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+    fail();
 
-    }
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoItemOutOfBoundsRight() {
-    try {
-      Item item = createDefaultItem(new MapPoint(200, 0));
-      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
-      fail();
-    } catch (Exception e){
+    Item item = createDefaultItem(new MapPoint(200, 0));
+    world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+    fail();
 
-    }
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoItemOutOfBoundsUp() {
-    try {
-      Item item = createDefaultItem(new MapPoint(0, -200));
-      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    Item item = createDefaultItem(new MapPoint(0, -200));
+    world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+    fail();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoItemOutOfBoundsDown() {
-    try {
-      Item item = createDefaultItem(new MapPoint(0, 200));
-      world = createWorld(createLevels(createLevelWith(item)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    Item item = createDefaultItem(new MapPoint(0, 200));
+    world = createWorld(createLevels(createLevelWith(item)), heroUnit);
+    fail();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntityOutOfBoundsLeft() {
-    try {
-      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(-200, 0));
-      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(-200, 0));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    fail();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntityOutOfBoundsRight() {
-    try {
-      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(200, 0));
-      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(200, 0));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    fail();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntityOutOfBoundsUp() {
-    try {
-      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
-      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    fail();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void ensureNoMapEntityOutOfBoundsDown() {
-    try {
-      MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
-      world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
-      fail();
-    } catch (Exception e){
-
-    }
+    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, -200));
+    world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
+    fail();
   }
-
 
   //PRIVATE METHODS
 
   /**
    * Creates a unit outside the bounds (less than -100 more than 100 x and y).
+   *
    * @return an out of bounds unit
    */
   private Unit createUnit(MapPoint point) {
