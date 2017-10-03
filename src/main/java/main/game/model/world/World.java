@@ -29,8 +29,6 @@ public class World implements Serializable {
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
 
-  private Collection<Entity> selectedEntities;
-
   /**
    * Creates the world.
    *
@@ -137,13 +135,5 @@ public class World implements Serializable {
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick));
     checkLevelCompletion();
-  }
-
-  public void setEntitySelection(Collection<Entity> selection) {
-    selectedEntities = new ArrayList<>(selection);
-  }
-
-  public Collection<Entity> getSelectedEntity() {
-    return selectedEntities;
   }
 }
