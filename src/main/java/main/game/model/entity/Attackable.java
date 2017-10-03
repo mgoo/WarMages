@@ -42,9 +42,7 @@ public abstract class Attackable extends MovableEntity {
   public void setTarget(Unit target) {
     assert target != null;
     //todo isPassable function
-    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
-    super.setPath(PathFinder.findPath(isPassable, position, target.getPosition()));
-    this.target = target;
+    updatePath();
   }
 
   /**
