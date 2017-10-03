@@ -218,7 +218,7 @@ public class WorldTest {
   public void testGetAllEntitiesHasOneMapEntityInAnotherLevel() {
     MapEntity mapEntity = createDefaultItem(new MapPoint(0, 0));
     world = createWorld(createLevels(createEmptyLevel(), createLevelWith(mapEntity)), heroUnit);
-    assertEquals(2, world.getAllEntities().size());
+    assertEquals(1, world.getAllEntities().size());
     assertFalse(world.getAllEntities().contains(mapEntity));
   }
 
@@ -277,7 +277,7 @@ public class WorldTest {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
-    List<Entity> units = Arrays.asList(unit, unit2);
+    List<Entity> units = new ArrayList<>(Arrays.asList(unit, unit2));
     world = createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit);
     world.setEntitySelection(units);
     units.add(unit3);
