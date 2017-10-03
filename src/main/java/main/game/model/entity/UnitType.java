@@ -113,6 +113,14 @@ public enum UnitType {
     this.attackSpeed = attackSpeed;
     this.movingSpeed = movingSpeed;
     this.attackSequence = attackSequence;
+
+    if (canShootProjectiles()) {
+      try {
+        attackSequence.getAttackFrame();
+      } catch (IllegalStateException e) {
+        throw new Error("%s maps to a sequence that cannot attack");
+      }
+    }
   }
 }
 

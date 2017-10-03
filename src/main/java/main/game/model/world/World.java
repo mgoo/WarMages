@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import main.game.model.Level;
@@ -13,6 +12,7 @@ import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.util.MapPoint;
@@ -34,6 +34,7 @@ public class World implements Serializable {
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
+  private final Collection<Projectile> projectiles;
 
   private Collection<Entity> selectedEntities;
 
@@ -53,6 +54,7 @@ public class World implements Serializable {
     this.items = new ArrayList<>(levels.get(0).getItems());
     this.mapEntities = new ArrayList<>(levels.get(0).getMapEntities());
     this.mapEntities.addAll(levels.get(0).getBorderEntities());
+    this.projectiles = new ArrayList<>();
   }
 
   /**
@@ -98,6 +100,7 @@ public class World implements Serializable {
             add(heroUnit);
             addAll(mapEntities);
             addAll(items);
+            addAll(projectiles);
           }
         });
   }
@@ -109,6 +112,10 @@ public class World implements Serializable {
    */
   public Collection<MapEntity> getAllMapEntities() {
     return Collections.unmodifiableCollection(mapEntities);
+  }
+
+  public void addProjectile(Projectile projectile) {
+    projectiles.add(projectile);
   }
 
   /**
@@ -156,7 +163,7 @@ public class World implements Serializable {
    * A method to change all the current positions/animations of all entities in the world.
    */
   public void tick(long timeSinceLastTick) {
-    getAllEntities().stream().forEach(e -> e.tick(timeSinceLastTick));
+    getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
     easeTrigger();
   }
 

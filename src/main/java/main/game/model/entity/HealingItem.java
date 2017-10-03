@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 
@@ -26,7 +27,7 @@ public class HealingItem extends Item {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //todo expire
     //unit.setHealing(false);
   }

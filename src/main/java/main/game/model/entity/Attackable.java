@@ -14,8 +14,9 @@ public abstract class Attackable extends MovableEntity {
 
   public static final int LEEWAY = 5; // TODO don't hard code
   protected Unit target;
-  protected int damageAmount;
   protected int health;
+
+  private int damageAmount;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -77,4 +78,7 @@ public abstract class Attackable extends MovableEntity {
     return target.getCentre().distance(getCentre()) < LEEWAY;
   }
 
+  public int getDamageAmount() {
+    return damageAmount;
+  }
 }
