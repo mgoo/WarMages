@@ -83,14 +83,15 @@ public class Unit extends Attackable implements Damageable {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick);
     unitState = unitState.updateState();
+    //update path in case there is a target and it has moved.
+    super.updatePath();
     //update position
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick);
-    //check if position changed
-    if (!oldPosition.equals(position)) {
+    if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
       setStateTo(new WalkingUnitState(updateDirection(oldPosition), spriteSheet));
     }
-    //check if has target and target is within attacking proximity
+    //check if has target and target is within attacking proximity. Request state change.
     if (targetWithinProximity()) {
       attack(target);
       setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
