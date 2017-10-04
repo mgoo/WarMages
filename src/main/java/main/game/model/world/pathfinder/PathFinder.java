@@ -101,7 +101,7 @@ public class PathFinder {
   private static Set<MapPoint> getPassableNeighbours(
       Function<MapPoint, Boolean> isPassable, MapPoint current
   ) {
-    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>(current.getSides());
+    Set<MapPoint> passableNeighbours = new HashSet<>(current.getSides());
 
     MapPoint[] corners = new MapPoint[]{
         new MapPoint(current.x - 1, current.y - 1), //top-left
@@ -133,7 +133,7 @@ public class PathFinder {
         passableNeighbours.add(corners[3]);
     }
 
-    return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet()));;
+    return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
