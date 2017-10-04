@@ -101,8 +101,18 @@ public class PathFinder {
    *
    * @return the list of neighbours
    */
-  public static Set<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
-    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>();
+  private static Set<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
+    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>(){
+      /**
+       * TODO javadoc.
+       */
+      public boolean addOnlyIfPasssable(Function<MapPoint, Boolean> isPassable, MapPoint toAdd) {
+        if(isPassable.apply(toAdd)) {
+          return this.add(toAdd);
+        }
+        return false;
+      }
+    };
 
     //store the four adjacent sides to the current mapPoint in an array first
     MapPoint[] sides = new MapPoint[]{
@@ -111,6 +121,12 @@ public class PathFinder {
         new MapPoint(current.x, current.y - 1), //top
         new MapPoint(current.x, current.y + 1) //bottom
     };
+
+    for(MapPoint side : sides) {
+      if(isPassable.apply(side)) {
+        passableNeighbours.add(side);
+      }
+    }
 
 
 //            new MapPoint(current.x - 1, current.y - 1), //top-left
