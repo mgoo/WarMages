@@ -114,23 +114,23 @@ public class PathFinder {
 
     //check top-left corner
     if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
-        passableNeighbours.add(corners[0]);
+      passableNeighbours.add(corners[0]);
     }
 
     //check top-right corner
     if (isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
-        passableNeighbours.add(corners[1]);
+      passableNeighbours.add(corners[1]);
     }
 
     //check bottom-left corner
     if (isPassable.apply(corners[2].getLeft()) || isPassable.apply(corners[2].getTop())) {
-        passableNeighbours.add(corners[2]);
+      passableNeighbours.add(corners[2]);
 
     }
 
     //check bottom-right corner
     if (isPassable.apply(corners[3].getRight()) || isPassable.apply(corners[3].getTop())) {
-        passableNeighbours.add(corners[3]);
+      passableNeighbours.add(corners[3]);
     }
 
     return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
