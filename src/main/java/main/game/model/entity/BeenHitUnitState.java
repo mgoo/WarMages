@@ -12,6 +12,6 @@ public class BeenHitUnitState extends UnitState {
 
   @Override
   UnitState updateState() {
-    return (nextState == null && imagesComponent.readyToTransition()) ? this : nextState;
+    return (nextState == null && imagesComponent.isReadyToTransition()) ? this : nextState;
   }
 }

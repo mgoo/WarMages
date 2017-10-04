@@ -15,50 +15,98 @@ import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
+import org.junit.Before;
 import org.junit.Test;
 
 public class UnitTest {
 
-  private Unit enemyUnit = new Unit(
-      new MapPoint(0.1, 0),
-      new MapSize(1, 1),
-      Team.ENEMY,
-      new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-      UnitType.ARCHER
-  );
+  /**
+   * Tests related to a unit firing projectiles.
+   */
+  public static class ProjectileTest {
 
-  @Test
-  public void testArcherLaunchesProjectiles() {
-    // Given an archer
-    Unit unit = new Unit(
-        new MapPoint(0, 0),
-        new MapSize(1, 1),
-        Team.PLAYER,
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
-    );
-    // and a fake world
-    World world = mock(World.class);
-    when(world.isPassable(any())).thenReturn(true);
-    // and that the unit targets the enemy
-    unit.setTarget(enemyUnit, world);
-    // and a projectile counter
-    AtomicInteger projectileCount = new AtomicInteger();
-    doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
-        .when(world)
-        .addProjectile(any());
+    private World world;
+    private Unit enemyUnit;
+    private AtomicInteger projectileCount;
 
-    // when the game ticks several times
-    for (int i = 0; i < 50; i++) {
-      System.out.println("i = " + i);
-      unit.tick(GameModel.DELAY, world);
+    @Before
+    public void setUp() throws Exception {
+      world = mock(World.class);
+      // pretend there are no objects in the way
+      when(world.isPassable(any())).thenReturn(true);
+
+      enemyUnit = new Unit(
+          new MapPoint(0.1, 0),
+          new MapSize(1, 1),
+          Team.ENEMY,
+          new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          UnitType.ARCHER
+      );
+
+      // Spy on addProjectile method
+      projectileCount = new AtomicInteger();
+      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
+          .when(world)
+          .addProjectile(any());
     }
 
-    // then some projectiles should have been created
-    assert projectileCount.get() > 0;
+    @Test
+    public void testArcherLaunchesProjectiles() {
+      // Given all the objects in the setUp()
+      // and an archer that targets the enemy
+      Unit unit = createPlayerUnit(UnitType.ARCHER);
+      unit.setTarget(enemyUnit, world);
+
+      // when the game ticks several times
+      for (int i = 0; i < 100; i++) {
+        unit.tick(GameModel.DELAY, world);
+      }
+
+      // then some projectiles should have been created
+      assert projectileCount.get() > 0;
+    }
+
+    @Test
+    public void testArcherDoesntLaunchProjectilesWhenNoTargetSet() {
+      // Given all the objects in the setUp()
+      // and an archer that has no target
+      Unit unit = createPlayerUnit(UnitType.ARCHER);
+      unit.clearTarget();
+
+      // when the game ticks several times
+      for (int i = 0; i < 100; i++) {
+        unit.tick(GameModel.DELAY, world);
+      }
+
+      // then no projectiles should have been fired
+      assert projectileCount.get() == 0;
+    }
+
+    @Test
+    public void testSwordsmanDoesntFireProjectiles() {
+      // Given all the objects in the setUp()
+      // and a swordsman
+      Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      unit.setTarget(enemyUnit, world);
+
+      // when the game ticks several times
+      for (int i = 0; i < 100; i++) {
+        unit.tick(GameModel.DELAY, world);
+      }
+
+      // then no projectiles should have been fired
+      assert projectileCount.get() == 0;
+    }
+
+    private Unit createPlayerUnit(UnitType unitType) {
+      return new Unit(
+          new MapPoint(0, 0),
+          new MapSize(1, 1),
+          Team.PLAYER,
+          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          unitType
+      );
+    }
+
   }
-
-  // TODO fail on no target
-  // TODO no launch when not archer
-
 }
