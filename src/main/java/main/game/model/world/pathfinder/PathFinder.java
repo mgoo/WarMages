@@ -1,6 +1,7 @@
 package main.game.model.world.pathfinder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -74,9 +75,9 @@ public class PathFinder {
         return tuple.getPath();
       }
 
-      for (MapPoint neigh : tuple.getPoint().getNeighbours()) {
+      for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint()) {
 
-        if (!visited.contains(neigh) && isPassable.apply(neigh)) {
+        if (!visited.contains(neigh)) {
 
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
@@ -90,6 +91,28 @@ public class PathFinder {
     }
 
     return Collections.emptyList();
+  }
+
+
+
+  /**
+   * Returns the neighbouring MapPoints of this MapPoint. This is achieved by hardcoding the
+   * neighbours in a list and returning that list.
+   *
+   * @return the list of neighbours
+   */
+  public static List<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
+    return new ArrayList<MapPoint>(
+        Arrays.asList(
+            new MapPoint(this.x - 1, this.y), //left
+            new MapPoint(this.x + 1, this.y), //right
+            new MapPoint(this.x, this.y - 1), //top
+            new MapPoint(this.x, this.y + 1), //bottom
+            new MapPoint(this.x - 1, this.y - 1), //top-left
+            new MapPoint(this.x + 1, this.y - 1), //top-right
+            new MapPoint(this.x - 1, this.y + 1), //bottom-left
+            new MapPoint(this.x + 1, this.y + 1) //bottom-right
+        ));
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
