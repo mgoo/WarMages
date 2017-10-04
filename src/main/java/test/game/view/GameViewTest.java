@@ -58,7 +58,7 @@ public class GameViewTest {
   }
 
   @Test
-  public void testInitilisation() {
+  public void testInitialization() {
     assertNotNull(this.gameView);
     assertTrue(this.gameView.getRenderables(0).size() == 0);
 
