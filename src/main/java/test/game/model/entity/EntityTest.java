@@ -1,13 +1,19 @@
 package test.game.model.entity;
 
-import main.game.model.entity.*;
-import main.images.GameImage;
+import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import main.game.model.entity.BuffItem;
+import main.game.model.entity.HealingItem;
+import main.game.model.entity.HealingSphere;
+import main.game.model.entity.PizzaBall;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
+import main.game.model.entity.UnitType;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
-
-import static org.junit.Assert.*;
-
 import main.util.MapSize;
 import org.junit.Test;
 
