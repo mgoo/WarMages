@@ -106,10 +106,10 @@ public class PathFinder {
 
     //store the four adjacent sides to the current mapPoint in an array first
     MapPoint[] sides = new MapPoint[]{
-        new MapPoint(current.x - 1, current.y), //left
-        new MapPoint(current.x + 1, current.y), //right
-        new MapPoint(current.x, current.y - 1), //top
-        new MapPoint(current.x, current.y + 1) //bottom
+        current.getLeft(), //left
+        current.getLRight(), //right
+        current.getTop(), //top
+        current.getBottom() //bottom
     };
 
     for(MapPoint side : sides) {
@@ -123,6 +123,8 @@ public class PathFinder {
         new MapPoint(current.x - 1, current.y + 1), //bottom-left
         new MapPoint(current.x + 1, current.y + 1) //bottom-right
     };
+
+    //note: only add the corners if atleast one of the adjacent cells of the corner is passable
 
     //check top-left corner
     if(isPassable.apply(corners[0].getLRight()) || isPassable.apply(corners[0].getBottom())) {
@@ -147,10 +149,6 @@ public class PathFinder {
       if(isPassable.apply(corners[3]))
         passableNeighbours.add(corners[3]);
     }
-
-
-//
-//        ));
 
     return passableNeighbours;
   }
