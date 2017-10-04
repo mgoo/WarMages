@@ -21,7 +21,7 @@ public class PathFinder {
 
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
-   * on the world returning a list of points along this path.
+   * on the world returning a list of points along current path.
    *
    * @param isPassable a function that determines whether a given point is passable or not
    * @param start the start point of the path
@@ -48,7 +48,7 @@ public class PathFinder {
    * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
    * finish if there is a decimal in the end node was only creates rounded nodes).
    * <p>
-   * The last point in this method is the rounded end point, unless the list is empty.
+   * The last point in current method is the rounded end point, unless the list is empty.
    * </p>
    */
   private static List<MapPoint> findPathRounded(
@@ -75,7 +75,7 @@ public class PathFinder {
         return tuple.getPath();
       }
 
-      for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint()) {
+      for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
 
         if (!visited.contains(neigh)) {
 
@@ -96,23 +96,28 @@ public class PathFinder {
 
 
   /**
-   * Returns the neighbouring MapPoints of this MapPoint. This is achieved by hardcoding the
+   * Returns the neighbouring MapPoints of current MapPoint. current is achieved by hardcoding the
    * neighbours in a list and returning that list.
    *
    * @return the list of neighbours
    */
   public static List<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
-    return new ArrayList<MapPoint>(
-        Arrays.asList(
-            new MapPoint(this.x - 1, this.y), //left
-            new MapPoint(this.x + 1, this.y), //right
-            new MapPoint(this.x, this.y - 1), //top
-            new MapPoint(this.x, this.y + 1), //bottom
-            new MapPoint(this.x - 1, this.y - 1), //top-left
-            new MapPoint(this.x + 1, this.y - 1), //top-right
-            new MapPoint(this.x - 1, this.y + 1), //bottom-left
-            new MapPoint(this.x + 1, this.y + 1) //bottom-right
-        ));
+    List<MapPoint> passableNeighbours = new ArrayList<MapPoint>();
+
+    //sotre the four adjacent sides to the current mapPoint in an array first
+    MapPoint[] sides = new MapPoint[] {
+      new MapPoint(current.x - 1, current.y), //left
+          new MapPoint(current.x + 1, current.y), //right
+          new MapPoint(current.x, current.y - 1), //top
+          new MapPoint(current.x, current.y + 1) //bottom
+    };
+//            new MapPoint(current.x - 1, current.y - 1), //top-left
+//            new MapPoint(current.x + 1, current.y - 1), //top-right
+//            new MapPoint(current.x - 1, current.y + 1), //bottom-left
+//            new MapPoint(current.x + 1, current.y + 1) //bottom-right
+//        ));
+
+    return passableNeighbours;
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
