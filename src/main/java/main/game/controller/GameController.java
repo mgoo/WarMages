@@ -82,19 +82,8 @@ public class GameController {
 
     if (mouseEvent.wasLeft()) {
 
-
-
       if (mouseEvent.wasShiftDown()) {
-        //CASE 1 => LEFT + SHIFT
-
-        //add the new selected units to previously selected ones
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-        if (selectedUnit != null) {
-          updatedUnitSelection.add(selectedUnit);
-        }
-
-        gameModel.setUnitSelection(updatedUnitSelection);
-
+        leftShiftClick(gameModel, mouseEvent);
       } else if (mouseEvent.wasCtrlDown()) {
         leftCtrlClick(gameModel, mouseEvent);
       } else {
@@ -160,5 +149,25 @@ public class GameController {
     }
 
     gameModel.setUnitSelection(updatedUnits);
+  }
+
+  /**
+   * TODO javadoc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private static void leftShiftClick(GameModel gameModel, MouseClick mouseEvent) {
+    //CASE 1 => LEFT + SHIFT
+
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+
+    //add the new selected units to previously selected ones
+    Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+    if (selectedUnit != null) {
+      updatedUnitSelection.add(selectedUnit);
+    }
+
+    gameModel.setUnitSelection(updatedUnitSelection);
   }
 }
