@@ -118,7 +118,7 @@ public class Level implements Serializable {
     }
 
     if (!overlappingPairs.isEmpty()) {
-      throw new IllegalStateException("Some MapEntities overlap: " + overlappingPairs);
+      throw new OverlappingMapEntitiesException("Some MapEntities overlap: " + overlappingPairs);
     }
   }
 
@@ -130,7 +130,7 @@ public class Level implements Serializable {
         )))
         .collect(Collectors.toList());
     if (!outOfBoundsEntities.isEmpty()) {
-      throw new IllegalStateException("Entities out of bounds: " + outOfBoundsEntities);
+      throw new EntityOutOfBoundsException("Entities out of bounds: " + outOfBoundsEntities);
     }
   }
 
@@ -170,4 +170,5 @@ public class Level implements Serializable {
 
     }
   }
+
 }
