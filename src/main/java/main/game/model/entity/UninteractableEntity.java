@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 
@@ -16,12 +17,7 @@ public class UninteractableEntity extends MapEntity {
   }
 
   @Override
-  public void setImage(GameImage image) {
-    //no change
-  }
-
-  @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //no change
   }
 }

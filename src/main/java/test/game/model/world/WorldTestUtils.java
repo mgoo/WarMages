@@ -15,7 +15,6 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -106,7 +105,7 @@ public class WorldTestUtils {
       }
 
       @Override
-      public void tick(long timeSinceLastTick) {
+      public void tick(long timeSinceLastTick, World world) {
         //NOTHING
       }
     };
@@ -121,12 +120,7 @@ public class WorldTestUtils {
   public static MapEntity createStubMapEntity(MapPoint mapPoint) {
     return new MapEntity(mapPoint) {
       @Override
-      public void setImage(GameImage image) {
-        //DO NOTHING
-      }
-
-      @Override
-      public void tick(long timeSinceLastTick) {
+      public void tick(long timeSinceLastTick, World world) {
         //DO NOTHING
       }
     };
