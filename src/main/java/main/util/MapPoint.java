@@ -79,4 +79,20 @@ public class MapPoint implements Serializable {
   public double distance(MapPoint other) {
     return Math.hypot(this.x - other.x, this.y - other.y);
   }
+
+  public MapPoint getLeft(){
+    return new MapPoint(this.x-1, this.y);
+  }
+
+  public MapPoint getLRight(){
+    return new MapPoint(this.x+1, this.y);
+  }
+
+  public MapPoint getTop(){
+    return new MapPoint(this.x, this.y-1);
+  }
+
+  public MapPoint getBottom(){
+    return new MapPoint(this.x, this.y+1);
+  }
 }
