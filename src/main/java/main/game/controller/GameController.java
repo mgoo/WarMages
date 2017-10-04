@@ -82,13 +82,7 @@ public class GameController {
 
     if (mouseEvent.wasLeft()) {
 
-      //select the unit under the click if there is one
-      Unit selectedUnit = gameModel.getAllUnits().stream().filter(
-          u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
-              .max(u.getSize().width, u.getSize().height))
-          .sorted(
-              Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
-          .findFirst().orElse(null);
+
 
       if (mouseEvent.wasShiftDown()) {
         //CASE 1 => LEFT + SHIFT
@@ -102,19 +96,7 @@ public class GameController {
         gameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseEvent.wasCtrlDown()) {
-        //CASE 2 => LEFT + CTRL
-
-        Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
-
-        //if unit already selected, deselct it
-        if (updatedUnits.contains(selectedUnit)) {
-          updatedUnits.remove(selectedUnit);
-        } else { //if not, select it
-          updatedUnits.add(selectedUnit);
-        }
-
-        gameModel.setUnitSelection(updatedUnits);
-
+        leftCtrlClick(gameModel, mouseEvent);
       } else {
         //CASE 3 => ONLY LEFT CLICK
 
@@ -129,5 +111,42 @@ public class GameController {
     } else {
       throw new Error("Not yet implemented!"); //TODO
     }
+  }
+
+  /**
+   * TODO javadoc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private static Unit getUnitUnderMouse(GameModel gameModel, MouseClick mouseEvent) {
+    //select the unit under the click if there is one
+    Unit selectedUnit = gameModel.getAllUnits().stream().filter(
+        u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
+            .max(u.getSize().width, u.getSize().height))
+        .sorted(
+            Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
+        .findFirst().orElse(null);
+
+    return selectedUnit;
+  }
+
+  /**
+   * TODO javadoc.
+   */
+  private static void leftCtrlClick(GameModel gameModel, MouseClick mouseEvent) {
+    //CASE 2 => LEFT + CTRL
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+
+    Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+
+    //if unit already selected, deselct it
+    if (updatedUnits.contains(selectedUnit)) {
+      updatedUnits.remove(selectedUnit);
+    } else { //if not, select it
+      updatedUnits.add(selectedUnit);
+    }
+
+    gameModel.setUnitSelection(updatedUnits);
   }
 }
