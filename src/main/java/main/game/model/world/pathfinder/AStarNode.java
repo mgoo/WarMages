@@ -74,10 +74,7 @@ public class AStarNode implements Comparable<AStarNode> {
     if (!currentPoint.equals(aStarNode.currentPoint)) {
       return false;
     }
-    if (!from.equals(aStarNode.from)) {
-      return false;
-    }
-    return pathTaken.equals(aStarNode.pathTaken);
+    return from.equals(aStarNode.from) && pathTaken.equals(aStarNode.pathTaken);
   }
 
   @Override
@@ -92,10 +89,6 @@ public class AStarNode implements Comparable<AStarNode> {
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     result = 31 * result + pathTaken.hashCode();
     return result;
-  }
-
-  public double getTotalCost() {
-    return totalCost;
   }
 
   public List<MapPoint> getPath() {
