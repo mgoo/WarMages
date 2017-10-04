@@ -30,9 +30,16 @@ public class LevelTest {
   );
 
   @Test(expected = OverlappingMapEntitiesException.class)
-  public void ensureNoMapEntitiesOverlap() {
+  public void ensureNoMapEntitiesCompletelyOverlap() {
     MapEntity mapEntity = createStubMapEntity(new MapPoint(0, 0));
     MapEntity mapEntity2 = createStubMapEntity(new MapPoint(0, 0));
+    createLevelWith(mapEntity, mapEntity2);
+  }
+
+  @Test(expected = OverlappingMapEntitiesException.class)
+  public void ensureNoMapEntitiesPartiallyOverlap() {
+    MapEntity mapEntity = createStubMapEntity(new MapPoint(0, 0));
+    MapEntity mapEntity2 = createStubMapEntity(new MapPoint(0.999, 0.999));
     createLevelWith(mapEntity, mapEntity2);
   }
 
