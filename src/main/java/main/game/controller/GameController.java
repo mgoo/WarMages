@@ -1,7 +1,6 @@
 package main.game.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -118,7 +117,7 @@ public class GameController {
    * @param gameModel
    * @param mouseEvent
    */
-  private void onlyLeftClick(GameModel gameModel, MouseClick mouseEvent) {
+  private static void onlyLeftClick(GameModel gameModel, MouseClick mouseEvent) {
     //CASE 3 => ONLY LEFT CLICK
 
     Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
