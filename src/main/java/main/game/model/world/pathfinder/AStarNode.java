@@ -43,13 +43,7 @@ public class AStarNode implements Comparable<AStarNode> {
 
   @Override
   public int compareTo(AStarNode other) {
-    if (this.totalCost < other.totalCost) {
-      return -1;
-    }
-    if (this.totalCost > other.totalCost) {
-      return 1;
-    }
-    return 0;
+    return Double.compare(this.totalCost, other.totalCost);
   }
 
   public MapPoint getPoint() {
