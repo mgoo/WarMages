@@ -1,4 +1,4 @@
-# SWEN 222 Group Project
+# SWEN 222 Group Project  [![pipeline status](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/badges/master/pipeline.svg)](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/commits/master)  [![coverage report](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/badges/master/coverage.svg)](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/commits/master)
 
 ## Installation
 
