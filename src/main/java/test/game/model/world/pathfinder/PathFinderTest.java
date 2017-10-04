@@ -133,10 +133,12 @@ public class PathFinderTest {
 
   @Test
   public void test_cannotGoThoughDiagonalWall() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return mapPoint.x != mapPoint.y;};
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return mapPoint.x != mapPoint.y;
+    };
 
     MapPoint start = new MapPoint(0, 1);
-    MapPoint end = new MapPoint(1,0);
+    MapPoint end = new MapPoint(1, 0);
 
     List<MapPoint> path = PathFinder.findPath(isPassable, start, end);
     assertEquals(new MapPoint(0, 1), path.get(0));
