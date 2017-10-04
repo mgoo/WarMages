@@ -47,16 +47,16 @@ public class WorldLoader {
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
-  public static Collection<MapEntity> generateBorderEntities(
+  public static Collection<UninteractableEntity> generateBorderEntities(
       MapRect bounds,
-      Function<MapPoint, MapEntity> entityGenerator
+      Function<MapPoint, UninteractableEntity> entityGenerator
   ) {
     int left = (int) bounds.topLeft.x;
     int top = (int) bounds.topLeft.y;
     int right = (int) bounds.bottomRight.x;
     int bottom = (int) bounds.bottomRight.y;
 
-    Collection<MapEntity> mapEntities = new ArrayList<>();
+    Collection<UninteractableEntity> mapEntities = new ArrayList<>();
 
     // Generate top and bottom rows
     for (int x = left; x < right; x++) {
@@ -77,7 +77,7 @@ public class WorldLoader {
    * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
    * the user from leaving the area.
    */
-  public static MapEntity newBorderEntityAt(MapPoint point) {
+  public static UninteractableEntity newBorderEntityAt(MapPoint point) {
     return new UninteractableEntity(
         point,
         TREE_MAP_ENTITY.getGameImage()
