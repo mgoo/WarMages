@@ -12,10 +12,12 @@ public class HealingSphere extends Projectile {
   private static final long serialVersionUID = 1L;
 
   /**
-   * The constructor takes the coordinates and size f the HealingSphere, and the Unit target to be
-   * hit by the HealingSphere.
+   * The constructor takes the coordinates and size of the HealingSphere, and the Unit target to be
+   * hit by the HealingSphere, as well as the amount of damage to be dealt to the target.
    */
-  public HealingSphere(MapPoint coordinates, MapSize size, Unit target, GameImage image, int damageAmount) {
+  public HealingSphere(
+      MapPoint coordinates, MapSize size, Unit target, GameImage image, int damageAmount
+  ) {
     super(coordinates, size, target, image, damageAmount);
   }
 
