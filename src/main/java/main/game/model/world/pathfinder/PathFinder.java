@@ -113,16 +113,43 @@ public class PathFinder {
     };
 
     for(MapPoint side : sides) {
-      if(isPassable.apply(side)) {
+      if(isPassable.apply(side))
         passableNeighbours.add(side);
-      }
+    }
+
+    MapPoint[] corners = new MapPoint[]{
+        new MapPoint(current.x - 1, current.y - 1), //top-left
+        new MapPoint(current.x + 1, current.y - 1), //top-right
+        new MapPoint(current.x - 1, current.y + 1), //bottom-left
+        new MapPoint(current.x + 1, current.y + 1) //bottom-right
+    };
+
+    //check top-left corner
+    if(isPassable.apply(corners[0].getLRight()) || isPassable.apply(corners[0].getBottom())) {
+      if(isPassable.apply(corners[0]))
+        passableNeighbours.add(corners[0]);
+    }
+
+    //check top-right corner
+    if(isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
+      if(isPassable.apply(corners[1]))
+        passableNeighbours.add(corners[1]);
+    }
+
+    //check bottom-left corner
+    if(isPassable.apply(corners[2].getLeft()) || isPassable.apply(corners[2].getTop())) {
+      if(isPassable.apply(corners[2]))
+        passableNeighbours.add(corners[2]);
+    }
+
+    //check bottom-right corner
+    if(isPassable.apply(corners[3].getLRight()) || isPassable.apply(corners[3].getTop())) {
+      if(isPassable.apply(corners[3]))
+        passableNeighbours.add(corners[3]);
     }
 
 
-//            new MapPoint(current.x - 1, current.y - 1), //top-left
-//            new MapPoint(current.x + 1, current.y - 1), //top-right
-//            new MapPoint(current.x - 1, current.y + 1), //bottom-left
-//            new MapPoint(current.x + 1, current.y + 1) //bottom-right
+//
 //        ));
 
     return passableNeighbours;
