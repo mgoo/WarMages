@@ -1,6 +1,5 @@
 package main.game.model.entity;
 
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -21,9 +20,4 @@ public abstract class Item extends MapEntity {
    * Applies the item to the given unit.
    */
   public abstract void applyTo(Unit unit);
-
-  @Override
-  public void setImage(GameImage image) {
-    throw new UnsupportedOperationException("Cannot change the image of an item");
-  }
 }

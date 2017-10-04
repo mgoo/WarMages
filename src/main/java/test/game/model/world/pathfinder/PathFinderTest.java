@@ -115,6 +115,17 @@ public class PathFinderTest {
     assertEquals(expected, actual);
   }
 
+  @Test
+  public void test08_testPathWhereStartAndEndAreDecimals() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint end = mp(3.45, 1.234);
+    List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1.1, 1.1), end);
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 1), end));
+
+    assertEquals(expected, actual);
+  }
+
   private MapPoint mp(double x, double y) {
     return new MapPoint(x, y);
   }

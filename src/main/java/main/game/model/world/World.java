@@ -11,6 +11,7 @@ import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
 import main.util.MapPoint;
 
@@ -28,6 +29,7 @@ public class World implements Serializable {
   private final Collection<Unit> units;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
+  private final Collection<Projectile> projectiles;
 
   /**
    * Creates the world.
@@ -47,6 +49,7 @@ public class World implements Serializable {
     this.items = new ArrayList<>(currentLevel().getItems());
     this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
+    this.projectiles = new ArrayList<>();
   }
 
   private Level currentLevel() {
@@ -81,8 +84,26 @@ public class World implements Serializable {
             add(heroUnit);
             addAll(mapEntities);
             addAll(items);
+            addAll(projectiles);
           }
         });
+  }
+
+  /**
+   * Gets all map entities in the world, including {@link Level#borderEntities}.
+   *
+   * @return an unmodifiable collection of all the mapEntities.
+   */
+  public Collection<MapEntity> getAllMapEntities() {
+    return Collections.unmodifiableCollection(mapEntities);
+  }
+
+  public void addProjectile(Projectile projectile) {
+    projectiles.add(projectile);
+  }
+
+  public Collection<Projectile> getProjectiles() {
+    return Collections.unmodifiableCollection(projectiles);
   }
 
   /**
@@ -133,7 +154,7 @@ public class World implements Serializable {
    * A method to change all the current positions/animations of all entities in the world.
    */
   public void tick(long timeSinceLastTick) {
-    getAllEntities().forEach(e -> e.tick(timeSinceLastTick));
+    getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
     checkLevelCompletion();
   }
 }

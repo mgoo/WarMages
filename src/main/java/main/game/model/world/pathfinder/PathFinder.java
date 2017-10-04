@@ -1,6 +1,7 @@
 package main.game.model.world.pathfinder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -29,6 +30,32 @@ public class PathFinder {
   public static List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
+    List<MapPoint> path = findPathRounded(isPassable, start, end);
+
+    if (path.isEmpty()) {
+      return path;
+    }
+
+    // Replace rounded end point with non-rounded end point
+    path.remove(path.size() - 1);
+    path.add(end);
+
+    return path;
+  }
+
+  /**
+   * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
+   * finish if there is a decimal in the end node was only creates rounded nodes).
+   * <p>
+   * The last point in this method is the rounded end point, unless the list is empty.
+   * </p>
+   */
+  private static List<MapPoint> findPathRounded(
+      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  ) {
+    start = start.rounded();
+    end = end.rounded();
+
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
@@ -61,7 +88,8 @@ public class PathFinder {
       }
 
     }
-    return new ArrayList<>();
+
+    return Collections.emptyList();
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
