@@ -22,13 +22,14 @@ verify:
   image: mgoo2/openjfx:jml
   allow_failure: true
   stage: test
+  only:
+   - schedules
   tags:
    - beefy
   script:
-   - java -jar /openjml/openjml.jar -Werror -esc -dir src/main/java/main/ -exec /z3/bin/z3
+   - java -jar /openjml/openjml.jar -Werror -progress -esc -dir src/main/java/main/ -exec /z3/bin/z3
 
 findbugs:
-  allow_failure: true
   stage: test
   tags:
    - beefy
@@ -41,10 +42,19 @@ findbugs:
     paths:
      - findbugsReports/
 
+codeReport:
+  stage: test
+  script:
+   - ./gradlew jacocoTestReport
+   - cat reports/test/html/index.html
+  artifacts:
+    expire_in: 1 week
+    paths:
+     - reports/test/html/
+
 integration:
   stage: test
   script:
-
     - scripts/ci-pull.sh
     - ./gradlew buildAndContinueWhenErrors
 
