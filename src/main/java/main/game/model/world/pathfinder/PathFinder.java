@@ -46,10 +46,8 @@ public class PathFinder {
 
   /**
    * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
-   * finish if there is a decimal in the end node was only creates rounded nodes).
-   * <p>
-   * The last point in current method is the rounded end point, unless the list is empty.
-   * </p>
+   * finish if there is a decimal in the end node was only creates rounded nodes). <p> The last
+   * point in current method is the rounded end point, unless the list is empty. </p>
    */
   private static List<MapPoint> findPathRounded(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
@@ -94,16 +92,18 @@ public class PathFinder {
   }
 
 
-
   /**
    * Returns the neighbouring MapPoints of current MapPoint. current is achieved by hardcoding the
    * neighbours in a list and returning that list.
    *
    * @return the list of neighbours
    */
-  private static Set<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
-    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>(current.getSides().stream().filter(s -> isPassable.apply(s)).collect(
-        Collectors.toList()));
+  private static Set<MapPoint> getPassableNeighbours(
+      Function<MapPoint, Boolean> isPassable, MapPoint current
+  ) {
+    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>(
+        current.getSides().stream().filter(s -> isPassable.apply(s)).collect(
+            Collectors.toList()));
 
     MapPoint[] corners = new MapPoint[]{
         new MapPoint(current.x - 1, current.y - 1), //top-left
@@ -115,27 +115,31 @@ public class PathFinder {
     //note: only add the corners if atleast one of the adjacent cells of the corner is passable
 
     //check top-left corner
-    if(isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
-      if(isPassable.apply(corners[0]))
+    if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
+      if (isPassable.apply(corners[0])) {
         passableNeighbours.add(corners[0]);
+      }
     }
 
     //check top-right corner
-    if(isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
-      if(isPassable.apply(corners[1]))
+    if (isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
+      if (isPassable.apply(corners[1])) {
         passableNeighbours.add(corners[1]);
+      }
     }
 
     //check bottom-left corner
-    if(isPassable.apply(corners[2].getLeft()) || isPassable.apply(corners[2].getTop())) {
-      if(isPassable.apply(corners[2]))
+    if (isPassable.apply(corners[2].getLeft()) || isPassable.apply(corners[2].getTop())) {
+      if (isPassable.apply(corners[2])) {
         passableNeighbours.add(corners[2]);
+      }
     }
 
     //check bottom-right corner
-    if(isPassable.apply(corners[3].getRight()) || isPassable.apply(corners[3].getTop())) {
-      if(isPassable.apply(corners[3]))
+    if (isPassable.apply(corners[3].getRight()) || isPassable.apply(corners[3].getTop())) {
+      if (isPassable.apply(corners[3])) {
         passableNeighbours.add(corners[3]);
+      }
     }
 
     return passableNeighbours;
