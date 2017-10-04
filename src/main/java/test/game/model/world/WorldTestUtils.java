@@ -2,6 +2,7 @@ package test.game.model.world;
 
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
@@ -172,7 +173,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultEnemyOrc() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(60, 60),
         new MapSize(30, 30),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
@@ -207,6 +208,15 @@ public class WorldTestUtils {
         Team.PLAYER,
         new UnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
+    );
+  }
+
+  public static HeroUnit createHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN
     );
   }
 }
