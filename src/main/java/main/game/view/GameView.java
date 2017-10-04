@@ -31,7 +31,7 @@ public class GameView {
   private final ImageProvider imageProvider;
 
   private MapRect viewBox;
-  private MapPoint mousePosition;
+  private MapPoint mousePosition = new MapPoint(2,2);
 
   private List<EntityView> renderablesCache =
       Collections.synchronizedList(new ArrayList<>());
