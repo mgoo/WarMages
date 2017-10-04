@@ -1,6 +1,7 @@
 package test.game.model.world.pathfinder;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,11 @@ import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Tests for the Pathfinder API.
+ *
+ * @author Hrshikesh Arora
+ */
 public class PathFinderTest {
 
   Function<MapPoint, Boolean> allwaysPassable = mapPoint -> true;
@@ -128,10 +134,6 @@ public class PathFinderTest {
     assertEquals(expected, actual);
   }
 
-  private MapPoint mp(double x, double y) {
-    return new MapPoint(x, y);
-  }
-
   @Test
   public void test_endOfPathMatchesEnd() {
     MapPoint start = new MapPoint(2, 3);
@@ -156,8 +158,8 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(4, 3);
     MapPoint end = new MapPoint(2,1);
 
-//    List<MapPoint> path = PathFinder.findPath(isPassable, start, end); // TODO so test doesnt hang
-//    assertEquals(1, path.size());
+    //    List<MapPoint> path = PathFinder.findPath(isPassable, start, end); // TODO so test doesnt hang
+    //    assertEquals(1, path.size());
 
   }
 
@@ -194,15 +196,18 @@ public class PathFinderTest {
     assertEquals(endX + endY, path.size());
   }
 
+
   @Test
-  public void test_cannotGoThroughDiagonalWall() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return mapPoint.x != mapPoint.y;};
+  public void test_cannotGoThoughDiagonalWall() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return mapPoint.x != mapPoint.y || mapPoint.x > 100;
+    };
 
     MapPoint start = new MapPoint(0, 1);
-    MapPoint end = new MapPoint(1,0);
+    MapPoint end = new MapPoint(1, 0);
 
     List<MapPoint> path = PathFinder.findPath(isPassable, start, end);
-    assertEquals(new MapPoint(0, 1), path.get(0));
+    assertTrue(path.size() >= 200);
   }
 
   @Test
@@ -216,14 +221,15 @@ public class PathFinderTest {
     assertEquals(path.size(), reversePath.size());
     // Ignoree the first and last as they are different
     for (int i = 1; i < path.size() - 1; i++) {
-//      assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
-//      assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
+      //      assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
+      //      assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
       System.out.println((path.get(i).x - reversePath.get(reversePath.size() - (i + 1)).x)
-        + (path.get(i).y - reversePath.get(reversePath.size() - (i + 1)).y));
+          + (path.get(i).y - reversePath.get(reversePath.size() - (i + 1)).y));
     }
   }
 
 
-
-
+  private MapPoint mp(double x, double y) {
+    return new MapPoint(x, y);
+  }
 }
