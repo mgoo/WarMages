@@ -23,7 +23,6 @@ public class World implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private final List<Level> levels;
-
   private final HeroUnit heroUnit;
   private final Collection<Unit> units;
   private final Collection<Item> items;
@@ -50,7 +49,6 @@ public class World implements Serializable {
   }
 
   private Level currentLevel() {
-    Objects.requireNonNull(levels);
     if (levels.isEmpty()) {
       throw new IllegalStateException("No levels left");
     }
@@ -123,6 +121,7 @@ public class World implements Serializable {
     }
     mapEntities.removeAll(currentLevel().getBorderEntities());
     levels.remove(0);
+
     items.addAll(currentLevel().getItems());
     mapEntities.addAll(currentLevel().getMapEntities());
     mapEntities.addAll(currentLevel().getBorderEntities());
