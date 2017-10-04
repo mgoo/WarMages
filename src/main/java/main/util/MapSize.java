@@ -1,9 +1,13 @@
 package main.util;
 
+import java.io.Serializable;
+
 /**
  * Represents the size of the Map as width and height.
  */
-public class MapSize {
+public class MapSize implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public final double width;
   public final double height;
@@ -31,6 +35,11 @@ public class MapSize {
   }
 
   @Override
+  public String toString() {
+    return "MapSize(" + width + ", " + height + ")";
+  }
+
+  @Override
   public int hashCode() {
     int result;
     long temp;
@@ -39,5 +48,9 @@ public class MapSize {
     temp = Double.doubleToLongBits(height);
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     return result;
+  }
+
+  public MapSize scaledBy(double scale) {
+    return new MapSize(width * scale, height * scale);
   }
 }

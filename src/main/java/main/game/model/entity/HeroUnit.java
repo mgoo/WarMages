@@ -1,7 +1,9 @@
 package main.game.model.entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * HeroUnit extends {@link Unit}. This unit is the main unit to be controlled by the user. It has
@@ -9,27 +11,52 @@ import main.util.MapPoint;
  */
 public class HeroUnit extends Unit {
 
-  private Collection<Ability> abilities; //todo decide collection type
-  private Collection<Item> items; //todo decide collection type
+  private static final long serialVersionUID = 1L;
 
-  public HeroUnit(MapPoint position, float size, Team team) {
-    super(position, size, team);
+  private ArrayList<Ability> abilities;
+  private ArrayList<Item> items;
+
+  /**
+   * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
+   * @param position of HeroUnit.
+   * @param size of HeroUnit on Map.
+   * @param sheet SpriteSheet of HeroUnit images.
+   * @param type of HeroUnit.
+   */
+  public HeroUnit(MapPoint position, MapSize size, UnitSpriteSheet sheet, UnitType type) {
+    super(position, size, Team.PLAYER, sheet, type);
+    abilities = new ArrayList<>();
+    items = new ArrayList<>();
   }
 
+  /**
+   * Adds the given item to the HeroUnit's items. Requires the item is not null.
+   */
   public void pickUp(Item item) {
-    throw new Error("NYI");
-    //if item has ability, include in abilities
+    assert item != null;
+    items.add(item);
+    //todo if item has ability, include in abilities
   }
 
+  /**
+   * Activates the given item.
+   */
   public void use(Item item) {
-    throw new Error("NYI");
+    assert item != null;
+    item.applyTo(this);
   }
 
-  public Collection<Ability> getAbilities() {
-    throw new Error("NYI");
+  /**
+   * Returns the HeroUnit's abilities.
+   */
+  public ArrayList<Ability> getAbilities() {
+    return new ArrayList<>(abilities);
   }
 
-  public Collection<Item> getItems() {
-    throw new Error("NYI");
+  /**
+   * Returns the HeroUnit's items.
+   */
+  public ArrayList<Item> getItems() {
+    return new ArrayList<>(items);
   }
 }
