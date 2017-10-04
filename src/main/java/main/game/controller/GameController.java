@@ -3,6 +3,7 @@ package main.game.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
@@ -126,7 +127,7 @@ public class GameController {
     gameModel.setUnitSelection(new ArrayList<>());
 
     if (selectedUnit != null) {
-      gameModel.setUnitSelection(Arrays.asList(selectedUnit));
+      gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
     }
   }
 
