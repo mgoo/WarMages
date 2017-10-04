@@ -19,6 +19,7 @@ import main.images.GameImageResource;
 import main.images.ImageProvider;
 import main.util.Config;
 import main.util.MapPoint;
+import main.util.MapRect;
 import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
@@ -201,6 +202,16 @@ public class GameViewTest {
     assertEquals(10D, imageSize.width, 0.001);
     assertEquals(10D, imageSize.height,0.001);
 
+  }
+
+  @Test
+  public void testMovingViewBox(){
+    MapRect originalView = this.gameView.getViewBox();
+    this.gameView.moveViewBox(20D, 30D);
+    assertEquals(originalView.topLeft.x, this.gameView.getViewBox().topLeft.x+20D);
+    assertEquals(originalView.topLeft.y, this.gameView.getViewBox().topLeft.y+30D);
+    assertEquals(originalView.bottomRight.x, this.gameView.getViewBox().bottomRight.x+20D);
+    assertEquals(originalView.bottomRight.y, this.gameView.getViewBox().bottomRight.y+30D);
   }
 
   private class GameModelMock extends GameModel {
