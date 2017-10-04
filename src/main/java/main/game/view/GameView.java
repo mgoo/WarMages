@@ -89,16 +89,46 @@ public class GameView {
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime);
     });
+  }
 
+  private synchronized void updateViewBoxPosition() {
+    if (this.mousePosition.x <= 1)  {
+      this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
+    }
+    if (this.mousePosition.x >= this.config.getContextScreenWidth() - 1) {
+      this.viewBox = this.viewBox.move(this.config.getGameViewScrollSpeed(), 0);
+    }
+    if (this.mousePosition.y <= 1) {
+      this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
+    }
+    if (this.mousePosition.y >= this.config.getContextScreenHeight() - 1) {
+      this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
+    }
+  }
 
+  public void onTick(long tickTime) {
+    this.updateRenderables(tickTime);
+    this.updateViewBoxPosition();
+  }
+
+  /**
+   * Takes the position on the screen an turns it into the Map Point that it is on.
+   */
+  public /*@ pure; non_null @*/ MapPoint pixToTile(MapPoint screenPos) {
+    int originAdjustedX = (int)(screenPos.x + this.viewBox.topLeft.x);
+    int originAdjustedY = (int)(screenPos.y + this.viewBox.topLeft.y);
+
+    double tileWidthHalf = this.config.getEntityViewTilePixelsX() / 2D;
+    double tileHeightHalf = this.config.getEntityViewTilePixelsY() / 2D;
+
+    double mapX = (originAdjustedX / tileWidthHalf + originAdjustedY / tileHeightHalf) /2;
+    double mapY = (originAdjustedY / tileHeightHalf -(originAdjustedX / tileWidthHalf)) /2;
+
+    return new MapPoint(mapX, mapY);
   }
 
   public MapRect getViewBox() {
     return this.viewBox;
-  }
-
-  public void moveViewBox(double x, double y) {
-    this.viewBox = this.viewBox.move(x, y);
   }
 
   public void updateMousePosition(int x, int y) {
