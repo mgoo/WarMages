@@ -131,24 +131,6 @@ public class PathFinderTest {
     assertEquals(expected, actual);
   }
 
-  @Test
-  public void test09_cannotGoThoughDiagonalWall() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      if(mapPoint.x >=0 && mapPoint.y >=0 && mapPoint.x <= 3 && mapPoint.y <=3) {
-        return mapPoint.x != mapPoint.y;
-      } else {
-        return true;
-      }
-    };
-
-    MapPoint start = new MapPoint(0, 1);
-    MapPoint end = new MapPoint(1, 0);
-
-    List<MapPoint> path = PathFinder.findPath(isPassable, start, end);
-    assertEquals(new MapPoint(0, 1), path.get(0));
-  }
-
-
   private MapPoint mp(double x, double y) {
     return new MapPoint(x, y);
   }
