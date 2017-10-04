@@ -1,5 +1,4 @@
 Closes issue #YOUR_ISSUE_NUMBER_HERE
-<!-- E.g. Closes issue #3 -->
 
 ## Merge Request Reminder Checklist:
 
