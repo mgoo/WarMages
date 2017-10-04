@@ -38,7 +38,7 @@ public class Renderer {
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
-  private void drawAll(long currentTime, GameView gameView, ImageView imageView) {
+  public static void drawAll(long currentTime, GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
     BufferedImage image = new BufferedImage(
