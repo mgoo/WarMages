@@ -63,7 +63,7 @@ public class UnitImagesComponent implements ImagesComponent {
   }
 
   @Override
-  public void changeImage(Long timeSinceLastTick) {
+  public void tick(Long timeSinceLastTick) {
     tickCount++;
     if (tickCount % TICKS_TO_CHANGE == 0) { //change image every certain number of ticks.
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
@@ -76,10 +76,16 @@ public class UnitImagesComponent implements ImagesComponent {
   }
 
   @Override
-  public boolean readyToTransition() {
+  public boolean isReadyToTransition() {
     return imagesIdx == images.size() - 1;
   }
 
+  /**
+   * True if the current image is the image that the attack is supposed to be applied on.
+   *
+   * @throws IllegalStateException if the current sequence is not meant to be for attacking, as
+   *     specified in {@link Sequence#getAttackFrame()};
+   */
   public boolean isOnAttackFrame() {
     return sequence.getAttackFrame() == imagesIdx;
   }

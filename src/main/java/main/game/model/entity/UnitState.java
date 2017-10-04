@@ -28,7 +28,7 @@ public abstract class UnitState implements Serializable {
    * @param timeSinceLastTick time passed since last tick call.
    */
   public void tick(Long timeSinceLastTick, World world) {
-    imagesComponent.changeImage(timeSinceLastTick);
+    imagesComponent.tick(timeSinceLastTick);
   }
 
   /**

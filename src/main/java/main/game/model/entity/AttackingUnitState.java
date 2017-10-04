@@ -21,11 +21,11 @@ public class AttackingUnitState extends UnitState {
 
   @Override
   UnitState updateState() {
-    if (nextState == null && imagesComponent.readyToTransition()) {
+    if (!imagesComponent.isReadyToTransition() || nextState == null) {
       return this;
-    } else {
-      return nextState;
     }
+
+    return nextState;
   }
 
   /**

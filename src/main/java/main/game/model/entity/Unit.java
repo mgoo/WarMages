@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.util.Objects;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
@@ -53,8 +54,8 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param state to be changed to.
    */
-  private void setStateTo(UnitState state) {
-    unitState.requestState(state);
+  private void setNextState(UnitState state) {
+    unitState.requestState(Objects.requireNonNull(state));
   }
 
   public UnitType getUnitType() {
@@ -102,10 +103,10 @@ public class Unit extends Attackable implements Damageable {
     MapPoint oldPosition = position;
     super.tick(timeSinceLastTick, world);
     if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setStateTo(new WalkingUnitState(updateDirection(oldPosition), this));
+      setNextState(new WalkingUnitState(updateDirection(oldPosition), this));
     }
     //check if has target and target is within attacking proximity. Request state change.
-    if (targetWithinProximity()) {
+    if (target != null && targetWithinProximity()) {
       attack();
     }
   }
@@ -125,12 +126,8 @@ public class Unit extends Attackable implements Damageable {
           "No target to attack. Check if there is a target before calling attack"
       );
     }
-    if (unitState instanceof AttackingUnitState) {
-      // Already attacking
-      return;
-    }
 
-    setStateTo(new AttackingUnitState(unitState.getDirection(), this));
+    setNextState(new AttackingUnitState(directionToTarget(), this));
   }
 
   @Override
@@ -158,7 +155,7 @@ public class Unit extends Attackable implements Damageable {
       isDead = true;
       health = 0;
     } else {
-      setStateTo(new BeenHitUnitState(unitState.getDirection(), this));
+      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     }
   }
@@ -182,5 +179,11 @@ public class Unit extends Attackable implements Damageable {
   public Unit getTarget() {
     return target;
   }
+
+  private Direction directionToTarget() {
+    // TODO Gabie
+    return Direction.RIGHT;
+  }
+
 }
 

@@ -44,6 +44,10 @@ public abstract class Attackable extends MovableEntity {
     updatePath(world);
   }
 
+  public void clearTarget() {
+    this.target = null;
+  }
+
   /**
    * Updates the path in case target has moved.
    */
