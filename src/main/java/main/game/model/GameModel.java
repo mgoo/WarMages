@@ -65,7 +65,7 @@ public class GameModel {
    * @param unitSelection Selection points on the world that may contain units
    */
   public void setUnitSelection(Collection<Unit> unitSelection) {
-    selectedUnits = unitSelection;
+    selectedUnits = new HashSet<>(unitSelection);
   }
 
   /**
