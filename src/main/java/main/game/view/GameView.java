@@ -121,8 +121,8 @@ public class GameView {
     double tileWidthHalf = this.config.getEntityViewTilePixelsX() / 2D;
     double tileHeightHalf = this.config.getEntityViewTilePixelsY() / 2D;
 
-    double mapX = (originAdjustedX / tileWidthHalf + originAdjustedY / tileHeightHalf) /2;
-    double mapY = (originAdjustedY / tileHeightHalf -(originAdjustedX / tileWidthHalf)) /2;
+    double mapX = (originAdjustedX / tileWidthHalf + originAdjustedY / tileHeightHalf) / 2;
+    double mapY = (originAdjustedY / tileHeightHalf - (originAdjustedX / tileWidthHalf)) / 2;
 
     return new MapPoint(mapX, mapY);
   }
