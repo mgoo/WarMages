@@ -15,6 +15,7 @@ public abstract class Projectile extends Entity {
 
   protected final Unit target;
   protected final int speed = 6;
+  protected int damageAmount;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
@@ -27,11 +28,13 @@ public abstract class Projectile extends Entity {
       MapPoint coordinates,
       MapSize size,
       Unit target,
-      GameImage gameImage
+      GameImage gameImage,
+      int damageAmount
   ) {
     super(coordinates, size);
     this.target = target;
     this.image = gameImage;
+    this.damageAmount = damageAmount;
   }
 
   /**
