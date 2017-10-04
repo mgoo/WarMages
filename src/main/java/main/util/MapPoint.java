@@ -80,11 +80,14 @@ public class MapPoint implements Serializable {
     return Math.hypot(this.x - other.x, this.y - other.y);
   }
 
+  public List<MapPoint> getSides(){
+    return Arrays.asList(getLeft(), getRight(), getTop(), getBottom());
+  }
   public MapPoint getLeft(){
     return new MapPoint(this.x-1, this.y);
   }
 
-  public MapPoint getLRight(){
+  public MapPoint getRight(){
     return new MapPoint(this.x+1, this.y);
   }
 
