@@ -18,7 +18,7 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new PizzaBall(
+      return new StaticImageProjectile(
           creator.getCentre(),
           creator.getSize().scaledBy(0.5),
           target,
@@ -49,7 +49,7 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new PizzaBall(
+      return new StaticImageProjectile(
           creator.getCentre(),
           creator.getSize().scaledBy(0.3),
           target,

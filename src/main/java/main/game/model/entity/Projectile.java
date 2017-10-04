@@ -23,9 +23,15 @@ public abstract class Projectile extends Entity {
    * @param size of projectile.
    * @param target unit of projectile.
    */
-  public Projectile(MapPoint coordinates, MapSize size, Unit target, GameImage gameImage) {
+  public Projectile(
+      MapPoint coordinates,
+      MapSize size,
+      Unit target,
+      GameImage gameImage
+  ) {
     super(coordinates, size);
     this.target = target;
+    this.image = gameImage;
   }
 
   /**
