@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import java.util.List;
+import main.game.model.world.World;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -29,7 +30,7 @@ public abstract class MovableEntity extends Entity {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     long distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     int leeway = 5; //todo finalize
     //update position
