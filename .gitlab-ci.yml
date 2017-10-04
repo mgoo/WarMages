@@ -42,10 +42,20 @@ findbugs:
     paths:
      - findbugsReports/
 
+codeReport:
+  stage: test
+  script:
+   - ./gradlew test
+   - ./gradlew jacocoTestReport
+   - cat reports/test/html/index.html
+  artifacts:
+    expire_in: 1 week
+    paths:
+     - reports/test/html/
+
 integration:
   stage: test
   script:
-
     - scripts/ci-pull.sh
     - ./gradlew buildAndContinueWhenErrors
 
