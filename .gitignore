@@ -15,3 +15,7 @@
 /submit/
 
 /findbugsReports/
+/reports/
+
+# Game Saves
+/saves/

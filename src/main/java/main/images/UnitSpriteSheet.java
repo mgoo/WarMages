@@ -1,5 +1,6 @@
 package main.images;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,11 @@ import main.game.model.entity.Direction;
 /**
  * Represents an image with multiple images on it.
  */
-public class UnitSpriteSheet {
+public class UnitSpriteSheet implements Serializable {
 
-  private final GameImage baseImage;
+  private static final long serialVersionUID = 1L;
+
+  private final GameImageResource resource;
   private final transient Map<MapKey, List<GameImage>> sequenceToImages = new HashMap<>();
 
   /**
@@ -20,9 +23,9 @@ public class UnitSpriteSheet {
    * @param baseImageResource A sprite sheet image.
    */
   public UnitSpriteSheet(GameImageResource baseImageResource) {
-    this.baseImage = baseImageResource.getGameImage();
+    this.resource = baseImageResource;
 
-    if (baseImage.getStartX() != 0 || baseImage.getStartY() != 0) {
+    if (resource.getGameImage().getStartX() != 0 || resource.getGameImage().getStartY() != 0) {
       throw new IllegalArgumentException(
           "Base images with an offset are not supported yet: " + baseImageResource
       );
@@ -42,7 +45,10 @@ public class UnitSpriteSheet {
   public List<GameImage> getImagesForSequence(Sequence sequence, Direction unitDirection) {
     return sequenceToImages.computeIfAbsent(
         new MapKey(sequence, unitDirection),
-        mapKey -> mapKey.sequence.getImages(mapKey.direction, baseImage.getFilePath())
+        mapKey -> mapKey.sequence.getImages(
+            mapKey.direction,
+            resource.getGameImage().getFilePath()
+        )
     );
   }
 
@@ -54,37 +60,68 @@ public class UnitSpriteSheet {
    *     animations examples.
    */
   public enum Sequence {
-    SPELL_CAST(0, 7, true),
-    THRUST(4, 8, true),
+    SPELL_CAST(0, 7, true, 6),
+    THRUST(4, 8, true, 5),
     WALK(8, 9, true),
-    SLASH(12, 6, true),
-    SHOOT(16, 13, true),
-    HURT(20, 6, false);
+    SLASH(12, 6, true, 4),
+    SHOOT(16, 13, true, 9),
+    HURT(20, 6, false),
+    /**
+     * Just reuses the first few frames of the {@link Sequence#WALK} sequence.
+     */
+    IDLE(8, 3, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;
+    private static final int NOT_AN_ATTACK_SEQUENCE = -1;
 
     private final int firstRow;
     private final int numberOfColumns;
     private final boolean supportsDirections;
+    private final int attackFrame;
 
     Sequence(int firstRow, int numberOfColumns, boolean supportsDirections) {
       this.firstRow = firstRow;
       this.numberOfColumns = numberOfColumns;
       this.supportsDirections = supportsDirections;
+      this.attackFrame = NOT_AN_ATTACK_SEQUENCE;
+    }
+
+    Sequence(int firstRow, int numberOfColumns, boolean supportsDirections, int attackFrame) {
+      if (attackFrame < 0 || attackFrame > numberOfColumns) {
+        throw new IllegalArgumentException();
+      }
+
+      this.firstRow = firstRow;
+      this.numberOfColumns = numberOfColumns;
+      this.supportsDirections = supportsDirections;
+      this.attackFrame = attackFrame;
+    }
+
+    /**
+     * Returns the index of the frame where the attack action should occur (whether it be launching
+     * a projectile or applying damage with the sword attack.
+     */
+    public int getAttackFrame() {
+      if (attackFrame == NOT_AN_ATTACK_SEQUENCE) {
+        throw new IllegalStateException("This is not an attack sequence" + name());
+      }
+
+      return attackFrame;
     }
 
     List<GameImage> getImages(Direction direction, String filePath) {
       int row = supportsDirections ? rowWithDirection(direction) : firstRow;
 
       return IntStream.range(0, numberOfColumns)
-          .mapToObj(col -> new GameImage(
-              filePath,
-              col * UNIT_WIDTH,
-              row * UNIT_HEIGHT,
-              UNIT_WIDTH,
-              UNIT_HEIGHT
-          ))
+          .mapToObj(col ->
+              new GameImageBuilder(filePath)
+                  .setStartX(col * UNIT_WIDTH)
+                  .setStartY(row * UNIT_HEIGHT)
+                  .setWidth(UNIT_WIDTH)
+                  .setHeight(UNIT_HEIGHT)
+                  .create()
+          )
           .collect(Collectors.toList());
     }
 
