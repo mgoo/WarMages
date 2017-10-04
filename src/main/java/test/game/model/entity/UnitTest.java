@@ -1,9 +1,9 @@
 package test.game.model.entity;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Matchers.any;
+//import static org.mockito.Mockito.doAnswer;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import main.game.model.GameModel;
@@ -31,9 +31,9 @@ public class UnitTest {
 
     @Before
     public void setUp() throws Exception {
-      world = mock(World.class);
-      // pretend there are no objects in the way
-      when(world.isPassable(any())).thenReturn(true);
+//      world = mock(World.class);
+//      // pretend there are no objects in the way
+//      when(world.isPassable(any())).thenReturn(true);
 
       enemyUnit = new Unit(
           new MapPoint(0.1, 0),
@@ -45,9 +45,9 @@ public class UnitTest {
 
       // Spy on addProjectile method
       projectileCount = new AtomicInteger();
-      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
-          .when(world)
-          .addProjectile(any());
+//      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
+//          .when(world)
+//          .addProjectile(any());
     }
 
     @Test
