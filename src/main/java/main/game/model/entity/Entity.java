@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import java.io.Serializable;
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -93,12 +94,7 @@ public abstract class Entity implements Serializable {
   }
 
   /**
-   * Sets the Entity's image to the given image. Requires that the image is not null.
-   */
-  public abstract void setImage(GameImage image);
-
-  /**
    * Updates the Entity's position.
    */
-  public abstract void tick(long timeSinceLastTick);
+  public abstract void tick(long timeSinceLastTick, World world);
 }
