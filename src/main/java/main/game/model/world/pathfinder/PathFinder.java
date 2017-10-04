@@ -1,13 +1,13 @@
 package main.game.model.world.pathfinder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import main.util.MapPoint;
 
 /**
@@ -102,20 +102,8 @@ public class PathFinder {
    * @return the list of neighbours
    */
   private static Set<MapPoint> getPassableNeighbours(Function<MapPoint, Boolean> isPassable, MapPoint current) {
-    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>();
-
-    //store the four adjacent sides to the current mapPoint in an array first
-    MapPoint[] sides = new MapPoint[]{
-        current.getLeft(), //left
-        current.getLRight(), //right
-        current.getTop(), //top
-        current.getBottom() //bottom
-    };
-
-    for(MapPoint side : sides) {
-      if(isPassable.apply(side))
-        passableNeighbours.add(side);
-    }
+    Set<MapPoint> passableNeighbours = new HashSet<MapPoint>(current.getSides().stream().filter(s -> isPassable.apply(s)).collect(
+        Collectors.toList()));
 
     MapPoint[] corners = new MapPoint[]{
         new MapPoint(current.x - 1, current.y - 1), //top-left
@@ -127,7 +115,7 @@ public class PathFinder {
     //note: only add the corners if atleast one of the adjacent cells of the corner is passable
 
     //check top-left corner
-    if(isPassable.apply(corners[0].getLRight()) || isPassable.apply(corners[0].getBottom())) {
+    if(isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
       if(isPassable.apply(corners[0]))
         passableNeighbours.add(corners[0]);
     }
@@ -145,7 +133,7 @@ public class PathFinder {
     }
 
     //check bottom-right corner
-    if(isPassable.apply(corners[3].getLRight()) || isPassable.apply(corners[3].getTop())) {
+    if(isPassable.apply(corners[3].getRight()) || isPassable.apply(corners[3].getTop())) {
       if(isPassable.apply(corners[3]))
         passableNeighbours.add(corners[3]);
     }
