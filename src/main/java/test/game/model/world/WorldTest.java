@@ -292,9 +292,11 @@ public class WorldTest {
 
   @Test
   public void testPointIsUnPassableBecauseOfMapEntity() {
-    MapEntity mapEntity = createDefaultMapEntity(new MapPoint(0, 0));
+    MapEntity mapEntity = createStubMapEntity(new MapPoint(0, 0));
     world = createWorld(createLevels(createLevelWith(mapEntity)), heroUnit);
     assertFalse(world.isPassable(new MapPoint(0,0)));
+    assertFalse(world.isPassable(new MapPoint(0.5,0.5)));
+    assertFalse(world.isPassable(new MapPoint(0.99, 0.99)));
   }
 
   @Test
