@@ -45,7 +45,6 @@ findbugs:
 codeReport:
   stage: test
   script:
-   - ./gradlew test
    - ./gradlew jacocoTestReport
    - cat reports/test/html/index.html
   artifacts:
