@@ -125,7 +125,6 @@ public class PathFinder {
     //check bottom-left corner
     if (isPassable.apply(corners[2].getLeft()) || isPassable.apply(corners[2].getTop())) {
       passableNeighbours.add(corners[2]);
-
     }
 
     //check bottom-right corner
