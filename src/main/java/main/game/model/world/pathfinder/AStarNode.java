@@ -54,6 +54,46 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    AStarNode aStarNode = (AStarNode) o;
+
+    if (Double.compare(aStarNode.costFromStart, costFromStart) != 0) {
+      return false;
+    }
+    if (Double.compare(aStarNode.totalCost, totalCost) != 0) {
+      return false;
+    }
+    if (!currentPoint.equals(aStarNode.currentPoint)) {
+      return false;
+    }
+    if (!from.equals(aStarNode.from)) {
+      return false;
+    }
+    return pathTaken.equals(aStarNode.pathTaken);
+  }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = currentPoint.hashCode();
+    result = 31 * result + from.hashCode();
+    temp = Double.doubleToLongBits(costFromStart);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(totalCost);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + pathTaken.hashCode();
+    return result;
+  }
+
   public double getTotalCost() {
     return totalCost;
   }
