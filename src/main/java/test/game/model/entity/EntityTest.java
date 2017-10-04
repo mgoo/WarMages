@@ -18,7 +18,7 @@ public class EntityTest {
 
   //test changing item position but position isn't changed (item shouldn't move).
   @Test
-  public void test_no_change_position() {
+  public void testNoChangePosition() {
     BuffItem buff = new BuffItem(
         new MapPoint(20, 40), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.moveX(20);
@@ -27,7 +27,7 @@ public class EntityTest {
 
   //test unit cannot attack another teammate.
   @Test
-  public void test_damage_teammate() {
+  public void testDamageTeammate() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -46,7 +46,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_damage() {
+  public void testDamage() {
     Unit unit = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -59,7 +59,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_damage_enemy() {
+  public void testDamageEnemy() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -78,7 +78,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_heal() {
+  public void testHeal() {
     Unit unit = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -91,7 +91,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_heal_teammate() {
+  public void testHealTeammate() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -112,7 +112,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_heal_enemy() {
+  public void testHealEnemy() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -132,7 +132,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_use_healing_item() {
+  public void testUseHealingItem() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -154,7 +154,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_use_buff_item() {
+  public void testUseBuffItem() {
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
         new MapSize(5, 5),
@@ -176,7 +176,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_use_buff_ability() {
+  public void testUseBuffAbility() {
     //note that buff currently increases damage to 10
     Unit unit1 = new Unit(
         new MapPoint(20, 20),
@@ -199,13 +199,13 @@ public class EntityTest {
   }
 
   @Test
-  public void test_team_attackable() {
+  public void testTeamAttackable() {
     assertTrue(Team.ENEMY.canAttack(Team.PLAYER));
     assertFalse(Team.PLAYER.canAttack(Team.PLAYER));
   }
 
   @Test
-  public void test_pizza_ball_hit() {
+  public void testPizzaballHit() {
     //note that pizza ball damage = 5
     Unit unit = new Unit(
         new MapPoint(20, 20),
@@ -224,7 +224,7 @@ public class EntityTest {
   }
 
   @Test
-  public void test_healing_sphere_hit() {
+  public void testHealingSphereHit() {
     //note that healing sphere heals 5
     Unit unit = new Unit(
         new MapPoint(20, 20),
