@@ -103,14 +103,12 @@ public class GameController {
    */
   private static Unit getUnitUnderMouse(GameModel gameModel, MouseClick mouseEvent) {
     //select the unit under the click if there is one
-    Unit selectedUnit = gameModel.getAllUnits().stream().filter(
+    return gameModel.getAllUnits().stream().filter(
         u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
             .max(u.getSize().width, u.getSize().height))
         .sorted(
             Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
         .findFirst().orElse(null);
-
-    return selectedUnit;
   }
 
   /**
