@@ -132,9 +132,13 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test_cannotGoThoughDiagonalWall() {
+  public void test09_cannotGoThoughDiagonalWall() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return mapPoint.x != mapPoint.y;
+      if(mapPoint.x >=0 && mapPoint.y >=0 && mapPoint.x <= 3 && mapPoint.y <=3) {
+        return mapPoint.x != mapPoint.y;
+      } else {
+        return true;
+      }
     };
 
     MapPoint start = new MapPoint(0, 1);
