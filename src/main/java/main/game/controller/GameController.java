@@ -98,14 +98,7 @@ public class GameController {
       } else if (mouseEvent.wasCtrlDown()) {
         leftCtrlClick(gameModel, mouseEvent);
       } else {
-        //CASE 3 => ONLY LEFT CLICK
-
-        //deselect all previous selected units
-        gameModel.setUnitSelection(new ArrayList<>());
-
-        if (selectedUnit != null) {
-          gameModel.setUnitSelection(Arrays.asList(selectedUnit));
-        }
+        onlyLeftClick(gameModel, mouseEvent);
       }
 
     } else {
@@ -129,6 +122,25 @@ public class GameController {
         .findFirst().orElse(null);
 
     return selectedUnit;
+  }
+
+  /**
+   * TODO javaodc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private void onlyLeftClick(GameModel gameModel, MouseClick mouseEvent) {
+    //CASE 3 => ONLY LEFT CLICK
+
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+
+    //deselect all previous selected units
+    gameModel.setUnitSelection(new ArrayList<>());
+
+    if (selectedUnit != null) {
+      gameModel.setUnitSelection(Arrays.asList(selectedUnit));
+    }
   }
 
   /**
