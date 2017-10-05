@@ -10,6 +10,8 @@ import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -84,11 +86,11 @@ public class GameController {
 
     if (mouseEvent.wasLeft()) {
       if (mouseEvent.wasShiftDown()) {
-        leftShiftClick(gameModel, mouseEvent);
+        leftShiftClick(gameModel, mouseEvent.getLocation());
       } else if (mouseEvent.wasCtrlDown()) {
-        leftCtrlClick(gameModel, mouseEvent);
+        leftCtrlClick(gameModel, mouseEvent.getLocation());
       } else {
-        onlyLeftClick(gameModel, mouseEvent);
+        onlyLeftClick(gameModel, mouseEvent.getLocation());
       }
     }
   }
@@ -115,15 +117,15 @@ public class GameController {
    * TODO javadoc.
    *
    * @param gameModel
-   * @param mouseEvent
+   * @param mouseClick
    */
-  private static Unit getUnitUnderMouse(GameModel gameModel, MouseClick mouseEvent) {
+  private static Unit getUnitUnderMouse(GameModel gameModel, MapPoint mouseClick) {
     //select the unit under the click if there is one
     return gameModel.getAllUnits().stream().filter(
-        u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
+        u -> u.getCentre().distance(mouseClick) <= Math
             .max(u.getSize().width, u.getSize().height))
         .sorted(
-            Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
+            Comparator.comparingDouble(s -> s.getCentre().distance(mouseClick)))
         .findFirst().orElse(null);
   }
 
@@ -131,12 +133,12 @@ public class GameController {
    * TODO javaodc.
    *
    * @param gameModel
-   * @param mouseEvent
+   * @param mouseClick
    */
-  private static void onlyLeftClick(GameModel gameModel, MouseClick mouseEvent) {
+  private static void onlyLeftClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 3 => ONLY LEFT CLICK
 
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
 
     //deselect all previous selected units
     gameModel.setUnitSelection(new ArrayList<>());
@@ -147,11 +149,14 @@ public class GameController {
   }
 
   /**
-   * TODO javadoc.
+   * TODO add javadoc.
+   *
+   * @param gameModel
+   * @param mouseClick
    */
-  private static void leftCtrlClick(GameModel gameModel, MouseClick mouseEvent) {
+  private static void leftCtrlClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 2 => LEFT + CTRL
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
 
     Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
@@ -169,12 +174,12 @@ public class GameController {
    * TODO javadoc.
    *
    * @param gameModel
-   * @param mouseEvent
+   * @param mouseClick
    */
-  private static void leftShiftClick(GameModel gameModel, MouseClick mouseEvent) {
+  private static void leftShiftClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 1 => LEFT + SHIFT
 
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
 
     //add the new selected units to previously selected ones
     Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
@@ -190,8 +195,9 @@ public class GameController {
    *
    * @param gameModel
    * @param mouseEvent
+   * @return
    */
-  private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseClick mouseEvent) {
+  private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
     //select the unit under the click if there is one
     return gameModel.getAllUnits().stream().filter(
         u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
@@ -207,7 +213,7 @@ public class GameController {
    * @param gameModel
    * @param mouseEvent
    */
-  private static void onlyLeftDrag(GameModel gameModel, MouseClick mouseEvent) {
+  private static void onlyLeftDrag(GameModel gameModel, MouseDrag mouseEvent) {
 
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
@@ -222,7 +228,7 @@ public class GameController {
   /**
    * TODO javadoc.
    */
-  private static void leftCtrlDrag(GameModel gameModel, MouseClick mouseEvent) {
+  private static void leftCtrlDrag(GameModel gameModel, MouseDrag mouseEvent) {
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
     Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
@@ -243,7 +249,7 @@ public class GameController {
    * @param gameModel
    * @param mouseEvent
    */
-  private static void leftShiftDrag(GameModel gameModel, MouseClick mouseEvent) {
+  private static void leftShiftDrag(GameModel gameModel, MouseDrag mouseEvent) {
 
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
