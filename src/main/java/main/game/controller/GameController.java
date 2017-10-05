@@ -137,10 +137,7 @@ public class GameController {
           gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       }
-    }
-
-    //otherwise, it must have been a right click
-    else {
+    } else { //otherwise, it must have been a right click
       if (mouseEvent.wasShiftDown()) {
         //move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
