@@ -11,9 +11,7 @@ import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
-import main.util.MapPoint;
 import main.util.MapRect;
-import main.util.MapSize;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
