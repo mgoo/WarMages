@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
+import main.game.model.world.pathfinder.PathFinder;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
@@ -141,7 +142,7 @@ public class GameController {
       if (mouseEvent.wasShiftDown()) {
         //move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          //TODO
+          unit.setPath(PathFinder.findPath(gameModel.getWorld()::isPassable, unit.getTopLeft(), mouseEvent.getLocation()));
         }
       } else if (mouseEvent.wasCtrlDown()) {
         throw new Error("Not yet implemented!"); //TODO
