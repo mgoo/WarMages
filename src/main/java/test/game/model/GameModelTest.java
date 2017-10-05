@@ -1,12 +1,12 @@
 package test.game.model;
 
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerArcher;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
+import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createWorld;
@@ -18,22 +18,13 @@ import java.util.List;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
-import main.images.UnitSpriteSheet;
 import main.util.Events.MainGameTick;
-import main.util.MapPoint;
-import main.util.MapSize;
 import org.junit.Test;
 
 public class GameModelTest {
 
   private GameModel model = null;
-  private HeroUnit heroUnit = new HeroUnit(
-      new MapPoint(1, 1),
-      new MapSize(1, 1),
-      new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-      UnitType.SWORDSMAN
-  );
+  private HeroUnit heroUnit = createHeroUnit();
 
   @Test
   public void testSetSelectionAndGetSelection() {
