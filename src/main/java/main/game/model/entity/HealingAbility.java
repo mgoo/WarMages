@@ -9,15 +9,14 @@ public class HealingAbility extends Ability {
   private final int healAmount;
 
   /**
-   * Constructor takes a string description of the ability, and the icon that represent the
-   * ability.
+   * Constructor takes a string description of the ability, and the icon that represent the ability.
    */
   public HealingAbility(
       GameImage icon,
-      double coolDownPercentPerTick,
+      double coolDownSeconds,
       int healAmount
   ) {
-    super("Allows the holder to heal teammates", icon, coolDownPercentPerTick);
+    super("Allows the holder to heal teammates", icon, coolDownSeconds);
     this.healAmount = healAmount;
   }
 

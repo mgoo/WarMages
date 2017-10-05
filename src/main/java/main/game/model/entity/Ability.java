@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import java.io.Serializable;
+import main.game.model.GameModel;
 import main.images.GameImage;
 
 /**
@@ -10,26 +11,37 @@ public abstract class Ability implements Serializable, Usable {
 
   private static final long serialVersionUID = 1L;
 
+  private static double secondsToTicks(double seconds) {
+    double ticksPerSecond = 1000 / GameModel.DELAY;
+    return seconds * ticksPerSecond;
+  }
+
+  /**
+   * Number of ticks in a cool-down period.
+   */
+  private final double coolDownPeriodTicks;
   private final GameImage iconImage;
-  private final double coolDownPercentPerTick;
   private final String description;
 
-  private double coolDownProgress;
+  /**
+   * Number of ticks left to end cool down.
+   */
+  private double coolDownTicksLeft;
 
   /**
    * Constructor takes a string description of the ability, and the icon that represent the
    * ability.
    */
-  public Ability(String description, GameImage icon, double coolDownPercentPerTick) {
+  public Ability(String description, GameImage icon, double coolDownSeconds) {
     this.description = description;
     this.iconImage = icon;
-    this.coolDownPercentPerTick = coolDownPercentPerTick;
-    this.coolDownProgress = READY;
+    this.coolDownPeriodTicks = secondsToTicks(coolDownSeconds);
+    this.coolDownTicksLeft = READY;
   }
 
   @Override
   public void tick(long timeSinceLastTick) {
-    coolDownProgress = Math.max(0, coolDownProgress - coolDownPercentPerTick);
+    coolDownTicksLeft = Math.max(0, coolDownTicksLeft - 1);
   }
 
   @Override
@@ -44,11 +56,11 @@ public abstract class Ability implements Serializable, Usable {
 
   @Override
   public double getCoolDownProgress() {
-    return coolDownProgress;
+    return 1 - (coolDownTicksLeft / coolDownPeriodTicks);
   }
 
   @Override
   public void _startCoolDown() {
-    coolDownProgress = COOL_DOWN_JUST_STARTED;
+    coolDownTicksLeft = coolDownPeriodTicks;
   }
 }

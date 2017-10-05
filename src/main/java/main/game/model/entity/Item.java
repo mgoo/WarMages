@@ -28,11 +28,6 @@ public class Item extends MapEntity implements Usable {
   }
 
   @Override
-  public void setImage(GameImage image) {
-    throw new UnsupportedOperationException("Cannot change the image of an item");
-  }
-
-  @Override
   public void tick(long timeSinceLastTick) {
     ability.tick(timeSinceLastTick);
   }

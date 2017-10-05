@@ -5,15 +5,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
-import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerArcher;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 import static test.game.model.world.WorldTestUtils.createEmptyLevel;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
+import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
+import java.util.Arrays;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
@@ -35,7 +36,8 @@ public class WorldTest {
       new MapPoint(1, 1),
       new MapSize(1, 1),
       new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-      UnitType.SWORDSMAN
+      UnitType.SWORDSMAN,
+      Arrays.asList()
   );
 
   @Test
