@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
 import java.util.Arrays;
 import main.game.model.GameModel;
@@ -21,7 +23,9 @@ import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
 public class HeroUnitTest {
-  private HeroUnit heroUnit = WorldTestUtils.createHeroUnit();
+
+  private World mockWorld = mock(World.class);
+  private HeroUnit heroUnit = createHeroUnit();
 
   @Test
   public void addingAnItemToTheInventoryShouldWorkWhenItemInRange() {
@@ -51,9 +55,33 @@ public class HeroUnitTest {
     long delay = GameModel.DELAY;
 
     // when I call tick
-    heroUnit.tick(delay, mock(World.class));
+    heroUnit.tick(delay, mockWorld);
 
     // then ability's tick should have been called
     verify(mockAbility, times(1)).usableTick(delay);
+  }
+
+  @Test
+  public void heroUnitShouldTickItemsButOnlyWhenInTheInventory() {
+    // Given a hero
+    HeroUnit heroUnit = createHeroUnit();
+    long delay = GameModel.DELAY;
+    // and an item close to the hero
+    Item mockItem = mock(Item.class);
+    when(mockItem.getCentre()).thenReturn(heroUnit.getCentre());
+
+    // when I call tick
+    heroUnit.tick(delay, mockWorld);
+
+    // then item's tick should not have been called
+    verify(mockItem, times(0)).usableTick(delay);
+
+    // when I add the item to the unit
+    heroUnit.pickUp(mockItem);
+    // and then call tick
+    heroUnit.tick(delay, mockWorld);
+
+    // then item's tick should have been called
+    verify(mockItem, times(1)).usableTick(delay);
   }
 }
