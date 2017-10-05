@@ -10,6 +10,11 @@ import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Tests for the Pathfinder API.
+ *
+ * @author Hrshikesh Arora
+ */
 public class PathFinderTest {
 
   @Test
