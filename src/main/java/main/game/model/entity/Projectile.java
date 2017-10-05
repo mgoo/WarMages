@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
+import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -13,6 +15,7 @@ public abstract class Projectile extends Entity {
 
   protected final Unit target;
   protected final int speed = 6;
+  protected int damageAmount;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
@@ -21,9 +24,17 @@ public abstract class Projectile extends Entity {
    * @param size of projectile.
    * @param target unit of projectile.
    */
-  public Projectile(MapPoint coordinates, MapSize size, Unit target) {
+  public Projectile(
+      MapPoint coordinates,
+      MapSize size,
+      Unit target,
+      GameImage gameImage,
+      int damageAmount
+  ) {
     super(coordinates, size);
     this.target = target;
+    this.image = gameImage;
+    this.damageAmount = damageAmount;
   }
 
   /**
@@ -33,7 +44,7 @@ public abstract class Projectile extends Entity {
   public abstract void hits(Unit unit);
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     double distToTarget = getCentre().distance(target.getCentre());
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;

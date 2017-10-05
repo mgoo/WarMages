@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import main.game.model.entity.MapEntity;
+import main.game.model.entity.UninteractableEntity;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.World;
 import main.util.MapPoint;
@@ -44,7 +45,7 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
-    Collection<MapEntity> boundEntities = WorldLoader.generateBorderEntities(
+    Collection<UninteractableEntity> boundEntities = WorldLoader.generateBorderEntities(
         bounds,
         WorldLoader::newBorderEntityAt
     );

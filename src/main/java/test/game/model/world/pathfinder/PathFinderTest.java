@@ -10,6 +10,11 @@ import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Tests for the Pathfinder API.
+ *
+ * @author Hrshikesh Arora
+ */
 public class PathFinderTest {
 
   @Test
@@ -111,6 +116,17 @@ public class PathFinderTest {
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(5, 2));
     List<MapPoint> expected = new ArrayList<>(
         Arrays.asList(mp(1, 2), mp(2, 3), mp(3, 3), mp(4, 3), mp(5, 2)));
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void test08_testPathWhereStartAndEndAreDecimals() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint end = mp(3.45, 1.234);
+    List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1.1, 1.1), end);
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(mp(2, 1), end));
 
     assertEquals(expected, actual);
   }

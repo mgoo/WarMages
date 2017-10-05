@@ -1,7 +1,7 @@
 package main.game.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -34,9 +34,10 @@ public class Unit extends Attackable implements Damageable {
     isDead = false;
     health = unitType.getStartingHealth();
     speed = unitType.getMovingSpeed();
-    damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
-    unitState = new DefaultUnitState(Direction.LEFT, sheet);
+    unitState = new IdleUnitState(Direction.DOWN, this);
+
+    setDamageAmount(unitType.getBaselineDamage());
   }
 
   /**
@@ -53,8 +54,12 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param state to be changed to.
    */
-  private void setStateTo(UnitState state) {
-    unitState.requestState(state);
+  private void setNextState(UnitState state) {
+    unitState.requestState(Objects.requireNonNull(state));
+  }
+
+  public UnitType getUnitType() {
+    return unitType;
   }
 
   /**
@@ -88,22 +93,21 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
-    unitState.tick(timeSinceLastTick);
+    unitState.tick(timeSinceLastTick, world);
     unitState = unitState.updateState();
     //update path in case there is a target and it has moved.
-    super.updatePath();
+    updatePath(world);
     //update position
     MapPoint oldPosition = position;
-    super.tick(timeSinceLastTick);
+    super.tick(timeSinceLastTick, world);
     if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setStateTo(new WalkingUnitState(updateDirection(oldPosition), spriteSheet));
+      setNextState(new WalkingUnitState(updateDirection(oldPosition), this));
     }
     //check if has target and target is within attacking proximity. Request state change.
-    if (targetWithinProximity()) {
-      attack(target);
-      setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+    if (target != null && targetWithinProximity()) {
+      attack();
     }
   }
 
@@ -113,23 +117,17 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void setImage(GameImage image) {
-    //will not change anything
-  }
-
-  @Override
-  public void attack(Unit unit) {
+  protected void attack() {
     if (isDead) {
-      return;
+      throw new IllegalStateException("Is dead");
     }
-    setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
-    if (healing) {
-      if (unit.team.equals(team)) {
-        unit.gainHealth(damageAmount);
-      }
-    } else if (team.canAttackOtherTeam(unit.team) && unit.equals(target)) {
-      unit.takeDamage(damageAmount);
+    if (target == null) {
+      throw new IllegalStateException(
+          "No target to attack. Check if there is a target before calling attack"
+      );
     }
+
+    setNextState(new AttackingUnitState(directionToTarget(), this));
   }
 
   @Override
@@ -157,7 +155,7 @@ public class Unit extends Attackable implements Damageable {
       isDead = true;
       health = 0;
     } else {
-      setStateTo(new BeenHitUnitState(unitState.getDirection(), spriteSheet));
+      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     }
   }
@@ -177,5 +175,15 @@ public class Unit extends Attackable implements Damageable {
   public int getHealth() {
     return health;
   }
+
+  public Unit getTarget() {
+    return target;
+  }
+
+  private Direction directionToTarget() {
+    // TODO Gabie
+    return Direction.RIGHT;
+  }
+
 }
 
