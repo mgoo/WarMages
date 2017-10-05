@@ -12,6 +12,10 @@ public interface MouseDrag {
 
   boolean wasLeft();
 
+  boolean wasShiftDown();
+
+  boolean wasCtrlDown();
+
   MapPoint getTopLeft();
 
   MapSize getSize();

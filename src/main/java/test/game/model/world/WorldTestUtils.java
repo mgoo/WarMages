@@ -2,6 +2,7 @@ package test.game.model.world;
 
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
@@ -9,18 +10,34 @@ import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
+import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
 
 public class WorldTestUtils {
+
+  /**
+   * Creates a plain hero unit.
+   */
+  public static HeroUnit createHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Arrays.asList()
+    );
+  }
 
   /**
    * Creates a unit outside the bounds (less than -100 more than 100 x and y).
@@ -98,15 +115,22 @@ public class WorldTestUtils {
    * @return an Item at the position point
    */
   public static Item createStubItem(MapPoint point) {
-    return new Item(point) {
-      @Override
-      public void applyTo(Unit unit) {
-        //NOTHING
-      }
+    return new Item(
+        point,
+        createStubAbility(),
+        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+    );
+  }
 
+  /**
+   * Creates and ability that does nothing.
+   */
+  public static Ability createStubAbility() {
+    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
       @Override
-      public void tick(long timeSinceLastTick, World world) {
-        //NOTHING
+      public Effect _createEffectForUnit(Unit unit) {
+        return new Effect(unit, 1) {
+        };
       }
     };
   }

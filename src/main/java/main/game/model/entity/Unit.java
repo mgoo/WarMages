@@ -1,5 +1,9 @@
 package main.game.model.entity;
 
+import java.util.ArrayList;
+import main.game.model.entity.usable.Effect;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import main.game.model.world.World;
 import main.images.GameImage;
@@ -15,38 +19,33 @@ public class Unit extends Attackable implements Damageable {
 
   private static final long serialVersionUID = 1L;
 
-  protected final Team team;
-  protected boolean isDead;
-  protected boolean healing;
-  protected UnitSpriteSheet spriteSheet;
-  protected UnitType unitType;
-  protected UnitState unitState;
+  private final UnitSpriteSheet spriteSheet;
+  private final Team team;
+
+  private boolean isDead = false;
+  private UnitType unitType;
+  private UnitState unitState;
+  private List<Effect> activeEffects = new ArrayList<>();
 
   /**
    * Constructor takes the unit's position, size, and team.
    */
   public Unit(
-      MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType unitType
+      MapPoint position,
+      MapSize size,
+      Team team,
+      UnitSpriteSheet sheet,
+      UnitType unitType
   ) {
     super(position, size);
     this.team = team;
     this.unitType = unitType;
-    isDead = false;
-    health = unitType.getStartingHealth();
-    speed = unitType.getMovingSpeed();
-    spriteSheet = sheet;
-    unitState = new IdleUnitState(Direction.DOWN, this);
+    this.health = unitType.getStartingHealth();
+    this.speed = unitType.getMovingSpeed();
+    this.spriteSheet = sheet;
+    this.unitState = new IdleUnitState(Direction.DOWN, this);
 
     setDamageAmount(unitType.getBaselineDamage());
-  }
-
-  /**
-   * Sets the type of attack the Unit will apply to it's targets.
-   *
-   * @param healing either true for healing or false for hurting.
-   */
-  public void setHealing(boolean healing) {
-    this.healing = healing;
   }
 
   /**
@@ -109,6 +108,8 @@ public class Unit extends Attackable implements Damageable {
     if (target != null && targetWithinProximity()) {
       attack();
     }
+
+    tickEffects(timeSinceLastTick);
   }
 
   @Override
@@ -127,7 +128,7 @@ public class Unit extends Attackable implements Damageable {
       );
     }
 
-    setNextState(new AttackingUnitState(directionToTarget(), this));
+    setNextState(new AttackingUnitState(unitState.getDirection(), this));
   }
 
   @Override
@@ -168,22 +169,70 @@ public class Unit extends Attackable implements Damageable {
     health += amount;
   }
 
+  /**
+   * Returns the team that the Unit belongs to.
+   *
+   * @return Team Unit is a part of.
+   */
   public Team getTeam() {
     return team;
   }
 
+  /**
+   * Returns the current health of the unit.
+   *
+   * @return int health of the Unit.
+   */
   public int getHealth() {
     return health;
+  }
+
+  /**
+   * Add a new effect and start it.
+   */
+  public void addEffect(Effect effect) {
+    if (!effect.isTargetUnit(this)) {
+      throw new IllegalArgumentException();
+    }
+
+    effect.start();
+
+    // The effect may expire immediately
+    if (!effect.isExpired()) {
+      activeEffects.add(effect);
+    }
+  }
+
+  @Override
+  public int getDamageAmount() {
+    int amount = super.getDamageAmount();
+
+    for (Effect activeEffect : activeEffects) {
+      amount = activeEffect.alterDamageAmount(amount);
+    }
+
+    return amount;
+  }
+
+  private void tickEffects(long timeSinceLastTick) {
+    for (Iterator<Effect> iterator = activeEffects.iterator(); iterator.hasNext(); ) {
+      Effect effect = iterator.next();
+
+      effect.tick(timeSinceLastTick);
+
+      // Expire after tick
+      if (effect.isExpired()) {
+        iterator.remove();
+      }
+    }
   }
 
   public Unit getTarget() {
     return target;
   }
 
-  private Direction directionToTarget() {
-    // TODO Gabie
-    return Direction.RIGHT;
+  public UnitSpriteSheet getSpriteSheet() {
+    return spriteSheet;
   }
-
 }
 

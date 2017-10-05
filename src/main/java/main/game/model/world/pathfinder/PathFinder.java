@@ -85,6 +85,7 @@ public class PathFinder {
               new AStarNode(neigh, tuple.getPoint(), costToNeigh, estTotal, neighPath));
         }
       }
+
     }
 
     return Collections.emptyList();
