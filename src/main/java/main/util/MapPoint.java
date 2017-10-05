@@ -90,10 +90,6 @@ public class MapPoint implements Serializable {
     return Math.hypot(this.x - other.x, this.y - other.y);
   }
 
-  public MapPoint shiftedBy(double dx, double dy) {
-    return new MapPoint(x + dx, y + dy);
-  }
-
   public List<MapPoint> getSides() {
     return Arrays.asList(getLeft(), getRight(), getTop(), getBottom());
   }
