@@ -15,9 +15,7 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usables.Ability;
-import main.game.model.entity.usables.DamageBuffAbility;
 import main.game.model.entity.usables.Effect;
-import main.game.model.entity.usables.HealAbility;
 import main.game.model.entity.usables.Item;
 import main.game.model.world.World;
 import main.images.GameImageResource;
@@ -28,6 +26,9 @@ import main.util.MapSize;
 
 public class WorldTestUtils {
 
+  /**
+   * Creates a plain hero unit.
+   */
   public static HeroUnit createHeroUnit() {
     return new HeroUnit(
         new MapPoint(1, 1),
@@ -121,6 +122,9 @@ public class WorldTestUtils {
     );
   }
 
+  /**
+   * Creates and ability that does nothing.
+   */
   public static Ability createStubAbility() {
     return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
       @Override
@@ -129,23 +133,6 @@ public class WorldTestUtils {
         };
       }
     };
-  }
-
-  public static HealAbility createHealAbility() {
-    return new HealAbility(
-        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-        1,
-        1
-    );
-  }
-
-  public static DamageBuffAbility createDamageBuffAbility() {
-    return new DamageBuffAbility(
-        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-        1,
-        1,
-        1
-    );
   }
 
   /**

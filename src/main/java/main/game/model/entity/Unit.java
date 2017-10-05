@@ -49,15 +49,6 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Sets the type of attack the Unit will apply to it's targets.
-   *
-   * @param healing either true for healing or false for hurting.
-   */
-  public void setHealing(boolean healing) {
-//    this.healing = healing;
-  }
-
-  /**
    * Sets the Unit's next state to be the given state.
    *
    * @param state to be changed to.
@@ -196,6 +187,9 @@ public class Unit extends Attackable implements Damageable {
     return health;
   }
 
+  /**
+   * Add a new effect and start it.
+   */
   public void addEffect(Effect effect) {
     if (!effect.isTargetUnit(this)) {
       throw new IllegalArgumentException();
