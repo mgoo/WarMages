@@ -142,7 +142,11 @@ public class GameController {
       if (mouseEvent.wasShiftDown()) {
         //move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(PathFinder.findPath(gameModel.getWorld()::isPassable, unit.getTopLeft(), mouseEvent.getLocation()));
+          unit.setPath(PathFinder.findPath(
+              gameModel.getWorld()::isPassable,
+              unit.getTopLeft(),
+              mouseEvent.getLocation()
+          ));
         }
       } else if (mouseEvent.wasCtrlDown()) {
         throw new Error("Not yet implemented!"); //TODO
