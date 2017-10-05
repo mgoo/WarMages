@@ -140,11 +140,12 @@ public class GameController {
         }
       }
     }
+
     //otherwise, it must have been a right click
     else {
-      if(mouseEvent.wasShiftDown()) {
+      if (mouseEvent.wasShiftDown()) {
         //move all selected units to the clicked location
-        for(Unit unit : gameModel.getUnitSelection()) {
+        for (Unit unit : gameModel.getUnitSelection()) {
           //TODO
         }
       } else if (mouseEvent.wasCtrlDown()) {
