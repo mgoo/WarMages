@@ -33,13 +33,11 @@ public class PathFinder {
   ) {
     List<MapPoint> path = findPathRounded(isPassable, start, end);
 
-    if (path.isEmpty()) {
-      return path;
+    if (!path.isEmpty()) {
+      // Replace rounded end point with non-rounded end point
+      path.remove(path.size() - 1);
+      path.add(end);
     }
-
-    // Replace rounded end point with non-rounded end point
-    path.remove(path.size() - 1);
-    path.add(end);
 
     return path;
   }
