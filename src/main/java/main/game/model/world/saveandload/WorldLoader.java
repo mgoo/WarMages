@@ -6,7 +6,7 @@ import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.images.GameImageResource.POTION_BLUE_ITEM;
-import static main.images.GameImageResource.RING_BLUE_ITEM;
+import static main.images.GameImageResource.RING_GOLD_ITEM;
 import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.TEST_IMAGE_FULL_SIZE;
 import static main.images.GameImageResource.TREE_MAP_ENTITY;
@@ -19,22 +19,25 @@ import java.util.function.Function;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.game.model.entity.BuffItem;
+import main.game.model.entity.BuffAbility;
 import main.game.model.entity.Entity;
-import main.game.model.entity.HealingItem;
+import main.game.model.entity.HealingAbility;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
+import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
 
 /**
+ * A Factory and Facade.
  * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
  * positions in the {@link World}.
  * <p>
@@ -102,7 +105,14 @@ public class WorldLoader {
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN
+        UnitType.SWORDSMAN,
+        Arrays.asList(
+            new HealingAbility(
+                GameImageResource.WHITE_BALL_ITEM.getGameImage(),
+                3,
+                30
+            )
+        )
     );
 
     MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(10, 8));
@@ -117,8 +127,23 @@ public class WorldLoader {
             )
         ),
         Arrays.asList(
-            new HealingItem(new MapPoint(2, 2), POTION_BLUE_ITEM.getGameImage()),
-            new BuffItem(new MapPoint(3, 3), RING_BLUE_ITEM.getGameImage())
+            new Item(
+                new MapPoint(21, 1),
+                new HealingAbility(
+                    GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+                    30,
+                    30
+                ),
+                POTION_BLUE_ITEM.getGameImage()
+            ),
+            new Item(
+                new MapPoint(24, 5),
+                new BuffAbility(
+                    GameImageResource.RING_GOLD_ITEM.getGameImage(),
+                    15
+                ),
+                RING_GOLD_ITEM.getGameImage()
+            )
         ),
         Arrays.asList(
             new UninteractableEntity(
@@ -145,7 +170,14 @@ public class WorldLoader {
         new MapPoint(3, 4),
         new MapSize(1, 1),
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN
+        UnitType.SWORDSMAN,
+        Arrays.asList(
+            new HealingAbility(
+                GameImageResource.WHITE_BALL_ITEM.getGameImage(),
+                120,
+                90
+            )
+        )
     );
     LinkedList<Level> levels = new LinkedList<>();
 
@@ -216,8 +248,23 @@ public class WorldLoader {
               )
           ),
           Arrays.asList(
-              new HealingItem(new MapPoint(21, 1), POTION_BLUE_ITEM.getGameImage()),
-              new BuffItem(new MapPoint(24, 5), RING_BLUE_ITEM.getGameImage())
+              new Item(
+                  new MapPoint(21, 1),
+                  new HealingAbility(
+                      GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+                      30,
+                      30
+                  ),
+                  POTION_BLUE_ITEM.getGameImage()
+              ),
+              new Item(
+                  new MapPoint(24, 5),
+                  new BuffAbility(
+                      GameImageResource.RING_GOLD_ITEM.getGameImage(),
+                      15
+                  ),
+                  RING_GOLD_ITEM.getGameImage()
+              )
           ),
           Arrays.asList(
               new UninteractableEntity(

@@ -8,6 +8,7 @@ import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createUnit;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
+import java.util.Arrays;
 import main.game.model.EntityOutOfBoundsException;
 import main.game.model.OverlappingMapEntitiesException;
 import main.game.model.entity.HeroUnit;
@@ -26,7 +27,8 @@ public class LevelTest {
       new MapPoint(1, 1),
       new MapSize(1, 1),
       new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-      UnitType.SWORDSMAN
+      UnitType.SWORDSMAN,
+      Arrays.asList()
   );
 
   @Test(expected = OverlappingMapEntitiesException.class)

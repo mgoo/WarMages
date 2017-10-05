@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
+import main.game.model.entity.Ability;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
@@ -15,6 +16,7 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
+import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -98,15 +100,23 @@ public class WorldTestUtils {
    * @return an Item at the position point
    */
   public static Item createStubItem(MapPoint point) {
-    return new Item(point) {
-      @Override
-      public void applyTo(Unit unit) {
-        //NOTHING
-      }
+    return new Item(
+        point,
+        createStubAbility(),
+        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+    );
+  }
 
+  public static Ability createStubAbility() {
+    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 0.01) {
       @Override
-      public void tick(long timeSinceLastTick, World world) {
-        //NOTHING
+      public Effect _createEffectForUnit(Unit unit) {
+        return new Effect(unit) {
+          @Override
+          public boolean isExpired() {
+            return true;
+          }
+        };
       }
     };
   }

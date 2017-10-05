@@ -10,8 +10,7 @@ import main.images.GameImage;
  */
 public interface Usable extends Serializable {
 
-  double COOL_DOWN_JUST_STARTED = 0;
-  double READY = 1;
+  double READY = 0;
 
   /**
    * Creates an {@link Effect} for each unit and applies it to each {@link Unit}.
@@ -63,8 +62,7 @@ public interface Usable extends Serializable {
   double getCoolDownProgress();
 
   /**
-   * PROTECTED - DON"T USE FROM OUTSIDE THIS CLASS! Sets a cool-down ticks variable to
-   * {@link Usable#COOL_DOWN_JUST_STARTED}.
+   * PROTECTED - DON"T USE FROM OUTSIDE THIS CLASS! Starts the cooldown period.
    */
   void _startCoolDown();
 

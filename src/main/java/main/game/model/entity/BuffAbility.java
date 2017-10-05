@@ -13,31 +13,16 @@ public class BuffAbility extends Ability {
   /**
    * Constructor takes the relevant GameImage icon as a parameter.
    */
-  public BuffAbility(GameImage icon) {
+  public BuffAbility(GameImage icon, double coolDownSeconds) {
     super(
         "This ability buffs the heroUnit using it, allowing the heroUnit to cause more damage.",
-        icon
+        icon,
+        coolDownSeconds
     );
   }
 
   @Override
-  public void apply(HeroUnit heroUnit) {
-    if (heroUnit == null) {
-      throw new IllegalArgumentException("Null HeroUnit");
-    }
-    heroUnit.setDamageAmount(10);
-  }
-
-  @Override
-  public void disableOn(HeroUnit heroUnit) {
-    if (heroUnit == null) {
-      throw new IllegalArgumentException("Null HeroUnit");
-    }
-    heroUnit.resetDamage();
-  }
-
-  @Override
-  public boolean tickTimedOut(int tickCount) {
-    return (tickCount == tickTimeout);
+  public Effect _createEffectForUnit(Unit unit) {
+    return null;
   }
 }

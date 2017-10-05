@@ -32,7 +32,8 @@ public class GameModelTest {
       new MapPoint(1, 1),
       new MapSize(1, 1),
       new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-      UnitType.SWORDSMAN
+      UnitType.SWORDSMAN,
+      Arrays.asList()
   );
 
   @Test
