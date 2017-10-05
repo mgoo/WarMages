@@ -87,6 +87,7 @@ public class GameController {
    */
   public void onMouseEvent(MouseClick mouseEvent) {
 
+    //If it was a left click
     if (mouseEvent.wasLeft()) {
 
       //select the unit under the click if there is one
@@ -97,35 +98,42 @@ public class GameController {
           .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
-        //CASE 1 => LEFT + SHIFT
+        //CASE 1 => LEFT CLICK + SHIFT
+        //add the new selected unit to the previously selected ones
 
-        //add the new selected units to previously selected ones
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         if (selectedUnit != null) {
           updatedUnitSelection.add(selectedUnit);
         }
-
         gameModel.setUnitSelection(updatedUnitSelection);
+
       } else if (mouseEvent.wasCtrlDown()) {
-        //CASE 2 => LEFT + CTRL
+        //CASE 2 => LEFT CLICK + CTRL
+        //if clicked unit already selected, deselect it. otherwise, select it
+
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
-        //if unit already selected, deselct it
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
-        } else { //if not, select it
+        } else {
           updatedUnits.add(selectedUnit);
         }
-
         gameModel.setUnitSelection(updatedUnits);
+
       } else {
-        //deselect all previous selected units
+        //CASE 3 => LEFT CLICK
+        //deselect all previous selected units and select the clicked unit
+
         gameModel.setUnitSelection(new ArrayList<>());
 
         if (selectedUnit != null) {
           gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       }
+    }
+    //otherwise, it must have been a right click
+    else {
+      //TODO right click logic
     }
   }
 
