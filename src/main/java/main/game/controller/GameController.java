@@ -87,12 +87,43 @@ public class GameController {
   public void onMouseEvent(MouseClick mouseEvent) {
 
     if (mouseEvent.wasLeft()) {
+
+      //select the unit under the click if there is one
+      Unit selectedUnit = gameModel.getAllUnits().stream()
+          .filter(u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
+              .max(u.getSize().width, u.getSize().height))
+          .sorted(Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
+          .findFirst().orElse(null);
+
       if (mouseEvent.wasShiftDown()) {
-        leftShiftClick(gameModel, mouseEvent.getLocation());
+        //CASE 1 => LEFT + SHIFT
+
+        //add the new selected units to previously selected ones
+        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+        if (selectedUnit != null) {
+          updatedUnitSelection.add(selectedUnit);
+        }
+
+        gameModel.setUnitSelection(updatedUnitSelection);
       } else if (mouseEvent.wasCtrlDown()) {
-        leftCtrlClick(gameModel, mouseEvent.getLocation());
+        //CASE 2 => LEFT + CTRL
+        Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+
+        //if unit already selected, deselct it
+        if (updatedUnits.contains(selectedUnit)) {
+          updatedUnits.remove(selectedUnit);
+        } else { //if not, select it
+          updatedUnits.add(selectedUnit);
+        }
+
+        gameModel.setUnitSelection(updatedUnits);
       } else {
-        onlyLeftClick(gameModel, mouseEvent.getLocation());
+        //deselect all previous selected units
+        gameModel.setUnitSelection(new ArrayList<>());
+
+        if (selectedUnit != null) {
+          gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
+        }
       }
     }
   }
@@ -122,13 +153,7 @@ public class GameController {
    * @param mouseClick -- the mouse click location
    */
   private static Unit getUnitUnderMouse(GameModel gameModel, MapPoint mouseClick) {
-    //select the unit under the click if there is one
-    return gameModel.getAllUnits()
-        .stream()
-        .filter(u -> u.getCentre().distance(mouseClick) <= Math
-            .max(u.getSize().width, u.getSize().height))
-        .sorted(Comparator.comparingDouble(s -> s.getCentre().distance(mouseClick)))
-        .findFirst().orElse(null);
+
   }
 
   /**
@@ -140,14 +165,7 @@ public class GameController {
   private static void onlyLeftClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 3 => ONLY LEFT CLICK
 
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
-
-    //deselect all previous selected units
-    gameModel.setUnitSelection(new ArrayList<>());
-
-    if (selectedUnit != null) {
-      gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
-    }
+   // }
   }
 
   /**
@@ -157,19 +175,7 @@ public class GameController {
    * @param mouseClick -- the mouse click location
    */
   private static void leftCtrlClick(GameModel gameModel, MapPoint mouseClick) {
-    //CASE 2 => LEFT + CTRL
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
 
-    Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
-
-    //if unit already selected, deselct it
-    if (updatedUnits.contains(selectedUnit)) {
-      updatedUnits.remove(selectedUnit);
-    } else { //if not, select it
-      updatedUnits.add(selectedUnit);
-    }
-
-    gameModel.setUnitSelection(updatedUnits);
   }
 
   /**
@@ -179,17 +185,7 @@ public class GameController {
    * @param mouseClick -- the mouse click location
    */
   private static void leftShiftClick(GameModel gameModel, MapPoint mouseClick) {
-    //CASE 1 => LEFT + SHIFT
 
-    Unit selectedUnit = getUnitUnderMouse(gameModel, mouseClick);
-
-    //add the new selected units to previously selected ones
-    Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-    if (selectedUnit != null) {
-      updatedUnitSelection.add(selectedUnit);
-    }
-
-    gameModel.setUnitSelection(updatedUnitSelection);
   }
 
   /**
