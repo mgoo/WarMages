@@ -27,6 +27,12 @@ public abstract class Ability implements Serializable, Usable {
       double coolDownSeconds,
       double effectDurationSeconds
   ) {
+    if (coolDownSeconds <= 0) {
+      throw new IllegalArgumentException();
+    }
+    if (effectDurationSeconds < 0) {
+      throw new IllegalArgumentException();
+    }
     this.description = description;
     this.iconImage = icon;
     this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
@@ -66,4 +72,9 @@ public abstract class Ability implements Serializable, Usable {
   public double getEffectDurationSeconds() {
     return effectDurationSeconds;
   }
+
+  public double getCoolDownTicks() {
+    return coolDownTimer.getMaxTicks();
+  }
+
 }

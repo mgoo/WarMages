@@ -2,6 +2,7 @@ package test.game.model.world;
 
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
@@ -14,7 +15,9 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usables.Ability;
+import main.game.model.entity.usables.DamageBuffAbility;
 import main.game.model.entity.usables.Effect;
+import main.game.model.entity.usables.HealAbility;
 import main.game.model.entity.usables.Item;
 import main.game.model.world.World;
 import main.images.GameImageResource;
@@ -24,6 +27,16 @@ import main.util.MapRect;
 import main.util.MapSize;
 
 public class WorldTestUtils {
+
+  public static HeroUnit createHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Arrays.asList()
+    );
+  }
 
   /**
    * Creates a unit outside the bounds (less than -100 more than 100 x and y).
@@ -116,6 +129,23 @@ public class WorldTestUtils {
         };
       }
     };
+  }
+
+  public static HealAbility createHealAbility() {
+    return new HealAbility(
+        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+        1,
+        1
+    );
+  }
+
+  public static DamageBuffAbility createDamageBuffAbility() {
+    return new DamageBuffAbility(
+        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+        1,
+        1,
+        1
+    );
   }
 
   /**

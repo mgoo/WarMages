@@ -19,9 +19,9 @@ import java.util.function.Function;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.game.model.entity.usables.BuffAbility;
+import main.game.model.entity.usables.DamageBuffAbility;
 import main.game.model.entity.Entity;
-import main.game.model.entity.usables.HealingAbility;
+import main.game.model.entity.usables.HealAbility;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.usables.Item;
 import main.game.model.entity.MapEntity;
@@ -107,7 +107,7 @@ public class WorldLoader {
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
-            new HealingAbility(
+            new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 3,
                 30
@@ -129,7 +129,7 @@ public class WorldLoader {
         Arrays.asList(
             new Item(
                 new MapPoint(2, 2),
-                new HealingAbility(
+                new HealAbility(
                     GameImageResource.POTION_BLUE_ITEM.getGameImage(),
                     30,
                     30
@@ -138,7 +138,7 @@ public class WorldLoader {
             ),
             new Item(
                 new MapPoint(3, 3),
-                new BuffAbility(
+                new DamageBuffAbility(
                     GameImageResource.RING_GOLD_ITEM.getGameImage(),
                     50,
                     15,
@@ -174,7 +174,7 @@ public class WorldLoader {
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
-            new HealingAbility(
+            new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 120,
                 90
@@ -252,7 +252,7 @@ public class WorldLoader {
           Arrays.asList(
               new Item(
                   new MapPoint(21, 1),
-                  new HealingAbility(
+                  new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
                       30,
                       30
@@ -261,7 +261,7 @@ public class WorldLoader {
               ),
               new Item(
                   new MapPoint(24, 5),
-                  new BuffAbility(
+                  new DamageBuffAbility(
                       GameImageResource.RING_GOLD_ITEM.getGameImage(),
                       20,
                       15,

@@ -4,9 +4,10 @@ import main.game.model.entity.Unit;
 import main.images.GameImage;
 
 /**
- * The BuffAbility is a type of Ability that allows the HeroUnit using it to deal more damage.
+ * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more
+ * damage.
  */
-public class BuffAbility extends Ability {
+public class DamageBuffAbility extends Ability {
 
   private static final long serialVersionUID = 1L;
   private final int damageIncrease;
@@ -14,7 +15,7 @@ public class BuffAbility extends Ability {
   /**
    * Constructor takes the relevant GameImage icon as a parameter.
    */
-  public BuffAbility(
+  public DamageBuffAbility(
       GameImage icon,
       int damageIncrease,
       double coolDownSeconds,
@@ -26,7 +27,16 @@ public class BuffAbility extends Ability {
         coolDownSeconds,
         effectDurationSeconds
     );
+
+    if (damageIncrease <= 0) {
+      throw new IllegalArgumentException();
+    }
+
     this.damageIncrease = damageIncrease;
+  }
+
+  public int getDamageIncrease() {
+    return damageIncrease;
   }
 
   @Override
