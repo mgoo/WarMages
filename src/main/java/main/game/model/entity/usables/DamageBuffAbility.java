@@ -41,14 +41,14 @@ public class DamageBuffAbility extends Ability {
 
   @Override
   public Effect _createEffectForUnit(Unit unit) {
-    return new BuffEffect(unit, getEffectDurationSeconds());
+    return new DamageBuffEffect(unit, getEffectDurationSeconds());
   }
 
-  private class BuffEffect extends Effect {
+  private class DamageBuffEffect extends Effect {
 
     private static final long serialVersionUID = 1L;
 
-    BuffEffect(Unit targetUnit, double durationSeconds) {
+    DamageBuffEffect(Unit targetUnit, double durationSeconds) {
       super(targetUnit, durationSeconds);
     }
 

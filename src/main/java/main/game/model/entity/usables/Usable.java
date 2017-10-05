@@ -3,6 +3,7 @@ package main.game.model.entity.usables;
 import java.io.Serializable;
 import java.util.Collection;
 import main.game.model.entity.Unit;
+import main.game.model.entity.exceptions.CantApplyToUnitsException;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
 import main.images.GameImage;
 
@@ -21,6 +22,12 @@ public interface Usable extends Serializable {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
+
+    if (units.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+
+    _requireValidUnits(units);
 
     for (Unit unit : units) {
       Effect effect = _createEffectForUnit(unit);
@@ -61,7 +68,18 @@ public interface Usable extends Serializable {
   double getCoolDownProgress();
 
   /**
-   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS! Starts the cooldown period.
+   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS!
+   * Check that it is allowed to apply this {@link Usable} to all the {@link Unit}s.
+   *
+   * @throws CantApplyToUnitsException When there is a unit that we cannot apply this {@link Usable}
+   *     to.
+   */
+  default void _requireValidUnits(Collection<Unit> units) {
+    // All units are valid by default
+  }
+
+  /**
+   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS! Starts the cool-down period.
    */
   void _startCoolDown();
 

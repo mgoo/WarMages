@@ -65,7 +65,7 @@ public class Unit extends Attackable implements Damageable {
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
    */
-  protected Direction updateDirection(MapPoint oldPosition) {
+  private Direction updateDirection(MapPoint oldPosition) {
     double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
     if (gradient < 1) {
       if (position.y < oldPosition.y) {
@@ -197,7 +197,7 @@ public class Unit extends Attackable implements Damageable {
 
     effect.start();
 
-    // If the buff expired immediately
+    // The effect may expire immediately
     if (!effect.isExpired()) {
       activeEffects.add(effect);
     }
