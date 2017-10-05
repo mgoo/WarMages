@@ -1,7 +1,8 @@
 package main.game.model.entity;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import main.game.model.entity.Usable.Effect;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -20,12 +21,17 @@ public class Unit extends Attackable implements Damageable {
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
+  private List<Effect> activeEffects;
 
   /**
    * Constructor takes the unit's position, size, and team.
    */
   public Unit(
-      MapPoint position, MapSize size, Team team, UnitSpriteSheet sheet, UnitType unitType
+      MapPoint position,
+      MapSize size,
+      Team team,
+      UnitSpriteSheet sheet,
+      UnitType unitType
   ) {
     super(position, size);
     this.team = team;
@@ -33,9 +39,9 @@ public class Unit extends Attackable implements Damageable {
     isDead = false;
     health = unitType.getStartingHealth();
     speed = unitType.getMovingSpeed();
-    damageAmount = unitType.getBaselineDamage();
     spriteSheet = sheet;
     unitState = new DefaultUnitState(Direction.LEFT, sheet);
+    setDamageAmount(unitType.getBaselineDamage());
   }
 
   /**
@@ -95,6 +101,8 @@ public class Unit extends Attackable implements Damageable {
       attack(target);
       setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
     }
+
+    tickEffects(timeSinceLastTick);
   }
 
   @Override
@@ -114,7 +122,7 @@ public class Unit extends Attackable implements Damageable {
     }
     setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
     if (team.canAttackOtherTeam(unit.team)) {
-      unit.takeDamage(damageAmount);
+      unit.takeDamage(getDamageAmount());
     }
   }
 
@@ -173,5 +181,36 @@ public class Unit extends Attackable implements Damageable {
   public int getHealth() {
     return health;
   }
+
+  public void addEffect(Effect effect) {
+    if (!effect.isApplyingTo(this)) {
+      throw new IllegalArgumentException();
+    }
+
+    activeEffects.add(effect);
+  }
+
+  @Override
+  public int getDamageAmount() {
+    int amount = super.getDamageAmount();
+
+    for (Effect activeEffect : activeEffects) {
+      amount = activeEffect.getDamageAmount(amount);
+    }
+
+    return amount;
+  }
+
+  private void tickEffects(long timeSinceLastTick) {
+    for (Iterator<Effect> iterator = activeEffects.iterator(); iterator.hasNext(); ) {
+      Effect effect = iterator.next();
+      effect.tick(timeSinceLastTick);
+
+      if (effect.isExpired()) {
+        iterator.remove();
+      }
+    }
+  }
+
 }
 

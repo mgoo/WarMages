@@ -14,8 +14,8 @@ public abstract class Attackable extends MovableEntity {
 
   public static final int LEEWAY = 5;
   protected Unit target;
-  protected int damageAmount;
   protected int health;
+  private int damageAmount;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -62,8 +62,14 @@ public abstract class Attackable extends MovableEntity {
    * @param amount of damage to deal to target.
    */
   public void setDamageAmount(int amount) {
-    assert amount > 0 && amount < 100;
+    if (amount <= 0 || amount >= 100) {
+      throw new IllegalArgumentException();
+    }
     damageAmount = amount;
+  }
+
+  public int getDamageAmount() {
+    return damageAmount;
   }
 
   /**

@@ -1,6 +1,8 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -13,10 +15,10 @@ public class HeroUnit extends Unit {
 
   private static final long serialVersionUID = 1L;
 
-  private ArrayList<Ability> abilities;
-  private ArrayList<Item> items;
+  private final List<Ability> abilities;
+
+  private List<Item> items = new ArrayList<>();
   private boolean healing;
-  private Ability ability;
   private int tickCount = 0;
 
   /**
@@ -27,10 +29,15 @@ public class HeroUnit extends Unit {
    * @param sheet SpriteSheet of HeroUnit images.
    * @param type of HeroUnit.
    */
-  public HeroUnit(MapPoint position, MapSize size, UnitSpriteSheet sheet, UnitType type) {
+  public HeroUnit(
+      MapPoint position,
+      MapSize size,
+      UnitSpriteSheet sheet,
+      UnitType type,
+      Collection<Ability> abilities
+  ) {
     super(position, size, Team.PLAYER, sheet, type);
-    abilities = new ArrayList<>();
-    items = new ArrayList<>();
+    this.abilities = new ArrayList<>(abilities);
   }
 
   /**
@@ -39,7 +46,6 @@ public class HeroUnit extends Unit {
   public void pickUp(Item item) {
     assert item != null;
     items.add(item);
-    //todo if item has ability, include in abilities
   }
 
   /**
@@ -53,71 +59,16 @@ public class HeroUnit extends Unit {
   }
 
   /**
-   * Sets the HeroUnit's ability to the given ability.
-   *
-   * @param ability to be applied to the HeroUnit.
-   */
-  public void setAbility(Ability ability) {
-    if (ability == null) {
-      throw new IllegalArgumentException("Null Ability");
-    }
-    tickCount = 0;
-    this.ability = ability;
-  }
-
-  /**
-   * Sets the type of attack the Unit will apply to it's targets.
-   *
-   * @param healing either true for healing or false for hurting.
-   */
-  public void setHealing(boolean healing) {
-    this.healing = healing;
-  }
-
-  /**
-   * Resets the HeroUnit's damage to the default/baseline amount.
-   */
-  public void resetDamage() {
-    damageAmount = unitType.getBaselineDamage();
-  }
-
-  /**
    * Returns the HeroUnit's abilities.
    */
-  public ArrayList<Ability> getAbilities() {
+  public Collection<Ability> getAbilities() {
     return new ArrayList<>(abilities);
   }
 
   /**
    * Returns the HeroUnit's items.
    */
-  public ArrayList<Item> getItems() {
+  public Collection<Item> getItems() {
     return new ArrayList<>(items);
-  }
-
-  @Override
-  public void attack(Unit unit) {
-    if (!unit.equals(target) || isDead || target == null) {
-      return;
-    }
-    if (healing) {
-      if (unit.team.equals(team)) {
-        unit.gainHealth(damageAmount);
-      }
-    } else {
-      super.attack(unit);
-    }
-  }
-
-  @Override
-  public void tick(long timeSinceLastTick) {
-    //tick ability to check if expired.
-    if (ability != null) {
-      if (ability.tickTimedOut(++tickCount)) {
-        ability.disableOn(this);
-        ability = null;
-      }
-    }
-    super.tick(timeSinceLastTick);
   }
 }
