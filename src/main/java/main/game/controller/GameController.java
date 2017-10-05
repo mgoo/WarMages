@@ -81,16 +81,16 @@ public class GameController {
   }
 
   /**
-   * Responds to user's mouse actions by calling the appropriate method on the model. The following scenarios are taken care of:
+   * Responds to user's mouse actions by calling the appropriate method on the model. The following
+   * scenarios are taken care of:
    *
-   * <ul>
-   * <li>LEFT click => Deselect all previously selected units and select only the clicked unit</li>
-   * <li>LEFT click + SHIFT => Add the clicked unit to the previously selected units</li>
-   * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise, select that unit.</li>
-   * <li>RIGHT click => All selected units move to the clicked location</li>
-   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
-   * <li>RIGHT click + SHIFT => todo queues move so the will move to the position after it has got to the position before it</li>
-   * </ul>
+   * <ul> <li>LEFT click => Deselect all previously selected units and select only the clicked
+   * unit</li> <li>LEFT click + SHIFT => Add the clicked unit to the previously selected units</li>
+   * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise,
+   * select that unit.</li> <li>RIGHT click => All selected units move to the clicked location</li>
+   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li> <li>RIGHT
+   * click + SHIFT => todo queues move so the will move to the position after it has got to the
+   * position before it</li> </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
@@ -160,7 +160,7 @@ public class GameController {
           mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
       );
 
-      Collection<Unit> selectedUnits =  gameModel.getAllUnits().stream()
+      Collection<Unit> selectedUnits = gameModel.getAllUnits().stream()
           .filter(u -> dragArea.contains(u.getRect()))
           .collect(Collectors.toSet());
 
@@ -178,7 +178,7 @@ public class GameController {
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
         //if unit already selected, deselct it
-        for(Unit unit : selectedUnits) {
+        for (Unit unit : selectedUnits) {
           if (updatedUnits.contains(unit)) {
             updatedUnits.remove(unit);
           } else { //if not, select it
