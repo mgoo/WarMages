@@ -14,7 +14,7 @@ public interface MouseDrag {
 
   boolean wasShiftDown();
 
-      boolean wasCtrlDown();
+  boolean wasCtrlDown();
 
   MapPoint getTopLeft();
 
