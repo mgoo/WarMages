@@ -6,7 +6,8 @@ import main.util.TickTimer;
 
 /**
  * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method
- * are useful to override.
+ * are useful to override. Effects are single use - once they are expired, they cannot be used
+ * again. Multiple effect objects can be created to apply on effects to multiple units.
  */
 public abstract class Effect implements Serializable {
 
@@ -19,7 +20,7 @@ public abstract class Effect implements Serializable {
   private boolean hasStarted;
 
   /**
-   * Default constructor for a non
+   * Default constructor.
    * @param durationSeconds Number of seconds before this expires. Set to
    *     {@link Effect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
@@ -62,7 +63,7 @@ public abstract class Effect implements Serializable {
   }
 
   public boolean isExpired() {
-    return expiryTimer.isFinished();
+    return !hasStarted && expiryTimer.isFinished();
   }
 
   private boolean isActive() {
@@ -72,6 +73,10 @@ public abstract class Effect implements Serializable {
   // These methods can do nothing by not overriding.
   // Methods below consistently affect properties of the Unit.
 
+  /**
+   * Optionally change the damage amount. The unit will call this method and pass in its damage
+   * amount and use the returned value. Do nothing by not overriding (i.e. return the parameter).
+   */
   public int alterDamageAmount(int currentDamageAmount) {
     if (!isActive()) {
       throw new IllegalStateException();

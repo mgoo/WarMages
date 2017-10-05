@@ -17,10 +17,6 @@ public abstract class Ability implements Serializable, Usable {
   private final TickTimer coolDownTimer;
   private final double effectDurationSeconds;
 
-  /**
-   * Constructor takes a string description of the ability, and the icon that represent the
-   * ability.
-   */
   public Ability(
       String description,
       GameImage icon,
