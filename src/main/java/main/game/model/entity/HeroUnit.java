@@ -78,6 +78,8 @@ public class HeroUnit extends Unit {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
+
     abilities.forEach(ability -> ability.usableTick(timeSinceLastTick));
+    itemInventory.forEach(item -> item.usableTick(timeSinceLastTick));
   }
 }

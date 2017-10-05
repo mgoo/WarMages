@@ -54,7 +54,7 @@ public class DamageBuffAbility extends Ability {
 
     @Override
     public int alterDamageAmount(int currentDamageAmount) {
-      return currentDamageAmount + damageIncrease;
+      return super.alterDamageAmount(currentDamageAmount) + damageIncrease;
     }
   }
 }
