@@ -136,13 +136,5 @@ public class UsablesTest {
 
     // then damageAmount should go back to normal
     assertEquals(baseDamageAmount, heroUnit.getDamageAmount());
-
-    // when some time passes
-    for (int i = 0; i < buffAbility.getCoolDownTicks(); i++) {
-      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
-    }
-
-    // then the ability should be ready to be used
-    assertTrue(buffAbility.isReadyToBeUsed());
   }
 }
