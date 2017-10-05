@@ -193,11 +193,11 @@ public class GameController {
   }
 
   /**
-   * TODO javadoc.
+   * Returns all units under the mouse drag area.
    *
-   * @param gameModel
-   * @param mouseEvent
-   * @return
+   * @param gameModel -- the game model
+   * @param mouseEvent -- the mouse drag object
+   * @return all units under the mouse drag area
    */
   private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
 
@@ -215,8 +215,8 @@ public class GameController {
   /**
    * TODO javaodc.
    *
-   * @param gameModel
-   * @param mouseEvent
+   * @param gameModel -- the game model
+   * @param mouseEvent -- the mouse drag object
    */
   private static void onlyLeftDrag(GameModel gameModel, MouseDrag mouseEvent) {
     //deselect all units then select all units in the drag rectangle
@@ -232,6 +232,9 @@ public class GameController {
 
   /**
    * TODO javadoc.
+   *
+   * @param gameModel -- the game model
+   * @param mouseEvent -- the mouse drag object
    */
   private static void leftCtrlDrag(GameModel gameModel, MouseDrag mouseEvent) {
     //toggle all in area??
@@ -255,8 +258,8 @@ public class GameController {
   /**
    * TODO javadoc.
    *
-   * @param gameModel
-   * @param mouseEvent
+   * @param gameModel -- the game model
+   * @param mouseEvent -- the mouse drag object
    */
   private static void leftShiftDrag(GameModel gameModel, MouseDrag mouseEvent) {
     //add all units in the drag rectangle to the currently selected units
