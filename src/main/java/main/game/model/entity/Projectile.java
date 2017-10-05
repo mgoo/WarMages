@@ -40,7 +40,7 @@ public abstract class Projectile extends Entity {
     moveX(percentage * (target.getCentre().x - getCentre().x));
     moveY(percentage * (target.getCentre().y - getCentre().y));
     //todo check dist to target and if close enough, hit target.
-    //projectile change image at which point?
+    //projectile change image at which point? Let's have no animations with the projectiles
   }
 }
 
