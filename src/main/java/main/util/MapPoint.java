@@ -37,13 +37,14 @@ public class MapPoint implements Serializable {
   }
 
   /**
-   * Returns a new point where this point is translated by the given amount
+   * Returns a new point where this point is translated by the given amount.
+   *
    * @param x -- translation in x
    * @param y -- translation in y
    * @return -- returns the translated point
    */
   public MapPoint translate(double x, double y) {
-    return new MapPoint(this.x+ x, this.y + y);
+    return new MapPoint(this.x + x, this.y + y);
   }
 
   @Override
