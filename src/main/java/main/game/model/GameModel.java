@@ -85,4 +85,8 @@ public class GameModel {
   public Collection<Unit> getAllUnits() {
     return world.getAllUnits();
   }
+
+  public World getWorld() {
+    return world;
+  }
 }
