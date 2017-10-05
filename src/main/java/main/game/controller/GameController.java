@@ -181,47 +181,4 @@ public class GameController {
       }
     }
   }
-
-
-  /**
-   * Returns all units under the mouse drag area.
-   *
-   * @param gameModel -- the game model
-   * @param mouseEvent -- the mouse drag object
-   * @return all units under the mouse drag area
-   */
-  private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
-
-
-  }
-
-  /**
-   * TODO javaodc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseEvent -- the mouse drag object
-   */
-  private static void onlyLeftDrag(GameModel gameModel, MouseDrag mouseEvent) {
-
-  }
-
-  /**
-   * TODO javadoc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseEvent -- the mouse drag object
-   */
-  private static void leftCtrlDrag(GameModel gameModel, MouseDrag mouseEvent) {
-
-  }
-
-  /**
-   * TODO javadoc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseEvent -- the mouse drag object
-   */
-  private static void leftShiftDrag(GameModel gameModel, MouseDrag mouseEvent) {
-
-  }
 }
