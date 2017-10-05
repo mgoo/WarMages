@@ -61,7 +61,7 @@ public class PathFinder {
       AStarNode tuple = fringe.poll();
 
       //stop finding a path if we have explored too many nodes
-      if (tuple.getCostFromStart() > start.distance(end) * 2) {
+      if (tuple.getCostFromStart() > start.distanceTo(end) * 2) {
         return Collections.emptyList();
       }
 
@@ -77,7 +77,7 @@ public class PathFinder {
 
       for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
         if (!visited.contains(neigh)) {
-          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
+          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distanceTo(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
           List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
           neighPath.add(neigh);
@@ -138,6 +138,6 @@ public class PathFinder {
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
-    return current.distance(goal);
+    return current.distanceTo(goal);
   }
 }
