@@ -77,7 +77,7 @@ public class PathFinder {
 
         if (!visited.contains(neigh)) {
 
-          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
+          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distanceTo(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
           List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
           neighPath.add(neigh);
@@ -136,6 +136,6 @@ public class PathFinder {
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
-    return current.distance(goal);
+    return current.distanceTo(goal);
   }
 }
