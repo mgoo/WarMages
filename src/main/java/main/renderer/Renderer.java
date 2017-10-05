@@ -54,7 +54,7 @@ public class Renderer {
     Objects.requireNonNull(imageView);
 
     BufferedImage image = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
-//        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
+    //(int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     RenderingHints rh = new RenderingHints(
         RenderingHints.KEY_ANTIALIASING,
