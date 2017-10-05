@@ -136,12 +136,48 @@ public class GameController {
   public void onMouseDrag(MouseDrag mouseEvent) {
 
     if (mouseEvent.wasLeft()) {
+
+      MapRect dragArea = new MapRect(
+          mouseEvent.getTopLeft(),
+          mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
+      );
+
+      Collection<Unit> selectedUnits =  gameModel.getAllUnits().stream()
+          .filter(u -> dragArea.contains(u.getRect()))
+          .collect(Collectors.toSet());
+
       if (mouseEvent.wasShiftDown()) {
-        leftShiftDrag(gameModel, mouseEvent);
+        //add all units in the drag rectangle to the currently selected units
+
+        //add the new selected units to previously selected ones
+        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+        updatedUnitSelection.addAll(selectedUnits);
+
+        gameModel.setUnitSelection(updatedUnitSelection);
       } else if (mouseEvent.wasCtrlDown()) {
-        leftCtrlDrag(gameModel, mouseEvent);
+        //toggle all in area??
+
+        Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+
+        //if unit already selected, deselct it
+        for(Unit unit : selectedUnits) {
+          if (updatedUnits.contains(unit)) {
+            updatedUnits.remove(unit);
+          } else { //if not, select it
+            updatedUnits.add(unit);
+          }
+        }
+
+        gameModel.setUnitSelection(updatedUnits);
       } else {
-        onlyLeftDrag(gameModel, mouseEvent);
+        //deselect all units then select all units in the drag rectangle
+
+        //deselect all previous selected units
+        gameModel.setUnitSelection(new ArrayList<>());
+
+        if (!selectedUnits.isEmpty()) {
+          gameModel.setUnitSelection(selectedUnits);
+        }
       }
     }
   }
@@ -156,15 +192,7 @@ public class GameController {
    */
   private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
 
-    MapRect dragArea = new MapRect(
-        mouseEvent.getTopLeft(),
-        mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
-    );
 
-    return gameModel.getAllUnits()
-        .stream()
-        .filter(u -> dragArea.contains(u.getRect()))
-        .collect(Collectors.toSet());
   }
 
   /**
@@ -174,15 +202,7 @@ public class GameController {
    * @param mouseEvent -- the mouse drag object
    */
   private static void onlyLeftDrag(GameModel gameModel, MouseDrag mouseEvent) {
-    //deselect all units then select all units in the drag rectangle
-    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
-    //deselect all previous selected units
-    gameModel.setUnitSelection(new ArrayList<>());
-
-    if (!selectedUnits.isEmpty()) {
-      gameModel.setUnitSelection(selectedUnits);
-    }
   }
 
   /**
@@ -192,22 +212,7 @@ public class GameController {
    * @param mouseEvent -- the mouse drag object
    */
   private static void leftCtrlDrag(GameModel gameModel, MouseDrag mouseEvent) {
-    //toggle all in area??
 
-    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
-
-    Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
-
-    //if unit already selected, deselct it
-    for(Unit unit : selectedUnits) {
-      if (updatedUnits.contains(unit)) {
-        updatedUnits.remove(unit);
-      } else { //if not, select it
-        updatedUnits.add(unit);
-      }
-    }
-
-    gameModel.setUnitSelection(updatedUnits);
   }
 
   /**
@@ -217,14 +222,6 @@ public class GameController {
    * @param mouseEvent -- the mouse drag object
    */
   private static void leftShiftDrag(GameModel gameModel, MouseDrag mouseEvent) {
-    //add all units in the drag rectangle to the currently selected units
 
-    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
-
-    //add the new selected units to previously selected ones
-    Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-    updatedUnitSelection.addAll(selectedUnits);
-
-    gameModel.setUnitSelection(updatedUnitSelection);
   }
 }
