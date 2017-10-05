@@ -16,7 +16,6 @@ public abstract class Attackable extends MovableEntity {
   public static final int LEEWAY = 5; // TODO don't hard code
   protected Unit target;
   protected int health;
-
   private int damageAmount;
 
   /**
@@ -72,6 +71,10 @@ public abstract class Attackable extends MovableEntity {
     damageAmount = amount;
   }
 
+  public int getDamageAmount() {
+    return damageAmount;
+  }
+
   /**
    * Returns boolean whether the distance between the target and the Attackable is less than the
    * leeway.
@@ -82,10 +85,7 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       throw new IllegalStateException("No target set");
     }
-    return target.getCentre().distance(getCentre()) < LEEWAY;
+    return target.getCentre().distanceTo(getCentre()) < LEEWAY;
   }
 
-  public int getDamageAmount() {
-    return damageAmount;
-  }
 }

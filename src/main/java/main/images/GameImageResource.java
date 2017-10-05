@@ -11,15 +11,15 @@ package main.images;
 public enum GameImageResource {
   // Items
   POTION_BLUE_ITEM(new GameImageBuilder("images/items/potion-blue.png").create()),
-  RING_BLUE_ITEM(new GameImageBuilder("images/items/ring-gold.png").create()),
+  RING_GOLD_ITEM(new GameImageBuilder("images/items/ring-gold.png").create()),
+  WHITE_BALL_ITEM(
+      new GameImageBuilder("images/projectiles/whitemissile-impact-3.png").create()
+  ),
 
   // Projectiles
   //   NOTE: For consistency, if there are projectiles that have a direction (e.g. an arrow),
   //   the image should have the projectile pointing upwards.
   // Use this one as static image, rather than a sequence of images:
-  WHITE_BALL_PROJECTILE(
-      new GameImageBuilder("images/projectiles/whitemissile-impact-3.png").create()
-  ),
   ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
   FIREBALL_PROJECTILE(new GameImageBuilder("images/projectiles/fireball-impact-1.png").create()),
 

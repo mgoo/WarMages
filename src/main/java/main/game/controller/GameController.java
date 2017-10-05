@@ -84,10 +84,10 @@ public class GameController {
 
       //select the unit under the click if there is one
       Unit selectedUnit = gameModel.getAllUnits().stream().filter(
-          u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
+          u -> u.getCentre().distanceTo(mouseEvent.getLocation()) <= Math
               .max(u.getSize().width, u.getSize().height))
           .sorted(
-              Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
+              Comparator.comparingDouble(s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
           .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
