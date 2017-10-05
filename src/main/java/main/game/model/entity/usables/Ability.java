@@ -1,8 +1,8 @@
 package main.game.model.entity.usables;
 
 import java.io.Serializable;
-import main.game.model.GameModel;
 import main.images.GameImage;
+import main.util.TickTimer;
 
 /**
  * An ability can be applied to (a) HeroUnit(s).
@@ -11,37 +11,31 @@ public abstract class Ability implements Serializable, Usable {
 
   private static final long serialVersionUID = 1L;
 
-  private static double secondsToTicks(double seconds) {
-    double ticksPerSecond = 1000 / GameModel.DELAY;
-    return seconds * ticksPerSecond;
-  }
-
-  /**
-   * Number of ticks in a cool-down period.
-   */
-  private final double coolDownPeriodTicks;
   private final GameImage iconImage;
   private final String description;
 
-  /**
-   * Number of ticks left to end cool down.
-   */
-  private double coolDownTicksLeft;
+  private final TickTimer coolDownTimer;
+  private final double effectDurationSeconds;
 
   /**
    * Constructor takes a string description of the ability, and the icon that represent the
    * ability.
    */
-  public Ability(String description, GameImage icon, double coolDownSeconds) {
+  public Ability(
+      String description,
+      GameImage icon,
+      double coolDownSeconds,
+      double effectDurationSeconds
+  ) {
     this.description = description;
     this.iconImage = icon;
-    this.coolDownPeriodTicks = secondsToTicks(coolDownSeconds);
-    this.coolDownTicksLeft = READY;
+    this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
+    this.effectDurationSeconds = effectDurationSeconds;
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
-    coolDownTicksLeft = Math.max(0, coolDownTicksLeft - 1);
+  public void usableTick(long timeSinceLastTick) {
+    coolDownTimer.tick(timeSinceLastTick);
   }
 
   @Override
@@ -56,11 +50,15 @@ public abstract class Ability implements Serializable, Usable {
 
   @Override
   public double getCoolDownProgress() {
-    return 1 - (coolDownTicksLeft / coolDownPeriodTicks);
+    return coolDownTimer.getProgress();
   }
 
   @Override
   public void _startCoolDown() {
-    coolDownTicksLeft = coolDownPeriodTicks;
+    coolDownTimer.restart();
+  }
+
+  public double getEffectDurationSeconds() {
+    return effectDurationSeconds;
   }
 }

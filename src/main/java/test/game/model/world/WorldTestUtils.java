@@ -8,13 +8,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
-import main.game.model.entity.usables.Ability;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.usables.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
+import main.game.model.entity.usables.Ability;
+import main.game.model.entity.usables.Item;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
@@ -108,14 +108,10 @@ public class WorldTestUtils {
   }
 
   public static Ability createStubAbility() {
-    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 0.01) {
+    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit) {
-          @Override
-          public boolean isExpired() {
-            return true;
-          }
+        return new Effect(unit, 1) {
         };
       }
     };

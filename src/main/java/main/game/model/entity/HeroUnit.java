@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import main.game.model.entity.usables.Ability;
 import main.game.model.entity.usables.Item;
+import main.game.model.world.World;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -72,5 +73,11 @@ public class HeroUnit extends Unit {
    */
   public Collection<Item> getItems() {
     return new ArrayList<>(items);
+  }
+
+  @Override
+  public void tick(long timeSinceLastTick, World world) {
+    super.tick(timeSinceLastTick, world);
+    abilities.forEach(ability -> ability.usableTick(timeSinceLastTick));
   }
 }

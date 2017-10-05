@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import main.game.model.entity.Unit;
 import main.images.GameImage;
+import main.util.TickTimer;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
@@ -39,9 +40,10 @@ public interface Usable extends Serializable {
   }
 
   /**
-   * Should update any cool-down timers.
+   * Should update any cool-down timers. This is not called 'tick' because there is already
+   * a method called 'tick' in {@link main.game.model.entity.Entity}.
    */
-  void tick(long timeSinceLastTick);
+  void usableTick(long timeSinceLastTick);
 
   /**
    * Returns the GameImage of this Ability.
@@ -74,40 +76,47 @@ public interface Usable extends Serializable {
   Effect _createEffectForUnit(Unit unit);
 
   /**
-   * Is created by the {@link Usable} to actually do the work.
+   * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method
+   * are useful to override.
    */
   abstract class Effect implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final Unit targetUnit;
+    private final TickTimer expiryTimer;
 
-    protected Effect(Unit targetUnit) {
+    /**
+     * Default constructor.
+     * @param durationSeconds Number of seconds before this expires. Set to 0 for one-shot effects.
+     */
+    public Effect(Unit targetUnit, double durationSeconds) {
       this.targetUnit = targetUnit;
+      this.expiryTimer = TickTimer.withPeriodInSeconds(durationSeconds);
     }
 
     /**
-     * Optionally apply something to the unit (when the effect starts).
+     * Optionally apply something to the unit (when the effect starts). Override and call super.
      */
     public void start() {
+      expiryTimer.restart();
     }
 
     /**
      * Maybe does something to it's {@link Unit}, or maybe doesn't do anything. If expired, does
-     * nothing. If it becomes expired, optionally do some cleanup on the {@link Unit}.
+     * nothing. If it becomes expired, optionally do some cleanup on the {@link Unit}. If you
+     * override make sure to call super.
      */
     public void tick(long timeSinceLastTick) {
+      expiryTimer.tick(timeSinceLastTick);
     }
-
-    /**
-     * Returns true if this activity has been active for whatever it's activation period is.
-     * One-shot {@link Effect}s like what is used in {@link HealingAbility} should immediately
-     * return true.
-     */
-    public abstract boolean isExpired();
 
     public boolean isApplyingTo(Unit unit) {
       return unit == this.targetUnit;
+    }
+
+    public boolean isExpired() {
+      return expiryTimer.isFinished();
     }
 
     // Methods that consistently affect properties of the Unit if not expired.
