@@ -81,8 +81,8 @@ public class GameController {
   }
 
   /**
-   * Responds to user's mouse actions by calling the appropriate method on the model. The following
-   * scenarios are taken care of:
+   * Responds to user's mouse click actions by calling the appropriate method on the model. The
+   * following scenarios are taken care of:
    *
    * <ul>
    * <li>LEFT click => Deselect all previously selected units and select only the clicked unit</li>
@@ -110,7 +110,6 @@ public class GameController {
           .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
-        //CASE 1 => LEFT CLICK + SHIFT
         //add the new selected unit to the previously selected ones
 
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
@@ -120,7 +119,6 @@ public class GameController {
         gameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseEvent.wasCtrlDown()) {
-        //CASE 2 => LEFT CLICK + CTRL
         //if clicked unit already selected, deselect it. otherwise, select it
 
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
@@ -133,7 +131,6 @@ public class GameController {
         gameModel.setUnitSelection(updatedUnits);
 
       } else {
-        //CASE 3 => LEFT CLICK
         //deselect all previous selected units and select the clicked unit
 
         gameModel.setUnitSelection(new ArrayList<>());
