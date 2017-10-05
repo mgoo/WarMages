@@ -64,7 +64,7 @@ public class PathFinder {
       AStarNode tuple = fringe.poll();
 
       //stop finding a path if we have explored too many nodes
-      if (tuple.getCostFromStart() > start.distance(end)*2) {
+      if (tuple.getCostFromStart() > start.distance(end) * 2) {
         return Collections.emptyList();
       }
 
@@ -99,7 +99,10 @@ public class PathFinder {
 
 
   /**
-   * Returns the PASSABLE neighbouring MapPoints of given MapPoint. Checks the sides of the point (left,right,up,bottom) and if they are passable, add them to the set. For the corners, we ensure that atleast one of the two sides adjacent to the corner must be passable for the corner to be passable too.
+   * Returns the PASSABLE neighbouring MapPoints of given MapPoint. Checks the sides of the point
+   * (left,right,up,bottom) and if they are passable, add them to the set. For the corners, we
+   * ensure that atleast one of the two sides adjacent to the corner must be passable in addition to
+   * the corner being passable.
    *
    * @return the set of passable neighbours
    */
