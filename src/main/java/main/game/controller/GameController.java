@@ -9,6 +9,7 @@ import main.game.model.entity.Unit;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
+import main.game.view.events.MouseDrag;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -93,6 +94,15 @@ public class GameController {
     } else {
       throw new Error("Not yet implemented!"); //TODO
     }
+  }
+
+  /**
+   * TODO javadoc.
+   *
+   * @param mouseEvent -- the MouseClick object for the current mouse click
+   */
+  public void onMouseDrag(MouseDrag mouseEvent) {
+
   }
 
   /**
