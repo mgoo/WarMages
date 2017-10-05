@@ -89,7 +89,7 @@ public class GameController {
    * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise,
    *   select that unit.</li>
    * <li>RIGHT click => All selected units move to the clicked location</li>
-   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
+   * <li>RIGHT click on an enemy => TODO All selected units will attack the enemy unit</li>
    * <li>RIGHT click + SHIFT => Queues move so they will move to the position after it has got to
    *   the position before it</li>
    * </ul>
