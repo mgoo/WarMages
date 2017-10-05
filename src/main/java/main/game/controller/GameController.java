@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
 import main.game.view.GameView;
@@ -11,6 +12,7 @@ import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
 import main.util.MapPoint;
+import main.util.MapRect;
 import main.util.MapSize;
 
 /**
@@ -198,13 +200,12 @@ public class GameController {
    * @return
    */
   private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
-    //select the unit under the click if there is one
+
+    MapRect dragArea = new MapRect(mouseEvent.getTopLeft(), mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height));
+
     return gameModel.getAllUnits().stream().filter(
-        u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
-            .max(u.getSize().width, u.getSize().height))
-        .sorted(
-            Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
-        .findFirst().orElse(null);
+        u -> dragArea.contains(u.getRect())) //using entities bounding box to ensure all of the entity was inside the dragArea
+        .collect(Collectors.toSet());
   }
 
   /**
