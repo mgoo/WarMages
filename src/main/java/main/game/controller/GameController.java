@@ -84,13 +84,16 @@ public class GameController {
    * Responds to user's mouse actions by calling the appropriate method on the model. The following
    * scenarios are taken care of:
    *
-   * <ul> <li>LEFT click => Deselect all previously selected units and select only the clicked
-   * unit</li> <li>LEFT click + SHIFT => Add the clicked unit to the previously selected units</li>
+   * <ul>
+   * <li>LEFT click => Deselect all previously selected units and select only the clicked unit</li>
+   * <li>LEFT click + SHIFT => Add the clicked unit to the previously selected units</li>
    * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise,
-   * select that unit.</li> <li>RIGHT click => All selected units move to the clicked location</li>
-   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li> <li>RIGHT
-   * click + SHIFT => todo queues move so the will move to the position after it has got to the
-   * position before it</li> </ul>
+   *   select that unit.</li>
+   * <li>RIGHT click => All selected units move to the clicked location</li>
+   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
+   * <li>RIGHT click + SHIFT => todo queues move so the will move to the position after it has got
+   *   to the position before it</li>
+   * </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
