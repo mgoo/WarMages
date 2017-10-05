@@ -6,9 +6,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
-import main.game.model.entity.usables.Ability;
+import main.game.model.entity.usable.Ability;
 import main.game.model.entity.Entity;
-import main.game.model.entity.usables.Item;
+import main.game.model.entity.usable.Item;
 import main.menu.MainMenu;
 
 /**

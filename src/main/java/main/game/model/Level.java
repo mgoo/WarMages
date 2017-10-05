@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.game.model.entity.Entity;
-import main.game.model.entity.usables.Item;
+import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;

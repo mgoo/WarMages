@@ -1,6 +1,6 @@
-package main.game.model.entity.usables;
+package main.game.model.entity.usable;
 
-import static main.game.model.entity.usables.Effect.INSTANT_EFFECT_DURATION;
+import static main.game.model.entity.usable.Effect.INSTANT_EFFECT_DURATION;
 
 import main.game.model.entity.Unit;
 import main.images.GameImage;
