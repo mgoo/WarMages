@@ -2,7 +2,6 @@ package main.util;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,6 +77,10 @@ public class MapPoint implements Serializable {
    */
   public double distanceTo(MapPoint other) {
     return Math.hypot(this.x - other.x, this.y - other.y);
+  }
+
+  public MapPoint shiftedBy(double dx, double dy) {
+    return new MapPoint(x + dx, y + dy);
   }
 
   public List<MapPoint> getSides() {
