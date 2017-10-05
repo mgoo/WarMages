@@ -146,47 +146,6 @@ public class GameController {
     }
   }
 
-  /**
-   * TODO javadoc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseClick -- the mouse click location
-   */
-  private static Unit getUnitUnderMouse(GameModel gameModel, MapPoint mouseClick) {
-
-  }
-
-  /**
-   * TODO javaodc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseClick -- the mouse click location
-   */
-  private static void onlyLeftClick(GameModel gameModel, MapPoint mouseClick) {
-    //CASE 3 => ONLY LEFT CLICK
-
-   // }
-  }
-
-  /**
-   * TODO add javadoc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseClick -- the mouse click location
-   */
-  private static void leftCtrlClick(GameModel gameModel, MapPoint mouseClick) {
-
-  }
-
-  /**
-   * TODO javadoc.
-   *
-   * @param gameModel -- the game model
-   * @param mouseClick -- the mouse click location
-   */
-  private static void leftShiftClick(GameModel gameModel, MapPoint mouseClick) {
-
-  }
 
   /**
    * Returns all units under the mouse drag area.
