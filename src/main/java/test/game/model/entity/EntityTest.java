@@ -24,13 +24,14 @@ public class EntityTest {
 
   private final int archerDamage = 5;
   private final int buffDamage = 10;
-  
-  private World getWorld(){
+
+  private World getWorld() {
     return WorldTestUtils.createWorld(WorldTestUtils.createLevels(), getHeroUnit());
   }
-  
-  private HeroUnit getHeroUnit(){
-    return new HeroUnit(new MapPoint(20, 20),
+
+  private HeroUnit getHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(20, 20),
         new MapSize(5, 5),
         new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
@@ -54,7 +55,7 @@ public class EntityTest {
         UnitType.ARCHER
     );
   }
-  
+
   private Unit getEnemy1() {
     return new Unit(
         new MapPoint(20, 20),
@@ -72,7 +73,7 @@ public class EntityTest {
         UnitType.ARCHER
     );
   }
-  
+
   //test changing item position but position isn't changed (item shouldn't move).
   @Test
   public void testNoChangePosition() {
@@ -138,9 +139,9 @@ public class EntityTest {
   public void testHealEnemy() {
     Unit unit1 = getPlayer1();
     Unit unit2 = getEnemy2();
-    int prevHealth = unit2.getHealth();
     unit1.setHealing(true);
     World world = getWorld();
+    int prevHealth = unit2.getHealth();
     unit1.setTarget(unit2, world);
     unit1.tick(100, world);
     assertEquals(prevHealth, unit2.getHealth());
