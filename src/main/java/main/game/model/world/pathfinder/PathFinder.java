@@ -19,6 +19,8 @@ import main.util.MapPoint;
  */
 public class PathFinder {
 
+  private static final int SEARCH_LIMIT = 50;
+
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
    * on the world returning a list of points along current path.
@@ -59,6 +61,11 @@ public class PathFinder {
     Set<MapPoint> visited = new HashSet<>();
 
     while (!fringe.isEmpty()) {
+      //stop finding a path if we have explored too many nodes
+      if(visited.size() >= SEARCH_LIMIT) {
+        return Collections.emptyList();
+      }
+
       AStarNode tuple = fringe.poll();
 
       if (visited.contains(tuple.getPoint())) {
