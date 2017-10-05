@@ -64,7 +64,7 @@ public class PathFinder {
       AStarNode tuple = fringe.poll();
 
       //stop finding a path if we have explored too many nodes
-      if (tuple.getPoint().distance(end) > start.distance(end)) {
+      if (tuple.getCostFromStart() > start.distance(end)*2) {
         return Collections.emptyList();
       }
 
