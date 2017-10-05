@@ -123,11 +123,11 @@ public class GameController {
    */
   private static Unit getUnitUnderMouse(GameModel gameModel, MapPoint mouseClick) {
     //select the unit under the click if there is one
-    return gameModel.getAllUnits().stream().filter(
-        u -> u.getCentre().distance(mouseClick) <= Math
+    return gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getCentre().distance(mouseClick) <= Math
             .max(u.getSize().width, u.getSize().height))
-        .sorted(
-            Comparator.comparingDouble(s -> s.getCentre().distance(mouseClick)))
+        .sorted(Comparator.comparingDouble(s -> s.getCentre().distance(mouseClick)))
         .findFirst().orElse(null);
   }
 
@@ -206,9 +206,9 @@ public class GameController {
         mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
     );
 
-    return gameModel.getAllUnits().stream().filter(
-        u -> dragArea.contains(
-            u.getRect())) //using entities bounding box to ensure all of the entity was inside the dragArea
+    return gameModel.getAllUnits()
+        .stream()
+        .filter(u -> dragArea.contains(u.getRect()))
         .collect(Collectors.toSet());
   }
 
