@@ -35,7 +35,7 @@ import test.game.model.world.WorldTestUtils;
 public class RendererTest {
 
   static Level level = null;
-  static HeroUnit unit = null;
+  static HeroUnit hero = null;
 
   @Before
   public void init(){
@@ -44,7 +44,12 @@ public class RendererTest {
 
   @Test
   public void checkIfRendererDrawsEntities() {
-    level = WorldTestUtils.createLevelWith(WorldTestUtils.createUnit(new MapPoint(30,0)));
+    hero = WorldTestUtils.createHeroUnit(new MapPoint( 10, 0));
+    level = WorldTestUtils.createLevelWith(
+        WorldTestUtils.createUnit(new MapPoint(15,0)),
+        WorldTestUtils.createUnit(new MapPoint(20,0)),
+        WorldTestUtils.createUnit(new MapPoint(25,0))
+    );
     TestApplication.main(new String[0]);
   }
 
@@ -57,7 +62,7 @@ public class RendererTest {
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
         .createWorld(
             WorldTestUtils.createLevels(level),
-            WorldTestUtils.createHeroUnit()
+            hero
         ), new MainGameTick());
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
