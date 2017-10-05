@@ -188,7 +188,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultPlayerKnight() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(0, 0),
         new MapSize(30, 30),
         Team.PLAYER,
         new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
@@ -214,6 +214,15 @@ public class WorldTestUtils {
   public static HeroUnit createHeroUnit() {
     return new HeroUnit(
         new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN
+    );
+  }
+
+  public static HeroUnit createHeroUnit(MapPoint mapPoint) {
+    return new HeroUnit(
+        mapPoint,
         new MapSize(1, 1),
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN
