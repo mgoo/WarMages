@@ -12,14 +12,21 @@ public abstract class Effect implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public static final double INSTANT_EFFECT_DURATION = 0;
+
   private final Unit targetUnit;
   private final TickTimer expiryTimer;
 
   /**
-   * Default constructor.
-   * @param durationSeconds Number of seconds before this expires. Set to 0 for one-shot effects.
+   * Default constructor for a non
+   * @param durationSeconds Number of seconds before this expires. Set to
+   *     {@link Effect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
   public Effect(Unit targetUnit, double durationSeconds) {
+    if (durationSeconds < 0) {
+      throw new IllegalArgumentException();
+    }
+
     this.targetUnit = targetUnit;
     this.expiryTimer = TickTimer.withPeriodInSeconds(durationSeconds);
   }
@@ -40,7 +47,7 @@ public abstract class Effect implements Serializable {
     expiryTimer.tick(timeSinceLastTick);
   }
 
-  public boolean isApplyingTo(Unit unit) {
+  public boolean isTargetUnit(Unit unit) {
     return unit == this.targetUnit;
   }
 
