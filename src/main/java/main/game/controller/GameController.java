@@ -90,8 +90,6 @@ public class GameController {
    *   select that unit.</li>
    * <li>RIGHT click => All selected units move to the clicked location</li>
    * <li>RIGHT click on an enemy => TODO All selected units will attack the enemy unit</li>
-   * <li>RIGHT click + SHIFT => Queues move so they will move to the position after it has got to
-   *   the position before it</li>
    * </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
@@ -141,7 +139,6 @@ public class GameController {
         }
       }
     } else { //otherwise, it must have been a right click
-      if (mouseEvent.wasShiftDown()) {
         //move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setPath(PathFinder.findPath(
@@ -150,11 +147,7 @@ public class GameController {
               mouseEvent.getLocation()
           ));
         }
-      } else if (mouseEvent.wasCtrlDown()) {
-        throw new Error("Not yet implemented!"); //TODO
-      } else {
-        throw new Error("Not yet implemented!"); //TODO
-      }
+      //TODO attack on enemy
     }
   }
 
