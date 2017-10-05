@@ -68,7 +68,6 @@ public class PathFinder {
         return Collections.emptyList();
       }
 
-      //do not visit node again w we have already visited it
       if (visited.contains(tuple.getPoint())) {
         continue;
       }
@@ -80,9 +79,7 @@ public class PathFinder {
       }
 
       for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
-
         if (!visited.contains(neigh)) {
-
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
           List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
@@ -91,7 +88,6 @@ public class PathFinder {
               new AStarNode(neigh, tuple.getPoint(), costToNeigh, estTotal, neighPath));
         }
       }
-
     }
 
     return Collections.emptyList();
