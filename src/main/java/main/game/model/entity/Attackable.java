@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
-import java.util.function.Function;
+import java.util.Objects;
+import main.game.model.world.World;
 import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -12,10 +13,11 @@ public abstract class Attackable extends MovableEntity {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int LEEWAY = 5;
+  public static final int LEEWAY = 5; // TODO don't hard code
   protected Unit target;
-  protected int damageAmount;
   protected int health;
+
+  private int damageAmount;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -28,32 +30,33 @@ public abstract class Attackable extends MovableEntity {
   }
 
   /**
-   * Attacks the given unit.
-   *
-   * @param unit to be attacked
+   * Attacks the current target.
    */
-  abstract void attack(Unit unit);
+  protected abstract void attack();
 
   /**
    * Set's the Unit's target to the given Unit.
    *
    * @param target to be attacked
    */
-  public void setTarget(Unit target) {
-    assert target != null;
-    //todo isPassable function
-    updatePath();
+  public void setTarget(Unit target, World world) {
+    this.target = Objects.requireNonNull(target);
+    updatePath(world);
+  }
+
+  public void clearTarget() {
+    this.target = null;
   }
 
   /**
    * Updates the path in case target has moved.
    */
-  public void updatePath() {
-    //todo isPassable function
-    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
-    if (target != null) {
-      super.setPath(PathFinder.findPath(isPassable, position, target.getCentre()));
+  protected void updatePath(World world) {
+    if (target == null) {
+      return;
     }
+
+    setPath(PathFinder.findPath(world::isPassable, position, target.getCentre()));
   }
 
   /**
@@ -62,7 +65,10 @@ public abstract class Attackable extends MovableEntity {
    * @param amount of damage to deal to target.
    */
   public void setDamageAmount(int amount) {
-    assert amount > 0 && amount < 100;
+    if (amount <= 0 || amount >= 100) {
+      throw new IllegalArgumentException("Invalid damage: " + amount);
+    }
+
     damageAmount = amount;
   }
 
@@ -74,9 +80,12 @@ public abstract class Attackable extends MovableEntity {
    */
   public boolean targetWithinProximity() {
     if (target == null) {
-      return false;
+      throw new IllegalStateException("No target set");
     }
     return target.getCentre().distance(getCentre()) < LEEWAY;
   }
 
+  public int getDamageAmount() {
+    return damageAmount;
+  }
 }

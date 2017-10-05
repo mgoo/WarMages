@@ -16,7 +16,8 @@ import org.junit.Test;
 public class UnitSpriteSheetTest {
 
   /**
-   * This test mainly checks that the loading doesn't cause a crash.
+   * This test mainly checks that the loading doesn't cause a crash (which can happen if
+   * a sprite sheet is too small).
    */
   @Test
   public void loading_forAllSequencesAndDirections_shouldBeCorrectSize() throws IOException {
