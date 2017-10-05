@@ -183,27 +183,24 @@ public class GameController {
 
       if (mouseEvent.wasShiftDown()) {
         //add all units in the drag rectangle to the currently selected units
-
-        //add the new selected units to previously selected ones
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         updatedUnitSelection.addAll(selectedUnits);
-
         gameModel.setUnitSelection(updatedUnitSelection);
+
       } else if (mouseEvent.wasCtrlDown()) {
-        //toggle all in area??
+        //toggle all units under the drag rectangle
 
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
-        //if unit already selected, deselct it
         for (Unit unit : selectedUnits) {
           if (updatedUnits.contains(unit)) {
             updatedUnits.remove(unit);
-          } else { //if not, select it
+          } else {
             updatedUnits.add(unit);
           }
         }
-
         gameModel.setUnitSelection(updatedUnits);
+
       } else {
         //deselect all units then select all units in the drag rectangle
         gameModel.setUnitSelection(new ArrayList<>());
