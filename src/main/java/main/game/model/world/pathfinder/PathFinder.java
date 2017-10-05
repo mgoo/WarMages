@@ -33,7 +33,7 @@ public class PathFinder {
   public static List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
-    List<MapPoint> path = findPathRounded(isPassable, start, end);
+    List<MapPoint> path = findPathRounded(isPassable, start.rounded(), end.rounded());
 
     if (!path.isEmpty()) {
       // Replace rounded end point with non-rounded end point
@@ -52,9 +52,6 @@ public class PathFinder {
   private static List<MapPoint> findPathRounded(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
-    start = start.rounded();
-    end = end.rounded();
-
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
