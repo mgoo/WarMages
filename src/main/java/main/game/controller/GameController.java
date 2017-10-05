@@ -118,8 +118,8 @@ public class GameController {
   /**
    * TODO javadoc.
    *
-   * @param gameModel
-   * @param mouseClick
+   * @param gameModel -- the game model
+   * @param mouseClick -- the mouse click location
    */
   private static Unit getUnitUnderMouse(GameModel gameModel, MapPoint mouseClick) {
     //select the unit under the click if there is one
@@ -134,8 +134,8 @@ public class GameController {
   /**
    * TODO javaodc.
    *
-   * @param gameModel
-   * @param mouseClick
+   * @param gameModel -- the game model
+   * @param mouseClick -- the mouse click location
    */
   private static void onlyLeftClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 3 => ONLY LEFT CLICK
@@ -153,8 +153,8 @@ public class GameController {
   /**
    * TODO add javadoc.
    *
-   * @param gameModel
-   * @param mouseClick
+   * @param gameModel -- the game model
+   * @param mouseClick -- the mouse click location
    */
   private static void leftCtrlClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 2 => LEFT + CTRL
@@ -175,8 +175,8 @@ public class GameController {
   /**
    * TODO javadoc.
    *
-   * @param gameModel
-   * @param mouseClick
+   * @param gameModel -- the game model
+   * @param mouseClick -- the mouse click location
    */
   private static void leftShiftClick(GameModel gameModel, MapPoint mouseClick) {
     //CASE 1 => LEFT + SHIFT
