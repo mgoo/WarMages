@@ -1,8 +1,10 @@
 package main.game.model.entity;
 
+import main.game.model.entity.Usable.Effect;
 import java.util.Iterator;
 import java.util.List;
-import main.game.model.entity.Usable.Effect;
+import java.util.Objects;
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
@@ -40,8 +42,18 @@ public class Unit extends Attackable implements Damageable {
     health = unitType.getStartingHealth();
     speed = unitType.getMovingSpeed();
     spriteSheet = sheet;
-    unitState = new DefaultUnitState(Direction.LEFT, sheet);
+    unitState = new IdleUnitState(Direction.DOWN, this);
+
     setDamageAmount(unitType.getBaselineDamage());
+  }
+
+  /**
+   * Sets the type of attack the Unit will apply to it's targets.
+   *
+   * @param healing either true for healing or false for hurting.
+   */
+  public void setHealing(boolean healing) {
+//    this.healing = healing;
   }
 
   /**
@@ -49,8 +61,12 @@ public class Unit extends Attackable implements Damageable {
    *
    * @param state to be changed to.
    */
-  protected void setStateTo(UnitState state) {
-    unitState.requestState(state);
+  private void setNextState(UnitState state) {
+    unitState.requestState(Objects.requireNonNull(state));
+  }
+
+  public UnitType getUnitType() {
+    return unitType;
   }
 
   /**
@@ -84,22 +100,21 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void tick(long timeSinceLastTick) {
+  public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
-    unitState.tick(timeSinceLastTick);
+    unitState.tick(timeSinceLastTick, world);
     unitState = unitState.updateState();
     //update path in case there is a target and it has moved.
-    super.updatePath();
+    updatePath(world);
     //update position
     MapPoint oldPosition = position;
-    super.tick(timeSinceLastTick);
+    super.tick(timeSinceLastTick, world);
     if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setStateTo(new WalkingUnitState(updateDirection(oldPosition), spriteSheet));
+      setNextState(new WalkingUnitState(updateDirection(oldPosition), this));
     }
     //check if has target and target is within attacking proximity. Request state change.
-    if (targetWithinProximity()) {
-      attack(target);
-      setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
+    if (target != null && targetWithinProximity()) {
+      attack();
     }
 
     tickEffects(timeSinceLastTick);
@@ -111,19 +126,17 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void setImage(GameImage image) {
-    //will not change anything
-  }
+  protected void attack() {
+    if (isDead) {
+      throw new IllegalStateException("Is dead");
+    }
+    if (target == null) {
+      throw new IllegalStateException(
+          "No target to attack. Check if there is a target before calling attack"
+      );
+    }
 
-  @Override
-  public void attack(Unit unit) {
-    if (!unit.equals(target) || isDead || target == null) {
-      return;
-    }
-    setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
-    if (team.canAttackOtherTeam(unit.team)) {
-      unit.takeDamage(getDamageAmount());
-    }
+    setNextState(new AttackingUnitState(unitState.getDirection(), this));
   }
 
   @Override
@@ -151,7 +164,7 @@ public class Unit extends Attackable implements Damageable {
       isDead = true;
       health = 0;
     } else {
-      setStateTo(new BeenHitUnitState(unitState.getDirection(), spriteSheet));
+      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     }
   }
@@ -210,6 +223,15 @@ public class Unit extends Attackable implements Damageable {
         iterator.remove();
       }
     }
+  }
+
+  public Unit getTarget() {
+    return target;
+  }
+
+  private Direction directionToTarget() {
+    // TODO Gabie
+    return Direction.RIGHT;
   }
 
 }

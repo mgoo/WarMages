@@ -11,28 +11,20 @@ public class HealingSphere extends Projectile {
 
   private static final long serialVersionUID = 1L;
 
-  private final int healingAmount = 5;
-
   /**
-   * The constructor takes the coordinates and size f the HealingSphere, and the Unit target to be
-   * hit by the HealingSphere.
+   * The constructor takes the coordinates and size of the HealingSphere, and the Unit target to be
+   * hit by the HealingSphere, as well as the amount of damage to be dealt to the target.
    */
-  public HealingSphere(MapPoint coordinates, MapSize size, Unit target) {
-    super(coordinates, size, target);
+  public HealingSphere(
+      MapPoint coordinates, MapSize size, Unit target, GameImage image, int damageAmount
+  ) {
+    super(coordinates, size, target, image, damageAmount);
   }
 
   @Override
   public void hits(Unit unit) {
     assert unit != null;
     assert unit.equals(target);
-    unit.gainHealth(healingAmount);
-  }
-
-  @Override
-  public void setImage(GameImage image) {
-    if (image == null) {
-      throw new NullPointerException("Parameter image cannot be null!");
-    }
-    this.image = image;
+    unit.gainHealth(damageAmount);
   }
 }

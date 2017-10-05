@@ -22,17 +22,17 @@ public class UnitImagesComponent implements ImagesComponent {
   /**
    * Constructor takes the sequence relevant to the unit's state, the sprite sheet for the unit, and
    * the direction of the unit.
-   *
-   * @param sequence sequence of unit's state.
-   * @param sheet sprite sheet of relevant unit.
-   * @param direction direction of unit.
    */
-  public UnitImagesComponent(Sequence sequence, UnitSpriteSheet sheet, Direction direction) {
+  public UnitImagesComponent(
+      Sequence sequence,
+      Direction direction,
+      Unit unit
+  ) {
     this.sequence = sequence;
     this.direction = direction;
-    this.spriteSheet = sheet;
+    this.spriteSheet = unit.spriteSheet;
     imagesIdx = 0;
-    images = sheet.getImagesForSequence(sequence, direction);
+    images = spriteSheet.getImagesForSequence(sequence, direction);
   }
 
   /**
@@ -63,7 +63,7 @@ public class UnitImagesComponent implements ImagesComponent {
   }
 
   @Override
-  public void changeImage(Long timeSinceLastTick) {
+  public void tick(Long timeSinceLastTick) {
     tickCount++;
     if (tickCount % TICKS_TO_CHANGE == 0) { //change image every certain number of ticks.
       imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
@@ -76,7 +76,17 @@ public class UnitImagesComponent implements ImagesComponent {
   }
 
   @Override
-  public boolean readyToTransition() {
+  public boolean isReadyToTransition() {
     return imagesIdx == images.size() - 1;
+  }
+
+  /**
+   * True if the current image is the image that the attack is supposed to be applied on.
+   *
+   * @throws IllegalStateException if the current sequence is not meant to be for attacking, as
+   *     specified in {@link Sequence#getAttackFrame()};
+   */
+  public boolean isOnAttackFrame() {
+    return sequence.getAttackFrame() == imagesIdx;
   }
 }

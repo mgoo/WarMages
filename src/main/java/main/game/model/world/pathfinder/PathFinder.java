@@ -1,11 +1,13 @@
 package main.game.model.world.pathfinder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import main.util.MapPoint;
 
 /**
@@ -19,7 +21,7 @@ public class PathFinder {
 
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
-   * on the world returning a list of points along this path.
+   * on the world returning a list of points along current path.
    *
    * @param isPassable a function that determines whether a given point is passable or not
    * @param start the start point of the path
@@ -29,6 +31,30 @@ public class PathFinder {
   public static List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
+    List<MapPoint> path = findPathRounded(isPassable, start, end);
+
+    if (path.isEmpty()) {
+      return path;
+    }
+
+    // Replace rounded end point with non-rounded end point
+    path.remove(path.size() - 1);
+    path.add(end);
+
+    return path;
+  }
+
+  /**
+   * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
+   * finish if there is a decimal in the end node was only creates rounded nodes). <p> The last
+   * point in current method is the rounded end point, unless the list is empty. </p>
+   */
+  private static List<MapPoint> findPathRounded(
+      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  ) {
+    start = start.rounded();
+    end = end.rounded();
+
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
@@ -47,9 +73,9 @@ public class PathFinder {
         return tuple.getPath();
       }
 
-      for (MapPoint neigh : tuple.getPoint().getNeighbours()) {
+      for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
 
-        if (!visited.contains(neigh) && isPassable.apply(neigh)) {
+        if (!visited.contains(neigh)) {
 
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
@@ -61,7 +87,52 @@ public class PathFinder {
       }
 
     }
-    return new ArrayList<>();
+
+    return Collections.emptyList();
+  }
+
+
+  /**
+   * Returns the neighbouring MapPoints of current MapPoint. current is achieved by hardcoding the
+   * neighbours in a list and returning that list.
+   *
+   * @return the list of neighbours
+   */
+  private static Set<MapPoint> getPassableNeighbours(
+      Function<MapPoint, Boolean> isPassable, MapPoint current
+  ) {
+    Set<MapPoint> passableNeighbours = new HashSet<>(current.getSides());
+
+    MapPoint[] corners = new MapPoint[]{
+        new MapPoint(current.x - 1, current.y - 1), //top-left
+        new MapPoint(current.x + 1, current.y - 1), //top-right
+        new MapPoint(current.x - 1, current.y + 1), //bottom-left
+        new MapPoint(current.x + 1, current.y + 1) //bottom-right
+    };
+
+    //note: only add the corners if atleast one of the adjacent cells of the corner is passable
+
+    //check top-left corner
+    if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
+      passableNeighbours.add(corners[0]);
+    }
+
+    //check top-right corner
+    if (isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
+      passableNeighbours.add(corners[1]);
+    }
+
+    //check bottom-left corner
+    if (isPassable.apply(corners[2].getRight()) || isPassable.apply(corners[2].getTop())) {
+      passableNeighbours.add(corners[2]);
+    }
+
+    //check bottom-right corner
+    if (isPassable.apply(corners[3].getLeft()) || isPassable.apply(corners[3].getTop())) {
+      passableNeighbours.add(corners[3]);
+    }
+
+    return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {

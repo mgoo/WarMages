@@ -1,6 +1,9 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import main.images.UnitSpriteSheet;
@@ -44,18 +47,15 @@ public class HeroUnit extends Unit {
    * Adds the given item to the HeroUnit's items. Requires the item is not null.
    */
   public void pickUp(Item item) {
-    assert item != null;
-    items.add(item);
+    items.add(requireNonNull(item));
   }
 
   /**
    * Activates the given item.
    */
   public void use(Item item) {
-    if (item == null) {
-      throw new IllegalArgumentException("Null Item");
-    }
-    item.applyTo(this);
+    item.useOnUnits(Arrays.asList(this));
+    // TODO items
   }
 
   /**

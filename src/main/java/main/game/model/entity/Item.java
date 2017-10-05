@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 
@@ -59,5 +60,10 @@ public class Item extends MapEntity implements Usable {
   @Override
   public Effect _createEffectForUnit(Unit unit) {
     return ability._createEffectForUnit(unit);
+  }
+
+  @Override
+  public void tick(long timeSinceLastTick, World world) {
+    tick(timeSinceLastTick);
   }
 }
