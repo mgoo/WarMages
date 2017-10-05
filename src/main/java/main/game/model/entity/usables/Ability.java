@@ -73,7 +73,7 @@ public abstract class Ability implements Serializable, Usable {
     return effectDurationSeconds;
   }
 
-  public double getCoolDownTicks() {
+  public int getCoolDownTicks() {
     return coolDownTimer.getMaxTicks();
   }
 

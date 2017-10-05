@@ -12,8 +12,6 @@ import main.images.GameImage;
  */
 public interface Usable extends Serializable {
 
-  double READY = 0;
-
   /**
    * Creates an {@link Effect} for each unit and applies it to each {@link Unit}.
    *

@@ -14,6 +14,8 @@ import main.game.model.entity.UnitType;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
 import main.game.model.entity.usables.DamageBuffAbility;
 import main.game.model.entity.usables.HealAbility;
+import main.game.model.entity.usables.Item;
+import main.game.model.entity.usables.Usable;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
@@ -28,16 +30,11 @@ public class UsablesTest {
 
   @Test
   public void healAbilityShouldIncreaseHealth() {
-    // Given a heal ability
     HealAbility healAbility = new HealAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),
         2,
         3
     );
-
-    int healAmount = healAbility.getHealAmount();
-    assertTrue(healAmount > 0);
-    // and a heroUnit with the ability
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
@@ -46,24 +43,70 @@ public class UsablesTest {
         Arrays.asList(healAbility)
     );
 
+    healUsableShouldIncreaseHealth(
+        heroUnit,
+        healAbility,
+        healAbility.getHealAmount(),
+        healAbility.getCoolDownTicks()
+    );
+  }
+
+  @Test
+  public void healItemShouldIncreaseHealth() {
+    HeroUnit heroUnit = new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.ARCHER,
+        Arrays.asList()
+    );
+
+    HealAbility healAbility = new HealAbility(
+        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+        2,
+        3
+    );
+    Item healItem = new Item(
+        heroUnit.getTopLeft().shiftedBy(0.001, 0.001),
+        healAbility,
+        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+    );
+    heroUnit.pickUp(healItem);
+
+    healUsableShouldIncreaseHealth(
+        heroUnit,
+        healItem,
+        healAbility.getHealAmount(),
+        healAbility.getCoolDownTicks()
+    );
+  }
+
+  private void healUsableShouldIncreaseHealth(
+      HeroUnit heroUnit,
+      Usable healer,
+      int healAmount,
+      int coolDownTicks
+  ) {
+    // Given a heal with a heal usable
+    assertTrue(healAmount > 0);
     // when the hero takes damage
     heroUnit.takeDamage(heroUnit.getHealth() - 1);
     int lowHealth = heroUnit.getHealth();
-    // and the healAbility is used
-    healAbility.useOnUnits(Arrays.asList(heroUnit));
+    // and the heal is used
+    healer.useOnUnits(Arrays.asList(heroUnit));
 
     // then the health should go up
     int firstNewHealth = heroUnit.getHealth();
     assertEquals(lowHealth + healAmount, firstNewHealth);
     // and ability should be on cool-down
-    assertFalse(healAbility.isReadyToBeUsed());
+    assertFalse(healer.isReadyToBeUsed());
 
     // when the ability finally cools down
-    for (int i = 0; i < healAbility.getCoolDownTicks(); i++) {
-      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
+    for (int i = 0; i < coolDownTicks; i++) {
+      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick usable
     }
-    // and the healAbility is used again
-    healAbility.useOnUnits(Arrays.asList(heroUnit));
+    // and the heal is used again
+    healer.useOnUnits(Arrays.asList(heroUnit));
 
     // then health should increase again
     int secondNewHealth = heroUnit.getHealth();
