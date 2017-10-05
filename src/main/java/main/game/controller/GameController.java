@@ -142,13 +142,30 @@ public class GameController {
     }
     //otherwise, it must have been a right click
     else {
-      //TODO right click logic
+      if(mouseEvent.wasShiftDown()) {
+        //move all selected units to the clicked location
+        for(Unit unit : gameModel.getUnitSelection()) {
+          //TODO
+        }
+      } else if (mouseEvent.wasCtrlDown()) {
+
+      } else {
+
+      }
     }
   }
 
   /**
-   * TODO javadoc.
+   * Responds to user's mouse drag actions by calling the appropriate method on the model. The
+   * following scenarios are taken care of:
    *
+   * <ul>
+   * <li>LEFT drag => Deselect all previously selected units and select only the units under the
+   *   drag rectangle</li>
+   * <li>LEFT drag + SHIFT => Add all units in the drag rectangle to the selected units</li>
+   * <li>LEFT drag + CTRL => Toggle all units in the drag rectangle. If the unit was selected,
+   *   deselect it. Otherwise, select it.</li>
+   * </ul>
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
   public void onMouseDrag(MouseDrag mouseEvent) {
@@ -189,8 +206,6 @@ public class GameController {
         gameModel.setUnitSelection(updatedUnits);
       } else {
         //deselect all units then select all units in the drag rectangle
-
-        //deselect all previous selected units
         gameModel.setUnitSelection(new ArrayList<>());
 
         if (!selectedUnits.isEmpty()) {
