@@ -176,6 +176,7 @@ public class EntityTest {
     BuffItem buff = new BuffItem(
         new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);
+    unit1.setTarget(unit2);
     int prevHealth = unit2.getHealth();
     unit1.attack(unit2);
     assertEquals(prevHealth - buffDamage, unit2.getHealth());
@@ -196,6 +197,7 @@ public class EntityTest {
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER
     );
+    unit1.setTarget(unit2);
     BuffItem buff = new BuffItem(
         new MapPoint(150, 150), GameImageResource.POTION_BLUE_ITEM.getGameImage());
     buff.applyTo(unit1);

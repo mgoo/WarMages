@@ -119,7 +119,7 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public void attack(Unit unit) {
-    if (!unit.equals(target) || isDead || target == null) {
+    if (isDead) {
       return;
     }
     setStateTo(new AttackingUnitState(unitState.getDirection(), spriteSheet, unitType));
@@ -127,7 +127,7 @@ public class Unit extends Attackable implements Damageable {
       if (unit.team.equals(team)) {
         unit.gainHealth(damageAmount);
       }
-    } else if (team.canAttackOtherTeam(unit.team)) {
+    } else if (team.canAttackOtherTeam(unit.team) && unit.equals(target)) {
       unit.takeDamage(damageAmount);
     }
   }
