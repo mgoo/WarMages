@@ -196,7 +196,7 @@ public class Unit extends Attackable implements Damageable {
   }
 
   public void addEffect(Effect effect) {
-    if (!effect.isApplyingTo(this)) {
+    if (!effect.isTargetUnit(this)) {
       throw new IllegalArgumentException();
     }
 

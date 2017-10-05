@@ -1,5 +1,7 @@
 package main.game.model.entity.usables;
 
+import static main.game.model.entity.usables.Effect.INSTANT_EFFECT_DURATION;
+
 import main.game.model.entity.Unit;
 import main.images.GameImage;
 
@@ -17,13 +19,13 @@ public class HealingAbility extends Ability {
       double coolDownSeconds,
       int healAmount
   ) {
-    super("Instantly heals units", icon, coolDownSeconds, 0);
+    super("Instantly heals units", icon, coolDownSeconds, INSTANT_EFFECT_DURATION);
     this.healAmount = healAmount;
   }
 
   @Override
   public Effect _createEffectForUnit(Unit unit) {
-    return new HealEffect(unit, getEffectDurationSeconds());
+    return new HealEffect(unit);
   }
 
   private class HealEffect extends Effect {
@@ -32,8 +34,8 @@ public class HealingAbility extends Ability {
 
     private final Unit unit;
 
-    HealEffect(Unit unit, double durationSeconds) {
-      super(unit, durationSeconds);
+    HealEffect(Unit unit) {
+      super(unit, INSTANT_EFFECT_DURATION);
       this.unit = unit;
     }
 
