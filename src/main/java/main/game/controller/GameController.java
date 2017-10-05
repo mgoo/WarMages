@@ -219,14 +219,14 @@ public class GameController {
    * @param mouseEvent
    */
   private static void onlyLeftDrag(GameModel gameModel, MouseDrag mouseEvent) {
-
+    //deselect all units then select all units in the drag rectangle
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
     //deselect all previous selected units
     gameModel.setUnitSelection(new ArrayList<>());
 
-    if (selectedUnit != null) {
-      gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
+    if (!selectedUnits.isEmpty()) {
+      gameModel.setUnitSelection(selectedUnits);
     }
   }
 
@@ -234,15 +234,19 @@ public class GameController {
    * TODO javadoc.
    */
   private static void leftCtrlDrag(GameModel gameModel, MouseDrag mouseEvent) {
+    //toggle all in area??
+
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
     Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
     //if unit already selected, deselct it
-    if (updatedUnits.contains(selectedUnit)) {
-      updatedUnits.remove(selectedUnit);
-    } else { //if not, select it
-      updatedUnits.add(selectedUnit);
+    for(Unit unit : selectedUnits) {
+      if (updatedUnits.contains(unit)) {
+        updatedUnits.remove(unit);
+      } else { //if not, select it
+        updatedUnits.add(unit);
+      }
     }
 
     gameModel.setUnitSelection(updatedUnits);
@@ -255,14 +259,13 @@ public class GameController {
    * @param mouseEvent
    */
   private static void leftShiftDrag(GameModel gameModel, MouseDrag mouseEvent) {
+    //add all units in the drag rectangle to the currently selected units
 
     Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
     //add the new selected units to previously selected ones
     Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-    if (selectedUnit != null) {
-      updatedUnitSelection.add(selectedUnit);
-    }
+    updatedUnitSelection.addAll(selectedUnits);
 
     gameModel.setUnitSelection(updatedUnitSelection);
   }
