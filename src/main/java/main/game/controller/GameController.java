@@ -35,6 +35,7 @@ public class GameController {
 
     switch (key) {
       case '.':
+        //select all units owned  by the player
         gameModel.setUnitSelection(gameModel.getAllUnits());
         break;
       case 'w': //up
@@ -82,7 +83,6 @@ public class GameController {
   public void onMouseEvent(MouseClick mouseEvent) {
 
     if (mouseEvent.wasLeft()) {
-
       if (mouseEvent.wasShiftDown()) {
         leftShiftClick(gameModel, mouseEvent);
       } else if (mouseEvent.wasCtrlDown()) {
@@ -90,9 +90,6 @@ public class GameController {
       } else {
         onlyLeftClick(gameModel, mouseEvent);
       }
-
-    } else {
-      throw new Error("Not yet implemented!"); //TODO
     }
   }
 
@@ -103,6 +100,15 @@ public class GameController {
    */
   public void onMouseDrag(MouseDrag mouseEvent) {
 
+    if (mouseEvent.wasLeft()) {
+      if (mouseEvent.wasShiftDown()) {
+        leftShiftClick(gameModel, mouseEvent);
+      } else if (mouseEvent.wasCtrlDown()) {
+        leftCtrlClick(gameModel, mouseEvent);
+      } else {
+        onlyLeftClick(gameModel, mouseEvent);
+      }
+    }
   }
 
   /**
