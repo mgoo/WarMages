@@ -22,20 +22,15 @@ import test.game.model.world.WorldTestUtils;
 
 public class EntityTest {
 
-  private final int archerDamage = 5;
+  private final int damageAmt = 5;
   private final int buffDamage = 10;
 
   private World getWorld() {
-    return WorldTestUtils.createWorld(WorldTestUtils.createLevels(), getHeroUnit());
+    return WorldTestUtils.createWorld(WorldTestUtils.createLevels(WorldTestUtils.createEmptyLevel()), getHeroUnit());
   }
 
   private HeroUnit getHeroUnit() {
-    return new HeroUnit(
-        new MapPoint(20, 20),
-        new MapSize(5, 5),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
-    );
+    return getPlayer1();
   }
 
   private HeroUnit getPlayer1() {
@@ -43,7 +38,7 @@ public class EntityTest {
         new MapPoint(20, 20),
         new MapSize(5, 5),
         new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        UnitType.SWORDSMAN
     );
   }
 
@@ -52,7 +47,7 @@ public class EntityTest {
         new MapPoint(25, 20),
         new MapSize(5, 5),
         new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        UnitType.SWORDSMAN
     );
   }
 
@@ -61,7 +56,7 @@ public class EntityTest {
         new MapPoint(20, 20),
         new MapSize(5, 5),
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        UnitType.SWORDSMAN
     );
   }
 
@@ -70,7 +65,7 @@ public class EntityTest {
         new MapPoint(20, 20),
         new MapSize(5, 5),
         Team.ENEMY, new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER
+        UnitType.SWORDSMAN
     );
   }
 
@@ -99,8 +94,8 @@ public class EntityTest {
   public void testDamage() {
     Unit unit = getPlayer1();
     int prevHealth = unit.getHealth();
-    unit.takeDamage(archerDamage);
-    assertEquals(prevHealth - archerDamage, unit.getHealth());
+    unit.takeDamage(damageAmt);
+    assertEquals(prevHealth - damageAmt, unit.getHealth());
   }
 
   @Test
@@ -111,15 +106,15 @@ public class EntityTest {
     unit1.setTarget(unit2, world);
     int prevHealth = unit2.getHealth();
     unit1.tick(100, world);
-    assertEquals(prevHealth - archerDamage, unit2.getHealth());
+    assertEquals(prevHealth - damageAmt, unit2.getHealth());
   }
 
   @Test
   public void testHeal() {
     Unit unit = getPlayer1();
     int prevHealth = unit.getHealth();
-    unit.gainHealth(archerDamage);
-    assertEquals(prevHealth + archerDamage, unit.getHealth());
+    unit.gainHealth(damageAmt);
+    assertEquals(prevHealth + damageAmt, unit.getHealth());
   }
 
   @Test
@@ -132,7 +127,7 @@ public class EntityTest {
     int prevHealth = unit2.getHealth();
     unit1.setHealing(true);
     unit1.tick(100, world);
-    assertEquals(prevHealth + archerDamage, unit2.getHealth());
+    assertEquals(prevHealth + damageAmt, unit2.getHealth());
   }
 
   @Test
@@ -158,7 +153,7 @@ public class EntityTest {
     healing.applyTo(unit1);
     int prevHealth = unit2.getHealth();
     unit1.tick(100, world);
-    assertEquals(prevHealth + archerDamage, unit2.getHealth());
+    assertEquals(prevHealth + damageAmt, unit2.getHealth());
   }
 
   @Test
@@ -209,6 +204,6 @@ public class EntityTest {
     );
     int prevHealth = unit.getHealth();
     sphere.hits(unit);
-    assertEquals(prevHealth + archerDamage, unit.getHealth());
+    assertEquals(prevHealth + damageAmt, unit.getHealth());
   }
 }
