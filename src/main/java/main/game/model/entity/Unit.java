@@ -19,11 +19,12 @@ public class Unit extends Attackable implements Damageable {
 
   private static final long serialVersionUID = 1L;
 
-  protected final Team team;
-  protected boolean isDead = false;
-  protected UnitSpriteSheet spriteSheet;
-  protected UnitType unitType;
-  protected UnitState unitState;
+  private final UnitSpriteSheet spriteSheet;
+  private final Team team;
+
+  private boolean isDead = false;
+  private UnitType unitType;
+  private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
 
   /**
@@ -229,5 +230,8 @@ public class Unit extends Attackable implements Damageable {
     return target;
   }
 
+  public UnitSpriteSheet getSpriteSheet() {
+    return spriteSheet;
+  }
 }
 
