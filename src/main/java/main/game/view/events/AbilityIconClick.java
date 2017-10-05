@@ -1,6 +1,6 @@
 package main.game.view.events;
 
-import main.game.model.entity.Ability;
+import main.game.model.entity.usables.Ability;
 
 /**
  * Data class for when a Ability Icon is clicked.

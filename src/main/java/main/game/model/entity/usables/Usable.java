@@ -1,7 +1,8 @@
-package main.game.model.entity;
+package main.game.model.entity.usables;
 
 import java.io.Serializable;
 import java.util.Collection;
+import main.game.model.entity.Unit;
 import main.images.GameImage;
 
 /**

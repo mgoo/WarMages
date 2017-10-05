@@ -9,7 +9,7 @@ import java.util.Objects;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Item;
+import main.game.model.entity.usables.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;

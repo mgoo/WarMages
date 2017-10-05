@@ -1,5 +1,6 @@
-package main.game.model.entity;
+package main.game.model.entity.usables;
 
+import main.game.model.entity.Unit;
 import main.images.GameImage;
 
 public class HealingAbility extends Ability {
