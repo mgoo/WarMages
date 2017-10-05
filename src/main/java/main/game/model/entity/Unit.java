@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.util.ArrayList;
 import main.game.model.entity.Usable.Effect;
 import java.util.Iterator;
 import java.util.List;
@@ -19,11 +20,11 @@ public class Unit extends Attackable implements Damageable {
   private static final long serialVersionUID = 1L;
 
   protected final Team team;
-  protected boolean isDead;
+  protected boolean isDead = false;
   protected UnitSpriteSheet spriteSheet;
   protected UnitType unitType;
   protected UnitState unitState;
-  private List<Effect> activeEffects;
+  private List<Effect> activeEffects = new ArrayList<>();
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -38,11 +39,10 @@ public class Unit extends Attackable implements Damageable {
     super(position, size);
     this.team = team;
     this.unitType = unitType;
-    isDead = false;
-    health = unitType.getStartingHealth();
-    speed = unitType.getMovingSpeed();
-    spriteSheet = sheet;
-    unitState = new IdleUnitState(Direction.DOWN, this);
+    this.health = unitType.getStartingHealth();
+    this.speed = unitType.getMovingSpeed();
+    this.spriteSheet = sheet;
+    this.unitState = new IdleUnitState(Direction.DOWN, this);
 
     setDamageAmount(unitType.getBaselineDamage());
   }

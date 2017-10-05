@@ -128,7 +128,7 @@ public class WorldLoader {
         ),
         Arrays.asList(
             new Item(
-                new MapPoint(21, 1),
+                new MapPoint(2, 2),
                 new HealingAbility(
                     GameImageResource.POTION_BLUE_ITEM.getGameImage(),
                     30,
@@ -137,7 +137,7 @@ public class WorldLoader {
                 POTION_BLUE_ITEM.getGameImage()
             ),
             new Item(
-                new MapPoint(24, 5),
+                new MapPoint(3, 3),
                 new BuffAbility(
                     GameImageResource.RING_GOLD_ITEM.getGameImage(),
                     15
