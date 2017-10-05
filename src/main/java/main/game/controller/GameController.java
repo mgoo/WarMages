@@ -89,8 +89,8 @@ public class GameController {
    *   select that unit.</li>
    * <li>RIGHT click => All selected units move to the clicked location</li>
    * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
-   * <li>RIGHT click + SHIFT => todo queues move so the will move to the position after it has got
-   *   to the position before it</li>
+   * <li>RIGHT click + SHIFT => Queues move so they will move to the position after it has got to
+   *   the position before it</li>
    * </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
@@ -147,9 +147,9 @@ public class GameController {
           //TODO
         }
       } else if (mouseEvent.wasCtrlDown()) {
-
+        throw new Error("Not yet implemented!"); //TODO
       } else {
-
+        throw new Error("Not yet implemented!"); //TODO
       }
     }
   }
