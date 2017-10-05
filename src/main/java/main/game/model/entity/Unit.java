@@ -1,7 +1,7 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
-import main.game.model.entity.usables.Usable.Effect;
+import main.game.model.entity.usables.Effect;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
