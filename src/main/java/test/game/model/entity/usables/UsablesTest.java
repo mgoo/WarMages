@@ -153,7 +153,7 @@ public class UsablesTest {
     DamageBuffAbility buffAbility = new DamageBuffAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),
         damageIncrease,
-        1,
+        2,
         1
     );
     // and a hero unit with the ability

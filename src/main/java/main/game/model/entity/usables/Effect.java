@@ -63,7 +63,7 @@ public abstract class Effect implements Serializable {
   }
 
   public boolean isExpired() {
-    return !hasStarted && expiryTimer.isFinished();
+    return hasStarted && expiryTimer.isFinished();
   }
 
   private boolean isActive() {
