@@ -45,7 +45,7 @@ public abstract class Projectile extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    double distToTarget = getCentre().distance(target.getCentre());
+    double distToTarget = getCentre().distanceTo(target.getCentre());
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;
     moveX(percentage * (target.getCentre().x - getCentre().x));

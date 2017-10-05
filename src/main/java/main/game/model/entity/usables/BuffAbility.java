@@ -43,7 +43,7 @@ public class BuffAbility extends Ability {
     }
 
     @Override
-    public int getDamageAmount(int currentDamageAmount) {
+    public int alterDamageAmount(int currentDamageAmount) {
       return currentDamageAmount + damageIncrease;
     }
   }

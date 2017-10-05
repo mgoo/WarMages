@@ -208,7 +208,7 @@ public class Unit extends Attackable implements Damageable {
     int amount = super.getDamageAmount();
 
     for (Effect activeEffect : activeEffects) {
-      amount = activeEffect.getDamageAmount(amount);
+      amount = activeEffect.alterDamageAmount(amount);
     }
 
     return amount;
@@ -227,11 +227,6 @@ public class Unit extends Attackable implements Damageable {
 
   public Unit getTarget() {
     return target;
-  }
-
-  private Direction directionToTarget() {
-    // TODO Gabie
-    return Direction.RIGHT;
   }
 
 }

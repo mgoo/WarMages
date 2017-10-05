@@ -44,6 +44,10 @@ public abstract class Effect implements Serializable {
    * override make sure to call super.
    */
   public void tick(long timeSinceLastTick) {
+    if (isExpired()) {
+      throw new IllegalStateException("This is expired already.");
+    }
+
     expiryTimer.tick(timeSinceLastTick);
   }
 
@@ -59,7 +63,7 @@ public abstract class Effect implements Serializable {
   // These methods can do nothing by not overriding.
   // You can assume that this is not expired.
 
-  public int getDamageAmount(int currentDamageAmount) {
+  public int alterDamageAmount(int currentDamageAmount) {
     return currentDamageAmount;
   }
 

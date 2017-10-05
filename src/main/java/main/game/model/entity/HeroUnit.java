@@ -3,7 +3,6 @@ package main.game.model.entity;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import main.game.model.entity.usables.Ability;
@@ -20,6 +19,7 @@ import main.util.MapSize;
 public class HeroUnit extends Unit {
 
   private static final long serialVersionUID = 1L;
+  private static final double PICK_UP_MAX_DISTANCE = 0.5;
 
   private final List<Ability> abilities;
 
@@ -50,15 +50,13 @@ public class HeroUnit extends Unit {
    * Adds the given item to the HeroUnit's items. Requires the item is not null.
    */
   public void pickUp(Item item) {
-    items.add(requireNonNull(item));
-  }
+    requireNonNull(item);
 
-  /**
-   * Activates the given item.
-   */
-  public void use(Item item) {
-    item.useOnUnits(Arrays.asList(this));
-    // TODO items
+    if (getCentre().distanceTo(item.getCentre()) < PICK_UP_MAX_DISTANCE) {
+      throw new IllegalArgumentException("Item is too far away");
+    }
+
+    items.add(item);
   }
 
   /**

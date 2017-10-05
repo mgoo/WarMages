@@ -34,9 +34,7 @@ public interface Usable extends Serializable {
   /**
    * False if currently in a cool-down state.
    */
-  default boolean isReadyToBeUsed() {
-    return getCoolDownProgress() == READY;
-  }
+  boolean isReadyToBeUsed();
 
   /**
    * Should update any cool-down timers. This is not called 'tick' because there is already
