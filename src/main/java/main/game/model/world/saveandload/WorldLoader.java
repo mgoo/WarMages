@@ -140,7 +140,9 @@ public class WorldLoader {
                 new MapPoint(3, 3),
                 new BuffAbility(
                     GameImageResource.RING_GOLD_ITEM.getGameImage(),
-                    15
+                    50,
+                    15,
+                    20
                 ),
                 RING_GOLD_ITEM.getGameImage()
             )
@@ -261,7 +263,9 @@ public class WorldLoader {
                   new MapPoint(24, 5),
                   new BuffAbility(
                       GameImageResource.RING_GOLD_ITEM.getGameImage(),
-                      15
+                      20,
+                      15,
+                      30
                   ),
                   RING_GOLD_ITEM.getGameImage()
               )

@@ -9,21 +9,42 @@ import main.images.GameImage;
 public class BuffAbility extends Ability {
 
   private static final long serialVersionUID = 1L;
-  private final int tickTimeout = 60; //todo finalize
+  private final int damageIncrease;
 
   /**
    * Constructor takes the relevant GameImage icon as a parameter.
    */
-  public BuffAbility(GameImage icon, double coolDownSeconds) {
+  public BuffAbility(
+      GameImage icon,
+      int damageIncrease,
+      double coolDownSeconds,
+      double effectDurationSeconds
+  ) {
     super(
         "This ability buffs the heroUnit using it, allowing the heroUnit to cause more damage.",
         icon,
-        coolDownSeconds
+        coolDownSeconds,
+        effectDurationSeconds
     );
+    this.damageIncrease = damageIncrease;
   }
 
   @Override
   public Effect _createEffectForUnit(Unit unit) {
-    return null;
+    return new BuffEffect(unit, getEffectDurationSeconds());
+  }
+
+  private class BuffEffect extends Effect {
+
+    private static final long serialVersionUID = 1L;
+
+    BuffEffect(Unit targetUnit, double durationSeconds) {
+      super(targetUnit, durationSeconds);
+    }
+
+    @Override
+    public int getDamageAmount(int currentDamageAmount) {
+      return currentDamageAmount + damageIncrease;
+    }
   }
 }

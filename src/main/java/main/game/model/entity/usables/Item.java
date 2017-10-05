@@ -29,9 +29,12 @@ public class Item extends MapEntity implements Usable {
     this.image = onMapImage;
   }
 
+  /**
+   * Should be called by whoever has this {@link Item}.
+   */
   @Override
-  public void tick(long timeSinceLastTick) {
-    ability.tick(timeSinceLastTick);
+  public void usableTick(long timeSinceLastTick) {
+    ability.usableTick(timeSinceLastTick);
   }
 
   @Override
@@ -59,8 +62,11 @@ public class Item extends MapEntity implements Usable {
     return ability._createEffectForUnit(unit);
   }
 
+  /**
+   * Should be called by the {@link World} if this is not picked up.
+   */
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    tick(timeSinceLastTick);
+    usableTick(timeSinceLastTick);
   }
 }

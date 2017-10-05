@@ -17,13 +17,13 @@ public class HealingAbility extends Ability {
       double coolDownSeconds,
       int healAmount
   ) {
-    super("Allows the holder to heal teammates", icon, coolDownSeconds);
+    super("Instantly heals units", icon, coolDownSeconds, 0);
     this.healAmount = healAmount;
   }
 
   @Override
   public Effect _createEffectForUnit(Unit unit) {
-    return new HealEffect(unit);
+    return new HealEffect(unit, getEffectDurationSeconds());
   }
 
   private class HealEffect extends Effect {
@@ -32,19 +32,15 @@ public class HealingAbility extends Ability {
 
     private final Unit unit;
 
-    HealEffect(Unit unit) {
-      super(unit);
+    HealEffect(Unit unit, double durationSeconds) {
+      super(unit, durationSeconds);
       this.unit = unit;
     }
 
     @Override
     public void start() {
+      super.start();
       unit.gainHealth(healAmount);
-    }
-
-    @Override
-    public boolean isExpired() {
-      return true;
     }
   }
 
