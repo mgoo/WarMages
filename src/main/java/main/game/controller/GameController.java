@@ -102,11 +102,11 @@ public class GameController {
 
     if (mouseEvent.wasLeft()) {
       if (mouseEvent.wasShiftDown()) {
-        leftShiftClick(gameModel, mouseEvent);
+        leftShiftDrag(gameModel, mouseEvent);
       } else if (mouseEvent.wasCtrlDown()) {
-        leftCtrlClick(gameModel, mouseEvent);
+        leftCtrlDrag(gameModel, mouseEvent);
       } else {
-        onlyLeftClick(gameModel, mouseEvent);
+        onlyLeftDrag(gameModel, mouseEvent);
       }
     }
   }
@@ -175,6 +175,77 @@ public class GameController {
     //CASE 1 => LEFT + SHIFT
 
     Unit selectedUnit = getUnitUnderMouse(gameModel, mouseEvent);
+
+    //add the new selected units to previously selected ones
+    Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+    if (selectedUnit != null) {
+      updatedUnitSelection.add(selectedUnit);
+    }
+
+    gameModel.setUnitSelection(updatedUnitSelection);
+  }
+
+  /**
+   * TODO javadoc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseClick mouseEvent) {
+    //select the unit under the click if there is one
+    return gameModel.getAllUnits().stream().filter(
+        u -> u.getCentre().distance(mouseEvent.getLocation()) <= Math
+            .max(u.getSize().width, u.getSize().height))
+        .sorted(
+            Comparator.comparingDouble(s -> s.getCentre().distance(mouseEvent.getLocation())))
+        .findFirst().orElse(null);
+  }
+
+  /**
+   * TODO javaodc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private static void onlyLeftDrag(GameModel gameModel, MouseClick mouseEvent) {
+
+    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
+
+    //deselect all previous selected units
+    gameModel.setUnitSelection(new ArrayList<>());
+
+    if (selectedUnit != null) {
+      gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
+    }
+  }
+
+  /**
+   * TODO javadoc.
+   */
+  private static void leftCtrlDrag(GameModel gameModel, MouseClick mouseEvent) {
+    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
+
+    Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+
+    //if unit already selected, deselct it
+    if (updatedUnits.contains(selectedUnit)) {
+      updatedUnits.remove(selectedUnit);
+    } else { //if not, select it
+      updatedUnits.add(selectedUnit);
+    }
+
+    gameModel.setUnitSelection(updatedUnits);
+  }
+
+  /**
+   * TODO javadoc.
+   *
+   * @param gameModel
+   * @param mouseEvent
+   */
+  private static void leftShiftDrag(GameModel gameModel, MouseClick mouseEvent) {
+
+    Collection<Unit> selectedUnits = getAllUnitsInArea(gameModel, mouseEvent);
 
     //add the new selected units to previously selected ones
     Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
