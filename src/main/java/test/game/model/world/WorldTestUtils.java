@@ -31,7 +31,7 @@ public class WorldTestUtils {
   public static Unit createUnit(MapPoint point) {
     return new Unit(
         point,
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN

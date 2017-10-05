@@ -6,6 +6,7 @@ import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
 import static test.renderer.RendererTestUtils.createImageView;
 
+import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -20,6 +21,7 @@ import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
 import main.game.view.GameView;
+import main.renderer.Renderable;
 import main.renderer.Renderer;
 import main.util.Config;
 import main.util.Events.MainGameTick;
@@ -44,11 +46,11 @@ public class RendererTest {
 
   @Test
   public void checkIfRendererDrawsEntities() {
-    hero = WorldTestUtils.createHeroUnit(new MapPoint( 10, 0));
+    hero = WorldTestUtils.createHeroUnit(new MapPoint( 0, 0));
     level = WorldTestUtils.createLevelWith(
-        WorldTestUtils.createUnit(new MapPoint(15,0)),
-        WorldTestUtils.createUnit(new MapPoint(20,0)),
-        WorldTestUtils.createUnit(new MapPoint(25,0))
+        WorldTestUtils.createUnit(new MapPoint(1,0)),
+        WorldTestUtils.createUnit(new MapPoint(2,0)),
+        WorldTestUtils.createUnit(new MapPoint(3,0))
     );
     TestApplication.main(new String[0]);
   }
@@ -67,6 +69,7 @@ public class RendererTest {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
+    List<Renderable> renderables = gv.getRenderables(config.getGameModelDelay());
     Renderer.drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
