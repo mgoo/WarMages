@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.game.model.entity.usables.Ability;
+import main.game.model.entity.usables.Item;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;

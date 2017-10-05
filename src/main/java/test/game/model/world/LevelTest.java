@@ -12,7 +12,7 @@ import java.util.Arrays;
 import main.game.model.EntityOutOfBoundsException;
 import main.game.model.OverlappingMapEntitiesException;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Item;
+import main.game.model.entity.usables.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;

@@ -1,5 +1,7 @@
-package main.game.model.entity;
+package main.game.model.entity.usables;
 
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
