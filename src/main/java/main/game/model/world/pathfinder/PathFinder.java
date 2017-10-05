@@ -19,7 +19,7 @@ import main.util.MapPoint;
  */
 public class PathFinder {
 
-  private static final int SEARCH_LIMIT = 50;
+  private static final int SEARCH_LIMIT = 200;
 
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
@@ -61,7 +61,7 @@ public class PathFinder {
       AStarNode tuple = fringe.poll();
 
       //stop finding a path if we have explored too many nodes
-      if (tuple.getCostFromStart() > start.distanceTo(end) * 3 && tuple.getCostFromStart() > 200) {
+      if (tuple.getCostFromStart() > start.distanceTo(end) * 3 && tuple.getCostFromStart() > SEARCH_LIMIT) {
         return Collections.emptyList();
       }
 
