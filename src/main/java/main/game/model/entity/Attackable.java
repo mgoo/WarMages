@@ -85,7 +85,7 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       throw new IllegalStateException("No target set");
     }
-    return target.getCentre().distance(getCentre()) < LEEWAY;
+    return target.getCentre().distanceTo(getCentre()) < LEEWAY;
   }
 
 }

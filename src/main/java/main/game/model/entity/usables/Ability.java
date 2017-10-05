@@ -34,6 +34,11 @@ public abstract class Ability implements Serializable, Usable {
   }
 
   @Override
+  public boolean isReadyToBeUsed() {
+    return coolDownTimer.isFinished();
+  }
+
+  @Override
   public void usableTick(long timeSinceLastTick) {
     coolDownTimer.tick(timeSinceLastTick);
   }

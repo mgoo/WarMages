@@ -29,6 +29,11 @@ public class Item extends MapEntity implements Usable {
     this.image = onMapImage;
   }
 
+  @Override
+  public boolean isReadyToBeUsed() {
+    return ability.isReadyToBeUsed();
+  }
+
   /**
    * Should be called by whoever has this {@link Item}.
    */
