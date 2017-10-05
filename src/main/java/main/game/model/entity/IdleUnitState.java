@@ -1,14 +1,13 @@
 package main.game.model.entity;
 
-import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 
-public class DefaultUnitState extends UnitState {
+public class IdleUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public DefaultUnitState(Direction direction, UnitSpriteSheet sheet) {
-    super(Sequence.IDLE, direction, sheet);
+  public IdleUnitState(Direction direction, Unit unit) {
+    super(Sequence.IDLE, direction, unit);
   }
 
   @Override

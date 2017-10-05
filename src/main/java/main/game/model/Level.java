@@ -11,6 +11,7 @@ import main.game.model.entity.Entity;
 import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
+import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.MapRect;
@@ -22,7 +23,7 @@ public class Level implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private final Collection<MapEntity> borderEntities;
+  private final Collection<UninteractableEntity> borderEntities;
   private final Goal goal;
   private final MapRect bounds;
   private final Collection<Unit> units;
@@ -43,7 +44,7 @@ public class Level implements Serializable {
       Collection<Unit> units,
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
-      Collection<MapEntity> borderEntities,
+      Collection<UninteractableEntity> borderEntities,
       Goal goal,
       String goalDescription
   ) {
@@ -75,7 +76,7 @@ public class Level implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
-  public Collection<MapEntity> getBorderEntities() {
+  public Collection<UninteractableEntity> getBorderEntities() {
     return borderEntities;
   }
 
@@ -117,7 +118,7 @@ public class Level implements Serializable {
     }
 
     if (!overlappingPairs.isEmpty()) {
-      throw new IllegalStateException("Some MapEntities overlap: " + overlappingPairs);
+      throw new OverlappingMapEntitiesException("Some MapEntities overlap: " + overlappingPairs);
     }
   }
 
@@ -129,7 +130,7 @@ public class Level implements Serializable {
         )))
         .collect(Collectors.toList());
     if (!outOfBoundsEntities.isEmpty()) {
-      throw new IllegalStateException("Entities out of bounds: " + outOfBoundsEntities);
+      throw new EntityOutOfBoundsException("Entities out of bounds: " + outOfBoundsEntities);
     }
   }
 
@@ -169,4 +170,5 @@ public class Level implements Serializable {
 
     }
   }
+
 }

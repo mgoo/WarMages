@@ -43,13 +43,7 @@ public class AStarNode implements Comparable<AStarNode> {
 
   @Override
   public int compareTo(AStarNode other) {
-    if (this.totalCost < other.totalCost) {
-      return -1;
-    }
-    if (this.totalCost > other.totalCost) {
-      return 1;
-    }
-    return 0;
+    return Double.compare(this.totalCost, other.totalCost);
   }
 
   public MapPoint getPoint() {
@@ -60,8 +54,41 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
-  public double getTotalCost() {
-    return totalCost;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    AStarNode aStarNode = (AStarNode) o;
+
+    if (Double.compare(aStarNode.costFromStart, costFromStart) != 0) {
+      return false;
+    }
+    if (Double.compare(aStarNode.totalCost, totalCost) != 0) {
+      return false;
+    }
+    if (!currentPoint.equals(aStarNode.currentPoint)) {
+      return false;
+    }
+    return from.equals(aStarNode.from) && pathTaken.equals(aStarNode.pathTaken);
+  }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = currentPoint.hashCode();
+    result = 31 * result + from.hashCode();
+    temp = Double.doubleToLongBits(costFromStart);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(totalCost);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + pathTaken.hashCode();
+    return result;
   }
 
   public List<MapPoint> getPath() {

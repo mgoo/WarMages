@@ -5,10 +5,10 @@ import main.images.GameImage;
 
 public interface ImagesComponent extends Serializable {
 
-  void changeImage(Long timeSinceLastTick);
+  void tick(Long timeSinceLastTick);
 
   GameImage getImage();
 
-  boolean readyToTransition();
+  boolean isReadyToTransition();
 
 }
