@@ -3,6 +3,7 @@ package main.game.model.entity.usables;
 import java.io.Serializable;
 import java.util.Collection;
 import main.game.model.entity.Unit;
+import main.game.model.entity.exceptions.UsableStillInCoolDownException;
 import main.images.GameImage;
 
 /**
@@ -20,12 +21,13 @@ public interface Usable extends Serializable {
    */
   default void useOnUnits(Collection<Unit> units) {
     if (!isReadyToBeUsed()) {
-      throw new IllegalStateException("Not ready");
+      throw new UsableStillInCoolDownException();
     }
 
     for (Unit unit : units) {
       Effect effect = _createEffectForUnit(unit);
       unit.addEffect(effect);
+      effect.start();
     }
 
     _startCoolDown();
