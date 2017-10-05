@@ -68,6 +68,7 @@ public class PathFinder {
         return Collections.emptyList();
       }
 
+      //do not visit node again w we have already visited it
       if (visited.contains(tuple.getPoint())) {
         continue;
       }
@@ -98,10 +99,9 @@ public class PathFinder {
 
 
   /**
-   * Returns the neighbouring MapPoints of current MapPoint. current is achieved by hardcoding the
-   * neighbours in a list and returning that list.
+   * Returns the PASSABLE neighbouring MapPoints of given MapPoint. Checks the sides of the point (left,right,up,bottom) and if they are passable, add them to the set. For the corners, we ensure that atleast one of the two sides adjacent to the corner must be passable for the corner to be passable too.
    *
-   * @return the list of neighbours
+   * @return the set of passable neighbours
    */
   private static Set<MapPoint> getPassableNeighbours(
       Function<MapPoint, Boolean> isPassable, MapPoint current
@@ -115,7 +115,7 @@ public class PathFinder {
         new MapPoint(current.x + 1, current.y + 1) //bottom-right
     };
 
-    //note: only add the corners if atleast one of the adjacent cells of the corner is passable
+    //note: only add the corners if atleast one of the adjacent sides to the corner is passable
 
     //check top-left corner
     if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
