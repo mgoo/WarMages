@@ -62,7 +62,7 @@ public class PathFinder {
 
     while (!fringe.isEmpty()) {
       //stop finding a path if we have explored too many nodes
-      if(visited.size() >= SEARCH_LIMIT) {
+      if (visited.size() >= SEARCH_LIMIT) {
         return Collections.emptyList();
       }
 
