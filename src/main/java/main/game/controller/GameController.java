@@ -201,10 +201,14 @@ public class GameController {
    */
   private static Collection<Unit> getAllUnitsInArea(GameModel gameModel, MouseDrag mouseEvent) {
 
-    MapRect dragArea = new MapRect(mouseEvent.getTopLeft(), mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height));
+    MapRect dragArea = new MapRect(
+        mouseEvent.getTopLeft(),
+        mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
+    );
 
     return gameModel.getAllUnits().stream().filter(
-        u -> dragArea.contains(u.getRect())) //using entities bounding box to ensure all of the entity was inside the dragArea
+        u -> dragArea.contains(
+            u.getRect())) //using entities bounding box to ensure all of the entity was inside the dragArea
         .collect(Collectors.toSet());
   }
 
