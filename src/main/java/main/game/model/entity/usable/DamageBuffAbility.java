@@ -1,4 +1,4 @@
-package main.game.model.entity.usables;
+package main.game.model.entity.usable;
 
 import main.game.model.entity.Unit;
 import main.images.GameImage;

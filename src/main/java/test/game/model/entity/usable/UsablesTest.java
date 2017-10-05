@@ -1,4 +1,4 @@
-package test.game.model.entity.usables;
+package test.game.model.entity.usable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,10 +12,10 @@ import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
-import main.game.model.entity.usables.DamageBuffAbility;
-import main.game.model.entity.usables.HealAbility;
-import main.game.model.entity.usables.Item;
-import main.game.model.entity.usables.Usable;
+import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.usable.HealAbility;
+import main.game.model.entity.usable.Item;
+import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;

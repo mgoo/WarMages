@@ -17,7 +17,7 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
-import main.game.model.entity.usables.Item;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.util.MapPoint;
 import org.junit.Test;
