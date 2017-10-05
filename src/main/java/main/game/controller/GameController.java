@@ -78,7 +78,7 @@ public class GameController {
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
-  public void onmouseEvent(MouseClick mouseEvent) {
+  public void onMouseEvent(MouseClick mouseEvent) {
 
     if (mouseEvent.wasLeft()) {
 
