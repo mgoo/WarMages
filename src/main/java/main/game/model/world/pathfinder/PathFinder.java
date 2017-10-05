@@ -61,12 +61,12 @@ public class PathFinder {
     Set<MapPoint> visited = new HashSet<>();
 
     while (!fringe.isEmpty()) {
+      AStarNode tuple = fringe.poll();
+
       //stop finding a path if we have explored too many nodes
       if (visited.size() >= SEARCH_LIMIT) {
         return Collections.emptyList();
       }
-
-      AStarNode tuple = fringe.poll();
 
       if (visited.contains(tuple.getPoint())) {
         continue;
