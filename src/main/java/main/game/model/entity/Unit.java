@@ -201,7 +201,12 @@ public class Unit extends Attackable implements Damageable {
       throw new IllegalArgumentException();
     }
 
-    activeEffects.add(effect);
+    effect.start();
+
+    // If the buff expired immediately
+    if (!effect.isExpired()) {
+      activeEffects.add(effect);
+    }
   }
 
   @Override
@@ -218,12 +223,6 @@ public class Unit extends Attackable implements Damageable {
   private void tickEffects(long timeSinceLastTick) {
     for (Iterator<Effect> iterator = activeEffects.iterator(); iterator.hasNext(); ) {
       Effect effect = iterator.next();
-
-      // If the buff expired immediately
-      if (effect.isExpired()) {
-        iterator.remove();
-        continue;
-      }
 
       effect.tick(timeSinceLastTick);
 

@@ -16,6 +16,7 @@ public abstract class Effect implements Serializable {
 
   private final Unit targetUnit;
   private final TickTimer expiryTimer;
+  private boolean hasStarted;
 
   /**
    * Default constructor for a non
@@ -35,6 +36,11 @@ public abstract class Effect implements Serializable {
    * Optionally apply something to the unit (when the effect starts). Override and call super.
    */
   public void start() {
+    if (hasStarted) {
+      throw new IllegalStateException();
+    }
+
+    hasStarted = true;
     expiryTimer.restart();
   }
 
@@ -44,8 +50,8 @@ public abstract class Effect implements Serializable {
    * override make sure to call super.
    */
   public void tick(long timeSinceLastTick) {
-    if (isExpired()) {
-      throw new IllegalStateException("This is expired already.");
+    if (!isActive()) {
+      throw new IllegalStateException();
     }
 
     expiryTimer.tick(timeSinceLastTick);
@@ -59,12 +65,18 @@ public abstract class Effect implements Serializable {
     return expiryTimer.isFinished();
   }
 
-  // Methods below consistently affect properties of the Unit.
-  // These methods can do nothing by not overriding.
-  // You can assume that this is not expired.
-
-  public int alterDamageAmount(int currentDamageAmount) {
-    return currentDamageAmount;
+  private boolean isActive() {
+    return !isExpired() && hasStarted;
   }
 
+  // These methods can do nothing by not overriding.
+  // Methods below consistently affect properties of the Unit.
+
+  public int alterDamageAmount(int currentDamageAmount) {
+    if (!isActive()) {
+      throw new IllegalStateException();
+    }
+
+    return currentDamageAmount;
+  }
 }

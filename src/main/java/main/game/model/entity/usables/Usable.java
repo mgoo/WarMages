@@ -27,7 +27,6 @@ public interface Usable extends Serializable {
     for (Unit unit : units) {
       Effect effect = _createEffectForUnit(unit);
       unit.addEffect(effect);
-      effect.start();
     }
 
     _startCoolDown();
