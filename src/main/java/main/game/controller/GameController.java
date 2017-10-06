@@ -168,10 +168,7 @@ public class GameController {
 
     if (mouseEvent.wasLeft()) {
 
-      MapRect dragArea = new MapRect(
-          mouseEvent.getTopLeft(),
-          mouseEvent.getTopLeft().translate(mouseEvent.getSize().width, mouseEvent.getSize().height)
-      );
+      MapRect dragArea = new MapRect(mouseEvent.getTopLeft(), mouseEvent.getSize());
 
       Collection<Unit> selectedUnits = gameModel.getAllUnits().stream()
           .filter(u -> dragArea.contains(u.getRect()))
@@ -199,11 +196,7 @@ public class GameController {
 
       } else {
         //deselect all units then select all units in the drag rectangle
-        gameModel.setUnitSelection(new ArrayList<>());
-
-        if (!selectedUnits.isEmpty()) {
-          gameModel.setUnitSelection(selectedUnits);
-        }
+        gameModel.setUnitSelection(selectedUnits); // may be empty
       }
     }
   }
