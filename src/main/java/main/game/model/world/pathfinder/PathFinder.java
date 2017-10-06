@@ -69,7 +69,7 @@ public class PathFinder {
       //stop finding a path if we have explored too many nodes
       if (tuple.getCostFromStart() > start.distanceTo(end) * 3
           && tuple.getCostFromStart() > SEARCH_LIMIT) {
-        return (bestPath == null) ? Collections.emptyList() : bestPath.getPath();
+        return bestPath.getPath();
       }
 
       if (visited.contains(tuple.getPoint())) {
