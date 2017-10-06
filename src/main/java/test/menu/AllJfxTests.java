@@ -30,7 +30,6 @@ import main.util.Config;
 import main.util.Events.MainGameTick;
 import main.util.MapPoint;
 import netscape.javascript.JSObject;
-import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 import test.renderer.RendererTestUtils;
@@ -40,13 +39,6 @@ import test.renderer.RendererTestUtils;
  * @author Andrew McGhie
  */
 public class AllJfxTests {
-    
-  @Before
-  public void setUp() {
-    level = null;
-    hero = null;
-  }
-
 
   static Level level = null;
   static HeroUnit hero = null;
