@@ -2,7 +2,6 @@ package test.game.model.entity;
 
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -59,7 +58,7 @@ public class HeroUnitTest {
     heroUnit.tick(delay, mockWorld);
 
     // then ability's tick should have been called
-    verify(mockAbility, times(1)).usableTick(any());
+    verify(mockAbility, times(1)).usableTick(delay);
   }
 
   @Test
