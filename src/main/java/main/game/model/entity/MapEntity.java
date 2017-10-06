@@ -19,7 +19,7 @@ public abstract class MapEntity extends Entity {
   }
 
   @Override
-  public void moveBy(double x, double y) {
+  public void translatePosition(double dx, double dy) {
     throw new UnsupportedOperationException();
   }
 
