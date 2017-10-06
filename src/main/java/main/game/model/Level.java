@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.game.model.entity.Entity;
-import main.game.model.entity.Item;
+import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
@@ -124,10 +124,7 @@ public class Level implements Serializable {
 
   private void ensureNoEntitiesOutOfBounds() {
     Collection<Entity> outOfBoundsEntities = allEntities()
-        .filter((entity) -> !bounds.contains(new MapRect(
-            entity.getTopLeft(),
-            entity.getSize()
-        )))
+        .filter((entity) -> !bounds.contains(entity.getRect()))
         .collect(Collectors.toList());
     if (!outOfBoundsEntities.isEmpty()) {
       throw new EntityOutOfBoundsException("Entities out of bounds: " + outOfBoundsEntities);

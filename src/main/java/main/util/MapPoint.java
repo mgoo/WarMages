@@ -2,7 +2,6 @@ package main.util;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +33,17 @@ public class MapPoint implements Serializable {
         Math.round(x),
         Math.round(y)
     );
+  }
+
+  /**
+   * Returns a new point where this point is translated by the given amount.
+   *
+   * @param x -- translation in x
+   * @param y -- translation in y
+   * @return -- returns the translated point
+   */
+  public MapPoint translate(double x, double y) {
+    return new MapPoint(this.x + x, this.y + y);
   }
 
   @Override
@@ -76,27 +86,27 @@ public class MapPoint implements Serializable {
    * @param other -- the other MapPoint
    * @return the distance from this MapPoint to the other MapPoint
    */
-  public double distance(MapPoint other) {
+  public double distanceTo(MapPoint other) {
     return Math.hypot(this.x - other.x, this.y - other.y);
   }
 
-  /**
-   * Returns the neighbouring MapPoints of this MapPoint. This is achieved by hardcoding the
-   * neighbours in a list and returning that list.
-   *
-   * @return the list of neighbours
-   */
-  public List<MapPoint> getNeighbours() {
-    return new ArrayList<MapPoint>(
-        Arrays.asList(
-            new MapPoint(this.x - 1, this.y), //left
-            new MapPoint(this.x + 1, this.y), //right
-            new MapPoint(this.x, this.y - 1), //top
-            new MapPoint(this.x, this.y + 1), //bottom
-            new MapPoint(this.x - 1, this.y - 1), //top-left
-            new MapPoint(this.x + 1, this.y - 1), //top-right
-            new MapPoint(this.x - 1, this.y + 1), //bottom-left
-            new MapPoint(this.x + 1, this.y + 1) //bottom-right
-        ));
+  public List<MapPoint> getSides() {
+    return Arrays.asList(getLeft(), getRight(), getTop(), getBottom());
+  }
+
+  public MapPoint getLeft() {
+    return new MapPoint(this.x - 1, this.y);
+  }
+
+  public MapPoint getRight() {
+    return new MapPoint(this.x + 1, this.y);
+  }
+
+  public MapPoint getTop() {
+    return new MapPoint(this.x, this.y - 1);
+  }
+
+  public MapPoint getBottom() {
+    return new MapPoint(this.x, this.y + 1);
   }
 }

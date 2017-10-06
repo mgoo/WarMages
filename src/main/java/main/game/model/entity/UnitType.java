@@ -22,7 +22,8 @@ public enum UnitType {
           creator.getCentre(),
           creator.getSize().scaledBy(0.5),
           target,
-          GameImageResource.ARROW_PROJECTILE.getGameImage()
+          GameImageResource.ARROW_PROJECTILE.getGameImage(),
+          creator.getDamageAmount()
       );
     }
   },
@@ -53,7 +54,8 @@ public enum UnitType {
           creator.getCentre(),
           creator.getSize().scaledBy(0.3),
           target,
-          GameImageResource.FIREBALL_PROJECTILE.getGameImage()
+          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          creator.getDamageAmount()
       );
     }
   };

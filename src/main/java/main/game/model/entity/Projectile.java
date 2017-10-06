@@ -15,6 +15,7 @@ public abstract class Projectile extends Entity {
 
   protected final Unit target;
   protected final int speed = 6;
+  protected int damageAmount;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
@@ -27,11 +28,13 @@ public abstract class Projectile extends Entity {
       MapPoint coordinates,
       MapSize size,
       Unit target,
-      GameImage gameImage
+      GameImage gameImage,
+      int damageAmount
   ) {
     super(coordinates, size);
     this.target = target;
     this.image = gameImage;
+    this.damageAmount = damageAmount;
   }
 
   /**
@@ -42,13 +45,13 @@ public abstract class Projectile extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    double distToTarget = getCentre().distance(target.getCentre());
+    double distToTarget = getCentre().distanceTo(target.getCentre());
     double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     double percentage = distToBeTravelled / distToTarget;
     moveX(percentage * (target.getCentre().x - getCentre().x));
     moveY(percentage * (target.getCentre().y - getCentre().y));
     //todo check dist to target and if close enough, hit target.
-    //projectile change image at which point?
+    //projectile change image at which point? Let's have no animations with the projectiles
   }
 }
 
