@@ -33,25 +33,11 @@ public class PathFinder {
   public static List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
-    List<MapPoint> path = findPathRounded(isPassable, start.rounded(), end.rounded());
+    MapPoint endUnrounded = end;
 
-    if (!path.isEmpty()) {
-      // Replace rounded end point with non-rounded end point
-      path.remove(path.size() - 1);
-      path.add(end);
-    }
+    start = start.rounded();
+    end = end.rounded();
 
-    return path;
-  }
-
-  /**
-   * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
-   * finish if there is a decimal in the end node was only creates rounded nodes). <p> The last
-   * point in current method is the rounded end point, unless the list is empty. </p>
-   */
-  private static List<MapPoint> findPathRounded(
-      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
-  ) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
@@ -79,7 +65,12 @@ public class PathFinder {
       visited.add(tuple.getPoint());
 
       if (tuple.getPoint().equals(end)) {
-        return tuple.getPath();
+        List<MapPoint> path = tuple.getPath();
+
+          path.remove(path.size() - 1);
+          path.add(end);
+
+        return path;
       }
 
       for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
