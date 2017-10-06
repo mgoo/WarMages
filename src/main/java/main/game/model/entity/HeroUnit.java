@@ -26,8 +26,6 @@ public class HeroUnit extends Unit {
   private final List<Ability> abilities;
 
   private List<Item> itemInventory = new ArrayList<>();
-  private boolean healing;
-  private int tickCount = 0;
 
   /**
    * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
