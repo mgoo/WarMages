@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public class PathFinderTest {
 
-  private Function<MapPoint, Boolean> allaysPassable = mapPoint -> true;
+  private Function<MapPoint, Boolean> alwaysPassable = mapPoint -> true;
 
   @Test
   public void test01_testHorizontalPath() {
@@ -163,13 +163,13 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(2, 3);
     MapPoint end = new MapPoint(50,1);
 
-    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
+    List<MapPoint> path = PathFinder.findPath(this.alwaysPassable, start, end);
     assertEquals(end, path.get(path.size() - 1));
 
     start = new MapPoint(2.20444, -345.21344);
     end = new MapPoint(-30.948957,1.99034857);
 
-    path = PathFinder.findPath(this.allaysPassable, start, end);
+    path = PathFinder.findPath(this.alwaysPassable, start, end);
     MapPoint pathEnd = path.get(path.size() - 1);
     assertEquals((int)end.x, (int)pathEnd.x);
     assertEquals((int)end.y, (int)pathEnd.y);
@@ -193,21 +193,21 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(50, 0);
     MapPoint end = new MapPoint(0,0);
 
-    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
+    List<MapPoint> path = PathFinder.findPath(this.alwaysPassable, start, end);
     assertEquals(50, path.size());
 
     // Vertical
     start = new MapPoint(0, 0);
     end = new MapPoint(0,75);
 
-    path = PathFinder.findPath(this.allaysPassable, start, end);
+    path = PathFinder.findPath(this.alwaysPassable, start, end);
     assertEquals(75, path.size());
 
     // Diagonal
     start = new MapPoint(100, 100);
     end = new MapPoint(0,0);
 
-    path = PathFinder.findPath(this.allaysPassable, start, end);
+    path = PathFinder.findPath(this.alwaysPassable, start, end);
     assertEquals(100, path.size());
 
     // Some random angle
@@ -216,7 +216,7 @@ public class PathFinderTest {
     start = new MapPoint(0, 0);
     end = new MapPoint(endX,endY);
 
-    path = PathFinder.findPath(this.allaysPassable, start, end);
+    path = PathFinder.findPath(this.alwaysPassable, start, end);
     assertEquals((endX + endY) - Math.min(endX, endY), path.size());
   }
 
@@ -244,8 +244,8 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(0, 0);
     MapPoint end = new MapPoint(20,10);
 
-    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
-    List<MapPoint> reversePath = PathFinder.findPath(this.allaysPassable, end, start);
+    List<MapPoint> path = PathFinder.findPath(this.alwaysPassable, start, end);
+    List<MapPoint> reversePath = PathFinder.findPath(this.alwaysPassable, end, start);
     assertEquals(path.size(), reversePath.size());
     // Ignoree the first and last as they are different
     for (int i = 1; i < path.size() - 1; i++) {
