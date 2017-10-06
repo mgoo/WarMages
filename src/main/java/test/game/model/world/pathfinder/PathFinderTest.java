@@ -147,7 +147,7 @@ public class PathFinderTest {
 
     List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(5, 2));
 
-    assertEquals(mp(3,2), actual.get(actual.size()-1));
+    assertEquals(mp(3,2), actual.get(actual.size() - 1));
   }
 
   private MapPoint mp(double x, double y) {
