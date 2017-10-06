@@ -2,6 +2,7 @@ package test.game.model.world;
 
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
@@ -9,12 +10,15 @@ import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
+import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -30,7 +34,7 @@ public class WorldTestUtils {
   public static Unit createUnit(MapPoint point) {
     return new Unit(
         point,
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
@@ -98,15 +102,22 @@ public class WorldTestUtils {
    * @return an Item at the position point
    */
   public static Item createStubItem(MapPoint point) {
-    return new Item(point) {
-      @Override
-      public void applyTo(Unit unit) {
-        //NOTHING
-      }
+    return new Item(
+        point,
+        createStubAbility(),
+        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+    );
+  }
 
+  /**
+   * Creates and ability that does nothing.
+   */
+  public static Ability createStubAbility() {
+    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
       @Override
-      public void tick(long timeSinceLastTick, World world) {
-        //NOTHING
+      public Effect _createEffectForUnit(Unit unit) {
+        return new Effect(unit, 1) {
+        };
       }
     };
   }
@@ -172,7 +183,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultEnemyOrc() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(60, 60),
         new MapSize(30, 30),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
@@ -187,7 +198,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultPlayerKnight() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(0, 0),
         new MapSize(30, 30),
         Team.PLAYER,
         new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
@@ -207,6 +218,35 @@ public class WorldTestUtils {
         Team.PLAYER,
         new UnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
+    );
+  }
+
+  /**
+   * Creates a hero unit at 1, 1.
+   * @return a new HeroUnit
+   */
+  public static HeroUnit createHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
+    );
+  }
+
+  /**
+   * Creates a hero unit based on mapPoint.
+   * @param mapPoint point on the map
+   * @return a new HeroUnit
+   */
+  public static HeroUnit createHeroUnit(MapPoint mapPoint) {
+    return new HeroUnit(
+        mapPoint,
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
     );
   }
 }

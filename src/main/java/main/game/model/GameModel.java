@@ -10,8 +10,6 @@ import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.util.Events;
 import main.util.Events.MainGameTick;
-import main.util.MapPoint;
-import main.util.MapRect;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
@@ -19,6 +17,9 @@ import main.util.MapRect;
  */
 public class GameModel {
 
+  /**
+   * Milliseconds between ticks.
+   */
   public static final long DELAY = 50;
 
   private final World world;
@@ -84,5 +85,9 @@ public class GameModel {
    */
   public Collection<Unit> getAllUnits() {
     return world.getAllUnits();
+  }
+
+  public World getWorld() {
+    return world;
   }
 }
