@@ -18,12 +18,13 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new StaticImageProjectile(
+      return new Projectile(
           creator.getCentre(),
           creator.getSize().scaledBy(0.5),
           target,
           GameImageResource.ARROW_PROJECTILE.getGameImage(),
-          creator.getDamageAmount()
+          creator.getDamageAmount(),
+          0.05
       );
     }
   },
@@ -50,12 +51,13 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new StaticImageProjectile(
+      return new Projectile(
           creator.getCentre(),
           creator.getSize().scaledBy(0.3),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-          creator.getDamageAmount()
+          creator.getDamageAmount(),
+          0.03
       );
     }
   };

@@ -139,12 +139,12 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void moveBy(double x, double y) {
+  public void translatePosition(double dx, double dy) {
     if (isDead) {
       return;
     }
 
-    super.moveBy(x, y);
+    super.translatePosition(dx, dy);
   }
 
   @Override

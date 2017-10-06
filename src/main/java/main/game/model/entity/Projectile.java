@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
@@ -9,15 +11,15 @@ import main.util.MapSize;
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
  * affects it in some way upon impact.
  */
-public abstract class Projectile extends Entity {
+public class Projectile extends Entity {
 
   private static final long serialVersionUID = 1L;
 
   private static final double IMPACT_DISTANCE = 0.01;
-  private static final double DISTANCE_PER_TICK = 0.1;
 
-  protected final Unit target; // todo private?
-  protected final int damageAmount; // todo final
+  private final int damageAmount;
+  private final Unit target;
+  private final double moveDistancePerTick;
 
   private boolean hasHit = false;
 
@@ -33,19 +35,15 @@ public abstract class Projectile extends Entity {
       MapSize size,
       Unit target,
       GameImage gameImage,
-      int damageAmount
+      int damageAmount,
+      double moveDistancePerTick
   ) {
     super(coordinates, size);
-    this.target = target;
-    this.image = gameImage;
+    this.target = requireNonNull(target);
+    this.image = requireNonNull(gameImage);
     this.damageAmount = damageAmount;
+    this.moveDistancePerTick = moveDistancePerTick;
   }
-
-  /**
-   * Applies actions to given unit when it is hit by the Projectile.
-   * @param target to be hit.
-   */
-  protected abstract void hitTarget(Unit target, World world);
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
@@ -55,20 +53,20 @@ public abstract class Projectile extends Entity {
 
     double distToTarget = getDistanceToTarget();
     // 0.5 if we move halfway there, 1 or greater if we move all the way there, etc
-    double percentage = DISTANCE_PER_TICK / distToTarget;
+    double percentage = moveDistancePerTick / distToTarget;
 
     if (percentage >= 1) {
       percentage = 1; // teleport there because we are close enough
     }
 
-    moveBy(
+    translatePosition(
         percentage * (target.getCentre().x - getCentre().x),
         percentage * (target.getCentre().y - getCentre().y)
     );
 
     if (getDistanceToTarget() <= IMPACT_DISTANCE) {
       hasHit = true;
-      hitTarget(target, world);
+      hitTarget(world);
     }
   }
 
@@ -78,6 +76,14 @@ public abstract class Projectile extends Entity {
 
   public int getDamageAmount() {
     return damageAmount;
+  }
+
+  /**
+   * Applies actions to given unit when it is hit by the Projectile.
+   */
+  private void hitTarget(World world) {
+    target.takeDamage(damageAmount, world);
+    world.removeProjectile(this);
   }
 
   private double getDistanceToTarget() {

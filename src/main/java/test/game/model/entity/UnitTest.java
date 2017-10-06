@@ -111,20 +111,21 @@ public class UnitTest {
       // and the initial health of the enemy
       final int enemyStartingHealth = enemyUnit.getHealth();
 
-      // when a projectile is eventually fired
+      // when a projectile is eventually fired/created
       while (firedProjectiles.isEmpty()) {
         unit.tick(GameModel.DELAY, world);
       }
+      Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      int projectileDamage = firedProjectiles.get(0).getDamageAmount();
+      int projectileDamage = projectile.getDamageAmount();
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something
-      while (!firedProjectiles.get(0).hasHit()) {
+      while (!projectile.hasHit()) {
         unit.tick(GameModel.DELAY, world);
-        // (only tick first projectile, ignore others)
-        firedProjectiles.get(0).tick(GameModel.DELAY, world);
+        // (only tick this projectile, ignore others)
+        projectile.tick(GameModel.DELAY, world);
       }
 
       // then the enemy health should be reduced

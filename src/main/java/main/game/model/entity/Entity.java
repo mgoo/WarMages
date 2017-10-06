@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 import main.game.model.world.World;
 import main.images.GameImage;
@@ -20,13 +22,10 @@ public abstract class Entity implements Serializable {
 
   /**
    * Constructor takes the position of the entity and the size.
-   *
-   * @param position position of Entity.
-   * @param size size of Entity.
    */
   public Entity(MapPoint position, MapSize size) {
-    this.position = position;
-    this.size = size;
+    this.position = requireNonNull(position);
+    this.size = requireNonNull(size);
   }
 
   /**
@@ -64,10 +63,10 @@ public abstract class Entity implements Serializable {
   }
 
   /**
-   * Translates the position of the Entity.
+   * Moves the entity.
    */
-  public void moveBy(double x, double y) {
-    position = position.translate(x, y);
+  public void translatePosition(double dx, double dy) {
+    position = position.translate(dx, dy);
   }
 
   /**
