@@ -65,8 +65,8 @@ public class AStarNode implements Comparable<AStarNode> {
 
     AStarNode aStarNode = (AStarNode) o;
 
-    return Double.compare(aStarNode.costFromStart, costFromStart) == 0
-        && Double.compare(aStarNode.totalCost, totalCost) == 0
+    return (Double.compare(aStarNode.costFromStart, costFromStart) == 0)
+        && (Double.compare(aStarNode.totalCost, totalCost) == 0)
         && currentPoint.equals(aStarNode.currentPoint)
         && from.equals(aStarNode.from)
         && pathTaken.equals(aStarNode.pathTaken);
