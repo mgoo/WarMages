@@ -25,7 +25,8 @@ import main.game.model.world.saveandload.WorldSaveModel.Filesystem;
 import org.junit.Test;
 
 /**
- * Test names here follow the test naming convention: unitOfWorkUnderTest_typeOfInput_expectedResult.
+ * Test names here follow the test naming convention:
+ * unitOfWorkUnderTest_typeOfInput_expectedResult.
  */
 public class WorldSaveModelTest {
 
