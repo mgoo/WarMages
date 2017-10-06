@@ -1,6 +1,7 @@
 package test.game.model.entity;
 
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -11,6 +12,7 @@ import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import java.util.Arrays;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
