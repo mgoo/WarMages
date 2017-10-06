@@ -137,7 +137,7 @@ public class PathFinderTest {
       if(mapPoint.equals(mp(5,2))) {
         return true;
       }
-      if (mapPoint.x >=4 && mapPoint.y >= 1) {
+      if (mapPoint.x >= 4 && mapPoint.y >= 1) {
         return false;
       }
       return true;
