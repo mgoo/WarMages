@@ -109,7 +109,7 @@ public class UnitTest {
       Unit unit = createPlayerUnit(UnitType.ARCHER);
       unit.setTarget(enemyUnit, world);
       // and the initial health of the enemy
-      int enemyStartingHealth = enemyUnit.getHealth();
+      final int enemyStartingHealth = enemyUnit.getHealth();
 
       // when a projectile is eventually fired
       while (firedProjectiles.isEmpty()) {
