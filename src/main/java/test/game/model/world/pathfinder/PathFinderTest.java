@@ -229,6 +229,25 @@ public class PathFinderTest {
   }
 
 
+  @Test
+  public void test09_testImpossiblePathReturnsBestPath() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      return mapPoint.equals(mp(5, 2)) || !(mapPoint.x >= 4) || !(mapPoint.y >= 1);
+    };
+
+    //  123456
+    //0 ++++++
+    //1 S++xxx
+    //2 +++xGx
+    //3 +++xxx
+
+    //S = start; G = goal; x = obstacle; + = free space
+
+    List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(5, 2));
+
+    assertEquals(mp(3,2), actual.get(actual.size() - 1));
+  }
+
   private MapPoint mp(double x, double y) {
     return new MapPoint(x, y);
   }

@@ -30,7 +30,7 @@ public class UnitImagesComponent implements ImagesComponent {
   ) {
     this.sequence = sequence;
     this.direction = direction;
-    this.spriteSheet = unit.spriteSheet;
+    this.spriteSheet = unit.getSpriteSheet();
     imagesIdx = 0;
     images = spriteSheet.getImagesForSequence(sequence, direction);
   }

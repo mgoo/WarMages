@@ -1,6 +1,15 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import main.game.model.entity.exceptions.ItemNotInRangeException;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
 import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -12,51 +21,63 @@ import main.util.MapSize;
 public class HeroUnit extends Unit {
 
   private static final long serialVersionUID = 1L;
+  private static final double PICK_UP_MAX_DISTANCE = 0.5;
 
-  private ArrayList<Ability> abilities;
-  private ArrayList<Item> items;
+  private final List<Ability> abilities;
+
+  private List<Item> itemInventory = new ArrayList<>();
 
   /**
    * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
+   *
    * @param position of HeroUnit.
    * @param size of HeroUnit on Map.
    * @param sheet SpriteSheet of HeroUnit images.
    * @param type of HeroUnit.
    */
-  public HeroUnit(MapPoint position, MapSize size, UnitSpriteSheet sheet, UnitType type) {
+  public HeroUnit(
+      MapPoint position,
+      MapSize size,
+      UnitSpriteSheet sheet,
+      UnitType type,
+      Collection<Ability> abilities
+  ) {
     super(position, size, Team.PLAYER, sheet, type);
-    abilities = new ArrayList<>();
-    items = new ArrayList<>();
+    this.abilities = new ArrayList<>(abilities);
   }
 
   /**
-   * Adds the given item to the HeroUnit's items. Requires the item is not null.
+   * Adds the given item to the HeroUnit's itemInventory. Requires the item is not null.
    */
   public void pickUp(Item item) {
-    assert item != null;
-    items.add(item);
-    //todo if item has ability, include in abilities
-  }
+    requireNonNull(item);
 
-  /**
-   * Activates the given item.
-   */
-  public void use(Item item) {
-    assert item != null;
-    item.applyTo(this);
+    if (getCentre().distanceTo(item.getCentre()) > PICK_UP_MAX_DISTANCE) {
+      throw new ItemNotInRangeException("Item is too far away");
+    }
+
+    itemInventory.add(item);
   }
 
   /**
    * Returns the HeroUnit's abilities.
    */
-  public ArrayList<Ability> getAbilities() {
-    return new ArrayList<>(abilities);
+  public Collection<Ability> getAbilities() {
+    return Collections.unmodifiableList(abilities);
   }
 
   /**
-   * Returns the HeroUnit's items.
+   * Returns the HeroUnit's itemInventory.
    */
-  public ArrayList<Item> getItems() {
-    return new ArrayList<>(items);
+  public Collection<Item> getItemInventory() {
+    return Collections.unmodifiableList(itemInventory);
+  }
+
+  @Override
+  public void tick(long timeSinceLastTick, World world) {
+    super.tick(timeSinceLastTick, world);
+
+    abilities.forEach(ability -> ability.usableTick(timeSinceLastTick));
+    itemInventory.forEach(item -> item.usableTick(timeSinceLastTick));
   }
 }
