@@ -133,20 +133,19 @@ public class GameController {
         //deselect all previous selected units and select the clicked unit
 
         gameModel.setUnitSelection(new ArrayList<>());
-
         if (selectedUnit != null) {
           gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       }
     } else { //otherwise, it must have been a right click
-        //move all selected units to the clicked location
-        for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(PathFinder.findPath(
-              gameModel.getWorld()::isPassable,
-              unit.getTopLeft(),
-              mouseEvent.getLocation()
-          ));
-        }
+      // move all selected units to the clicked location
+      for (Unit unit : gameModel.getUnitSelection()) {
+        unit.setPath(PathFinder.findPath(
+            gameModel.getWorld()::isPassable,
+            unit.getTopLeft(),
+            mouseEvent.getLocation()
+        ));
+      }
       //TODO attack on enemy
     }
   }
