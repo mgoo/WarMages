@@ -95,3 +95,4 @@ public class GameModelTest {
     assertEquals(1, model.getAllUnits().size());
   }
 }
+
