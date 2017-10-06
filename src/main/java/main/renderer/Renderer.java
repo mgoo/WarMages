@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
@@ -17,6 +18,7 @@ import main.util.MapPoint;
 public class Renderer {
 
   private final Thread thread;
+  private final AtomicBoolean isPaused = new AtomicBoolean(false);
 
   /**
    * Creates a Renderer and the rendering loop.
@@ -26,8 +28,17 @@ public class Renderer {
    */
   public Renderer(GameView gameView, ImageView imageView) {
     thread = new Thread(() -> {
-      while (true) {
-        drawAll(System.currentTimeMillis(), gameView, imageView);
+      synchronized (this) {
+        try {
+          while (true) {
+            drawAll(System.currentTimeMillis(), gameView, imageView);
+            if (this.isPaused.get()) {
+              wait();
+            }
+          }
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     });
   }
@@ -41,8 +52,9 @@ public class Renderer {
   public void drawAll(long currentTime, GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
-    BufferedImage image = new BufferedImage(
-        (int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
+
+    BufferedImage image = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+    //(int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     RenderingHints rh = new RenderingHints(
         RenderingHints.KEY_ANTIALIASING,
@@ -64,13 +76,20 @@ public class Renderer {
    *        status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
-    thread.wait(); // TODO TO BE CHANGED
+    this.isPaused.set(true);
   }
 
   /**
    * Resumes the rendering loop. Assumes that rendering loop is currently waiting.
    */
   public void resume() {
-    thread.notify();
+    this.isPaused.set(false);
+    synchronized (this) {
+      this.notify();
+    }
+  }
+
+  public void start() {
+    thread.start();
   }
 }
