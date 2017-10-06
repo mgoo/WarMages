@@ -19,13 +19,8 @@ public abstract class MapEntity extends Entity {
   }
 
   @Override
-  public void moveX(double amount) {
-    //do nothing
-  }
-
-  @Override
-  public void moveY(double amount) {
-    //do nothing
+  public void moveBy(double x, double y) {
+    throw new UnsupportedOperationException();
   }
 
   /**

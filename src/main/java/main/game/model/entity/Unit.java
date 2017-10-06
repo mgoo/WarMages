@@ -139,27 +139,12 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void moveY(double amount) {
+  public void moveBy(double x, double y) {
     if (isDead) {
       return;
     }
-    super.moveY(amount);
-  }
 
-  @Override
-  public void moveX(double amount) {
-    if (isDead) {
-      return;
-    }
-    super.moveX(amount);
-  }
-
-  @Override
-  public void moveTo(MapPoint position) {
-    if (isDead) {
-      return;
-    }
-    super.moveTo(position);
+    super.moveBy(x, y);
   }
 
   @Override
