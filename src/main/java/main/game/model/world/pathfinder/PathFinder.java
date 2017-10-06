@@ -64,12 +64,12 @@ public class PathFinder {
 
       visited.add(tuple.getPoint());
 
+
       if (tuple.getPoint().equals(end)) {
         List<MapPoint> path = tuple.getPath();
 
-          path.remove(path.size() - 1);
-          path.add(end);
-
+        path.remove(path.size() - 1);
+        path.add(endUnrounded);
         return path;
       }
 
