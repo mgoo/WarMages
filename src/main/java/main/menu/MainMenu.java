@@ -19,7 +19,7 @@ public class MainMenu extends Menu {
   private final WorldSaveModel worldSaveModel;
 
   /**
-   * Injects the decencies.
+   * Injects the dependencies.
    */
   public MainMenu(Main main,
                   WorldLoader worldLoader,
@@ -29,22 +29,24 @@ public class MainMenu extends Menu {
     super(main);
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
-    this.menuController = new MainMenuController(this.main,
-        this, worldLoader,
+    this.menuController = new MainMenuController(
+        this.main,
+        this,
+        worldLoader,
         worldSaveModel,
         imageView,
-        config);
+        config
+    );
   }
 
   @Override
   public String getHtml() {
-    return this.fileToString("resources/html/main_menu.html");
+    return this.fileToString(MenuFileResources.MAIN_MENU_HTML.getPath());
   }
 
   @Override
   public String getStyleSheetLocation() {
-    return new File("resources/html/css/main_menu.css").toURI().toString();
-
+    return new File(MenuFileResources.MAIN_MENU_CSS.getPath()).toURI().toString();
   }
 
   /**
