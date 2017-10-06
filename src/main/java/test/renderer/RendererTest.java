@@ -1,11 +1,13 @@
 package test.renderer;
 
 import static javafx.application.Application.launch;
+import static junit.framework.TestCase.fail;
 import static test.renderer.RendererTestUtils.createConfig;
 import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
 import static test.renderer.RendererTestUtils.createImageView;
 
+import java.awt.Desktop;
 import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -13,8 +15,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.game.model.GameModel;
@@ -40,17 +44,20 @@ public class RendererTest {
   static HeroUnit hero = null;
 
   @Before
-  public void init(){
+  public void init() {
     level = null;
   }
 
   @Test
   public void checkIfRendererDrawsEntities() {
-    hero = WorldTestUtils.createHeroUnit(new MapPoint( 0, 0));
+    if (!Desktop.isDesktopSupported()) {
+      return;
+    }
+    hero = WorldTestUtils.createHeroUnit(new MapPoint(0, 0));
     level = WorldTestUtils.createLevelWith(
-        WorldTestUtils.createUnit(new MapPoint(1,0)),
-        WorldTestUtils.createUnit(new MapPoint(2,0)),
-        WorldTestUtils.createUnit(new MapPoint(3,0))
+        WorldTestUtils.createUnit(new MapPoint(1, 0)),
+        WorldTestUtils.createUnit(new MapPoint(2, 0)),
+        WorldTestUtils.createUnit(new MapPoint(3, 0))
     );
     TestApplication.main(new String[0]);
   }
@@ -58,7 +65,6 @@ public class RendererTest {
 
   /**
    * Creates the gameviews and imageviews based on a level and hero unit
-   * @return
    */
   public static Image testImage() {
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
@@ -69,8 +75,7 @@ public class RendererTest {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    List<Renderable> renderables = gv.getRenderables(config.getGameModelDelay());
-    Renderer.drawAll(config.getGameModelDelay(), gv, iv);
+//    Renderer.drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
@@ -90,7 +95,7 @@ public class RendererTest {
       stage.setScene(new Scene(group));
       stage.show();
       PauseTransition delay = new PauseTransition(Duration.seconds(3));
-      delay.setOnFinished(vent -> stage.close() );
+      delay.setOnFinished(vent -> stage.close());
       delay.play();
     }
 
