@@ -27,19 +27,6 @@ import main.util.MapSize;
 public class WorldTestUtils {
 
   /**
-   * Creates a plain hero unit.
-   */
-  public static HeroUnit createHeroUnit() {
-    return new HeroUnit(
-        new MapPoint(1, 1),
-        new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN,
-        Arrays.asList()
-    );
-  }
-
-  /**
    * Creates a unit outside the bounds (less than -100 more than 100 x and y).
    *
    * @return an out of bounds unit
@@ -234,21 +221,32 @@ public class WorldTestUtils {
     );
   }
 
+  /**
+   * Creates a hero unit at 1, 1.
+   * @return a new HeroUnit
+   */
   public static HeroUnit createHeroUnit() {
     return new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
     );
   }
 
+  /**
+   * Creates a hero unit based on mapPoint.
+   * @param mapPoint point on the map
+   * @return a new HeroUnit
+   */
   public static HeroUnit createHeroUnit(MapPoint mapPoint) {
     return new HeroUnit(
         mapPoint,
         new MapSize(1, 1),
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
     );
   }
 }

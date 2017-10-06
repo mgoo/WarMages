@@ -43,11 +43,6 @@ public class RendererTest {
   static Level level = null;
   static HeroUnit hero = null;
 
-  @Before
-  public void init() {
-    level = null;
-  }
-
   @Test
   public void checkIfRendererDrawsEntities() {
     if (!Desktop.isDesktopSupported()) {
@@ -64,7 +59,7 @@ public class RendererTest {
 
 
   /**
-   * Creates the gameviews and imageviews based on a level and hero unit
+   * Creates the gameviews and imageviews based on a level and hero unit.
    */
   public static Image testImage() {
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
@@ -75,13 +70,13 @@ public class RendererTest {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-//    Renderer.drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
 
   /**
-   * A mock application class
+   * A mock application class.
    */
   public static class TestApplication extends Application {
 

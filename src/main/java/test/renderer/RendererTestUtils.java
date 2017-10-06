@@ -22,7 +22,7 @@ public class RendererTestUtils {
   }
 
   /**
-   * Creates a model
+   * Creates a model.
    */
   public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
     return new GameModel(world, mainGameTick);
