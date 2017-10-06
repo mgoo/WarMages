@@ -83,7 +83,8 @@ public class GameModelTest {
   public void testNumberOfEntities_2() {
     model = new GameModel(
         createWorld(
-            createLevels(createLevelWith(createStubItem(new MapPoint(2, 2)),
+            createLevels(createLevelWith(
+                createStubItem(new MapPoint(2, 2)),
                 createStubItem(new MapPoint(6, 6))
             )),
             heroUnit
