@@ -1,5 +1,6 @@
 package test.game.model.world.saveandload;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -106,6 +107,19 @@ public class WorldSaveModelTest {
       throws IOException, ClassNotFoundException {
     World world = new WorldLoader().load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
+  }
+
+  @Test
+  public void saveAndThenLoad_saveWorlds_checkGameSavesAreInOrder() throws IOException {
+    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    World world = new WorldLoader().loadSingleLevelTestWorld();
+    worldSaveModel.save(world, "filenameOne");
+    world = new WorldLoader().loadSingleLevelTestWorld();
+    worldSaveModel.save(world, "filenameTwo");
+    Collection<String> actualCollection = worldSaveModel.getExistingGameSaves();
+    String[] expectedArray = new String[]{"filenameOne." + WorldSaveModel.SAVE_FILE_EXTENSION,
+        "filenameTwo." + WorldSaveModel.SAVE_FILE_EXTENSION};
+    assertArrayEquals(expectedArray, actualCollection.toArray());
   }
 
   private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World originalWorld)

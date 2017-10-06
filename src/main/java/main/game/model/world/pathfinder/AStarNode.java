@@ -54,6 +54,10 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
+  public double getEstimateToGoal() {
+    return totalCost - costFromStart;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -65,16 +69,11 @@ public class AStarNode implements Comparable<AStarNode> {
 
     AStarNode aStarNode = (AStarNode) o;
 
-    if (Double.compare(aStarNode.costFromStart, costFromStart) != 0) {
-      return false;
-    }
-    if (Double.compare(aStarNode.totalCost, totalCost) != 0) {
-      return false;
-    }
-    if (!currentPoint.equals(aStarNode.currentPoint)) {
-      return false;
-    }
-    return from.equals(aStarNode.from) && pathTaken.equals(aStarNode.pathTaken);
+    return (Double.compare(aStarNode.costFromStart, costFromStart) == 0)
+        && (Double.compare(aStarNode.totalCost, totalCost) == 0)
+        && currentPoint.equals(aStarNode.currentPoint)
+        && from.equals(aStarNode.from)
+        && pathTaken.equals(aStarNode.pathTaken);
   }
 
   @Override
