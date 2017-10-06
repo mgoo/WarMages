@@ -1,5 +1,8 @@
 package test.game.model.entity;
 
+import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -7,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import main.game.model.GameModel;
+import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
@@ -17,6 +21,7 @@ import main.util.MapPoint;
 import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
+import test.game.model.world.WorldTestUtils;
 
 public class UnitTest {
 
@@ -98,11 +103,35 @@ public class UnitTest {
       assert projectileCount.get() == 0;
     }
 
+    @Test
+    public void testTeamsCanAttack() {
+      assertTrue(Team.ENEMY.canAttack(Team.PLAYER));
+      assertFalse(Team.PLAYER.canAttack(Team.PLAYER));
+    }
+
+    @Test
+    public void testDamage() {
+      Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      int prevHealth = unit.getHealth();
+      unit.takeDamage(5);
+      assertEquals(prevHealth - 5, unit.getHealth());
+    }
+
     private Unit createPlayerUnit(UnitType unitType) {
       return new Unit(
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
+          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          unitType
+      );
+    }
+
+    private Unit createEnemyUnit(UnitType unitType) {
+      return new Unit(
+          new MapPoint(0, 0),
+          new MapSize(1, 1),
+          Team.ENEMY,
           new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
           unitType
       );
