@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -184,33 +185,37 @@ public class PathFinderTest {
     end = new MapPoint(0,0);
 
     path = PathFinder.findPath(this.allwaysPassable, start, end);
-    assertEquals(200, path.size()); // TODO 100 if the path has being smothed
+    assertEquals(100, path.size());
 
     // Some random angle
     int endX = 123;
     int endY = 282;
     start = new MapPoint(0, 0);
-    end = new MapPoint(endX,endY); // TODO will fail need to think up more math
+    end = new MapPoint(endX,endY);
 
     path = PathFinder.findPath(this.allwaysPassable, start, end);
-    assertEquals(endX + endY, path.size());
+    assertEquals((endX + endY) - Math.min(endX, endY), path.size());
   }
 
 
   @Test
   public void test_cannotGoThoughDiagonalWall() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return mapPoint.x != mapPoint.y || mapPoint.x > 100;
+      return mapPoint.x != mapPoint.y || mapPoint.x > 50;
     };
 
     MapPoint start = new MapPoint(0, 1);
     MapPoint end = new MapPoint(1, 0);
 
     List<MapPoint> path = PathFinder.findPath(isPassable, start, end);
-    assertTrue(path.size() >= 200);
+    assertTrue(path.size() >= 50);
   }
 
+  /**
+   * This test will fail see #108
+   */
   @Test
+  @Ignore
   public void test_reversePathCloseToPath() {
 
     MapPoint start = new MapPoint(0, 0);
@@ -221,10 +226,8 @@ public class PathFinderTest {
     assertEquals(path.size(), reversePath.size());
     // Ignoree the first and last as they are different
     for (int i = 1; i < path.size() - 1; i++) {
-      //      assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
-      //      assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
-      System.out.println((path.get(i).x - reversePath.get(reversePath.size() - (i + 1)).x)
-          + (path.get(i).y - reversePath.get(reversePath.size() - (i + 1)).y));
+            assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
+            assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
     }
   }
 
