@@ -29,14 +29,14 @@ public class HeroUnitTest {
 
   @Test
   public void addingAnItemToTheInventoryShouldWorkWhenItemInRange() {
-    Item item = WorldTestUtils.createStubItem(heroUnit.getTopLeft().shiftedBy(0.001, 0.001));
+    Item item = WorldTestUtils.createStubItem(heroUnit.getTopLeft().translate(0.001, 0.001));
     heroUnit.pickUp(item);
     assertTrue(heroUnit.getItemInventory().contains(item));
   }
 
   @Test(expected = ItemNotInRangeException.class)
   public void addingAnItemToTheInventoryShouldNotWorkWhenItemIsFarAway() {
-    Item item = WorldTestUtils.createStubItem(heroUnit.getCentre().shiftedBy(100, 100));
+    Item item = WorldTestUtils.createStubItem(heroUnit.getCentre().translate(100, 100));
     heroUnit.pickUp(item);
   }
 
