@@ -75,5 +75,9 @@ public abstract class Projectile extends Entity {
   private double getDistanceToTarget() {
     return getCentre().distanceTo(target.getCentre());
   }
+
+  public boolean hasHit() {
+    return hasHit;
+  }
 }
 
