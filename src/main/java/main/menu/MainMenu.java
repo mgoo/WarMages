@@ -41,13 +41,12 @@ public class MainMenu extends Menu {
 
   @Override
   public String getHtml() {
-    return this.fileToString("resources/html/main_menu.html");
+    return this.fileToString(MenuFileResources.MAIN_MENU_HTML.getPath());
   }
 
   @Override
   public String getStyleSheetLocation() {
-    return new File("resources/html/css/main_menu.css").toURI().toString();
-
+    return new File(MenuFileResources.MAIN_MENU_CSS.getPath()).toURI().toString();
   }
 
   /**
