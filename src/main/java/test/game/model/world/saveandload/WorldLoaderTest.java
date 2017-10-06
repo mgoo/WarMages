@@ -73,7 +73,7 @@ public class WorldLoaderTest {
         WorldLoader::newBorderEntityAt
     );
 
-    assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 3x4 grid
+    assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 5x5 grid
     assertTrue(boundEntities.stream().anyMatch(
         entity -> entity.getTopLeft().equals(bounds.topLeft)
     ));
