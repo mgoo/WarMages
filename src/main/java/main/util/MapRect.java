@@ -77,7 +77,7 @@ public class MapRect implements Serializable {
   }
 
   public MapRect move(double x, double y) {
-    return new MapRect(this.topLeft.x + x, this.topLeft.y, this.getWidth(), this.getHeight());
+    return new MapRect(this.topLeft.x + x, this.topLeft.y + y, this.getWidth(), this.getHeight());
   }
 
   public boolean overlapsWith(MapRect mapRect) {
