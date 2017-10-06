@@ -27,19 +27,6 @@ import main.util.MapSize;
 public class WorldTestUtils {
 
   /**
-   * Creates a plain hero unit.
-   */
-  public static HeroUnit createHeroUnit() {
-    return new HeroUnit(
-        new MapPoint(1, 1),
-        new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN,
-        Arrays.asList()
-    );
-  }
-
-  /**
    * Creates a unit outside the bounds (less than -100 more than 100 x and y).
    *
    * @return an out of bounds unit
@@ -47,7 +34,7 @@ public class WorldTestUtils {
   public static Unit createUnit(MapPoint point) {
     return new Unit(
         point,
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
@@ -196,7 +183,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultEnemyOrc() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(60, 60),
         new MapSize(30, 30),
         Team.ENEMY,
         new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
@@ -211,7 +198,7 @@ public class WorldTestUtils {
    */
   public static Unit createDefaultPlayerKnight() {
     return new Unit(
-        new MapPoint(20, 20),
+        new MapPoint(0, 0),
         new MapSize(30, 30),
         Team.PLAYER,
         new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
@@ -231,6 +218,35 @@ public class WorldTestUtils {
         Team.PLAYER,
         new UnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
+    );
+  }
+
+  /**
+   * Creates a hero unit at 1, 1.
+   * @return a new HeroUnit
+   */
+  public static HeroUnit createHeroUnit() {
+    return new HeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
+    );
+  }
+
+  /**
+   * Creates a hero unit based on mapPoint.
+   * @param mapPoint point on the map
+   * @return a new HeroUnit
+   */
+  public static HeroUnit createHeroUnit(MapPoint mapPoint) {
+    return new HeroUnit(
+        mapPoint,
+        new MapSize(1, 1),
+        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Collections.emptyList()
     );
   }
 }
