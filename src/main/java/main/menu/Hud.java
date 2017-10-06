@@ -19,19 +19,23 @@ public class Hud extends Menu {
 
   @Override
   public String getHtml() {
-    return this.fileToString("resources/html/hud.html");
+    return this.fileToString(MenuFileResources.HUD_HTML.getPath());
   }
 
   @Override
   public String getStyleSheetLocation() {
-    return new File("resources/html/css/hud.css").toURI().toString();
+    return new File(MenuFileResources.HUD_CSS.getPath()).toURI().toString();
   }
 
   @Override
   public String[] getScripts() {
     return new String[]{
-      new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
-      new ScriptFileGenerator().setFile("resources/html/js/hud.js").getScript()
+      new ScriptFileGenerator()
+          .setFile(MenuFileResources.JQUERY_JS.getPath())
+          .getScript(),
+      new ScriptFileGenerator()
+          .setFile(MenuFileResources.HUD_JS.getPath())
+          .getScript()
     };
   }
 }
