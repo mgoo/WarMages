@@ -9,6 +9,7 @@ import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
+import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
 import java.util.ArrayList;
@@ -17,8 +18,13 @@ import java.util.Collection;
 import java.util.List;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
+import main.game.model.world.World;
+import main.images.GameImageResource;
 import main.util.Events.MainGameTick;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Test;
 
 public class GameModelTest {
@@ -60,4 +66,32 @@ public class GameModelTest {
     assertFalse(selection.contains(unit3));
   }
 
+  @Test
+  public void testNumberOfEntities_1() {
+    model = new GameModel(
+        createWorld(
+            createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
+            heroUnit
+        ),
+        new MainGameTick()
+    );
+    assertEquals(3, model.getAllEntities().size());
+    assertEquals(3, model.getAllUnits().size());
+  }
+
+  @Test
+  public void testNumberOfEntities_2() {
+    model = new GameModel(
+        createWorld(
+            createLevels(createLevelWith(
+                createStubItem(new MapPoint(2, 2)),
+                createStubItem(new MapPoint(6, 6))
+            )),
+            heroUnit
+        ),
+        new MainGameTick()
+    );
+    assertEquals(3, model.getAllEntities().size());
+    assertEquals(1, model.getAllUnits().size());
+  }
 }
