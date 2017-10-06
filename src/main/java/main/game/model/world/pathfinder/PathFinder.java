@@ -62,7 +62,7 @@ public class PathFinder {
     while (!fringe.isEmpty()) {
       AStarNode tuple = fringe.poll();
 
-      if(tuple.getEstimateToGoal() < bestPath.getEstimateToGoal()) {
+      if(bestPath == null || tuple.getEstimateToGoal() < bestPath.getEstimateToGoal()) {
         bestPath = tuple;
       }
 
