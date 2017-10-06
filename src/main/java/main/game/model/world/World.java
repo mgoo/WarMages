@@ -172,6 +172,9 @@ public class World implements Serializable {
     checkLevelCompletion();
   }
 
+  /**
+   * Units should call this when they die.
+   */
   public void onEnemyKilled(Unit unit) {
     if (unit.getHealth() != 0) {
       throw new IllegalArgumentException();
