@@ -28,10 +28,9 @@ public class StaticImageProjectile extends Projectile {
   }
 
   @Override
-  public void hitTarget(Unit unit, World world) {
-    assert unit != null;
-    assert unit.equals(target);
-    unit.takeDamage(damageAmount, world);
+  public void hitTarget(Unit target, World world) {
+    target.takeDamage(damageAmount, world);
+    world.removeProjectile(this);
   }
 
 }

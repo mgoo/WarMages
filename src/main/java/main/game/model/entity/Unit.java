@@ -155,6 +155,14 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
+  public void moveTo(MapPoint position) {
+    if (isDead) {
+      return;
+    }
+    super.moveTo(position);
+  }
+
+  @Override
   public void takeDamage(int amount, World world) {
     if (isDead) {
       return;

@@ -9,10 +9,10 @@ import java.util.Objects;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
 import main.util.MapPoint;
 
 /**
@@ -98,6 +98,10 @@ public class World implements Serializable {
 
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
+  }
+
+  public void removeProjectile(Projectile projectile) {
+    projectiles.remove(projectile);
   }
 
   public Collection<Projectile> getProjectiles() {
