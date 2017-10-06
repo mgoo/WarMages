@@ -54,6 +54,10 @@ public class AStarNode implements Comparable<AStarNode> {
     return costFromStart;
   }
 
+  public double getEstimateToGoal() {
+    return totalCost - costFromStart;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
