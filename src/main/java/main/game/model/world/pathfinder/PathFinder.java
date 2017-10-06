@@ -57,13 +57,15 @@ public class PathFinder {
 
     Set<MapPoint> visited = new HashSet<>();
 
+    AStarNode bestPath = null;
+
     while (!fringe.isEmpty()) {
       AStarNode tuple = fringe.poll();
 
       //stop finding a path if we have explored too many nodes
       if (tuple.getCostFromStart() > start.distanceTo(end) * 3
           && tuple.getCostFromStart() > SEARCH_LIMIT) {
-        return Collections.emptyList();
+        Collections.emptyList();
       }
 
       if (visited.contains(tuple.getPoint())) {
