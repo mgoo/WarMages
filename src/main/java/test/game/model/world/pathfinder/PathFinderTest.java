@@ -131,6 +131,33 @@ public class PathFinderTest {
     assertEquals(expected, actual);
   }
 
+  @Test
+  public void test09_testImpossiblePathReturnsBestPath() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> {
+      if(mapPoint.equals(mp(2,5))) {
+        return true;
+      }
+      if (mapPoint.x >=3 && mapPoint.x <=6 && mapPoint.y >= 1 && mapPoint.y <=3) {
+        return false;
+      }
+      return true;
+    };
+
+    //  123456
+    //0 ++++++
+    //1 S++xxx
+    //2 +++xGx
+    //3 +++xxx
+
+    //S = start; G = goal; x = obstacle; + = free space
+
+    List<MapPoint> actual = PathFinder.findPath(isPassable, mp(1, 1), mp(5, 2));
+    List<MapPoint> expected = new ArrayList<>(
+        Arrays.asList(mp(1, 2), mp(2, 3), mp(3, 3), mp(4, 3), mp(5, 2)));
+
+    assertEquals(expected, actual);
+  }
+
   private MapPoint mp(double x, double y) {
     return new MapPoint(x, y);
   }
