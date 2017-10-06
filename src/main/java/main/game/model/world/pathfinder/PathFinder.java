@@ -95,7 +95,7 @@ public class PathFinder {
 
     }
 
-    return Collections.emptyList();
+    return (bestPath != null) ? bestPath.getPath() : Collections.emptyList();
   }
 
 
