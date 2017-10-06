@@ -134,13 +134,7 @@ public class PathFinderTest {
   @Test
   public void test09_testImpossiblePathReturnsBestPath() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      if(mapPoint.equals(mp(5,2))) {
-        return true;
-      }
-      if (mapPoint.x >= 4 && mapPoint.y >= 1) {
-        return false;
-      }
-      return true;
+      return mapPoint.equals(mp(5, 2)) || !(mapPoint.x >= 4) || !(mapPoint.y >= 1);
     };
 
     //  123456
