@@ -106,7 +106,7 @@ public class UnitTest {
     public void testProjectileHitShouldReduceHealth() {
       // Given all the objects in the setUp()
       // and a swordsman
-      Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      Unit unit = createPlayerUnit(UnitType.ARCHER);
       unit.setTarget(enemyUnit, world);
       // and the initial health of the enemy
       int enemyStartingHealth = enemyUnit.getHealth();
@@ -115,16 +115,21 @@ public class UnitTest {
       while (firedProjectiles.isEmpty()) {
         unit.tick(GameModel.DELAY, world);
       }
-      // and eventually hits something
+
+      // then the projectile should do damage
+      int projectileDamage = firedProjectiles.get(0).getDamageAmount();
+      assertTrue(projectileDamage > 0);
+
+      // when the projectile eventually hits something
       while (!firedProjectiles.get(0).hasHit()) {
         unit.tick(GameModel.DELAY, world);
-        firedProjectiles.forEach(projectile -> projectile.tick(GameModel.DELAY, world));
+        // (only tick first projectile, ignore others)
+        firedProjectiles.get(0).tick(GameModel.DELAY, world);
       }
-      // and that the projectile
 
       // then the enemy health should be reduced
       int hitEnemyHealth = enemyUnit.getHealth();
-      assertTrue(hitEnemyHealth < enemyStartingHealth);
+      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
     }
 
     private Unit createPlayerUnit(UnitType unitType) {

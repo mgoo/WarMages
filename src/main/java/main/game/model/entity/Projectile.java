@@ -61,9 +61,10 @@ public abstract class Projectile extends Entity {
       percentage = 1; // teleport there because we are close enough
     }
 
+    MapPoint centre = getCentre();
     moveTo(new MapPoint(
-        percentage * (target.getCentre().x - getCentre().x),
-        percentage * (target.getCentre().y - getCentre().y)
+        getTopLeft().x + (percentage * (target.getCentre().x - centre.x)),
+        getTopLeft().y + (percentage * (target.getCentre().y - centre.y))
     ));
 
     if (getDistanceToTarget() <= IMPACT_DISTANCE) {
@@ -72,12 +73,16 @@ public abstract class Projectile extends Entity {
     }
   }
 
-  private double getDistanceToTarget() {
-    return getCentre().distanceTo(target.getCentre());
-  }
-
   public boolean hasHit() {
     return hasHit;
+  }
+
+  public int getDamageAmount() {
+    return damageAmount;
+  }
+
+  private double getDistanceToTarget() {
+    return getCentre().distanceTo(target.getCentre());
   }
 }
 
