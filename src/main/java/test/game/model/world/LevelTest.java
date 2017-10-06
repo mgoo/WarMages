@@ -1,6 +1,6 @@
 package test.game.model.world;
 
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createStubItem;
@@ -11,23 +11,15 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 import main.game.model.EntityOutOfBoundsException;
 import main.game.model.OverlappingMapEntitiesException;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
-import main.images.UnitSpriteSheet;
+import main.game.model.entity.usable.Item;
 import main.util.MapPoint;
-import main.util.MapSize;
 import org.junit.Test;
 
 public class LevelTest {
 
-  private HeroUnit heroUnit = new HeroUnit(
-      new MapPoint(1, 1),
-      new MapSize(1, 1),
-      new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-      UnitType.SWORDSMAN
-  );
+  private HeroUnit heroUnit = createHeroUnit();
 
   @Test(expected = OverlappingMapEntitiesException.class)
   public void ensureNoMapEntitiesCompletelyOverlap() {
@@ -48,7 +40,6 @@ public class LevelTest {
     Unit unit = createUnit(new MapPoint(-200, 0));
     createLevelWith(unit);
   }
-
 
   @Test(expected = EntityOutOfBoundsException.class)
   public void ensureNoUnitOutOfBoundsRight() {
