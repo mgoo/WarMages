@@ -19,6 +19,8 @@ import main.util.MapPoint;
  */
 public class PathFinder {
 
+  private static final int SEARCH_LIMIT = 200;
+
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
    * on the world returning a list of points along current path.
@@ -31,27 +33,8 @@ public class PathFinder {
   public static List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
-    List<MapPoint> path = findPathRounded(isPassable, start, end);
+    MapPoint endUnrounded = end;
 
-    if (path.isEmpty()) {
-      return path;
-    }
-
-    // Replace rounded end point with non-rounded end point
-    path.remove(path.size() - 1);
-    path.add(end);
-
-    return path;
-  }
-
-  /**
-   * Finds the path using a rounded start and end to avoid infinite loops (the algorithm will never
-   * finish if there is a decimal in the end node was only creates rounded nodes). <p> The last
-   * point in current method is the rounded end point, unless the list is empty. </p>
-   */
-  private static List<MapPoint> findPathRounded(
-      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
-  ) {
     start = start.rounded();
     end = end.rounded();
 
@@ -60,8 +43,20 @@ public class PathFinder {
 
     Set<MapPoint> visited = new HashSet<>();
 
+    AStarNode bestPath = null;
+
     while (!fringe.isEmpty()) {
       AStarNode tuple = fringe.poll();
+
+      if (bestPath == null || tuple.getEstimateToGoal() < bestPath.getEstimateToGoal()) {
+        bestPath = tuple;
+      }
+
+      //stop finding a path if we have explored too many nodes
+      if (tuple.getCostFromStart() > start.distanceTo(end) * 3
+          && tuple.getCostFromStart() > SEARCH_LIMIT) {
+        return bestPath.getPath();
+      }
 
       if (visited.contains(tuple.getPoint())) {
         continue;
@@ -69,15 +64,18 @@ public class PathFinder {
 
       visited.add(tuple.getPoint());
 
+
       if (tuple.getPoint().equals(end)) {
-        return tuple.getPath();
+        List<MapPoint> path = tuple.getPath();
+
+        path.remove(path.size() - 1);
+        path.add(endUnrounded);
+        return path;
       }
 
       for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
-
         if (!visited.contains(neigh)) {
-
-          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distance(neigh);
+          double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distanceTo(neigh);
           double estTotal = costToNeigh + estimate(neigh, end);
           List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
           neighPath.add(neigh);
@@ -88,15 +86,17 @@ public class PathFinder {
 
     }
 
-    return Collections.emptyList();
+    return (bestPath != null) ? bestPath.getPath() : Collections.emptyList();
   }
 
 
   /**
-   * Returns the neighbouring MapPoints of current MapPoint. current is achieved by hardcoding the
-   * neighbours in a list and returning that list.
+   * Returns the PASSABLE neighbouring MapPoints of given MapPoint. Checks the sides of the point
+   * (left,right,up,bottom) and if they are passable, add them to the set. For the corners, we
+   * ensure that atleast one of the two sides adjacent to the corner must be passable in addition to
+   * the corner being passable.
    *
-   * @return the list of neighbours
+   * @return the set of passable neighbours
    */
   private static Set<MapPoint> getPassableNeighbours(
       Function<MapPoint, Boolean> isPassable, MapPoint current
@@ -110,7 +110,7 @@ public class PathFinder {
         new MapPoint(current.x + 1, current.y + 1) //bottom-right
     };
 
-    //note: only add the corners if atleast one of the adjacent cells of the corner is passable
+    //note: only add the corners if atleast one of the adjacent sides to the corner is passable
 
     //check top-left corner
     if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
@@ -136,6 +136,6 @@ public class PathFinder {
   }
 
   private static double estimate(MapPoint current, MapPoint goal) {
-    return current.distance(goal);
+    return current.distanceTo(goal);
   }
 }
