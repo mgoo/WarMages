@@ -35,18 +35,23 @@ import netscape.javascript.JSObject;
  */
 public class Main extends Application {
 
-  private Robot robot = new Robot();
-  private WebEngine webEngine;
-  private Menu currentMenu;
-
-  public Main() throws AWTException {
-  }
+  private static final int PREF_WIDTH = 1920;
+  private static final int PREF_HEIGHT = 1080;
 
   /**
    * Start the app.
    */
   public static void main(String[] args) {
     launch(args);
+  }
+
+  private Robot robot = new Robot();
+  private WebEngine webEngine;
+  private Menu currentMenu;
+
+  private Scene scene;
+
+  public Main() throws AWTException {
   }
 
   @Override
@@ -72,7 +77,7 @@ public class Main extends Application {
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-    final Scene scene = new Scene(new Group());
+    this.scene = new Scene(new Group());
     final StackPane root = new StackPane();
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
@@ -86,11 +91,11 @@ public class Main extends Application {
         config
     );
 
-    root.setPrefWidth(1920);
-    root.setPrefHeight(1080);
+    root.setPrefWidth(PREF_WIDTH);
+    root.setPrefHeight(PREF_HEIGHT);
 
-    browser.setPrefWidth(1920);
-    browser.setPrefHeight(1080);
+    browser.setPrefWidth(PREF_WIDTH);
+    browser.setPrefHeight(PREF_HEIGHT);
 
     this.webEngine = browser.getEngine();
 
@@ -112,8 +117,8 @@ public class Main extends Application {
 
     imageView.setImage(new Image(
         new File("resources/images/units/archer.png").toURI().toString(),
-        1920,
-        1080,
+        PREF_WIDTH,
+        PREF_HEIGHT,
         true,
         true
     ));
@@ -128,29 +133,7 @@ public class Main extends Application {
       System.out.println("Code: " + event.getCode().toString());
     });
 
-    browser.setOnMouseExited(event -> {
-      Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-      Window viewBounds = scene.getWindow();
-
-      if (mouseLocation.x < (int) viewBounds.getX()) {
-        Main.this.robot.mouseMove((int) viewBounds.getX(), mouseLocation.y);
-      }
-      if (mouseLocation.x >= (int) (viewBounds.getX() + viewBounds.getWidth() - 1)) {
-        Main.this.robot
-            .mouseMove((int) (viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
-      }
-      if (mouseLocation.y < (int) viewBounds.getY()) {
-        Main.this.robot.mouseMove(mouseLocation.x, (int) viewBounds.getY());
-      }
-      if (mouseLocation.y >= (int) (viewBounds.getY() + viewBounds.getHeight())) {
-        Main.this.robot
-            .mouseMove(mouseLocation.x, (int) (viewBounds.getY() + viewBounds.getHeight()));
-      }
-    });
-
-    browser.setOnMouseMoved(event -> {
-
-    });
+    browser.setOnMouseExited(event -> keepMouseInWindow());
 
     browser.setOnMouseClicked(event -> {
       System.out.println("SHF: " + event.isShiftDown());
@@ -176,6 +159,29 @@ public class Main extends Application {
     webEngine.setUserStyleSheetLocation(menu.getStyleSheetLocation());
     webEngine.loadContent(menu.getHtml());
     return true;
+  }
+
+  /**
+   * Move the mouse back into the window.
+   */
+  private void keepMouseInWindow() {
+    Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+    Window viewBounds = scene.getWindow();
+
+    if (mouseLocation.x < (int) viewBounds.getX()) {
+      Main.this.robot.mouseMove((int) viewBounds.getX(), mouseLocation.y);
+    }
+    if (mouseLocation.x >= (int) (viewBounds.getX() + viewBounds.getWidth() - 1)) {
+      Main.this.robot
+          .mouseMove((int) (viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
+    }
+    if (mouseLocation.y < (int) viewBounds.getY()) {
+      Main.this.robot.mouseMove(mouseLocation.x, (int) viewBounds.getY());
+    }
+    if (mouseLocation.y >= (int) (viewBounds.getY() + viewBounds.getHeight())) {
+      Main.this.robot
+          .mouseMove(mouseLocation.x, (int) (viewBounds.getY() + viewBounds.getHeight()));
+    }
   }
 
 }

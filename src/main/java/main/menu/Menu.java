@@ -7,7 +7,7 @@ import main.Main;
 import main.menu.controller.MenuController;
 
 /**
- * Esssentually a wrapper that brings the html and the controller together.
+ * Essentially a wrapper that brings the html and the controller together.
  *
  * @author Andrew McGhie
  */
