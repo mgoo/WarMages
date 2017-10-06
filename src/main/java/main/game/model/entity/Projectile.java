@@ -61,11 +61,10 @@ public abstract class Projectile extends Entity {
       percentage = 1; // teleport there because we are close enough
     }
 
-    MapPoint centre = getCentre();
-    moveTo(new MapPoint(
-        getTopLeft().x + (percentage * (target.getCentre().x - centre.x)),
-        getTopLeft().y + (percentage * (target.getCentre().y - centre.y))
-    ));
+    moveBy(
+        percentage * (target.getCentre().x - getCentre().x),
+        percentage * (target.getCentre().y - getCentre().y)
+    );
 
     if (getDistanceToTarget() <= IMPACT_DISTANCE) {
       hasHit = true;

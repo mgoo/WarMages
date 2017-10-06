@@ -64,27 +64,10 @@ public abstract class Entity implements Serializable {
   }
 
   /**
-   * Moves the position of the Entity by amount in the x direction.
-   *
-   * @param amount to be moved by.
+   * Translates the position of the Entity.
    */
-  @Deprecated
-  public void moveX(double amount) {
-    position = new MapPoint(position.x + amount, position.y);
-  }
-
-  /**
-   * Moves the position of the Entity by amount in the y direction.
-   *
-   * @param amount to be moved by.
-   */
-  @Deprecated
-  public void moveY(double amount) {
-    position = new MapPoint(position.x, position.y + amount);
-  }
-
-  public void moveTo(MapPoint position) {
-    this.position = position;
+  public void moveBy(double x, double y) {
+    position = position.translate(x, y);
   }
 
   /**
