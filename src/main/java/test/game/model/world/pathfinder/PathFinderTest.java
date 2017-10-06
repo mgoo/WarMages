@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public class PathFinderTest {
 
-  Function<MapPoint, Boolean> allwaysPassable = mapPoint -> true;
+  private Function<MapPoint, Boolean> allaysPassable = mapPoint -> true;
 
   @Test
   public void test01_testHorizontalPath() {
@@ -136,55 +136,55 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test_endOfPathMatchesEnd() {
+  public void test09_endOfPathMatchesEnd() {
     MapPoint start = new MapPoint(2, 3);
     MapPoint end = new MapPoint(50,1);
 
-    List<MapPoint> path = PathFinder.findPath(this.allwaysPassable, start, end);
+    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
     assertEquals(end, path.get(path.size() - 1));
 
     start = new MapPoint(2.20444, -345.21344);
     end = new MapPoint(-30.948957,1.99034857);
 
-    path = PathFinder.findPath(this.allwaysPassable, start, end);
+    path = PathFinder.findPath(this.allaysPassable, start, end);
     MapPoint pathEnd = path.get(path.size() - 1);
     assertEquals((int)end.x, (int)pathEnd.x);
     assertEquals((int)end.y, (int)pathEnd.y);
   }
 
   @Test
-  public void test_FindClosestPossiblePath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {return mapPoint.x != 3;};
+  public void test10_FindClosestPossiblePath() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> mapPoint.x != 3;
 
     MapPoint start = new MapPoint(4, 3);
     MapPoint end = new MapPoint(2,1);
 
-    //    List<MapPoint> path = PathFinder.findPath(isPassable, start, end); // TODO so test doesnt hang
-    //    assertEquals(1, path.size());
+    List<MapPoint> path = PathFinder.findPath(isPassable, start, end);
+    assertEquals(2, path.size());
 
   }
 
   @Test
-  public void test_minimalSteps() {
+  public void test11_minimalSteps() {
     // Horizontal
     MapPoint start = new MapPoint(50, 0);
     MapPoint end = new MapPoint(0,0);
 
-    List<MapPoint> path = PathFinder.findPath(this.allwaysPassable, start, end);
+    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
     assertEquals(50, path.size());
 
     // Vertical
     start = new MapPoint(0, 0);
     end = new MapPoint(0,75);
 
-    path = PathFinder.findPath(this.allwaysPassable, start, end);
+    path = PathFinder.findPath(this.allaysPassable, start, end);
     assertEquals(75, path.size());
 
     // Diagonal
     start = new MapPoint(100, 100);
     end = new MapPoint(0,0);
 
-    path = PathFinder.findPath(this.allwaysPassable, start, end);
+    path = PathFinder.findPath(this.allaysPassable, start, end);
     assertEquals(100, path.size());
 
     // Some random angle
@@ -193,13 +193,13 @@ public class PathFinderTest {
     start = new MapPoint(0, 0);
     end = new MapPoint(endX,endY);
 
-    path = PathFinder.findPath(this.allwaysPassable, start, end);
+    path = PathFinder.findPath(this.allaysPassable, start, end);
     assertEquals((endX + endY) - Math.min(endX, endY), path.size());
   }
 
 
   @Test
-  public void test_cannotGoThoughDiagonalWall() {
+  public void test12_cannotGoThoughDiagonalWall() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> {
       return mapPoint.x != mapPoint.y || mapPoint.x > 50;
     };
@@ -212,28 +212,28 @@ public class PathFinderTest {
   }
 
   /**
-   * This test will fail see #108
+   * This test will fail see #108.
    */
   @Test
   @Ignore
-  public void test_reversePathCloseToPath() {
+  public void test13_reversePathCloseToPath() {
 
     MapPoint start = new MapPoint(0, 0);
     MapPoint end = new MapPoint(20,10);
 
-    List<MapPoint> path = PathFinder.findPath(this.allwaysPassable, start, end);
-    List<MapPoint> reversePath = PathFinder.findPath(this.allwaysPassable, end, start);
+    List<MapPoint> path = PathFinder.findPath(this.allaysPassable, start, end);
+    List<MapPoint> reversePath = PathFinder.findPath(this.allaysPassable, end, start);
     assertEquals(path.size(), reversePath.size());
     // Ignoree the first and last as they are different
     for (int i = 1; i < path.size() - 1; i++) {
-            assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
-            assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
+      assertEquals(path.get(i).x, reversePath.get(reversePath.size() - (i + 1)).x, 1.001);
+      assertEquals(path.get(i).y, reversePath.get(reversePath.size() - (i + 1)).y, 1.001);
     }
   }
 
 
   @Test
-  public void test09_testImpossiblePathReturnsBestPath() {
+  public void test14_testImpossiblePathReturnsBestPath() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> {
       return mapPoint.equals(mp(5, 2)) || !(mapPoint.x >= 4) || !(mapPoint.y >= 1);
     };
