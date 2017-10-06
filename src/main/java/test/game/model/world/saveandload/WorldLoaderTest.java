@@ -62,4 +62,27 @@ public class WorldLoaderTest {
     ));
   }
 
+  @Test
+  public void generateBoundEntities_5x5Bounds_borderGeneratedProperly() {
+    // The method should generate the edges as well, but only top-left and bottom-right corners
+    // are checked.
+
+    MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(5, 5));
+    Collection<UninteractableEntity> boundEntities = WorldLoader.generateBorderEntities(
+        bounds,
+        WorldLoader::newBorderEntityAt
+    );
+
+    assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 5x5 grid
+    assertTrue(boundEntities.stream().anyMatch(
+        entity -> entity.getTopLeft().equals(bounds.topLeft)
+    ));
+    assertTrue(boundEntities.stream().anyMatch(
+        entity -> entity.getTopLeft().equals(new MapPoint(
+            bounds.bottomRight.x - 1,
+            bounds.bottomRight.y - 1
+        ))
+    ));
+  }
+
 }
