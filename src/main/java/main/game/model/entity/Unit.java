@@ -171,12 +171,14 @@ public class Unit extends Attackable implements Damageable {
       throw new IllegalArgumentException("Amount: " + amount);
     }
 
-    if (health - amount < 0) {
-      isDead = true;
-      health = 0;
-    } else {
+    if (health - amount >= 0) {
+      // Not dead
       setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
+    } else {
+      isDead = true;
+      health = 0;
+      world.onEnemyKilled(this);
     }
   }
 

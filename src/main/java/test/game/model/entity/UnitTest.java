@@ -1,12 +1,16 @@
 package test.game.model.entity;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 import main.game.model.GameModel;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
@@ -27,7 +31,7 @@ public class UnitTest {
 
     private World world;
     private Unit enemyUnit;
-    private AtomicInteger projectileCount;
+    private List<Projectile> firedProjectiles = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -44,8 +48,8 @@ public class UnitTest {
       );
 
       // Spy on addProjectile method
-      projectileCount = new AtomicInteger();
-      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
+      doAnswer(invocationOnMock ->
+          firedProjectiles.add((Projectile) invocationOnMock.getArguments()[0]))
           .when(world)
           .addProjectile(any());
     }
@@ -63,7 +67,7 @@ public class UnitTest {
       }
 
       // then some projectiles should have been created
-      assert projectileCount.get() > 0;
+      assertTrue(firedProjectiles.size() > 0);
     }
 
     @Test
@@ -79,7 +83,7 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
     }
 
     @Test
@@ -95,7 +99,32 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
+    }
+
+    @Test
+    public void testProjectileHitShouldReduceHealth() {
+      // Given all the objects in the setUp()
+      // and a swordsman
+      Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      unit.setTarget(enemyUnit, world);
+      // and the initial health of the enemy
+      int enemyStartingHealth = enemyUnit.getHealth();
+
+      // when a projectile is eventually fired
+      while (firedProjectiles.isEmpty()) {
+        unit.tick(GameModel.DELAY, world);
+      }
+      // and eventually hits something
+      while (!firedProjectiles.get(0).hasHit()) {
+        unit.tick(GameModel.DELAY, world);
+        firedProjectiles.forEach(projectile -> projectile.tick(GameModel.DELAY, world));
+      }
+      // and that the projectile
+
+      // then the enemy health should be reduced
+      int hitEnemyHealth = enemyUnit.getHealth();
+      assertTrue(hitEnemyHealth < enemyStartingHealth);
     }
 
     private Unit createPlayerUnit(UnitType unitType) {
