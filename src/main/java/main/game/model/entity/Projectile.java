@@ -13,9 +13,13 @@ public abstract class Projectile extends Entity {
 
   private static final long serialVersionUID = 1L;
 
-  protected final Unit target;
-  protected final int speed = 6;
-  protected int damageAmount;
+  private static final double IMPACT_DISTANCE = 0.01;
+  private static final double DISTANCE_PER_TICK = 0.1;
+
+  protected final Unit target; // todo private?
+  protected final int damageAmount; // todo final
+
+  private boolean hasHit = false;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
@@ -39,19 +43,37 @@ public abstract class Projectile extends Entity {
 
   /**
    * Applies actions to given unit when it is hit by the Projectile.
-   * @param unit to be hit.
+   * @param target to be hit.
    */
-  public abstract void hits(Unit unit);
+  protected abstract void hitTarget(Unit target, World world);
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    double distToTarget = getCentre().distanceTo(target.getCentre());
-    double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
-    double percentage = distToBeTravelled / distToTarget;
-    moveX(percentage * (target.getCentre().x - getCentre().x));
-    moveY(percentage * (target.getCentre().y - getCentre().y));
-    //todo check dist to target and if close enough, hit target.
-    //projectile change image at which point? Let's have no animations with the projectiles
+    if (hasHit) {
+      throw new IllegalStateException();
+    }
+
+    double distToTarget = getDistanceToTarget();
+    // 0.5 if we move halfway there, 1 or greater if we move all the way there, etc
+    double percentage = DISTANCE_PER_TICK / distToTarget;
+
+    if (percentage >= 1) {
+      percentage = 1; // teleport there because we are close enough
+    }
+
+    moveTo(new MapPoint(
+        percentage * (target.getCentre().x - getCentre().x),
+        percentage * (target.getCentre().y - getCentre().y)
+    ));
+
+    if (getDistanceToTarget() <= IMPACT_DISTANCE) {
+      hasHit = true;
+      hitTarget(target, world);
+    }
+  }
+
+  private double getDistanceToTarget() {
+    return getCentre().distanceTo(target.getCentre());
   }
 }
 

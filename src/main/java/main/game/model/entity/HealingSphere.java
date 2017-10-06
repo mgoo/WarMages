@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -22,7 +23,7 @@ public class HealingSphere extends Projectile {
   }
 
   @Override
-  public void hits(Unit unit) {
+  public void hitTarget(Unit unit, World world) {
     assert unit != null;
     assert unit.equals(target);
     unit.gainHealth(damageAmount);

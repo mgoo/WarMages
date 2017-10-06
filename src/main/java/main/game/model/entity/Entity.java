@@ -68,6 +68,7 @@ public abstract class Entity implements Serializable {
    *
    * @param amount to be moved by.
    */
+  @Deprecated
   public void moveX(double amount) {
     position = new MapPoint(position.x + amount, position.y);
   }
@@ -77,8 +78,13 @@ public abstract class Entity implements Serializable {
    *
    * @param amount to be moved by.
    */
+  @Deprecated
   public void moveY(double amount) {
     position = new MapPoint(position.x, position.y + amount);
+  }
+
+  public void moveTo(MapPoint position) {
+    this.position = position;
   }
 
   /**

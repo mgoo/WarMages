@@ -22,10 +22,12 @@ public class Unit extends Attackable implements Damageable {
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
-  private boolean isDead = false;
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
+
+  private boolean isDead = false;
+  private boolean hasCreatedDeadUnit = false;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -87,7 +89,12 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return DeadUnit to represent dead current Unit.
    */
-  public DeadUnit getDeadUnit() {
+  public DeadUnit createDeadUnit() {
+    if (!isDead || hasCreatedDeadUnit) {
+      throw new IllegalStateException();
+    }
+
+    hasCreatedDeadUnit = true;
     return new DeadUnit(position);
   }
 
@@ -148,10 +155,14 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void takeDamage(int amount) {
+  public void takeDamage(int amount, World world) {
     if (isDead) {
       return;
     }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
+
     if (health - amount < 0) {
       isDead = true;
       health = 0;
@@ -166,6 +177,10 @@ public class Unit extends Attackable implements Damageable {
     if (isDead) {
       return;
     }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
+
     health += amount;
   }
 
