@@ -47,7 +47,7 @@ public class AttackingUnitStateTest {
     World world = mock(World.class);
 
     // when enough ticks happen (up to start of attack frame)
-    for (int i = 0; i < attackFrame * ticksPerFrame; i++) {
+    for (int i = 0; i < attackFrame * ticksPerFrame - 1; i++) {
       state.tick(GameModel.DELAY, world);
     }
 
