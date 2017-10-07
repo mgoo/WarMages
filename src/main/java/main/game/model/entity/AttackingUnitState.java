@@ -41,7 +41,7 @@ public class AttackingUnitState extends UnitState {
       world.addProjectile(projectile);
     } else {
       // Non projectile attack (e.g. spear)
-      target.takeDamage(unit.getDamageAmount());
+      target.takeDamage(unit.getDamageAmount(), world);
     }
   }
 }
