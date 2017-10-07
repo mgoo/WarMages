@@ -10,7 +10,7 @@ public abstract class MovableEntity extends Entity {
   private static final long serialVersionUID = 1L;
 
   protected List<MapPoint> path;
-  protected int speed;
+  protected double speed;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -31,7 +31,7 @@ public abstract class MovableEntity extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    long distToBeTravelled = speed * timeSinceLastTick; //todo finalize
+    double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
     int leeway = 5; //todo finalize
     //update position
     if (path != null && !path.isEmpty()) {
