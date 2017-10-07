@@ -49,7 +49,7 @@ public class WorldTestUtils {
    */
   public static Level createLevelWith(Unit... units) {
     return new Level(
-        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
+        new MapRect(new MapPoint(-10000, -10000), new MapPoint(10000, 10000)),
         Arrays.asList(units),
         Collections.emptyList(),
         Collections.emptyList(),
