@@ -35,9 +35,6 @@ import netscape.javascript.JSObject;
  */
 public class Main extends Application {
 
-  private static final int PREF_WIDTH = 1920;
-  private static final int PREF_HEIGHT = 1080;
-
   /**
    * Start the app.
    */
@@ -64,6 +61,9 @@ public class Main extends Application {
         continue;
       }
       primaryStage.setX(screen.getBounds().getMinX() + 1);
+      primaryStage.setY(screen.getBounds().getMinY() + 1);
+      primaryStage.setWidth(screen.getBounds().getWidth());
+      primaryStage.setHeight(screen.getBounds().getHeight());
       Main.this.robot.mouseMove((int)(bounds.getMinX() + bounds.getWidth() / 2),
           (int)(bounds.getMinY() + bounds.getHeight() / 2));
       size = newSize;
@@ -91,12 +91,6 @@ public class Main extends Application {
         config
     );
 
-    root.setPrefWidth(PREF_WIDTH);
-    root.setPrefHeight(PREF_HEIGHT);
-
-    browser.setPrefWidth(PREF_WIDTH);
-    browser.setPrefHeight(PREF_HEIGHT);
-
     this.webEngine = browser.getEngine();
 
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
@@ -117,8 +111,8 @@ public class Main extends Application {
 
     imageView.setImage(new Image(
         new File("resources/images/units/archer.png").toURI().toString(),
-        PREF_WIDTH,
-        PREF_HEIGHT,
+        primaryStage.getWidth(),
+        primaryStage.getHeight(),
         true,
         true
     ));
