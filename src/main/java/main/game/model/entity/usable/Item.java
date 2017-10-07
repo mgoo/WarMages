@@ -1,5 +1,6 @@
 package main.game.model.entity.usable;
 
+import java.util.Collection;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
@@ -55,6 +56,11 @@ public class Item extends MapEntity implements Usable {
   @Override
   public double getCoolDownProgress() {
     return ability.getCoolDownProgress();
+  }
+
+  @Override
+  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+    return ability._selectUnitsToApplyOn(world, selectedUnits);
   }
 
   @Override
