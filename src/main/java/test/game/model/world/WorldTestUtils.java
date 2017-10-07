@@ -6,6 +6,7 @@ import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.game.model.Level;
@@ -114,6 +115,11 @@ public class WorldTestUtils {
    */
   public static Ability createStubAbility() {
     return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+      @Override
+      public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+        return Collections.emptyList();
+      }
+
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {

@@ -2,7 +2,11 @@ package main.game.model.entity.usable;
 
 import static main.game.model.entity.usable.Effect.INSTANT_EFFECT_DURATION;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
+import main.game.model.world.World;
 import main.images.GameImage;
 
 public class HealAbility extends Ability {
@@ -35,6 +39,14 @@ public class HealAbility extends Ability {
 
   public int getHealAmount() {
     return healAmount;
+  }
+
+  @Override
+  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+    return world.getAllUnits()
+        .stream()
+        .filter(unit -> unit.getTeam() == Team.PLAYER)
+        .collect(Collectors.toList());
   }
 
   private class HealEffect extends Effect {
