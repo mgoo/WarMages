@@ -14,7 +14,7 @@ public class AttackingUnitState extends UnitState {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
-    if (imagesComponent.isOnAttackFrame()) {
+    if (imagesComponent.isOnAttackTick()) {
       onAttackFrame(world);
     }
   }
