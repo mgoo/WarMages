@@ -9,11 +9,11 @@ public class UnitImagesComponent implements ImagesComponent {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int TICKS_TO_CHANGE = 5;
+  public static final int TICKS_PER_FRAME = 5;
 
   private Sequence sequence;
-  private int imagesIdx;
-  private int tickCount = 0;
+  private int imageIndex;
+  private int ticksLeftToChange = TICKS_PER_FRAME;
   private List<GameImage> images;
   private Direction direction;
   private UnitSpriteSheet spriteSheet;
@@ -31,8 +31,8 @@ public class UnitImagesComponent implements ImagesComponent {
     this.sequence = sequence;
     this.direction = direction;
     this.spriteSheet = unit.getSpriteSheet();
-    imagesIdx = 0;
-    images = spriteSheet.getImagesForSequence(sequence, direction);
+    this.imageIndex = 0;
+    this.images = spriteSheet.getImagesForSequence(sequence, direction);
   }
 
   /**
@@ -64,20 +64,22 @@ public class UnitImagesComponent implements ImagesComponent {
 
   @Override
   public void tick(Long timeSinceLastTick) {
-    tickCount++;
-    if (tickCount % TICKS_TO_CHANGE == 0) { //change image every certain number of ticks.
-      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
+    if (ticksLeftToChange == 0) {
+      ticksLeftToChange = TICKS_PER_FRAME;
+      imageIndex = (imageIndex + 1) % images.size();
     }
+
+    ticksLeftToChange--;
   }
 
   @Override
   public GameImage getImage() {
-    return images.get(imagesIdx);
+    return images.get(imageIndex);
   }
 
   @Override
   public boolean isReadyToTransition() {
-    return imagesIdx == images.size() - 1;
+    return imageIndex == images.size() - 1;
   }
 
   /**
@@ -87,6 +89,7 @@ public class UnitImagesComponent implements ImagesComponent {
    *     specified in {@link Sequence#getAttackFrame()};
    */
   public boolean isOnAttackFrame() {
-    return sequence.getAttackFrame() == imagesIdx;
+    return sequence.getAttackFrame() == imageIndex
+        && ticksLeftToChange == 0;
   }
 }
