@@ -62,8 +62,8 @@ public enum UnitType {
 
   protected int baselineDamage;
   protected int startingHealth;
-  protected int attackSpeed;
-  protected int movingSpeed;
+  protected double attackSpeed;
+  protected double movingSpeed;
   protected Sequence attackSequence;
 
   public int getBaselineDamage() {
@@ -74,11 +74,11 @@ public enum UnitType {
     return startingHealth;
   }
 
-  public int getAttackSpeed() {
+  public double getAttackSpeed() {
     return attackSpeed;
   }
 
-  public int getMovingSpeed() {
+  public double getMovingSpeed() {
     return movingSpeed;
   }
 
@@ -107,7 +107,7 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      int baselineDamage, int startingHealth, int attackSpeed, int movingSpeed,
+      int baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
       Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;
