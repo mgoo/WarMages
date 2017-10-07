@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
 import main.util.MapPoint;
 
 /**
@@ -26,6 +27,7 @@ public class World implements Serializable {
   private final List<Level> levels;
   private final HeroUnit heroUnit;
   private final Collection<Unit> units;
+  private final Collection<Unit> recentlyKilledUnits;
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
   private final Collection<Projectile> projectiles;
@@ -45,6 +47,7 @@ public class World implements Serializable {
     this.heroUnit = heroUnit;
     this.levels = new ArrayList<>(levels);
     this.units = new ArrayList<>(currentLevel().getUnits());
+    this.recentlyKilledUnits = new ArrayList<>();
     this.items = new ArrayList<>(currentLevel().getItems());
     this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
@@ -98,6 +101,10 @@ public class World implements Serializable {
 
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
+  }
+
+  public void removeProjectile(Projectile projectile) {
+    projectiles.remove(projectile);
   }
 
   public Collection<Projectile> getProjectiles() {
@@ -154,6 +161,25 @@ public class World implements Serializable {
    */
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
+    for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {
+      Unit deadUnit = iterator.next();
+      iterator.remove();
+
+      units.remove(deadUnit);
+      mapEntities.add(deadUnit.createDeadUnit());
+    }
+
     checkLevelCompletion();
+  }
+
+  /**
+   * Units should call this when they die.
+   */
+  public void onEnemyKilled(Unit unit) {
+    if (unit.getHealth() != 0) {
+      throw new IllegalArgumentException();
+    }
+
+    recentlyKilledUnits.add(unit);
   }
 }

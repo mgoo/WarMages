@@ -90,7 +90,7 @@ public class UsablesTest {
     // Given a heal with a heal usable
     assertTrue(healAmount > 0);
     // when the hero takes damage
-    heroUnit.takeDamage(heroUnit.getHealth() - 1);
+    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
     int lowHealth = heroUnit.getHealth();
     // and the heal is used
     healer.useOnUnits(Arrays.asList(heroUnit));
