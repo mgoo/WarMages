@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.pathfinder.PathFinder;
 import main.game.view.GameView;
@@ -101,11 +102,13 @@ public class GameController {
 
       //select the unit under the click if there is one
 
-      Unit selectedUnit = gameModel.getAllUnits().stream().filter(
-          u -> u.getCentre().distanceTo(mouseEvent.getLocation()) <= Math
-              .max(u.getSize().width, u.getSize().height))
-          .sorted(
-              Comparator.comparingDouble(s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+      Unit selectedUnit = gameModel.getAllUnits()
+          .stream()
+          .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+              <= Math.max(u.getSize().width, u.getSize().height))
+          .filter(u -> u.getTeam() == Team.PLAYER)
+          .sorted(Comparator.comparingDouble(
+              s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
           .findFirst().orElse(null);
 
       if (mouseEvent.wasShiftDown()) {
