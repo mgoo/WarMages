@@ -1,6 +1,7 @@
 package test.game.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -30,7 +31,7 @@ public class AttackingUnitStateTest {
     AtomicInteger attackCount = new AtomicInteger(0);
     doAnswer(invocation -> attackCount.incrementAndGet())
         .when(target)
-        .takeDamage(anyInt());
+        .takeDamage(anyInt(), any());
     // and a swordsman
     Unit unit = mock(Unit.class);
     when(target.getTeam()).thenReturn(Team.PLAYER);
