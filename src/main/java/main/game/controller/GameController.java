@@ -172,8 +172,10 @@ public class GameController {
 
       MapRect dragArea = new MapRect(mouseEvent.getTopLeft(), mouseEvent.getSize());
 
-      Collection<Unit> selectedUnits = gameModel.getAllUnits().stream()
+      Collection<Unit> selectedUnits = gameModel.getAllUnits()
+          .stream()
           .filter(u -> dragArea.contains(u.getRect()))
+          .filter(u -> u.getTeam() == Team.PLAYER)
           .collect(Collectors.toSet());
 
       if (mouseEvent.wasShiftDown()) {
