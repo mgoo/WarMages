@@ -140,6 +140,7 @@ public class GameController {
     } else { //otherwise, it must have been a right click
       // move all selected units to the clicked location
       for (Unit unit : gameModel.getUnitSelection()) {
+        System.out.println("Set path");
         unit.setPath(PathFinder.findPath(
             gameModel.getWorld()::isPassable,
             unit.getTopLeft(),
