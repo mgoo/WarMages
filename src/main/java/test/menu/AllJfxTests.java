@@ -70,7 +70,7 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv).drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv, new Config()).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 

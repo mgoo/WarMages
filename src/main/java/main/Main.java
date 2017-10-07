@@ -8,12 +8,14 @@ import java.awt.Robot;
 import java.io.File;
 import java.util.Arrays;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -24,9 +26,14 @@ import javafx.stage.Window;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.game.view.events.MouseClick;
+import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import main.util.Config;
+import main.util.Event;
+import main.util.MapPoint;
+import main.util.Event;
 import netscape.javascript.JSObject;
 
 /**
@@ -46,7 +53,9 @@ public class Main extends Application {
   private WebEngine webEngine;
   private Menu currentMenu;
 
-  private Scene scene;
+  private final Event<MouseClick> mouseClickEvent = new Event<>();
+
+  public Scene scene;
 
   public Main() throws AWTException {
   }
@@ -82,7 +91,7 @@ public class Main extends Application {
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
-    config.setScreenDim((int)scene.getWidth(), (int)scene.getHeight());
+    config.setScreenDim((int)primaryStage.getWidth(), (int)primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
         new WorldLoader(),
@@ -121,18 +130,13 @@ public class Main extends Application {
     imageView.setFitHeight(scene.getHeight());
 
     // Mouse events will be handled in html
-    root.setOnKeyReleased(event -> {
-      System.out.println("SHF: " + event.isShiftDown());
-      System.out.println("CTTL: " + event.isControlDown());
-      System.out.println("Code: " + event.getCode().toString());
+    root.setOnKeyPressed(event -> {
+      this.currentMenu.getMenuController().onKeyDown(event);
     });
 
     browser.setOnMouseExited(event -> keepMouseInWindow());
-
-    browser.setOnMouseClicked(event -> {
-      System.out.println("SHF: " + event.isShiftDown());
-      System.out.println("CTTL: " + event.isControlDown());
-      System.out.println("Code: " + event.getButton());
+    browser.setOnMouseMoved(event -> {
+      this.currentMenu.getMenuController().onMouseMove(event);
     });
 
     root.getChildren().setAll(imageView, browser);
@@ -141,8 +145,15 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  public Object executeScript(String script) {
-    return this.webEngine.executeScript(script);
+  public void executeScript(String script) {
+    Platform.runLater(() -> webEngine.executeScript(script));
+  }
+
+  public void callJsFunction(String function, Object... args) {
+    Platform.runLater(() -> {
+      JSObject window = (JSObject) webEngine.executeScript("window");
+      window.call(function, args);
+    });
   }
 
   /**

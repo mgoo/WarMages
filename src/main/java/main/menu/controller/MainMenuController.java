@@ -8,12 +8,14 @@ import main.game.model.world.World;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.view.GameView;
+import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
 import main.util.Config;
+import main.util.Event.Listener;
 import main.util.Events.MainGameTick;
 
 /**
@@ -21,7 +23,7 @@ import main.util.Events.MainGameTick;
  *
  * @author Andrew McGhie
  */
-public class MainMenuController implements MenuController {
+public class MainMenuController extends MenuController {
 
   private final WorldLoader worldLoader;
   private final WorldSaveModel worldSaveModel;
@@ -54,16 +56,23 @@ public class MainMenuController implements MenuController {
   public void startBtn() {
     try {
       World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, new MainGameTick());
+      MainGameTick tickEvent = new MainGameTick();
+      GameModel gameModel = new GameModel(world, tickEvent);
       GameController gameController = new GameController(gameModel);
       GameView gameView = new GameView(this.config,
           gameController,
           gameModel,
           new DefaultImageProvider());
-      new Renderer(gameView, this.imageView);
+      tickEvent.registerListener(parameter -> gameView.onTick(parameter));
+      Config.mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+      Renderer renderer = new Renderer(gameView, this.imageView, config);
+      Hud hud = new Hud(this.main, this.mainMenu, gameView, renderer, gameModel);
+      tickEvent.registerListener(parameter -> hud.updateIcons());
+      renderer.start();
+      gameModel.startGame();
       // TODO start the game properly
 
-      this.main.loadMenu(new Hud(this.main, this.mainMenu));
+      this.main.loadMenu(hud);
     } catch (Exception e) {
       e.printStackTrace();
     }

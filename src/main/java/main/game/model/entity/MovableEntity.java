@@ -35,6 +35,7 @@ public abstract class MovableEntity extends Entity {
     int leeway = 5; //todo finalize
     //update position
     if (path != null && !path.isEmpty()) {
+      System.out.println("Moved");
       for (MapPoint mp : path) {
         double distFromCurrent = Math
             .sqrt((Math.pow(mp.x - position.x, 2) + Math.pow(mp.y - position.y, 2)));

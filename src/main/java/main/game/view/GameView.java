@@ -5,13 +5,16 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javafx.scene.input.KeyEvent;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
+import main.game.view.events.MouseClick;
 import main.images.ImageProvider;
 import main.renderer.Renderable;
 import main.util.Config;
+import main.util.Event.Listener;
 import main.util.MapPoint;
 import main.util.MapRect;
 
@@ -87,26 +90,27 @@ public class GameView {
     });
 
     this.renderablesCache.forEach(entityView -> {
-      entityView.update(tickTime);
+//      System.out.println(this.gameModel.getUnitSelection().contains(entityView.getEntity()));
+      entityView.update(tickTime, this.gameModel.getUnitSelection().contains(entityView.getEntity()));
     });
   }
 
   private synchronized void updateViewBoxPosition() {
     if (this.mousePosition.x <= 1)  {
-      this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
-    }
-    if (this.mousePosition.x >= this.config.getContextScreenWidth() - 1) {
       this.viewBox = this.viewBox.move(this.config.getGameViewScrollSpeed(), 0);
     }
+    if (this.mousePosition.x >= this.config.getContextScreenWidth() - 1) {
+      this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
+    }
     if (this.mousePosition.y <= 1) {
-      this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
+      this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
     }
     if (this.mousePosition.y >= this.config.getContextScreenHeight() - 1) {
-      this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
+      this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
     }
   }
 
-  public void onTick(long tickTime) {
+  public void onTick(Long tickTime) {
     this.updateRenderables(tickTime);
     this.updateViewBoxPosition();
   }
@@ -115,8 +119,8 @@ public class GameView {
    * Takes the position on the screen an turns it into the Map Point that it is on.
    */
   public /*@ pure; non_null @*/ MapPoint pixToTile(MapPoint screenPos) {
-    int originAdjustedX = (int)(screenPos.x + this.viewBox.topLeft.x);
-    int originAdjustedY = (int)(screenPos.y + this.viewBox.topLeft.y);
+    int originAdjustedX = (int)(screenPos.x - this.viewBox.x());
+    int originAdjustedY = (int)(screenPos.y - this.viewBox.y());
 
     double tileWidthHalf = this.config.getEntityViewTilePixelsX() / 2D;
     double tileHeightHalf = this.config.getEntityViewTilePixelsY() / 2D;
@@ -133,5 +137,80 @@ public class GameView {
 
   public void updateMousePosition(int x, int y) {
     this.mousePosition = new MapPoint(x, y);
+  }
+
+  /**
+   * Triggers event for when Game View is clicked.
+   */
+  public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    System.out.println("LeftClick: (" + x + " , " + y + ")");
+    Config.mouseClickEvent.broadcast(new MouseClick() {
+      @Override
+      public boolean wasLeft() {
+        return true;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapPoint getLocation() {
+        return pixToTile(new MapPoint(x, y));
+      }
+    });
+  }
+
+  /**
+   * Triggers event for when Game View is clicked.
+   */
+  public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    System.out.println("RightClick: (" + x + " , " + y + ")");
+    Config.mouseClickEvent.broadcast(new MouseClick() {
+      @Override
+      public boolean wasLeft() {
+        return false;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapPoint getLocation() {
+        return pixToTile(new MapPoint(x, y));
+      }
+    });
+  }
+
+  public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
+    Config.keyEvent.broadcast(new main.game.view.events.KeyEvent() {
+      @Override
+      public char getKey() {
+        return key;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+    });
   }
 }

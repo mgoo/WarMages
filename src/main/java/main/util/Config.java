@@ -1,16 +1,34 @@
 package main.util;
 
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.EntityIconClick;
+import main.game.view.events.ItemIconClick;
+import main.game.view.events.KeyEvent;
+import main.game.view.events.MouseClick;
+import main.game.view.events.MouseDrag;
+
 /**
  * Holds the config and context of the game.
  * @author Andrew McGhie
  */
 public class Config {
 
+  // <shhhh>
+  public static final Event<MouseDrag> mouseDragEvent = new Event<>();
+  public static final Event<MouseClick> mouseClickEvent = new Event<>();
+
+  public static final Event<AbilityIconClick> abilityIconClickEvent = new Event<>();
+  public static final Event<ItemIconClick> itemIconClickEvent = new Event<>();
+  public static final Event<EntityIconClick> entityIconClickEvent = new Event<>();
+
+  public static final Event<KeyEvent> keyEvent = new Event<>();
+  // </shhhh>
+
   private static final int CONTEXT_SCREEN_SIZE_NOT_SET = -1;
 
   private int gameModelDelay = 50;
 
-  private double gameViewScrollSpeed = 1;
+  private double gameViewScrollSpeed = 50;
 
   private int entityViewTilePixelsX = 50;
   private int entityViewTilePixelsY = 50;
