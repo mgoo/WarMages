@@ -158,7 +158,6 @@ public class Unit extends Attackable implements Damageable {
 
     if (health - amount >= 0) {
       // Not dead
-      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     } else {
       isDead = true;
