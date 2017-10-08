@@ -34,8 +34,8 @@ public abstract class MovableEntity extends Entity {
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
-    double leeway = 0.2; //todo finalize
+    double distToBeTravelled = speed * timeSinceLastTick;
+    double leeway = 0.2;
     //update position
     if (path != null && !path.isEmpty()) {
       for (int i = currentPathIdx; i < path.size(); i++) {
@@ -49,7 +49,8 @@ public abstract class MovableEntity extends Entity {
         }
       }
       //go to end of path
-      position = path.get(path.size()-1);
+      position = path.get(path.size() - 1);
+      currentPathIdx = path.size() - 1;
     }
   }
 }
