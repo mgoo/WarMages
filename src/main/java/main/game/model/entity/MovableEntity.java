@@ -12,6 +12,7 @@ public abstract class MovableEntity extends Entity {
   protected List<MapPoint> path;
   protected double speed;
   private int currentPathIdx;
+  private final double LEEWAY = 0.5;
 
   /**
    * Constructor takes the position of the entity, the size, and it's speed.
@@ -36,7 +37,6 @@ public abstract class MovableEntity extends Entity {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     double distToBeTravelled = speed * timeSinceLastTick;
-    double leeway = 0.5;
     //update position
     if (path != null && !path.isEmpty()) {
       double minDist = getTopLeft().distanceTo(path.get(path.size() - 1));
@@ -44,8 +44,8 @@ public abstract class MovableEntity extends Entity {
       for (int i = currentPathIdx; i < path.size(); i++) {
         MapPoint mp = path.get(i);
         double distFromCurrent = getTopLeft().distanceTo(mp);
-        if (distFromCurrent < distToBeTravelled + leeway
-            && distFromCurrent > distToBeTravelled - leeway) {
+        if (distFromCurrent < distToBeTravelled + LEEWAY
+            && distFromCurrent > distToBeTravelled - LEEWAY) {
           //within +- leeway of distToBeTravelled
           if (distFromCurrent < minDist) {
             //closest to distToBeTravelled
