@@ -5,16 +5,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javafx.scene.input.KeyEvent;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
 import main.images.ImageProvider;
-import main.renderer.Renderable;
 import main.util.Config;
-import main.util.Event.Listener;
 import main.util.MapPoint;
 import main.util.MapRect;
 
@@ -26,6 +23,8 @@ import main.util.MapRect;
  * @author Andrew McGhie
  */
 public class GameView {
+
+  private static final int SCROLL_AREA_WIDTH = 5;
 
   private final Config config;
 
@@ -96,16 +95,16 @@ public class GameView {
   }
 
   private synchronized void updateViewBoxPosition() {
-    if (this.mousePosition.x <= 1)  {
+    if (this.mousePosition.x <= SCROLL_AREA_WIDTH)  {
       this.viewBox = this.viewBox.move(this.config.getGameViewScrollSpeed(), 0);
     }
-    if (this.mousePosition.x >= this.config.getContextScreenWidth() - 1) {
+    if (this.mousePosition.x >= this.config.getContextScreenWidth() - SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
     }
-    if (this.mousePosition.y <= 1) {
+    if (this.mousePosition.y <= SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
     }
-    if (this.mousePosition.y >= this.config.getContextScreenHeight() - 1) {
+    if (this.mousePosition.y >= this.config.getContextScreenHeight() - SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
     }
   }
