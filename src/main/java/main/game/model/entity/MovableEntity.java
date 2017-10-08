@@ -14,7 +14,7 @@ public abstract class MovableEntity extends Entity {
   private int currentPathIdx;
 
   /**
-   * Constructor takes the position of the entity and the size.
+   * Constructor takes the position of the entity, the size, and it's speed.
    *
    * @param position = position of Entity
    * @param size = size of Entity
@@ -35,7 +35,7 @@ public abstract class MovableEntity extends Entity {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     double distToBeTravelled = speed * timeSinceLastTick;
-    double leeway = 0.5;
+    double leeway = 0.2;
     //update position
     if (path != null && !path.isEmpty()) {
       double minDist = getTopLeft().distanceTo(path.get(path.size() - 1));
