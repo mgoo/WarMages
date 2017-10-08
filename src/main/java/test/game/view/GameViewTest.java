@@ -223,6 +223,7 @@ public class GameViewTest {
     assertEquals(originalView.topLeft.y + 30D, this.gameView.getViewBox().topLeft.y);
     assertEquals(originalView.bottomRight.x + 20D, this.gameView.getViewBox().bottomRight.x);
     assertEquals(originalView.bottomRight.y + 30D, this.gameView.getViewBox().bottomRight.y);
+  }
 
   @Test
   public void testPixToTile() {
