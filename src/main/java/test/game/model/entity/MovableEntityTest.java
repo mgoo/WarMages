@@ -131,7 +131,7 @@ public class MovableEntityTest {
   }
 
   @Test
-  public void testMovingEntity_oneSpacesDiagonally() {
+  public void testMovingEntity_oneSpaceDiagonally() {
     MovableEntity me = getMovableEntity();
     List<MapPoint> path = getPathDiagonal();
     me.setPath(path);
