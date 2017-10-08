@@ -10,16 +10,20 @@ public abstract class MovableEntity extends Entity {
   private static final long serialVersionUID = 1L;
 
   protected List<MapPoint> path;
-  protected int speed;
+  protected double speed;
+  private int currentPathIdx;
+  private static final double LEEWAY = 0.5;
 
   /**
-   * Constructor takes the position of the entity and the size.
+   * Constructor takes the position of the entity, the size, and it's speed.
    *
    * @param position = position of Entity
    * @param size = size of Entity
+   * @param speed = speed of MovableEntity
    */
-  public MovableEntity(MapPoint position, MapSize size) {
+  public MovableEntity(MapPoint position, MapSize size, double speed) {
     super(position, size);
+    this.speed = speed;
   }
 
   /**
@@ -27,24 +31,31 @@ public abstract class MovableEntity extends Entity {
    */
   public void setPath(List<MapPoint> path) {
     this.path = path;
+    currentPathIdx = 0;
   }
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    long distToBeTravelled = speed * timeSinceLastTick; //todo finalize
-    int leeway = 5; //todo finalize
+    double distToBeTravelled = speed * timeSinceLastTick;
     //update position
     if (path != null && !path.isEmpty()) {
-      System.out.println("Moved");
-      for (MapPoint mp : path) {
-        double distFromCurrent = Math
-            .sqrt((Math.pow(mp.x - position.x, 2) + Math.pow(mp.y - position.y, 2)));
-        if (distFromCurrent < distToBeTravelled + leeway
-            && distFromCurrent > distToBeTravelled - leeway) {
-          position = mp;
-          return;
+      double minDist = getTopLeft().distanceTo(path.get(path.size() - 1));
+      int nextIdx = path.size() - 1;
+      for (int i = currentPathIdx; i < path.size(); i++) {
+        MapPoint mp = path.get(i);
+        double distFromCurrent = getTopLeft().distanceTo(mp);
+        if (distFromCurrent < distToBeTravelled + LEEWAY
+            && distFromCurrent > distToBeTravelled - LEEWAY) {
+          //within +- LEEWAY of distToBeTravelled
+          if (distFromCurrent < minDist) {
+            //closest to distToBeTravelled
+            minDist = distFromCurrent;
+            nextIdx = i;
+          }
         }
       }
+      currentPathIdx = nextIdx;
+      position = path.get(nextIdx);
     }
   }
 }

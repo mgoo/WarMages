@@ -68,8 +68,10 @@ public class PathFinder {
       if (tuple.getPoint().equals(end)) {
         List<MapPoint> path = tuple.getPath();
 
-        path.remove(path.size() - 1);
-        path.add(endUnrounded);
+        if (!path.isEmpty()) {
+          path.remove(path.size() - 1);
+          path.add(endUnrounded);
+        }
         return path;
       }
 
