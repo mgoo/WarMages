@@ -39,14 +39,12 @@ public class Unit extends Attackable implements Damageable {
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    super(position, size);
+    super(position, size, unitType.getMovingSpeed());
     this.team = team;
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
-    this.speed = unitType.getMovingSpeed();
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(Direction.DOWN, this);
-
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -158,7 +156,6 @@ public class Unit extends Attackable implements Damageable {
 
     if (health - amount >= 0) {
       // Not dead
-      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
       health -= amount;
     } else {
       isDead = true;
