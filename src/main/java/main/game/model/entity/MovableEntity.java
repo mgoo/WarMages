@@ -10,7 +10,8 @@ public abstract class MovableEntity extends Entity {
   private static final long serialVersionUID = 1L;
 
   protected List<MapPoint> path;
-  protected int speed;
+  protected double speed;
+  private int currentPathIdx;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -18,8 +19,9 @@ public abstract class MovableEntity extends Entity {
    * @param position = position of Entity
    * @param size = size of Entity
    */
-  public MovableEntity(MapPoint position, MapSize size) {
+  public MovableEntity(MapPoint position, MapSize size, double speed) {
     super(position, size);
+    this.speed = speed;
   }
 
   /**
@@ -27,23 +29,27 @@ public abstract class MovableEntity extends Entity {
    */
   public void setPath(List<MapPoint> path) {
     this.path = path;
+    currentPathIdx = 0;
   }
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-    long distToBeTravelled = speed * timeSinceLastTick; //todo finalize
-    int leeway = 5; //todo finalize
+    double distToBeTravelled = speed * timeSinceLastTick; //todo finalize
+    double leeway = 0.2; //todo finalize
     //update position
     if (path != null && !path.isEmpty()) {
-      for (MapPoint mp : path) {
-        double distFromCurrent = Math
-            .sqrt((Math.pow(mp.x - position.x, 2) + Math.pow(mp.y - position.y, 2)));
+      for (int i = currentPathIdx; i < path.size(); i++) {
+        MapPoint mp = path.get(i);
+        double distFromCurrent = getTopLeft().distanceTo(mp);
         if (distFromCurrent < distToBeTravelled + leeway
             && distFromCurrent > distToBeTravelled - leeway) {
+          currentPathIdx = i;
           position = mp;
           return;
         }
       }
+      //go to end of path
+      position = path.get(path.size()-1);
     }
   }
 }
