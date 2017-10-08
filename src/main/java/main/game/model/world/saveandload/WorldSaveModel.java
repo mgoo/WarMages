@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
 import main.game.model.world.World;
-import org.junit.Test;
 
 /**
  * Deals with the saving and loading of {@link GameModel} to and from files.
