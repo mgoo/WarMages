@@ -35,22 +35,25 @@ public abstract class MovableEntity extends Entity {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     double distToBeTravelled = speed * timeSinceLastTick;
-    double leeway = 0.2;
+    double leeway = 0.5;
     //update position
     if (path != null && !path.isEmpty()) {
+      double minDist = getTopLeft().distanceTo(path.get(path.size()-1));
+      int nextIdx = path.size()-1;
       for (int i = currentPathIdx; i < path.size(); i++) {
         MapPoint mp = path.get(i);
         double distFromCurrent = getTopLeft().distanceTo(mp);
-        if (distFromCurrent < distToBeTravelled + leeway
-            && distFromCurrent > distToBeTravelled - leeway) {
-          currentPathIdx = i;
-          position = mp;
-          return;
+        if(distFromCurrent < distToBeTravelled + leeway && distFromCurrent > distToBeTravelled - leeway) {
+          //within +- leeway of distToBeTravelled
+          if (distFromCurrent < minDist) {
+            //closest to distToBeTravelled
+            minDist = distFromCurrent;
+            nextIdx = i;
+          }
         }
       }
-      //go to end of path
-      position = path.get(path.size() - 1);
-      currentPathIdx = path.size() - 1;
+      currentPathIdx = nextIdx;
+      position = path.get(nextIdx);
     }
   }
 }
