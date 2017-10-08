@@ -3,7 +3,6 @@ package main.game.model.world.saveandload;
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.images.GameImageResource.POTION_BLUE_ITEM;
 import static main.images.GameImageResource.RING_GOLD_ITEM;
@@ -19,16 +18,16 @@ import java.util.function.Function;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.Entity;
-import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
+import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.usable.HealAbility;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
@@ -46,6 +45,9 @@ import main.util.MapSize;
  * </p>
  */
 public class WorldLoader {
+
+  private static final MapSize HERO_SIZE = new MapSize(1, 1);
+  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.8, 0.8);
 
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
@@ -119,10 +121,10 @@ public class WorldLoader {
     Level level = new Level(
         bounds,
         Arrays.asList(
-            new Unit(new MapPoint(3, 0), new MapSize(0.5, 0.5), Team.PLAYER,
+            new Unit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
                 new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
-            new Unit(new MapPoint(9, 7), new MapSize(0.5, 0.5), Team.ENEMY,
+            new Unit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
                 new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),
@@ -170,7 +172,7 @@ public class WorldLoader {
   public World loadMultilevelWorld() {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(3, 4),
-        new MapSize(1, 1),
+        HERO_SIZE,
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
@@ -189,25 +191,13 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(2, 3), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new Unit(new MapPoint(2, 4), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new Unit(new MapPoint(2, 5), new MapSize(0.5, 0.5), Team.PLAYER,
+              new Unit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(2, 6), new MapSize(0.5, 0.5), Team.PLAYER,
+              new Unit(new MapPoint(2, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(2, 7), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new Unit(new MapPoint(2, 8), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new Unit(new MapPoint(8, 8), new MapSize(0.5, 0.5), Team.ENEMY,
+              new Unit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
@@ -233,19 +223,19 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(15, 2), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              new Unit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(15, 8), new MapSize(0.5, 0.5), Team.PLAYER,
-                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              new Unit(new MapPoint(10, 7), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(23, 4), new MapSize(0.5, 0.5), Team.ENEMY,
+              new Unit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(23, 5), new MapSize(0.5, 0.5), Team.ENEMY,
+              new Unit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(23, 6), new MapSize(0.5, 0.5), Team.ENEMY,
+              new Unit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
