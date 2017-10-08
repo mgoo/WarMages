@@ -69,7 +69,7 @@ public class UnitSpriteSheet implements Serializable {
     /**
      * Just reuses the first few frames of the {@link Sequence#WALK} sequence.
      */
-    IDLE(8, 3, true);
+    IDLE(8, 2, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;

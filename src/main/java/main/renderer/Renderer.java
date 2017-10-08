@@ -7,9 +7,11 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.util.Config;
 import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
@@ -63,11 +65,14 @@ public class Renderer {
         RenderingHints.VALUE_ANTIALIAS_ON
     );
     g.setRenderingHints(rh);
-    for (Renderable r : gameView.getRenderables(currentTime)) {
+    for (EntityView r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
+      MapSize size = r.getImageSize();
       g.drawImage(r.getImage(),
           (int)( position.x + gameView.getViewBox().x()),
           (int)( position.y + gameView.getViewBox().y()),
+          (int)(size.width),
+          (int)(size.height),
           null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));

@@ -10,7 +10,7 @@ import main.images.UnitSpriteSheet.Sequence;
 public enum UnitType {
 
   //todo confirm attack and moving speeds
-  ARCHER(5, 200, 5, 5, Sequence.SHOOT) {
+  ARCHER(5, 200, 5, 0.1, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -24,26 +24,26 @@ public enum UnitType {
           target,
           GameImageResource.ARROW_PROJECTILE.getGameImage(),
           creator.getDamageAmount(),
-          0.05
+          0.5
       );
     }
   },
 
-  SWORDSMAN(10, 250, 6, 5, Sequence.SLASH) {
+  SWORDSMAN(10, 250, 6, 0.1, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(7, 150, 5, 5, Sequence.THRUST) {
+  SPEARMAN(7, 150, 5, 0.1, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(15, 300, 8, 7, Sequence.SPELL_CAST) {
+  MAGICIAN(15, 300, 8, 0.1, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -57,7 +57,7 @@ public enum UnitType {
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           creator.getDamageAmount(),
-          0.03
+          0.3
       );
     }
   };
