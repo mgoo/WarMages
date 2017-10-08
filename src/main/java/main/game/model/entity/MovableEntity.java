@@ -38,12 +38,13 @@ public abstract class MovableEntity extends Entity {
     double leeway = 0.5;
     //update position
     if (path != null && !path.isEmpty()) {
-      double minDist = getTopLeft().distanceTo(path.get(path.size()-1));
-      int nextIdx = path.size()-1;
+      double minDist = getTopLeft().distanceTo(path.get(path.size() - 1));
+      int nextIdx = path.size() - 1;
       for (int i = currentPathIdx; i < path.size(); i++) {
         MapPoint mp = path.get(i);
         double distFromCurrent = getTopLeft().distanceTo(mp);
-        if(distFromCurrent < distToBeTravelled + leeway && distFromCurrent > distToBeTravelled - leeway) {
+        if (distFromCurrent < distToBeTravelled + leeway
+            && distFromCurrent > distToBeTravelled - leeway) {
           //within +- leeway of distToBeTravelled
           if (distFromCurrent < minDist) {
             //closest to distToBeTravelled

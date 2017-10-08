@@ -96,7 +96,7 @@ public class MovableEntityTest {
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
     // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
-    for (int i = 1; i < path.size(); i+=2) {
+    for (int i = 1; i < path.size(); i += 2) {
       me.tick(200, world);
       assertEquals(path.get(i), me.getTopLeft());
     }
@@ -124,14 +124,14 @@ public class MovableEntityTest {
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
     // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
-    for (int i = 1; i < path.size(); i+=2) {
+    for (int i = 1; i < path.size(); i += 2) {
       me.tick(200, world);
       assertEquals(path.get(i), me.getTopLeft());
     }
   }
 
   @Test
-  public void testMovingEntity_twoSpacesDiagonally() {
+  public void testMovingEntity_oneSpacesDiagonally() {
     MovableEntity me = getMovableEntity();
     List<MapPoint> path = getPathDiagonal();
     me.setPath(path);
