@@ -9,6 +9,8 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import main.game.view.GameView;
 import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
@@ -63,7 +65,8 @@ public class Renderer {
     g.setRenderingHints(rh);
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
-      g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
+      MapSize size = r.getImageSize();
+      g.drawImage(r.getImage(), (int) position.x, (int) position.y, (int)size.width, (int)size.height, null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
