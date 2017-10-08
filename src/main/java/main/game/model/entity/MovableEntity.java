@@ -32,7 +32,7 @@ public abstract class MovableEntity extends Entity {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     double distToBeTravelled = speed * timeSinceLastTick;
-    double leeway = 0.5;
+    double leeway = 0.2;
     //update position
     if (path != null && !path.isEmpty()) {
       for (MapPoint mp : path) {
