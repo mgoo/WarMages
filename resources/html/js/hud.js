@@ -45,28 +45,86 @@ function clearItems() {
   $('#item-holder').html('');
 }
 
-// (function() {
-    var gameViewProxy = $('#game-view-proxy');
-    var menuButton = $('#menu-button');
-    var resumeButton = $('#resume-btn');
+var gameViewProxy = $('#game-view-proxy');
+var menuButton = $('#menu-button');
+var resumeButton = $('#resume-btn');
 
+gameViewProxy.on('click', function (event) {
+    controller.onLeftClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+});
+gameViewProxy.on('contextmenu', function (event) {
+  controller.onRightClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+  return false;
+});
 
-    gameViewProxy.on('click', function (event) {
-        controller.onLeftClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
-    });
-    gameViewProxy.on('contextmenu', function (event) {
+menuButton.on('click', function (event) {
+    $('#overlay').fadeIn();
+    $('#pause-menu').fadeIn();
+});
 
-        controller.onRightClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
-        return false;
-    });
+resumeButton.on('click', function (event) {
+    $('#overlay').fadeOut();
+    $('#pause-menu').fadeOut();
+});
 
-    menuButton.on('click', function (event) {
-        $('#overlay').fadeIn();
-        $('#pause-menu').fadeIn();
-    });
+$('document').on('click', function (event) {
+    Rect.init(event.x, event.y);
+    Rect.draw(gameViewProxy);
+    Rect.update(event.x + 10, event.y + 10);
+});
 
-    resumeButton.on('click', function (event) {
-        $('#overlay').fadeOut();
-        $('#pause-menu').fadeOut();
-    });
-// })
+gameViewProxy
+  .on('mousedown', function (event) {
+     if (!Rect.visible) {
+         Rect.init(event.x, event.y);
+         Rect.draw(gameViewProxy);
+     }
+  })
+  .on('mousemove', function (event) {
+    if (Rect.visible) {
+      Rect.update(event.x, event.y);
+    }
+  });
+$('document').on('mouseup', function(event) {
+    Rect.reset();
+});
+
+var Rect = {
+    rect: $('<div class="rect"></div>'),
+    visible: false,
+    box: {
+        startX: 0,
+        startY: 0,
+        x: 0,
+        y: 0,
+        reset: function() {
+            this.x = 0;
+            this.y = 0;
+            this.startX = 0;
+            this.startY = 0;
+        }
+    },
+    init: function(x, y) {
+        visible = true;
+        this.box.startX = x;
+        this.box.startY = y;
+        this.box.x = x;
+        this.box.y = y;
+        this.rect.css('left', x + 'px');
+        this.rect.css('up', y + 'px');
+    },
+    draw: function(element) {
+        element.append(this.rect);
+    },
+    update: function(x, y) {
+        this.box.x = x;
+        this.box.y = y;
+        this.rect.css('width', (this.box.x - this.box.startX) + 'px');
+        this.rect.css('height', (this.box.y - this.box.startY) + 'px');
+    },
+    reset: function() {
+        this.box.reset();
+        this.visible = false;
+        this.rect.remove();
+    }
+};

@@ -23,7 +23,7 @@ public class Unit extends Attackable implements Damageable {
   private final Team team;
 
   private UnitType unitType;
-  private UnitState unitState;
+  public UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
 
   private boolean isDead = false;

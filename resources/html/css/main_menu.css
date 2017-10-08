@@ -2,6 +2,7 @@
   background-color: rgba(0, 0, 0, 0);
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 .overlay {
   background-color: rgba(0, 0, 0, 0.7);
@@ -28,13 +29,6 @@
   display: block;
   width: 10vw;
   text-align: center;
-  box-shadow: #000 3px 3px 3px;
-}
-.btn:hover {
-  box-shadow: #444 3px 3px 3px;
-}
-.btn:active {
-  box-shadow: #AAA 1px 1px 1px;
 }
 a {
   text-decoration: none;

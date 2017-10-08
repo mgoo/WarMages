@@ -68,6 +68,7 @@ public class MainMenuController extends MenuController {
       Renderer renderer = new Renderer(gameView, this.imageView, config);
       Hud hud = new Hud(this.main, this.mainMenu, gameView, renderer, gameModel);
       tickEvent.registerListener(parameter -> hud.updateIcons());
+      tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
       renderer.start();
       gameModel.startGame();
       // TODO start the game properly

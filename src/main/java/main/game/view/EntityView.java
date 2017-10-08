@@ -9,6 +9,7 @@ import java.util.Comparator;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
+import main.game.model.entity.WalkingUnitState;
 import main.images.DefaultImageProvider;
 import main.images.ImageProvider;
 import main.util.Config;
@@ -29,6 +30,8 @@ public class EntityView implements main.renderer.Renderable {
   private MapPoint oldPosition;
   private MapPoint destination;
 
+  public boolean toRemove; // TODO remove me
+
   private long lastTickTime;
 
   private boolean isSelected = false;
@@ -47,10 +50,13 @@ public class EntityView implements main.renderer.Renderable {
     this.destination = entity.getCentre();
     this.isSelected = isSelected;
 
+    toRemove = entity instanceof Unit && ((Unit)entity).unitState instanceof WalkingUnitState;
+
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
       // unreachable code
+      assert false : "An image was not loaded";
     }
 
     if (isSelected) {

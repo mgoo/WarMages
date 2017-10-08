@@ -62,7 +62,7 @@ public class GameView {
    * @param currentTime the time stap for the render iteration
    * @return unmodifiable sorted list
    */
-  public synchronized List<Renderable> getRenderables(long currentTime) {
+  public synchronized List<EntityView> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
   }
