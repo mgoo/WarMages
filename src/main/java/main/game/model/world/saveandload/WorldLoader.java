@@ -171,7 +171,7 @@ public class WorldLoader {
    */
   public World loadMultilevelWorld() {
     HeroUnit heroUnit = new HeroUnit(
-        new MapPoint(3, 4),
+        new MapPoint(2, 5),
         HERO_SIZE,
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
@@ -187,14 +187,15 @@ public class WorldLoader {
 
     {
       // Example level to allow the player to learn how to attack
-      MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(15, 10));
+      MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(15, 11));
+      // Bounds is 11 high, so y == 5 is center
       levels.add(new Level(
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(2, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new Unit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
@@ -204,7 +205,7 @@ public class WorldLoader {
           Arrays.asList(),
           Arrays.asList(
               new UninteractableEntity(
-                  bounds.getCenter().rounded(),
+                  bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
           ),
@@ -218,7 +219,7 @@ public class WorldLoader {
       // A level with more units
       MapRect bounds = new MapRect(
           levels.getFirst().getBounds().topLeft,
-          new MapPoint(30, 10)
+          new MapPoint(30, levels.getFirst().getBounds().bottomRight.y)
       );
       levels.add(new Level(
           bounds,
