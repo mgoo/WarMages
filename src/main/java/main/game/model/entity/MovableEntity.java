@@ -55,7 +55,7 @@ public abstract class MovableEntity extends Entity {
     double dy = target.y - this.position.y;
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
-    assert  speed - 0.001 < Math.hypot(mx, my) && speed + 0.001 > Math.hypot(mx, my);
+    assert  speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
     position = position.translate(mx, my);
   }
 }
