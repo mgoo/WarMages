@@ -30,8 +30,6 @@ public class EntityView implements main.renderer.Renderable {
   private MapPoint oldPosition;
   private MapPoint destination;
 
-  public boolean toRemove; // TODO remove me
-
   private long lastTickTime;
 
   private boolean isSelected = false;
@@ -49,13 +47,9 @@ public class EntityView implements main.renderer.Renderable {
     this.oldPosition = this.destination;
     this.destination = entity.getCentre();
     this.isSelected = isSelected;
-
-    toRemove = entity instanceof Unit && ((Unit)entity).unitState instanceof WalkingUnitState;
-
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
-      // unreachable code
       assert false : "An image was not loaded";
     }
 
@@ -65,7 +59,9 @@ public class EntityView implements main.renderer.Renderable {
   }
 
   private BufferedImage addSelectionDecorations(BufferedImage image) { // TODO fix name
-    BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+    BufferedImage newImage = new BufferedImage(image.getWidth(),
+        image.getHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
     Graphics2D g = (Graphics2D) newImage.getGraphics();
     g.drawOval(0, image.getHeight() - 50, image.getWidth(), 50); // TODO math properly
     g.drawImage(image, 0, 0, null);

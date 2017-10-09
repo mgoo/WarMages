@@ -14,6 +14,7 @@ import main.game.view.events.MouseClick;
 import main.images.ImageProvider;
 import main.renderer.Renderable;
 import main.util.Config;
+import main.util.Event;
 import main.util.Event.Listener;
 import main.util.MapPoint;
 import main.util.MapRect;
@@ -32,6 +33,7 @@ public class GameView {
   private final GameController gameController;
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
+  private final Event<MouseClick> mouseClickEvent;
 
   private MapRect viewBox;
   private MapPoint mousePosition = new MapPoint(2,2);
@@ -46,11 +48,13 @@ public class GameView {
   public GameView(Config config,
                   GameController gameController,
                   GameModel gameModel,
-                  ImageProvider imageProvider) {
+                  ImageProvider imageProvider,
+                  Event<MouseClick> mouseClickEvent) {
     this.config = config;
     this.gameController = gameController;
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
+    this.mouseClickEvent = mouseClickEvent;
     this.viewBox = new MapRect(0, 0,
         this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
   }
@@ -90,8 +94,8 @@ public class GameView {
     });
 
     this.renderablesCache.forEach(entityView -> {
-//      System.out.println(this.gameModel.getUnitSelection().contains(entityView.getEntity()));
-      entityView.update(tickTime, this.gameModel.getUnitSelection().contains(entityView.getEntity()));
+      entityView.update(tickTime,
+          this.gameModel.getUnitSelection().contains(entityView.getEntity()));
     });
   }
 
@@ -143,8 +147,7 @@ public class GameView {
    * Triggers event for when Game View is clicked.
    */
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    System.out.println("LeftClick: (" + x + " , " + y + ")");
-    Config.mouseClickEvent.broadcast(new MouseClick() {
+    this.mouseClickEvent.broadcast(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return true;
@@ -171,8 +174,7 @@ public class GameView {
    * Triggers event for when Game View is clicked.
    */
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    System.out.println("RightClick: (" + x + " , " + y + ")");
-    Config.mouseClickEvent.broadcast(new MouseClick() {
+    this.mouseClickEvent.broadcast(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return false;
@@ -195,8 +197,11 @@ public class GameView {
     });
   }
 
+  /**
+   * Triggers a key event.
+   */
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
-    Config.keyEvent.broadcast(new main.game.view.events.KeyEvent() {
+    this.gameController.onKeyPress(new main.game.view.events.KeyEvent() {
       @Override
       public char getKey() {
         return key;

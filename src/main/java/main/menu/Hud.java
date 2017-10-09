@@ -17,8 +17,10 @@ import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
+import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
+import main.images.ImageProvider;
 import main.menu.controller.HudController;
 import main.menu.generators.ScriptFileGenerator;
 import main.renderer.Renderer;
@@ -31,12 +33,19 @@ import main.renderer.Renderer;
 public class Hud extends Menu {
 
   private final GameModel gameModel;
+  private final ImageProvider imageProvider;
   private final Collection<Unit> selectedUnits = new ArrayList<>();
   private HeroUnit hero;
 
-  public Hud(Main main, MainMenu mainMenu, GameView gameView, Renderer renderer, GameModel gameModel) {
+  public Hud(Main main,
+             MainMenu mainMenu,
+             GameView gameView,
+             Renderer renderer,
+             GameModel gameModel,
+             ImageProvider imageProvider) {
     super(main);
     this.gameModel = gameModel;
+    this.imageProvider = imageProvider;
     this.menuController = new HudController(main, mainMenu, gameView, renderer);
   }
 
@@ -62,6 +71,9 @@ public class Hud extends Menu {
     };
   }
 
+  /**
+   * Upate the icons that are displayed in the HUD.
+   */
   public void updateIcons() {
     final Collection<Unit> removeUnits = new HashSet<>();
     this.selectedUnits.stream()
@@ -92,9 +104,9 @@ public class Hud extends Menu {
         });
   }
 
-  private void addUnitIcon(Unit unit){
+  private void addUnitIcon(Unit unit) {
     try {
-      this.addIcon("addUnitIcon", unit.getImage().load(new DefaultImageProvider()), unit);
+      this.addIcon("addUnitIcon", unit.getImage().load(this.imageProvider), unit);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -102,7 +114,7 @@ public class Hud extends Menu {
 
   private void addItemIcon(Item item) {
     try {
-      this.addIcon("addItemIcon", item.getIconImage().load(new DefaultImageProvider()), item);
+      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -110,7 +122,7 @@ public class Hud extends Menu {
 
   private void addAbilityIcon(Ability ability) {
     try {
-      this.addIcon("addAbilityIcon", ability.getIconImage().load(new DefaultImageProvider()), ability);
+      this.addIcon("addAbilityIcon", ability.getIconImage().load(this.imageProvider), ability);
     } catch (IOException e) {
       e.printStackTrace();
     }

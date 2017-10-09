@@ -12,18 +12,6 @@ import main.game.view.events.MouseDrag;
  * @author Andrew McGhie
  */
 public class Config {
-
-  // <shhhh>
-  public static final Event<MouseDrag> mouseDragEvent = new Event<>();
-  public static final Event<MouseClick> mouseClickEvent = new Event<>();
-
-  public static final Event<AbilityIconClick> abilityIconClickEvent = new Event<>();
-  public static final Event<ItemIconClick> itemIconClickEvent = new Event<>();
-  public static final Event<EntityIconClick> entityIconClickEvent = new Event<>();
-
-  public static final Event<KeyEvent> keyEvent = new Event<>();
-  // </shhhh>
-
   private static final int CONTEXT_SCREEN_SIZE_NOT_SET = -1;
 
   private int gameModelDelay = 50;

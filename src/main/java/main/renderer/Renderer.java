@@ -58,7 +58,9 @@ public class Renderer {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
 
-    BufferedImage image = new BufferedImage(config.getContextScreenWidth(), config.getContextScreenHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     RenderingHints rh = new RenderingHints(
         RenderingHints.KEY_ANTIALIASING,

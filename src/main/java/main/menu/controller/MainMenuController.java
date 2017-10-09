@@ -8,13 +8,16 @@ import main.game.model.world.World;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.view.GameView;
+import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
+import main.images.ImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
 import main.util.Config;
+import main.util.Event;
 import main.util.Event.Listener;
 import main.util.Events.MainGameTick;
 
@@ -51,27 +54,33 @@ public class MainMenuController extends MenuController {
 
   /**
    * Starts a new game from the beginning.
-   * TODO do integration properly
    */
   public void startBtn() {
     try {
-      World world = this.worldLoader.load();
+      ImageProvider imageProvider = new DefaultImageProvider();
       MainGameTick tickEvent = new MainGameTick();
+      Event<MouseClick> mouseClickEvent = new Event<>();
+      World world = this.worldLoader.load();
       GameModel gameModel = new GameModel(world, tickEvent);
       GameController gameController = new GameController(gameModel);
       GameView gameView = new GameView(this.config,
           gameController,
           gameModel,
-          new DefaultImageProvider());
+          imageProvider,
+          mouseClickEvent);
       tickEvent.registerListener(parameter -> gameView.onTick(parameter));
-      Config.mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+      mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
       Renderer renderer = new Renderer(gameView, this.imageView, config);
-      Hud hud = new Hud(this.main, this.mainMenu, gameView, renderer, gameModel);
+      Hud hud = new Hud(this.main,
+          this.mainMenu,
+          gameView,
+          renderer,
+          gameModel,
+          imageProvider);
       tickEvent.registerListener(parameter -> hud.updateIcons());
       tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
       renderer.start();
       gameModel.startGame();
-      // TODO start the game properly
 
       this.main.loadMenu(hud);
     } catch (Exception e) {
