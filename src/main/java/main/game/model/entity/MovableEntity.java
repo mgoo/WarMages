@@ -13,6 +13,7 @@ public abstract class MovableEntity extends Entity {
   protected double speed;
   private int currentPathIdx;
   private static final double LEEWAY = 0.5;
+  protected MapPoint destination;
 
   /**
    * Constructor takes the position of the entity, the size, and it's speed.
@@ -30,8 +31,12 @@ public abstract class MovableEntity extends Entity {
    * Sets the path to be followed by the unit to the given path.
    */
   public void setPath(List<MapPoint> path) {
+    if (path.isEmpty()) {
+      return;
+    }
     this.path = path;
     currentPathIdx = 0;
+    destination = path.get(path.size() - 1);
   }
 
   @Override
@@ -56,6 +61,10 @@ public abstract class MovableEntity extends Entity {
       }
       currentPathIdx = nextIdx;
       position = path.get(nextIdx);
+      if (nextIdx == path.size() - 1) {
+        path = null;
+        destination = null;
+      }
     }
   }
 }
