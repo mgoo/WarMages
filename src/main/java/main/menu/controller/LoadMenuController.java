@@ -11,7 +11,7 @@ import main.menu.MainMenu;
  *
  * @author Andrew McGhie
  */
-public class LoadMenuController implements MenuController {
+public class LoadMenuController extends MenuController {
 
   private final Main main;
   private final MainMenu mainMenu;
