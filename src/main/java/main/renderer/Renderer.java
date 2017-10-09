@@ -11,6 +11,8 @@ import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.util.Config;
 import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 import main.util.MapSize;
 
 /**
@@ -69,7 +71,13 @@ public class Renderer {
     g.setRenderingHints(rh);
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
-      g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
+      MapSize size = r.getImageSize();
+      g.drawImage(r.getImage(),
+          (int)(position.x + gameView.getViewBox().topLeft.x),
+          (int)(position.y + gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height,
+          null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
