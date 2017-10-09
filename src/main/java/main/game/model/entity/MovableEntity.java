@@ -14,6 +14,7 @@ public abstract class MovableEntity extends Entity {
   protected Queue<MapPoint> path;
   protected double speed;
   private int currentPathIdx;
+  private static final double LEEWAY = 0.5;
   private static final double LEEWAY = 0.2;
 
   /**
