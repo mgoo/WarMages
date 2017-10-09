@@ -43,7 +43,6 @@ public class HudController extends MenuController {
    */
   public void unitIconBtn(Unit unit) {
     try {
-      System.out.println(unit.getHealth());
       // TODO event trigger here
     } catch (Exception e) {
       e.printStackTrace();

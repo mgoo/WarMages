@@ -100,6 +100,15 @@ public class Main extends Application {
         config
     );
 
+    root.setPrefWidth(config.getContextScreenWidth());
+    root.setPrefHeight(config.getContextScreenHeight());
+
+    browser.setPrefHeight(config.getContextScreenWidth());
+    browser.setPrefHeight(config.getContextScreenHeight());
+
+    imageView.setFitWidth(config.getContextScreenWidth());
+    imageView.setFitHeight(config.getContextScreenHeight());
+
     this.webEngine = browser.getEngine();
 
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
@@ -145,10 +154,16 @@ public class Main extends Application {
     primaryStage.show();
   }
 
+  /**
+   * Executes a script on the current browser view.
+   */
   public void executeScript(String script) {
     Platform.runLater(() -> webEngine.executeScript(script));
   }
 
+  /**
+   * Calls a javascript function on the current browser view.
+   */
   public void callJsFunction(String function, Object... args) {
     Platform.runLater(() -> {
       JSObject window = (JSObject) webEngine.executeScript("window");

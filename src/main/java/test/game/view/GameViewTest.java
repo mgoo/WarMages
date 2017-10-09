@@ -18,6 +18,7 @@ import main.images.GameImage;
 import main.images.GameImageResource;
 import main.images.ImageProvider;
 import main.util.Config;
+import main.util.Event;
 import main.util.MapPoint;
 import main.util.MapSize;
 import org.junit.Before;
@@ -49,7 +50,7 @@ public class GameViewTest {
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
     this.gameView = new GameView(config,
-        gameController, gameModelMock, imageProvider);
+        gameController, gameModelMock, imageProvider, new Event<>());
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();

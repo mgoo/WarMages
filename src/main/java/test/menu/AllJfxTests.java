@@ -30,6 +30,7 @@ import main.util.Config;
 import main.util.Events.MainGameTick;
 import main.util.MapPoint;
 import netscape.javascript.JSObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 import test.renderer.RendererTestUtils;
@@ -44,6 +45,7 @@ public class AllJfxTests {
   static HeroUnit hero = null;
 
 
+  @Ignore
   @Test
   public void testMainMenu() {
     if (!Desktop.isDesktopSupported()) {
@@ -70,7 +72,7 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv, new Config()).drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv, config).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
