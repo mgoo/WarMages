@@ -112,8 +112,12 @@ public class Unit extends Attackable implements Damageable {
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
       attack();
+    } else {
+      //if no target, check if unit reached destination and change to idle if so
+      if(destination != null && position.equals(destination)){
+        setNextState(new IdleUnitState(unitState.getDirection(), this));
+      }
     }
-
     tickEffects(timeSinceLastTick);
   }
 
