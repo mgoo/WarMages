@@ -182,4 +182,12 @@ public class World implements Serializable {
 
     recentlyKilledUnits.add(unit);
   }
+
+  /**
+   * Gets the current goal for the current level.
+   * @return String description of the current goal
+   */
+  public String getCurrentGoalDescription(){
+    return currentLevel().getGoalDescription();
+  }
 }
