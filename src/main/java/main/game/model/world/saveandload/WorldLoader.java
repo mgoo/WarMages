@@ -1,13 +1,14 @@
 package main.game.model.world.saveandload;
 
 import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.images.GameImageResource.DARK_ELF_SPRITE_SHEET;
 import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.images.GameImageResource.POTION_BLUE_ITEM;
 import static main.images.GameImageResource.RING_GOLD_ITEM;
 import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.TEST_IMAGE_FULL_SIZE;
 import static main.images.GameImageResource.TREE_MAP_ENTITY;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ import main.util.MapSize;
 public class WorldLoader {
 
   private static final MapSize HERO_SIZE = new MapSize(1, 1);
-  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.8, 0.8);
+  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.7, 0.7);
 
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
@@ -170,7 +171,7 @@ public class WorldLoader {
    * and the player moves along the x axis.
    */
   public World loadMultilevelWorld() {
-    HeroUnit heroUnit = new HeroUnit(
+    final HeroUnit heroUnit = new HeroUnit(
         new MapPoint(2, 5),
         HERO_SIZE,
         new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
@@ -178,8 +179,7 @@ public class WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                120,
-                90
+                120, 90
             )
         )
     );
@@ -211,12 +211,12 @@ public class WorldLoader {
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
-          "Kill the enemy soldier with your units"
+          "Kill the enemy soldier with your hero and foot-knights"
       ));
     }
 
     {
-      // A level with more units
+      // A level with a few units, and items
       MapRect bounds = new MapRect(
           levels.getFirst().getBounds().topLeft,
           new MapPoint(30, levels.getFirst().getBounds().bottomRight.y)
@@ -227,11 +227,11 @@ public class WorldLoader {
               new Unit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(10, 7), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new Unit(new MapPoint(10, 8), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new Unit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
@@ -245,8 +245,7 @@ public class WorldLoader {
                   new MapPoint(21, 1),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                      30,
-                      30
+                      30, 30
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               ),
@@ -254,22 +253,114 @@ public class WorldLoader {
                   new MapPoint(24, 5),
                   new DamageBuffAbility(
                       GameImageResource.RING_GOLD_ITEM.getGameImage(),
-                      20,
-                      15,
-                      30
+                      20, 15, 10
                   ),
                   RING_GOLD_ITEM.getGameImage()
               )
           ),
           Arrays.asList(
               new UninteractableEntity(
-                  bounds.getCenter().rounded(),
-                  TEST_IMAGE_FULL_SIZE.getGameImage()
+                  bounds.getCenter().floored(),
+                  TREE_MAP_ENTITY.getGameImage()
               )
           ),
           generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
-          "Kill all enemy soldiers!"
+          "Try out your new archers on the new enemies"
+      ));
+    }
+
+    {
+      // A level with more units
+      MapRect bounds = new MapRect(
+          levels.getFirst().getBounds().topLeft,
+          new MapPoint(45, levels.getFirst().getBounds().bottomRight.y)
+      );
+      levels.add(new Level(
+          bounds,
+          Arrays.asList(
+              new Unit(new MapPoint(25, 3), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(41, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(40, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new Unit(new MapPoint(39, 5), HERO_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(40, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new Unit(new MapPoint(41, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              )
+          ),
+          Arrays.asList(),
+          Arrays.asList(
+              new UninteractableEntity(
+                  new MapPoint(37, 1),
+                  TREE_MAP_ENTITY.getGameImage()
+              ),
+              new UninteractableEntity(
+                  new MapPoint(37, 2),
+                  TREE_MAP_ENTITY.getGameImage()
+              ),
+              new UninteractableEntity(
+                  new MapPoint(37, 3),
+                  TREE_MAP_ENTITY.getGameImage()
+              ),
+              new UninteractableEntity(
+                  new MapPoint(37, 7),
+                  TREE_MAP_ENTITY.getGameImage()
+              ),
+              new UninteractableEntity(
+                  new MapPoint(37, 8),
+                  TREE_MAP_ENTITY.getGameImage()
+              ),
+              new UninteractableEntity(
+                  new MapPoint(37, 9),
+                  TREE_MAP_ENTITY.getGameImage()
+              )
+          ),
+          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          new Goal.AllEnemiesKilled(),
+          "Use the gold ring buff, and kill all enemies"
+      ));
+    }
+
+    {
+      // Surprise ambush level
+      MapRect bounds = levels.getLast().getBounds();
+      levels.add(new Level(
+          bounds,
+          Arrays.asList(
+              new Unit(new MapPoint(39, 2), HERO_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(39, 8), HERO_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(43, 2), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(43, 8), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(43, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new Unit(new MapPoint(43, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              )
+          ),
+          Arrays.asList(),
+          Arrays.asList(),
+          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          new Goal.AllEnemiesKilled(),
+          levels.getLast().getGoalDescription()
       ));
     }
 
