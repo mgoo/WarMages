@@ -114,7 +114,7 @@ public class Unit extends Attackable implements Damageable {
       attack();
     } else {
       //if no target, check if unit reached destination and change to idle if so
-      if (destination != null && position.equals(destination)) {
+      if (this.path.size() == 0) {
         setNextState(new IdleUnitState(unitState.getDirection(), this));
       }
     }

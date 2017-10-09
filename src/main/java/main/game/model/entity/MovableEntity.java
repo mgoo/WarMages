@@ -1,5 +1,7 @@
 package main.game.model.entity;
 
+import static java.lang.Double.compare;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -11,10 +13,8 @@ public abstract class MovableEntity extends Entity {
 
   private static final long serialVersionUID = 1L;
 
-  protected Queue<MapPoint> path;
+  protected Queue<MapPoint> path = new LinkedList<>();
   protected double speed;
-  private int currentPathIdx;
-  private static final double LEEWAY = 0.5;
   private static final double LEEWAY = 0.2;
 
   /**
@@ -34,7 +34,6 @@ public abstract class MovableEntity extends Entity {
    */
   public void setPath(List<MapPoint> path) {
     this.path = new LinkedList<>(path);
-    currentPathIdx = 0;
   }
 
   @Override
@@ -44,7 +43,7 @@ public abstract class MovableEntity extends Entity {
     }
     MapPoint target = this.path.peek();
     double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY + Math.max(this.size.width/2, this.size.height/2)) {
+    if (distance < LEEWAY + Math.max(this.size.width / 2, this.size.height / 2)) {
       this.path.poll();
       if (this.path.size() == 0) {
         return;
@@ -56,6 +55,7 @@ public abstract class MovableEntity extends Entity {
     double dy = target.y - this.position.y;
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
+    assert  speed - 0.001 < Math.hypot(mx, my) && speed + 0.001 > Math.hypot(mx, my);
     position = position.translate(mx, my);
   }
 }
