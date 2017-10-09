@@ -49,7 +49,7 @@ public abstract class Menu {
   public abstract String[] getScripts();
 
   /**
-   * Gets an instance of the object to bind to javascript.
+   * returns the instance of the object to bind to javascript.
    */
   public MenuController getMenuController() {
     return this.menuController;

@@ -67,6 +67,9 @@ public class GameModel {
    */
   public void setUnitSelection(Collection<Unit> unitSelection) {
     selectedUnits = new HashSet<>(unitSelection);
+    if (selectedUnits.contains(null)) {
+      throw new NullPointerException();
+    }
   }
 
   /**
