@@ -65,15 +65,9 @@ public class Renderer {
         RenderingHints.VALUE_ANTIALIAS_ON
     );
     g.setRenderingHints(rh);
-    for (EntityView r : gameView.getRenderables(currentTime)) {
+    for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
-      MapSize size = r.getImageSize();
-      g.drawImage(r.getImage(),
-          (int)( position.x + gameView.getViewBox().x()),
-          (int)( position.y + gameView.getViewBox().y()),
-          (int)(size.width),
-          (int)(size.height),
-          null);
+      g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
