@@ -13,6 +13,7 @@ public abstract class MovableEntity extends Entity {
   protected double speed;
   private int currentPathIdx;
   private static final double LEEWAY = 0.5;
+  protected MapPoint destination;
 
   /**
    * Constructor takes the position of the entity, the size, and it's speed.
@@ -32,6 +33,7 @@ public abstract class MovableEntity extends Entity {
   public void setPath(List<MapPoint> path) {
     this.path = path;
     currentPathIdx = 0;
+    destination = path.get(path.size()-1);
   }
 
   @Override
