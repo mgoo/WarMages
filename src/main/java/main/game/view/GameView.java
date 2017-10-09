@@ -11,11 +11,13 @@ import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
+import main.game.view.events.MouseDrag;
 import main.images.ImageProvider;
 import main.renderer.Renderable;
 import main.util.Config;
 import main.util.Event;
 import main.util.Event.Listener;
+import main.util.MapDiamond;
 import main.util.MapPoint;
 import main.util.MapRect;
 
@@ -170,6 +172,33 @@ public class GameView {
         return pixToTile(new MapPoint(x, y));
       }
     });
+  }
+
+  /**
+   * Triggers the drag event.
+   */
+  public void onDrag(int x1, int y1, int x2, int y2, boolean wasShiftDown, boolean wasCtrlDown) {
+    MapDiamond shape = new MapDiamond(this.pixToTile(new MapPoint(x1,y1)),
+        this.pixToTile(new MapPoint(x2, y2)),
+        this.pixToTile(new MapPoint(x1, y2)),
+        this.pixToTile(new MapPoint(x2, y1)));
+    gameController.onMouseDrag(new MouseDrag() {
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapDiamond getMapShape() {
+        return shape;
+      }
+    });
+
   }
 
   /**

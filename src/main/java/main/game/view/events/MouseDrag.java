@@ -1,5 +1,6 @@
 package main.game.view.events;
 
+import main.util.MapDiamond;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -9,14 +10,9 @@ import main.util.MapSize;
  * @author Andrew McGhie
  */
 public interface MouseDrag {
-
-  boolean wasLeft();
-
   boolean wasShiftDown();
 
   boolean wasCtrlDown();
 
-  MapPoint getTopLeft();
-
-  MapSize getSize();
+  MapDiamond getMapShape();
 }
