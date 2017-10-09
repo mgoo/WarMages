@@ -39,6 +39,7 @@ public enum GameImageResource {
 
   // Unit Sprite Sheets
   ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/archer.png").create()),
+  DARK_ELF_SPRITE_SHEET(new GameImageBuilder("images/units/dark_elf.png").create()),
   FOOT_KNIGHT_SPRITE_SHEET(new GameImageBuilder("images/units/footknight.png").create()),
   GOLDEN_HERO_SPRITE_SHEET(new GameImageBuilder("images/units/golden_hero.png").create()),
   MALE_MAGE_SPRITE_SHEET(new GameImageBuilder("images/units/male_mage.png").create()),
