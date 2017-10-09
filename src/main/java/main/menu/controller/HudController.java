@@ -3,50 +3,45 @@ package main.menu.controller;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
+import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.Entity;
 import main.game.model.entity.usable.Item;
+import main.game.view.GameView;
+import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
+import main.renderer.Renderer;
+import main.util.Config;
+import main.util.MapPoint;
 
 /**
  * Controls the hud when in game. Receives the click events when in game.
  *
  * @author Andrew McGhie
  */
-public class HudController implements MenuController {
+public class HudController extends MenuController {
 
   final Main main;
   final MainMenu mainMenu;
+  final GameView gameView;
+  final Renderer renderer;
 
-  public HudController(Main main, MainMenu mainMenu) {
+  public HudController(Main main, MainMenu mainMenu, GameView gameView, Renderer renderer) {
     this.main = main;
     this.mainMenu = mainMenu;
-  }
-
-  /**
-   * Assumes that the image is png formatted.
-   */
-  private String formatImageForHtml(RenderedImage image) {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    try {
-      ImageIO.write(image, "png", baos);
-    } catch (IOException e) {
-      // unreachable
-    }
-    byte[] bytes = baos.toByteArray();
-    String imageMimeType = "image/png";
-    String dataUri =
-        "data:" + imageMimeType + ";base64," + DatatypeConverter.printBase64Binary(bytes);
-    return dataUri;
+    this.gameView = gameView;
+    this.renderer = renderer;
   }
 
   /**
    * Triggers event for when the icon of an entity is clicked.
    */
-  public void entityIconBtn(Entity entity) {
+  public void unitIconBtn(Unit unit) {
     try {
       // TODO event trigger here
     } catch (Exception e) {
@@ -79,9 +74,9 @@ public class HudController implements MenuController {
   /**
    * Triggers event for when Game View is clicked.
    */
-  public void onLeftClick(int x, int y) {
+  public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      // TODO Handle left click here
+      gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -90,12 +85,24 @@ public class HudController implements MenuController {
   /**
    * Triggers event for when Game View is clicked.
    */
-  public void onRightClick(int x, int y) {
+  public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      // TODO handle Right click here
+      gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void onMouseMove(MouseEvent event) {
+    gameView.updateMousePosition((int)event.getX(), (int)event.getY());
+  }
+
+  @Override
+  public void onKeyDown(KeyEvent event) {
+    gameView.onKeyDown(event.getCharacter().charAt(0),
+        event.isShiftDown(),
+        event.isControlDown());
   }
 
   /**
@@ -103,7 +110,7 @@ public class HudController implements MenuController {
    */
   public void pause() {
     try {
-      // TODO handle pause here
+      renderer.pause();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -114,7 +121,7 @@ public class HudController implements MenuController {
    */
   public void resume() {
     try {
-      // TODO handle resume
+      renderer.resume();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -142,5 +149,4 @@ public class HudController implements MenuController {
       e.printStackTrace();
     }
   }
-
 }
