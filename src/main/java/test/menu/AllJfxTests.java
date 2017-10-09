@@ -9,6 +9,7 @@ import static test.renderer.RendererTestUtils.createImageView;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.util.Arrays;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.scene.Group;
@@ -19,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
@@ -30,6 +32,7 @@ import main.util.Config;
 import main.util.Events.MainGameTick;
 import main.util.MapPoint;
 import netscape.javascript.JSObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 import test.renderer.RendererTestUtils;
@@ -42,7 +45,6 @@ public class AllJfxTests {
 
   static Level level = null;
   static HeroUnit hero = null;
-
 
   @Test
   public void testMainMenu() {
@@ -70,7 +72,7 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv).drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv, config).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
@@ -118,6 +120,10 @@ public class AllJfxTests {
       scene.setRoot(root);
       primaryStage.setScene(scene);
       primaryStage.show();
+      PauseTransition delay = new PauseTransition(Duration.seconds(3));
+      delay.setOnFinished(event -> primaryStage.close());
+      delay.play();
+
     }
   }
 }

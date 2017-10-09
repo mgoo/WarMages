@@ -7,8 +7,13 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.game.view.EntityView;
 import main.game.view.GameView;
+import main.util.Config;
 import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
+import main.util.MapSize;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
@@ -19,6 +24,7 @@ public class Renderer {
 
   private final Thread thread;
   private final AtomicBoolean isPaused = new AtomicBoolean(false);
+  private final Config config;
 
   /**
    * Creates a Renderer and the rendering loop.
@@ -26,7 +32,8 @@ public class Renderer {
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
-  public Renderer(GameView gameView, ImageView imageView) {
+  public Renderer(GameView gameView, ImageView imageView, Config config) {
+    this.config = config;
     thread = new Thread(() -> {
       synchronized (this) {
         try {
@@ -53,8 +60,9 @@ public class Renderer {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
 
-    BufferedImage image = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
-    //(int) imageView.getFitWidth(), (int) imageView.getFitHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     RenderingHints rh = new RenderingHints(
         RenderingHints.KEY_ANTIALIASING,
@@ -63,7 +71,13 @@ public class Renderer {
     g.setRenderingHints(rh);
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
-      g.drawImage(r.getImage(), (int) position.x, (int) position.y, null);
+      MapSize size = r.getImageSize();
+      g.drawImage(r.getImage(),
+          (int)(position.x + gameView.getViewBox().topLeft.x),
+          (int)(position.y + gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height,
+          null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
