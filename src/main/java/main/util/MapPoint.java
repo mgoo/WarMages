@@ -36,6 +36,16 @@ public class MapPoint implements Serializable {
   }
 
   /**
+   * Floors the x and y coordinates.
+   */
+  public MapPoint floored() {
+    return new MapPoint(
+        Math.floor(x),
+        Math.floor(y)
+    );
+  }
+
+  /**
    * Returns a new point where this point is translated by the given amount.
    *
    * @param x -- translation in x
