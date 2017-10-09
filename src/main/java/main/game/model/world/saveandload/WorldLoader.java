@@ -279,7 +279,19 @@ public class WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(25, 3), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new Unit(new MapPoint(25, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+              ),
+              new Unit(new MapPoint(25, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new Unit(new MapPoint(26, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new Unit(new MapPoint(26, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new Unit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(41, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
