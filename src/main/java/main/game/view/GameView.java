@@ -28,6 +28,8 @@ import main.util.MapRect;
  */
 public class GameView {
 
+  private static final int SCROLL_AREA_WIDTH = 5;
+
   private final Config config;
 
   private final GameController gameController;
@@ -100,16 +102,16 @@ public class GameView {
   }
 
   private synchronized void updateViewBoxPosition() {
-    if (this.mousePosition.x <= 1)  {
+    if (this.mousePosition.x <= SCROLL_AREA_WIDTH)  {
       this.viewBox = this.viewBox.move(this.config.getGameViewScrollSpeed(), 0);
     }
-    if (this.mousePosition.x >= this.config.getContextScreenWidth() - 1) {
+    if (this.mousePosition.x >= this.config.getContextScreenWidth() - SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
     }
-    if (this.mousePosition.y <= 1) {
+    if (this.mousePosition.y <= SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
     }
-    if (this.mousePosition.y >= this.config.getContextScreenHeight() - 1) {
+    if (this.mousePosition.y >= this.config.getContextScreenHeight() - SCROLL_AREA_WIDTH) {
       this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
     }
   }
