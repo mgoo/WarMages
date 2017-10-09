@@ -125,7 +125,9 @@ public class GameController {
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
         } else {
-          updatedUnits.add(selectedUnit);
+          if (selectedUnit != null) {
+            updatedUnits.add(selectedUnit);
+          }
         }
         gameModel.setUnitSelection(updatedUnits);
 
