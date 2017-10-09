@@ -51,22 +51,11 @@ public abstract class MovableEntity extends Entity {
       }
       target = this.path.peek();
     }
-    double distToBeTravelled = speed;
-    double dx = 0, dy = 0;
-    if (this.position.x < target.x) {
-      dx = speed;
-    }
-    if (this.position.x > target.x) {
-      dx = -speed;
-    }
-    if (this.position.y < target.y) {
-      dy = speed;
-    }
-    if (this.position.y > target.y) {
-      dy = -speed;
-    }
-    // @Hack Assumes 8 directional movement
-    double multiplyer = dx != 0 && dy != 0 ? Math.sqrt(2)/2 : 1D;
-    position = position.translate(multiplyer * dx, multiplyer * dy);
+
+    double dx = target.x - this.position.x;
+    double dy = target.y - this.position.y;
+    double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
+    double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
+    position = position.translate(mx, my);
   }
 }
