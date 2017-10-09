@@ -31,9 +31,12 @@ public abstract class MovableEntity extends Entity {
    * Sets the path to be followed by the unit to the given path.
    */
   public void setPath(List<MapPoint> path) {
+    if (path.isEmpty()) {
+      return;
+    }
     this.path = path;
     currentPathIdx = 0;
-    destination = path.get(path.size()-1);
+    destination = path.get(path.size() - 1);
   }
 
   @Override
@@ -58,6 +61,10 @@ public abstract class MovableEntity extends Entity {
       }
       currentPathIdx = nextIdx;
       position = path.get(nextIdx);
+      if (nextIdx == path.size() - 1) {
+        path = null;
+        destination = null;
+      }
     }
   }
 }
