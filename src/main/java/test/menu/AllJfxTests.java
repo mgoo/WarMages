@@ -9,6 +9,7 @@ import static test.renderer.RendererTestUtils.createImageView;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.util.Arrays;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.scene.Group;
@@ -19,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
@@ -44,8 +46,6 @@ public class AllJfxTests {
   static Level level = null;
   static HeroUnit hero = null;
 
-
-  @Ignore
   @Test
   public void testMainMenu() {
     if (!Desktop.isDesktopSupported()) {
@@ -120,6 +120,10 @@ public class AllJfxTests {
       scene.setRoot(root);
       primaryStage.setScene(scene);
       primaryStage.show();
+      PauseTransition delay = new PauseTransition(Duration.seconds(3));
+      delay.setOnFinished(event -> primaryStage.close());
+      delay.play();
+
     }
   }
 }
