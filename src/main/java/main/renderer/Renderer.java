@@ -72,7 +72,12 @@ public class Renderer {
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
       MapSize size = r.getImageSize();
-      g.drawImage(r.getImage(), (int) position.x, (int) position.y, (int)size.width, (int)size.height, null);
+      g.drawImage(r.getImage(),
+          (int)(position.x + gameView.getViewBox().topLeft.x),
+          (int)(position.y + gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height,
+          null);
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
