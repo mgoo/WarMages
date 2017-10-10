@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import main.common.images.GameImageResource;
 import main.game.model.GameModel;
 import main.game.model.entity.AttackingUnitState;
 import main.game.model.entity.Direction;
@@ -16,8 +17,7 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 public class AttackingUnitStateTest {
@@ -37,7 +37,7 @@ public class AttackingUnitStateTest {
     when(target.getTeam()).thenReturn(Team.PLAYER);
     when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
     when(unit.getSpriteSheet())
-        .thenReturn(new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+        .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
     when(unit.getTarget()).thenReturn(target);
     // with some configuration parameters
     final int attackFrame = unit.getUnitType().getAttackSequence().getAttackFrame();

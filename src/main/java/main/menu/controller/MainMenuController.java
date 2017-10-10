@@ -10,7 +10,7 @@ import main.common.WorldSaveModel;
 import main.game.view.GameView;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
