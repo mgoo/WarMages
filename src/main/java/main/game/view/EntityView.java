@@ -1,22 +1,23 @@
 package main.game.view;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
-import main.game.model.GameModel;
 import main.game.model.entity.Entity;
-import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
-import main.util.Config;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.game.model.entity.Unit;
+import main.common.images.ImageProvider;
+import main.common.util.Config;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Created by mgoo on 9/22/17.
  */
 public class EntityView implements main.renderer.Renderable {
 
-  private final Config config;
+  final Config config;
 
   private final Entity entity;
   private final ImageProvider imageProvider;
@@ -27,6 +28,8 @@ public class EntityView implements main.renderer.Renderable {
 
   private long lastTickTime;
 
+  private boolean isSelected = false;
+
   EntityView(Config config, Entity entity, ImageProvider imageProvider) {
     this.config = config;
     this.entity = entity;
@@ -35,16 +38,33 @@ public class EntityView implements main.renderer.Renderable {
     this.imageProvider = imageProvider;
   }
 
-  void update(long tickTime) {
+  void update(long tickTime, boolean isSelected) {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
     this.destination = entity.getCentre();
-
+    this.isSelected = isSelected;
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
-      // unreachable code
+      assert false : "An image was not loaded";
     }
+
+    if (isSelected) {
+      this.currentImage = addSelectionDecorations(this.currentImage);
+    }
+  }
+
+  private BufferedImage addSelectionDecorations(BufferedImage image) { // TODO fix name
+    BufferedImage newImage = new BufferedImage(image.getWidth(),
+        image.getHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
+    Graphics2D g = (Graphics2D) newImage.getGraphics();
+    g.drawOval(0, image.getHeight() - 50, image.getWidth(), 50); // TODO math properly
+    g.drawImage(image, 0, 0, null);
+    g.setColor(new Color(50,255,50));
+    g.fillRect(0, 0, (((Unit)entity).getHealth() / 200) * image.getWidth(), 10);
+    g.setColor(new Color(255,255,255));
+    return newImage;
   }
 
   Entity getEntity() {
@@ -97,7 +117,12 @@ public class EntityView implements main.renderer.Renderable {
     return this.currentImage;
   }
 
-  @Override
+  /**
+   * Calculates the actual MapPoint of this object based on the animation state.
+   * This is the position relative to the map not the screen
+   *
+   * @return the MapPoint of the object considering the animation state
+   */
   public MapPoint getEffectiveEntityPosition(long currentTime) {
     double animationMultiplyer = this.calculateAnimationMultiplyer(currentTime);
     double deltaX = (this.destination.x - this.oldPosition.x) * animationMultiplyer;

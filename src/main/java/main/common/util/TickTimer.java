@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 import java.io.Serializable;
 import main.game.model.GameModel;

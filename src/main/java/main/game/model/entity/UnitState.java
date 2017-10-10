@@ -2,8 +2,8 @@ package main.game.model.entity;
 
 import java.io.Serializable;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet.Sequence;
+import main.common.images.GameImage;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * An interface for the states of a unit.
@@ -58,13 +58,7 @@ public abstract class UnitState implements Serializable {
    * @param newDirection direction to be changed to.
    */
   public void setDirection(Direction newDirection) {
-    if (imagesComponent.getDirection() != newDirection) {
-      imagesComponent = new UnitImagesComponent(
-          imagesComponent.getSequence(),
-          newDirection,
-          unit
-      );
-    }
+    imagesComponent.setDirection(newDirection);
   }
 
   /**

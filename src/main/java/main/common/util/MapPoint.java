@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 import java.awt.Point;
 import java.io.Serializable;
@@ -32,6 +32,16 @@ public class MapPoint implements Serializable {
     return new MapPoint(
         Math.round(x),
         Math.round(y)
+    );
+  }
+
+  /**
+   * Floors the x and y coordinates.
+   */
+  public MapPoint floored() {
+    return new MapPoint(
+        Math.floor(x),
+        Math.floor(y)
     );
   }
 

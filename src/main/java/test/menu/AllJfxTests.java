@@ -1,6 +1,7 @@
 package test.menu;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static test.renderer.RendererTestUtils.createConfig;
 import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
@@ -9,6 +10,7 @@ import static test.renderer.RendererTestUtils.createImageView;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.util.Arrays;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.scene.Group;
@@ -19,6 +21,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import main.common.util.Config;
+import main.common.util.Events.MainGameTick;
+import main.common.util.Looper;
+import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
@@ -26,9 +33,6 @@ import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import main.renderer.Renderer;
-import main.util.Config;
-import main.util.Events.MainGameTick;
-import main.util.MapPoint;
 import netscape.javascript.JSObject;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -42,7 +46,6 @@ public class AllJfxTests {
 
   static Level level = null;
   static HeroUnit hero = null;
-
 
   @Test
   public void testMainMenu() {
@@ -70,7 +73,7 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv).drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv, config, mock(Looper.class)).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
@@ -118,6 +121,10 @@ public class AllJfxTests {
       scene.setRoot(root);
       primaryStage.setScene(scene);
       primaryStage.show();
+      PauseTransition delay = new PauseTransition(Duration.seconds(3));
+      delay.setOnFinished(event -> primaryStage.close());
+      delay.play();
+
     }
   }
 }

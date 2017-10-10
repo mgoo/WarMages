@@ -1,20 +1,24 @@
 package test.game.model.entity;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +31,7 @@ public class UnitTest {
 
     private World world;
     private Unit enemyUnit;
-    private AtomicInteger projectileCount;
+    private List<Projectile> firedProjectiles = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -39,13 +43,13 @@ public class UnitTest {
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
           UnitType.ARCHER
       );
 
       // Spy on addProjectile method
-      projectileCount = new AtomicInteger();
-      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
+      doAnswer(invocationOnMock ->
+          firedProjectiles.add((Projectile) invocationOnMock.getArguments()[0]))
           .when(world)
           .addProjectile(any());
     }
@@ -63,7 +67,7 @@ public class UnitTest {
       }
 
       // then some projectiles should have been created
-      assert projectileCount.get() > 0;
+      assertTrue(firedProjectiles.size() > 0);
     }
 
     @Test
@@ -79,7 +83,7 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
     }
 
     @Test
@@ -95,7 +99,38 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
+    }
+
+    @Test
+    public void testProjectileHitShouldReduceHealth() {
+      // Given all the objects in the setUp()
+      // and a swordsman
+      Unit unit = createPlayerUnit(UnitType.ARCHER);
+      unit.setTarget(enemyUnit, world);
+      // and the initial health of the enemy
+      final int enemyStartingHealth = enemyUnit.getHealth();
+
+      // when a projectile is eventually fired/created
+      while (firedProjectiles.isEmpty()) {
+        unit.tick(GameModel.DELAY, world);
+      }
+      Projectile projectile = firedProjectiles.get(0);
+
+      // then the projectile should do damage
+      int projectileDamage = projectile.getDamageAmount();
+      assertTrue(projectileDamage > 0);
+
+      // when the projectile eventually hits something
+      while (!projectile.hasHit()) {
+        unit.tick(GameModel.DELAY, world);
+        // (only tick this projectile, ignore others)
+        projectile.tick(GameModel.DELAY, world);
+      }
+
+      // then the enemy health should be reduced
+      int hitEnemyHealth = enemyUnit.getHealth();
+      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
     }
 
     private Unit createPlayerUnit(UnitType unitType) {
@@ -103,7 +138,7 @@ public class UnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
-          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
           unitType
       );
     }
