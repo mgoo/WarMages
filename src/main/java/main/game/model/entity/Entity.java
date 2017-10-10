@@ -69,6 +69,7 @@ public abstract class Entity implements Serializable {
    * Moves the entity.
    */
   public void translatePosition(double dx, double dy) {
+    previousTopLeft = topLeft;
     topLeft = topLeft.translate(dx, dy);
   }
 
