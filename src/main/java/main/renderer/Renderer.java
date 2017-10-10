@@ -4,14 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.game.view.GameView;
 import main.common.util.Config;
-import main.common.util.looper.Looper;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.view.GameView;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
@@ -20,9 +19,8 @@ import main.game.view.GameView;
  */
 public class Renderer {
 
-  private final Looper looper;
-  private final GameView gameView;
-  private final ImageView imageView;
+  private final Thread thread;
+  private final AtomicBoolean isPaused = new AtomicBoolean(false);
   private final Config config;
 
   /**
@@ -31,16 +29,22 @@ public class Renderer {
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
-  public Renderer(
-      GameView gameView,
-      ImageView imageView,
-      Config config,
-      Supplier<Looper> looperFactory
-  ) {
-    this.gameView = gameView;
-    this.imageView = imageView;
+  public Renderer(GameView gameView, ImageView imageView, Config config) {
     this.config = config;
-    this.looper = looperFactory.get();
+    thread = new Thread(() -> {
+      synchronized (this) {
+        try {
+          while (true) {
+            drawAll(System.currentTimeMillis(), gameView, imageView);
+            if (this.isPaused.get()) {
+              wait();
+            }
+          }
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    });
   }
 
   /**
@@ -83,23 +87,20 @@ public class Renderer {
    *        status</i> of the current thread is cleared when this exception is thrown.
    */
   public void pause() throws InterruptedException {
-    this.looper.setPaused(true);
+    this.isPaused.set(true);
   }
 
   /**
    * Resumes the rendering loop. Assumes that rendering loop is currently waiting.
    */
   public void resume() {
-    this.looper.setPaused(false);
+    this.isPaused.set(false);
+    synchronized (this) {
+      this.notify();
+    }
   }
 
-  /**
-   * Starts the draw loop.
-   */
   public void start() {
-    this.looper.start(
-        () -> drawAll(System.currentTimeMillis(), gameView, imageView),
-        1
-    );
+    thread.start();
   }
 }

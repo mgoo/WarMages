@@ -9,7 +9,6 @@ import main.images.DefaultImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.Events.MainGameTick;
-import test.common.util.StubLooper;
 
 public class RendererTestUtils {
 
@@ -27,7 +26,7 @@ public class RendererTestUtils {
    * Creates a model.
    */
   public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
-    return new GameModel(world, mainGameTick, StubLooper::new);
+    return new GameModel(world, mainGameTick);
   }
 
   /**

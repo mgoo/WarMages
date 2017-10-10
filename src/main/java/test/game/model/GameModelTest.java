@@ -22,7 +22,6 @@ import main.game.model.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import org.junit.Test;
-import test.common.util.StubLooper;
 
 public class GameModelTest {
 
@@ -36,8 +35,7 @@ public class GameModelTest {
     Unit unit3 = createDefaultPlayerArcher();
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick(),
-        StubLooper::new
+        new MainGameTick()
     );
     model.setUnitSelection(Arrays.asList(unit, unit2, unit3));
     Collection<Unit> selection = model.getUnitSelection();
@@ -55,8 +53,7 @@ public class GameModelTest {
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick(),
-        StubLooper::new
+        new MainGameTick()
     );
     model.setUnitSelection(units);
     units.add(unit3);
@@ -72,8 +69,7 @@ public class GameModelTest {
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
         ),
-        new MainGameTick(),
-        StubLooper::new
+        new MainGameTick()
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(3, model.getAllUnits().size());
@@ -89,8 +85,7 @@ public class GameModelTest {
             )),
             heroUnit
         ),
-        new MainGameTick(),
-        StubLooper::new
+        new MainGameTick()
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(1, model.getAllUnits().size());

@@ -23,7 +23,6 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
-import test.common.util.StubLooper;
 
 
 /**
@@ -221,7 +220,7 @@ public class GameViewTest {
      * Creates a mock for testing game model.
      */
     GameModelMock() {
-      super(null, null, StubLooper::new);
+      super(null, null);
     }
 
     @Override
