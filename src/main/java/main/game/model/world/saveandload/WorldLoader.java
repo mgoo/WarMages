@@ -32,9 +32,9 @@ import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 
 /**
  * A Factory and Facade.

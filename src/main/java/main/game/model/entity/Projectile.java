@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import main.game.model.world.World;
 import main.images.GameImage;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and

@@ -18,10 +18,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import main.game.model.world.World;
+import main.game.model.world.saveandload.DefaultWorldSaveModel;
+import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
+import main.game.model.world.saveandload.DefaultWorldSaveModel.Filesystem;
 import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
-import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
-import main.game.model.world.saveandload.WorldSaveModel.Filesystem;
+import main.common.WorldSaveModel;
 import org.junit.Test;
 
 /**
@@ -62,14 +63,14 @@ public class WorldSaveModelTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void save_nameWithSlashes_exceptionThrown() throws IOException {
-    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
     World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "some/file");
   }
 
   @Test
   public void save_withoutFileExtension_fileIsSavedWithExtension() throws IOException {
-    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
     World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filename");
 
@@ -83,7 +84,7 @@ public class WorldSaveModelTest {
   @Test(expected = IOException.class)
   public void load_nonexistentFile_exceptionThrown()
       throws IOException, ClassNotFoundException {
-    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
     worldSaveModel.load("some_nonexistent_file");
   }
 
@@ -111,7 +112,7 @@ public class WorldSaveModelTest {
 
   @Test
   public void saveAndThenLoad_saveWorlds_checkGameSavesAreInOrder() throws IOException {
-    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
     World world = new WorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filenameOne");
     world = new WorldLoader().loadSingleLevelTestWorld();
@@ -125,7 +126,7 @@ public class WorldSaveModelTest {
   private void saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(World originalWorld)
       throws IOException, ClassNotFoundException {
     // Given these objects
-    WorldSaveModel worldSaveModel = new WorldSaveModel(stubFileSystem);
+    DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
     String filename = "filename." + WorldSaveModel.SAVE_FILE_EXTENSION;
 
     // when the model is saved

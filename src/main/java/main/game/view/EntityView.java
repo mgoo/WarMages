@@ -4,17 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Comparator;
-import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
-import main.game.model.entity.WalkingUnitState;
-import main.images.DefaultImageProvider;
 import main.images.ImageProvider;
-import main.util.Config;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.Config;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Created by mgoo on 9/22/17.
