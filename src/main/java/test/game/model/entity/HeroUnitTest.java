@@ -1,6 +1,6 @@
 package test.game.model.entity;
 
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
 import java.util.Arrays;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.UnitType;
@@ -16,9 +18,7 @@ import main.game.model.entity.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
@@ -48,7 +48,7 @@ public class HeroUnitTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(mockAbility)
     );

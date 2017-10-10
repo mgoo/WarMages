@@ -41,10 +41,11 @@ public class FogOfWarView implements Renderable {
     g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR, 0F));
     unitViews.forEach(unitView -> {
       MapPoint position = unitView.getImagePosition(0);
+      MapSize imageSize = unitView.getImageSize();
       MapSize los = unitView.getLos();
       g.fillOval(
-          (int)(position.x + gameView.getViewBox().x() - los.width / 2),
-          (int)(position.y + gameView.getViewBox().y() - los.height / 2),
+          (int)(position.x + imageSize.width / 2 + gameView.getViewBox().x() - los.width / 2),
+          (int)(position.y + imageSize.height / 2 + gameView.getViewBox().y() - los.height / 2),
           (int)los.width,
           (int)los.height);
     });

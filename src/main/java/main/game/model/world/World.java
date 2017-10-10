@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
@@ -26,11 +28,11 @@ public class World implements Serializable {
 
   private final List<Level> levels;
   private final HeroUnit heroUnit;
-  private final Collection<Unit> units;
-  private final Collection<Unit> recentlyKilledUnits;
-  private final Collection<Item> items;
-  private final Collection<MapEntity> mapEntities;
-  private final Collection<Projectile> projectiles;
+  private final Set<Unit> units;
+  private final Set<Unit> recentlyKilledUnits;
+  private final Set<Item> items;
+  private final Set<MapEntity> mapEntities;
+  private final Set<Projectile> projectiles;
 
   /**
    * Creates the world.
@@ -46,12 +48,22 @@ public class World implements Serializable {
     }
     this.heroUnit = heroUnit;
     this.levels = new ArrayList<>(levels);
-    this.units = new ArrayList<>(currentLevel().getUnits());
-    this.recentlyKilledUnits = new ArrayList<>();
-    this.items = new ArrayList<>(currentLevel().getItems());
-    this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
+    this.units = newConcurrentSetOf(currentLevel().getUnits());
+    this.recentlyKilledUnits = newConcurrentSet();
+    this.items = newConcurrentSetOf(currentLevel().getItems());
+    this.mapEntities = newConcurrentSetOf(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
-    this.projectiles = new ArrayList<>();
+    this.projectiles = newConcurrentSet();
+  }
+
+  private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
+    Set<T> set = newConcurrentSet();
+    set.addAll(collection);
+    return set;
+  }
+
+  private <T> Set<T> newConcurrentSet() {
+    return Collections.newSetFromMap(new ConcurrentHashMap<>());
   }
 
   private Level currentLevel() {

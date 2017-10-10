@@ -9,16 +9,16 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class UnitTest {
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
           UnitType.ARCHER
       );
 
@@ -138,7 +138,7 @@ public class UnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
-          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
           unitType
       );
     }

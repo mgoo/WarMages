@@ -1,17 +1,18 @@
 package main.game.view;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.MapPoint;
@@ -38,8 +39,13 @@ public class GameView {
   private MapRect viewBox;
   private MapPoint mousePosition = new MapPoint(2,2);
 
-  private List<EntityView> renderablesCache =
-      Collections.synchronizedList(new ArrayList<>());
+  /**
+   * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
+   * main.renderer.Renderer} is reading it. To avoid unnecessary amounts of copying, if adding a
+   * large amount of items to this list, prefer using {@link List#addAll(Collection)} rather than
+   * calling {@link List#add(Object)} for each element.
+   */
+  private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
   private FogOfWarView fogOfWarView;
 
   /**
@@ -83,22 +89,22 @@ public class GameView {
    */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
-    final Set<Entity> enitiesToCheck = new HashSet<>(this.gameModel.getAllEntities());
+    final Set<Entity> entitiesToAdd = new HashSet<>(this.gameModel.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
-      if (!enitiesToCheck.contains(renderable.getEntity())) {
-        toRemove.add(renderable);
+      if (entitiesToAdd.contains(renderable.getEntity())) {
+        entitiesToAdd.remove(renderable.getEntity());
       } else {
-        enitiesToCheck.remove(renderable.getEntity());
+        toRemove.add(renderable);
       }
     });
 
     this.renderablesCache.removeAll(toRemove);
 
-    enitiesToCheck.forEach(entity -> {
-      this.renderablesCache.add(
-          ViewFactory.makeEntityView(this.config, entity, this.imageProvider));
-    });
+    List<EntityView> entityViewsToAdd = entitiesToAdd.stream()
+        .map(entity -> ViewFactory.makeEntityView(this.config, entity, this.imageProvider))
+        .collect(Collectors.toList());
+    this.renderablesCache.addAll(entityViewsToAdd);
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
