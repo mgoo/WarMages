@@ -1,7 +1,7 @@
 package main.game.model.entity;
 
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * An {@link Entity} that cannot move / be moved on the map, and takes up a whole square {@link

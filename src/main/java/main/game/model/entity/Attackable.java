@@ -3,8 +3,8 @@ package main.game.model.entity;
 import java.util.Objects;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.PathFinder;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Attackables can attack units.
