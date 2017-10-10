@@ -12,8 +12,9 @@ import java.io.Serializable;
  * and he said it was ok. (I need to keep these classes here because GameImageResource defines
  * all the {@link GameImage}s and is used in various parts of the app.
  * ************************************************************************************************
- *
+ * <p>
  * Reference all of the image files in the app here by adding a new enum value.
+ * </p>
  */
 public class GameImage implements Serializable {
 
