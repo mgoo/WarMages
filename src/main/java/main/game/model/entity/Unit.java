@@ -95,7 +95,7 @@ public class Unit extends Attackable implements Damageable {
 
     hasCreatedDeadUnit = true;
     GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DeadUnit(position, deadImage);
+    return new DeadUnit(position, size, deadImage);
   }
 
   @Override
@@ -166,7 +166,7 @@ public class Unit extends Attackable implements Damageable {
     } else {
       isDead = true;
       health = 0;
-      world.onEnemyKilled(this);
+      setNextState(new DyingState(Sequence.HURT, unitState.getDirection(), this));
     }
   }
 
