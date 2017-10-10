@@ -12,6 +12,16 @@ public interface WorldSaveModel {
 
 
   /**
+   * This is public for testing only. File extension for saved files.
+   */
+  String SAVE_FILE_EXTENSION = "sav";
+  /**
+   * Place to save and load all the files. If you change this remember to update the .gitignore
+   * file.
+   */
+  String SAVE_FILE_DIRECTORY = "./saves/";
+
+  /**
    * Stores the {@link main.game.model.world.World} (through serialisation).
    *
    * @param filename Name with no slashes is it.
