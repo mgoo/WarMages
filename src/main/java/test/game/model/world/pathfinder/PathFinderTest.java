@@ -269,7 +269,8 @@ public class PathFinderTest {
 
     //S = start; G = goal; x = obstacle; + = free space
 
-    List<MapPoint> actual = new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
+    List<MapPoint> actual =
+        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
 
     assertEquals(new MapPoint(3,2), actual.get(actual.size() - 1));
   }
