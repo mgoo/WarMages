@@ -2,7 +2,7 @@ package main.menu;
 
 import java.io.File;
 import main.Main;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.menu.controller.LoadMenuController;
 import main.menu.generators.SaveFilesScriptGenerator;
 import main.menu.generators.ScriptFileGenerator;

@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -23,17 +22,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import main.game.model.world.saveandload.DefaultWorldSaveModel;
+import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
 import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
-import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
-import main.game.view.events.MouseClick;
 import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
-import main.util.Config;
-import main.util.Event;
-import main.util.MapPoint;
-import main.util.Event;
+import main.common.util.Config;
+import main.common.util.Event;
 import netscape.javascript.JSObject;
 
 /**
@@ -96,7 +92,7 @@ public class Main extends Application {
     final MainMenu mainMenu = new MainMenu(
         this,
         new WorldLoader(),
-        new WorldSaveModel(new DefaultFilesystem()),
+        new DefaultWorldSaveModel(new DefaultFilesystem()),
         imageView,
         config
     );

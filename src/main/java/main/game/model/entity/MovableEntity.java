@@ -1,13 +1,11 @@
 package main.game.model.entity;
 
-import static java.lang.Double.compare;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import main.game.model.world.World;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 public abstract class MovableEntity extends Entity {
 

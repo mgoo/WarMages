@@ -4,9 +4,9 @@ import java.io.File;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.menu.controller.MainMenuController;
-import main.util.Config;
+import main.common.util.Config;
 
 /**
  * The definitions of the file paths to the html file for the Main Menu.
