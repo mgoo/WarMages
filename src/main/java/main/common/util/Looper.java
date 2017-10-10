@@ -8,6 +8,9 @@ public class Looper {
   private final AtomicBoolean hasStarted = new AtomicBoolean(false);
   private final Object pauseLock = new Object();
 
+  /**
+   * Start looping on a new thread.
+   */
   public synchronized void start(Runnable repeatable) {
     if (hasStarted.get()) {
       throw new IllegalStateException();
@@ -32,6 +35,9 @@ public class Looper {
     thread.start();
   }
 
+  /**
+   * Pause/resume.
+   */
   public synchronized void setPaused(boolean paused) {
     if (!hasStarted.get()) {
       throw new IllegalStateException();

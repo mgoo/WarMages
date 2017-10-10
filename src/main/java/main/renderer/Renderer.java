@@ -89,6 +89,9 @@ public class Renderer {
     looper.setPaused(false);
   }
 
+  /**
+   * Starts the looper to render the game.
+   */
   public void start() {
     looper.start(
         () -> drawAll(System.currentTimeMillis(), gameView, imageView)
