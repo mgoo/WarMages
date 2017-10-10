@@ -1,11 +1,4 @@
-package main.util;
-
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.EntityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.KeyEvent;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
+package main.common.util;
 
 /**
  * Holds the config and context of the game.

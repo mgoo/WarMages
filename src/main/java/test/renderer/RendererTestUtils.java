@@ -6,9 +6,9 @@ import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
-import main.util.Config;
-import main.util.Event;
-import main.util.Events.MainGameTick;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.common.util.Events.MainGameTick;
 
 public class RendererTestUtils {
 

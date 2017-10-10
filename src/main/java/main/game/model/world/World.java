@@ -16,7 +16,7 @@ import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity

@@ -2,7 +2,7 @@ package main.game.model.world.pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 
 /**
  * Represents a Node in the A* path finding algorithm. Each node stores the following information: -
