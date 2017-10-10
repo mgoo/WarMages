@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import main.common.WorldSaveModel;
 import main.game.model.world.World;
+import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.Filesystem;
-import main.game.model.world.saveandload.WorldLoader;
-import main.common.WorldSaveModel;
 import org.junit.Test;
 
 /**
@@ -64,14 +64,14 @@ public class WorldSaveModelTest {
   @Test(expected = IllegalArgumentException.class)
   public void save_nameWithSlashes_exceptionThrown() throws IOException {
     DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
-    World world = new WorldLoader().loadSingleLevelTestWorld();
+    World world = new DefaultWorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "some/file");
   }
 
   @Test
   public void save_withoutFileExtension_fileIsSavedWithExtension() throws IOException {
     DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
-    World world = new WorldLoader().loadSingleLevelTestWorld();
+    World world = new DefaultWorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filename");
 
     assertTrue(
@@ -92,30 +92,30 @@ public class WorldSaveModelTest {
   public void saveAndThenLoad_singleLevelWorld_loadedCopyShouldEqualOriginal()
       throws IOException, ClassNotFoundException {
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(
-        new WorldLoader().loadSingleLevelTestWorld()
+        new DefaultWorldLoader().loadSingleLevelTestWorld()
     );
   }
 
   @Test
   public void saveAndThenLoad_loadMultilevelWorld_loadedCopyShouldEqualOriginal()
       throws IOException, ClassNotFoundException {
-    World world = new WorldLoader().loadMultilevelWorld();
+    World world = new DefaultWorldLoader().loadMultilevelWorld();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
   @Test
   public void saveAndThenLoad_defaultWorld_loadedCopyShouldEqualOriginal()
       throws IOException, ClassNotFoundException {
-    World world = new WorldLoader().load();
+    World world = new DefaultWorldLoader().load();
     saveAndThenLoad_someWorld_loadedCopyShouldEqualOriginal(world);
   }
 
   @Test
   public void saveAndThenLoad_saveWorlds_checkGameSavesAreInOrder() throws IOException {
     DefaultWorldSaveModel worldSaveModel = new DefaultWorldSaveModel(stubFileSystem);
-    World world = new WorldLoader().loadSingleLevelTestWorld();
+    World world = new DefaultWorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filenameOne");
-    world = new WorldLoader().loadSingleLevelTestWorld();
+    world = new DefaultWorldLoader().loadSingleLevelTestWorld();
     worldSaveModel.save(world, "filenameTwo");
     Collection<String> actualCollection = worldSaveModel.getExistingGameSaves();
     String[] expectedArray = new String[]{"filenameOne." + WorldSaveModel.SAVE_FILE_EXTENSION,
