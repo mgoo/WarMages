@@ -74,6 +74,23 @@ public class HudController extends MenuController {
   }
 
   /**
+   * Triggers the drag event.
+   * called from javascript
+   */
+  public void onDrag(int x1,
+                     int y1,
+                     int x2,
+                     int y2,
+                     boolean wasShiftDown,
+                     boolean wasCtrlDown) {
+    try {
+      gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Triggers event for when Game View is clicked.
    */
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {

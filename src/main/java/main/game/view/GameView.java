@@ -17,6 +17,8 @@ import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
+import main.game.view.events.MouseDrag;
+import main.common.util.MapDiamond;
 
 /**
  * A View of the Game.
@@ -175,6 +177,33 @@ public class GameView {
         return pixToTile(new MapPoint(x, y));
       }
     });
+  }
+
+  /**
+   * Triggers the drag event.
+   */
+  public void onDrag(int x1, int y1, int x2, int y2, boolean wasShiftDown, boolean wasCtrlDown) {
+    MapDiamond shape = new MapDiamond(this.pixToTile(new MapPoint(x1,y1)),
+        this.pixToTile(new MapPoint(x2, y2)),
+        this.pixToTile(new MapPoint(x1, y2)),
+        this.pixToTile(new MapPoint(x2, y1)));
+    gameController.onMouseDrag(new MouseDrag() {
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapDiamond getMapShape() {
+        return shape;
+      }
+    });
+
   }
 
   /**
