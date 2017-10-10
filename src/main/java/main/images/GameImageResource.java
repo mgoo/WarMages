@@ -10,21 +10,19 @@ package main.images;
  */
 public enum GameImageResource {
   // Items
-  POTION_BLUE_ITEM(new GameImageBuilder("images/items/potion-blue.png").create()),
-  RING_GOLD_ITEM(new GameImageBuilder("images/items/ring-gold.png").create()),
-  WHITE_BALL_ITEM(
-      new GameImageBuilder("images/projectiles/whitemissile-impact-3.png").create()
-  ),
+  POTION_BLUE_ITEM("images/items/potion-blue.png"),
+  RING_GOLD_ITEM("images/items/ring-gold.png"),
+  WHITE_BALL_ITEM("images/projectiles/whitemissile-impact-3.png"),
 
   // Projectiles
   //   NOTE: For consistency, if there are projectiles that have a direction (e.g. an arrow),
   //   the image should have the projectile pointing upwards.
   // Use this one as static image, rather than a sequence of images:
-  ARROW_PROJECTILE(new GameImageBuilder("images/projectiles/missile-n.png").create()),
-  FIREBALL_PROJECTILE(new GameImageBuilder("images/projectiles/fireball-impact-1.png").create()),
+  ARROW_PROJECTILE("images/projectiles/missile-n.png"),
+  FIREBALL_PROJECTILE("images/projectiles/fireball-impact-1.png"),
 
   // Tiles
-  GRASS_TILE(new GameImageBuilder("images/tiles/grass.png").create()),
+  GRASS_TILE("images/tiles/grass.png"),
 
   // Map Entities (Landmark stuff)
   TREE_MAP_ENTITY(
@@ -38,18 +36,18 @@ public enum GameImageResource {
   ),
 
   // Unit Sprite Sheets
-  ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/archer.png").create()),
-  DARK_ELF_SPRITE_SHEET(new GameImageBuilder("images/units/dark_elf.png").create()),
-  FOOT_KNIGHT_SPRITE_SHEET(new GameImageBuilder("images/units/footknight.png").create()),
-  GOLDEN_HERO_SPRITE_SHEET(new GameImageBuilder("images/units/golden_hero.png").create()),
-  MALE_MAGE_SPRITE_SHEET(new GameImageBuilder("images/units/male_mage.png").create()),
-  ORC_SPEARMAN_SPRITE_SHEET(new GameImageBuilder("images/units/orc_spearman.png").create()),
-  SKELETON_ARCHER_SPRITE_SHEET(new GameImageBuilder("images/units/skeleton_archer.png").create()),
+  ARCHER_SPRITE_SHEET("images/units/archer.png"),
+  DARK_ELF_SPRITE_SHEET("images/units/dark_elf.png"),
+  FOOT_KNIGHT_SPRITE_SHEET("images/units/footknight.png"),
+  GOLDEN_HERO_SPRITE_SHEET("images/units/golden_hero.png"),
+  MALE_MAGE_SPRITE_SHEET("images/units/male_mage.png"),
+  ORC_SPEARMAN_SPRITE_SHEET("images/units/orc_spearman.png"),
+  SKELETON_ARCHER_SPRITE_SHEET(
+      "images/units/skeleton_archer.png"
+  ),
 
   // Test Images
-  TEST_IMAGE_FULL_SIZE(
-      new GameImageBuilder("fixtures/images/image_for_image_provider_tests.png").create()
-  ),
+  TEST_IMAGE_FULL_SIZE("fixtures/images/image_for_image_provider_tests.png"),
   TEST_IMAGE_PARTIAL_SIZE(
       new GameImageBuilder("fixtures/images/image_for_image_provider_tests.png")
           .setStartX(1)
@@ -61,12 +59,16 @@ public enum GameImageResource {
   /**
    * For testing or blank image only.
    */
-  TEST_IMAGE_1_1(new GameImageBuilder("fixtures/images/test11.png").create());
+  TEST_IMAGE_1_1("fixtures/images/test11.png");
 
   private final GameImage gameImage;
 
   GameImageResource(GameImage gameImage) {
     this.gameImage = gameImage;
+  }
+
+  GameImageResource(String filename) {
+    this(new GameImageBuilder(filename).create());
   }
 
   public GameImage getGameImage() {
