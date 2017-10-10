@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import main.common.images.UnitSpriteSheet;
+import main.common.util.MapPoint;
 
 /**
  * Represents one of the 90 degree directions that a {@link Unit} can move in.
@@ -20,4 +21,21 @@ public enum Direction {
    */
   DOWN,
   RIGHT;
+
+  public static Direction between(MapPoint start, MapPoint end) {
+    double gradient = (end.y - start.y) / (end.x - start.x);
+    if (gradient < 1) {
+      if (end.y < start.y) {
+        return Direction.UP;
+      } else {
+        return Direction.DOWN;
+      }
+    } else {
+      if (end.x < start.x) {
+        return Direction.LEFT;
+      } else {
+        return Direction.RIGHT;
+      }
+    }
+  }
 }
