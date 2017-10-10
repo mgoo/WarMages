@@ -22,14 +22,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
-import main.game.model.world.saveandload.WorldLoader;
 import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
-import main.common.util.Config;
-import main.common.util.Event;
 import netscape.javascript.JSObject;
 
 /**
@@ -91,7 +91,7 @@ public class Main extends Application {
     config.setScreenDim((int)primaryStage.getWidth(), (int)primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
-        new WorldLoader(),
+        new DefaultWorldLoader(),
         new DefaultWorldSaveModel(new DefaultFilesystem()),
         imageView,
         config

@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Function;
+import main.common.WorldLoader;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
@@ -36,16 +37,7 @@ import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 
-/**
- * A Factory and Facade.
- * Creates a new [@link {@link World} and it's required {@link Entity} objects in the default
- * positions in the {@link World}.
- * <p>
- * NOTE: We decided not to load the world from a file for now
- * because that does not provide any improvements to the game or requirements of the game.
- * </p>
- */
-public class WorldLoader {
+public class DefaultWorldLoader implements WorldLoader {
 
   private static final MapSize HERO_SIZE = new MapSize(1, 1);
   private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.7, 0.7);
@@ -90,9 +82,7 @@ public class WorldLoader {
     );
   }
 
-  /**
-   * Creates the default {@link World}.
-   */
+  @Override
   public World load() {
     return loadMultilevelWorld();
   }
@@ -158,7 +148,7 @@ public class WorldLoader {
                 new MapPoint(5, 5), TREE_MAP_ENTITY.getGameImage()
             )
         ),
-        generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+        generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
         new Goal.AllEnemiesKilled(),
         "Maybe kill all the enemies"
     );
@@ -209,7 +199,7 @@ public class WorldLoader {
                   TREE_MAP_ENTITY.getGameImage()
               )
           ),
-          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
           "Kill the enemy soldier with your hero and foot-knights"
       ));
@@ -264,7 +254,7 @@ public class WorldLoader {
                   TREE_MAP_ENTITY.getGameImage()
               )
           ),
-          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
           "Try out your new archers on the new enemies"
       ));
@@ -337,7 +327,7 @@ public class WorldLoader {
                   TREE_MAP_ENTITY.getGameImage()
               )
           ),
-          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
           "Use the gold ring buff, and kill all enemies"
       ));
@@ -370,7 +360,7 @@ public class WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(),
-          generateBorderEntities(bounds, WorldLoader::newBorderEntityAt),
+          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
           new Goal.AllEnemiesKilled(),
           levels.getLast().getGoalDescription()
       ));
