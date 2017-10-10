@@ -29,6 +29,12 @@ public interface UnitSpriteSheet extends Serializable {
     SLASH(12, 6, true, 4),
     SHOOT(16, 13, true, 9),
     HURT(20, 6, false),
+    DEAD(20, 1, false) {
+      @Override
+      public int firstColumn() {
+        return 5;
+      }
+    },
     /**
      * Just reuses the first few frames of the {@link UnitSpriteSheet.Sequence#WALK} sequence.
      */
@@ -71,6 +77,10 @@ public interface UnitSpriteSheet extends Serializable {
       }
 
       return attackFrame;
+    }
+
+    public int firstColumn() {
+      return 0;
     }
   }
 }

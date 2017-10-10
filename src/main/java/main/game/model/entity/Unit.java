@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.usable.Effect;
 import java.util.Iterator;
 import java.util.List;
@@ -93,7 +94,8 @@ public class Unit extends Attackable implements Damageable {
     }
 
     hasCreatedDeadUnit = true;
-    return new DeadUnit(position);
+    GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
+    return new DeadUnit(position, deadImage);
   }
 
   @Override

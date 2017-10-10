@@ -11,8 +11,8 @@ public class Config {
 
   private double gameViewScrollSpeed = 50;
 
-  private int entityViewTilePixelsX = 50;
-  private int entityViewTilePixelsY = 50;
+  private int entityViewTilePixelsX = 90;
+  private int entityViewTilePixelsY = 90;
 
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
