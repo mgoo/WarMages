@@ -13,8 +13,8 @@ public class Config {
 
   private double gameViewScrollSpeed = 50;
 
-  private int entityViewTilePixelsX = 90;
-  private int entityViewTilePixelsY = 90;
+  private int entityViewTilePixelsX = 50;
+  private int entityViewTilePixelsY = 50;
 
   private Color baseFogOfWarColor = new Color(54, 59, 88);
 

@@ -103,15 +103,15 @@ public class UnitImagesComponent implements Serializable {
     return _getCurrentTick() == maxNumberOfTicks() - 1;
   }
 
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+  }
+
   private int maxNumberOfTicks() {
     return TICKS_PER_FRAME * images.size();
   }
 
   private int getImageIndex() {
     return currentTick / TICKS_PER_FRAME;
-  }
-
-  public void setDirection(Direction direction) {
-    this.direction = direction;
   }
 }
