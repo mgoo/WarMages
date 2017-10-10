@@ -5,7 +5,7 @@ import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.images.GameImage;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 
 /**
  * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.

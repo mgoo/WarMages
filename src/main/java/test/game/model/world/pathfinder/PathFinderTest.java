@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import main.game.model.world.pathfinder.PathFinder;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 import org.junit.Ignore;
 import org.junit.Test;
 

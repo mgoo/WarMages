@@ -17,10 +17,10 @@ import main.images.DefaultImageProvider;
 import main.images.GameImage;
 import main.images.GameImageResource;
 import main.images.ImageProvider;
-import main.util.Config;
-import main.util.Event;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 

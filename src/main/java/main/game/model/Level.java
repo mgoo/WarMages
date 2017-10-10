@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import main.common.WorldSaveModel;
 import main.game.model.entity.Entity;
 import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
@@ -14,7 +15,7 @@ import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.util.MapRect;
+import main.common.util.MapRect;
 
 /**
  * Represent the {@link World} state.
@@ -136,7 +137,7 @@ public class Level implements Serializable {
    * <p>
    * NOTE: No anonymous classes should be
    * created for this as this would break that the serialisation in {@link
-   * main.game.model.world.saveandload.WorldSaveModel}.
+   * WorldSaveModel}.
    * </p>
    */
   public interface Goal extends Serializable {
