@@ -1,4 +1,4 @@
-package main.game.model.world.saveandload;
+package main.common;
 
 import java.io.IOException;
 import java.util.Collection;

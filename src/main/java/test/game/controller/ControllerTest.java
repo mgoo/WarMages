@@ -8,8 +8,8 @@ import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.events.MouseClick;
-import main.util.Events.MainGameTick;
-import main.util.MapPoint;
+import main.common.util.Events.MainGameTick;
+import main.common.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 

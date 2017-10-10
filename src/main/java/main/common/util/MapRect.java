@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;

@@ -22,7 +22,7 @@ import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.Filesystem;
 import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import org.junit.Test;
 
 /**

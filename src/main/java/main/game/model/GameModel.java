@@ -8,8 +8,8 @@ import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.util.Events;
-import main.util.Events.MainGameTick;
+import main.common.util.Events;
+import main.common.util.Events.MainGameTick;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
