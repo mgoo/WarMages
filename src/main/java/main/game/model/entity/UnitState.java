@@ -19,7 +19,7 @@ public abstract class UnitState implements Serializable {
 
   public UnitState(Sequence sequence, Unit unit) {
     this.unit = unit;
-    this.imagesComponent = new UnitImagesComponent(sequence, unit.getCurrentDirection(), unit);
+    this.imagesComponent = new UnitImagesComponent(sequence, unit);
   }
 
   /**

@@ -11,7 +11,6 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
-import main.game.model.entity.Direction;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
 import main.images.DefaultUnitSpriteSheet;
@@ -30,11 +29,7 @@ public class UnitImagesComponentTest {
     when(unit.getSpriteSheet())
         .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
     // and a UnitImagesComponent
-    UnitImagesComponent unitImagesComponent = new UnitImagesComponent(
-        sequence,
-        Direction.LEFT,
-        unit
-    );
+    UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);
 
     // when we tick many times (for one whole cycle)
     Map<GameImage, Integer> ticksPerFrameCounts = new HashMap<>();
