@@ -1,13 +1,18 @@
 package test.game.model.world;
 
-import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.MapEntity;
@@ -18,11 +23,7 @@ import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Effect;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 
 public class WorldTestUtils {
 
@@ -36,7 +37,7 @@ public class WorldTestUtils {
         point,
         new MapSize(1, 1),
         Team.ENEMY,
-        new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
     );
   }
@@ -115,6 +116,11 @@ public class WorldTestUtils {
   public static Ability createStubAbility() {
     return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
       @Override
+      public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+        return Collections.emptyList();
+      }
+
+      @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {
         };
@@ -186,7 +192,7 @@ public class WorldTestUtils {
         new MapPoint(60, 60),
         new MapSize(30, 30),
         Team.ENEMY,
-        new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
     );
   }
@@ -201,7 +207,7 @@ public class WorldTestUtils {
         new MapPoint(0, 0),
         new MapSize(30, 30),
         Team.PLAYER,
-        new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
         UnitType.SWORDSMAN
     );
   }
@@ -216,7 +222,7 @@ public class WorldTestUtils {
         new MapPoint(20, 20),
         new MapSize(30, 30),
         Team.PLAYER,
-        new UnitSpriteSheet(ARCHER_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
     );
   }
@@ -229,7 +235,7 @@ public class WorldTestUtils {
     return new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Collections.emptyList()
     );
@@ -244,7 +250,7 @@ public class WorldTestUtils {
     return new HeroUnit(
         mapPoint,
         new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Collections.emptyList()
     );

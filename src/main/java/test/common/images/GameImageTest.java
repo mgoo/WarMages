@@ -1,4 +1,4 @@
-package test.images;
+package test.common.images;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.junit.Assert.assertEquals;
@@ -9,9 +9,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.images.DefaultImageProvider;
-import main.images.GameImage;
-import main.images.GameImageResource;
-import main.images.ImageProvider;
+import main.common.images.GameImage;
+import main.common.images.GameImageResource;
+import main.common.images.ImageProvider;
 import org.junit.Test;
 
 /**

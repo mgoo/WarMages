@@ -1,7 +1,11 @@
 package main.game.model.entity.usable;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
-import main.images.GameImage;
+import main.game.model.world.World;
+import main.common.images.GameImage;
 
 /**
  * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more
@@ -37,6 +41,14 @@ public class DamageBuffAbility extends Ability {
 
   public int getDamageIncrease() {
     return damageIncrease;
+  }
+
+  @Override
+  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+    return world.getAllUnits()
+        .stream()
+        .filter(unit -> unit.getTeam() == Team.PLAYER)
+        .collect(Collectors.toList());
   }
 
   @Override

@@ -1,7 +1,7 @@
 package main.game.model.entity;
 
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * An {@link Entity} that cannot move / be moved on the map, and takes up a whole square {@link
@@ -11,21 +11,17 @@ public abstract class MapEntity extends Entity {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * Constructor takes the coordinates of the MapEntity.
-   */
   public MapEntity(MapPoint coord) {
-    super(coord, new MapSize(1, 1));
+    this(coord, new MapSize(1, 1));
+  }
+
+  public MapEntity(MapPoint coord, MapSize size) {
+    super(coord, size);
   }
 
   @Override
-  public void moveX(double amount) {
-    //do nothing
-  }
-
-  @Override
-  public void moveY(double amount) {
-    //do nothing
+  public void translatePosition(double dx, double dy) {
+    throw new UnsupportedOperationException();
   }
 
   /**

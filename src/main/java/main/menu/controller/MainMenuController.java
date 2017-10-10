@@ -2,26 +2,30 @@ package main.menu.controller;
 
 import javafx.scene.image.ImageView;
 import main.Main;
+import main.common.util.Looper;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldLoader;
+import main.common.WorldSaveModel;
 import main.game.view.GameView;
+import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
+import main.common.images.ImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
-import main.util.Config;
-import main.util.Events.MainGameTick;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.common.util.Events.MainGameTick;
 
 /**
  * Controller for the Main Menu. Responsible for making a new game loading a game and exiting.
  *
  * @author Andrew McGhie
  */
-public class MainMenuController implements MenuController {
+public class MainMenuController extends MenuController {
 
   private final WorldLoader worldLoader;
   private final WorldSaveModel worldSaveModel;
@@ -49,21 +53,35 @@ public class MainMenuController implements MenuController {
 
   /**
    * Starts a new game from the beginning.
-   * TODO do integration properly
    */
   public void startBtn() {
     try {
+      ImageProvider imageProvider = new DefaultImageProvider();
+      MainGameTick tickEvent = new MainGameTick();
+      Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, new MainGameTick());
+      GameModel gameModel = new GameModel(world, tickEvent);
       GameController gameController = new GameController(gameModel);
       GameView gameView = new GameView(this.config,
           gameController,
           gameModel,
-          new DefaultImageProvider());
-      new Renderer(gameView, this.imageView);
-      // TODO start the game properly
+          imageProvider,
+          mouseClickEvent);
+      tickEvent.registerListener(parameter -> gameView.onTick(parameter));
+      mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+      Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
+      Hud hud = new Hud(this.main,
+          this.mainMenu,
+          gameView,
+          renderer,
+          gameModel,
+          imageProvider);
+      tickEvent.registerListener(parameter -> hud.updateIcons());
+      tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+      renderer.start();
+      gameModel.startGame();
 
-      this.main.loadMenu(new Hud(this.main, this.mainMenu));
+      this.main.loadMenu(hud);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.common.images.UnitSpriteSheet;
 import main.game.model.world.World;
 
 public class AttackingUnitState extends UnitState {
@@ -14,7 +15,7 @@ public class AttackingUnitState extends UnitState {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
-    if (imagesComponent.isOnAttackFrame()) {
+    if (imagesComponent.isOnAttackTick()) {
       onAttackFrame(world);
     }
   }
@@ -30,7 +31,7 @@ public class AttackingUnitState extends UnitState {
 
   /**
    * Called when the attack frame is reached and the animation
-   * {@link main.images.UnitSpriteSheet.Sequence}.
+   * {@link UnitSpriteSheet.Sequence}.
    */
   private void onAttackFrame(World world) {
     UnitType unitType = unit.getUnitType();
@@ -41,7 +42,7 @@ public class AttackingUnitState extends UnitState {
       world.addProjectile(projectile);
     } else {
       // Non projectile attack (e.g. spear)
-      target.takeDamage(unit.getDamageAmount());
+      target.takeDamage(unit.getDamageAmount(), world);
     }
   }
 }

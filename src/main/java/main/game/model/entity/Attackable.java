@@ -3,8 +3,8 @@ package main.game.model.entity;
 import java.util.Objects;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.PathFinder;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Attackables can attack units.
@@ -19,13 +19,14 @@ public abstract class Attackable extends MovableEntity {
   private int damageAmount;
 
   /**
-   * Constructor takes the position of the entity and the size.
+   * Constructor takes the position of the entity, the size, as well as it's speed.
    *
    * @param position = position of Entity.
    * @param size = size of Entity.
+   * @param speed = speed of MovableEntity
    */
-  public Attackable(MapPoint position, MapSize size) {
-    super(position, size);
+  public Attackable(MapPoint position, MapSize size, double speed) {
+    super(position, size, speed);
   }
 
   /**
@@ -54,7 +55,6 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       return;
     }
-
     setPath(PathFinder.findPath(world::isPassable, position, target.getCentre()));
   }
 

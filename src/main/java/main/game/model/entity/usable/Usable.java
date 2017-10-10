@@ -1,11 +1,14 @@
 package main.game.model.entity.usable;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 import java.util.Collection;
 import main.game.model.entity.Unit;
 import main.game.model.entity.exceptions.CantApplyToUnitsException;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
-import main.images.GameImage;
+import main.game.model.world.World;
+import main.common.images.GameImage;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
@@ -14,22 +17,23 @@ import main.images.GameImage;
 public interface Usable extends Serializable {
 
   /**
-   * Creates an {@link Effect} for each unit and applies it to each {@link Unit}.
+   * Creates an {@link Effect} for each unit through {@link Usable#_createEffectForUnit(Unit)} that
+   * this {@link Usable} selects through {@link Usable#_selectUnitsToApplyOn(World, Collection)} and
+   * applies the effects.
    *
    * @throws IllegalStateException When this is not ready to be used yet (e.g. cool-down).
    */
-  default void useOnUnits(Collection<Unit> units) {
+  default void use(World world, Collection<Unit> selectedUnits) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
 
-    if (units.isEmpty()) {
-      throw new IllegalArgumentException();
-    }
+    Collection<Unit> unitsToApplyOn = _selectUnitsToApplyOn(
+        requireNonNull(world),
+        requireNonNull(selectedUnits)
+    );
 
-    _requireValidUnits(units);
-
-    for (Unit unit : units) {
+    for (Unit unit : unitsToApplyOn) {
       Effect effect = _createEffectForUnit(unit);
       unit.addEffect(effect);
     }
@@ -69,14 +73,13 @@ public interface Usable extends Serializable {
 
   /**
    * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS!
-   * Check that it is allowed to apply this {@link Usable} to all the {@link Unit}s.
+   * Pick what units to apply this ability to.
    *
+   * @param selectedUnits The units that are currently selected by the user.
    * @throws CantApplyToUnitsException When there is a unit that we cannot apply this {@link Usable}
    *     to.
    */
-  default void _requireValidUnits(Collection<Unit> units) {
-    // All units are valid by default
-  }
+  Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits);
 
   /**
    * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS! Starts the cool-down period.

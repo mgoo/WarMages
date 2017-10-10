@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 
 /**
  * Implements the A* path finding algorithm to find the shortest path between two places on the map
@@ -68,8 +68,10 @@ public class PathFinder {
       if (tuple.getPoint().equals(end)) {
         List<MapPoint> path = tuple.getPath();
 
-        path.remove(path.size() - 1);
-        path.add(endUnrounded);
+        if (!path.isEmpty()) {
+          path.remove(path.size() - 1);
+          path.add(endUnrounded);
+        }
         return path;
       }
 

@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -66,6 +66,14 @@ public class MapRect implements Serializable {
         getWidth() / 2 + topLeft.x,
         getHeight() / 2 + topLeft.y
     );
+  }
+
+  public double x() {
+    return this.topLeft.x;
+  }
+
+  public double y() {
+    return this.topLeft.y;
   }
 
   public double getWidth() {

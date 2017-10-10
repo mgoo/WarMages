@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="css/hud.css">
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/hud.js"></script>
 </head>
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false">
+<div class="game-view-proxy" id="game-view-proxy" style="background-color: rgba(0,0,0,0);"></div>
 <div class="top-bar">
   <a class="btn blue" id="menu-button" onclick="controller.pause()">Menu</a>
 </div>
 <div class="bottom-bar">
-  <div class="unit-holder holder" id="unit-holder" onclick="controller.onLeftClick(1,2)">
+  <div class="unit-holder holder" id="unit-holder">
 
   </div>
   <div class="right-box">

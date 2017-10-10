@@ -1,22 +1,24 @@
 package main.game.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
-import main.images.UnitSpriteSheet.Sequence;
+import main.common.images.GameImage;
+import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 
-public class UnitImagesComponent implements ImagesComponent {
+public class UnitImagesComponent implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int TICKS_TO_CHANGE = 5;
+  public static final int TICKS_PER_FRAME = 5;
 
-  private Sequence sequence;
-  private int imagesIdx;
-  private int tickCount = 0;
-  private List<GameImage> images;
+  private final Sequence sequence;
+  private final UnitSpriteSheet spriteSheet;
+  private final List<GameImage> images;
+
   private Direction direction;
-  private UnitSpriteSheet spriteSheet;
+
+  private int currentTick = 0;
 
 
   /**
@@ -31,8 +33,7 @@ public class UnitImagesComponent implements ImagesComponent {
     this.sequence = sequence;
     this.direction = direction;
     this.spriteSheet = unit.getSpriteSheet();
-    imagesIdx = 0;
-    images = spriteSheet.getImagesForSequence(sequence, direction);
+    this.images = spriteSheet.getImagesForSequence(sequence, direction);
   }
 
   /**
@@ -62,31 +63,55 @@ public class UnitImagesComponent implements ImagesComponent {
     return sequence;
   }
 
-  @Override
+  /**
+   * The unit should call this when the {@link main.game.model.GameModel} ticks.
+   */
   public void tick(Long timeSinceLastTick) {
-    tickCount++;
-    if (tickCount % TICKS_TO_CHANGE == 0) { //change image every certain number of ticks.
-      imagesIdx = (imagesIdx + 1 >= images.size()) ? 0 : imagesIdx + 1;
-    }
+    currentTick = (currentTick + 1) % maxNumberOfTicks();
   }
 
-  @Override
   public GameImage getImage() {
-    return images.get(imagesIdx);
-  }
-
-  @Override
-  public boolean isReadyToTransition() {
-    return imagesIdx == images.size() - 1;
+    return images.get(getImageIndex());
   }
 
   /**
-   * True if the current image is the image that the attack is supposed to be applied on.
+   * If on last tick.
+   */
+  public boolean isReadyToTransition() {
+    return currentTick == maxNumberOfTicks() - 1;
+  }
+
+  /**
+   * True if the current image is the {@link Sequence#attackFrame}. Note this only returns
+   * true for one of the {@link UnitImagesComponent#TICKS_PER_FRAME} ticks per frame.
    *
    * @throws IllegalStateException if the current sequence is not meant to be for attacking, as
    *     specified in {@link Sequence#getAttackFrame()};
    */
-  public boolean isOnAttackFrame() {
-    return sequence.getAttackFrame() == imagesIdx;
+  public boolean isOnAttackTick() {
+    return sequence.getAttackFrame() * TICKS_PER_FRAME == currentTick;
+  }
+
+  /**
+   * Public only for testing.
+   */
+  public int _getCurrentTick() {
+    return currentTick;
+  }
+
+  public boolean isLastTick() {
+    return _getCurrentTick() == maxNumberOfTicks() - 1;
+  }
+
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+  }
+
+  private int maxNumberOfTicks() {
+    return TICKS_PER_FRAME * images.size();
+  }
+
+  private int getImageIndex() {
+    return currentTick / TICKS_PER_FRAME;
   }
 }

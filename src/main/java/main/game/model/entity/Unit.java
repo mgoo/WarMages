@@ -1,15 +1,16 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.usable.Effect;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.images.GameImage;
+import main.common.images.UnitSpriteSheet;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -22,10 +23,12 @@ public class Unit extends Attackable implements Damageable {
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
-  private boolean isDead = false;
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
+
+  private boolean isDead = false;
+  private boolean hasCreatedDeadUnit = false;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -37,14 +40,12 @@ public class Unit extends Attackable implements Damageable {
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    super(position, size);
+    super(position, size, unitType.getMovingSpeed());
     this.team = team;
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
-    this.speed = unitType.getMovingSpeed();
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(Direction.DOWN, this);
-
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -59,6 +60,10 @@ public class Unit extends Attackable implements Damageable {
 
   public UnitType getUnitType() {
     return unitType;
+  }
+
+  public double getLineOfSight() {
+    return this.unitType.lineOfSight;
   }
 
   /**
@@ -87,8 +92,14 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return DeadUnit to represent dead current Unit.
    */
-  public DeadUnit getDeadUnit() {
-    return new DeadUnit(position);
+  public DeadUnit createDeadUnit() {
+    if (!isDead || hasCreatedDeadUnit) {
+      throw new IllegalStateException();
+    }
+
+    hasCreatedDeadUnit = true;
+    GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
+    return new DeadUnit(position, size, deadImage);
   }
 
   @Override
@@ -107,8 +118,12 @@ public class Unit extends Attackable implements Damageable {
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
       attack();
+    } else {
+      //if no target, check if unit reached destination and change to idle if so
+      if (this.path.size() == 0) {
+        setNextState(new IdleUnitState(unitState.getDirection(), this));
+      }
     }
-
     tickEffects(timeSinceLastTick);
   }
 
@@ -132,32 +147,30 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  public void moveY(double amount) {
+  public void translatePosition(double dx, double dy) {
     if (isDead) {
       return;
     }
-    super.moveY(amount);
+
+    super.translatePosition(dx, dy);
   }
 
   @Override
-  public void moveX(double amount) {
+  public void takeDamage(int amount, World world) {
     if (isDead) {
       return;
     }
-    super.moveX(amount);
-  }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
 
-  @Override
-  public void takeDamage(int amount) {
-    if (isDead) {
-      return;
-    }
-    if (health - amount < 0) {
+    if (health - amount >= 0) {
+      // Not dead
+      health -= amount;
+    } else {
       isDead = true;
       health = 0;
-    } else {
-      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
-      health -= amount;
+      setNextState(new DyingState(Sequence.DYING, unitState.getDirection(), this));
     }
   }
 
@@ -166,6 +179,10 @@ public class Unit extends Attackable implements Damageable {
     if (isDead) {
       return;
     }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
+
     health += amount;
   }
 
