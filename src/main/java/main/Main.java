@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.game.model.world.saveandload.DefaultWorldLoader;
@@ -143,6 +145,13 @@ public class Main extends Application {
     browser.setOnMouseExited(event -> keepMouseInWindow());
     browser.setOnMouseMoved(event -> {
       this.currentMenu.getMenuController().onMouseMove(event);
+    });
+
+    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+      @Override
+      public void handle(WindowEvent event) {
+        System.exit(0);
+      }
     });
 
     root.getChildren().setAll(imageView, browser);
