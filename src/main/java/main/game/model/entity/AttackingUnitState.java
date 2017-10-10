@@ -29,6 +29,16 @@ public class AttackingUnitState extends UnitState {
     return nextState;
   }
 
+  @Override
+  public Direction getCurrentDirection() {
+    Unit target = unit.getTarget();
+    if (target == null) {
+      return super.getCurrentDirection();
+    }
+
+    return Direction.between(unit.getCentre(), target.getCentre());
+  }
+
   /**
    * Called when the attack frame is reached and the animation
    * {@link UnitSpriteSheet.Sequence}.

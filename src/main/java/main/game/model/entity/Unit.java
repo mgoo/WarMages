@@ -1,9 +1,10 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -55,7 +56,7 @@ public class Unit extends Attackable implements Damageable {
    * @param state to be changed to.
    */
   private void setNextState(UnitState state) {
-    unitState.requestState(Objects.requireNonNull(state));
+    unitState.requestState(requireNonNull(state));
   }
 
   public UnitType getUnitType() {
@@ -85,7 +86,7 @@ public class Unit extends Attackable implements Damageable {
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
-    unitState = unitState.updateState();
+    unitState = requireNonNull(unitState.updateState());
     //update path in case there is a target and it has moved.
     updatePath(world);
     //update position
@@ -228,10 +229,10 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Gets the direction from the previous position to the current one.
+   * Gets the direction from the current state.
    */
   public Direction getCurrentDirection() {
-    return Direction.between(getPreviousTopLeft(), getTopLeft());
+    return unitState.getCurrentDirection();
   }
 }
 
