@@ -3,13 +3,13 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.function.Supplier;
+import main.common.util.Events;
+import main.common.util.Events.MainGameTick;
+import main.common.util.looper.Looper;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.common.util.Events;
-import main.common.util.Events.MainGameTick;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
@@ -24,6 +24,7 @@ public class GameModel {
 
   private final World world;
   private final MainGameTick mainGameTick;
+  private final Looper looper;
 
   private Collection<Unit> selectedUnits;
 
@@ -32,9 +33,14 @@ public class GameModel {
    *
    * @param world The world to use for the whole game.
    */
-  public GameModel(World world, Events.MainGameTick mainGameTick) {
+  public GameModel(
+      World world,
+      Events.MainGameTick mainGameTick,
+      Supplier<Looper> looperFactory
+  ) {
     this.world = world;
     this.mainGameTick = mainGameTick;
+    this.looper = looperFactory.get();
     this.selectedUnits = Collections.emptySet();
   }
 
@@ -51,13 +57,10 @@ public class GameModel {
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    Timer t = new Timer();
-    t.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        mainGameTick.broadcast(DELAY);
-      }
-    }, DELAY, DELAY);
+    looper.start(
+        () -> mainGameTick.broadcast(DELAY),
+        DELAY
+    );
   }
 
   /**
