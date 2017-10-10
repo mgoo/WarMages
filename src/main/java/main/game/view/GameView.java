@@ -121,7 +121,7 @@ public class GameView {
         .filter(entityView -> entityView instanceof UnitView)
         .filter(unitView -> ((UnitView) unitView).revealsFogOfWar())
         .forEach(unitView -> revealingUnits.add((UnitView)unitView));
-    fogOfWarView.calculate(revealingUnits, this);
+    fogOfWarView.calculate(revealingUnits, this, tickTime);
   }
 
   private synchronized void updateViewBoxPosition() {
