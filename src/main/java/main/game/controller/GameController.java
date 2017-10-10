@@ -147,7 +147,7 @@ public class GameController {
       } else {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(PathFinder.findPath(
+          unit.setPath(gameModel.getWorld().getPathfinder().findPath(
               gameModel.getWorld()::isPassable,
               unit.getTopLeft(),
               mouseEvent.getLocation()
