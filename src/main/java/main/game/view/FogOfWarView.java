@@ -30,7 +30,7 @@ public class FogOfWarView implements Renderable {
   /**
    * Recalculates what the fog of war should cover and what it should display.
    */
-  void calculate(Collection<UnitView> unitViews, GameView gameView) {
+  void calculate(Collection<UnitView> unitViews, GameView gameView, long currentTime) {
     this.fowMask = new BufferedImage((int)this.size.width,
         (int)this.size.height,
         BufferedImage.TYPE_4BYTE_ABGR);
@@ -40,7 +40,7 @@ public class FogOfWarView implements Renderable {
 
     g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR, 0F));
     unitViews.forEach(unitView -> {
-      MapPoint position = unitView.getImagePosition(0);
+      MapPoint position = unitView.getImagePosition(currentTime);
       MapSize imageSize = unitView.getImageSize();
       MapSize los = unitView.getLos();
       g.fillOval(
