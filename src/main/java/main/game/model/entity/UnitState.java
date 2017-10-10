@@ -58,13 +58,7 @@ public abstract class UnitState implements Serializable {
    * @param newDirection direction to be changed to.
    */
   public void setDirection(Direction newDirection) {
-    if (imagesComponent.getDirection() != newDirection) {
-      imagesComponent = new UnitImagesComponent(
-          imagesComponent.getSequence(),
-          newDirection,
-          unit
-      );
-    }
+    imagesComponent.setDirection(newDirection);
   }
 
   /**
