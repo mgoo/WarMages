@@ -17,7 +17,7 @@ import main.common.util.MapSize;
  */
 public class EntityView implements main.renderer.Renderable {
 
-  private final Config config;
+  final Config config;
 
   private final Entity entity;
   private final ImageProvider imageProvider;
@@ -117,7 +117,12 @@ public class EntityView implements main.renderer.Renderable {
     return this.currentImage;
   }
 
-  @Override
+  /**
+   * Calculates the actual MapPoint of this object based on the animation state.
+   * This is the position relative to the map not the screen
+   *
+   * @return the MapPoint of the object considering the animation state
+   */
   public MapPoint getEffectiveEntityPosition(long currentTime) {
     double animationMultiplyer = this.calculateAnimationMultiplyer(currentTime);
     double deltaX = (this.destination.x - this.oldPosition.x) * animationMultiplyer;

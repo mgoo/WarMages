@@ -1,5 +1,7 @@
 package main.common.util;
 
+import java.awt.Color;
+
 /**
  * Holds the config and context of the game.
  * @author Andrew McGhie
@@ -13,6 +15,8 @@ public class Config {
 
   private int entityViewTilePixelsX = 50;
   private int entityViewTilePixelsY = 50;
+
+  private Color baseFogOfWarColor = new Color(54, 59, 88);
 
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
@@ -31,6 +35,10 @@ public class Config {
 
   public int getEntityViewTilePixelsY() {
     return entityViewTilePixelsY;
+  }
+
+  public Color getBaseFogOfWarColor() {
+    return this.baseFogOfWarColor;
   }
 
   /**
