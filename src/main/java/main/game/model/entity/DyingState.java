@@ -7,10 +7,7 @@ public class DyingState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public DyingState(
-      Sequence sequence, Direction direction,
-      Unit unit
-  ) {
+  public DyingState(Sequence sequence, Direction direction, Unit unit) {
     super(sequence, direction, unit);
   }
 

@@ -170,7 +170,7 @@ public class Unit extends Attackable implements Damageable {
     } else {
       isDead = true;
       health = 0;
-      setNextState(new DyingState(Sequence.HURT, unitState.getDirection(), this));
+      setNextState(new DyingState(Sequence.DYING, unitState.getDirection(), this));
     }
   }
 
