@@ -66,6 +66,7 @@ resumeButton.on('click', function (event) {
 
 gameViewProxy
   .on('mousedown', function (event) {
+    if (event.which != 1) return;
     Rect.mouseDown = true
   })
   .on('mousemove', function (event) {
@@ -78,17 +79,20 @@ gameViewProxy
     }
   })
   .on('mouseup', function (event) {
-    if (Rect.visible) {
-      controller.onDrag(Rect.box.startX,
-          Rect.box.startY,
-          event.pageX,
-          event.pageY,
-          event.shiftKey,
-          event.ctrlKey);
-    } else {
-      controller.onLeftClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+    if (event.which == 1) {
+      if (Rect.visible) {
+        controller.onDrag(Rect.box.startX,
+            Rect.box.startY,
+            event.pageX,
+            event.pageY,
+            event.shiftKey,
+            event.ctrlKey);
+      } else {
+        controller.onLeftClick(event.pageX, event.pageY, event.shiftKey,
+            event.ctrlKey);
+      }
+      Rect.reset();
     }
-    Rect.reset();
   });
 
 var Rect = {
