@@ -2,6 +2,7 @@ package main.menu.controller;
 
 import javafx.scene.image.ImageView;
 import main.Main;
+import main.common.util.Looper;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
@@ -10,7 +11,7 @@ import main.common.WorldSaveModel;
 import main.game.view.GameView;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
@@ -68,7 +69,7 @@ public class MainMenuController extends MenuController {
           mouseClickEvent);
       tickEvent.registerListener(parameter -> gameView.onTick(parameter));
       mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
-      Renderer renderer = new Renderer(gameView, this.imageView, config);
+      Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
       Hud hud = new Hud(this.main,
           this.mainMenu,
           gameView,

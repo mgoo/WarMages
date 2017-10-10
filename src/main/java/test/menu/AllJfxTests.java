@@ -1,6 +1,7 @@
 package test.menu;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static test.renderer.RendererTestUtils.createConfig;
 import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
@@ -21,6 +22,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.common.util.Config;
+import main.common.util.Events.MainGameTick;
+import main.common.util.Looper;
+import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
@@ -28,9 +33,6 @@ import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import main.renderer.Renderer;
-import main.common.util.Config;
-import main.common.util.Events.MainGameTick;
-import main.common.util.MapPoint;
 import netscape.javascript.JSObject;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -71,7 +73,7 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv, config).drawAll(config.getGameModelDelay(), gv, iv);
+    new Renderer(gv, iv, config, mock(Looper.class)).drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 

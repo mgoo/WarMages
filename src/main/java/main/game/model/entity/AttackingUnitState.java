@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.common.images.UnitSpriteSheet;
 import main.game.model.world.World;
 
 public class AttackingUnitState extends UnitState {
@@ -30,7 +31,7 @@ public class AttackingUnitState extends UnitState {
 
   /**
    * Called when the attack frame is reached and the animation
-   * {@link main.images.UnitSpriteSheet.Sequence}.
+   * {@link UnitSpriteSheet.Sequence}.
    */
   private void onAttackFrame(World world) {
     UnitType unitType = unit.getUnitType();
