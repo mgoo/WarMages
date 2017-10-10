@@ -199,7 +199,7 @@ public class World implements Serializable {
    * Gets the current goal for the current level.
    * @return String description of the current goal
    */
-  public String getCurrentGoalDescription(){
+  public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
   }
 }
