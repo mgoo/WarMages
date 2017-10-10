@@ -79,7 +79,7 @@ public class GameViewTest {
   @Test
   public void testAnimation_x_correctPosition() {
     this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).move(1, 0);
+    ((EntityMock) this.entityList.get(0)).translatePosition(1, 0);
     this.gameView.onTick((long)this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
@@ -101,7 +101,7 @@ public class GameViewTest {
   @Test
   public void testAnimation_y_correctPosition() {
     this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).move(0, 1);
+    ((EntityMock) this.entityList.get(0)).translatePosition(0, 1);
     this.gameView.onTick((long)this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
@@ -123,7 +123,7 @@ public class GameViewTest {
   @Test
   public void testAnimation_xy_correctPosition() {
     this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).move(5, 5);
+    ((EntityMock) this.entityList.get(0)).translatePosition(5, 5);
     this.gameView.onTick((long)this.config.getGameModelDelay());
 
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
@@ -154,7 +154,7 @@ public class GameViewTest {
   public void testAnimation_screenPosition() {
     this.gameView.onTick(0L);
     EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
-    ((EntityMock) this.entityList.get(0)).move(1, 1);
+    ((EntityMock) this.entityList.get(0)).translatePosition(1, 1);
     this.gameView.onTick((long)this.config.getGameModelDelay());
 
     for (double i = 0; i < this.config.getGameModelDelay(); i++) {
@@ -176,7 +176,7 @@ public class GameViewTest {
     }
 
     this.gameView.onTick((long)this.config.getGameModelDelay() * 2);
-    ((EntityMock) this.entityList.get(0)).move(1, 0);
+    ((EntityMock) this.entityList.get(0)).translatePosition(1, 0);
     this.gameView.onTick((long)this.config.getGameModelDelay() * 3);
 
     // effective position should have arrived to 10,10
@@ -278,22 +278,12 @@ public class GameViewTest {
 
     @Override
     public MapPoint getTopLeft() {
-      assert false : "This method is not used here";
-      return this.position;
+      throw new AssertionError("This method is not used here");
     }
 
     @Override
     public MapPoint getCentre() {
-      return this.position;
-    }
-
-    @Override
-    public MapSize getSize() {
-      return this.size;
-    }
-
-    void move(double dX, double dY) {
-      this.position = new MapPoint(this.position.x + dX, this.position.y + dY);
+      return this.getTopLeft();
     }
   }
 
