@@ -185,4 +185,8 @@ public class World implements Serializable {
 
     recentlyKilledUnits.add(unit);
   }
+
+  public PathFinder getPathfinder() {
+    return pathfinder;
+  }
 }

@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
+import main.game.model.world.pathfinder.PathFinder;
 import main.util.Events;
 import main.util.Events.MainGameTick;
 
@@ -92,5 +93,9 @@ public class GameModel {
 
   public World getWorld() {
     return world;
+  }
+
+  public PathFinder getPathfinder() {
+    return world.getPathfinder();
   }
 }
