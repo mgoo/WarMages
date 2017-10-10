@@ -3,7 +3,7 @@ package main.game.model.entity;
 import java.io.Serializable;
 import main.game.model.world.World;
 import main.common.images.GameImage;
-import main.images.UnitSpriteSheet.Sequence;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * An interface for the states of a unit.

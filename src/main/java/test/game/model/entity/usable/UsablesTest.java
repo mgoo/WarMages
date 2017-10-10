@@ -10,6 +10,10 @@ import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
+import main.common.util.TickTimer;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.UnitType;
@@ -19,11 +23,7 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
-import main.common.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
-import main.common.util.TickTimer;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 public class UsablesTest {
@@ -40,7 +40,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList(healAbility)
     );
@@ -58,7 +58,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList()
     );
@@ -171,7 +171,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList(buffAbility)
     );
