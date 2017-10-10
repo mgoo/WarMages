@@ -1,4 +1,4 @@
-package main.images;
+package main.common.images;
 
 /**
  * Defines all the {@link GameImage} objects with their filenames. All other {@link GameImage}

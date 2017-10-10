@@ -1,15 +1,15 @@
 package main.game.model.world.saveandload;
 
-import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.DARK_ELF_SPRITE_SHEET;
-import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
-import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
-import static main.images.GameImageResource.POTION_BLUE_ITEM;
-import static main.images.GameImageResource.RING_GOLD_ITEM;
-import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.TREE_MAP_ENTITY;
+import static main.common.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.DARK_ELF_SPRITE_SHEET;
+import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.common.images.GameImageResource.POTION_BLUE_ITEM;
+import static main.common.images.GameImageResource.RING_GOLD_ITEM;
+import static main.common.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.TREE_MAP_ENTITY;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;

@@ -16,7 +16,7 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import org.junit.Test;
 

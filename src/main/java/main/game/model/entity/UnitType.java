@@ -1,6 +1,6 @@
 package main.game.model.entity;
 
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import main.images.UnitSpriteSheet.Sequence;
 
 /**
