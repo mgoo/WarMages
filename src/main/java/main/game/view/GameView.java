@@ -48,6 +48,7 @@ public class GameView {
    * calling {@link List#add(Object)} for each element.
    */
   private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
+  private FogOfWarView fogOfWarView;
 
   /**
    * Constructor for game view sets the viewBox to start at origin 0,0.
@@ -65,6 +66,7 @@ public class GameView {
     this.mouseClickEvent = mouseClickEvent;
     this.viewBox = new MapRect(0, 0,
         this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
+    this.fogOfWarView = ViewFactory.makeFogOfWarView(config);
   }
 
   /**
@@ -77,6 +79,10 @@ public class GameView {
   public synchronized List<EntityView> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
+  }
+
+  public synchronized FogOfWarView getFogOfWarView() {
+    return this.fogOfWarView;
   }
 
   /**
@@ -98,7 +104,7 @@ public class GameView {
     this.renderablesCache.removeAll(toRemove);
 
     List<EntityView> entityViewsToAdd = entitiesToAdd.stream()
-        .map(entity -> new EntityView(this.config, entity, this.imageProvider))
+        .map(entity -> ViewFactory.makeEntityView(this.config, entity, this.imageProvider))
         .collect(Collectors.toList());
     this.renderablesCache.addAll(entityViewsToAdd);
 
@@ -106,6 +112,16 @@ public class GameView {
       entityView.update(tickTime,
           this.gameModel.getUnitSelection().contains(entityView.getEntity()));
     });
+
+    // Update FoW
+
+    Set<UnitView> revealingUnits = new HashSet<>();
+    this.renderablesCache
+        .stream()
+        .filter(entityView -> entityView instanceof UnitView)
+        .filter(unitView -> ((UnitView) unitView).revealsFogOfWar())
+        .forEach(unitView -> revealingUnits.add((UnitView)unitView));
+    fogOfWarView.calculate(revealingUnits, this);
   }
 
   private synchronized void updateViewBoxPosition() {

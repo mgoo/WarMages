@@ -29,12 +29,4 @@ public interface Renderable {
    * @return the image representation of this object
    */
   BufferedImage getImage();
-
-  /**
-   * Calculates the actual MapPoint of this object based on the animation state.
-   * This is the position relative to the map not the screen
-   *
-   * @return the MapPoint of the object considering the animation state
-   */
-  MapPoint getEffectiveEntityPosition(long currentTime);
 }
