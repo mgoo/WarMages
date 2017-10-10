@@ -35,7 +35,7 @@ public class GameModel {
   public GameModel(World world, Events.MainGameTick mainGameTick) {
     this.world = world;
     this.mainGameTick = mainGameTick;
-    selectedUnits = new HashSet<>();
+    this.selectedUnits = Collections.emptySet();
   }
 
   /**
