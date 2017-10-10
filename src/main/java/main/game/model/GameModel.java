@@ -55,7 +55,7 @@ public class GameModel {
     t.schedule(new TimerTask() {
       @Override
       public void run() {
-        mainGameTick.broadcast(DELAY);
+        mainGameTick.broadcast(System.currentTimeMillis());
       }
     }, DELAY, DELAY);
   }
