@@ -57,7 +57,7 @@ public class BackGroundView implements Renderable {
         : config.getContextScreenWidth()
             + gameView.getViewBox().x() % config.getContextScreenWidth();
     double y = gameView.getViewBox().y() > 0
-        ? gameView.getViewBox().y()% config.getContextScreenHeight()
+        ? gameView.getViewBox().y() % config.getContextScreenHeight()
         : config.getContextScreenHeight()
             + gameView.getViewBox().y() % config.getContextScreenHeight();
     return new MapPoint(
