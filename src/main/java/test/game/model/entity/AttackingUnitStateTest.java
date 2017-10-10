@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
 import main.game.model.GameModel;
 import main.game.model.entity.AttackingUnitState;
+import main.game.model.entity.Direction;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
@@ -38,6 +39,7 @@ public class AttackingUnitStateTest {
     when(unit.getSpriteSheet())
         .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
     when(unit.getTarget()).thenReturn(target);
+    when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // with some configuration parameters
     final int attackFrame = unit.getUnitType().getAttackSequence().getAttackFrame();
     final int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;

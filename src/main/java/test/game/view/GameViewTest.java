@@ -283,7 +283,7 @@ public class GameViewTest {
 
     @Override
     public MapPoint getCentre() {
-      return this.getTopLeft();
+      return super.getTopLeft();
     }
   }
 

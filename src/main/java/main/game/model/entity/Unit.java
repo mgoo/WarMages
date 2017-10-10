@@ -29,7 +29,6 @@ public class Unit extends Attackable implements Damageable {
 
   private boolean isDead = false;
   private boolean hasCreatedDeadUnit = false;
-  private Direction currentDirection;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -68,28 +67,6 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Gets direction of Unit based on x and y coordinate differences between the given oldPosition
-   * and the current position.
-   */
-  private Direction calculateDirection(MapPoint oldPosition) {
-    MapPoint position = getCentre();
-    double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
-    if (gradient < 1) {
-      if (position.y < oldPosition.y) {
-        return Direction.UP;
-      } else {
-        return Direction.DOWN;
-      }
-    } else {
-      if (position.x < oldPosition.x) {
-        return Direction.LEFT;
-      } else {
-        return Direction.RIGHT;
-      }
-    }
-  }
-
-  /**
    * Returns a DeadUnit to replace the current Unit when it dies.
    *
    * @return DeadUnit to represent dead current Unit.
@@ -112,11 +89,7 @@ public class Unit extends Attackable implements Damageable {
     //update path in case there is a target and it has moved.
     updatePath(world);
     //update position
-    MapPoint oldTopLeft = getTopLeft();
     super.tick(timeSinceLastTick, world);
-    if (!oldTopLeft.equals(getTopLeft()) && calculateDirection(oldTopLeft) != currentDirection) {
-      setNextState(new WalkingUnitState(this));
-    }
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
       attack();
@@ -255,7 +228,11 @@ public class Unit extends Attackable implements Damageable {
   }
 
   public Direction getCurrentDirection() {
-    return currentDirection;
+    Direction between = Direction.between(getPreviousTopLeft(), getTopLeft());
+    if (between == null) {
+      System.out.println("between = " + between);
+    }
+    return between;
   }
 }
 

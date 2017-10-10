@@ -11,6 +11,7 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
+import main.game.model.entity.Direction;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
 import main.images.DefaultUnitSpriteSheet;
@@ -28,6 +29,7 @@ public class UnitImagesComponentTest {
     Unit unit = mock(Unit.class);
     when(unit.getSpriteSheet())
         .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+    when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // and a UnitImagesComponent
     UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);
 
