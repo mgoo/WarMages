@@ -1,16 +1,16 @@
 package main.game.model.entity;
 
 import java.util.ArrayList;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.entity.usable.Effect;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.entity.usable.Effect;
+import main.game.model.world.World;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -29,6 +29,7 @@ public class Unit extends Attackable implements Damageable {
 
   private boolean isDead = false;
   private boolean hasCreatedDeadUnit = false;
+  private Direction currentDirection;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -45,7 +46,7 @@ public class Unit extends Attackable implements Damageable {
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
     this.spriteSheet = sheet;
-    this.unitState = new IdleUnitState(Direction.DOWN, this);
+    this.unitState = new IdleUnitState(this);
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -67,10 +68,11 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
-   * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
+   * Gets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
    */
-  private Direction updateDirection(MapPoint oldPosition) {
+  private Direction calculateDirection(MapPoint oldPosition) {
+    MapPoint position = getCentre();
     double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
     if (gradient < 1) {
       if (position.y < oldPosition.y) {
@@ -99,7 +101,7 @@ public class Unit extends Attackable implements Damageable {
 
     hasCreatedDeadUnit = true;
     GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DeadUnit(position, size, deadImage);
+    return new DeadUnit(getTopLeft(), getSize(), deadImage);
   }
 
   @Override
@@ -110,10 +112,10 @@ public class Unit extends Attackable implements Damageable {
     //update path in case there is a target and it has moved.
     updatePath(world);
     //update position
-    MapPoint oldPosition = position;
+    MapPoint oldTopLeft = getTopLeft();
     super.tick(timeSinceLastTick, world);
-    if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setNextState(new WalkingUnitState(updateDirection(oldPosition), this));
+    if (!oldTopLeft.equals(getTopLeft()) && calculateDirection(oldTopLeft) != currentDirection) {
+      setNextState(new WalkingUnitState(this));
     }
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
@@ -121,7 +123,7 @@ public class Unit extends Attackable implements Damageable {
     } else {
       //if no target, check if unit reached destination and change to idle if so
       if (this.path.size() == 0) {
-        setNextState(new IdleUnitState(unitState.getDirection(), this));
+        setNextState(new IdleUnitState(this));
       }
     }
     tickEffects(timeSinceLastTick);
@@ -143,7 +145,7 @@ public class Unit extends Attackable implements Damageable {
       );
     }
 
-    setNextState(new AttackingUnitState(unitState.getDirection(), this));
+    setNextState(new AttackingUnitState(this));
   }
 
   @Override
@@ -170,7 +172,7 @@ public class Unit extends Attackable implements Damageable {
     } else {
       isDead = true;
       health = 0;
-      setNextState(new DyingState(Sequence.DYING, unitState.getDirection(), this));
+      setNextState(new DyingState(Sequence.DYING, this));
     }
   }
 
@@ -250,6 +252,10 @@ public class Unit extends Attackable implements Damageable {
 
   public UnitSpriteSheet getSpriteSheet() {
     return spriteSheet;
+  }
+
+  public Direction getCurrentDirection() {
+    return currentDirection;
   }
 }
 

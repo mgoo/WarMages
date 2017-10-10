@@ -16,9 +16,9 @@ public abstract class Entity implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  protected MapPoint position;
-  protected GameImage image;
-  protected MapSize size;
+  private GameImage image;
+  private MapPoint position;
+  private MapSize size;
 
   /**
    * Constructor takes the position of the entity and the size.
@@ -85,4 +85,8 @@ public abstract class Entity implements Serializable {
    * Updates the Entity's position.
    */
   public abstract void tick(long timeSinceLastTick, World world);
+
+  protected void setImage(GameImage image) {
+    this.image = requireNonNull(image);
+  }
 }

@@ -27,7 +27,7 @@ public class Item extends MapEntity implements Usable {
   public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
     super(coord);
     this.ability = ability;
-    this.image = onMapImage;
+    this.setImage(onMapImage);
   }
 
   @Override

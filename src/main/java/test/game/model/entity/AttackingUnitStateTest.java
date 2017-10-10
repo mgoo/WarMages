@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
 import main.game.model.GameModel;
 import main.game.model.entity.AttackingUnitState;
-import main.game.model.entity.Direction;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
@@ -43,7 +42,7 @@ public class AttackingUnitStateTest {
     final int attackFrame = unit.getUnitType().getAttackSequence().getAttackFrame();
     final int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and the state to test
-    AttackingUnitState state = new AttackingUnitState(Direction.LEFT, unit);
+    AttackingUnitState state = new AttackingUnitState(unit);
     // and a stub world
     World world = mock(World.class);
 
