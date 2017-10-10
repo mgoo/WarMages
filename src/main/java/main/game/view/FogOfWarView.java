@@ -64,9 +64,4 @@ public class FogOfWarView implements Renderable {
   public BufferedImage getImage() {
     return this.fowMask;
   }
-
-  @Override
-  public MapPoint getEffectiveEntityPosition(long currentTime) {
-    return null;
-  }
 }
