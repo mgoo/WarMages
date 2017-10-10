@@ -1,14 +1,12 @@
 package main.menu;
 
 import java.io.File;
-import java.util.function.Supplier;
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.common.WorldSaveModel;
-import main.common.util.Config;
-import main.common.util.looper.Looper;
 import main.game.model.world.saveandload.WorldLoader;
+import main.common.WorldSaveModel;
 import main.menu.controller.MainMenuController;
+import main.common.util.Config;
 
 /**
  * The definitions of the file paths to the html file for the Main Menu.
@@ -23,13 +21,11 @@ public class MainMenu extends Menu {
   /**
    * Injects the dependencies.
    */
-  public MainMenu(
-      Main main,
-      WorldLoader worldLoader,
-      WorldSaveModel worldSaveModel,
-      ImageView imageView,
-      Config config
-  ) {
+  public MainMenu(Main main,
+                  WorldLoader worldLoader,
+                  WorldSaveModel worldSaveModel,
+                  ImageView imageView,
+                  Config config) {
     super(main);
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;

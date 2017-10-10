@@ -1,15 +1,16 @@
 package test.game.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
-import main.common.util.Events.MainGameTick;
-import main.common.util.MapPoint;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.events.MouseClick;
+import main.common.util.Events.MainGameTick;
+import main.common.util.MapPoint;
 import org.junit.Test;
-import test.common.util.StubLooper;
 import test.game.model.world.WorldTestUtils;
 
 public class ControllerTest {
@@ -19,17 +20,11 @@ public class ControllerTest {
 
   @Test
   public void checkSelectOneUnit() {
-    gameModel = new GameModel(
-        new World(
-            WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-                WorldTestUtils.createUnit(new MapPoint(1, 0)),
-                WorldTestUtils.createUnit(new MapPoint(1, 0))
-            )),
-            WorldTestUtils.createHeroUnit(new MapPoint(1,0))
-        ),
-        new MainGameTick(),
-        StubLooper::new
-    );
+    gameModel = new GameModel(new World(
+        WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
+            WorldTestUtils.createUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createUnit(new MapPoint(1, 0))
+        )), WorldTestUtils.createHeroUnit(new MapPoint(1,0))), new MainGameTick());
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
@@ -57,17 +52,11 @@ public class ControllerTest {
 
   @Test
   public void checkSelectNoUnit() {
-    gameModel = new GameModel(
-        new World(
-            WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-                WorldTestUtils.createUnit(new MapPoint(1, 0)),
-                WorldTestUtils.createUnit(new MapPoint(1, 0))
-            )),
-            WorldTestUtils.createHeroUnit(new MapPoint(1, 0))
-        ),
-        new MainGameTick(),
-        StubLooper::new
-    );
+    gameModel = new GameModel(new World(
+        WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
+            WorldTestUtils.createUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createUnit(new MapPoint(1, 0))
+        )), WorldTestUtils.createHeroUnit(new MapPoint(1,0))), new MainGameTick());
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
