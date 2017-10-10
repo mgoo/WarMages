@@ -1,0 +1,72 @@
+package main.game.view;
+
+import java.awt.image.BufferedImage;
+import main.common.util.Config;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
+import main.renderer.Renderable;
+
+/**
+ * Created by mgoo on 10/10/17.
+ */
+public class BackGroundView implements Renderable {
+
+  private final Config config;
+  private final GameView gameView;
+  private final MapSize size;
+  private final BufferedImage background;
+
+  BackGroundView(Config config, GameView gameView, BufferedImage baseImage) {
+    this.config = config;
+    this.gameView = gameView;
+    this.size = new MapSize(config.getContextScreenWidth() * 2,
+        config.getContextScreenHeight() * 2);
+    this.background = new BufferedImage(config.getContextScreenWidth() * 2,
+        config.getContextScreenHeight() * 2,
+        BufferedImage.TYPE_4BYTE_ABGR);
+    background.getGraphics().drawImage(baseImage,
+        0,
+        0,
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        null);
+    background.getGraphics().drawImage(baseImage,
+        config.getContextScreenWidth(),
+        0,
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        null);
+    background.getGraphics().drawImage(baseImage,
+        0,
+        config.getContextScreenHeight(),
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        null);
+    background.getGraphics().drawImage(baseImage,
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        null);
+  }
+
+  @Override
+  public MapPoint getImagePosition(long currentTime) {
+    return new MapPoint(
+        gameView.getViewBox().x() % config.getContextScreenWidth()
+            - config.getContextScreenWidth(),
+        gameView.getViewBox().y() % config.getContextScreenHeight()
+            - config.getContextScreenHeight()
+    );
+  }
+
+  @Override
+  public MapSize getImageSize() {
+    return this.size;
+  }
+
+  @Override
+  public BufferedImage getImage() {
+    return this.background;
+  }
+}
