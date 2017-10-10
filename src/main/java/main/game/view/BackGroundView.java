@@ -52,12 +52,17 @@ public class BackGroundView implements Renderable {
 
   @Override
   public MapPoint getImagePosition(long currentTime) {
+    double x = gameView.getViewBox().x() > 0
+        ? gameView.getViewBox().x() % config.getContextScreenWidth()
+        : config.getContextScreenWidth()
+            + gameView.getViewBox().x() % config.getContextScreenWidth();
+    double y = gameView.getViewBox().y() > 0
+        ? gameView.getViewBox().y()% config.getContextScreenHeight()
+        : config.getContextScreenHeight()
+            + gameView.getViewBox().y() % config.getContextScreenHeight();
     return new MapPoint(
-        gameView.getViewBox().x() % config.getContextScreenWidth()
-            - config.getContextScreenWidth(),
-        gameView.getViewBox().y() % config.getContextScreenHeight()
-            - config.getContextScreenHeight()
-    );
+        x - config.getContextScreenWidth(),
+        y - config.getContextScreenHeight());
   }
 
   @Override
