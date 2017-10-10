@@ -19,6 +19,7 @@ import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
 import main.images.ImageProvider;
 import main.menu.controller.HudController;
+import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
 import main.renderer.Renderer;
 
@@ -33,6 +34,7 @@ public class Hud extends Menu {
   private final ImageProvider imageProvider;
   private final Collection<Unit> selectedUnits = new ArrayList<>();
   private HeroUnit hero;
+  private final GoalTextGenerator goalScript = new GoalTextGenerator();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -69,7 +71,7 @@ public class Hud extends Menu {
   }
 
   public void updateGoal(String goal) {
-    this.main.callJsFunction("setGoal", goal);
+    this.main.executeScript(goalScript.setText(goal).getScript());
   }
 
   /**
