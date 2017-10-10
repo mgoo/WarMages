@@ -1,6 +1,6 @@
 package test.game.model.entity;
 
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

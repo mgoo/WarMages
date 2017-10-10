@@ -3,7 +3,7 @@ package main.game.model.entity;
 import static java.util.Objects.requireNonNull;
 
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 

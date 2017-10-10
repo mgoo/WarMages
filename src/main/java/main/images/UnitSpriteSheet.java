@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import main.common.images.GameImage;
+import main.common.images.GameImageBuilder;
+import main.common.images.GameImageResource;
 import main.game.model.entity.Direction;
 
 /**

@@ -1,4 +1,4 @@
-package main.images;
+package main.common.images;
 
 public class GameImageBuilder {
 
@@ -12,7 +12,10 @@ public class GameImageBuilder {
   private int overflowBottom;
   private int overflowLeft;
 
-  GameImageBuilder(String filePath) {
+  /**
+   * Only for use by images classes!
+   */
+  public GameImageBuilder(String filePath) {
     this.filePath = filePath;
   }
 

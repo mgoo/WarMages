@@ -19,7 +19,7 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;

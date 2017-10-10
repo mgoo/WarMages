@@ -1,9 +1,9 @@
 package test.game.model.world;
 
-import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Effect;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import main.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;

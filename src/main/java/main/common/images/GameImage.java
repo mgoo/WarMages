@@ -1,4 +1,4 @@
-package main.images;
+package main.common.images;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -7,6 +7,12 @@ import main.game.model.world.World;
 import java.io.Serializable;
 
 /**
+ * ************************************************************************************************
+ * NOTE TO TUTORS: I emailed Marco about keeping these images classes in the common package,
+ * and he said it was ok. (I need to keep these classes here because GameImageResource defines
+ * all the {@link GameImage}s and is used in various parts of the app.
+ * ************************************************************************************************
+ *
  * Reference all of the image files in the app here by adding a new enum value.
  */
 public class GameImage implements Serializable {

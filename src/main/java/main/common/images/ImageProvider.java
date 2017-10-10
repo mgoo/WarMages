@@ -1,4 +1,4 @@
-package main.images;
+package main.common.images;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
