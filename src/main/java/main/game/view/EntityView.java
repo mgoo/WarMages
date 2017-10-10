@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
