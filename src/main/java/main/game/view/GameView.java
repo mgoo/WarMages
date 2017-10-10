@@ -5,21 +5,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javafx.scene.input.KeyEvent;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
+import main.common.images.ImageProvider;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
 import main.game.view.events.MouseDrag;
-import main.images.ImageProvider;
-import main.renderer.Renderable;
-import main.util.Config;
-import main.util.Event;
-import main.util.Event.Listener;
-import main.util.MapDiamond;
-import main.util.MapPoint;
-import main.util.MapRect;
+import main.common.util.MapDiamond;
 
 /**
  * A View of the Game.

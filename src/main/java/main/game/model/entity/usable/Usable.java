@@ -8,7 +8,7 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.exceptions.CantApplyToUnitsException;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.common.images.GameImage;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant

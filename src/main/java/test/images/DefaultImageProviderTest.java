@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.images.DefaultImageProvider;
-import main.images.GameImageResource;
+import main.common.images.GameImageResource;
 import org.junit.Test;
 
 /**

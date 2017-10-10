@@ -5,13 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-import main.game.model.entity.MapEntity;
 import main.game.model.entity.UninteractableEntity;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.World;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 import org.junit.Test;
 
 /**

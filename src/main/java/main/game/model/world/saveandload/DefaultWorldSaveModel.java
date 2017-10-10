@@ -13,39 +13,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import main.game.model.GameModel;
+import main.common.WorldSaveModel;
 import main.game.model.world.World;
 
-/**
- * Deals with the saving and loading of {@link GameModel} to and from files.
- */
-public class WorldSaveModel {
-
-  /**
-   * This is public for testing only. File extension for saved files.
-   */
-  public static final String SAVE_FILE_EXTENSION = "sav";
-
-  /**
-   * Place to save and load all the files. If you change this remember to update the .gitignore
-   * file.
-   */
-  private static final String SAVE_FILE_DIRECTORY = "./saves/";
+public class DefaultWorldSaveModel implements WorldSaveModel {
 
   private final Filesystem filesystem;
 
   /**
    * Default constructor.
    */
-  public WorldSaveModel(Filesystem filesystem) {
+  public DefaultWorldSaveModel(Filesystem filesystem) {
     this.filesystem = filesystem;
   }
 
-  /**
-   * Stores the {@link main.game.model.world.World} (through serialisation).
-   *
-   * @param filename Name with no slashes is it.
-   */
+  @Override
   public void save(World world, String filename)
       throws IOException {
 
@@ -64,10 +46,7 @@ public class WorldSaveModel {
     });
   }
 
-  /**
-   * Serialises is the game saved under filename.
-   * @throws IOException E.g. when the file doesn't exist, or data is not deserialisable.
-   */
+  @Override
   public World load(String filename) throws IOException, ClassNotFoundException {
     return filesystem.load(filename, inputStream -> {
       try (ObjectInputStream objectIn = new ObjectInputStream(inputStream)) {
@@ -77,10 +56,7 @@ public class WorldSaveModel {
     });
   }
 
-  /**
-   * Finds the file names of all the existing game saves. Each name has a SAVE_FILE_EXTENSION and
-   * does not contain any slashes.
-   */
+  @Override
   public Collection<String> getExistingGameSaves() {
     return filesystem.availableFilenames()
         .stream()
