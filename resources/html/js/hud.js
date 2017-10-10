@@ -53,9 +53,6 @@ var gameViewProxy = $('#game-view-proxy');
 var menuButton = $('#menu-button');
 var resumeButton = $('#resume-btn');
 
-gameViewProxy.on('click', function (event) {
-    controller.onLeftClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
-});
 gameViewProxy.on('contextmenu', function (event) {
   controller.onRightClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
   return false;
@@ -71,31 +68,42 @@ resumeButton.on('click', function (event) {
     $('#pause-menu').fadeOut();
 });
 
-$('document').on('click', function (event) {
-    Rect.init(event.x, event.y);
-    Rect.draw(gameViewProxy);
-    Rect.update(event.x + 10, event.y + 10);
-});
-
 gameViewProxy
   .on('mousedown', function (event) {
-     if (!Rect.visible) {
-         Rect.init(event.x, event.y);
-         Rect.draw(gameViewProxy);
-     }
+    if (event.which != 1) return;
+    Rect.mouseDown = true
   })
   .on('mousemove', function (event) {
+    if (!Rect.visible && Rect.mouseDown) {
+      Rect.init(event.pageX, event.pageY);
+      Rect.draw(gameViewProxy);
+    }
     if (Rect.visible) {
-      Rect.update(event.x, event.y);
+      Rect.update(event.pageX, event.pageY);
+    }
+  })
+  .on('mouseup', function (event) {
+    if (event.which == 1) {
+      if (Rect.visible) {
+        controller.onDrag(Rect.box.startX,
+            Rect.box.startY,
+            event.pageX,
+            event.pageY,
+            event.shiftKey,
+            event.ctrlKey);
+      } else {
+        controller.onLeftClick(event.pageX, event.pageY, event.shiftKey,
+            event.ctrlKey);
+      }
+      Rect.reset();
     }
   });
-$('document').on('mouseup', function(event) {
-    Rect.reset();
-});
 
 var Rect = {
     rect: $('<div class="rect"></div>'),
+    container: gameViewProxy,
     visible: false,
+    mouseDown: false,
     box: {
         startX: 0,
         startY: 0,
@@ -109,16 +117,16 @@ var Rect = {
         }
     },
     init: function(x, y) {
-        visible = true;
+        this.visible = true;
         this.box.startX = x;
         this.box.startY = y;
         this.box.x = x;
         this.box.y = y;
         this.rect.css('left', x + 'px');
-        this.rect.css('up', y + 'px');
+        this.rect.css('top', y + 'px');
     },
-    draw: function(element) {
-        element.append(this.rect);
+    draw: function() {
+      this.rect.appendTo(this.container);
     },
     update: function(x, y) {
         this.box.x = x;
@@ -127,8 +135,9 @@ var Rect = {
         this.rect.css('height', (this.box.y - this.box.startY) + 'px');
     },
     reset: function() {
-        this.box.reset();
-        this.visible = false;
-        this.rect.remove();
+      this.rect.remove();
+      this.mouseDown = false;
+      this.visible = false;
+      this.box.reset();
     }
 };

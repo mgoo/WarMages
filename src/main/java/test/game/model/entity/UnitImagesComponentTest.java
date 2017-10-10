@@ -7,14 +7,14 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import main.common.images.GameImage;
+import main.common.images.GameImageResource;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
 import main.game.model.entity.Direction;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitImagesComponent;
-import main.images.GameImage;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.images.UnitSpriteSheet.Sequence;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 public class UnitImagesComponentTest {
@@ -28,7 +28,7 @@ public class UnitImagesComponentTest {
     // and a stub unit
     Unit unit = mock(Unit.class);
     when(unit.getSpriteSheet())
-        .thenReturn(new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+        .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
     // and a UnitImagesComponent
     UnitImagesComponent unitImagesComponent = new UnitImagesComponent(
         sequence,

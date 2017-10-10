@@ -1,7 +1,7 @@
 package main.game.model.entity;
 
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet.Sequence;
+import main.common.images.GameImageResource;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * This enum represents the type of a Unit. A unit can be an archer, a swordsman, a spearman, or a
@@ -10,7 +10,7 @@ import main.images.UnitSpriteSheet.Sequence;
 public enum UnitType {
 
   //todo confirm attack and moving speeds
-  ARCHER(5, 200, 5, 0.1, Sequence.SHOOT) {
+  ARCHER(5, 200, 5, 0.1, 6, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -29,21 +29,21 @@ public enum UnitType {
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, Sequence.SLASH) {
+  SWORDSMAN(10, 250, 6, 0.1, 5, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(7, 150, 5, 0.1, Sequence.THRUST) {
+  SPEARMAN(7, 150, 5, 0.1, 5, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(15, 300, 8, 0.1, Sequence.SPELL_CAST) {
+  MAGICIAN(15, 300, 8, 0.1, 7, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -66,6 +66,7 @@ public enum UnitType {
   protected int startingHealth;
   protected double attackSpeed;
   protected double movingSpeed;
+  protected double lineOfSight;
   protected Sequence attackSequence;
 
   public int getBaselineDamage() {
@@ -110,12 +111,14 @@ public enum UnitType {
 
   UnitType(
       int baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double lineOfSight,
       Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
     this.movingSpeed = movingSpeed;
+    this.lineOfSight = lineOfSight;
     this.attackSequence = attackSequence;
 
     if (canShootProjectiles()) {

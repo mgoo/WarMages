@@ -4,7 +4,7 @@ import java.util.Collection;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.common.images.GameImage;
 import main.common.util.MapPoint;
 
 /**
