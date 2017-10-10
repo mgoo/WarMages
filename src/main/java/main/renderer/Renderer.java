@@ -76,6 +76,7 @@ public class Renderer {
           (int)size.height,
           null);
     }
+    g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
   }
 

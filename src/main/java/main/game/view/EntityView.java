@@ -17,7 +17,7 @@ import main.common.util.MapSize;
  */
 public class EntityView implements main.renderer.Renderable {
 
-  private final Config config;
+  final Config config;
 
   private final Entity entity;
   private final ImageProvider imageProvider;
