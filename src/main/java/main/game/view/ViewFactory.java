@@ -1,5 +1,6 @@
 package main.game.view;
 
+import java.awt.image.BufferedImage;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.game.model.entity.Entity;
@@ -20,6 +21,12 @@ public class ViewFactory {
 
   static FogOfWarView makeFogOfWarView(Config config) {
     return new FogOfWarView(config);
+  }
+
+  static BackGroundView makeBackGroundView(Config config,
+                                           GameView gameView,
+                                           BufferedImage baseImage) {
+    return new BackGroundView(config, gameView, baseImage);
   }
 
 }
