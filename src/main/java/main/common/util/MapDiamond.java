@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 /**
  * Represents a rotated rectangle.

@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
+import main.common.images.GameImage;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.

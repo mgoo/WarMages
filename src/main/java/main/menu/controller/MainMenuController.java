@@ -6,20 +6,18 @@ import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.game.view.GameView;
-import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.menu.Hud;
 import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
-import main.util.Config;
-import main.util.Event;
-import main.util.Event.Listener;
-import main.util.Events.MainGameTick;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.common.util.Events.MainGameTick;
 
 /**
  * Controller for the Main Menu. Responsible for making a new game loading a game and exiting.

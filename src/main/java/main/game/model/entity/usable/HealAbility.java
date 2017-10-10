@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.common.images.GameImage;
 
 public class HealAbility extends Ability {
 
