@@ -17,7 +17,7 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
 import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
