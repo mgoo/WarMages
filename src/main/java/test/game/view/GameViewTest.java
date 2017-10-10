@@ -49,6 +49,8 @@ public class GameViewTest {
     this.gameModelMock = new GameModelMock();
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
+    this.config.setEntityViewTilePixelsX(50);
+    this.config.setEntityViewTilePixelsY(50);
     this.gameView = new GameView(config,
         gameController, gameModelMock, imageProvider, new Event<>());
 
