@@ -15,7 +15,8 @@ import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
-import main.game.model.world.pathfinder.PathFinder;
+import main.common.PathFinder;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -55,7 +56,7 @@ public class World implements Serializable {
     this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = new ArrayList<>();
-    this.pathFinder = new PathFinder();
+    this.pathFinder = new DefaultPathFinder();
   }
 
   private Level currentLevel() {
@@ -187,7 +188,7 @@ public class World implements Serializable {
     recentlyKilledUnits.add(unit);
   }
 
-  public PathFinder getPathfinder() {
-    return pathFinder;
+  public List<MapPoint> findPath(MapPoint start, MapPoint end) {
+    return pathFinder.findPath(this::isPassable, start, end);
   }
 }
