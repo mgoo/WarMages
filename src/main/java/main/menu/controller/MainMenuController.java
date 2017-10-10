@@ -75,6 +75,7 @@ public class MainMenuController extends MenuController {
           renderer,
           gameModel,
           imageProvider);
+      hud.updateGoal(world.getCurrentGoalDescription());
       tickEvent.registerListener(parameter -> hud.updateIcons());
       tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
       renderer.start();

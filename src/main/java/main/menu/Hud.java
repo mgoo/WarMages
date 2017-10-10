@@ -68,6 +68,10 @@ public class Hud extends Menu {
     };
   }
 
+  public void updateGoal(String goal) {
+    this.main.callJsFunction("setGoal", goal);
+  }
+
   /**
    * Upate the icons that are displayed in the HUD.
    */
@@ -125,10 +129,12 @@ public class Hud extends Menu {
     }
   }
 
+
   private void addIcon(String method, BufferedImage image, Object entity) {
     String entityIcon = this.formatImageForHtml(image);
     this.main.callJsFunction(method, entityIcon, entity);
   }
+
 
   /**
    * Assumes that the image is png formatted.

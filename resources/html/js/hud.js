@@ -33,6 +33,10 @@ function addItemIcon(image, item) {
   $('#item-holder').append(icon);
 }
 
+function setGoal(text) {
+  $('#goal').html(text);
+}
+
 function clearUnits() {
   $('#unit-holder').html('');
 }
