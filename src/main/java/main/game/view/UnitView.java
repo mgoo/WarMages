@@ -1,6 +1,7 @@
 package main.game.view;
 
 import main.common.util.Config;
+import main.common.util.MapSize;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
@@ -22,8 +23,11 @@ public class UnitView extends EntityView {
     this.unit = unit;
   }
 
-  double getLos() {
-    return this.unit.getLineOfSight() * this.config.getEntityViewTilePixelsX();
+  MapSize getLos() {
+    return new MapSize(
+        this.unit.getLineOfSight() * this.config.getEntityViewTilePixelsX(),
+        this.unit.getLineOfSight() * this.config.getEntityViewTilePixelsY()
+    );
   }
 
   boolean revealsFogOfWar() {
