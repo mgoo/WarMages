@@ -16,16 +16,6 @@ import java.util.stream.Collectors;
 import main.game.model.world.World;
 
 public class DefaultWorldSaveModel implements WorldSaveModel {
-  /**
-   * This is public for testing only. File extension for saved files.
-   */
-  public static final String SAVE_FILE_EXTENSION = "sav";
-
-  /**
-   * Place to save and load all the files. If you change this remember to update the .gitignore
-   * file.
-   */
-  private static final String SAVE_FILE_DIRECTORY = "./saves/";
 
   private final Filesystem filesystem;
 
@@ -163,4 +153,5 @@ public class DefaultWorldSaveModel implements WorldSaveModel {
     public File getFile(String filename) {
       return new File(saveDirectory + filename);
     }
-  }}
+  }
+}
