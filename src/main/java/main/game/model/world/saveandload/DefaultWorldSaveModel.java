@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import main.common.WorldSaveModel;
 import main.game.model.world.World;
 
 public class DefaultWorldSaveModel implements WorldSaveModel {

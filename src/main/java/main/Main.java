@@ -28,8 +28,8 @@ import main.game.model.world.saveandload.WorldLoader;
 import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
-import main.util.Config;
-import main.util.Event;
+import main.common.util.Config;
+import main.common.util.Event;
 import netscape.javascript.JSObject;
 
 /**

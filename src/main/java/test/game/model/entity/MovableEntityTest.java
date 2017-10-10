@@ -12,8 +12,8 @@ import java.util.List;
 import main.game.model.GameModel;
 import main.game.model.entity.MovableEntity;
 import main.game.model.world.World;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import org.junit.Test;
 
 public class MovableEntityTest {
