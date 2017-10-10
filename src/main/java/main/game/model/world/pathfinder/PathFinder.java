@@ -142,9 +142,9 @@ public class PathFinder {
   }
 
   /**
-   * Represents a Node in the A* path finding algorithm. Each node stores the following information: -
-   * Current point - How did we get to this point? I.e. parent point - Cost from start - Estimated
-   * cost to the goal - The path taken to get to this node
+   * Represents a Node in the A* path finding algorithm. Each node stores the following info:
+   * <ul><li>Current point</li><li>How did we get to this point? I.e. parent point</li><li>Cost from
+   * start</li> <li>Estimated cost to the goal</li><li>The path taken to get to this node</li></ul>
    */
   public class AStarNode implements Comparable<AStarNode> {
 
