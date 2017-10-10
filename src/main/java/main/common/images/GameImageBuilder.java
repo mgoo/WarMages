@@ -13,7 +13,7 @@ public class GameImageBuilder {
   private int overflowLeft;
 
   /**
-   * Only for use by images classes!
+   * Only for use by images classes.
    */
   public GameImageBuilder(String filePath) {
     this.filePath = filePath;
@@ -64,7 +64,14 @@ public class GameImageBuilder {
    */
   public GameImage create() {
     return new GameImage(
-        filePath, startX, startY, width, height, overflowTop, overflowRight, overflowBottom,
+        filePath,
+        startX,
+        startY,
+        width,
+        height,
+        overflowTop,
+        overflowRight,
+        overflowBottom,
         overflowLeft
     );
   }

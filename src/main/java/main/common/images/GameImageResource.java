@@ -1,8 +1,16 @@
 package main.common.images;
 
 /**
+ * ************************************************************************************************
+ * NOTE TO TUTORS: I emailed Marco about keeping these images classes in the common package,
+ * and he said it was ok. (I need to keep these classes here because GameImageResource defines
+ * all the {@link GameImage}s and is used in various parts of the app.
+ * ************************************************************************************************
+ *
+ * <p>
  * Defines all the {@link GameImage} objects with their filenames. All other {@link GameImage}
  * objects not defined here must be composed of {@link GameImage}s defined here.
+ * </p>
  * <p>
  * This enum provides easy access to images to the rest of the app without the rest of the app
  * having to know about the file paths.
