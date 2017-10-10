@@ -3,7 +3,7 @@ package main.menu;
 import java.io.File;
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.game.model.world.saveandload.WorldLoader;
+import main.common.WorldLoader;
 import main.common.WorldSaveModel;
 import main.menu.controller.MainMenuController;
 import main.common.util.Config;
