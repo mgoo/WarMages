@@ -3,8 +3,8 @@ package main.game.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import main.common.images.GameImage;
-import main.images.UnitSpriteSheet;
-import main.images.UnitSpriteSheet.Sequence;
+import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 public class UnitImagesComponent implements Serializable {
 

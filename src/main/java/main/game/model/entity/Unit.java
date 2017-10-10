@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import main.game.model.world.World;
 import main.common.images.GameImage;
-import main.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
