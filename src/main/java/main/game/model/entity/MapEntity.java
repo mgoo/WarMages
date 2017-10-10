@@ -11,11 +11,12 @@ public abstract class MapEntity extends Entity {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * Constructor takes the coordinates of the MapEntity.
-   */
   public MapEntity(MapPoint coord) {
-    super(coord, new MapSize(1, 1));
+    this(coord, new MapSize(1, 1));
+  }
+
+  public MapEntity(MapPoint coord, MapSize size) {
+    super(coord, size);
   }
 
   @Override
