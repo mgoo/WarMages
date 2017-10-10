@@ -231,11 +231,7 @@ public class Unit extends Attackable implements Damageable {
    * Gets the direction from the previous position to the current one.
    */
   public Direction getCurrentDirection() {
-    Direction between = Direction.between(getPreviousTopLeft(), getTopLeft());
-    if (between == null) {
-      System.out.println("between = " + between);
-    }
-    return between;
+    return Direction.between(getPreviousTopLeft(), getTopLeft());
   }
 }
 
