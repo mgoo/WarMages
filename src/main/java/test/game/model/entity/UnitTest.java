@@ -17,8 +17,8 @@ import main.game.model.entity.UnitType;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 

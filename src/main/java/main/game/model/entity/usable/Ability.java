@@ -2,7 +2,7 @@ package main.game.model.entity.usable;
 
 import java.io.Serializable;
 import main.images.GameImage;
-import main.util.TickTimer;
+import main.common.util.TickTimer;
 
 /**
  * An ability can be applied to (a) HeroUnit(s).

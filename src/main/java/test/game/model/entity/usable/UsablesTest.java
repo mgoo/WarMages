@@ -21,9 +21,9 @@ import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
-import main.util.TickTimer;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
+import main.common.util.TickTimer;
 import org.junit.Test;
 
 public class UsablesTest {

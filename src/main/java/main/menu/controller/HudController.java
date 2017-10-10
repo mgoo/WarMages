@@ -1,23 +1,14 @@
 package main.menu.controller;
 
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 import main.Main;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
-import main.game.model.entity.Entity;
 import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
-import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
-import main.util.Config;
-import main.util.MapPoint;
 
 /**
  * Controls the hud when in game. Receives the click events when in game.
