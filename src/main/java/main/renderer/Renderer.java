@@ -7,13 +7,10 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
-import main.game.view.EntityView;
 import main.game.view.GameView;
-import main.util.Config;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
-import main.util.MapSize;
+import main.common.util.Config;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use

@@ -1,8 +1,8 @@
 package main.renderer;
 
 import java.awt.image.BufferedImage;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 
 /**
  * Represents the a drawable object. E.g: entities, projectiles, mapComponents, etc...

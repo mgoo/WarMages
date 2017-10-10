@@ -1,4 +1,4 @@
-package main.util;
+package main.common.util;
 
 public class Events {
 
