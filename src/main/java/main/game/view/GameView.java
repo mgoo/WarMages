@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
@@ -39,6 +40,7 @@ public class GameView {
 
   private List<EntityView> renderablesCache =
       Collections.synchronizedList(new ArrayList<>());
+  private FogOfWarView fogOfWarView;
 
   /**
    * Constructor for game view sets the viewBox to start at origin 0,0.
@@ -56,6 +58,7 @@ public class GameView {
     this.mouseClickEvent = mouseClickEvent;
     this.viewBox = new MapRect(0, 0,
         this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
+    this.fogOfWarView = ViewFactory.makeFogOfWarView(config);
   }
 
   /**
@@ -68,6 +71,10 @@ public class GameView {
   public synchronized List<EntityView> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
+  }
+
+  public synchronized FogOfWarView getFogOfWarView() {
+    return this.fogOfWarView;
   }
 
   /**
@@ -89,13 +96,24 @@ public class GameView {
     this.renderablesCache.removeAll(toRemove);
 
     enitiesToCheck.forEach(entity -> {
-      this.renderablesCache.add(new EntityView(this.config, entity, this.imageProvider));
+      this.renderablesCache.add(
+          ViewFactory.makeEntityView(this.config, entity, this.imageProvider));
     });
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
           this.gameModel.getUnitSelection().contains(entityView.getEntity()));
     });
+
+    // Update FoW
+
+    Set<UnitView> revealingUnits = new HashSet<>();
+    this.renderablesCache
+        .stream()
+        .filter(entityView -> entityView instanceof UnitView)
+        .filter(unitView -> ((UnitView) unitView).revealsFogOfWar())
+        .forEach(unitView -> revealingUnits.add((UnitView)unitView));
+    fogOfWarView.calculate(revealingUnits, this);
   }
 
   private synchronized void updateViewBoxPosition() {
