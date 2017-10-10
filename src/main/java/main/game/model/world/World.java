@@ -42,7 +42,7 @@ public class World implements Serializable {
    * @param levels The levels sorted from start to finish. The first level is the initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(List<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit, PathFinder pathfinder) {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
     if (levels.isEmpty()) {
@@ -56,7 +56,7 @@ public class World implements Serializable {
     this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = new ArrayList<>();
-    this.pathFinder = new DefaultPathFinder();
+    this.pathFinder = pathfinder;
   }
 
   private Level currentLevel() {
