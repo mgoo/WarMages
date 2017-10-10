@@ -2,7 +2,7 @@ package main.game.model.entity.usable;
 
 import java.io.Serializable;
 import main.game.model.entity.Unit;
-import main.util.TickTimer;
+import main.common.util.TickTimer;
 
 /**
  * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method

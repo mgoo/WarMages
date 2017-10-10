@@ -1,9 +1,7 @@
 package main.menu.controller;
 
-import java.io.IOException;
-import java.util.Collection;
 import main.Main;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.menu.MainMenu;
 
 /**

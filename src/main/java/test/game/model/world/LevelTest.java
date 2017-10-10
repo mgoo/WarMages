@@ -14,7 +14,7 @@ import main.game.model.entity.HeroUnit;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
-import main.util.MapPoint;
+import main.common.util.MapPoint;
 import org.junit.Test;
 
 public class LevelTest {

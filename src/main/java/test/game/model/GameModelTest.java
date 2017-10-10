@@ -18,13 +18,9 @@ import java.util.Collection;
 import java.util.List;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
-import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.util.Events.MainGameTick;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.common.util.Events.MainGameTick;
+import main.common.util.MapPoint;
 import org.junit.Test;
 
 public class GameModelTest {
