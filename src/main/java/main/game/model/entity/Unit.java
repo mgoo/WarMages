@@ -62,6 +62,10 @@ public class Unit extends Attackable implements Damageable {
     return unitType;
   }
 
+  public double getLineOfSight() {
+    return this.unitType.lineOfSight;
+  }
+
   /**
    * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
    * and the current position.
