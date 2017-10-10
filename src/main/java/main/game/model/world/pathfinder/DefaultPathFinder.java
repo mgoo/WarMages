@@ -1,5 +1,6 @@
 package main.game.model.world.pathfinder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import main.common.PathFinder;
 import main.common.util.MapPoint;
 
 /**
@@ -17,7 +19,9 @@ import main.common.util.MapPoint;
  *
  * @author Hrshikesh Arora
  */
-public class PathFinder {
+public class DefaultPathFinder implements PathFinder, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private static final int SEARCH_LIMIT = 200;
 
