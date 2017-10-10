@@ -22,6 +22,9 @@ public enum Direction {
   DOWN,
   RIGHT;
 
+  /**
+   * Calculate distance between start and end point. TODO take into account diagonal.
+   */
   public static Direction between(MapPoint start, MapPoint end) {
     double gradient = (end.y - start.y) / (end.x - start.x);
     if (gradient < 1) {

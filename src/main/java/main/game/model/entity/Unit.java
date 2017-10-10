@@ -227,6 +227,9 @@ public class Unit extends Attackable implements Damageable {
     return spriteSheet;
   }
 
+  /**
+   * Gets the direction from the previous position to the current one.
+   */
   public Direction getCurrentDirection() {
     Direction between = Direction.between(getPreviousTopLeft(), getTopLeft());
     if (between == null) {
