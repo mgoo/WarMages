@@ -46,6 +46,7 @@ public class Main extends Application {
    * Start the app.
    */
   public static void main(String[] args) {
+    System.setProperty("sun.java2d.opengl", "true");
     launch(args);
   }
 
