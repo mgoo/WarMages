@@ -31,20 +31,6 @@ button on Github then `Download ZIP`, otherwise run this from the command line:
     - Click the blue refresh button to make IntelliJ load the Gradle stuff (if
       it isn't loading Gradle stuff already)
 
-#### Using the University Computers
-
-Make sure the file doesn’t already exist:
-
-    mv ~/.gradle/gradle.properties ~/.gradle/gradle.propertiesBACKUP
-
-Setup proxy settings:
-
-    ./scripts/install-uni.sh
-
-Running this should not throw errors:
-
-    ./gradlew build
-
 ## Structure
 
 Put your java code in `src/main/java/` under the `main` package.
