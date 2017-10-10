@@ -10,7 +10,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
-import main.images.ImageProvider;
+import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.MapPoint;

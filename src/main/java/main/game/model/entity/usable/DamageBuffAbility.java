@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.common.images.GameImage;
 
 /**
  * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more

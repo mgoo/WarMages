@@ -1,21 +1,25 @@
 package main.game.model.world.saveandload;
 
-import static main.images.GameImageResource.ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.DARK_ELF_SPRITE_SHEET;
-import static main.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
-import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
-import static main.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
-import static main.images.GameImageResource.POTION_BLUE_ITEM;
-import static main.images.GameImageResource.RING_GOLD_ITEM;
-import static main.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
-import static main.images.GameImageResource.TREE_MAP_ENTITY;
+import static main.common.images.GameImageResource.ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.DARK_ELF_SPRITE_SHEET;
+import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.common.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
+import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
+import static main.common.images.GameImageResource.POTION_BLUE_ITEM;
+import static main.common.images.GameImageResource.RING_GOLD_ITEM;
+import static main.common.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.TREE_MAP_ENTITY;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Function;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
@@ -31,11 +35,10 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 
 /**
  * A Factory and Facade.
@@ -108,7 +111,7 @@ public class WorldLoader {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
             new HealAbility(
@@ -124,10 +127,10 @@ public class WorldLoader {
         bounds,
         Arrays.asList(
             new Unit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
-                new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
             new Unit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
-                new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),
         Arrays.asList(
@@ -175,7 +178,7 @@ public class WorldLoader {
     final HeroUnit heroUnit = new HeroUnit(
         new MapPoint(2, 5),
         HERO_SIZE,
-        new UnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
             new HealAbility(
@@ -194,13 +197,13 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(),
@@ -226,19 +229,19 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(10, 8), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new Unit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(
@@ -281,34 +284,34 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(25, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(25, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(26, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(26, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
               new Unit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new UnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(41, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(40, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new Unit(new MapPoint(39, 5), HERO_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(40, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new Unit(new MapPoint(41, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
           ),
           Arrays.asList(),
@@ -351,22 +354,22 @@ public class WorldLoader {
           bounds,
           Arrays.asList(
               new Unit(new MapPoint(39, 2), HERO_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(39, 8), HERO_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new Unit(new MapPoint(43, 2), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(43, 8), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new Unit(new MapPoint(43, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new Unit(new MapPoint(43, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new UnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(),
