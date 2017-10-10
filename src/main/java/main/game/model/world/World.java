@@ -14,6 +14,7 @@ import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
+import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
 
 /**
@@ -31,6 +32,7 @@ public class World implements Serializable {
   private final Collection<Item> items;
   private final Collection<MapEntity> mapEntities;
   private final Collection<Projectile> projectiles;
+  private final PathFinder pathfinder;
 
   /**
    * Creates the world.
@@ -52,6 +54,7 @@ public class World implements Serializable {
     this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = new ArrayList<>();
+    this.pathfinder = new PathFinder();
   }
 
   private Level currentLevel() {
