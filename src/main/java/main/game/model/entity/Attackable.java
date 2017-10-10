@@ -55,7 +55,7 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       return;
     }
-    setPath(PathFinder.findPath(world::isPassable, position, target.getCentre()));
+    setPath(world.getPathfinder().findPath(world::isPassable, position, target.getCentre()));
   }
 
   /**
