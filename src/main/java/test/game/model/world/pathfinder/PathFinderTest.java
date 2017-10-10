@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import main.game.model.world.pathfinder.PathFinder;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.common.util.MapPoint;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 1));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 1));
     List<MapPoint> expected =
         new ArrayList<>(Arrays.asList(new MapPoint(2, 1), new MapPoint(3, 1)));
 
@@ -42,7 +42,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(1, 3));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(1, 3));
     List<MapPoint> expected =
         new ArrayList<>(Arrays.asList(new MapPoint(1, 2), new MapPoint(1, 3)));
 
@@ -56,7 +56,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 3));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 3));
     List<MapPoint> expected =
         new ArrayList<>(Arrays.asList(new MapPoint(2, 2), new MapPoint(3, 3)));
 
@@ -70,7 +70,7 @@ public class PathFinderTest {
     };
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 5));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 5));
     List<MapPoint> expected = new ArrayList<>(
         Arrays.asList(new MapPoint(2, 2),
             new MapPoint(3, 3),
@@ -102,7 +102,7 @@ public class PathFinderTest {
     //S = start; G = goal; x = obstacle; + = free space
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
     List<MapPoint> expected = new ArrayList<>(
         Arrays.asList(new MapPoint(2, 1),
             new MapPoint(3, 0),
@@ -135,7 +135,7 @@ public class PathFinderTest {
     //S = start; G = goal; x = obstacle; + = free space
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
     List<MapPoint> expected = new ArrayList<>(
         Arrays.asList(new MapPoint(1, 2),
             new MapPoint(2, 3),
@@ -151,8 +151,9 @@ public class PathFinderTest {
   public void test08_testPathWhereStartAndEndAreDecimals() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
+    MapPoint start = new MapPoint(1.1, 1.1);
     MapPoint end = new MapPoint(3.45, 1.234);
-    List<MapPoint> actual = new PathFinder().findPath(isPassable, new MapPoint(1.1, 1.1), end);
+    List<MapPoint> actual = new DefaultPathFinder().findPath(isPassable, start, end);
     List<MapPoint> expected = new ArrayList<>(Arrays.asList(new MapPoint(2, 1), end));
 
     assertEquals(expected, actual);
@@ -163,13 +164,13 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(2, 3);
     MapPoint end = new MapPoint(50,1);
 
-    List<MapPoint> path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    List<MapPoint> path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     assertEquals(end, path.get(path.size() - 1));
 
     start = new MapPoint(2.20444, -345.21344);
     end = new MapPoint(-30.948957,1.99034857);
 
-    path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     MapPoint pathEnd = path.get(path.size() - 1);
     assertEquals((int)end.x, (int)pathEnd.x);
     assertEquals((int)end.y, (int)pathEnd.y);
@@ -182,7 +183,7 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(4, 3);
     MapPoint end = new MapPoint(2,1);
 
-    List<MapPoint> path = new PathFinder().findPath(isPassable, start, end);
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
     assertEquals(2, path.size());
 
   }
@@ -193,21 +194,21 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(50, 0);
     MapPoint end = new MapPoint(0,0);
 
-    List<MapPoint> path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    List<MapPoint> path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     assertEquals(50, path.size());
 
     // Vertical
     start = new MapPoint(0, 0);
     end = new MapPoint(0,75);
 
-    path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     assertEquals(75, path.size());
 
     // Diagonal
     start = new MapPoint(100, 100);
     end = new MapPoint(0,0);
 
-    path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     assertEquals(100, path.size());
 
     // Some random angle
@@ -216,7 +217,7 @@ public class PathFinderTest {
     start = new MapPoint(0, 0);
     end = new MapPoint(endX,endY);
 
-    path = new PathFinder().findPath(this.alwaysPassable, start, end);
+    path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
     assertEquals((endX + endY) - Math.min(endX, endY), path.size());
   }
 
@@ -230,7 +231,7 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(0, 1);
     MapPoint end = new MapPoint(1, 0);
 
-    List<MapPoint> path = new PathFinder().findPath(isPassable, start, end);
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
     assertTrue(path.size() >= 50);
   }
 
@@ -244,8 +245,8 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(0, 0);
     MapPoint end = new MapPoint(20,10);
 
-    List<MapPoint> path = new PathFinder().findPath(this.alwaysPassable, start, end);
-    List<MapPoint> reversePath = new PathFinder().findPath(this.alwaysPassable, end, start);
+    List<MapPoint> path = new DefaultPathFinder().findPath(this.alwaysPassable, start, end);
+    List<MapPoint> reversePath = new DefaultPathFinder().findPath(this.alwaysPassable, end, start);
     assertEquals(path.size(), reversePath.size());
     // Ignoree the first and last as they are different
     for (int i = 1; i < path.size() - 1; i++) {
@@ -270,7 +271,7 @@ public class PathFinderTest {
     //S = start; G = goal; x = obstacle; + = free space
 
     List<MapPoint> actual =
-        new PathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
+        new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
 
     assertEquals(new MapPoint(3,2), actual.get(actual.size() - 1));
   }
