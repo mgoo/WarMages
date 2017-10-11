@@ -11,10 +11,9 @@ else
 fi
 
 
-USERS=("Chong" "Palado" "Mcghie|mgoo" "Arora" "Diputa")
-for user in ${USERS[*]}; do
-  echo "$user"
-  for file in $(git ls-files "$SEARCH_DIR"); do
-    git blame $file | grep --ignore-case -E "$user"
-  done
-done
+# Copied from https://gist.github.com/amitchhajer/4461043
+git ls-files "$SEARCH_DIR" \
+  | while read f; do git blame --line-porcelain $f | grep '^author '; done \
+  | sort -f \
+  | uniq -ic \
+  | sort -n
