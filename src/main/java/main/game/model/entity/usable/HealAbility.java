@@ -1,13 +1,14 @@
 package main.game.model.entity.usable;
 
-import static main.game.model.entity.usable.Effect.INSTANT_EFFECT_DURATION;
+import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import main.common.Effect;
+import main.common.images.GameImage;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.common.images.GameImage;
 
 public class HealAbility extends Ability {
 
@@ -18,11 +19,7 @@ public class HealAbility extends Ability {
   /**
    * Constructor takes a string description of the ability, and the icon that represent the ability.
    */
-  public HealAbility(
-      GameImage icon,
-      double coolDownSeconds,
-      int healAmount
-  ) {
+  public HealAbility(GameImage icon, double coolDownSeconds, int healAmount) {
     super("Instantly heals units", icon, coolDownSeconds, INSTANT_EFFECT_DURATION);
 
     if (healAmount <= 0) {
@@ -49,7 +46,7 @@ public class HealAbility extends Ability {
         .collect(Collectors.toList());
   }
 
-  private class HealEffect extends Effect {
+  private class HealEffect extends BaseEffect {
 
     private static final long serialVersionUID = 1L;
 
