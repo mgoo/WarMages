@@ -1,6 +1,7 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
+import main.common.Effect;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
