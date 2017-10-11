@@ -74,7 +74,6 @@ public class UnitView extends EntityView {
     } else {
       healthColor = new Color(255, 0, 61);
     }
-    System.out.println(unit.getHealthPercent());
     g.setColor(healthColor);
     g.fillRect(0,
         0,
