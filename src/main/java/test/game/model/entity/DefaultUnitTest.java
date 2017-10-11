@@ -9,6 +9,7 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 
 import java.util.Arrays;
 import java.util.List;
+import main.common.Unit;
 import main.game.model.GameModel;
 import main.game.model.entity.DefaultUnit;
 import main.common.util.MapPoint;
@@ -17,7 +18,7 @@ import org.junit.Test;
 
 public class DefaultUnitTest {
 
-  private DefaultUnit getUnit() {
+  private Unit getUnit() {
     return createDefaultUnit(new MapPoint(2, 2));
   }
 
@@ -63,7 +64,7 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_oneSpaceHorizontally() {
-    DefaultUnit unit = getUnit();
+    Unit unit = getUnit();
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
@@ -78,7 +79,7 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_twoSpacesHorizontally() {
-    DefaultUnit unit = getUnit();
+    Unit unit = getUnit();
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
@@ -93,7 +94,7 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_oneSpaceVertically() {
-    DefaultUnit unit = getUnit();
+    Unit unit = getUnit();
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
@@ -108,7 +109,7 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_twoSpacesVertically() {
-    DefaultUnit unit = getUnit();
+    Unit unit = getUnit();
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
@@ -123,7 +124,7 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_oneSpaceDiagonally() {
-    DefaultUnit unit = getUnit();
+    Unit unit = getUnit();
     List<MapPoint> path = getPathDiagonal();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());

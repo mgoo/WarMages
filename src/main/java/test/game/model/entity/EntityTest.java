@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 
+import main.common.HeroUnit;
+import main.common.Unit;
 import main.game.model.GameModel;
 import main.game.model.entity.DefaultHeroUnit;
 import main.game.model.entity.DefaultUnit;
@@ -20,22 +22,22 @@ public class EntityTest {
         .createWorld(WorldTestUtils.createLevels(WorldTestUtils.createEmptyLevel()), getHeroUnit());
   }
 
-  private DefaultHeroUnit getHeroUnit() {
+  private HeroUnit getHeroUnit() {
     return WorldTestUtils.createDefaultHeroUnit();
   }
 
-  private DefaultUnit getPlayer() {
+  private Unit getPlayer() {
     return createDefaultPlayerKnight();
   }
 
-  private DefaultUnit getEnemy() {
+  private Unit getEnemy() {
     return createDefaultEnemyOrc();
   }
 
   @Test
   public void testDamageEnemy() {
-    DefaultUnit unit1 = getPlayer();
-    DefaultUnit unit2 = getEnemy();
+    Unit unit1 = getPlayer();
+    Unit unit2 = getEnemy();
     World world = getWorld();
     unit1.setTarget(unit2, world);
     int prevHealth = unit2.getHealth();
