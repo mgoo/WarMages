@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.common.MapEntity;
 import main.common.images.GameImage;
 import main.common.util.MapSize;
 import main.game.model.world.World;

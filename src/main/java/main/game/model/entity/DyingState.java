@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import main.common.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.world.World;
 

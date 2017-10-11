@@ -1,12 +1,14 @@
-package main.game.model.entity.usable;
+package main.common;
 
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 import java.util.Collection;
-import main.game.model.entity.Unit;
 import main.game.model.entity.exceptions.CantApplyToUnitsException;
 import main.game.model.entity.exceptions.UsableStillInCoolDownException;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 
@@ -48,7 +50,7 @@ public interface Usable extends Serializable {
 
   /**
    * Should update any cool-down timers. This is not called 'tick' because there is already
-   * a method called 'tick' in {@link main.game.model.entity.Entity}.
+   * a method called 'tick' in {@link Entity}.
    */
   void usableTick(long timeSinceLastTick);
 

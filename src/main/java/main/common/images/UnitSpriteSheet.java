@@ -2,6 +2,7 @@ package main.common.images;
 
 import java.io.Serializable;
 import java.util.List;
+import main.common.Unit;
 import main.game.model.entity.Direction;
 
 /**
@@ -10,7 +11,7 @@ import main.game.model.entity.Direction;
 public interface UnitSpriteSheet extends Serializable {
 
   /**
-   * Gets a list of images for the sequence for when a {@link main.game.model.entity.Unit}
+   * Gets a list of images for the sequence for when a {@link Unit}
    * is in a given direction.
    */
   List<GameImage> getImagesForSequence(Sequence sequence, Direction unitDirection);

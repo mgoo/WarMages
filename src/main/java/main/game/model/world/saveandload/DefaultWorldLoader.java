@@ -24,21 +24,18 @@ import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.game.model.entity.Entity;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
+import main.common.Entity;
+import main.common.HeroUnit;
+import main.common.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
-import main.game.model.entity.Unit;
+import main.common.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.images.DefaultUnitSpriteSheet;
 
 public class DefaultWorldLoader implements WorldLoader {

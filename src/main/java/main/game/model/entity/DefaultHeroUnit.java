@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import main.common.HeroUnit;
+import main.common.images.UnitSpriteSheet;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.entity.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.common.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
 
-/**
- * HeroUnit extends {@link Unit}. This unit is the main unit to be controlled by the user. It has
- * abilities, and is able to pick up items and use the items.
- */
-public class HeroUnit extends Unit {
+public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private static final long serialVersionUID = 1L;
   private static final double PICK_UP_MAX_DISTANCE = 0.5;
@@ -35,7 +32,7 @@ public class HeroUnit extends Unit {
    * @param sheet SpriteSheet of HeroUnit images.
    * @param type of HeroUnit.
    */
-  public HeroUnit(
+  public DefaultHeroUnit(
       MapPoint position,
       MapSize size,
       UnitSpriteSheet sheet,
@@ -49,6 +46,7 @@ public class HeroUnit extends Unit {
   /**
    * Adds the given item to the HeroUnit's itemInventory. Requires the item is not null.
    */
+  @Override
   public void pickUp(Item item) {
     requireNonNull(item);
 
@@ -62,6 +60,7 @@ public class HeroUnit extends Unit {
   /**
    * Returns the HeroUnit's abilities.
    */
+  @Override
   public Collection<Ability> getAbilities() {
     return Collections.unmodifiableList(abilities);
   }
@@ -69,6 +68,7 @@ public class HeroUnit extends Unit {
   /**
    * Returns the HeroUnit's itemInventory.
    */
+  @Override
   public Collection<Item> getItemInventory() {
     return Collections.unmodifiableList(itemInventory);
   }

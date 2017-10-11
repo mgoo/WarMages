@@ -13,7 +13,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.AttackingUnitState;
 import main.game.model.entity.Direction;
 import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.Unit;
 import main.game.model.entity.UnitImagesComponent;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;

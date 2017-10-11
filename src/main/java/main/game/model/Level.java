@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
-import main.game.model.entity.Entity;
+import main.common.Entity;
 import main.game.model.entity.usable.Item;
-import main.game.model.entity.MapEntity;
+import main.common.MapEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.UninteractableEntity;
-import main.game.model.entity.Unit;
+import main.common.Unit;
 import main.game.model.world.World;
 import main.common.util.MapRect;
 

@@ -1,7 +1,8 @@
 package main.game.model.entity.usable;
 
 import java.io.Serializable;
-import main.game.model.entity.Unit;
+import main.common.Usable;
+import main.common.Unit;
 import main.common.util.TickTimer;
 
 /**
