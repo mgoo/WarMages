@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
+import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +16,7 @@ import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
 import main.common.HeroUnit;
+import main.game.model.entity.DefaultHeroUnit;
 import main.game.model.entity.UnitType;
 import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.model.entity.usable.DamageBuffAbility;
@@ -37,7 +38,7 @@ public class UsablesTest {
         2,
         3
     );
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
@@ -55,7 +56,7 @@ public class UsablesTest {
 
   @Test
   public void healItemShouldIncreaseHealth() {
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
@@ -123,7 +124,7 @@ public class UsablesTest {
   @Test
   public void healAbilityShouldThrowOnlyIfCoolingDown() {
     // Given a hero unit
-    HeroUnit heroUnit = createHeroUnit();
+    HeroUnit heroUnit = createDefaultHeroUnit();
     // and a heal ability
     HealAbility healAbility = new HealAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),
@@ -168,7 +169,7 @@ public class UsablesTest {
         1
     );
     // and a hero unit with the ability
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),

@@ -48,6 +48,8 @@ public interface Unit extends Entity {
 
   Team getTeam();
 
+  Unit getTarget();
+
   void addEffect(Effect effect);
 
   void tickEffects(long timeSinceLastTick);
