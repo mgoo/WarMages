@@ -2,6 +2,7 @@ package main.game.model.entity.usable;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import main.common.Effect;
 import main.game.model.entity.Team;
 import main.common.Unit;
 import main.game.model.world.World;
@@ -56,7 +57,7 @@ public class DamageBuffAbility extends Ability {
     return new DamageBuffEffect(unit, getEffectDurationSeconds());
   }
 
-  private class DamageBuffEffect extends Effect {
+  private class DamageBuffEffect extends BaseEffect {
 
     private static final long serialVersionUID = 1L;
 

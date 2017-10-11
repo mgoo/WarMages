@@ -9,7 +9,6 @@ import main.game.model.entity.Direction;
 import main.game.model.entity.Team;
 import main.game.model.entity.UnitState;
 import main.game.model.entity.UnitType;
-import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
 
 /**
@@ -29,6 +28,7 @@ public interface Unit extends Entity {
    */
   void gainHealth(int amount);
 
+  int getHealth();
 
   void setNextState(UnitState state);
 

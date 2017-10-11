@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
 import main.common.Entity;
+import main.common.exceptions.EntityOutOfBoundsException;
+import main.common.exceptions.OverlappingMapEntitiesException;
 import main.game.model.entity.usable.Item;
 import main.common.MapEntity;
 import main.game.model.entity.Team;

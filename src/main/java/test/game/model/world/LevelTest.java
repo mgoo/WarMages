@@ -8,11 +8,19 @@ import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createUnit;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
+<<<<<<< HEAD
 import main.game.model.EntityOutOfBoundsException;
 import main.game.model.OverlappingMapEntitiesException;
 import main.common.HeroUnit;
 import main.common.MapEntity;
 import main.common.Unit;
+=======
+import main.common.exceptions.EntityOutOfBoundsException;
+import main.common.exceptions.OverlappingMapEntitiesException;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Unit;
+>>>>>>> 2d22d26dd18895b3a2c08759622f7a071a869b31
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
 import org.junit.Test;

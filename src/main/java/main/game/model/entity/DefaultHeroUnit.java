@@ -10,7 +10,7 @@ import main.common.HeroUnit;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.entity.exceptions.ItemNotInRangeException;
+import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;

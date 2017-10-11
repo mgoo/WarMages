@@ -15,7 +15,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.entity.usable.Effect;
+import main.common.Effect;
 import main.game.model.world.World;
 
 public class DefaultUnit implements Unit {
@@ -225,6 +225,7 @@ public class DefaultUnit implements Unit {
    *
    * @return int health of the Unit.
    */
+  @Override
   public int getHealth() {
     return health;
   }
