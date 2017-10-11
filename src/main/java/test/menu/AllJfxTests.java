@@ -60,11 +60,11 @@ public class AllJfxTests {
    * Creates the gameviews and imageviews based on a level and hero unit.
    */
   public static Image testImage() {
-    hero = WorldTestUtils.createHeroUnit(new MapPoint(0, 0));
+    hero = WorldTestUtils.createDefaultHeroUnit(new MapPoint(0, 0));
     level = WorldTestUtils.createLevelWith(
-        WorldTestUtils.createUnit(new MapPoint(1, 0)),
-        WorldTestUtils.createUnit(new MapPoint(2, 0)),
-        WorldTestUtils.createUnit(new MapPoint(3, 0)));
+        WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+        WorldTestUtils.createDefaultUnit(new MapPoint(2, 0)),
+        WorldTestUtils.createDefaultUnit(new MapPoint(3, 0)));
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
         .createWorld(
             WorldTestUtils.createLevels(level),
