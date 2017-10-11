@@ -118,6 +118,7 @@ public class HudController extends MenuController {
    */
   public void pause() {
     try {
+      gameView.pauseModel();
       renderer.pause();
     } catch (Exception e) {
       e.printStackTrace();
@@ -129,6 +130,7 @@ public class HudController extends MenuController {
    */
   public void resume() {
     try {
+      gameView.resumeModel();
       renderer.resume();
     } catch (Exception e) {
       e.printStackTrace();

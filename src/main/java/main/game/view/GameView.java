@@ -270,4 +270,12 @@ public class GameView {
       }
     });
   }
+
+  public void pauseModel() {
+    gameModel.pause();
+  }
+
+  public void resumeModel() {
+    gameModel.resume();
+  }
 }
