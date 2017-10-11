@@ -1,5 +1,6 @@
 package main.game.model.world.pathfinder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import main.common.PathFinder;
 import main.common.util.MapPoint;
 
 /**
@@ -17,7 +19,9 @@ import main.common.util.MapPoint;
  *
  * @author Hrshikesh Arora
  */
-public class PathFinder {
+public class DefaultPathFinder implements PathFinder, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private static final int SEARCH_LIMIT = 200;
 
@@ -30,7 +34,7 @@ public class PathFinder {
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  public static List<MapPoint> findPath(
+  public List<MapPoint> findPath(
       Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
   ) {
     MapPoint endUnrounded = end;
@@ -139,5 +143,101 @@ public class PathFinder {
 
   private static double estimate(MapPoint current, MapPoint goal) {
     return current.distanceTo(goal);
+  }
+
+  /**
+   * Represents a Node in the A* path finding algorithm. Each node stores the following info:
+   * <ul><li>Current point</li><li>How did we get to this point? I.e. parent point</li><li>Cost from
+   * start</li> <li>Estimated cost to the goal</li><li>The path taken to get to this node</li></ul>
+   */
+  public class AStarNode implements Comparable<AStarNode> {
+
+    private final MapPoint currentPoint;
+    private final MapPoint from;
+    private final double costFromStart;
+    private final double totalCost;
+    private List<MapPoint> pathTaken;
+
+    /**
+     * Constructor for this AStarNode class.
+     *
+     * @param currentPoint -- the point that this AStarNode is at
+     * @param from -- the point that this node came from
+     * @param costFromStart -- the cost to get up to this node
+     * @param totalCost -- the total estimated cost to the goal
+     */
+    public AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
+      this.currentPoint = currentPoint;
+      this.from = from;
+      this.costFromStart = costFromStart;
+      this.totalCost = totalCost;
+      this.pathTaken = new ArrayList<>();
+    }
+
+    public AStarNode(
+        MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost,
+        List<MapPoint> pathTaken
+    ) {
+      this(currentPoint, from, costFromStart, totalCost);
+      this.pathTaken = pathTaken;
+    }
+
+    @Override
+    public int compareTo(AStarNode other) {
+      return Double.compare(this.totalCost, other.totalCost);
+    }
+
+    public MapPoint getPoint() {
+      return currentPoint;
+    }
+
+    public double getCostFromStart() {
+      return costFromStart;
+    }
+
+    public double getEstimateToGoal() {
+      return totalCost - costFromStart;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+
+      AStarNode aStarNode = (AStarNode) o;
+
+      return (Double.compare(aStarNode.costFromStart, costFromStart) == 0)
+          && (Double.compare(aStarNode.totalCost, totalCost) == 0)
+          && currentPoint.equals(aStarNode.currentPoint)
+          && from.equals(aStarNode.from)
+          && pathTaken.equals(aStarNode.pathTaken);
+    }
+
+    @Override
+    public int hashCode() {
+      int result;
+      long temp;
+      result = currentPoint.hashCode();
+      result = 31 * result + from.hashCode();
+      temp = Double.doubleToLongBits(costFromStart);
+      result = 31 * result + (int) (temp ^ (temp >>> 32));
+      temp = Double.doubleToLongBits(totalCost);
+      result = 31 * result + (int) (temp ^ (temp >>> 32));
+      result = 31 * result + pathTaken.hashCode();
+      return result;
+    }
+
+    public List<MapPoint> getPath() {
+      return pathTaken;
+    }
+
+    @Override
+    public String toString() {
+      return "[point: " + currentPoint.toString() + " cost:" + totalCost + "]";
+    }
   }
 }

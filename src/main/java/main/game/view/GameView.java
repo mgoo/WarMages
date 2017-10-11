@@ -1,5 +1,6 @@
 package main.game.view;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.images.GameImage;
+import main.common.images.GameImageResource;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
@@ -19,6 +22,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.game.view.events.MouseDrag;
 import main.common.util.MapDiamond;
+import main.renderer.Renderable;
 
 /**
  * A View of the Game.
@@ -39,7 +43,7 @@ public class GameView {
   private final Event<MouseClick> mouseClickEvent;
 
   private MapRect viewBox;
-  private MapPoint mousePosition = new MapPoint(2,2);
+  private MapPoint mousePosition;
 
   /**
    * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
@@ -49,6 +53,7 @@ public class GameView {
    */
   private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
   private FogOfWarView fogOfWarView;
+  private final BackGroundView backGroundView;
 
   /**
    * Constructor for game view sets the viewBox to start at origin 0,0.
@@ -67,6 +72,17 @@ public class GameView {
     this.viewBox = new MapRect(0, 0,
         this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
     this.fogOfWarView = ViewFactory.makeFogOfWarView(config);
+    this.mousePosition = new MapPoint(config.getContextScreenWidth() / 2,
+        config.getContextScreenHeight() / 2);
+    try {
+      this.backGroundView = ViewFactory.makeBackGroundView(
+          config,
+          this,
+          GameImageResource.GRASS_TILE.getGameImage().load(imageProvider)
+      );
+    } catch (IOException e) {
+      throw new RuntimeException("Cannot load backgroud image");
+    }
   }
 
   /**
@@ -81,8 +97,12 @@ public class GameView {
     return Collections.unmodifiableList(this.renderablesCache);
   }
 
-  public synchronized FogOfWarView getFogOfWarView() {
+  public synchronized Renderable getFogOfWarView() {
     return this.fogOfWarView;
+  }
+
+  public synchronized Renderable getBackGroundView() {
+    return this.backGroundView;
   }
 
   /**
@@ -121,7 +141,7 @@ public class GameView {
         .filter(entityView -> entityView instanceof UnitView)
         .filter(unitView -> ((UnitView) unitView).revealsFogOfWar())
         .forEach(unitView -> revealingUnits.add((UnitView)unitView));
-    fogOfWarView.calculate(revealingUnits, this);
+    fogOfWarView.calculate(revealingUnits, this, tickTime);
   }
 
   private synchronized void updateViewBoxPosition() {

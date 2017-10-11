@@ -88,6 +88,17 @@ body {
   background-color: #EEEEEE;
   border: #b7b141 solid 5px;
 }
+.goal {
+  padding: 10px;
+  padding-right: 30px;
+  border-top-right-radius: 10px;
+  position: absolute;
+  bottom: calc(21vh);
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+  color: #DDD;
+}
 .bottom-bar {
   position: absolute;
   bottom: 0;
@@ -117,7 +128,7 @@ body {
   position: absolute;
   left: 70vw;
   bottom: 0;
-  width: calc(100vw - 70vw);
+  width: calc(30vw);
   height: 100%;
   background-color: #EEEEEE;
   border: #b7b141 solid 5px;

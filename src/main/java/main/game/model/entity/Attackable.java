@@ -2,7 +2,6 @@ package main.game.model.entity;
 
 import java.util.Objects;
 import main.game.model.world.World;
-import main.game.model.world.pathfinder.PathFinder;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
@@ -55,7 +54,7 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       return;
     }
-    setPath(PathFinder.findPath(world::isPassable, position, target.getCentre()));
+    setPath(world.findPath(getCentre(), target.getCentre()));
   }
 
   /**
