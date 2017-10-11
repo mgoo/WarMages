@@ -17,7 +17,7 @@ import main.common.util.TickTimer;
 import main.game.model.GameModel;
 import main.common.HeroUnit;
 import main.game.model.entity.UnitType;
-import main.game.model.entity.exceptions.UsableStillInCoolDownException;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;

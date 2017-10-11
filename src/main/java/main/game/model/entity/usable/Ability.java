@@ -8,7 +8,7 @@ import main.common.util.TickTimer;
 /**
  * An ability can be applied to (a) HeroUnit(s).
  */
-public abstract class Ability implements Serializable, Usable {
+public abstract class Ability implements BaseUsable, Serializable {
 
   private static final long serialVersionUID = 1L;
 

@@ -1,29 +1,21 @@
-package main.common;
+package main.game.model.entity.usable;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.Serializable;
 import java.util.Collection;
+import main.common.Effect;
+import main.common.Usable;
+import main.game.model.entity.Unit;
 import main.common.exceptions.CantApplyToUnitsException;
 import main.common.exceptions.UsableStillInCoolDownException;
-import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.common.images.GameImage;
 
 /**
- * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
- * health increase or a damage increase for a certain amount of time).
+ * All {@link Usable}s should extend {@link BaseUsable}.
  */
-public interface Usable extends Serializable {
+public interface BaseUsable extends Usable {
 
-  /**
-   * Creates an {@link Effect} for each unit through {@link Usable#_createEffectForUnit(Unit)} that
-   * this {@link Usable} selects through {@link Usable#_selectUnitsToApplyOn(World, Collection)} and
-   * applies the effects.
-   *
-   * @throws IllegalStateException When this is not ready to be used yet (e.g. cool-down).
-   */
+  @Override
   default void use(World world, Collection<Unit> selectedUnits) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
@@ -41,36 +33,6 @@ public interface Usable extends Serializable {
 
     _startCoolDown();
   }
-
-  /**
-   * False if currently in a cool-down state.
-   */
-  boolean isReadyToBeUsed();
-
-  /**
-   * Should update any cool-down timers. This is not called 'tick' because there is already
-   * a method called 'tick' in {@link Entity}.
-   */
-  void usableTick(long timeSinceLastTick);
-
-  /**
-   * Returns the GameImage of this Ability.
-   *
-   * @return GameImage of the Ability.
-   */
-  GameImage getIconImage();
-
-  /**
-   * Returns a string description of the Ability.
-   *
-   * @return String describing the Ability
-   */
-  String getDescription();
-
-  /**
-   * 0 if just used, 1 if ready to use.
-   */
-  double getCoolDownProgress();
 
   /**
    * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS!
@@ -92,5 +54,4 @@ public interface Usable extends Serializable {
    * {@link Usable#isReadyToBeUsed()}.
    */
   Effect _createEffectForUnit(Unit unit);
-
 }

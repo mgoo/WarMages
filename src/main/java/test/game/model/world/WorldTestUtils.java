@@ -20,11 +20,15 @@ import main.game.model.entity.Team;
 import main.common.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.BaseEffect;
+import main.common.Effect;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.DefaultUnitSpriteSheet;
 import main.game.model.world.pathfinder.DefaultPathFinder;
+<<<<<<< HEAD
+=======
+import main.images.DefaultUnitSpriteSheet;
+>>>>>>> 2d22d26dd18895b3a2c08759622f7a071a869b31
 
 public class WorldTestUtils {
 
@@ -123,7 +127,7 @@ public class WorldTestUtils {
 
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit, 1) {
+        return new BaseEffect(unit, 1) {
         };
       }
     };

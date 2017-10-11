@@ -14,7 +14,7 @@ import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.common.HeroUnit;
 import main.game.model.entity.UnitType;
-import main.game.model.entity.exceptions.ItemNotInRangeException;
+import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;

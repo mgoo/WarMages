@@ -1,4 +1,4 @@
-package main.game.model.entity.exceptions;
+package main.common.exceptions;
 
 public class UsableStillInCoolDownException extends RuntimeException {
 
