@@ -28,7 +28,6 @@ public abstract class MapEntity extends Entity {
    * Returns boolean representing whether the given point lies inside the MapEntity.
    */
   public boolean contains(MapPoint point) {
-    return (point.x >= position.x && point.y >= position.y && point.x <= position.x + size.width
-        && point.y <= position.y + size.height);
+    return getRect().contains(point);
   }
 }

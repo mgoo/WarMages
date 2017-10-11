@@ -1,5 +1,6 @@
 package main.images;
 
+import static java.util.Objects.requireNonNull;
 import static main.common.images.UnitSpriteSheet.Sequence.UNIT_HEIGHT;
 import static main.common.images.UnitSpriteSheet.Sequence.UNIT_WIDTH;
 
@@ -44,7 +45,7 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
   @Override
   public List<GameImage> getImagesForSequence(Sequence sequence, Direction unitDirection) {
     return sequenceToImages.computeIfAbsent(
-        new MapKey(sequence, unitDirection),
+        new MapKey(requireNonNull(sequence), requireNonNull(unitDirection)),
         mapKey -> getImages(
             sequence,
             mapKey.direction,

@@ -58,6 +58,13 @@ public class Renderer {
         RenderingHints.VALUE_ANTIALIAS_ON
     );
     g.setRenderingHints(rh);
+    Renderable background = gameView.getBackGroundView();
+    g.drawImage(background.getImage(),
+        (int)background.getImagePosition(0).x,
+        (int)background.getImagePosition(0).y,
+        (int)background.getImageSize().width,
+        (int)background.getImageSize().height,
+        null);
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
       MapSize size = r.getImageSize();

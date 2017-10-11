@@ -20,9 +20,11 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.BaseEffect;
+import main.common.Effect;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
 public class WorldTestUtils {
@@ -50,7 +52,7 @@ public class WorldTestUtils {
    */
   public static Level createLevelWith(Unit... units) {
     return new Level(
-        new MapRect(new MapPoint(-100, -100), new MapPoint(100, 100)),
+        new MapRect(new MapPoint(-10000, -10000), new MapPoint(10000, 10000)),
         Arrays.asList(units),
         Collections.emptyList(),
         Collections.emptyList(),
@@ -122,7 +124,7 @@ public class WorldTestUtils {
 
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit, 1) {
+        return new BaseEffect(unit, 1) {
         };
       }
     };
@@ -178,7 +180,7 @@ public class WorldTestUtils {
    * @return a new world
    */
   public static World createWorld(List<Level> levels, HeroUnit heroUnit) {
-    return new World(levels, heroUnit);
+    return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
 

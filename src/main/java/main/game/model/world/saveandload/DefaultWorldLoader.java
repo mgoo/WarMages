@@ -35,6 +35,10 @@ import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
+import main.game.model.world.pathfinder.DefaultPathFinder;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 import main.images.DefaultUnitSpriteSheet;
 
 public class DefaultWorldLoader implements WorldLoader {
@@ -153,7 +157,7 @@ public class DefaultWorldLoader implements WorldLoader {
         "Maybe kill all the enemies"
     );
 
-    return new World(Arrays.asList(level), heroUnit);
+    return new World(Arrays.asList(level), heroUnit, new DefaultPathFinder());
   }
 
   /**
@@ -366,7 +370,7 @@ public class DefaultWorldLoader implements WorldLoader {
       ));
     }
 
-    return new World(levels, heroUnit);
+    return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
 }

@@ -29,12 +29,9 @@ public class UnitImagesComponentTest {
     Unit unit = mock(Unit.class);
     when(unit.getSpriteSheet())
         .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+    when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // and a UnitImagesComponent
-    UnitImagesComponent unitImagesComponent = new UnitImagesComponent(
-        sequence,
-        Direction.LEFT,
-        unit
-    );
+    UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);
 
     // when we tick many times (for one whole cycle)
     Map<GameImage, Integer> ticksPerFrameCounts = new HashMap<>();

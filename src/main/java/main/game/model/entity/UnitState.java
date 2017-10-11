@@ -17,9 +17,9 @@ public abstract class UnitState implements Serializable {
   protected UnitImagesComponent imagesComponent;
   protected UnitState nextState;
 
-  public UnitState(Sequence sequence, Direction direction, Unit unit) {
+  public UnitState(Sequence sequence, Unit unit) {
     this.unit = unit;
-    imagesComponent = new UnitImagesComponent(sequence, direction, unit);
+    this.imagesComponent = new UnitImagesComponent(sequence, unit);
   }
 
   /**
@@ -53,22 +53,14 @@ public abstract class UnitState implements Serializable {
   }
 
   /**
-   * Updates the imagesComponent if the given direction differs to the current direction.
-   *
-   * @param newDirection direction to be changed to.
+   * Gets the direction the unit should face, defaults to face away from the last position.
    */
-  public void setDirection(Direction newDirection) {
-    imagesComponent.setDirection(newDirection);
+  public Direction getCurrentDirection() {
+    return Direction.between(unit.getPreviousTopLeft(), unit.getTopLeft());
   }
 
   /**
-   * Returns the direction of this state.
-   *
-   * @return Direction of the current state.
+   * Gets the next state or this if no change was requested.
    */
-  public Direction getDirection() {
-    return imagesComponent.getDirection();
-  }
-
   abstract UnitState updateState();
 }

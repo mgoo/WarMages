@@ -1,4 +1,4 @@
-package main.game.model;
+package main.common.exceptions;
 
 public class OverlappingMapEntitiesException extends RuntimeException {
 
