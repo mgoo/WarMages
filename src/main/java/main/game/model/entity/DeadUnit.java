@@ -1,12 +1,11 @@
 package main.game.model.entity;
 
-import main.common.MapEntity;
 import main.common.images.GameImage;
 import main.common.util.MapSize;
 import main.game.model.world.World;
 import main.common.util.MapPoint;
 
-public class DeadUnit extends MapEntity {
+public class DeadUnit extends DefaultMapEntity {
 
   private static final long serialVersionUID = 1L;
 
