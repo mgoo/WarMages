@@ -87,15 +87,32 @@ public class GameModel {
     return world.getAllUnits();
   }
 
+  /**
+   * Getter for the world.
+   * @return world
+   */
   public World getWorld() {
     return world;
   }
 
+  /**
+   * Pauses the main game loop.
+   */
   public void pause() {
     looper.setPaused(true);
   }
 
+  /**
+   * Resumes the main game loop.
+   */
   public void resume(){
     looper.setPaused(false);
+  }
+
+  /**
+   * Stops the main game loop.
+   */
+  public void stop() {
+    looper.stop();
   }
 }
