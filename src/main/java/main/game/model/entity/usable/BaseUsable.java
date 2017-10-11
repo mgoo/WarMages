@@ -3,6 +3,7 @@ package main.game.model.entity.usable;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
+import main.common.Effect;
 import main.common.Usable;
 import main.game.model.entity.Unit;
 import main.common.exceptions.CantApplyToUnitsException;
@@ -14,6 +15,7 @@ import main.game.model.world.World;
  */
 public interface BaseUsable extends Usable {
 
+  @Override
   default void use(World world, Collection<Unit> selectedUnits) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
