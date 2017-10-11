@@ -101,25 +101,25 @@ public class MapPoint implements Serializable {
   }
 
   /**
-   * Gets the angle in radians to the other point from the positive x direction
+   * Gets the angle in radians to the other point from the positive horizontal.
    *
    * @return radians
    */
-  public double angleTo(MapPoint A) {
-    MapPoint B = this.getRight();
-    MapPoint C = this;
+  public double angleTo(MapPoint pointA) {
+    MapPoint pointB = this.getRight();
+    MapPoint pointC = this;
     // Cosign rule for C
-    double a = B.distanceTo(C);
-    double b = C.distanceTo(A);
-    double c = B.distanceTo(A);
-    double Cangle = Math.acos(
+    double a = pointB.distanceTo(pointC);
+    double b = pointC.distanceTo(pointA);
+    double c = pointB.distanceTo(pointA);
+    double angleC = Math.acos(
         (Math.pow(a, 2) + Math.pow(b ,2) - Math.pow(c, 2))
-        / (2*(a*b)));
+        / (2 * a * b));
     // make sure the angle is from upwards of the positive horizontal
-    if (A.y > C.y) {
-      return Math.PI + (Math.PI - Cangle);
+    if (pointA.y > pointC.y) {
+      return Math.PI + (Math.PI - angleC);
     } else {
-      return Cangle;
+      return angleC;
     }
   }
 
