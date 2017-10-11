@@ -126,7 +126,7 @@ public class WorldTestUtils {
       }
 
       @Override
-      public Effect _createEffectFortUnit(Unit unit) {
+      public Effect _createEffectForUnit(Unit unit) {
         return new BaseEffect(unit, 1) {
         };
       }
