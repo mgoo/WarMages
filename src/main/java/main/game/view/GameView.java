@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
-import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
@@ -21,7 +20,7 @@ import main.common.util.Event;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.game.view.events.MouseDrag;
-import main.common.util.MapDiamond;
+import main.common.util.MapPolygon;
 import main.renderer.Renderable;
 
 /**
@@ -219,7 +218,7 @@ public class GameView {
    * Triggers the drag event.
    */
   public void onDrag(int x1, int y1, int x2, int y2, boolean wasShiftDown, boolean wasCtrlDown) {
-    MapDiamond shape = new MapDiamond(this.pixToTile(new MapPoint(x1,y1)),
+    MapPolygon shape = new MapPolygon(this.pixToTile(new MapPoint(x1,y1)),
         this.pixToTile(new MapPoint(x2, y2)),
         this.pixToTile(new MapPoint(x1, y2)),
         this.pixToTile(new MapPoint(x2, y1)));
@@ -235,7 +234,7 @@ public class GameView {
       }
 
       @Override
-      public MapDiamond getMapShape() {
+      public MapPolygon getMapShape() {
         return shape;
       }
     });
