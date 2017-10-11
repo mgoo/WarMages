@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.game.view.events.MouseClick;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
@@ -24,7 +25,10 @@ public class ControllerTest {
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createUnit(new MapPoint(1, 0)),
             WorldTestUtils.createUnit(new MapPoint(1, 0))
-        )), WorldTestUtils.createHeroUnit(new MapPoint(1,0))), new MainGameTick());
+        )),
+        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        new DefaultPathFinder()),
+        new MainGameTick());
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
@@ -56,7 +60,10 @@ public class ControllerTest {
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createUnit(new MapPoint(1, 0)),
             WorldTestUtils.createUnit(new MapPoint(1, 0))
-        )), WorldTestUtils.createHeroUnit(new MapPoint(1,0))), new MainGameTick());
+        )),
+        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        new DefaultPathFinder()),
+        new MainGameTick());
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override

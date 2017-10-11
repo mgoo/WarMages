@@ -24,6 +24,10 @@ import main.game.model.entity.usable.Effect;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
+import main.game.model.world.pathfinder.DefaultPathFinder;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 
 public class WorldTestUtils {
 
@@ -178,7 +182,7 @@ public class WorldTestUtils {
    * @return a new world
    */
   public static World createWorld(List<Level> levels, HeroUnit heroUnit) {
-    return new World(levels, heroUnit);
+    return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
 
