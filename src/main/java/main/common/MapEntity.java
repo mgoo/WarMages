@@ -9,6 +9,6 @@ import main.common.util.MapPoint;
  */
 public interface MapEntity extends Entity {
 
-  boolean contains(MapPoint point);
+
 
 }

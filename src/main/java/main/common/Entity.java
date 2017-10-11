@@ -12,6 +12,7 @@ import main.game.model.world.World;
  */
 public interface Entity extends Serializable {
 
+  boolean contains(MapPoint point);
 
   MapPoint getTopLeft();
 

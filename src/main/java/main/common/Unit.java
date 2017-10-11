@@ -40,8 +40,6 @@ public interface Unit extends Entity {
 
   void tick(long timeSinceLastTick, World world);
 
-  void tickPosition(long timeSinceLastTick, World world);
-
   GameImage getImage();
 
   void translatePosition(double dx, double dy);
@@ -51,8 +49,6 @@ public interface Unit extends Entity {
   Unit getTarget();
 
   void addEffect(Effect effect);
-
-  void tickEffects(long timeSinceLastTick);
 
   UnitSpriteSheet getSpriteSheet();
 
@@ -88,14 +84,6 @@ public interface Unit extends Entity {
    * @return int amount of damage dealt.
    */
   int getDamageAmount();
-
-  /**
-   * Returns boolean whether the distance between the target and the Unit is less than the
-   * leeway.
-   *
-   * @return boolean representing distance less than leeway.
-   */
-  boolean targetWithinProximity();
 
   /**
    * Sets the Unit's path to the given path.

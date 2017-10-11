@@ -68,7 +68,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (tiunit since last being 100)
+    // with the given speed of 0.01, with each tick (time since last being 100)
     // the movable entity should move 100*0.01 = 1 map distance
     for (int i = 0; i < 10; i++) {
       assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
@@ -83,7 +83,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (tiunit since last being 200)
+    // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
     for (int i = 0; i < 20; i++) {
       assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
@@ -98,7 +98,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (tiunit since last being 100)
+    // with the given speed of 0.01, with each tick (time since last being 100)
     // the movable entity should move 100*0.01 = 1 map distance
     for (int i = 0; i < 10; i++) {
       assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
@@ -113,7 +113,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (tiunit since last being 200)
+    // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
     for (int i = 0; i < 20; i++) {
       assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
@@ -128,7 +128,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDiagonal();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (tiunit since last being 200)
+    // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 100*0.01 = 1 map distance which is approx 1 diagonal
     for (int i = 0; i < 10; i++) {
       assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().x, 0.001);

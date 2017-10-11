@@ -24,7 +24,7 @@ public class DefaultMapEntity extends DefaultEntity implements MapEntity {
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
-
+    //do nothing
   }
 
   /**
