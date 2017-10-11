@@ -1,9 +1,13 @@
-package main.game.model.entity.usable;
+package main.common;
 
 import java.io.Serializable;
 import java.util.Collection;
 import main.common.images.GameImage;
 import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.BaseUsable;
+import main.game.model.entity.usable.Effect;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 
 /**

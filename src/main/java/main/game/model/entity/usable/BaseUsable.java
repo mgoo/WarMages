@@ -3,9 +3,10 @@ package main.game.model.entity.usable;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
+import main.common.Usable;
 import main.game.model.entity.Unit;
-import main.game.model.entity.exceptions.CantApplyToUnitsException;
-import main.game.model.entity.exceptions.UsableStillInCoolDownException;
+import main.common.exceptions.CantApplyToUnitsException;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.model.world.World;
 
 /**

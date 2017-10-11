@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import main.game.model.entity.exceptions.ItemNotInRangeException;
+import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
