@@ -16,7 +16,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
-import main.game.model.entity.exceptions.ItemNotInRangeException;
+import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;

@@ -8,8 +8,8 @@ import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createUnit;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
-import main.game.model.EntityOutOfBoundsException;
-import main.game.model.OverlappingMapEntitiesException;
+import main.common.exceptions.EntityOutOfBoundsException;
+import main.common.exceptions.OverlappingMapEntitiesException;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
