@@ -1,14 +1,9 @@
 package main.game.model.entity.usable;
 
-<<<<<<< HEAD:src/main/java/main/game/model/entity/usable/Effect.java
-import java.io.Serializable;
-import main.common.Usable;
+
 import main.common.Unit;
-=======
 import main.common.Effect;
->>>>>>> 2d22d26dd18895b3a2c08759622f7a071a869b31:src/main/java/main/game/model/entity/usable/BaseEffect.java
 import main.common.util.TickTimer;
-import main.game.model.entity.Unit;
 
 public abstract class BaseEffect implements Effect {
 
