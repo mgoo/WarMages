@@ -14,7 +14,7 @@ public class DeadUnit extends MapEntity {
    */
   public DeadUnit(MapPoint coord, MapSize size, GameImage image) {
     super(coord, size);
-    this.image = image;
+    this.setImage(image);
   }
 
   @Override

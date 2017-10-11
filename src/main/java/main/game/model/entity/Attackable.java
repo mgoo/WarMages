@@ -54,7 +54,7 @@ public abstract class Attackable extends MovableEntity {
     if (target == null) {
       return;
     }
-    setPath(world.findPath(position, target.getCentre()));
+    setPath(world.findPath(getCentre(), target.getCentre()));
   }
 
   /**

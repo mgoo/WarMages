@@ -7,8 +7,8 @@ public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(Direction direction, Unit unit) {
-    super(unit.getUnitType().getAttackSequence(), direction, unit);
+  public AttackingUnitState(Unit unit) {
+    super(unit.getUnitType().getAttackSequence(), unit);
   }
 
   @Override
@@ -27,6 +27,16 @@ public class AttackingUnitState extends UnitState {
     }
 
     return nextState;
+  }
+
+  @Override
+  public Direction getCurrentDirection() {
+    Unit target = unit.getTarget();
+    if (target == null) {
+      return super.getCurrentDirection();
+    }
+
+    return Direction.between(unit.getCentre(), target.getCentre());
   }
 
   /**

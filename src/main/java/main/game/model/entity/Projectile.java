@@ -40,7 +40,7 @@ public class Projectile extends Entity {
   ) {
     super(coordinates, size);
     this.target = requireNonNull(target);
-    this.image = requireNonNull(gameImage);
+    this.setImage(gameImage);
     this.damageAmount = damageAmount;
     this.moveDistancePerTick = moveDistancePerTick;
   }
