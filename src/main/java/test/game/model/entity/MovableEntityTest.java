@@ -1,7 +1,6 @@
-package test.gaunit.model.entity;
+package test.game.model.entity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static test.game.model.world.WorldTestUtils.createEmptyLevel;
 import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import static test.game.model.world.WorldTestUtils.createLevels;
@@ -9,7 +8,7 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 
 import java.util.Arrays;
 import java.util.List;
-import main.common.images.UnitSpriteSheet;
+import main.game.model.GameModel;
 import main.game.model.entity.DefaultUnit;
 import main.game.model.entity.Team;
 import main.common.util.MapPoint;
@@ -74,7 +73,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 10; i++) {
       assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
       assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
-      unit.tick(GaunitModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -89,7 +88,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 20; i++) {
       assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
       assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
-      unit.tick(GaunitModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -104,7 +103,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 10; i++) {
       assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
       assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
-      unit.tick(GaunitModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -119,7 +118,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 20; i++) {
       assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
       assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
-      unit.tick(GaunitModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -134,7 +133,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 10; i++) {
       assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().x, 0.001);
       assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().y, 0.001);
-      unit.tick(GaunitModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 }
