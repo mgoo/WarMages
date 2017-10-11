@@ -1,4 +1,4 @@
-package test.images;
+package test.common.images;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.junit.Assert.assertEquals;

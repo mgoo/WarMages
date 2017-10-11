@@ -14,8 +14,9 @@ public class UnitImagesComponent implements Serializable {
 
   private final Sequence sequence;
   private final UnitSpriteSheet spriteSheet;
-  private final Direction direction;
   private final List<GameImage> images;
+
+  private Direction direction;
 
   private int currentTick = 0;
 
@@ -96,6 +97,14 @@ public class UnitImagesComponent implements Serializable {
    */
   public int _getCurrentTick() {
     return currentTick;
+  }
+
+  public boolean isLastTick() {
+    return _getCurrentTick() == maxNumberOfTicks() - 1;
+  }
+
+  public void setDirection(Direction direction) {
+    this.direction = direction;
   }
 
   private int maxNumberOfTicks() {
