@@ -53,8 +53,10 @@ public class MapRect implements Serializable {
    * @return returns true if point is within rect. False otherwise.
    */
   public boolean contains(MapPoint mapPoint) {
-    return mapPoint.x > topLeft.x && mapPoint.x < bottomRight.x && mapPoint.y > topLeft.y
-        && mapPoint.y < bottomRight.y;
+    return mapPoint.x >= topLeft.x
+        && mapPoint.x <= bottomRight.x
+        && mapPoint.y >= topLeft.y
+        && mapPoint.y <= bottomRight.y;
   }
 
   /**
