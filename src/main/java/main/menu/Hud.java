@@ -19,6 +19,7 @@ import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
+import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
 import main.renderer.Renderer;
 
@@ -33,6 +34,7 @@ public class Hud extends Menu {
   private final ImageProvider imageProvider;
   private final Collection<Unit> selectedUnits = new ArrayList<>();
   private HeroUnit hero;
+  private final GoalTextGenerator goalScript = new GoalTextGenerator();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -66,6 +68,10 @@ public class Hud extends Menu {
           .setFile(MenuFileResources.HUD_JS.getPath())
           .getScript()
     };
+  }
+
+  public void updateGoal(String goal) {
+    this.main.executeScript(goalScript.setText(goal).getScript());
   }
 
   /**
@@ -125,10 +131,12 @@ public class Hud extends Menu {
     }
   }
 
+
   private void addIcon(String method, BufferedImage image, Object entity) {
     String entityIcon = this.formatImageForHtml(image);
     this.main.callJsFunction(method, entityIcon, entity);
   }
+
 
   /**
    * Assumes that the image is png formatted.
