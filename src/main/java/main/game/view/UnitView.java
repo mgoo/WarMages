@@ -3,9 +3,8 @@ package main.game.view;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapSize;
-import main.game.model.entity.Entity;
 import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.Unit;
 
 /**
  * Created by mgoo on 10/10/17.

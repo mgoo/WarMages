@@ -1,4 +1,4 @@
-package test.game.model.entity;
+package test.gaunit.model.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -9,30 +9,18 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 
 import java.util.Arrays;
 import java.util.List;
-import main.game.model.GameModel;
-import main.game.model.entity.MovableEntity;
-import main.game.model.world.World;
+import main.common.images.UnitSpriteSheet;
+import main.game.model.entity.DefaultUnit;
+import main.game.model.entity.Team;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.world.World;
 import org.junit.Test;
 
-public class MovableEntityTest {
+public class DefaultUnitTest {
 
-  private MovableEntity getMovableEntity() {
-    return new MockMovable(new MapPoint(1, 1), new MapSize(1, 1));
-  }
-
-  private class MockMovable extends MovableEntity {
-
-    /**
-     * Constructor takes the position of the entity and the size.
-     *
-     * @param position = position of Entity
-     * @param size = size of Entity
-     */
-    public MockMovable(MapPoint position, MapSize size) {
-      super(position, size, 0.1);
-    }
+  private DefaultUnit getUnit() {
+    return new DefaultUnit(new MapPoint(1, 1), new MapSize(1, 1), Team.PLAYER, );
   }
 
   private List<MapPoint> getPathDown() {
@@ -77,76 +65,76 @@ public class MovableEntityTest {
 
   @Test
   public void testMovingEntity_oneSpaceHorizontally() {
-    MovableEntity me = getMovableEntity();
+    DefaultUnit unit = getUnit();
     List<MapPoint> path = getPathAcross();
-    me.setPath(path);
+    unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 100)
+    // with the given speed of 0.01, with each tick (tiunit since last being 100)
     // the movable entity should move 100*0.01 = 1 map distance
     for (int i = 0; i < 10; i++) {
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, me.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, me.getTopLeft().y, 0.001);
-      me.tick(GameModel.DELAY, world);
+      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
+      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
+      unit.tick(GaunitModel.DELAY, world);
     }
   }
 
   @Test
   public void testMovingEntity_twoSpacesHorizontally() {
-    MovableEntity me = getMovableEntity();
+    DefaultUnit unit = getUnit();
     List<MapPoint> path = getPathAcross();
-    me.setPath(path);
+    unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 200)
+    // with the given speed of 0.01, with each tick (tiunit since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
-    for (int i = 0; i < 20; i ++) {
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, me.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, me.getTopLeft().y, 0.001);
-      me.tick(GameModel.DELAY, world);
+    for (int i = 0; i < 20; i++) {
+      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
+      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
+      unit.tick(GaunitModel.DELAY, world);
     }
   }
 
   @Test
   public void testMovingEntity_oneSpaceVertically() {
-    MovableEntity me = getMovableEntity();
+    DefaultUnit unit = getUnit();
     List<MapPoint> path = getPathDown();
-    me.setPath(path);
+    unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 100)
+    // with the given speed of 0.01, with each tick (tiunit since last being 100)
     // the movable entity should move 100*0.01 = 1 map distance
     for (int i = 0; i < 10; i++) {
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, me.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, me.getTopLeft().y, 0.001);
-      me.tick(GameModel.DELAY, world);
+      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
+      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
+      unit.tick(GaunitModel.DELAY, world);
     }
   }
 
   @Test
   public void testMovingEntity_twoSpacesVertically() {
-    MovableEntity me = getMovableEntity();
+    DefaultUnit unit = getUnit();
     List<MapPoint> path = getPathDown();
-    me.setPath(path);
+    unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 200)
+    // with the given speed of 0.01, with each tick (tiunit since last being 200)
     // the movable entity should move 200*0.01 = 2 map distances
-    for (int i = 0; i < 20; i ++) {
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, me.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, me.getTopLeft().y, 0.001);
-      me.tick(GameModel.DELAY, world);
+    for (int i = 0; i < 20; i++) {
+      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
+      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
+      unit.tick(GaunitModel.DELAY, world);
     }
   }
 
   @Test
   public void testMovingEntity_oneSpaceDiagonally() {
-    MovableEntity me = getMovableEntity();
+    DefaultUnit unit = getUnit();
     List<MapPoint> path = getPathDiagonal();
-    me.setPath(path);
+    unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 200)
+    // with the given speed of 0.01, with each tick (tiunit since last being 200)
     // the movable entity should move 100*0.01 = 1 map distance which is approx 1 diagonal
     for (int i = 0; i < 10; i++) {
-      assertEquals(1D + 0.1 / Math.sqrt(2) * i, me.getTopLeft().x, 0.001);
-      assertEquals(1D + 0.1 / Math.sqrt(2) * i, me.getTopLeft().y, 0.001);
-      me.tick(GameModel.DELAY, world);
+      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().x, 0.001);
+      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().y, 0.001);
+      unit.tick(GaunitModel.DELAY, world);
     }
   }
 }

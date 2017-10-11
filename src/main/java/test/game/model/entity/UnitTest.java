@@ -15,7 +15,7 @@ import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;

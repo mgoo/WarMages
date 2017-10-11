@@ -1,8 +1,9 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
+import main.common.Usable;
+import main.common.MapEntity;
+import main.common.Unit;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;

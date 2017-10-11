@@ -10,9 +10,9 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 
 import main.game.model.EntityOutOfBoundsException;
 import main.game.model.OverlappingMapEntitiesException;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
+import main.common.HeroUnit;
+import main.common.MapEntity;
+import main.common.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
 import org.junit.Test;

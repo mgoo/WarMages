@@ -1,21 +1,19 @@
 package main.game.model.entity;
 
+import main.common.MapEntity;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.world.World;
 
-/**
- * An {@link Entity} that cannot move / be moved on the map, and takes up a whole square {@link
- * Unit}s cannot move through one of these.
- */
-public abstract class MapEntity extends Entity {
+public class DefaultMapEntity extends DefaultEntity implements MapEntity {
 
   private static final long serialVersionUID = 1L;
 
-  public MapEntity(MapPoint coord) {
+  public DefaultMapEntity(MapPoint coord) {
     this(coord, new MapSize(1, 1));
   }
 
-  public MapEntity(MapPoint coord, MapSize size) {
+  public DefaultMapEntity(MapPoint coord, MapSize size) {
     super(coord, size);
   }
 
@@ -24,10 +22,16 @@ public abstract class MapEntity extends Entity {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public void tick(long timeSinceLastTick, World world) {
+
+  }
+
   /**
    * Returns boolean representing whether the given point lies inside the MapEntity.
    */
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
   }
+
 }

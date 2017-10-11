@@ -2,6 +2,7 @@ package main.game.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import main.common.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;

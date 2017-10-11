@@ -2,17 +2,13 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.Serializable;
-import main.game.model.world.World;
+import main.common.Entity;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
 
-/**
- * Entity class: entities have positions on the screen, images, and sizes.
- */
-public abstract class Entity implements Serializable {
+public abstract class DefaultEntity implements Entity {
 
   private static final long serialVersionUID = 1L;
 
@@ -24,7 +20,7 @@ public abstract class Entity implements Serializable {
   /**
    * Constructor takes the topLeft of the entity and the size.
    */
-  public Entity(MapPoint topLeft, MapSize size) {
+  public DefaultEntity(MapPoint topLeft, MapSize size) {
     this.topLeft = requireNonNull(topLeft);
     // look down by default (on diagonal map)
     this.previousTopLeft = topLeft.translate(-1e-3, -1e-3); // tiny numbers
@@ -36,6 +32,7 @@ public abstract class Entity implements Serializable {
    *
    * @return the entity's top left position.
    */
+  @Override
   public MapPoint getTopLeft() {
     return topLeft;
   }
@@ -45,6 +42,7 @@ public abstract class Entity implements Serializable {
    *
    * @return the entity's central position.
    */
+  @Override
   public MapPoint getCentre() {
     return new MapPoint(topLeft.x + size.width / 2, topLeft.y + size.height / 2);
   }
@@ -54,6 +52,7 @@ public abstract class Entity implements Serializable {
    *
    * @return the entity's size.
    */
+  @Override
   public MapSize getSize() {
     return new MapSize(size.width, size.height);
   }
@@ -61,6 +60,7 @@ public abstract class Entity implements Serializable {
   /**
    * The bounding box of this entity.
    */
+  @Override
   public MapRect getRect() {
     return new MapRect(getTopLeft(), getSize());
   }
@@ -68,6 +68,7 @@ public abstract class Entity implements Serializable {
   /**
    * Moves the entity.
    */
+  @Override
   public void translatePosition(double dx, double dy) {
     previousTopLeft = topLeft;
     topLeft = topLeft.translate(dx, dy);
@@ -78,6 +79,7 @@ public abstract class Entity implements Serializable {
    *
    * @return GameImage of the Entity.
    */
+  @Override
   public GameImage getImage() {
     if (image == null) {
       throw new NullPointerException("The Entity's image has not been set yet");
@@ -85,16 +87,14 @@ public abstract class Entity implements Serializable {
     return image;
   }
 
-  /**
-   * Updates the Entity's position.
-   */
-  public abstract void tick(long timeSinceLastTick, World world);
-
+  @Override
   public MapPoint getPreviousTopLeft() {
     return previousTopLeft;
   }
 
-  protected void setImage(GameImage image) {
+  @Override
+  public void setImage(GameImage image) {
     this.image = requireNonNull(image);
   }
+
 }

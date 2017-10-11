@@ -14,9 +14,9 @@ import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
+import main.common.HeroUnit;
+import main.common.MapEntity;
+import main.common.Unit;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.common.util.MapPoint;
