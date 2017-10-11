@@ -68,7 +68,7 @@ public class UnitView extends EntityView {
         config.getEntityViewTilePixelsY() / 20);
     Color healthColor;
     if (unit.getHealthPercent() > 0.5) {
-       healthColor = new Color(84,255, 106);
+      healthColor = new Color(84,255, 106);
     } else if (unit.getHealthPercent() > 0.25) {
       healthColor = new Color(255, 194, 41);
     } else {
