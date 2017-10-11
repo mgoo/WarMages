@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.common.Effect;
 import main.common.PathFinder;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
@@ -23,8 +24,8 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
-import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
@@ -202,7 +203,7 @@ public class UnitTest {
         3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit, 1) {
+        return new BaseEffect(unit, 1) {
           @Override
           public int alterDamageAmount(int currentDamageAmount) {
             return currentDamageAmount + 1;
@@ -216,7 +217,7 @@ public class UnitTest {
         3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit, 2) {
+        return new BaseEffect(unit, 2) {
           @Override
           public int alterDamageAmount(int currentDamageAmount) {
             return currentDamageAmount + 1;
@@ -230,7 +231,7 @@ public class UnitTest {
         3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
-        return new Effect(unit, 1) {
+        return new BaseEffect(unit, 1) {
           @Override
           public int alterDamageAmount(int currentDamageAmount) {
             return currentDamageAmount + 1;
