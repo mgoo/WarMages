@@ -272,6 +272,7 @@ public class DefaultUnit implements Unit {
     }
   }
 
+  @Override
   public Unit getTarget() {
     return target;
   }
