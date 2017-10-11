@@ -1,6 +1,5 @@
 package main.game.model.entity.usable;
 
-
 import main.common.Unit;
 import main.common.Effect;
 import main.common.util.TickTimer;

@@ -1,6 +1,5 @@
 package main.common;
 
-
 import java.util.Collection;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
