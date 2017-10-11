@@ -13,12 +13,11 @@ import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
-import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.common.Effect;
 import main.game.model.world.World;
 
-public class DefaultUnit implements Unit {
+public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
 
@@ -54,9 +53,7 @@ public class DefaultUnit implements Unit {
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    this.position = position;
-    this.size = size;
-    //    super(position, size, unitType.getMovingSpeed()); todo fix
+    super(position, size);
     this.team = team;
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
@@ -152,26 +149,6 @@ public class DefaultUnit implements Unit {
   }
 
   @Override
-  public MapPoint getTopLeft() {
-    return null;
-  }
-
-  @Override
-  public MapPoint getCentre() {
-    return null;
-  }
-
-  @Override
-  public MapSize getSize() {
-    return null;
-  }
-
-  @Override
-  public MapRect getRect() {
-    return null;
-  }
-
-  @Override
   public void translatePosition(double dx, double dy) {
     if (isDead) {
       return;
@@ -258,8 +235,7 @@ public class DefaultUnit implements Unit {
     return amount;
   }
 
-  @Override
-  public void tickEffects(long timeSinceLastTick) {
+  private void tickEffects(long timeSinceLastTick) {
     for (Iterator<Effect> iterator = activeEffects.iterator(); iterator.hasNext(); ) {
       Effect effect = iterator.next();
 
@@ -321,20 +297,11 @@ public class DefaultUnit implements Unit {
   }
 
   @Override
-  public boolean targetWithinProximity() {
-    if (target == null) {
-      throw new IllegalStateException("No target set");
-    }
-    return target.getCentre().distanceTo(getCentre()) < LEEWAY;
-  }
-
-  @Override
   public void setPath(List<MapPoint> path) {
     this.path = new LinkedList<>(path);
   }
 
-  @Override
-  public void tickPosition(long timeSinceLastTick, World world) {
+  private void tickPosition(long timeSinceLastTick, World world) {
     if (path == null || path.isEmpty()) {
       return;
     }
@@ -354,5 +321,18 @@ public class DefaultUnit implements Unit {
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
     assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
     translatePosition(mx, my);
+  }
+
+  /**
+   * Returns boolean whether the distance between the target and the Unit is less than the
+   * leeway.
+   *
+   * @return boolean representing distance less than leeway.
+   */
+  private boolean targetWithinProximity() {
+    if (target == null) {
+      throw new IllegalStateException("No target set");
+    }
+    return target.getCentre().distanceTo(getCentre()) < LEEWAY;
   }
 }

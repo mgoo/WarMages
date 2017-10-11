@@ -7,8 +7,6 @@ import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 import main.common.HeroUnit;
 import main.common.Unit;
 import main.game.model.GameModel;
-import main.game.model.entity.DefaultHeroUnit;
-import main.game.model.entity.DefaultUnit;
 import main.game.model.world.World;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
