@@ -27,6 +27,7 @@ import main.game.model.Level.Goal;
 import main.common.Entity;
 import main.common.HeroUnit;
 import main.common.MapEntity;
+import main.game.model.entity.DefaultUninteractableEntity;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.Team;
@@ -78,7 +79,7 @@ public class DefaultWorldLoader implements WorldLoader {
    * the user from leaving the area.
    */
   public static UninteractableEntity newBorderEntityAt(MapPoint point) {
-    return new UninteractableEntity(
+    return new DefaultUninteractableEntity(
         point,
         TREE_MAP_ENTITY.getGameImage()
     );
@@ -143,10 +144,10 @@ public class DefaultWorldLoader implements WorldLoader {
             )
         ),
         Arrays.asList(
-            new UninteractableEntity(
+            new DefaultUninteractableEntity(
                 new MapPoint(2, 1), TREE_MAP_ENTITY.getGameImage()
             ),
-            new UninteractableEntity(
+            new DefaultUninteractableEntity(
                 new MapPoint(5, 5), TREE_MAP_ENTITY.getGameImage()
             )
         ),
@@ -196,7 +197,7 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -251,7 +252,7 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -304,27 +305,27 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 1),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 2),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 3),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 7),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 8),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultUninteractableEntity(
                   new MapPoint(37, 9),
                   TREE_MAP_ENTITY.getGameImage()
               )
