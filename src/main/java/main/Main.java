@@ -8,6 +8,7 @@ import java.awt.Robot;
 import java.io.File;
 import java.util.Arrays;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,12 +22,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
-import main.game.model.world.saveandload.WorldSaveModel.DefaultFilesystem;
+import main.common.util.Config;
+import main.common.util.Event;
+import main.game.model.world.saveandload.DefaultWorldLoader;
+import main.game.model.world.saveandload.DefaultWorldSaveModel;
+import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
+import main.game.view.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
-import main.util.Config;
 import netscape.javascript.JSObject;
 
 /**
@@ -35,18 +38,23 @@ import netscape.javascript.JSObject;
  */
 public class Main extends Application {
 
-  private Robot robot = new Robot();
-  private WebEngine webEngine;
-  private Menu currentMenu;
-
-  public Main() throws AWTException {
-  }
-
   /**
    * Start the app.
    */
   public static void main(String[] args) {
+    System.setProperty("sun.java2d.opengl", "true");
     launch(args);
+  }
+
+  private Robot robot = new Robot();
+  private WebEngine webEngine;
+  private Menu currentMenu;
+
+  private final Event<MouseClick> mouseClickEvent = new Event<>();
+
+  public Scene scene;
+
+  public Main() throws AWTException {
   }
 
   @Override
@@ -59,6 +67,9 @@ public class Main extends Application {
         continue;
       }
       primaryStage.setX(screen.getBounds().getMinX() + 1);
+      primaryStage.setY(screen.getBounds().getMinY() + 1);
+      primaryStage.setWidth(screen.getBounds().getWidth());
+      primaryStage.setHeight(screen.getBounds().getHeight());
       Main.this.robot.mouseMove((int)(bounds.getMinX() + bounds.getWidth() / 2),
           (int)(bounds.getMinY() + bounds.getHeight() / 2));
       size = newSize;
@@ -72,25 +83,28 @@ public class Main extends Application {
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-    final Scene scene = new Scene(new Group());
+    this.scene = new Scene(new Group());
     final StackPane root = new StackPane();
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
-    config.setScreenDim((int)scene.getWidth(), (int)scene.getHeight());
+    config.setScreenDim((int)primaryStage.getWidth(), (int)primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
-        new WorldLoader(),
-        new WorldSaveModel(new DefaultFilesystem()),
+        new DefaultWorldLoader(),
+        new DefaultWorldSaveModel(new DefaultFilesystem()),
         imageView,
         config
     );
 
-    root.setPrefWidth(1920);
-    root.setPrefHeight(1080);
+    root.setPrefWidth(config.getContextScreenWidth());
+    root.setPrefHeight(config.getContextScreenHeight());
 
-    browser.setPrefWidth(1920);
-    browser.setPrefHeight(1080);
+    browser.setPrefHeight(config.getContextScreenWidth());
+    browser.setPrefHeight(config.getContextScreenHeight());
+
+    imageView.setFitWidth(config.getContextScreenWidth());
+    imageView.setFitHeight(config.getContextScreenHeight());
 
     this.webEngine = browser.getEngine();
 
@@ -112,8 +126,8 @@ public class Main extends Application {
 
     imageView.setImage(new Image(
         new File("resources/images/units/archer.png").toURI().toString(),
-        1920,
-        1080,
+        primaryStage.getWidth(),
+        primaryStage.getHeight(),
         true,
         true
     ));
@@ -122,40 +136,13 @@ public class Main extends Application {
     imageView.setFitHeight(scene.getHeight());
 
     // Mouse events will be handled in html
-    root.setOnKeyReleased(event -> {
-      System.out.println("SHF: " + event.isShiftDown());
-      System.out.println("CTTL: " + event.isControlDown());
-      System.out.println("Code: " + event.getCode().toString());
+    root.setOnKeyPressed(event -> {
+      this.currentMenu.getMenuController().onKeyDown(event);
     });
 
-    browser.setOnMouseExited(event -> {
-      Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-      Window viewBounds = scene.getWindow();
-
-      if (mouseLocation.x < (int) viewBounds.getX()) {
-        Main.this.robot.mouseMove((int) viewBounds.getX(), mouseLocation.y);
-      }
-      if (mouseLocation.x >= (int) (viewBounds.getX() + viewBounds.getWidth() - 1)) {
-        Main.this.robot
-            .mouseMove((int) (viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
-      }
-      if (mouseLocation.y < (int) viewBounds.getY()) {
-        Main.this.robot.mouseMove(mouseLocation.x, (int) viewBounds.getY());
-      }
-      if (mouseLocation.y >= (int) (viewBounds.getY() + viewBounds.getHeight())) {
-        Main.this.robot
-            .mouseMove(mouseLocation.x, (int) (viewBounds.getY() + viewBounds.getHeight()));
-      }
-    });
-
+    browser.setOnMouseExited(event -> keepMouseInWindow());
     browser.setOnMouseMoved(event -> {
-
-    });
-
-    browser.setOnMouseClicked(event -> {
-      System.out.println("SHF: " + event.isShiftDown());
-      System.out.println("CTTL: " + event.isControlDown());
-      System.out.println("Code: " + event.getButton());
+      this.currentMenu.getMenuController().onMouseMove(event);
     });
 
     root.getChildren().setAll(imageView, browser);
@@ -164,8 +151,21 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  public Object executeScript(String script) {
-    return this.webEngine.executeScript(script);
+  /**
+   * Executes a script on the current browser view.
+   */
+  public void executeScript(String script) {
+    Platform.runLater(() -> webEngine.executeScript(script));
+  }
+
+  /**
+   * Calls a javascript function on the current browser view.
+   */
+  public void callJsFunction(String function, Object... args) {
+    Platform.runLater(() -> {
+      JSObject window = (JSObject) webEngine.executeScript("window");
+      window.call(function, args);
+    });
   }
 
   /**
@@ -176,6 +176,29 @@ public class Main extends Application {
     webEngine.setUserStyleSheetLocation(menu.getStyleSheetLocation());
     webEngine.loadContent(menu.getHtml());
     return true;
+  }
+
+  /**
+   * Move the mouse back into the window.
+   */
+  private void keepMouseInWindow() {
+    Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+    Window viewBounds = scene.getWindow();
+
+    if (mouseLocation.x < (int) viewBounds.getX()) {
+      Main.this.robot.mouseMove((int) viewBounds.getX(), mouseLocation.y);
+    }
+    if (mouseLocation.x >= (int) (viewBounds.getX() + viewBounds.getWidth() - 1)) {
+      Main.this.robot
+          .mouseMove((int) (viewBounds.getX() + viewBounds.getWidth() - 1), mouseLocation.y);
+    }
+    if (mouseLocation.y < (int) viewBounds.getY()) {
+      Main.this.robot.mouseMove(mouseLocation.x, (int) viewBounds.getY());
+    }
+    if (mouseLocation.y >= (int) (viewBounds.getY() + viewBounds.getHeight())) {
+      Main.this.robot
+          .mouseMove(mouseLocation.x, (int) (viewBounds.getY() + viewBounds.getHeight()));
+    }
   }
 
 }

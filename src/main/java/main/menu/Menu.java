@@ -7,7 +7,7 @@ import main.Main;
 import main.menu.controller.MenuController;
 
 /**
- * Esssentually a wrapper that brings the html and the controller together.
+ * Essentially a wrapper that brings the html and the controller together.
  *
  * @author Andrew McGhie
  */
@@ -49,7 +49,7 @@ public abstract class Menu {
   public abstract String[] getScripts();
 
   /**
-   * Gets an instance of the object to bind to javascript.
+   * returns the instance of the object to bind to javascript.
    */
   public MenuController getMenuController() {
     return this.menuController;

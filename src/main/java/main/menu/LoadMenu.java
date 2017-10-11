@@ -1,9 +1,8 @@
 package main.menu;
 
 import java.io.File;
-import java.io.IOException;
 import main.Main;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.menu.controller.LoadMenuController;
 import main.menu.generators.SaveFilesScriptGenerator;
 import main.menu.generators.ScriptFileGenerator;
@@ -28,12 +27,12 @@ public class LoadMenu extends Menu {
 
   @Override
   public String getHtml() {
-    return this.fileToString("resources/html/load_menu.html");
+    return this.fileToString(MenuFileResources.LOAD_MENU_HTML.getPath());
   }
 
   @Override
   public String getStyleSheetLocation() {
-    return new File("resources/html/css/load_menu.css").toURI().toString();
+    return new File(MenuFileResources.LOAD_MENU_CSS.getPath()).toURI().toString();
 
   }
 
@@ -44,7 +43,9 @@ public class LoadMenu extends Menu {
   @Override
   public String[] getScripts() {
     return new String[]{
-        new ScriptFileGenerator().setFile("resources/html/js/jquery-3.2.1.min.js").getScript(),
+        new ScriptFileGenerator()
+            .setFile(MenuFileResources.JQUERY_JS.getPath())
+            .getScript(),
         new SaveFilesScriptGenerator()
             .setData(this.worldSaveModel.getExistingGameSaves())
             .getScript()

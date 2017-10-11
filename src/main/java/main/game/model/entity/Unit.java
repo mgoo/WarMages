@@ -1,15 +1,17 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
-import main.game.model.entity.usable.Effect;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import main.common.images.GameImage;
+import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
+import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -22,10 +24,12 @@ public class Unit extends Attackable implements Damageable {
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
-  private boolean isDead = false;
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
+
+  private boolean isDead = false;
+  private boolean hasCreatedDeadUnit = false;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -37,14 +41,12 @@ public class Unit extends Attackable implements Damageable {
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    super(position, size);
+    super(position, size, unitType.getMovingSpeed());
     this.team = team;
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
-    this.speed = unitType.getMovingSpeed();
     this.spriteSheet = sheet;
-    this.unitState = new IdleUnitState(Direction.DOWN, this);
-
+    this.unitState = new IdleUnitState(this);
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -54,32 +56,15 @@ public class Unit extends Attackable implements Damageable {
    * @param state to be changed to.
    */
   private void setNextState(UnitState state) {
-    unitState.requestState(Objects.requireNonNull(state));
+    unitState.requestState(requireNonNull(state));
   }
 
   public UnitType getUnitType() {
     return unitType;
   }
 
-  /**
-   * Sets direction of Unit based on x and y coordinate differences between the given oldPosition
-   * and the current position.
-   */
-  private Direction updateDirection(MapPoint oldPosition) {
-    double gradient = (position.y - oldPosition.y) / (position.x - oldPosition.x);
-    if (gradient < 1) {
-      if (position.y < oldPosition.y) {
-        return Direction.UP;
-      } else {
-        return Direction.DOWN;
-      }
-    } else {
-      if (position.x < oldPosition.x) {
-        return Direction.LEFT;
-      } else {
-        return Direction.RIGHT;
-      }
-    }
+  public double getLineOfSight() {
+    return this.unitType.lineOfSight;
   }
 
   /**
@@ -87,28 +72,34 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return DeadUnit to represent dead current Unit.
    */
-  public DeadUnit getDeadUnit() {
-    return new DeadUnit(position);
+  public DeadUnit createDeadUnit() {
+    if (!isDead || hasCreatedDeadUnit) {
+      throw new IllegalStateException();
+    }
+
+    hasCreatedDeadUnit = true;
+    GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
+    return new DeadUnit(getTopLeft(), getSize(), deadImage);
   }
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
-    unitState = unitState.updateState();
+    unitState = requireNonNull(unitState.updateState());
     //update path in case there is a target and it has moved.
     updatePath(world);
     //update position
-    MapPoint oldPosition = position;
     super.tick(timeSinceLastTick, world);
-    if (!oldPosition.equals(position) && updateDirection(oldPosition) != unitState.getDirection()) {
-      setNextState(new WalkingUnitState(updateDirection(oldPosition), this));
-    }
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
       attack();
+    } else {
+      //if no target, check if unit reached destination and change to idle if so
+      if (this.path.size() == 0) {
+        setNextState(new IdleUnitState(this));
+      }
     }
-
     tickEffects(timeSinceLastTick);
   }
 
@@ -128,36 +119,34 @@ public class Unit extends Attackable implements Damageable {
       );
     }
 
-    setNextState(new AttackingUnitState(unitState.getDirection(), this));
+    setNextState(new AttackingUnitState(this));
   }
 
   @Override
-  public void moveY(double amount) {
+  public void translatePosition(double dx, double dy) {
     if (isDead) {
       return;
     }
-    super.moveY(amount);
+
+    super.translatePosition(dx, dy);
   }
 
   @Override
-  public void moveX(double amount) {
+  public void takeDamage(int amount, World world) {
     if (isDead) {
       return;
     }
-    super.moveX(amount);
-  }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
 
-  @Override
-  public void takeDamage(int amount) {
-    if (isDead) {
-      return;
-    }
-    if (health - amount < 0) {
+    if (health - amount >= 0) {
+      // Not dead
+      health -= amount;
+    } else {
       isDead = true;
       health = 0;
-    } else {
-      setNextState(new BeenHitUnitState(unitState.getDirection(), this));
-      health -= amount;
+      setNextState(new DyingState(Sequence.DYING, this));
     }
   }
 
@@ -166,6 +155,10 @@ public class Unit extends Attackable implements Damageable {
     if (isDead) {
       return;
     }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount: " + amount);
+    }
+
     health += amount;
   }
 
@@ -233,6 +226,13 @@ public class Unit extends Attackable implements Damageable {
 
   public UnitSpriteSheet getSpriteSheet() {
     return spriteSheet;
+  }
+
+  /**
+   * Gets the direction from the current state.
+   */
+  public Direction getCurrentDirection() {
+    return unitState.getCurrentDirection();
   }
 }
 

@@ -4,6 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Team;
@@ -11,11 +14,9 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.world.World;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultImageProvider;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -31,11 +32,11 @@ public class UnitStateTest {
     Unit unit = new Unit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
     HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
         new MapSize(100, 100),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         new ArrayList<Ability>());
     List<MapPoint> path = new ArrayList<>();
@@ -49,7 +50,7 @@ public class UnitStateTest {
         unit,
         heroUnit
     ));
-    World world = new World(levels, heroUnit);
+    World world = new World(levels, heroUnit, new DefaultPathFinder());
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);

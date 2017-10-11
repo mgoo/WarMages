@@ -1,11 +1,13 @@
 package main.game.model.entity;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.util.MapPoint;
-import main.util.MapRect;
-import main.util.MapSize;
+import main.common.images.GameImage;
+import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
@@ -14,19 +16,19 @@ public abstract class Entity implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  protected MapPoint position;
-  protected GameImage image;
-  protected MapSize size;
+  private GameImage image;
+  private MapPoint topLeft;
+  private MapPoint previousTopLeft;
+  private MapSize size;
 
   /**
-   * Constructor takes the position of the entity and the size.
-   *
-   * @param position position of Entity.
-   * @param size size of Entity.
+   * Constructor takes the topLeft of the entity and the size.
    */
-  public Entity(MapPoint position, MapSize size) {
-    this.position = position;
-    this.size = size;
+  public Entity(MapPoint topLeft, MapSize size) {
+    this.topLeft = requireNonNull(topLeft);
+    // look down by default (on diagonal map)
+    this.previousTopLeft = topLeft.translate(-1e-3, -1e-3); // tiny numbers
+    this.size = requireNonNull(size);
   }
 
   /**
@@ -35,7 +37,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's top left position.
    */
   public MapPoint getTopLeft() {
-    return position;
+    return topLeft;
   }
 
   /**
@@ -44,7 +46,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's central position.
    */
   public MapPoint getCentre() {
-    return new MapPoint(position.x + size.width / 2, position.y + size.height / 2);
+    return new MapPoint(topLeft.x + size.width / 2, topLeft.y + size.height / 2);
   }
 
   /**
@@ -64,21 +66,11 @@ public abstract class Entity implements Serializable {
   }
 
   /**
-   * Moves the position of the Entity by amount in the x direction.
-   *
-   * @param amount to be moved by.
+   * Moves the entity.
    */
-  public void moveX(double amount) {
-    position = new MapPoint(position.x + amount, position.y);
-  }
-
-  /**
-   * Moves the position of the Entity by amount in the y direction.
-   *
-   * @param amount to be moved by.
-   */
-  public void moveY(double amount) {
-    position = new MapPoint(position.x, position.y + amount);
+  public void translatePosition(double dx, double dy) {
+    previousTopLeft = topLeft;
+    topLeft = topLeft.translate(dx, dy);
   }
 
   /**
@@ -97,4 +89,12 @@ public abstract class Entity implements Serializable {
    * Updates the Entity's position.
    */
   public abstract void tick(long timeSinceLastTick, World world);
+
+  public MapPoint getPreviousTopLeft() {
+    return previousTopLeft;
+  }
+
+  protected void setImage(GameImage image) {
+    this.image = requireNonNull(image);
+  }
 }

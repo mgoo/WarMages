@@ -3,10 +3,10 @@ package main.menu;
 import java.io.File;
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldLoader;
+import main.common.WorldSaveModel;
 import main.menu.controller.MainMenuController;
-import main.util.Config;
+import main.common.util.Config;
 
 /**
  * The definitions of the file paths to the html file for the Main Menu.
@@ -19,7 +19,7 @@ public class MainMenu extends Menu {
   private final WorldSaveModel worldSaveModel;
 
   /**
-   * Injects the decencies.
+   * Injects the dependencies.
    */
   public MainMenu(Main main,
                   WorldLoader worldLoader,
@@ -29,22 +29,24 @@ public class MainMenu extends Menu {
     super(main);
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
-    this.menuController = new MainMenuController(this.main,
-        this, worldLoader,
+    this.menuController = new MainMenuController(
+        this.main,
+        this,
+        worldLoader,
         worldSaveModel,
         imageView,
-        config);
+        config
+    );
   }
 
   @Override
   public String getHtml() {
-    return this.fileToString("resources/html/main_menu.html");
+    return this.fileToString(MenuFileResources.MAIN_MENU_HTML.getPath());
   }
 
   @Override
   public String getStyleSheetLocation() {
-    return new File("resources/html/css/main_menu.css").toURI().toString();
-
+    return new File(MenuFileResources.MAIN_MENU_CSS.getPath()).toURI().toString();
   }
 
   /**

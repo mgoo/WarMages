@@ -1,8 +1,8 @@
 package main.game.model.entity;
 
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.util.MapPoint;
+import main.common.images.GameImage;
+import main.common.util.MapPoint;
 
 public class UninteractableEntity extends MapEntity {
 
@@ -13,7 +13,7 @@ public class UninteractableEntity extends MapEntity {
    */
   public UninteractableEntity(MapPoint coord, GameImage image) {
     super(coord);
-    this.image = image;
+    this.setImage(image);
   }
 
   @Override

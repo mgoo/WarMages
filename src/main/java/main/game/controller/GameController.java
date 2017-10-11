@@ -6,13 +6,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
+import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
-import main.game.model.world.pathfinder.PathFinder;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
-import main.util.MapRect;
+import main.common.util.MapRect;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -89,28 +89,28 @@ public class GameController {
    * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise,
    *   select that unit.</li>
    * <li>RIGHT click => All selected units move to the clicked location</li>
-   * <li>RIGHT click on an enemy => TODO All selected units will attack the enemy unit</li>
+   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
    * </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
   public void onMouseEvent(MouseClick mouseEvent) {
 
+    //select the unit under the click if there is one
+    Unit selectedUnit = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+            <= Math.max(u.getSize().width, u.getSize().height))
+        .filter(u -> u.getTeam() == (mouseEvent.wasLeft() ? Team.PLAYER : Team.ENEMY))
+        .sorted(Comparator.comparingDouble(
+            s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+        .findFirst().orElse(null);
+
     //If it was a left click
     if (mouseEvent.wasLeft()) {
 
-      //select the unit under the click if there is one
-
-      Unit selectedUnit = gameModel.getAllUnits().stream().filter(
-          u -> u.getCentre().distanceTo(mouseEvent.getLocation()) <= Math
-              .max(u.getSize().width, u.getSize().height))
-          .sorted(
-              Comparator.comparingDouble(s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
-          .findFirst().orElse(null);
-
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
-
         Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         if (selectedUnit != null) {
           updatedUnitSelection.add(selectedUnit);
@@ -119,34 +119,36 @@ public class GameController {
 
       } else if (mouseEvent.wasCtrlDown()) {
         //if clicked unit already selected, deselect it. otherwise, select it
-
         Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
         } else {
-          updatedUnits.add(selectedUnit);
+          if (selectedUnit != null) {
+            updatedUnits.add(selectedUnit);
+          }
         }
         gameModel.setUnitSelection(updatedUnits);
 
       } else {
         //deselect all previous selected units and select the clicked unit
-
         gameModel.setUnitSelection(new ArrayList<>());
         if (selectedUnit != null) {
           gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       }
     } else { //otherwise, it must have been a right click
-      // move all selected units to the clicked location
-      for (Unit unit : gameModel.getUnitSelection()) {
-        unit.setPath(PathFinder.findPath(
-            gameModel.getWorld()::isPassable,
-            unit.getTopLeft(),
-            mouseEvent.getLocation()
-        ));
+      if (selectedUnit != null) {
+        //attack an enemy
+        for (Unit unit : gameModel.getUnitSelection()) {
+          unit.setTarget(selectedUnit, gameModel.getWorld());
+        }
+      } else {
+        // move all selected units to the clicked location
+        for (Unit unit : gameModel.getUnitSelection()) {
+          unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+        }
       }
-      //TODO attack on enemy
     }
   }
 
@@ -164,39 +166,36 @@ public class GameController {
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
   public void onMouseDrag(MouseDrag mouseEvent) {
+    Collection<Unit> selectedUnits = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> mouseEvent.getMapShape().contains(u.getCentre()))
+        .filter(u -> u.getTeam() == Team.PLAYER)
+        .collect(Collectors.toSet());
 
-    if (mouseEvent.wasLeft()) {
+    if (mouseEvent.wasShiftDown()) {
+      //add all units in the drag rectangle to the currently selected units
+      Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+      updatedUnitSelection.addAll(selectedUnits);
+      gameModel.setUnitSelection(updatedUnitSelection);
 
-      MapRect dragArea = new MapRect(mouseEvent.getTopLeft(), mouseEvent.getSize());
+    } else if (mouseEvent.wasCtrlDown()) {
+      //toggle all units under the drag rectangle
 
-      Collection<Unit> selectedUnits = gameModel.getAllUnits().stream()
-          .filter(u -> dragArea.contains(u.getRect()))
-          .collect(Collectors.toSet());
+      Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
 
-      if (mouseEvent.wasShiftDown()) {
-        //add all units in the drag rectangle to the currently selected units
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
-        updatedUnitSelection.addAll(selectedUnits);
-        gameModel.setUnitSelection(updatedUnitSelection);
-
-      } else if (mouseEvent.wasCtrlDown()) {
-        //toggle all units under the drag rectangle
-
-        Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
-
-        for (Unit unit : selectedUnits) {
-          if (updatedUnits.contains(unit)) {
-            updatedUnits.remove(unit);
-          } else {
-            updatedUnits.add(unit);
-          }
+      for (Unit unit : selectedUnits) {
+        if (updatedUnits.contains(unit)) {
+          updatedUnits.remove(unit);
+        } else {
+          updatedUnits.add(unit);
         }
-        gameModel.setUnitSelection(updatedUnits);
-
-      } else {
-        //deselect all units then select all units in the drag rectangle
-        gameModel.setUnitSelection(selectedUnits); // may be empty
       }
+      gameModel.setUnitSelection(updatedUnits);
+
+    } else {
+      //deselect all units then select all units in the drag rectangle
+      gameModel.setUnitSelection(selectedUnits); // may be empty
     }
+
   }
 }

@@ -1,9 +1,7 @@
 package main.menu.controller;
 
-import java.io.IOException;
-import java.util.Collection;
 import main.Main;
-import main.game.model.world.saveandload.WorldSaveModel;
+import main.common.WorldSaveModel;
 import main.menu.MainMenu;
 
 /**
@@ -11,7 +9,7 @@ import main.menu.MainMenu;
  *
  * @author Andrew McGhie
  */
-public class LoadMenuController implements MenuController {
+public class LoadMenuController extends MenuController {
 
   private final Main main;
   private final MainMenu mainMenu;
