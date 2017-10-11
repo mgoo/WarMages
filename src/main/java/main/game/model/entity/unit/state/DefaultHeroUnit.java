@@ -1,4 +1,4 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
 import static java.util.Objects.requireNonNull;
 
@@ -7,10 +7,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.common.HeroUnit;
+import main.common.Team;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.exceptions.ItemNotInRangeException;
+import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;

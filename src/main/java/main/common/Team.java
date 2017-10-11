@@ -1,4 +1,4 @@
-package main.game.model.entity;
+package main.common;
 
 import java.util.Arrays;
 import java.util.Collection;

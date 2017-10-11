@@ -1,4 +1,4 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
 import main.common.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -22,7 +22,7 @@ public class DyingState extends UnitState {
   }
 
   @Override
-  UnitState updateState() {
+  public UnitState updateState() {
     return this;
   }
 }

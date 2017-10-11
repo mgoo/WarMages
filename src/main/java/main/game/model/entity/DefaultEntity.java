@@ -99,6 +99,7 @@ public abstract class DefaultEntity implements Entity {
 
   @Override
   public boolean contains(MapPoint point) {
-    return (point.x >= topLeft.x && point.x <= topLeft.x + size.width && point.y >= topLeft.y && point.y <= topLeft.y + size.height);
+    return (point.x >= topLeft.x && point.x <= topLeft.x + size.width && point.y >= topLeft.y
+        && point.y <= topLeft.y + size.height);
   }
 }

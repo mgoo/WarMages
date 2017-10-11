@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
-import main.game.model.entity.Team;
+import main.common.Team;
 import main.common.Unit;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
