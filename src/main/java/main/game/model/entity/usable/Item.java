@@ -15,7 +15,7 @@ import main.common.util.MapPoint;
  * Functionality should be delegated to the {@link Ability}.
  * </p>
  */
-public class Item extends MapEntity implements Usable {
+public class Item extends MapEntity implements BaseUsable {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
