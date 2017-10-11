@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import main.common.HeroUnit;
 import main.common.Unit;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
@@ -36,7 +37,7 @@ public class WorldTestUtils {
    *
    * @return an out of bounds unit
    */
-  public static DefaultUnit createDefaultUnit(MapPoint point) {
+  public static Unit createDefaultUnit(MapPoint point) {
     return new DefaultUnit(
         point,
         new MapSize(1, 1),
@@ -52,7 +53,7 @@ public class WorldTestUtils {
    * @param units units in level
    * @return a new level
    */
-  public static Level createLevelWith(DefaultUnit... units) {
+  public static Level createLevelWith(Unit... units) {
     return new Level(
         new MapRect(new MapPoint(-10000, -10000), new MapPoint(10000, 10000)),
         Arrays.asList(units),
@@ -139,7 +140,7 @@ public class WorldTestUtils {
    * @param mapPoint point in the world
    * @return a new MapEntity
    */
-  public static DefaultMapEntity createStubMapEntity(MapPoint mapPoint) {
+  public static MapEntity createStubMapEntity(MapPoint mapPoint) {
     return new DefaultMapEntity(mapPoint) {
       @Override
       public void tick(long timeSinceLastTick, World world) {
@@ -182,7 +183,7 @@ public class WorldTestUtils {
    * @param heroUnit herounit in a world
    * @return a new world
    */
-  public static World createWorld(List<Level> levels, DefaultHeroUnit heroUnit) {
+  public static World createWorld(List<Level> levels, HeroUnit heroUnit) {
     return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
@@ -192,7 +193,7 @@ public class WorldTestUtils {
    *
    * @return an enemy orc unit
    */
-  public static DefaultUnit createDefaultEnemyOrc() {
+  public static Unit createDefaultEnemyOrc() {
     return new DefaultUnit(
         new MapPoint(60, 60),
         new MapSize(30, 30),
@@ -207,7 +208,7 @@ public class WorldTestUtils {
    *
    * @return a player knight unit
    */
-  public static DefaultUnit createDefaultPlayerKnight() {
+  public static Unit createDefaultPlayerKnight() {
     return new DefaultUnit(
         new MapPoint(0, 0),
         new MapSize(30, 30),
@@ -222,7 +223,7 @@ public class WorldTestUtils {
    *
    * @return a player knight unit.
    */
-  public static DefaultUnit createDefaultPlayerArcher() {
+  public static Unit createDefaultPlayerArcher() {
     return new DefaultUnit(
         new MapPoint(20, 20),
         new MapSize(30, 30),
@@ -236,7 +237,7 @@ public class WorldTestUtils {
    * Creates a hero unit at 1, 1.
    * @return a new DefaultHeroUnit
    */
-  public static DefaultHeroUnit createDefaultHeroUnit() {
+  public static HeroUnit createDefaultHeroUnit() {
     return new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
@@ -251,7 +252,7 @@ public class WorldTestUtils {
    * @param mapPoint point on the map
    * @return a new DefaultHeroUnit
    */
-  public static DefaultHeroUnit createDefaultHeroUnit(MapPoint mapPoint) {
+  public static HeroUnit createDefaultHeroUnit(MapPoint mapPoint) {
     return new DefaultHeroUnit(
         mapPoint,
         new MapSize(1, 1),

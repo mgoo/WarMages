@@ -10,6 +10,7 @@ import java.util.List;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.common.Entity;
+import main.game.model.entity.DefaultEntity;
 import main.game.model.world.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
@@ -260,7 +261,7 @@ public class GameViewTest {
     }
   }
 
-  private class EntityMock extends Entity {
+  private class EntityMock extends DefaultEntity {
 
     public EntityMock(MapPoint position, MapSize size) {
       super(position, size);

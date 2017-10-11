@@ -1,15 +1,10 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-<<<<<<< HEAD
-import main.common.Usable;
 import main.common.MapEntity;
 import main.common.Unit;
-=======
 import main.common.Effect;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
->>>>>>> 2d22d26dd18895b3a2c08759622f7a071a869b31
+import main.game.model.entity.DefaultMapEntity;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
@@ -22,7 +17,7 @@ import main.common.util.MapPoint;
  * Functionality should be delegated to the {@link Ability}.
  * </p>
  */
-public class Item extends MapEntity implements BaseUsable {
+public class Item extends DefaultMapEntity implements BaseUsable {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
