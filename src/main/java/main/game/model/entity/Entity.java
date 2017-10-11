@@ -16,15 +16,18 @@ public abstract class Entity implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  protected MapPoint position;
-  protected GameImage image;
-  protected MapSize size;
+  private GameImage image;
+  private MapPoint topLeft;
+  private MapPoint previousTopLeft;
+  private MapSize size;
 
   /**
-   * Constructor takes the position of the entity and the size.
+   * Constructor takes the topLeft of the entity and the size.
    */
-  public Entity(MapPoint position, MapSize size) {
-    this.position = requireNonNull(position);
+  public Entity(MapPoint topLeft, MapSize size) {
+    this.topLeft = requireNonNull(topLeft);
+    // look down by default (on diagonal map)
+    this.previousTopLeft = topLeft.translate(-1e-3, -1e-3); // tiny numbers
     this.size = requireNonNull(size);
   }
 
@@ -34,7 +37,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's top left position.
    */
   public MapPoint getTopLeft() {
-    return position;
+    return topLeft;
   }
 
   /**
@@ -43,7 +46,7 @@ public abstract class Entity implements Serializable {
    * @return the entity's central position.
    */
   public MapPoint getCentre() {
-    return new MapPoint(position.x + size.width / 2, position.y + size.height / 2);
+    return new MapPoint(topLeft.x + size.width / 2, topLeft.y + size.height / 2);
   }
 
   /**
@@ -66,7 +69,8 @@ public abstract class Entity implements Serializable {
    * Moves the entity.
    */
   public void translatePosition(double dx, double dy) {
-    position = position.translate(dx, dy);
+    previousTopLeft = topLeft;
+    topLeft = topLeft.translate(dx, dy);
   }
 
   /**
@@ -85,4 +89,12 @@ public abstract class Entity implements Serializable {
    * Updates the Entity's position.
    */
   public abstract void tick(long timeSinceLastTick, World world);
+
+  public MapPoint getPreviousTopLeft() {
+    return previousTopLeft;
+  }
+
+  protected void setImage(GameImage image) {
+    this.image = requireNonNull(image);
+  }
 }

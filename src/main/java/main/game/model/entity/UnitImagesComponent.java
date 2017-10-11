@@ -14,9 +14,7 @@ public class UnitImagesComponent implements Serializable {
 
   private final Sequence sequence;
   private final UnitSpriteSheet spriteSheet;
-  private final List<GameImage> images;
-
-  private Direction direction;
+  private final Unit unit;
 
   private int currentTick = 0;
 
@@ -27,27 +25,16 @@ public class UnitImagesComponent implements Serializable {
    */
   public UnitImagesComponent(
       Sequence sequence,
-      Direction direction,
       Unit unit
   ) {
     this.sequence = sequence;
-    this.direction = direction;
     this.spriteSheet = unit.getSpriteSheet();
-    this.images = spriteSheet.getImagesForSequence(sequence, direction);
-  }
-
-  /**
-   * Returns the direction of the images.
-   *
-   * @return Direction of images.
-   */
-  public Direction getDirection() {
-    return direction;
+    this.unit = unit;
   }
 
   /**
    * Returns the SpriteSheet used by this ImagesComponent.
-   *
+   * NOT USED TODO?
    * @return UnitSpriteSheet currently used.
    */
   public UnitSpriteSheet getSpriteSheet() {
@@ -71,7 +58,7 @@ public class UnitImagesComponent implements Serializable {
   }
 
   public GameImage getImage() {
-    return images.get(getImageIndex());
+    return getImages().get(getImageIndex());
   }
 
   /**
@@ -103,15 +90,15 @@ public class UnitImagesComponent implements Serializable {
     return _getCurrentTick() == maxNumberOfTicks() - 1;
   }
 
-  public void setDirection(Direction direction) {
-    this.direction = direction;
-  }
-
   private int maxNumberOfTicks() {
-    return TICKS_PER_FRAME * images.size();
+    return TICKS_PER_FRAME * getImages().size();
   }
 
   private int getImageIndex() {
     return currentTick / TICKS_PER_FRAME;
+  }
+
+  private List<GameImage> getImages() {
+    return spriteSheet.getImagesForSequence(sequence, unit.getCurrentDirection());
   }
 }

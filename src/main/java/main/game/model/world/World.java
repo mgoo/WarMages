@@ -203,4 +203,12 @@ public class World implements Serializable {
   public List<MapPoint> findPath(MapPoint start, MapPoint end) {
     return pathFinder.findPath(this::isPassable, start, end);
   }
+
+  /**
+   * Gets the current goal for the current level.
+   * @return String description of the current goal
+   */
+  public String getCurrentGoalDescription() {
+    return currentLevel().getGoalDescription();
+  }
 }
