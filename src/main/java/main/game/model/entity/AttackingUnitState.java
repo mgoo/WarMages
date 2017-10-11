@@ -1,20 +1,21 @@
 package main.game.model.entity;
 
+import main.common.images.UnitSpriteSheet;
 import main.game.model.world.World;
 
 public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(Direction direction, Unit unit) {
-    super(unit.getUnitType().getAttackSequence(), direction, unit);
+  public AttackingUnitState(Unit unit) {
+    super(unit.getUnitType().getAttackSequence(), unit);
   }
 
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
-    if (imagesComponent.isOnAttackFrame()) {
+    if (imagesComponent.isOnAttackTick()) {
       onAttackFrame(world);
     }
   }
@@ -28,9 +29,19 @@ public class AttackingUnitState extends UnitState {
     return nextState;
   }
 
+  @Override
+  public Direction getCurrentDirection() {
+    Unit target = unit.getTarget();
+    if (target == null) {
+      return super.getCurrentDirection();
+    }
+
+    return Direction.between(unit.getCentre(), target.getCentre());
+  }
+
   /**
    * Called when the attack frame is reached and the animation
-   * {@link main.images.UnitSpriteSheet.Sequence}.
+   * {@link UnitSpriteSheet.Sequence}.
    */
   private void onAttackFrame(World world) {
     UnitType unitType = unit.getUnitType();
@@ -41,7 +52,7 @@ public class AttackingUnitState extends UnitState {
       world.addProjectile(projectile);
     } else {
       // Non projectile attack (e.g. spear)
-      target.takeDamage(unit.getDamageAmount());
+      target.takeDamage(unit.getDamageAmount(), world);
     }
   }
 }

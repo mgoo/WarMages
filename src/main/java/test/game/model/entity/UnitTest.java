@@ -10,22 +10,24 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import main.common.PathFinder;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
+import main.game.model.world.pathfinder.DefaultPathFinder;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -39,7 +41,7 @@ public class UnitTest {
 
     private World world;
     private Unit enemyUnit;
-    private AtomicInteger projectileCount;
+    private List<Projectile> firedProjectiles = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -51,13 +53,13 @@ public class UnitTest {
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
           UnitType.ARCHER
       );
 
       // Spy on addProjectile method
-      projectileCount = new AtomicInteger();
-      doAnswer(invocationOnMock -> projectileCount.getAndIncrement())
+      doAnswer(invocationOnMock ->
+          firedProjectiles.add((Projectile) invocationOnMock.getArguments()[0]))
           .when(world)
           .addProjectile(any());
     }
@@ -75,7 +77,7 @@ public class UnitTest {
       }
 
       // then some projectiles should have been created
-      assert projectileCount.get() > 0;
+      assertTrue(firedProjectiles.size() > 0);
     }
 
     @Test
@@ -91,7 +93,7 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
     }
 
     @Test
@@ -107,7 +109,38 @@ public class UnitTest {
       }
 
       // then no projectiles should have been fired
-      assert projectileCount.get() == 0;
+      assertEquals(0, firedProjectiles.size());
+    }
+
+    @Test
+    public void testProjectileHitShouldReduceHealth() {
+      // Given all the objects in the setUp()
+      // and a swordsman
+      Unit unit = createPlayerUnit(UnitType.ARCHER);
+      unit.setTarget(enemyUnit, world);
+      // and the initial health of the enemy
+      final int enemyStartingHealth = enemyUnit.getHealth();
+
+      // when a projectile is eventually fired/created
+      while (firedProjectiles.isEmpty()) {
+        unit.tick(GameModel.DELAY, world);
+      }
+      Projectile projectile = firedProjectiles.get(0);
+
+      // then the projectile should do damage
+      int projectileDamage = projectile.getDamageAmount();
+      assertTrue(projectileDamage > 0);
+
+      // when the projectile eventually hits something
+      while (!projectile.hasHit()) {
+        unit.tick(GameModel.DELAY, world);
+        // (only tick this projectile, ignore others)
+        projectile.tick(GameModel.DELAY, world);
+      }
+
+      // then the enemy health should be reduced
+      int hitEnemyHealth = enemyUnit.getHealth();
+      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
     }
 
     @Test
@@ -120,7 +153,7 @@ public class UnitTest {
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
       int prevHealth = unit.getHealth();
-      unit.takeDamage(5);
+      unit.takeDamage(5, this.world);
       assertEquals(prevHealth - 5, unit.getHealth());
     }
 
@@ -129,7 +162,7 @@ public class UnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
-          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
           unitType
       );
     }
@@ -139,7 +172,7 @@ public class UnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new UnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
           unitType
       );
     }
@@ -151,19 +184,19 @@ public class UnitTest {
     Unit unit = new Unit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
     HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
         new MapSize(100, 100),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         new ArrayList<Ability>());
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(unit, heroUnit));
-    World world = new World(levels, heroUnit);
+    World world = new World(levels, heroUnit, new DefaultPathFinder());
 
-    Ability ability1 = new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+    Ability ability1 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {
@@ -174,7 +207,7 @@ public class UnitTest {
         };
       }
     };
-    Ability ability2 = new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+    Ability ability2 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 2) {
@@ -185,7 +218,7 @@ public class UnitTest {
         };
       }
     };
-    Ability ability3 = new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+    Ability ability3 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {
@@ -198,11 +231,11 @@ public class UnitTest {
     };
 
     assertEquals(5, unit.getDamageAmount());
-    ability1.useOnUnits(Arrays.asList(unit));
+    unit.addEffect(ability1._createEffectForUnit(unit));
     assertEquals(6, unit.getDamageAmount());
-    ability2.useOnUnits(Arrays.asList(unit));
+    unit.addEffect(ability2._createEffectForUnit(unit));
     assertEquals(7, unit.getDamageAmount());
-    ability3.useOnUnits(Arrays.asList(unit));
+    unit.addEffect(ability3._createEffectForUnit(unit));
     assertEquals(8, unit.getDamageAmount());
 
     for (int i = 0; i < 25; i++) {
@@ -216,22 +249,22 @@ public class UnitTest {
     Unit playerUnit = new Unit(new MapPoint(0,0),
         new MapSize(0.5, 0.5),
         Team.PLAYER,
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
     Unit enemyUnit = new Unit(new MapPoint(1,1),
         new MapSize(0.5, 0.5),
         Team.ENEMY,
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.SPEARMAN);
     HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
         new MapSize(0.5, 0.5),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         new ArrayList<Ability>());
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
-    World world = new World(levels, heroUnit);
+    World world = new World(levels, heroUnit, new DefaultPathFinder());
 
     playerUnit.setTarget(enemyUnit, world);
 

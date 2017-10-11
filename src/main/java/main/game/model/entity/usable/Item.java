@@ -1,10 +1,11 @@
 package main.game.model.entity.usable;
 
+import java.util.Collection;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.util.MapPoint;
+import main.common.images.GameImage;
+import main.common.util.MapPoint;
 
 /**
  * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.
@@ -26,7 +27,7 @@ public class Item extends MapEntity implements Usable {
   public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
     super(coord);
     this.ability = ability;
-    this.image = onMapImage;
+    this.setImage(onMapImage);
   }
 
   @Override
@@ -55,6 +56,11 @@ public class Item extends MapEntity implements Usable {
   @Override
   public double getCoolDownProgress() {
     return ability.getCoolDownProgress();
+  }
+
+  @Override
+  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+    return ability._selectUnitsToApplyOn(world, selectedUnits);
   }
 
   @Override

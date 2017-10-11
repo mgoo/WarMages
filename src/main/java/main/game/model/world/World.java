@@ -4,16 +4,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.usable.Item;
 import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
-import main.util.MapPoint;
+import main.game.model.entity.usable.Item;
+import main.common.util.MapPoint;
+import main.common.PathFinder;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -25,10 +30,13 @@ public class World implements Serializable {
 
   private final List<Level> levels;
   private final HeroUnit heroUnit;
-  private final Collection<Unit> units;
-  private final Collection<Item> items;
-  private final Collection<MapEntity> mapEntities;
-  private final Collection<Projectile> projectiles;
+  private final Set<Unit> units;
+  private final Set<Unit> recentlyKilledUnits;
+  private final Set<Item> items;
+  private final Set<MapEntity> mapEntities;
+  private final Set<Projectile> projectiles;
+
+  private final PathFinder pathFinder;
 
   /**
    * Creates the world.
@@ -36,7 +44,7 @@ public class World implements Serializable {
    * @param levels The levels sorted from start to finish. The first level is the initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(List<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit, PathFinder pathfinder) {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
     if (levels.isEmpty()) {
@@ -44,11 +52,23 @@ public class World implements Serializable {
     }
     this.heroUnit = heroUnit;
     this.levels = new ArrayList<>(levels);
-    this.units = new ArrayList<>(currentLevel().getUnits());
-    this.items = new ArrayList<>(currentLevel().getItems());
-    this.mapEntities = new ArrayList<>(currentLevel().getMapEntities());
+    this.units = newConcurrentSetOf(currentLevel().getUnits());
+    this.recentlyKilledUnits = newConcurrentSet();
+    this.items = newConcurrentSetOf(currentLevel().getItems());
+    this.mapEntities = newConcurrentSetOf(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
-    this.projectiles = new ArrayList<>();
+    this.projectiles = newConcurrentSet();
+    this.pathFinder = pathfinder;
+  }
+
+  private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
+    Set<T> set = newConcurrentSet();
+    set.addAll(collection);
+    return set;
+  }
+
+  private <T> Set<T> newConcurrentSet() {
+    return Collections.newSetFromMap(new ConcurrentHashMap<>());
   }
 
   private Level currentLevel() {
@@ -98,6 +118,10 @@ public class World implements Serializable {
 
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
+  }
+
+  public void removeProjectile(Projectile projectile) {
+    projectiles.remove(projectile);
   }
 
   public Collection<Projectile> getProjectiles() {
@@ -154,6 +178,37 @@ public class World implements Serializable {
    */
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
+    for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {
+      Unit deadUnit = iterator.next();
+      iterator.remove();
+
+      units.remove(deadUnit);
+      mapEntities.add(deadUnit.createDeadUnit());
+    }
+
     checkLevelCompletion();
+  }
+
+  /**
+   * Units should call this when they die.
+   */
+  public void onEnemyKilled(Unit unit) {
+    if (unit.getHealth() != 0) {
+      throw new IllegalArgumentException();
+    }
+
+    recentlyKilledUnits.add(unit);
+  }
+
+  public List<MapPoint> findPath(MapPoint start, MapPoint end) {
+    return pathFinder.findPath(this::isPassable, start, end);
+  }
+
+  /**
+   * Gets the current goal for the current level.
+   * @return String description of the current goal
+   */
+  public String getCurrentGoalDescription() {
+    return currentLevel().getGoalDescription();
   }
 }

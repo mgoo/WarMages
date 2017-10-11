@@ -5,9 +5,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
 import java.util.Arrays;
+import java.util.Collections;
+import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
+import main.common.util.MapSize;
+import main.common.util.TickTimer;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.UnitType;
@@ -17,11 +23,7 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
-import main.images.GameImageResource;
-import main.images.UnitSpriteSheet;
-import main.util.MapPoint;
-import main.util.MapSize;
-import main.util.TickTimer;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 public class UsablesTest {
@@ -38,7 +40,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList(healAbility)
     );
@@ -56,7 +58,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList()
     );
@@ -89,11 +91,16 @@ public class UsablesTest {
   ) {
     // Given a heal with a heal usable
     assertTrue(healAmount > 0);
+    // and a mock world
+    World world = mock(World.class);
+    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
+
     // when the hero takes damage
-    heroUnit.takeDamage(heroUnit.getHealth() - 1);
+    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
     int lowHealth = heroUnit.getHealth();
     // and the heal is used
-    healer.useOnUnits(Arrays.asList(heroUnit));
+    healer.use(world, Collections.emptyList());
 
     // then the health should go up
     int firstNewHealth = heroUnit.getHealth();
@@ -106,7 +113,7 @@ public class UsablesTest {
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick usable
     }
     // and the heal is used again
-    healer.useOnUnits(Arrays.asList(heroUnit));
+    healer.use(world, Collections.emptyList());
 
     // then health should increase again
     int secondNewHealth = heroUnit.getHealth();
@@ -124,12 +131,16 @@ public class UsablesTest {
         3
     );
     assertTrue(healAbility.getCoolDownTicks() > 0); // sanity check
+    // and a mock world
+    World world = mock(World.class);
+    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
 
     // when ability is used
-    healAbility.useOnUnits(Arrays.asList(heroUnit)); // should be ok
+    healAbility.use(world, Collections.emptyList()); // should be ok
     try {
       // and we try to use it again
-      healAbility.useOnUnits(Arrays.asList(heroUnit));
+      healAbility.use(world, Collections.emptyList());
       fail();
     } catch (UsableStillInCoolDownException ignored) {
       // then it should fail
@@ -143,7 +154,7 @@ public class UsablesTest {
 
     // then we should be able to use the ability again
     assertTrue(healAbility.isReadyToBeUsed());
-    healAbility.useOnUnits(Arrays.asList(heroUnit));
+    healAbility.use(world, Collections.emptyList());
   }
 
   @Test
@@ -160,14 +171,18 @@ public class UsablesTest {
     HeroUnit heroUnit = new HeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new UnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList(buffAbility)
     );
     int baseDamageAmount = heroUnit.getDamageAmount();
+    // and a mock world
+    World world = mock(World.class);
+    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
 
     // when we use the buff
-    buffAbility.useOnUnits(Arrays.asList(heroUnit));
+    buffAbility.use(world, Collections.emptyList());
 
     // damageAmount should increase for several ticks
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());

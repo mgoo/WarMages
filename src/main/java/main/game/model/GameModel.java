@@ -8,8 +8,8 @@ import java.util.TimerTask;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.util.Events;
-import main.util.Events.MainGameTick;
+import main.common.util.Events;
+import main.common.util.Events.MainGameTick;
 
 /**
  * Contains the main game loop, and controls the the progression of the story/game through the use
@@ -35,7 +35,7 @@ public class GameModel {
   public GameModel(World world, Events.MainGameTick mainGameTick) {
     this.world = world;
     this.mainGameTick = mainGameTick;
-    selectedUnits = new HashSet<>();
+    this.selectedUnits = Collections.emptySet();
   }
 
   /**
@@ -55,7 +55,7 @@ public class GameModel {
     t.schedule(new TimerTask() {
       @Override
       public void run() {
-        mainGameTick.broadcast(DELAY);
+        mainGameTick.broadcast(System.currentTimeMillis());
       }
     }, DELAY, DELAY);
   }
@@ -67,6 +67,9 @@ public class GameModel {
    */
   public void setUnitSelection(Collection<Unit> unitSelection) {
     selectedUnits = new HashSet<>(unitSelection);
+    if (selectedUnits.contains(null)) {
+      throw new NullPointerException();
+    }
   }
 
   /**
