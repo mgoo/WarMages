@@ -142,7 +142,8 @@ public class HudController extends MenuController {
    */
   public void quitBtn() {
     try {
-      // TODO handle exiting the game
+      renderer.stop();
+      gameView.stopModel();
       this.main.loadMenu(this.mainMenu);
     } catch (Exception e) {
       e.printStackTrace();

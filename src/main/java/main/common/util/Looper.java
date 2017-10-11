@@ -36,7 +36,13 @@ public class Looper {
     thread.start();
   }
 
+  /**
+   * Stops the running thread.
+   */
   public synchronized void stop(){
+    if (!isRunning.get()) {
+      throw new IllegalStateException("Thread is already stopped!");
+    }
     isRunning.set(false);
   }
 

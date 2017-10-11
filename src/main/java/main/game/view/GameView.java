@@ -291,11 +291,24 @@ public class GameView {
     });
   }
 
+  /**
+   * Pauses the main game loop inside model.
+   */
   public void pauseModel() {
     gameModel.pause();
   }
 
+  /**
+   * Resumes the main game loop inside model.
+   */
   public void resumeModel() {
     gameModel.resume();
+  }
+
+  /**
+   * Stops the main game loop inside model.
+   */
+  public void stopModel() {
+    gameModel.stop();
   }
 }
