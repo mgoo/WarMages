@@ -5,12 +5,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-import main.game.model.entity.UninteractableEntity;
-import main.game.model.world.saveandload.WorldLoader;
-import main.game.model.world.World;
+import main.common.WorldLoader;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
+import main.game.model.entity.UninteractableEntity;
+import main.game.model.world.World;
+import main.game.model.world.saveandload.DefaultWorldLoader;
 import org.junit.Test;
 
 /**
@@ -21,20 +22,20 @@ public class WorldLoaderTest {
 
   @Test
   public void load_noInputs_returnsNonNullAndDoesNotCrash() {
-    WorldLoader worldLoader = new WorldLoader();
+    WorldLoader worldLoader = new DefaultWorldLoader();
     World load = worldLoader.load();
     assertNotNull(load);
   }
 
   @Test
   public void newSingleLevelTest_noInputs_returnsNonNullAndDoesNotCrash() {
-    World load = new WorldLoader().loadSingleLevelTestWorld();
+    World load = new DefaultWorldLoader().loadSingleLevelTestWorld();
     assertNotNull(load);
   }
 
   @Test
   public void loadMultilevelWorld_noInputs_returnsNonNullAndDoesNotCrash() {
-    World load = new WorldLoader().loadMultilevelWorld();
+    World load = new DefaultWorldLoader().loadMultilevelWorld();
     assertNotNull(load);
   }
 
@@ -44,9 +45,9 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
-    Collection<UninteractableEntity> boundEntities = WorldLoader.generateBorderEntities(
+    Collection<UninteractableEntity> boundEntities = DefaultWorldLoader.generateBorderEntities(
         bounds,
-        WorldLoader::newBorderEntityAt
+        DefaultWorldLoader::newBorderEntityAt
     );
 
     assertEquals(boundEntities.size(), 10); // 10 edge squares inside a 3x4 grid
@@ -67,9 +68,9 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(5, 5));
-    Collection<UninteractableEntity> boundEntities = WorldLoader.generateBorderEntities(
+    Collection<UninteractableEntity> boundEntities = DefaultWorldLoader.generateBorderEntities(
         bounds,
-        WorldLoader::newBorderEntityAt
+        DefaultWorldLoader::newBorderEntityAt
     );
 
     assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 5x5 grid

@@ -6,7 +6,7 @@ import main.common.util.Looper;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
-import main.game.model.world.saveandload.WorldLoader;
+import main.common.WorldLoader;
 import main.common.WorldSaveModel;
 import main.game.view.GameView;
 import main.game.view.events.MouseClick;
