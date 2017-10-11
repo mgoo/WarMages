@@ -17,6 +17,8 @@ import main.game.model.entity.Projectile;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
+import main.common.PathFinder;
+import main.game.model.world.pathfinder.DefaultPathFinder;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -34,13 +36,15 @@ public class World implements Serializable {
   private final Set<MapEntity> mapEntities;
   private final Set<Projectile> projectiles;
 
+  private final PathFinder pathFinder;
+
   /**
    * Creates the world.
    *
    * @param levels The levels sorted from start to finish. The first level is the initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(List<Level> levels, HeroUnit heroUnit) {
+  public World(List<Level> levels, HeroUnit heroUnit, PathFinder pathfinder) {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
     if (levels.isEmpty()) {
@@ -54,6 +58,7 @@ public class World implements Serializable {
     this.mapEntities = newConcurrentSetOf(currentLevel().getMapEntities());
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = newConcurrentSet();
+    this.pathFinder = pathfinder;
   }
 
   private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
@@ -193,6 +198,10 @@ public class World implements Serializable {
     }
 
     recentlyKilledUnits.add(unit);
+  }
+
+  public List<MapPoint> findPath(MapPoint start, MapPoint end) {
+    return pathFinder.findPath(this::isPassable, start, end);
   }
 
   /**
