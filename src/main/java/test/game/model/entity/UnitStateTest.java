@@ -1,7 +1,5 @@
 package test.game.model.entity;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import main.common.images.GameImageResource;
@@ -15,26 +13,26 @@ import main.game.model.entity.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.DefaultImageProvider;
 import main.images.DefaultUnitSpriteSheet;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
 /**
- * TODO atm units dont move so its a bit hard to test
+ * Test the changing of states works properly.
  * @author Andrew McGhie
  */
 public class UnitStateTest {
 
+  @Ignore
   @Test
-  public void testUnitState() {
+  public void testUnitState_unitShouldBeInWalkingStateWhenMoving() {
     Unit unit = new Unit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
-    HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
+    final HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
         new MapSize(100, 100),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
@@ -54,12 +52,25 @@ public class UnitStateTest {
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);
-    BufferedImage img;
-    try {
-      img = unit.getImage().load(new DefaultImageProvider());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // TODO assert unit state
+  }
+
+  @Ignore
+  @Test
+  public void testUnitState_unitShouldBeAttackingStateWhenAttacking() {
+    // TODO
+  }
+
+  @Ignore
+  @Test
+  public void testUnitState_unitShouldBeAbleToGoToWalkingFromMoving() {
+    // TODO
+  }
+
+  @Ignore
+  @Test
+  public void testUnitState_unitShouldGoIdleAfterAttacking() {
+    // TODO
   }
 
 }
