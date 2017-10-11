@@ -1,5 +1,6 @@
 package main.game.model.entity;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -31,7 +32,7 @@ public abstract class MovableEntity extends Entity {
    * Sets the path to be followed by the unit to the given path.
    */
   public void setPath(List<MapPoint> path) {
-    this.path = new LinkedList<>(path);
+    this.path = new ArrayDeque<>(path);
   }
 
   @Override
@@ -41,7 +42,7 @@ public abstract class MovableEntity extends Entity {
     }
     MapPoint target = this.path.peek();
     double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY + Math.max(this.size.width / 2, this.size.height / 2)) {
+    if (distance < LEEWAY + Math.max(getSize().width / 2, getSize().height / 2)) {
       this.path.poll();
       if (this.path.size() == 0) {
         return;
@@ -49,11 +50,11 @@ public abstract class MovableEntity extends Entity {
       target = this.path.peek();
     }
 
-    double dx = target.x - this.position.x;
-    double dy = target.y - this.position.y;
+    double dx = target.x - getTopLeft().x;
+    double dy = target.y - getTopLeft().y;
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
-    assert  speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
-    position = position.translate(mx, my);
+    assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
+    translatePosition(mx, my);
   }
 }
