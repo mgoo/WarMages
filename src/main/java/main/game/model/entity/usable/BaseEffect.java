@@ -17,8 +17,9 @@ public abstract class BaseEffect implements Effect {
 
   /**
    * Default constructor.
-   * @param durationSeconds Number of seconds before this expires. Set to
-   *     {@link BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
+   *
+   * @param durationSeconds Number of seconds before this expires. Set to {@link
+   * BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
   public BaseEffect(Unit targetUnit, double durationSeconds) {
     if (durationSeconds < 0) {

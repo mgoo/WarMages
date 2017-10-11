@@ -17,11 +17,11 @@ import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.common.MapEntity;
-import main.game.model.entity.DefaultHeroUnit;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.DefaultMapEntity;
-import main.game.model.entity.DefaultUnit;
-import main.game.model.entity.Team;
-import main.game.model.entity.UnitType;
+import main.game.model.entity.unit.DefaultUnit;
+import main.common.Team;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseEffect;
 import main.common.Effect;
@@ -122,7 +122,9 @@ public class WorldTestUtils {
     return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
 
       @Override
-      public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedDefaultUnits) {
+      public Collection<Unit> _selectUnitsToApplyOn(
+          World world, Collection<Unit> selectedDefaultUnits
+      ) {
         return Collections.emptyList();
       }
 
@@ -235,6 +237,7 @@ public class WorldTestUtils {
 
   /**
    * Creates a hero unit at 1, 1.
+   *
    * @return a new DefaultHeroUnit
    */
   public static HeroUnit createDefaultHeroUnit() {
@@ -249,6 +252,7 @@ public class WorldTestUtils {
 
   /**
    * Creates a hero unit based on mapPoint.
+   *
    * @param mapPoint point on the map
    * @return a new DefaultHeroUnit
    */

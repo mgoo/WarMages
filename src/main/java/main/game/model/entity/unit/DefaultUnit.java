@@ -1,4 +1,4 @@
-package main.game.model.entity;
+package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+import main.common.Team;
 import main.common.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
@@ -15,6 +16,13 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.Effect;
+import main.game.model.entity.unit.state.AttackingUnitState;
+import main.game.model.entity.unit.state.DeadUnit;
+import main.game.model.entity.DefaultEntity;
+import main.game.model.entity.Direction;
+import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.state.DyingState;
+import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.world.World;
 
 public class DefaultUnit extends DefaultEntity implements Unit {
@@ -35,9 +43,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private int health;
   private int damageAmount;
-
-  private MapPoint position;
-  private MapSize size;
 
   protected Queue<MapPoint> path = new LinkedList<>();
   protected double speed;
@@ -95,7 +100,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
     hasCreatedDeadUnit = true;
     GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DeadUnit(position, size, deadImage);
+    return new DeadUnit(getTopLeft(), getSize(), deadImage);
   }
 
   @Override
@@ -153,7 +158,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     if (isDead) {
       return;
     }
-    position = new MapPoint(position.x + dx, position.y + dy);
+    super.translatePosition(dx, dy);
   }
 
   @Override

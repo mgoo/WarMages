@@ -3,7 +3,7 @@ package main.game.view;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapSize;
-import main.game.model.entity.Team;
+import main.common.Team;
 import main.common.Unit;
 
 /**

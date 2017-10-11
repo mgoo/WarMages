@@ -1,8 +1,9 @@
-package main.game.model.entity;
+package main.game.model.entity.unit;
 
 import main.common.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Projectile;
 
 /**
  * This enum represents the type of a Unit. A unit can be an archer, a swordsman, a spearman, or a

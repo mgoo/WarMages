@@ -1,7 +1,9 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
 import java.io.Serializable;
 import main.common.Unit;
+import main.game.model.entity.Direction;
+import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -63,5 +65,5 @@ public abstract class UnitState implements Serializable {
   /**
    * Gets the next state or this if no change was requested.
    */
-  abstract UnitState updateState();
+  public abstract UnitState updateState();
 }

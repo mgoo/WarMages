@@ -4,11 +4,10 @@ import java.util.List;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
-import main.game.model.entity.DeadUnit;
+import main.game.model.entity.unit.state.DeadUnit;
 import main.game.model.entity.Direction;
-import main.game.model.entity.Team;
-import main.game.model.entity.UnitState;
-import main.game.model.entity.UnitType;
+import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 
 /**

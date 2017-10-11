@@ -1,7 +1,10 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
 import main.common.Unit;
 import main.common.images.UnitSpriteSheet;
+import main.game.model.entity.Direction;
+import main.game.model.entity.Projectile;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 
 public class AttackingUnitState extends UnitState {
@@ -22,7 +25,7 @@ public class AttackingUnitState extends UnitState {
   }
 
   @Override
-  UnitState updateState() {
+  public UnitState updateState() {
     if (!imagesComponent.isReadyToTransition() || nextState == null) {
       return this;
     }
