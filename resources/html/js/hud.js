@@ -33,10 +33,6 @@ function addItemIcon(image, item) {
   $('#item-holder').append(icon);
 }
 
-function setGoal(text) {
-  $('#goal').html(text);
-}
-
 function clearUnits() {
   $('#unit-holder').html('');
 }
@@ -70,7 +66,7 @@ resumeButton.on('click', function (event) {
 
 gameViewProxy
   .on('mousedown', function (event) {
-    if (event.which != 1) return;
+    if (event.which !== 1) return;
     Rect.mouseDown = true
   })
   .on('mousemove', function (event) {
@@ -83,56 +79,88 @@ gameViewProxy
     }
   })
   .on('mouseup', function (event) {
-    if (event.which == 1) {
-      if (Rect.visible) {
-        controller.onDrag(Rect.box.startX,
-            Rect.box.startY,
-            event.pageX,
-            event.pageY,
-            event.shiftKey,
-            event.ctrlKey);
-      } else {
+      var wasDrag = doDragSelect(event);
+      if (!wasDrag && event.which === 1) {
         controller.onLeftClick(event.pageX, event.pageY, event.shiftKey,
             event.ctrlKey);
       }
-      Rect.reset();
+      Rect.reset()
+  });
+
+$('.bottom-bar')
+  .on('mouseup', function (event) {
+    doDragSelect(event);
+  })
+  .on('mousemove', function (event) {
+    if (Rect.visible) {
+      Rect.update(event.pageX, event.pageY);
+    }
+  });
+$('.top-bar')
+  .on('mouseup', function (event) {
+    doDragSelect(event);
+  })
+  .on('mousemove', function (event) {
+    if (Rect.visible) {
+      Rect.update(event.pageX, event.pageY);
     }
   });
 
+var doDragSelect = function (event) {
+  if (event.which === 1 && Rect.visible) {
+    controller.onDrag(Rect.box.originX,
+        Rect.box.originY,
+        Rect.box.x,
+        Rect.box.y,
+        event.shiftKey,
+        event.ctrlKey);
+    Rect.reset();
+    return true;
+  }
+  return false;
+};
+
+
 var Rect = {
     rect: $('<div class="rect"></div>'),
-    container: gameViewProxy,
     visible: false,
     mouseDown: false,
     box: {
-        startX: 0,
-        startY: 0,
+        originX: 0,
+        originY: 0,
         x: 0,
         y: 0,
         reset: function() {
             this.x = 0;
             this.y = 0;
-            this.startX = 0;
-            this.startY = 0;
+            this.originX = 0;
+            this.originY = 0;
         }
     },
     init: function(x, y) {
         this.visible = true;
-        this.box.startX = x;
-        this.box.startY = y;
+        this.box.originX = x;
+        this.box.originY = y;
         this.box.x = x;
         this.box.y = y;
         this.rect.css('left', x + 'px');
         this.rect.css('top', y + 'px');
     },
-    draw: function() {
-      this.rect.appendTo(this.container);
+    draw: function(container) {
+      this.rect.appendTo(container);
     },
     update: function(x, y) {
-        this.box.x = x;
-        this.box.y = y;
-        this.rect.css('width', (this.box.x - this.box.startX) + 'px');
-        this.rect.css('height', (this.box.y - this.box.startY) + 'px');
+      this.box.x = x;
+      this.box.y = y;
+      var dispX = Math.min(this.box.x, this.box.originX);
+      var dispY = Math.min(this.box.y, this.box.originY);
+      var dispWidth = Math.abs(this.box.x - this.box.originX);
+      var dispHeight = Math.abs(this.box.y - this.box.originY);
+
+      this.rect.css('left', dispX + 'px');
+      this.rect.css('top', dispY + 'px');
+      this.rect.css('width', dispWidth + 'px');
+      this.rect.css('height', dispHeight + 'px');
     },
     reset: function() {
       this.rect.remove();
