@@ -196,7 +196,10 @@ public class UnitTest {
     levels.add(WorldTestUtils.createLevelWith(unit, heroUnit));
     World world = new World(levels, heroUnit, new DefaultPathFinder());
 
-    Ability ability1 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
+    final Ability ability1 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
+        1,
+        2,
+        3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {
@@ -207,7 +210,10 @@ public class UnitTest {
         };
       }
     };
-    Ability ability2 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
+    final Ability ability2 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
+        1,
+        2,
+        3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 2) {
@@ -218,7 +224,10 @@ public class UnitTest {
         };
       }
     };
-    Ability ability3 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2, 3) {
+    final Ability ability3 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
+        1,
+        2,
+        3) {
       @Override
       public Effect _createEffectForUnit(Unit unit) {
         return new Effect(unit, 1) {
