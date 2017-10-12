@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import main.common.entity.PathFinder;
+import main.common.PathFinder;
 import main.common.util.MapPoint;
 
 /**
