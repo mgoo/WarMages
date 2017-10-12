@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
-import main.common.Entity;
+import main.common.entity.Entity;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.world.World;
 import main.game.view.EntityView;

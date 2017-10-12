@@ -10,14 +10,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import main.game.model.Level;
-import main.common.Entity;
-import main.common.HeroUnit;
-import main.common.MapEntity;
+import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
+import main.common.entity.MapEntity;
 import main.game.model.entity.Projectile;
-import main.common.Unit;
+import main.common.entity.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
-import main.common.PathFinder;
+import main.common.entity.PathFinder;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity

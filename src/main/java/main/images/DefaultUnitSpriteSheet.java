@@ -13,7 +13,7 @@ import main.common.images.GameImage;
 import main.common.images.GameImageBuilder;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet;
-import main.common.Direction;
+import main.common.entity.Direction;
 
 public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
 

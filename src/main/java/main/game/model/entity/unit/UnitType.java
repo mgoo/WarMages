@@ -1,6 +1,6 @@
 package main.game.model.entity.unit;
 
-import main.common.Unit;
+import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.Projectile;

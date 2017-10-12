@@ -1,6 +1,6 @@
 package main.game.model.entity;
 
-import main.common.MapEntity;
+import main.common.entity.MapEntity;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;

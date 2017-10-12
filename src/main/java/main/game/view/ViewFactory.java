@@ -3,8 +3,8 @@ package main.game.view;
 import java.awt.image.BufferedImage;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
-import main.common.Entity;
-import main.common.Unit;
+import main.common.entity.Entity;
+import main.common.entity.Unit;
 
 /**
  * Created by mgoo on 10/10/17.

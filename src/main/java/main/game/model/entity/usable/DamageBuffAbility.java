@@ -2,9 +2,9 @@ package main.game.model.entity.usable;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.Effect;
-import main.common.Team;
-import main.common.Unit;
+import main.common.entity.Effect;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 

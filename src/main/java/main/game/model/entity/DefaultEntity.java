@@ -2,7 +2,7 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import main.common.Entity;
+import main.common.entity.Entity;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;

@@ -9,7 +9,7 @@ import static test.game.model.world.WorldTestUtils.createWorld;
 
 import java.util.Arrays;
 import java.util.List;
-import main.common.Unit;
+import main.common.entity.Unit;
 import main.game.model.GameModel;
 import main.common.util.MapPoint;
 import main.game.model.world.World;

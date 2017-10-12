@@ -1,8 +1,8 @@
 package main.game.model.entity.unit.state;
 
-import main.common.Unit;
+import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet;
-import main.common.Direction;
+import main.common.entity.Direction;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;

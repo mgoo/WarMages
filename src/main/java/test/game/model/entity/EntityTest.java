@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 
-import main.common.HeroUnit;
-import main.common.Unit;
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import org.junit.Test;

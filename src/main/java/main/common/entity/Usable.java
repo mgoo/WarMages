@@ -1,4 +1,4 @@
-package main.common;
+package main.common.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -30,7 +30,7 @@ public interface Usable extends Serializable {
 
   /**
    * Should update any cool-down timers. This is not called 'tick' because there is already
-   * a method called 'tick' in {@link main.common.Entity}.
+   * a method called 'tick' in {@link Entity}.
    */
   void usableTick(long timeSinceLastTick);
 

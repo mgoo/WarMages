@@ -28,7 +28,7 @@ import main.common.util.Looper;
 import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.Level;
-import main.common.HeroUnit;
+import main.common.entity.HeroUnit;
 import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.Menu;
