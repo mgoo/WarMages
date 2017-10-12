@@ -299,6 +299,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.path = new LinkedList<>(path);
   }
 
+  @Override
+  public boolean contains(MapPoint point) {
+    return getRect().contains(point);
+  }
+
   private void tickPosition(long timeSinceLastTick, World world) {
     if (path == null || path.isEmpty()) {
       return;

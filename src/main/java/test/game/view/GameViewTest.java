@@ -278,6 +278,11 @@ public class GameViewTest {
     }
 
     @Override
+    public boolean contains(MapPoint point) {
+      return false;
+    }
+
+    @Override
     public MapPoint getTopLeft() {
       throw new AssertionError("This method is not used here");
     }
