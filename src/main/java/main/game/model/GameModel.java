@@ -99,21 +99,21 @@ public class GameModel {
   /**
    * Pauses the main game loop.
    */
-  public void pause() {
+  public void pauseGame() {
     looper.setPaused(true);
   }
 
   /**
    * Resumes the main game loop.
    */
-  public void resume() {
+  public void resumeGame() {
     looper.setPaused(false);
   }
 
   /**
    * Stops the main game loop.
    */
-  public void stop() {
+  public void stopGame() {
     looper.stop();
   }
 }

@@ -294,21 +294,21 @@ public class GameView {
   /**
    * Pauses the main game loop inside model.
    */
-  public void pauseModel() {
-    gameModel.pause();
+  public void pauseGame() {
+    gameModel.pauseGame();
   }
 
   /**
    * Resumes the main game loop inside model.
    */
-  public void resumeModel() {
-    gameModel.resume();
+  public void resumeGame() {
+    gameModel.resumeGame();
   }
 
   /**
    * Stops the main game loop inside model.
    */
-  public void stopModel() {
-    gameModel.stop();
+  public void stopGame() {
+    gameModel.stopGame();
   }
 }
