@@ -23,6 +23,8 @@ import main.game.model.world.pathfinder.DefaultPathFinder;
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
+ *
+ * @author Eric Diputado
  */
 public class World implements Serializable {
 

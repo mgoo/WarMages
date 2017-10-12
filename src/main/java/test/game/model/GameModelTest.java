@@ -23,6 +23,11 @@ import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Tests for the GameModel
+ *
+ * @author Eric Diptuado
+ */
 public class GameModelTest {
 
   private GameModel model = null;

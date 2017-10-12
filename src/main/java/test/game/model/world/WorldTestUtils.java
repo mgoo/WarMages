@@ -27,6 +27,11 @@ import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
+/**
+ * A testUtil to help createLevels
+ *
+ * @author Eric Diputado
+ */
 public class WorldTestUtils {
 
   /**
