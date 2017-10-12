@@ -30,4 +30,9 @@ public abstract class MapEntity extends Entity {
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
   }
+
+  /**
+   * Returns whether the pathfinder should take this entity into account.
+   */
+  public abstract boolean isPassable();
 }

@@ -81,4 +81,9 @@ public class Item extends MapEntity implements BaseUsable {
   public void tick(long timeSinceLastTick, World world) {
     usableTick(timeSinceLastTick);
   }
+
+  @Override
+  public boolean isPassable() {
+    return true;
+  }
 }
