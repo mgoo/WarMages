@@ -31,7 +31,6 @@ import main.game.model.entity.DefaultUninteractableEntity;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.Team;
-import main.game.model.entity.UninteractableEntity;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
@@ -48,16 +47,16 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
-  public static Collection<UninteractableEntity> generateBorderEntities(
+  public static Collection<DefaultUninteractableEntity> generateBorderEntities(
       MapRect bounds,
-      Function<MapPoint, UninteractableEntity> entityGenerator
+      Function<MapPoint, DefaultUninteractableEntity> entityGenerator
   ) {
     int left = (int) bounds.topLeft.x;
     int top = (int) bounds.topLeft.y;
     int right = (int) bounds.bottomRight.x;
     int bottom = (int) bounds.bottomRight.y;
 
-    Collection<UninteractableEntity> mapEntities = new ArrayList<>();
+    Collection<DefaultUninteractableEntity> mapEntities = new ArrayList<>();
 
     // Generate top and bottom rows
     for (int x = left; x < right; x++) {
@@ -78,7 +77,7 @@ public class DefaultWorldLoader implements WorldLoader {
    * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
    * the user from leaving the area.
    */
-  public static UninteractableEntity newBorderEntityAt(MapPoint point) {
+  public static DefaultUninteractableEntity newBorderEntityAt(MapPoint point) {
     return new DefaultUninteractableEntity(
         point,
         TREE_MAP_ENTITY.getGameImage()

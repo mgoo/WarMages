@@ -28,10 +28,6 @@ public interface Unit extends Entity {
 
   int getHealth();
 
-  void setNextState(UnitState state);
-
-  UnitType getUnitType();
-
   double getLineOfSight();
 
   DeadUnit createDeadUnit();
