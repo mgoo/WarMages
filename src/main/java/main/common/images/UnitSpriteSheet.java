@@ -3,7 +3,7 @@ package main.common.images;
 import java.io.Serializable;
 import java.util.List;
 import main.common.Unit;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 
 /**
  * Represents an image with multiple images on it.

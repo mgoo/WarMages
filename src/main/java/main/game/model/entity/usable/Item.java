@@ -27,9 +27,8 @@ public class Item extends DefaultMapEntity implements BaseUsable {
    * @param onMapImage What this image looks like when it's on the map.
    */
   public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
-    super(coord);
+    super(coord, onMapImage);
     this.ability = ability;
-    this.setImage(onMapImage);
   }
 
   @Override

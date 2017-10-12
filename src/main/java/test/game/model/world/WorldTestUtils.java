@@ -143,7 +143,7 @@ public class WorldTestUtils {
    * @return a new MapEntity
    */
   public static MapEntity createStubMapEntity(MapPoint mapPoint) {
-    return new DefaultMapEntity(mapPoint) {
+    return new DefaultMapEntity(mapPoint, GameImageResource.TEST_IMAGE_1_1.getGameImage()) {
       @Override
       public void tick(long timeSinceLastTick, World world) {
         //DO NOTHING

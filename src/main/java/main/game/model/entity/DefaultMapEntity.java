@@ -1,6 +1,7 @@
 package main.game.model.entity;
 
 import main.common.MapEntity;
+import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.world.World;
@@ -8,9 +9,11 @@ import main.game.model.world.World;
 public class DefaultMapEntity extends DefaultEntity implements MapEntity {
 
   private static final long serialVersionUID = 1L;
+  private GameImage image;
 
-  public DefaultMapEntity(MapPoint coord) {
+  public DefaultMapEntity(MapPoint coord, GameImage image) {
     this(coord, new MapSize(1, 1));
+    this.image = image;
   }
 
   public DefaultMapEntity(MapPoint coord, MapSize size) {
@@ -23,15 +26,12 @@ public class DefaultMapEntity extends DefaultEntity implements MapEntity {
   }
 
   @Override
+  public GameImage getImage() {
+    return image;
+  }
+
+  @Override
   public void tick(long timeSinceLastTick, World world) {
     //do nothing
   }
-
-  /**
-   * Returns boolean representing whether the given point lies inside the MapEntity.
-   */
-  public boolean contains(MapPoint point) {
-    return getRect().contains(point);
-  }
-
 }

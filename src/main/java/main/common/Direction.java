@@ -1,7 +1,6 @@
-package main.game.model.entity;
+package main.common;
 
 import java.util.Arrays;
-import main.common.Unit;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 

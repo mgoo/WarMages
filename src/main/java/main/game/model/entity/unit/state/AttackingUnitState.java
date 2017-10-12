@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import main.common.Unit;
 import main.common.images.UnitSpriteSheet;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;

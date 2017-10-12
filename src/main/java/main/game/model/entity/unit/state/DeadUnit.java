@@ -11,11 +11,15 @@ public class DeadUnit extends DefaultMapEntity {
   private static final long serialVersionUID = 1L;
 
   /**
-   * Constructor takes the coordinates of the MapEntity.
+   * Constructor takes the coordinates of the DeadUnit.
    */
   public DeadUnit(MapPoint coord, MapSize size, GameImage image) {
-    super(coord, size);
-    this.setImage(image);
+    super(coord, image);
+  }
+
+  @Override
+  public void translatePosition(double dx, double dy) {
+    //do nothing
   }
 
   @Override
