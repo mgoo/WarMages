@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
+import main.common.util.Looper;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
@@ -24,6 +25,7 @@ public class GameModel {
 
   private final World world;
   private final MainGameTick mainGameTick;
+  private final Looper looper;
 
   private Collection<Unit> selectedUnits;
 
@@ -36,6 +38,7 @@ public class GameModel {
     this.world = world;
     this.mainGameTick = mainGameTick;
     this.selectedUnits = Collections.emptySet();
+    this.looper = new Looper();
   }
 
   /**
@@ -51,13 +54,7 @@ public class GameModel {
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    Timer t = new Timer();
-    t.schedule(new TimerTask() {
-      @Override
-      public void run() {
-        mainGameTick.broadcast(System.currentTimeMillis());
-      }
-    }, DELAY, DELAY);
+    looper.startWithSchedule(() -> mainGameTick.broadcast(System.currentTimeMillis()), DELAY);
   }
 
   /**
@@ -90,7 +87,33 @@ public class GameModel {
     return world.getAllUnits();
   }
 
+  /**
+   * Getter for the world.
+   *
+   * @return world
+   */
   public World getWorld() {
     return world;
+  }
+
+  /**
+   * Pauses the main game loop.
+   */
+  public void pauseGame() {
+    looper.setPaused(true);
+  }
+
+  /**
+   * Resumes the main game loop.
+   */
+  public void resumeGame() {
+    looper.setPaused(false);
+  }
+
+  /**
+   * Stops the main game loop.
+   */
+  public void stopGame() {
+    looper.stop();
   }
 }
