@@ -85,11 +85,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return this.unitType.lineOfSight;
   }
 
-  /**
-   * Returns a DeadUnit to replace the current Unit when it dies.
-   *
-   * @return DeadUnit to represent dead current Unit.
-   */
   @Override
   public DeadUnit createDeadUnit() {
     if (!isDead || hasCreatedDeadUnit) {
