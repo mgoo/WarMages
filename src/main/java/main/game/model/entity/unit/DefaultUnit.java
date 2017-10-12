@@ -29,7 +29,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int LEEWAY_FOR_PATH = 5; // TODO don't hard code
+  public static final double LEEWAY_FOR_PATH = 0.01; // TODO don't hard code
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
