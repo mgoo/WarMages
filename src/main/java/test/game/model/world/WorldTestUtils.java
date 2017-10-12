@@ -28,7 +28,7 @@ import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
 /**
- * A testUtil to help createLevels
+ * A testUtil to help createWorlds/Models.
  *
  * @author Eric Diputado
  */
