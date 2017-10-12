@@ -61,4 +61,12 @@ public interface Entity extends Serializable {
    * @return MapPoint prev position.
    */
   MapPoint getPreviousTopLeft();
+
+  /**
+   * Returns a boolean representing whether the given MapPoint is contained within the Entity.
+   *
+   * @param point to be checked is in Entity.
+   * @return boolean true if contained, false otherwise.
+   */
+  boolean contains(MapPoint point);
 }

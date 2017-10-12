@@ -80,6 +80,11 @@ public class Projectile extends DefaultEntity {
     }
   }
 
+  @Override
+  public boolean contains(MapPoint point) {
+    return getRect().contains(point);
+  }
+
   public boolean hasHit() {
     return hasHit;
   }
