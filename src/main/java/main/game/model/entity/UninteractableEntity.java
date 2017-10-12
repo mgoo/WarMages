@@ -20,4 +20,9 @@ public class UninteractableEntity extends MapEntity {
   public void tick(long timeSinceLastTick, World world) {
     //no change
   }
+
+  @Override
+  public boolean isPassable() {
+    return false;
+  }
 }
