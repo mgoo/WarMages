@@ -23,10 +23,20 @@ public interface Unit extends Entity {
    */
   void gainHealth(int amount);
 
+  /**
+   * Returns the current health of the Unit.
+   *
+   * @return unt health of the Unit.
+   */
   int getHealth();
 
   double getLineOfSight();
 
+  /**
+   * Returns a DeadUnit to replace the current Unit when it dies.
+   *
+   * @return DeadUnit to represent dead current Unit.
+   */
   DeadUnit createDeadUnit();
 
   Team getTeam();
@@ -76,5 +86,12 @@ public interface Unit extends Entity {
    * @param path list of MapPoints
    */
   void setPath(List<MapPoint> path);
+
+  /**
+   * Returns the remaining health of the Unit as a percentage of it's starting health.
+   *
+   * @return double health as percentage.
+   */
+  double getHealthPercent();
 }
 
