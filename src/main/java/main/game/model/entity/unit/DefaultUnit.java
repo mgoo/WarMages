@@ -123,11 +123,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public MapPoint getPreviousTopLeft() {
-    return null;
-  }
-
-  @Override
   public GameImage getImage() {
     return unitState.getImage();
   }
