@@ -26,6 +26,10 @@ import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Test for {@link Usable} implementations.
+ * @author chongdyla
+ */
 public class UsablesTest {
 
   private World stubWorld = mock(World.class);

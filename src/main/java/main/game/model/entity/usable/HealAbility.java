@@ -10,6 +10,10 @@ import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
 
+/**
+ * Heals a unit instantly.
+ * @author chongdyla
+ */
 public class HealAbility extends Ability {
 
   private static final long serialVersionUID = 1L;

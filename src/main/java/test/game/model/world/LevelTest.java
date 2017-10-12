@@ -17,6 +17,10 @@ import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Some tests for {@link Unit}.
+ * @author chongdyla (External Tester)
+ */
 public class LevelTest {
 
   private HeroUnit heroUnit = createHeroUnit();

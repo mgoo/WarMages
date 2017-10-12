@@ -36,11 +36,12 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.images.DefaultUnitSpriteSheet;
 
+/**
+ * Loads a complex enough world to be played enjoyably.
+ * @author chongdyla
+ */
 public class DefaultWorldLoader implements WorldLoader {
 
   private static final MapSize HERO_SIZE = new MapSize(1, 1);

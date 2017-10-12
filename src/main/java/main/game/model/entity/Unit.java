@@ -16,6 +16,7 @@ import main.game.model.world.World;
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
  * health, and can attack other team units.
+ * @author chongdyla (Secondary author)
  */
 public class Unit extends Attackable implements Damageable {
 

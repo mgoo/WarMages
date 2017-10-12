@@ -2,6 +2,10 @@ package main.common.util;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Loops some runnable on this new {@link Thread}.
+ * @author chongdyla
+ */
 public class Looper {
 
   private final AtomicBoolean isPaused = new AtomicBoolean(false);
