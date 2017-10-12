@@ -139,7 +139,7 @@ public class World implements Serializable {
       return false;
     }
     for (MapEntity mapEntity : mapEntities) {
-      if (mapEntity.contains(point)) {
+      if (!mapEntity.isPassable() && mapEntity.contains(point)) {
         return false;
       }
     }

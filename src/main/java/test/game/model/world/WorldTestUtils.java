@@ -148,6 +148,11 @@ public class WorldTestUtils {
       public void tick(long timeSinceLastTick, World world) {
         //DO NOTHING
       }
+
+      @Override
+      public boolean isPassable() {
+        return false;
+      }
     };
   }
 
