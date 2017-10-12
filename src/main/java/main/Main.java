@@ -147,12 +147,7 @@ public class Main extends Application {
       this.currentMenu.getMenuController().onMouseMove(event);
     });
 
-    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-      @Override
-      public void handle(WindowEvent event) {
-        System.exit(0);
-      }
-    });
+    primaryStage.setOnCloseRequest(e->System.exit(0));
 
     root.getChildren().setAll(imageView, browser);
     scene.setRoot(root);
