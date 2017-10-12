@@ -181,6 +181,14 @@ public class Unit extends Attackable implements Damageable {
   }
 
   /**
+   * Gets the percentage of health remaining.
+   * Should be below 1 and above 0 if alive.
+   */
+  public double getHealthPercent() {
+    return (double)this.health / (double)this.unitType.getStartingHealth();
+  }
+
+  /**
    * Add a new effect and start it.
    */
   public void addEffect(Effect effect) {
