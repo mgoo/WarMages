@@ -45,6 +45,7 @@ public class Main extends Application {
    */
   public static void main(String[] args) {
     System.setProperty("sun.java2d.opengl", "true");
+    System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
     launch(args);
   }
 
