@@ -64,6 +64,9 @@ public class MainMenu extends Menu {
         new ScriptFileGenerator()
             .setFile(MenuFileResources.BOOTSTRAP_JS.getPath())
             .getScript(),
+        new ScriptFileGenerator()
+            .setFile(MenuFileResources.FILE_SCRIPTS.getPath())
+            .getScript(),
         new SaveFilesScriptGenerator()
             .setData(this.worldSaveModel.getExistingGameSaves())
             .getScript()

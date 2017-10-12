@@ -27,12 +27,27 @@
   <h2>Paused</h2>
   <ul class="btn-list">
     <li><a class="btn orange" onclick="controller.quitBtn()">Exit Game</a></li>
-    <li><a class="btn blue" onclick="controller.save()">Save</a></li>
+    <li><button class="btn blue" data-target="#save-menu" data-toggle="modal">Save</button></li>
     <li><a id="resume-btn" class="btn green" onclick="controller.resume()">Resume</a></li>
   </ul>
 </div>
-</body>
-<script>
 
-</script>
+<div id="save-menu" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h1>Enter name of Save File</h1>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="save-file">
+      </div>
+      <div class="modal-footer">
+        <a class="btn green" id="save-button">Save</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
 </html>

@@ -1,5 +1,6 @@
 @import "styles.less";
 @import (inline) "bootstrap.css";
+@import "less/variables";
 
 @keyframes title-drop {
   0% {
@@ -75,5 +76,22 @@ body {
 
     animation-name: buttons-slide;
     animation-duration: 1.5s;
+  }
+  .files  {
+    .radio {
+      padding: @alert-padding;
+    }
+    input[type="radio"] {
+      display: none;
+      & + span {
+        padding: @alert-padding;
+      }
+    }
+    input[type="radio"]:checked + span {
+      color: @alert-success-text;
+      background-color: @alert-success-bg;
+      border: @alert-success-border;
+      border-radius: @alert-border-radius;
+    }
   }
 }

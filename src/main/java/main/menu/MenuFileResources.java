@@ -12,7 +12,9 @@ public enum MenuFileResources {
   HUD_CSS("resources/html/css/hud.css"),
 
   MAIN_MENU_HTML("resources/html/main_menu.html"),
-  MAIN_MENU_CSS("resources/html/css/main_menu.css");
+  MAIN_MENU_CSS("resources/html/css/main_menu.css"),
+
+  FILE_SCRIPTS("resources/html/js/load_menu.js");
 
   private final String path;
 
