@@ -28,7 +28,6 @@ public class Looper {
             }
           }
         }
-        System.out.println("Thread finished successfully!");
       } catch (InterruptedException e) {
         throw new Error(e);
       }
@@ -39,11 +38,14 @@ public class Looper {
   /**
    * Stops the running thread.
    */
-  public synchronized void stop(){
+  public synchronized void stop() {
     if (!isRunning.get()) {
       throw new IllegalStateException("Thread is already stopped!");
     }
     isRunning.set(false);
+    synchronized (pauseLock) {
+      pauseLock.notify();
+    }
   }
 
   /**
