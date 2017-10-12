@@ -196,14 +196,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
-   * Gets the percentage of health remaining.
-   * Should be below 1 and above 0 if alive.
-   */
-  public double getHealthPercent() {
-    return (double)this.health / (double)this.unitType.getStartingHealth();
-  }
-
-  /**
    * Add a new effect and start it.
    */
   @Override
@@ -302,6 +294,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return getRect().contains(point);
   }
 
+  @Override
+  public double getHealthPercent() {
+    return health / unitType.getStartingHealth();
+  }
+
   private void tickPosition(long timeSinceLastTick, World world) {
     if (path == null || path.isEmpty()) {
       return;
@@ -325,8 +322,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
-   * Returns boolean whether the distance between the target and the Unit is less than the
-   * leeway.
+   * Returns boolean whether the distance between the target and the Unit is less than the leeway.
    *
    * @return boolean representing distance less than leeway.
    */
