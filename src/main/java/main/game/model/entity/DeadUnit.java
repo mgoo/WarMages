@@ -21,4 +21,9 @@ public class DeadUnit extends MapEntity {
   public void tick(long timeSinceLastTick, World world) {
     //does nothing
   }
+
+  @Override
+  public boolean isPassable() {
+    return true;
+  }
 }
