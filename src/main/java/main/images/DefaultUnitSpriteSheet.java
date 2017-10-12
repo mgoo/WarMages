@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static main.common.images.UnitSpriteSheet.Sequence.UNIT_HEIGHT;
 import static main.common.images.UnitSpriteSheet.Sequence.UNIT_WIDTH;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
   private static final long serialVersionUID = 1L;
 
   private final GameImageResource resource;
-  private final transient Map<MapKey, List<GameImage>> sequenceToImages = new HashMap<>();
+  private transient Map<MapKey, List<GameImage>> sequenceToImages = new HashMap<>();
 
   /**
    * Default constructor.
@@ -40,6 +42,15 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
           "The given image resource is not a sprite sheet: " + baseImageResource
       );
     }
+  }
+
+  /**
+   * Called during deserialisation
+   */
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+
+    sequenceToImages = new HashMap<>();
   }
 
   @Override
