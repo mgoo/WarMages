@@ -72,12 +72,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    *
    * @param state to be changed to.
    */
-  @Override
-  public void setNextState(UnitState state) {
+  private void setNextState(UnitState state) {
     unitState.requestState(requireNonNull(state));
   }
 
-  @Override
   public UnitType getUnitType() {
     return unitType;
   }
