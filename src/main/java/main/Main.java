@@ -72,8 +72,10 @@ public class Main extends Application {
       primaryStage.setY(screen.getBounds().getMinY() + 1);
       primaryStage.setWidth(screen.getBounds().getWidth());
       primaryStage.setHeight(screen.getBounds().getHeight());
-      Main.this.robot.mouseMove((int)(bounds.getMinX() + bounds.getWidth() / 2),
-          (int)(bounds.getMinY() + bounds.getHeight() / 2));
+      Main.this.robot.mouseMove(
+          (int) (bounds.getMinX() + bounds.getWidth() / 2),
+          (int) (bounds.getMinY() + bounds.getHeight() / 2)
+      );
       size = newSize;
     }
 
@@ -90,7 +92,7 @@ public class Main extends Application {
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
-    config.setScreenDim((int)primaryStage.getWidth(), (int)primaryStage.getHeight());
+    config.setScreenDim((int) primaryStage.getWidth(), (int) primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
         new DefaultWorldLoader(),
@@ -147,7 +149,7 @@ public class Main extends Application {
       this.currentMenu.getMenuController().onMouseMove(event);
     });
 
-    primaryStage.setOnCloseRequest(e->System.exit(0));
+    primaryStage.setOnCloseRequest(e -> System.exit(0));
 
     root.getChildren().setAll(imageView, browser);
     scene.setRoot(root);

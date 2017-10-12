@@ -54,7 +54,7 @@ public class GameModel {
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    looper.start(()->mainGameTick.broadcast(System.currentTimeMillis()));
+    looper.start(() -> mainGameTick.broadcast(System.currentTimeMillis()));
   }
 
   /**
@@ -89,6 +89,7 @@ public class GameModel {
 
   /**
    * Getter for the world.
+   *
    * @return world
    */
   public World getWorld() {
@@ -105,7 +106,7 @@ public class GameModel {
   /**
    * Resumes the main game loop.
    */
-  public void resume(){
+  public void resume() {
     looper.setPaused(false);
   }
 
