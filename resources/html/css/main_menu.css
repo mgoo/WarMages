@@ -1,3 +1,6 @@
+body {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 * {
   background-color: rgba(0, 0, 0, 0);
   margin: 0;
@@ -6866,4 +6869,19 @@ body .mainmenu-buttons {
   left: 70vw;
   animation-name: buttons-slide;
   animation-duration: 1.5s;
+}
+body .files .radio {
+  padding: 15px;
+}
+body .files input[type="radio"] {
+  display: none;
+}
+body .files input[type="radio"] + span {
+  padding: 15px;
+}
+body .files input[type="radio"]:checked + span {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border: #d6e9c6;
+  border-radius: 4px;
 }

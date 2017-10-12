@@ -1,5 +1,6 @@
 package main.menu.controller;
 
+import java.io.IOException;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.util.Looper;
@@ -57,8 +58,8 @@ public class MainMenuController extends MenuController {
   public void loadBtn(String filename) {
     try {
       System.out.println(filename);
-//      this.worldSaveModel.load(filename);
-      // TODO handle loading a game from a file from here
+      World world = this.worldSaveModel.load(filename);
+      this.startGame(world);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -69,36 +70,47 @@ public class MainMenuController extends MenuController {
    */
   public void startBtn() {
     try {
-      ImageProvider imageProvider = new DefaultImageProvider();
-      MainGameTick tickEvent = new MainGameTick();
-      Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, tickEvent);
-      GameController gameController = new GameController(gameModel);
-      GameView gameView = new GameView(this.config,
-          gameController,
-          gameModel,
-          imageProvider,
-          mouseClickEvent);
-      tickEvent.registerListener(parameter -> gameView.onTick(parameter));
-      mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
-      Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
-      Hud hud = new Hud(this.main,
-          this.mainMenu,
-          gameView,
-          renderer,
-          gameModel,
-          imageProvider);
-      tickEvent.registerListener(parameter -> hud.updateIcons());
-      tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
-      tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
-      renderer.start();
-      gameModel.startGame();
-
-      this.main.loadMenu(hud);
+      this.startGame(world);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void startGame(World world) {
+    ImageProvider imageProvider = new DefaultImageProvider();
+    MainGameTick tickEvent = new MainGameTick();
+    Event<MouseClick> mouseClickEvent = new Event<>();
+    GameModel gameModel = new GameModel(world, tickEvent);
+    GameController gameController = new GameController(gameModel);
+    GameView gameView = new GameView(this.config,
+        gameController,
+        gameModel,
+        imageProvider,
+        mouseClickEvent);
+    tickEvent.registerListener(parameter -> gameView.onTick(parameter));
+    mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+    Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
+    Hud hud = new Hud(this.main,
+        this.mainMenu,
+        gameView,
+        renderer,
+        gameModel,
+        imageProvider,
+        filename -> {
+          try {
+            this.worldSaveModel.save(world, filename);
+          } catch (IOException e) {
+            e.printStackTrace(); // TODO handle better
+          }
+        });
+    tickEvent.registerListener(parameter -> hud.updateIcons());
+    tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
+    tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+    renderer.start();
+    gameModel.startGame();
+
+    this.main.loadMenu(hud);
   }
 
   /**

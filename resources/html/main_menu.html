@@ -15,20 +15,24 @@
     <li><button class="btn red" data-toggle="modal" data-target="#load-menu">Load</button></li>
     <li><a class="btn blue" onClick="controller.exitBtn()" href="#">Exit</a></li>
   </ul>
+
   <div id="load-menu" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h1>Load Save Game</h1>
         </div>
-        <div class="modal-content">
-          <span id="files"></span>
+        <div class="modal-body">
+          <form class="files" id="files">
+          </form>
         </div>
         <div class="modal-footer">
-          <a class="btn green">Load</a>
+          <a class="btn green" id="load-button">Load</a>
         </div>
       </div>
     </div>
   </div>
+
 </body>
 </html>
