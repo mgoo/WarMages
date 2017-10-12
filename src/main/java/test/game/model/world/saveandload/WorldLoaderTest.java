@@ -9,7 +9,7 @@ import main.common.WorldLoader;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.entity.DefaultUninteractableEntity;
+import main.game.model.entity.DefaultMapEntity;
 import main.game.model.world.World;
 import main.game.model.world.saveandload.DefaultWorldLoader;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
-    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader
+    Collection<DefaultMapEntity> boundEntities = DefaultWorldLoader
         .generateBorderEntities(
             bounds,
             DefaultWorldLoader::newBorderEntityAt
@@ -69,7 +69,7 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(5, 5));
-    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader
+    Collection<DefaultMapEntity> boundEntities = DefaultWorldLoader
         .generateBorderEntities(
             bounds,
             DefaultWorldLoader::newBorderEntityAt

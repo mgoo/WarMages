@@ -27,7 +27,7 @@ import main.game.model.Level.Goal;
 import main.common.Entity;
 import main.common.HeroUnit;
 import main.common.MapEntity;
-import main.game.model.entity.DefaultUninteractableEntity;
+import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.Team;
@@ -47,16 +47,16 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
-  public static Collection<DefaultUninteractableEntity> generateBorderEntities(
+  public static Collection<DefaultMapEntity> generateBorderEntities(
       MapRect bounds,
-      Function<MapPoint, DefaultUninteractableEntity> entityGenerator
+      Function<MapPoint, DefaultMapEntity> entityGenerator
   ) {
     int left = (int) bounds.topLeft.x;
     int top = (int) bounds.topLeft.y;
     int right = (int) bounds.bottomRight.x;
     int bottom = (int) bounds.bottomRight.y;
 
-    Collection<DefaultUninteractableEntity> mapEntities = new ArrayList<>();
+    Collection<DefaultMapEntity> mapEntities = new ArrayList<>();
 
     // Generate top and bottom rows
     for (int x = left; x < right; x++) {
@@ -77,8 +77,8 @@ public class DefaultWorldLoader implements WorldLoader {
    * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
    * the user from leaving the area.
    */
-  public static DefaultUninteractableEntity newBorderEntityAt(MapPoint point) {
-    return new DefaultUninteractableEntity(
+  public static DefaultMapEntity newBorderEntityAt(MapPoint point) {
+    return new DefaultMapEntity(
         point,
         TREE_MAP_ENTITY.getGameImage()
     );
@@ -143,10 +143,10 @@ public class DefaultWorldLoader implements WorldLoader {
             )
         ),
         Arrays.asList(
-            new DefaultUninteractableEntity(
+            new DefaultMapEntity(
                 new MapPoint(2, 1), TREE_MAP_ENTITY.getGameImage()
             ),
-            new DefaultUninteractableEntity(
+            new DefaultMapEntity(
                 new MapPoint(5, 5), TREE_MAP_ENTITY.getGameImage()
             )
         ),
@@ -196,7 +196,7 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -251,7 +251,7 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -304,27 +304,27 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 1),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 2),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 3),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 7),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 8),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new DefaultUninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 9),
                   TREE_MAP_ENTITY.getGameImage()
               )
