@@ -39,4 +39,9 @@ public class DefaultMapEntity extends DefaultEntity implements MapEntity {
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
   }
+
+  @Override
+  public boolean isPassable() {
+    return false;
+  }
 }

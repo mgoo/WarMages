@@ -6,4 +6,8 @@ package main.common.entity;
  */
 public interface MapEntity extends Entity {
 
+  /**
+   * Returns whether the pathfinder should take this entity into account.
+   */
+  boolean isPassable();
 }
