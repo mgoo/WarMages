@@ -1,6 +1,6 @@
 package main.game.view.events;
 
-import main.common.util.MapDiamond;
+import main.common.util.MapPolygon;
 
 /**
  * Data class for when the mouse has finished a drag on the game view.
@@ -12,5 +12,5 @@ public interface MouseDrag {
 
   boolean wasCtrlDown();
 
-  MapDiamond getMapShape();
+  MapPolygon getMapShape();
 }
