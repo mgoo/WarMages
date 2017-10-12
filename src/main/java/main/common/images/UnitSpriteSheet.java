@@ -6,6 +6,7 @@ import main.game.model.entity.Direction;
 
 /**
  * Represents an image with multiple images on it.
+ * @author chongdyla
  */
 public interface UnitSpriteSheet extends Serializable {
 

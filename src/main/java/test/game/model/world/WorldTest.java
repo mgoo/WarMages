@@ -24,6 +24,7 @@ import org.junit.Test;
 
 /**
  * Tests all the methods and invariants of the WorldClass.
+ * @author chongdyla (External Tester)
  */
 public class WorldTest {
 

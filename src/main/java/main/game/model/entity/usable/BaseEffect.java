@@ -4,6 +4,10 @@ import main.common.Effect;
 import main.common.util.TickTimer;
 import main.game.model.entity.Unit;
 
+/**
+ * All {@link Effect}s should extend this.
+ * @author chongdyla
+ */
 public abstract class BaseEffect implements Effect {
 
   private static final long serialVersionUID = 1L;

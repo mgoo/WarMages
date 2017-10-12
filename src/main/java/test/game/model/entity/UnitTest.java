@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import main.common.Effect;
-import main.common.PathFinder;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
@@ -33,6 +32,10 @@ import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Some tests for {@link Unit}.
+ * @author chongdyla
+ */
 public class UnitTest {
 
   /**

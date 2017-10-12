@@ -11,6 +11,7 @@ import main.common.images.GameImage;
 /**
  * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more
  * damage.
+ * @author chongdyla
  */
 public class DamageBuffAbility extends Ability {
 

@@ -21,6 +21,7 @@ import main.common.util.MapRect;
 
 /**
  * Represent the {@link World} state.
+ * @author chongdyla
  */
 public class Level implements Serializable {
 

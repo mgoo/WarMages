@@ -17,6 +17,10 @@ import main.game.model.entity.UnitImagesComponent;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Some tests.
+ * @author chongdyla
+ */
 public class UnitImagesComponentTest {
 
   @Test

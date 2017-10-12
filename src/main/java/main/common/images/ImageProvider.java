@@ -10,6 +10,7 @@ import java.io.IOException;
  * Provides an image file, potentially from the
  * filesystem. It may cache images.
  * </p>
+ * @author chongdyla
  */
 public abstract class ImageProvider {
 
