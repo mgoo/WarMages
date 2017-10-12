@@ -18,7 +18,7 @@ import org.junit.Test;
 public class DefaultUnitTest {
 
   private Unit getUnit() {
-    return createDefaultUnit(new MapPoint(2, 2));
+    return createDefaultUnit(new MapPoint(1, 1));
   }
 
   private List<MapPoint> getPathDown() {

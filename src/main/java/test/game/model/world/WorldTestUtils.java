@@ -203,7 +203,7 @@ public class WorldTestUtils {
   public static Unit createDefaultEnemyOrc() {
     return new DefaultUnit(
         new MapPoint(60, 60),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.ENEMY,
         new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
@@ -218,7 +218,7 @@ public class WorldTestUtils {
   public static Unit createDefaultPlayerKnight() {
     return new DefaultUnit(
         new MapPoint(0, 0),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
         UnitType.SWORDSMAN
@@ -233,7 +233,7 @@ public class WorldTestUtils {
   public static Unit createDefaultPlayerArcher() {
     return new DefaultUnit(
         new MapPoint(20, 20),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
