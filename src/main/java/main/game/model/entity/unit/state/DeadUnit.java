@@ -14,7 +14,7 @@ public class DeadUnit extends DefaultMapEntity {
    * Constructor takes the coordinates of the DeadUnit.
    */
   public DeadUnit(MapPoint coord, MapSize size, GameImage image) {
-    super(coord, image);
+    super(coord, size, image);
   }
 
   @Override

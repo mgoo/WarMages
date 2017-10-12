@@ -307,7 +307,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
     MapPoint target = this.path.peek();
     double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY_FOR_PATH + Math.max(getSize().width / 2, getSize().height / 2)) {
+    if (distance < LEEWAY_FOR_PATH) {
       this.path.poll();
       if (this.path.size() == 0) {
         return;
@@ -315,8 +315,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       target = this.path.peek();
     }
 
-    double dx = target.x - getTopLeft().x;
-    double dy = target.y - getTopLeft().y;
+    double dx = target.x - getCentre().x;
+    double dy = target.y - getCentre().y;
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
     assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
@@ -325,7 +325,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
-   * Returns boolean whether the distance between the target and the Unit is less than the attackDistance.
+   * Returns boolean whether the distance between the target and the Unit is less than the
+   * attackDistance.
    *
    * @return boolean representing distance less than attackDistance.
    */
