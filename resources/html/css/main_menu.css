@@ -6844,6 +6844,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  /* Load Menu */
 }
 body .title {
   animation-name: title-drop, shake;
@@ -6880,8 +6881,13 @@ body .files input[type="radio"] + span {
   padding: 15px;
 }
 body .files input[type="radio"]:checked + span {
-  color: #3c763d;
   background-color: #dff0d8;
-  border: #d6e9c6;
-  border-radius: 4px;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+body .files input[type="radio"]:checked + span hr {
+  border-top-color: #c9e2b3;
+}
+body .files input[type="radio"]:checked + span .alert-link {
+  color: #2b542c;
 }

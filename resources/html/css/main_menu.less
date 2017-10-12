@@ -1,6 +1,7 @@
 @import "styles.less";
 @import (inline) "bootstrap.css";
 @import "less/variables";
+@import "less/mixins";
 
 @keyframes title-drop {
   0% {
@@ -77,6 +78,8 @@ body {
     animation-name: buttons-slide;
     animation-duration: 1.5s;
   }
+
+  /* Load Menu */
   .files  {
     .radio {
       padding: @alert-padding;
@@ -88,10 +91,7 @@ body {
       }
     }
     input[type="radio"]:checked + span {
-      color: @alert-success-text;
-      background-color: @alert-success-bg;
-      border: @alert-success-border;
-      border-radius: @alert-border-radius;
+      .alert-variant(@alert-success-bg;  @alert-success-border; @alert-success-text)
     }
   }
 }

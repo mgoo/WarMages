@@ -59,6 +59,13 @@ menuButton.on('click', function (event) {
     $('#pause-menu').fadeIn();
 });
 
+$("#pause-menu").on("hidden.bs.modal", function (event) {
+    controller.resume();
+});
+$("#pause-menu").on("shown.bs.modal", function(event) {
+    controller.pause();
+});
+
 resumeButton.on('click', function (event) {
     $('#overlay').fadeOut();
     $('#pause-menu').fadeOut();
