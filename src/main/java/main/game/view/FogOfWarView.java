@@ -3,7 +3,13 @@ package main.game.view;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RadialGradientPaint;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.util.Collection;
 import main.common.util.Config;
 import main.common.util.MapPoint;
@@ -38,7 +44,13 @@ public class FogOfWarView implements Renderable {
     g.setColor(this.baseColor);
     g.fillRect(0, 0, (int)this.size.width, (int)this.size.height);
 
-    g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR, 0F));
+    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 0F));
+    g.setColor(new Color(255,255,255, 0));
+    RenderingHints rh = new RenderingHints(
+        RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON
+    );
+    g.setRenderingHints(rh);
     unitViews.forEach(unitView -> {
       MapPoint position = unitView.getImagePosition(currentTime);
       MapSize imageSize = unitView.getImageSize();

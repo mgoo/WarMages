@@ -22,13 +22,11 @@ public class EntityView implements main.renderer.Renderable {
   private final Entity entity;
   private final ImageProvider imageProvider;
 
-  private BufferedImage currentImage;
+  BufferedImage currentImage;
   private MapPoint oldPosition;
   private MapPoint destination;
 
   private long lastTickTime;
-
-  private boolean isSelected = false;
 
   EntityView(Config config, Entity entity, ImageProvider imageProvider) {
     this.config = config;
@@ -42,29 +40,11 @@ public class EntityView implements main.renderer.Renderable {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
     this.destination = entity.getCentre();
-    this.isSelected = isSelected;
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
       assert false : "An image was not loaded";
     }
-
-    if (isSelected) {
-      this.currentImage = addSelectionDecorations(this.currentImage);
-    }
-  }
-
-  private BufferedImage addSelectionDecorations(BufferedImage image) { // TODO fix name
-    BufferedImage newImage = new BufferedImage(image.getWidth(),
-        image.getHeight(),
-        BufferedImage.TYPE_4BYTE_ABGR);
-    Graphics2D g = (Graphics2D) newImage.getGraphics();
-    g.drawOval(0, image.getHeight() - 50, image.getWidth(), 50); // TODO math properly
-    g.drawImage(image, 0, 0, null);
-    g.setColor(new Color(50,255,50));
-    g.fillRect(0, 0, (((Unit)entity).getHealth() / 200) * image.getWidth(), 10);
-    g.setColor(new Color(255,255,255));
-    return newImage;
   }
 
   Entity getEntity() {

@@ -201,6 +201,14 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
+   * Gets the percentage of health remaining.
+   * Should be below 1 and above 0 if alive.
+   */
+  public double getHealthPercent() {
+    return (double)this.health / (double)this.unitType.getStartingHealth();
+  }
+
+  /**
    * Add a new effect and start it.
    */
   @Override
