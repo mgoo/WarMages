@@ -105,4 +105,11 @@ public class Renderer {
         () -> drawAll(System.currentTimeMillis(), gameView, imageView)
     );
   }
+
+  /**
+   * Stops the looper.
+   */
+  public void stop() {
+    looper.stop();
+  }
 }
