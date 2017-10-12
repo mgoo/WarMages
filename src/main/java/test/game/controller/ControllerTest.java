@@ -15,7 +15,7 @@ import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
 /**
- * TestClass to test the functionality of the controller
+ * TestClass to test the functionality of the controller.
  *
  * @author Eric Diputado
  */

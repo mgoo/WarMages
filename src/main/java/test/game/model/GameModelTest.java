@@ -24,7 +24,7 @@ import main.common.util.MapPoint;
 import org.junit.Test;
 
 /**
- * Tests for the GameModel
+ * Tests for the GameModel.
  *
  * @author Eric Diptuado
  */
