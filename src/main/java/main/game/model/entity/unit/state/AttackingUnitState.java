@@ -12,7 +12,7 @@ public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(Unit unit) {
+  public AttackingUnitState(DefaultUnit unit) {
     super(unit.getUnitType().getAttackSequence(), unit);
   }
 
