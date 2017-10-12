@@ -57,7 +57,9 @@ public class AllJfxTests {
   }
 
   /**
-   * Creates the gameviews and imageviews based on a level and hero unit.
+   * Tests whether gameView, imageView and Renderer can work together to draw.
+   *
+   * @author Eric Diputado
    */
   public static Image testImage() {
     hero = WorldTestUtils.createHeroUnit(new MapPoint(0, 0));
