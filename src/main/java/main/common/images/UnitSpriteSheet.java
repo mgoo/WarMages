@@ -2,8 +2,8 @@ package main.common.images;
 
 import java.io.Serializable;
 import java.util.List;
-import main.common.Unit;
-import main.common.Direction;
+import main.common.entity.Unit;
+import main.common.entity.Direction;
 
 /**
  * Represents an image with multiple images on it.

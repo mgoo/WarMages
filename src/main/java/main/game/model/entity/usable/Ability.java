@@ -1,7 +1,6 @@
 package main.game.model.entity.usable;
 
 import java.io.Serializable;
-import main.common.Usable;
 import main.common.images.GameImage;
 import main.common.util.TickTimer;
 

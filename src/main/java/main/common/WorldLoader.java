@@ -1,5 +1,6 @@
 package main.common;
 
+import main.common.entity.Entity;
 import main.game.model.world.World;
 
 /**

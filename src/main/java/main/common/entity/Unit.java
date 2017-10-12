@@ -1,4 +1,4 @@
-package main.common;
+package main.common.entity;
 
 import java.util.List;
 import main.common.images.UnitSpriteSheet;

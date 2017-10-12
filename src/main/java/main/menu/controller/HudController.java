@@ -3,7 +3,7 @@ package main.menu.controller;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
-import main.common.Unit;
+import main.common.entity.Unit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.view.GameView;

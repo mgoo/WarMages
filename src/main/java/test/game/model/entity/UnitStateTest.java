@@ -8,7 +8,7 @@ import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
-import main.common.Team;
+import main.common.entity.Team;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.world.World;

@@ -1,4 +1,4 @@
-package main.common;
+package main.common.entity;
 
 import java.util.Collection;
 import main.game.model.entity.usable.Ability;

@@ -2,8 +2,8 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import main.common.Entity;
-import main.common.Unit;
+import main.common.entity.Entity;
+import main.common.entity.Unit;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;

@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
-import main.common.Entity;
+import main.common.entity.Entity;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
 import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.usable.Item;
-import main.common.MapEntity;
-import main.common.Team;
-import main.common.Unit;
+import main.common.entity.MapEntity;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.model.world.World;
 import main.common.util.MapRect;
 

@@ -1,4 +1,4 @@
-package main.common;
+package main.common.entity;
 
 import java.io.Serializable;
 import main.common.images.GameImage;

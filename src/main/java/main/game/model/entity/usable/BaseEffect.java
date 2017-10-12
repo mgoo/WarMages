@@ -1,7 +1,7 @@
 package main.game.model.entity.usable;
 
-import main.common.Unit;
-import main.common.Effect;
+import main.common.entity.Unit;
+import main.common.entity.Effect;
 import main.common.util.TickTimer;
 
 public abstract class BaseEffect implements Effect {

@@ -12,7 +12,7 @@ import java.util.Arrays;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
-import main.common.HeroUnit;
+import main.common.entity.HeroUnit;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
 import main.common.exceptions.ItemNotInRangeException;

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import main.common.images.GameImageResource;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
-import main.common.Entity;
+import main.common.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
