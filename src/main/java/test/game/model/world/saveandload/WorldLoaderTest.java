@@ -45,10 +45,11 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
-    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader.generateBorderEntities(
-        bounds,
-        DefaultWorldLoader::newBorderEntityAt
-    );
+    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader
+        .generateBorderEntities(
+            bounds,
+            DefaultWorldLoader::newBorderEntityAt
+        );
 
     assertEquals(boundEntities.size(), 10); // 10 edge squares inside a 3x4 grid
     assertTrue(boundEntities.stream().anyMatch(
@@ -68,10 +69,11 @@ public class WorldLoaderTest {
     // are checked.
 
     MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(5, 5));
-    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader.generateBorderEntities(
-        bounds,
-        DefaultWorldLoader::newBorderEntityAt
-    );
+    Collection<DefaultUninteractableEntity> boundEntities = DefaultWorldLoader
+        .generateBorderEntities(
+            bounds,
+            DefaultWorldLoader::newBorderEntityAt
+        );
 
     assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 5x5 grid
     assertTrue(boundEntities.stream().anyMatch(

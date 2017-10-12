@@ -34,4 +34,9 @@ public class DefaultMapEntity extends DefaultEntity implements MapEntity {
   public void tick(long timeSinceLastTick, World world) {
     //do nothing
   }
+
+  @Override
+  public boolean contains(MapPoint point) {
+    return getRect().contains(point);
+  }
 }

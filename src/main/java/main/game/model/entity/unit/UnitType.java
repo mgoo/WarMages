@@ -94,7 +94,7 @@ public enum UnitType {
   /**
    * Creates an appropriate projectile for this {@link UnitType}.
    */
-  public final Projectile createProjectile(Unit creator, Unit target) {
+  public final Projectile createProjectile(DefaultUnit creator, Unit target) {
     if (!canShootProjectiles()) {
       throw new UnsupportedOperationException();
     }

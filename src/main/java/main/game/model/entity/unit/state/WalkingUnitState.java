@@ -1,14 +1,13 @@
 package main.game.model.entity.unit.state;
 
-import main.common.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.DefaultUnit;
 
 public class WalkingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public WalkingUnitState(Unit unit) {
+  public WalkingUnitState(DefaultUnit unit) {
     super(Sequence.WALK, unit);
   }
 

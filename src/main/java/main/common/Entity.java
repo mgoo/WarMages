@@ -12,8 +12,6 @@ import main.game.model.world.World;
  */
 public interface Entity extends Serializable {
 
-  boolean contains(MapPoint point);
-
   /**
    * Returns the position at the top left of the Entity.
    *
@@ -58,7 +56,7 @@ public interface Entity extends Serializable {
   void tick(long timeSinceLastTick, World world);
 
   /**
-   * Returns the Entity's previous top left position
+   * Returns the Entity's previous top left position.
    *
    * @return MapPoint prev position.
    */
