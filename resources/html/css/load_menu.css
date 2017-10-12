@@ -21,15 +21,6 @@
   list-style-type: none;
   margin: calc(10px);
 }
-.btn {
-  padding: 10px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  display: block;
-  width: 10vw;
-  text-align: center;
-}
 a {
   text-decoration: none;
 }
