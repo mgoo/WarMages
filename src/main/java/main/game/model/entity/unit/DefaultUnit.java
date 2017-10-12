@@ -43,10 +43,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private int health;
   private int damageAmount;
-
+  private final double attackDistance;
+  private double speed;
   protected Queue<MapPoint> path = new LinkedList<>();
-  protected double speed;
-  private static final double LEEWAY = 0.2;
+
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -64,6 +64,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.health = unitType.getStartingHealth();
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(this);
+    this.speed = unitType.getMovingSpeed();
+    this.attackDistance = unitType.getAttackDistance();
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -318,18 +320,19 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
     assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
+    assert mx > 0 || my > 0;
     translatePosition(mx, my);
   }
 
   /**
-   * Returns boolean whether the distance between the target and the Unit is less than the leeway.
+   * Returns boolean whether the distance between the target and the Unit is less than the attackDistance.
    *
-   * @return boolean representing distance less than leeway.
+   * @return boolean representing distance less than attackDistance.
    */
   private boolean targetWithinProximity() {
     if (target == null) {
       throw new IllegalStateException("No target set");
     }
-    return target.getCentre().distanceTo(getCentre()) < LEEWAY;
+    return target.getCentre().distanceTo(getCentre()) < attackDistance;
   }
 }
