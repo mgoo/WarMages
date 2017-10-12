@@ -11,7 +11,7 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 import main.common.Unit;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.images.DefaultUnitSpriteSheet;

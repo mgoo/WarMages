@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import java.io.Serializable;
 import main.common.Unit;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.world.World;
 import main.common.images.GameImage;

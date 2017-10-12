@@ -4,15 +4,14 @@ import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.game.model.world.World;
 
-public class DefaultUninteractableEntity extends DefaultMapEntity implements UninteractableEntity {
+public class DefaultUninteractableEntity extends DefaultMapEntity {
   private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coordinates of the MapEntity.
    */
   public DefaultUninteractableEntity(MapPoint coord, GameImage image) {
-    super(coord);
-    this.setImage(image);
+    super(coord, image);
   }
 
   @Override

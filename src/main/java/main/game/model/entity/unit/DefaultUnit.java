@@ -19,7 +19,7 @@ import main.common.Effect;
 import main.game.model.entity.unit.state.AttackingUnitState;
 import main.game.model.entity.unit.state.DeadUnit;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
@@ -127,11 +127,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   @Override
   public MapPoint getPreviousTopLeft() {
     return null;
-  }
-
-  @Override
-  public void setImage(GameImage image) {
-
   }
 
   @Override

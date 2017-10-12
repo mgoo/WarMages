@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.state.AttackingUnitState;
-import main.game.model.entity.Direction;
+import main.common.Direction;
 import main.common.Team;
 import main.common.Unit;
 import main.game.model.entity.unit.UnitImagesComponent;
