@@ -54,7 +54,7 @@ public class GameModel {
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    looper.start(() -> mainGameTick.broadcast(System.currentTimeMillis()));
+    looper.startWithSchedule(() -> mainGameTick.broadcast(System.currentTimeMillis()), DELAY);
   }
 
   /**
