@@ -13,7 +13,6 @@ import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
 import main.common.images.ImageProvider;
 import main.menu.Hud;
-import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
 import main.common.util.Config;
@@ -52,6 +51,20 @@ public class MainMenuController extends MenuController {
   }
 
   /**
+   * Loads a game from the file.
+   * @param filename the path to the file to load from.
+   */
+  public void loadBtn(String filename) {
+    try {
+      System.out.println(filename);
+//      this.worldSaveModel.load(filename);
+      // TODO handle loading a game from a file from here
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Starts a new game from the beginning.
    */
   public void startBtn() {
@@ -83,17 +96,6 @@ public class MainMenuController extends MenuController {
       gameModel.startGame();
 
       this.main.loadMenu(hud);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Loads the load menu.
-   */
-  public void loadBtn() {
-    try {
-      this.main.loadMenu(new LoadMenu(this.main, this.mainMenu, this.worldSaveModel));
     } catch (Exception e) {
       e.printStackTrace();
     }
