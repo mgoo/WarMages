@@ -18,8 +18,7 @@ public interface Unit extends Entity {
   void takeDamage(int amount, World world);
 
   /**
-   * Gives the Unit the given amount of health. Requires the amount given is a positive
-   * integer.
+   * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
    */
   void gainHealth(int amount);
 
@@ -88,9 +87,7 @@ public interface Unit extends Entity {
   void setPath(List<MapPoint> path);
 
   /**
-   * Returns the remaining health of the Unit as a percentage of it's starting health.
-   *
-   * @return double health as percentage.
+   * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
    */
   double getHealthPercent();
 }
