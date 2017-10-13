@@ -202,14 +202,23 @@ public class DefaultGameController implements GameController {
 
   }
 
+  /**
+   * When a selected units icon is clicked in from the hud.
+   */
   public void onUnitIconClick(UnitIconClick clickEvent) {
     // TODO H
   }
 
+  /**
+   * When a heros ability icon is clicked in from the hud.
+   */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
     // TODO H
   }
 
+  /**
+   * When a items icon that has being picked up by the hero is clicked in from the hud.
+   */
   public void onItemIconClick(ItemIconClick clickEvent) {
     // TODO H
   }
