@@ -37,7 +37,8 @@ public class AttackingUnitState extends UnitState {
     super.tick(timeSinceLastTick, world);
 
     double distanceToTarget = unit.getCentre().distanceTo(target.getCentre());
-    if (distanceToTarget >= unit.getAttackDistance()) {
+    double widthOffSet = unit.getSize().width + target.getSize().width;
+    if (distanceToTarget - widthOffSet >= unit.getAttackDistance()) {
       requestedNextState = new WalkingUnitState(
           unit,
           new MapPointTarget(unit, target.getCentre())
