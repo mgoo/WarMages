@@ -116,7 +116,7 @@ public class WalkingUnitState extends UnitState {
     lastKnownDestination = destination;
   }
 
-  public static abstract class Target implements Serializable {
+  public abstract static class Target implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -127,8 +127,11 @@ public class WalkingUnitState extends UnitState {
     }
 
     abstract MapPoint getPossiblyChangingDestination();
+
     abstract boolean isStillValid();
+
     abstract double getDestinationLeeway();
+
     abstract UnitState getNewDestinationState();
   }
 
