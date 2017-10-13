@@ -10,7 +10,8 @@ import java.util.List;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
-import main.game.model.entity.Entity;
+import main.common.entity.Entity;
+import main.game.model.entity.DefaultEntity;
 import main.game.model.world.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
@@ -261,7 +262,7 @@ public class GameViewTest {
     }
   }
 
-  private class EntityMock extends Entity {
+  private class EntityMock extends DefaultEntity {
 
     public EntityMock(MapPoint position, MapSize size) {
       super(position, size);
@@ -275,6 +276,11 @@ public class GameViewTest {
     @Override
     public void tick(long timeSinceLastTick, World world) {
 
+    }
+
+    @Override
+    public boolean contains(MapPoint point) {
+      return false;
     }
 
     @Override

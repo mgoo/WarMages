@@ -1,25 +1,29 @@
 package test.game.model.world;
 
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
+import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
+import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createStubMapEntity;
-import static test.game.model.world.WorldTestUtils.createUnit;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
+import main.common.entity.HeroUnit;
+import main.common.entity.MapEntity;
+import main.common.entity.Unit;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
 import org.junit.Test;
 
+/**
+ * Some tests for {@link Unit}.
+ * @author chongdyla (External Tester)
+ */
 public class LevelTest {
 
-  private HeroUnit heroUnit = createHeroUnit();
+  private HeroUnit heroUnit = createDefaultHeroUnit();
 
   @Test(expected = OverlappingMapEntitiesException.class)
   public void ensureNoMapEntitiesCompletelyOverlap() {
@@ -37,25 +41,25 @@ public class LevelTest {
 
   @Test(expected = EntityOutOfBoundsException.class)
   public void ensureNoUnitOutOfBoundsLeft() {
-    Unit unit = createUnit(new MapPoint(-10001, 0));
+    Unit unit = createDefaultUnit(new MapPoint(-10001, 0));
     createLevelWith(unit);
   }
 
   @Test(expected = EntityOutOfBoundsException.class)
   public void ensureNoUnitOutOfBoundsRight() {
-    Unit unit = createUnit(new MapPoint(10001, 0));
+    Unit unit = createDefaultUnit(new MapPoint(10001, 0));
     createLevelWith(unit);
   }
 
   @Test(expected = EntityOutOfBoundsException.class)
   public void ensureNoUnitOutOfBoundsUp() {
-    Unit unit = createUnit(new MapPoint(0, -10001));
+    Unit unit = createDefaultUnit(new MapPoint(0, -10001));
     createLevelWith(unit);
   }
 
   @Test(expected = EntityOutOfBoundsException.class)
   public void ensureNoUnitOutOfBoundsDown() {
-    Unit unit = createUnit(new MapPoint(0, 10001));
+    Unit unit = createDefaultUnit(new MapPoint(0, 10001));
     createLevelWith(unit);
   }
 

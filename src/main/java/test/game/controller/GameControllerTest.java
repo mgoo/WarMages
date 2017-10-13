@@ -15,7 +15,13 @@ import main.common.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
-public class ControllerTest {
+/**
+ * Tests for the GameController API.
+ *
+ * @author Hrshikesh Arora
+ * @author Eric Diputado (External Tester)
+ */
+public class GameControllerTest {
 
   GameModel gameModel = null;
   GameController controller = null;
@@ -24,10 +30,10 @@ public class ControllerTest {
   public void checkSelectOneUnit() {
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-            WorldTestUtils.createUnit(new MapPoint(1, 0)),
-            WorldTestUtils.createUnit(new MapPoint(1, 0))
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
-        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
     controller = new DefaultGameController(gameModel);
@@ -59,10 +65,10 @@ public class ControllerTest {
   public void checkSelectNoUnit() {
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-            WorldTestUtils.createUnit(new MapPoint(1, 0)),
-            WorldTestUtils.createUnit(new MapPoint(1, 0))
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
-        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
     controller = new DefaultGameController(gameModel);

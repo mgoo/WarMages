@@ -28,6 +28,7 @@ import org.junit.Test;
 /**
  * Test names here follow the test naming convention:
  * unitOfWorkUnderTest_typeOfInput_expectedResult.
+ * @author chongdyla
  */
 public class WorldSaveModelTest {
 

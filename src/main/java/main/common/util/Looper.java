@@ -5,6 +5,10 @@ import static java.lang.Thread.sleep;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Loops some runnable on this new {@link Thread}.
+ * @author chongdyla
+ */
 public class Looper {
 
   private final AtomicBoolean isPaused = new AtomicBoolean(false);

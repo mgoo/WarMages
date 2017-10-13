@@ -1,9 +1,13 @@
-package main.game.model.entity;
+package main.common.entity;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * A unit has one team. Can attack some other teams.
+ * @author chongdyla
+ */
 public enum Team {
   PLAYER {
     @Override
