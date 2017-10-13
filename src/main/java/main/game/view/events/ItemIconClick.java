@@ -7,7 +7,7 @@ import main.common.entity.usable.Item;
  *
  * @author Andrew McGhie
  */
-public interface ItemIconClick extends IconClick{
+public interface ItemIconClick extends IconClick {
 
   Item getItem();
 }

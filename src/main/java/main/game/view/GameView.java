@@ -296,7 +296,13 @@ public class GameView {
     });
   }
 
-  public void unitClick(Unit unit, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  /**
+   * Triggers the event when a units icon is clicked.
+   */
+  public void unitClick(Unit unit,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
     this.gameController.onUnitIconClick(new UnitIconClick() {
       @Override
       public boolean wasShiftDown() {
@@ -310,7 +316,7 @@ public class GameView {
 
       @Override
       public boolean wasLeftClick() {
-        return wasLeftClick();
+        return wasLeftClick;
       }
 
       @Override
@@ -320,7 +326,13 @@ public class GameView {
     });
   }
 
-  public void abilityClick(Ability ability, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  /**
+   * Triggers the event when a abilities icon is clicked.
+   */
+  public void abilityClick(Ability ability,
+                           boolean wasShiftDown,
+                           boolean wasCtrlDown,
+                           boolean wasLeftClick) {
     this.gameController.onAbilityIconClick(new AbilityIconClick() {
       @Override
       public Ability getAbility() {
@@ -344,7 +356,13 @@ public class GameView {
     });
   }
 
-  public void itemClick(Item item, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  /**
+   * Triggers the event when a item icon is clicked.
+   */
+  public void itemClick(Item item,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
     this.gameController.onItemIconClick(new ItemIconClick() {
       @Override
       public Item getItem() {

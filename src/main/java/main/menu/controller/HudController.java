@@ -32,7 +32,10 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an entity is clicked.
    */
-  public void unitIconBtn(Unit unit, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  public void unitIconBtn(Unit unit,
+                          boolean wasShiftDown,
+                          boolean wasCtrlDown,
+                          boolean wasLeftClick) {
     try {
       this.gameView.unitClick(unit, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
@@ -43,7 +46,10 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an ability is clicked.
    */
-  public void abilityIconBtn(Ability ability, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  public void abilityIconBtn(Ability ability,
+                             boolean wasShiftDown,
+                             boolean wasCtrlDown,
+                             boolean wasLeftClick) {
     try {
       this.gameView.abilityClick(ability, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
@@ -54,7 +60,10 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an item is clicked.
    */
-  public void itemIconBtn(Item item, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
+  public void itemIconBtn(Item item,
+                          boolean wasShiftDown,
+                          boolean wasCtrlDown,
+                          boolean wasLeftClick) {
     try {
       this.gameView.itemClick(item, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
