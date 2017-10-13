@@ -102,12 +102,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
-    UnitState nextState = requireNonNull(this.unitState.updateState());
-    if (nextState != unitState) {
-      // Tests rely on unit moving immediately. Unit starts in Idle state and if target is set
-      // it takes one tick to move to the walking state, then another to start moving.
-      unitState = nextState;
-    }
+    unitState = requireNonNull(this.unitState.updateState());
     // TODO
 //    //check if has target and target is within attacking proximity. Request state change.
 //    if (target != null && targetWithinProximity()) {

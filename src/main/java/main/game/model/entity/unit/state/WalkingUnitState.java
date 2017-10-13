@@ -2,7 +2,9 @@ package main.game.model.entity.unit.state;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Queue;
 import java.util.function.Supplier;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -14,6 +16,7 @@ import main.game.model.world.World;
  * Walking state for a Unit.
  *
  * @author paladogabr
+ * @author Dylan (Secondary Author)
  */
 public class WalkingUnitState extends UnitState {
 
@@ -24,7 +27,7 @@ public class WalkingUnitState extends UnitState {
   private final Unit targetUnitOrNull;
   private final Supplier<MapPoint> targetFinder;
   private MapPoint lastDestination;
-  private List<MapPoint> path;
+  private Queue<MapPoint> path;
 
   public WalkingUnitState(DefaultUnit unit, Unit targetUnitOrNull) {
     super(Sequence.WALK, unit);
@@ -65,14 +68,14 @@ public class WalkingUnitState extends UnitState {
       return;
     }
 
-    MapPoint target = path.get(0);
+    MapPoint target = path.peek();
     double distance = unit.getCentre().distanceTo(target);
     if (distance < LEEWAY_FOR_PATH) {
-      path.remove(0);
+      path.poll();
       if (path.size() == 0) {
         return;
       }
-      target = path.get(0);
+      target = path.peek();
     }
 
     double dx = target.x - unit.getCentre().x;
@@ -96,7 +99,8 @@ public class WalkingUnitState extends UnitState {
       return;
     }
 
-    path = world.findPath(unit.getCentre(), targetFinder.get());
+    List<MapPoint> pathList = world.findPath(unit.getCentre(), targetFinder.get());
+    path = new ArrayDeque<>(pathList);
     lastDestination = destination;
   }
 }
