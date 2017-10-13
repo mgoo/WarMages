@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import main.common.util.Events.GameCompletion;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
@@ -21,6 +22,8 @@ public class ControllerTest {
 
   @Test
   public void checkSelectOneUnit() {
+    GameCompletion gc = new GameCompletion();
+    gc.registerListener(parameter -> {});
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createUnit(new MapPoint(1, 0)),
@@ -28,7 +31,7 @@ public class ControllerTest {
         )),
         WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
+        new MainGameTick(), gc);
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
@@ -56,6 +59,8 @@ public class ControllerTest {
 
   @Test
   public void checkSelectNoUnit() {
+    GameCompletion gc = new GameCompletion();
+    gc.registerListener(parameter -> {});
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createUnit(new MapPoint(1, 0)),
@@ -63,7 +68,7 @@ public class ControllerTest {
         )),
         WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
+        new MainGameTick(), gc);
     controller = new GameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
