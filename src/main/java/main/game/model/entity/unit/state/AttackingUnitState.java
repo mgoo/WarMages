@@ -6,7 +6,7 @@ import main.common.entity.Direction;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Attacking state for Unit.

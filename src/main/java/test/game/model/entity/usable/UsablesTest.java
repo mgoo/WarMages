@@ -24,7 +24,7 @@ import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.world.World;
+import main.common.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 

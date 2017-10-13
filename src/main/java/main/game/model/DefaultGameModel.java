@@ -3,12 +3,11 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
+import main.common.GameModel;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.util.Looper;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.util.Events;
 import main.common.util.Events.MainGameTick;
 

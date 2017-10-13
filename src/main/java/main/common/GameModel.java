@@ -1,9 +1,8 @@
-package main.game.model;
+package main.common;
 
 import java.util.Collection;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
-import main.game.model.world.World;
 
 public interface GameModel {
 

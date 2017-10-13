@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import main.common.World;
 import main.game.model.Level;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -23,7 +24,7 @@ import main.common.PathFinder;
  * World class is a representation of all the in-play entities and in-play entities: all entity
  * objects that have been instantiated.
  */
-public class World implements Serializable {
+public class DefaultWorld implements Serializable, World {
 
   private static final long serialVersionUID = 1L;
 
@@ -43,7 +44,7 @@ public class World implements Serializable {
    * @param levels The levels sorted from start to finish. The first level is the initial level.
    * @param heroUnit The hero unit used throughout the whole game.
    */
-  public World(List<Level> levels, HeroUnit heroUnit, PathFinder pathfinder) {
+  public DefaultWorld(List<Level> levels, HeroUnit heroUnit, PathFinder pathfinder) {
     Objects.requireNonNull(levels);
     Objects.requireNonNull(heroUnit);
     if (levels.isEmpty()) {
@@ -60,39 +61,34 @@ public class World implements Serializable {
     this.pathFinder = pathfinder;
   }
 
-  private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
+  @Override
+  public <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
     Set<T> set = newConcurrentSet();
     set.addAll(collection);
     return set;
   }
 
-  private <T> Set<T> newConcurrentSet() {
+  @Override
+  public <T> Set<T> newConcurrentSet() {
     return Collections.newSetFromMap(new ConcurrentHashMap<>());
   }
 
-  private Level currentLevel() {
+  @Override
+  public Level currentLevel() {
     if (levels.isEmpty()) {
       throw new IllegalStateException("No levels left");
     }
     return levels.get(0);
   }
 
-  /**
-   * A getter method to get all possible units of type=PLAYER.
-   *
-   * @return a collection of all possible player units
-   */
+  @Override
   public Collection<Unit> getAllUnits() {
     ArrayList<Unit> allUnits = new ArrayList<>(units);
     allUnits.add(heroUnit);
     return Collections.unmodifiableList(allUnits);
   }
 
-  /**
-   * Gets all entities in the world (including map entities, units, projectiles and other entities.
-   *
-   * @return an unmodifiable collection of all Entities in the world.
-   */
+  @Override
   public Collection<Entity> getAllEntities() {
     return Collections.unmodifiableCollection(
         new ArrayList<Entity>() {
@@ -106,34 +102,27 @@ public class World implements Serializable {
         });
   }
 
-  /**
-   * Gets all map entities in the world, including {@link Level#borderEntities}.
-   *
-   * @return an unmodifiable collection of all the mapEntities.
-   */
+  @Override
   public Collection<MapEntity> getAllMapEntities() {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  @Override
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
   }
 
+  @Override
   public void removeProjectile(Projectile projectile) {
     projectiles.remove(projectile);
   }
 
+  @Override
   public Collection<Projectile> getProjectiles() {
     return Collections.unmodifiableCollection(projectiles);
   }
 
-  /**
-   * A getter method which checks if a certain point in the map can be moved into. Returns false for
-   * points outside the Map.
-   *
-   * @param point a point in the map.
-   * @return returns whether the point can be moved into.
-   */
+  @Override
   public boolean isPassable(MapPoint point) {
     if (!currentLevel().getBounds().contains(point)) {
       return false;
@@ -172,9 +161,7 @@ public class World implements Serializable {
     units.addAll(currentLevel().getUnits());
   }
 
-  /**
-   * A method to change all the current positions/animations of all entities in the world.
-   */
+  @Override
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
     for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {
@@ -188,9 +175,7 @@ public class World implements Serializable {
     checkLevelCompletion();
   }
 
-  /**
-   * Units should call this when they die.
-   */
+  @Override
   public void onEnemyKilled(Unit unit) {
     if (unit.getHealth() != 0) {
       throw new IllegalArgumentException();
@@ -199,14 +184,12 @@ public class World implements Serializable {
     recentlyKilledUnits.add(unit);
   }
 
+  @Override
   public List<MapPoint> findPath(MapPoint start, MapPoint end) {
     return pathFinder.findPath(this::isPassable, start, end);
   }
 
-  /**
-   * Gets the current goal for the current level.
-   * @return String description of the current goal
-   */
+  @Override
   public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
   }

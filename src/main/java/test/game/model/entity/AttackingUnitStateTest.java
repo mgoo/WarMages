@@ -16,7 +16,7 @@ import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.world.World;
+import main.common.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 

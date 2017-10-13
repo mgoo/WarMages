@@ -16,7 +16,7 @@ import main.common.entity.usable.Item;
 import main.common.entity.MapEntity;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.util.MapRect;
 
 /**

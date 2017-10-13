@@ -11,7 +11,8 @@ import main.game.model.entity.unit.DefaultUnit;
 import main.common.entity.Team;
 import main.game.model.entity.unit.UnitType;
 import main.common.entity.usable.Ability;
-import main.game.model.world.World;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Ignore;
@@ -48,7 +49,7 @@ public class UnitStateTest {
         unit,
         heroUnit
     ));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);

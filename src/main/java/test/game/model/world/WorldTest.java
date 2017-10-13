@@ -18,7 +18,7 @@ import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.util.MapPoint;
 import org.junit.Test;
 

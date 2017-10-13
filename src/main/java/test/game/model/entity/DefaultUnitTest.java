@@ -13,7 +13,7 @@ import java.util.List;
 import main.common.entity.Unit;
 import main.game.model.DefaultGameModel;
 import main.common.util.MapPoint;
-import main.game.model.world.World;
+import main.common.World;
 import org.junit.Test;
 
 /**
