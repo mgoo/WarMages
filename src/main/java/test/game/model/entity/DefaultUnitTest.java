@@ -7,6 +7,7 @@ import static test.game.model.world.WorldTestUtils.createEmptyLevel;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import main.common.entity.Unit;
@@ -16,9 +17,18 @@ import main.game.model.world.World;
 import org.junit.Test;
 
 public class DefaultUnitTest {
+  //note that CreateDefaultUnit creates a Spearman who travels with 0.1 travel speed
 
   private Unit getUnit() {
     return createDefaultUnit(new MapPoint(1, 1));
+  }
+
+  private double round(double toRound){
+    System.out.println(toRound);
+    System.out.println(toRound*10);
+    System.out.println(Math.round(toRound*10));
+    double top = Math.round(toRound*10);
+    return top/10;
   }
 
   private List<MapPoint> getPathDown() {
@@ -67,11 +77,10 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 100)
-    // the movable entity should move 100*0.01 = 1 map distance
+    // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
+      assertEquals(new MapPoint(1D + Math.min(0.1 * i, 1), 1).x, round(unit.getTopLeft().x), 0.001);
+      assertEquals(new MapPoint(1D + Math.min(0.1 * i, 1), 1).y, round(unit.getTopLeft().y), 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }
@@ -112,8 +121,8 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 200)
-    // the movable entity should move 200*0.01 = 2 map distances
+    // with the given speed of 0.1, with each tick (time since last being 200)
+    // the movable entity should move 200*0.1 = 2 map distances?
     for (int i = 0; i < 20; i++) {
       assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
       assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
