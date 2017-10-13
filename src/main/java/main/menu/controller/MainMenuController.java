@@ -99,7 +99,7 @@ public class MainMenuController extends MenuController {
         gameModel,
         imageProvider,
         filename -> {
-            this.worldSaveModel.save(world, filename);
+          this.worldSaveModel.save(world, filename);
         });
     tickEvent.registerListener(parameter -> hud.updateIcons());
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));

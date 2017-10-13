@@ -25,7 +25,11 @@ public class HudController extends MenuController {
   final Renderer renderer;
   final SaveFunction saveFunction;
 
-  public HudController(Main main, MainMenu mainMenu, GameView gameView, Renderer renderer, SaveFunction saveFunction) {
+  public HudController(Main main,
+                       MainMenu mainMenu,
+                       GameView gameView,
+                       Renderer renderer,
+                       SaveFunction saveFunction) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.gameView = gameView;
