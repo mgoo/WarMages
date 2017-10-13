@@ -8,6 +8,11 @@ import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 
+/**
+ * Attacking state for Unit.
+ *
+ * @author paladogabr
+ */
 public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;

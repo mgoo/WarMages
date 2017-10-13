@@ -11,6 +11,11 @@ import main.game.model.world.World;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Tests for Entities.
+ *
+ * @author paladogabr
+ */
 public class EntityTest {
 
   private World getWorld() {

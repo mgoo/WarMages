@@ -18,6 +18,10 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.game.model.world.World;
 
+/**
+ * Default implementation of HeroUnit.
+ * @author paladogabr
+ */
 public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private static final long serialVersionUID = 1L;
