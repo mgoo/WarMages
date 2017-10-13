@@ -1,5 +1,6 @@
 package main.menu.controller;
 
+import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
@@ -8,6 +9,7 @@ import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
 import main.menu.MainMenu;
+import main.menu.generators.SaveFileAlertGenerator;
 import main.renderer.Renderer;
 
 /**
@@ -157,15 +159,24 @@ public class HudController extends MenuController {
    */
   public void save(String filename) {
     try {
-      System.out.println(filename);
       saveFunction.save(filename);
-    } catch (Exception e) {
-      e.printStackTrace();
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setSuccess()
+              .getScript()
+      );
+    } catch (IOException e) {
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setError()
+              .setMesg(e.getMessage())
+              .getScript()
+      );
     }
   }
 
   @FunctionalInterface
   public interface SaveFunction {
-    void save(String filename);
+    void save(String filename) throws IOException;
   }
 }
