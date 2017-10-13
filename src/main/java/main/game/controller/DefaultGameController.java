@@ -1,10 +1,12 @@
 package main.game.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import main.common.GameController;
@@ -159,16 +161,19 @@ public class DefaultGameController implements GameController {
           .findFirst().orElse(null);
 
       //find the closest thing i.e. unit or item
-      Entity closest = null;
-      if (selectedUnit != null && selectedItem !=null) {
-        if()
-      } //else
-      if (selectedUnit != null) {
+      Entity closest = Arrays.asList(selectedItem, selectedUnit)
+          .stream()
+          .filter(Objects::nonNull)
+          .sorted(Comparator.comparingDouble(
+              s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+          .findFirst().orElse(null);
+
+      if (selectedUnit != null && closest instanceof Unit) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetUnit(selectedUnit);
         }
-      } else {
+      } else if (selectedItem != null && closest instanceof Item){
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetPoint(mouseEvent.getLocation());
@@ -178,7 +183,12 @@ public class DefaultGameController implements GameController {
             ((HeroUnit) unit).pickUp(selectedItem);
           }
         }
+      } else {
+      // move all selected units to the clicked location
+      for (Unit unit : gameModel.getUnitSelection()) {
+        unit.setTargetPoint(mouseEvent.getLocation());
       }
+    }
     }
   }
 
