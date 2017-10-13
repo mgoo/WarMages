@@ -3,7 +3,7 @@ package main.common.images;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import main.game.model.world.World;
+import main.common.World;
 import java.io.Serializable;
 
 /**

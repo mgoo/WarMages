@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Function;
+import main.common.GameModel;
 import main.common.WorldLoader;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -25,7 +26,6 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.DefaultGameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
 import main.game.model.entity.DefaultMapEntity;
@@ -35,7 +35,8 @@ import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.world.World;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
@@ -95,7 +96,7 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Creates a new {@link main.game.model.GameModel} with the single level and example data.
+   * Creates a new {@link GameModel} with the single level and example data.
    * This level doesn't have a wall of {@link MapEntity}s around the bounds.
    * This should have every non {@link main.game.model.entity.Projectile} {@link Entity} in the
    * {@link main.game.model.entity} package for maximum coverage in tests.
@@ -160,7 +161,7 @@ public class DefaultWorldLoader implements WorldLoader {
         "Maybe kill all the enemies"
     );
 
-    return new World(Arrays.asList(level), heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(Arrays.asList(level), heroUnit, new DefaultPathFinder());
   }
 
   /**
@@ -373,7 +374,7 @@ public class DefaultWorldLoader implements WorldLoader {
       ));
     }
 
-    return new World(levels, heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
   }
 
 }

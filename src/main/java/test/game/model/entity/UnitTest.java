@@ -27,7 +27,8 @@ import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.common.entity.usable.Ability;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
-import main.game.model.world.World;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
@@ -200,7 +201,7 @@ public class UnitTest {
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(unit, heroUnit));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
 
     final Ability ability1 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
         1,
@@ -279,7 +280,7 @@ public class UnitTest {
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
 
     playerUnit.setTarget(enemyUnit, world);
 

@@ -16,7 +16,7 @@ import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Default implementation of HeroUnit.

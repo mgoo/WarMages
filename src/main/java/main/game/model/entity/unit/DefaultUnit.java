@@ -23,7 +23,7 @@ import main.common.entity.Direction;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Default Unit implementation.

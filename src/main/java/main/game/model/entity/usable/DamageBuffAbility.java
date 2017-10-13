@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import main.common.entity.usable.Effect;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.images.GameImage;
 
 /**

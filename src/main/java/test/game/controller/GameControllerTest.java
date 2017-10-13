@@ -7,8 +7,9 @@ import static org.mockito.Mockito.mock;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
 import main.game.model.DefaultGameModel;
-import main.game.model.GameModel;
-import main.game.model.world.World;
+import main.common.GameModel;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.game.view.events.MouseClick;
 import main.common.util.Events.MainGameTick;
@@ -29,7 +30,7 @@ public class GameControllerTest {
 
   @Test
   public void checkSelectOneUnit() {
-    model = new DefaultGameModel(new World(
+    model = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
@@ -64,7 +65,7 @@ public class GameControllerTest {
 
   @Test
   public void checkSelectNoUnit() {
-    model = new DefaultGameModel(new World(
+    model = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))

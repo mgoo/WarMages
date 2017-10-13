@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import main.common.entity.Entity;
 import main.common.entity.Unit;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;

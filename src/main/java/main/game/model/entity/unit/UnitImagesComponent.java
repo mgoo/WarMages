@@ -2,11 +2,11 @@ package main.game.model.entity.unit;
 
 import java.io.Serializable;
 import java.util.List;
+import main.common.GameModel;
 import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.DefaultGameModel;
 
 /**
  * Handles what image should be shown as time progresses.
@@ -58,7 +58,7 @@ public class UnitImagesComponent implements Serializable {
   }
 
   /**
-   * The unit should call this when the {@link main.game.model.GameModel} ticks.
+   * The unit should call this when the {@link GameModel} ticks.
    */
   public void tick(Long timeSinceLastTick) {
     currentTick = (currentTick + 1) % maxNumberOfTicks();

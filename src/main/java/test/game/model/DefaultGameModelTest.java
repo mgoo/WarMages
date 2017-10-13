@@ -21,7 +21,7 @@ import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
-import main.game.model.GameModel;
+import main.common.GameModel;
 import org.junit.Test;
 
 public class DefaultGameModelTest {
