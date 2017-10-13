@@ -9,17 +9,31 @@ import java.awt.Color;
 public class Config {
   private static final int CONTEXT_SCREEN_SIZE_NOT_SET = -1;
 
+  private boolean isDebugMode = false;
+
   private int gameModelDelay = 50;
 
   private double gameViewScrollSpeed = 50;
 
-  private int entityViewTilePixelsX = 90;
-  private int entityViewTilePixelsY = 90;
+  private double entityViewTilePixelsRatio = 2.0 / 3;
+  private int entityViewTilePixelsX = 120;
+  private int entityViewTilePixelsY = (int) (entityViewTilePixelsX * entityViewTilePixelsRatio);
 
   private Color baseFogOfWarColor = new Color(54, 59, 88);
 
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
+
+  public void enableDebugMode() {
+    this.isDebugMode = true;
+  }
+
+  /**
+   * Runs the game in debug mode.
+   */
+  public boolean isDebugMode() {
+    return isDebugMode;
+  }
 
   public int getGameModelDelay() {
     return gameModelDelay;
