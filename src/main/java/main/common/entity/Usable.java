@@ -1,9 +1,8 @@
-package main.common;
+package main.common.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
 import main.common.images.GameImage;
-import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseUsable;
 import main.game.model.entity.usable.Item;
@@ -32,7 +31,7 @@ public interface Usable extends Serializable {
 
   /**
    * Should update any cool-down timers. This is not called 'tick' because there is already
-   * a method called 'tick' in {@link main.game.model.entity.Entity}.
+   * a method called 'tick' in {@link Entity}.
    */
   void usableTick(long timeSinceLastTick);
 

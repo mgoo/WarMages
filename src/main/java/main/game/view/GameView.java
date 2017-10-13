@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import main.common.images.GameImageResource;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
-import main.game.model.entity.Entity;
+import main.common.entity.Entity;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
@@ -288,5 +288,26 @@ public class GameView {
         return wasCtrlDown;
       }
     });
+  }
+
+  /**
+   * Pauses the main game loop inside model.
+   */
+  public void pauseGame() {
+    gameModel.pauseGame();
+  }
+
+  /**
+   * Resumes the main game loop inside model.
+   */
+  public void resumeGame() {
+    gameModel.resumeGame();
+  }
+
+  /**
+   * Stops the main game loop inside model.
+   */
+  public void stopGame() {
+    gameModel.stopGame();
   }
 }

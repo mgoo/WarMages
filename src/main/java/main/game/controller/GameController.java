@@ -6,13 +6,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.game.model.GameModel;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
-import main.common.util.MapRect;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.

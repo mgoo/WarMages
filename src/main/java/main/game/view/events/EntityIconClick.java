@@ -1,6 +1,6 @@
 package main.game.view.events;
 
-import main.game.model.entity.Entity;
+import main.common.entity.Entity;
 
 /**
  * Data class for when a Entity Icon is clicked.

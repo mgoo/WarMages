@@ -4,10 +4,10 @@ import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.Effect;
+import main.common.entity.Effect;
 import main.common.images.GameImage;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.model.world.World;
 
 /**
