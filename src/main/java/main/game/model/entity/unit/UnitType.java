@@ -45,7 +45,7 @@ public enum UnitType {
     }
   },
 
-  MAGICIAN(20, 150, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 250, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
