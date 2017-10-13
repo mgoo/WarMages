@@ -16,6 +16,7 @@ import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
+import main.game.model.GameModel;
 import main.game.view.GameView;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
@@ -30,7 +31,7 @@ import main.renderer.Renderer;
  */
 public class Hud extends Menu {
 
-  private final DefaultGameModel defaultGameModel;
+  private final GameModel model;
   private final ImageProvider imageProvider;
   private final Collection<Unit> selectedUnits = new ArrayList<>();
   private HeroUnit hero;
@@ -40,10 +41,10 @@ public class Hud extends Menu {
              MainMenu mainMenu,
              GameView gameView,
              Renderer renderer,
-             DefaultGameModel defaultGameModel,
+             GameModel model,
              ImageProvider imageProvider) {
     super(main);
-    this.defaultGameModel = defaultGameModel;
+    this.model = model;
     this.imageProvider = imageProvider;
     this.menuController = new HudController(main, mainMenu, gameView, renderer);
   }
@@ -80,7 +81,7 @@ public class Hud extends Menu {
   public void updateIcons() {
     final Collection<Unit> removeUnits = new HashSet<>();
     this.selectedUnits.stream()
-        .filter(unit -> !this.defaultGameModel.getUnitSelection().contains(unit))
+        .filter(unit -> !this.model.getUnitSelection().contains(unit))
         .forEach(removeUnits::add);
     this.selectedUnits.removeAll(removeUnits);
     if (removeUnits.size() > 0) {
@@ -94,7 +95,7 @@ public class Hud extends Menu {
       }
     }
 
-    this.defaultGameModel.getUnitSelection().stream()
+    this.model.getUnitSelection().stream()
         .filter(unit -> !this.selectedUnits.contains(unit))
         .forEach(unit -> {
           if (unit instanceof HeroUnit) {

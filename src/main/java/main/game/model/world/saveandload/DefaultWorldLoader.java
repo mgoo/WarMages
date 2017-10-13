@@ -95,10 +95,10 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Creates a new {@link DefaultGameModel} with the single level and example data. This level
-   * doesn't have a wall of {@link MapEntity}s around the bounds. This should have every non {@link
-   * main.game.model.entity.Projectile} {@link Entity} in the {@link main.game.model.entity} package
-   * for maximum coverage in tests.
+   * Creates a new {@link main.game.model.GameModel} with the single level and example data.
+   * This level doesn't have a wall of {@link MapEntity}s around the bounds.
+   * This should have every non {@link main.game.model.entity.Projectile} {@link Entity} in the
+   * {@link main.game.model.entity} package for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new DefaultHeroUnit(
