@@ -19,8 +19,8 @@ public abstract class UnitState implements Serializable {
   private static final long serialVersionUID = 1L;
 
   protected final DefaultUnit unit;
+  protected final UnitImagesComponent imagesComponent;
 
-  protected UnitImagesComponent imagesComponent;
   protected UnitState requestedNextState;
 
   public UnitState(Sequence sequence, DefaultUnit unit) {

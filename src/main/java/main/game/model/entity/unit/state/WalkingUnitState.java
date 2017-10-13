@@ -29,14 +29,17 @@ public class WalkingUnitState extends UnitState {
    * {@link UnitState} will be created anyway.
    */
   private final Unit targetUnitOrNull;
+  /**
+   * Simplifies finding the next position.
+   */
   private final Supplier<MapPoint> targetFinder;
   private MapPoint lastKnownDestination;
   private Queue<MapPoint> path;
 
-  public WalkingUnitState(DefaultUnit unit, Unit targetUnitOrNull) {
+  public WalkingUnitState(DefaultUnit unit, Unit targetUnit) {
     super(Sequence.WALK, unit);
-    this.targetFinder = targetUnitOrNull::getCentre;
-    this.targetUnitOrNull = requireNonNull(targetUnitOrNull);
+    this.targetFinder = targetUnit::getCentre;
+    this.targetUnitOrNull = requireNonNull(targetUnit);
   }
 
   public WalkingUnitState(DefaultUnit unit, MapPoint target) {
@@ -59,7 +62,7 @@ public class WalkingUnitState extends UnitState {
     if (targetUnitOrNull == null || targetUnitOrNull.getHealth() == 0) {
       return new IdleUnitState(unit);
     } else {
-      return new AttackingUnitState(unit);
+      return new AttackingUnitState(unit, targetUnitOrNull);
     }
   }
 

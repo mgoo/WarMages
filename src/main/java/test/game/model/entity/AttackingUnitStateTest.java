@@ -48,7 +48,7 @@ public class AttackingUnitStateTest {
     final int attackFrame = unit.getUnitType().getAttackSequence().getAttackFrame();
     final int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and the state to test
-    AttackingUnitState state = new AttackingUnitState(unit);
+    AttackingUnitState state = new AttackingUnitState(unit, target);
     // and a stub world
     World world = mock(World.class);
 

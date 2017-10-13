@@ -1,5 +1,7 @@
 package main.game.model.entity.unit.state;
 
+import static java.util.Objects.requireNonNull;
+
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet;
 import main.common.entity.Direction;
@@ -17,45 +19,52 @@ public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(DefaultUnit unit) {
+  private final Unit target;
+
+  public AttackingUnitState(DefaultUnit unit, Unit target) {
     super(unit.getUnitType().getAttackSequence(), unit);
+    this.target = requireNonNull(target);
   }
 
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
+    double distanceToTarget = unit.getCentre().distanceTo(target.getCentre());
+    if (distanceToTarget >= unit.getAttackDistance()) {
+      requestedNextState = new WalkingUnitState(unit, target);
+      return;
+    }
+
     if (imagesComponent.isOnAttackTick()) {
-      onAttackFrame(world);
+      performAttack(world);
     }
   }
 
   @Override
   public UnitState updateState() {
-    if (!imagesComponent.isReadyToTransition() || requestedNextState == null) {
-      return this;
+    if (requestedNextState != null) {
+      return requestedNextState;
     }
 
-    return requestedNextState;
+    if (target.getHealth() == 0) {
+      return new IdleUnitState(unit);
+    }
+
+    return this;
   }
 
   @Override
   public Direction getCurrentDirection() {
-    Unit target = unit.getTarget();
-    if (target == null) {
-      return super.getCurrentDirection();
-    }
-
     return Direction.between(unit.getCentre(), target.getCentre());
   }
 
   /**
-   * Called when the attack frame is reached and the animation
+   * Called when the attack frame is reached in the animation
    * {@link UnitSpriteSheet.Sequence}.
    */
-  private void onAttackFrame(World world) {
+  private void performAttack(World world) {
     UnitType unitType = unit.getUnitType();
-    Unit target = unit.getTarget();
 
     if (unitType.canShootProjectiles()) {
       Projectile projectile = unitType.createProjectile(unit, target);
