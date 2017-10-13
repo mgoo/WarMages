@@ -68,7 +68,8 @@ public class GameView {
                   GameController gameController,
                   GameModel gameModel,
                   ImageProvider imageProvider,
-                  Event<MouseClick> mouseClickEvent) {
+                  Event<MouseClick> mouseClickEvent,
+                  MapPoint initialPosition) {
     this.config = config;
     this.gameController = gameController;
     this.gameModel = gameModel;
