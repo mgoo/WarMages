@@ -46,7 +46,7 @@ public class UnitStateTest {
     ));
     World world = new World(levels, heroUnit, new DefaultPathFinder());
 
-    unit.setTargetPoint(new MapPoint(20, 2), world);
+    unit.setTargetPoint(new MapPoint(20, 2));
 
     unit.tick(50, world);
     unit.tick(50, world);

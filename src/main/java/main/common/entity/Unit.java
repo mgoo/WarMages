@@ -53,12 +53,12 @@ public interface Unit extends Entity {
    *
    * @param targetUnit to be attacked
    */
-  void setTargetUnit(Unit targetUnit, World world);
+  void setTargetUnit(Unit targetUnit);
 
   /**
    * Set's the Unit's target to the given point.
    */
-  void setTargetPoint(MapPoint targetPoint, World world);
+  void setTargetPoint(MapPoint targetPoint);
 
   /**
    * Clears the current target.

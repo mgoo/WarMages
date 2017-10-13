@@ -8,6 +8,7 @@ import main.common.entity.Direction;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
 import main.game.model.world.World;
 
 /**
@@ -37,7 +38,10 @@ public class AttackingUnitState extends UnitState {
 
     double distanceToTarget = unit.getCentre().distanceTo(target.getCentre());
     if (distanceToTarget >= unit.getAttackDistance()) {
-      requestedNextState = new WalkingUnitState(unit, target);
+      requestedNextState = new WalkingUnitState(
+          unit,
+          new MapPointTarget(unit, target.getCentre())
+      );
       return;
     }
 

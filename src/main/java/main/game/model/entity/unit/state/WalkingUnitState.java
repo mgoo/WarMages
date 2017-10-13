@@ -1,11 +1,9 @@
 package main.game.model.entity.unit.state;
 
-import static java.util.Objects.requireNonNull;
-
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import java.util.function.Supplier;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
@@ -21,36 +19,21 @@ import main.game.model.world.World;
 public class WalkingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
-
   private static final double LEEWAY_FOR_PATH = 0.01;
 
-  /**
-   * Note: Doesn't use {@link DefaultUnit#getTarget()} because if target changes, a new
-   * {@link UnitState} will be created anyway.
-   */
-  private final Unit targetUnitOrNull;
-  /**
-   * Simplifies finding the next position.
-   */
-  private final Supplier<MapPoint> targetFinder;
+  private final Target target;
+
   private MapPoint lastKnownDestination;
   private Queue<MapPoint> path;
 
-  public WalkingUnitState(DefaultUnit unit, Unit targetUnit) {
+  public WalkingUnitState(DefaultUnit unit, Target target) {
     super(Sequence.WALK, unit);
 
-    if (targetUnit.getHealth() == 0) {
+    if (target.unit != unit) {
       throw new IllegalArgumentException();
     }
 
-    this.targetFinder = targetUnit::getCentre;
-    this.targetUnitOrNull = requireNonNull(targetUnit);
-  }
-
-  public WalkingUnitState(DefaultUnit unit, MapPoint target) {
-    super(Sequence.WALK, unit);
-    this.targetFinder = () -> target;
-    this.targetUnitOrNull = null;
+    this.target = target;
   }
 
   @Override
@@ -65,11 +48,11 @@ public class WalkingUnitState extends UnitState {
       return requestedNextState;
     }
 
-    if (targetUnitOrNull != null && targetUnitOrNull.getHealth() == 0) {
+    if (!target.isStillValid()) {
       return new IdleUnitState(unit);
     }
 
-    if (unit.getCentre().distanceTo(lastKnownDestination) > LEEWAY_FOR_PATH) {
+    if (unit.getCentre().distanceTo(lastKnownDestination) > target.getDestinationLeeway()) {
       // Haven't arrived yet
       if (path.isEmpty()) {
         // Can't get to destination
@@ -80,13 +63,7 @@ public class WalkingUnitState extends UnitState {
     }
 
     // Arrived at destination
-    if (targetUnitOrNull == null
-        || targetUnitOrNull.getHealth() == 0
-        || !unit.getTeam().canAttack(targetUnitOrNull.getTeam())) {
-      return new IdleUnitState(unit);
-    } else {
-      return new AttackingUnitState(unit, targetUnitOrNull);
-    }
+    return target.getNewDestinationState();
   }
 
   /**
@@ -129,13 +106,101 @@ public class WalkingUnitState extends UnitState {
    * Updates path if target destination changed or no path was calculated yet.
    */
   private void updatePath(World world) {
-    MapPoint destination = targetFinder.get();
+    MapPoint destination = target.getPossiblyChangingDestination();
     if (path != null && lastKnownDestination != null && destination.equals(lastKnownDestination)) {
       return;
     }
 
-    List<MapPoint> pathList = world.findPath(unit.getCentre(), targetFinder.get());
+    List<MapPoint> pathList = world.findPath(unit.getCentre(), destination);
     path = new ArrayDeque<>(pathList);
     lastKnownDestination = destination;
+  }
+
+  public abstract static class Target implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    protected final DefaultUnit unit;
+
+    protected Target(DefaultUnit unit) {
+      this.unit = unit;
+    }
+
+    abstract MapPoint getPossiblyChangingDestination();
+
+    abstract boolean isStillValid();
+
+    abstract double getDestinationLeeway();
+
+    abstract UnitState getNewDestinationState();
+  }
+
+  public static class MapPointTarget extends Target {
+
+    private static final long serialVersionUID = 1L;
+
+    private final MapPoint target;
+
+    public MapPointTarget(DefaultUnit unit, MapPoint target) {
+      super(unit);
+      this.target = target;
+    }
+
+    @Override
+    MapPoint getPossiblyChangingDestination() {
+      return target;
+    }
+
+    @Override
+    boolean isStillValid() {
+      return true;
+    }
+
+    @Override
+    double getDestinationLeeway() {
+      return LEEWAY_FOR_PATH;
+    }
+
+    @Override
+    UnitState getNewDestinationState() {
+      return new IdleUnitState(unit);
+    }
+  }
+
+  public static class EnemyUnitTarget extends Target {
+
+    private static final long serialVersionUID = 1L;
+
+    private final Unit enemyUnitTarget;
+
+    public EnemyUnitTarget(DefaultUnit unit, Unit enemyUnitTarget) {
+      super(unit);
+      this.enemyUnitTarget = enemyUnitTarget;
+
+      if (!isStillValid()) {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    @Override
+    MapPoint getPossiblyChangingDestination() {
+      return enemyUnitTarget.getCentre();
+    }
+
+    @Override
+    boolean isStillValid() {
+      return enemyUnitTarget.getHealth() > 0
+          && unit.getTeam().canAttack(enemyUnitTarget.getTeam());
+    }
+
+    @Override
+    double getDestinationLeeway() {
+      return unit.getUnitType().getAttackDistance() * 0.99; // avoid floating point inaccuracy
+    }
+
+    @Override
+    UnitState getNewDestinationState() {
+      return new AttackingUnitState(unit, enemyUnitTarget);
+    }
   }
 }

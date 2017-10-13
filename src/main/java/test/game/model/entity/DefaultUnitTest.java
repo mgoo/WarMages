@@ -13,22 +13,22 @@ import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
-import main.common.entity.usable.Effect;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.DefaultHeroUnit;
-import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
@@ -99,7 +99,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -123,7 +123,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -146,7 +146,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -169,7 +169,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -192,7 +192,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -213,72 +213,30 @@ public class DefaultUnitTest {
         new MapSize(100, 100),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER);
-    HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
-        new MapSize(100, 100),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.ARCHER,
-        new ArrayList<>());
+        UnitType.ARCHER
+    );
 
-    List<Level> levels = new ArrayList<>();
-    levels.add(WorldTestUtils.createLevelWith(unit, heroUnit));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = mock(World.class);
+    when(world.getAllUnits()).thenReturn(Arrays.asList(unit));
 
-    final Ability ability1 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
-        1,
-        2,
-        3) {
-      @Override
-      public Effect _createEffectForUnit(Unit unit) {
-        return new BaseEffect(unit, 1) {
-          @Override
-          public int alterDamageAmount(int currentDamageAmount) {
-            return currentDamageAmount + 1;
-          }
-        };
-      }
-    };
-    final Ability ability2 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
-        1,
-        2,
-        3) {
-      @Override
-      public Effect _createEffectForUnit(Unit unit) {
-        return new BaseEffect(unit, 2) {
-          @Override
-          public int alterDamageAmount(int currentDamageAmount) {
-            return currentDamageAmount + 1;
-          }
-        };
-      }
-    };
-    final Ability ability3 = new DamageBuffAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(),
-        1,
-        2,
-        3) {
-      @Override
-      public Effect _createEffectForUnit(Unit unit) {
-        return new BaseEffect(unit, 1) {
-          @Override
-          public int alterDamageAmount(int currentDamageAmount) {
-            return currentDamageAmount + 1;
-          }
-        };
-      }
-    };
+    final Ability ability1 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
+    final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
+    final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
 
-    assertEquals(5, unit.getDamageAmount());
-    unit.addEffect(ability1._createEffectForUnit(unit));
-    assertEquals(6, unit.getDamageAmount());
-    unit.addEffect(ability2._createEffectForUnit(unit));
-    assertEquals(7, unit.getDamageAmount());
-    unit.addEffect(ability3._createEffectForUnit(unit));
-    assertEquals(8, unit.getDamageAmount());
+    int baseDamageAmount = unit.getDamageAmount();
+    assertEquals(baseDamageAmount, unit.getDamageAmount());
+    ability1.use(world, Collections.emptyList());
+    assertEquals(baseDamageAmount + 1, unit.getDamageAmount());
+    ability2.use(world, Collections.emptyList());
+    assertEquals(baseDamageAmount + 2, unit.getDamageAmount());
+    ability3.use(world, Collections.emptyList());
+    assertEquals(baseDamageAmount + 3, unit.getDamageAmount());
 
-    for (int i = 0; i < 25; i++) {
-      unit.tick(50, world);
+    for (int i = 0; i < 200; i++) {
+      unit.tick(GameModel.DELAY, world);
     }
-    assertEquals(6, unit.getDamageAmount());
+
+    assertEquals(baseDamageAmount, unit.getDamageAmount());
   }
 
   @Test
@@ -303,7 +261,7 @@ public class DefaultUnitTest {
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
     World world = new World(levels, heroUnit, new DefaultPathFinder());
 
-    playerUnit.setTargetUnit(enemyUnit, world);
+    playerUnit.setTargetUnit(enemyUnit);
 
     int previousHealth = enemyUnit.getHealth();
 
@@ -353,7 +311,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and an archer that targets the enemy
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -385,7 +343,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -401,7 +359,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
       // and the initial health of the enemy
       final int enemyStartingHealth = enemyUnit.getHealth();
 
@@ -468,6 +426,27 @@ public class DefaultUnitTest {
       );
     }
 
+  }
+
+  private static class ApplyToAllUnitsDamageBuffAbility extends DamageBuffAbility {
+
+    public ApplyToAllUnitsDamageBuffAbility(
+        int damageIncrease,
+        double coolDownSeconds,
+        double effectDurationSeconds
+    ) {
+      super(
+          GameImageResource.TEST_IMAGE_1_1.getGameImage(),
+          damageIncrease,
+          coolDownSeconds,
+          effectDurationSeconds
+      );
+    }
+
+    @Override
+    public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+      return world.getAllUnits();
+    }
   }
 
 }

@@ -4,6 +4,7 @@ import java.util.Comparator;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
 import main.game.model.world.World;
 
 /**
@@ -34,7 +35,7 @@ public class IdleUnitState extends UnitState {
         .orElse(null);
     if (enemyOrNull != null) {
       // Assume that walking state will switch to attacking state if unit is close enough.
-      requestState(new WalkingUnitState(unit, enemyOrNull));
+      requestState(new WalkingUnitState(unit, new EnemyUnitTarget(unit, enemyOrNull)));
     }
   }
 
