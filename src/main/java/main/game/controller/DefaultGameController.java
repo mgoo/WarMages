@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import main.common.GameController;
 import main.common.entity.Entity;
@@ -13,9 +15,12 @@ import main.game.model.GameModel;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.game.view.GameView;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
+import main.game.view.events.UnitIconClick;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -161,12 +166,12 @@ public class DefaultGameController implements GameController {
       if (selectedUnit != null) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setTarget(selectedUnit, gameModel.getWorld());
+          unit.setTargetUnit(selectedUnit);
         }
       } else {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+          unit.setTargetPoint(mouseEvent.getLocation());
 
           //if it was a hero unit, then it can also pickup item
           if(unit instanceof HeroUnit && selectedItem != null) {
@@ -193,7 +198,7 @@ public class DefaultGameController implements GameController {
   public void onMouseDrag(MouseDrag mouseEvent) {
     Collection<Unit> selectedUnits = gameModel.getAllUnits()
         .stream()
-        .filter(u -> mouseEvent.getMapShape().contains(u.getCentre()))
+        .filter(u -> mouseEvent.getMapShape().contains(u.getRect()))
         .filter(u -> u.getTeam() == Team.PLAYER)
         .collect(Collectors.toSet());
 
@@ -222,5 +227,60 @@ public class DefaultGameController implements GameController {
       gameModel.setUnitSelection(selectedUnits); // may be empty
     }
 
+  }
+
+  /**
+   * When the GameView is double clicked it should select all the units of the same type.
+   */
+  public void onDbClick(MouseClick mouseEvent) {
+    //select the unit under the click if there is one
+    Unit dbClickedUnit = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getTeam() == Team.PLAYER)
+        .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+            <= Math.max(u.getSize().width, u.getSize().height))
+        .sorted(Comparator.comparingDouble(
+            s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+        .findFirst().orElse(null);
+    if (dbClickedUnit == null) {
+      return;
+    }
+    // Get all units that are of the same Type
+    Set<Unit> unitsSelected = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getTeam() == Team.PLAYER)
+        .filter(unit -> dbClickedUnit.getType() == unit.getType())
+        .filter(unit -> dbClickedUnit.getClass() == unit.getClass())
+        .collect(Collectors.toSet());
+
+    if (mouseEvent.wasShiftDown()) {
+      unitsSelected.stream()
+          .filter(unit -> !gameModel.getUnitSelection().contains(unit))
+          .forEach(unit -> gameModel.addToUnitSelection(unit));
+    } else {
+      gameModel.setUnitSelection(unitsSelected);
+    }
+
+  }
+
+  /**
+   * When a selected units icon is clicked in from the hud.
+   */
+  public void onUnitIconClick(UnitIconClick clickEvent) {
+    // TODO H
+  }
+
+  /**
+   * When a heros ability icon is clicked in from the hud.
+   */
+  public void onAbilityIconClick(AbilityIconClick clickEvent) {
+    // TODO H
+  }
+
+  /**
+   * When a items icon that has being picked up by the hero is clicked in from the hud.
+   */
+  public void onItemIconClick(ItemIconClick clickEvent) {
+    // TODO H
   }
 }

@@ -5,9 +5,12 @@ import main.common.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.GameView;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
+import main.game.view.events.UnitIconClick;
 import main.images.DefaultImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
@@ -51,6 +54,26 @@ public class RendererTestUtils {
 
       @Override
       public void onMouseDrag(MouseDrag mouseEvent) {
+
+      }
+
+      @Override
+      public void onDbClick(MouseClick mouseClick) {
+
+      }
+
+      @Override
+      public void onUnitIconClick(UnitIconClick clickEvent) {
+
+      }
+
+      @Override
+      public void onAbilityIconClick(AbilityIconClick clickEvent) {
+
+      }
+
+      @Override
+      public void onItemIconClick(ItemIconClick clickEvent) {
 
       }
     };

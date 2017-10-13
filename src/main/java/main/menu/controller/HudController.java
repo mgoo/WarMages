@@ -1,5 +1,6 @@
 package main.menu.controller;
 
+import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
@@ -8,6 +9,7 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.game.view.GameView;
 import main.menu.MainMenu;
+import main.menu.generators.SaveFileAlertGenerator;
 import main.renderer.Renderer;
 
 /**
@@ -21,20 +23,29 @@ public class HudController extends MenuController {
   final MainMenu mainMenu;
   final GameView gameView;
   final Renderer renderer;
+  final SaveFunction saveFunction;
 
-  public HudController(Main main, MainMenu mainMenu, GameView gameView, Renderer renderer) {
+  public HudController(Main main,
+                       MainMenu mainMenu,
+                       GameView gameView,
+                       Renderer renderer,
+                       SaveFunction saveFunction) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.gameView = gameView;
     this.renderer = renderer;
+    this.saveFunction = saveFunction;
   }
 
   /**
    * Triggers event for when the icon of an entity is clicked.
    */
-  public void unitIconBtn(Unit unit) {
+  public void unitIconBtn(Unit unit,
+                          boolean wasShiftDown,
+                          boolean wasCtrlDown,
+                          boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.unitClick(unit, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -43,9 +54,12 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an ability is clicked.
    */
-  public void abilityIconBtn(Ability ability) {
+  public void abilityIconBtn(Ability ability,
+                             boolean wasShiftDown,
+                             boolean wasCtrlDown,
+                             boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.abilityClick(ability, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -54,9 +68,12 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an item is clicked.
    */
-  public void itemIconBtn(Item item) {
+  public void itemIconBtn(Item item,
+                          boolean wasShiftDown,
+                          boolean wasCtrlDown,
+                          boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.itemClick(item, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -67,7 +84,7 @@ public class HudController extends MenuController {
    */
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
+      this.gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -84,7 +101,7 @@ public class HudController extends MenuController {
                      boolean wasShiftDown,
                      boolean wasCtrlDown) {
     try {
-      gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
+      this.gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -95,7 +112,18 @@ public class HudController extends MenuController {
    */
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
+      this.gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Triggers the double click event in GameView.
+   */
+  public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    try {
+      this.gameView.onDbClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -103,12 +131,12 @@ public class HudController extends MenuController {
 
   @Override
   public void onMouseMove(MouseEvent event) {
-    gameView.updateMousePosition((int)event.getX(), (int)event.getY());
+    this.gameView.updateMousePosition((int)event.getX(), (int)event.getY());
   }
 
   @Override
   public void onKeyDown(KeyEvent event) {
-    gameView.onKeyDown(event.getCharacter().charAt(0),
+    this.gameView.onKeyDown(event.getCharacter().charAt(0),
         event.isShiftDown(),
         event.isControlDown());
   }
@@ -130,7 +158,7 @@ public class HudController extends MenuController {
    */
   public void resume() {
     try {
-      gameView.resumeGame();
+      this.gameView.resumeGame();
       renderer.resume();
     } catch (Exception e) {
       e.printStackTrace();
@@ -142,8 +170,8 @@ public class HudController extends MenuController {
    */
   public void quitBtn() {
     try {
-      renderer.stop();
-      gameView.stopGame();
+      this.renderer.stop();
+      this.gameView.stopGame();
       this.main.loadMenu(this.mainMenu);
     } catch (Exception e) {
       e.printStackTrace();
@@ -153,11 +181,26 @@ public class HudController extends MenuController {
   /**
    * handles when the save button was pressed.
    */
-  public void saveBtn() {
+  public void save(String filename) {
     try {
-      // TODO handle going to the save menu and saving the game
-    } catch (Exception e) {
-      e.printStackTrace();
+      saveFunction.save(filename);
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setSuccess()
+              .getScript()
+      );
+    } catch (IOException e) {
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setError()
+              .setMesg(e.getMessage())
+              .getScript()
+      );
     }
+  }
+
+  @FunctionalInterface
+  public interface SaveFunction {
+    void save(String filename) throws IOException;
   }
 }

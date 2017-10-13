@@ -16,7 +16,7 @@ public class UnitImagesComponent implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int TICKS_PER_FRAME = 5;
+  public static final int TICKS_PER_FRAME = 3;
 
   private final Sequence sequence;
   private final UnitSpriteSheet spriteSheet;

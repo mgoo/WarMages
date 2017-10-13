@@ -12,7 +12,7 @@ import main.game.model.entity.Projectile;
  */
 public enum UnitType {
 
-  ARCHER(5, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(15, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -31,21 +31,21 @@ public enum UnitType {
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, 5, 1, Sequence.SLASH) {
+  SWORDSMAN(10, 250, 6, 0.1, 5, 0.7, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(7, 150, 5, 0.1, 5, 2, Sequence.THRUST) {
+  SPEARMAN(8, 200, 5, 0.1, 5, 1, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(15, 300, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 250, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -55,7 +55,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.3),
+          creator.getSize().scaledBy(0.6),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           creator.getDamageAmount(),
@@ -97,6 +97,13 @@ public enum UnitType {
   }
 
   /**
+   * Distance at which the unit decides to automatically attack another unit in sight.
+   */
+  public double getAutoAttackDistance() {
+    return lineOfSight * 0.8;
+  }
+
+  /**
    * Creates an appropriate projectile for this {@link UnitType}.
    */
   public final Projectile createProjectile(DefaultUnit creator, Unit target) {
@@ -127,6 +134,10 @@ public enum UnitType {
     this.lineOfSight = lineOfSight;
     this.attackSequence = attackSequence;
     this.attackDistance = attackDistance;
+
+    if (lineOfSight < attackDistance) {
+      throw new IllegalArgumentException();
+    }
 
     if (canShootProjectiles()) {
       try {

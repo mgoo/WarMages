@@ -7,9 +7,11 @@ function addUnitIcon(image, unit) {
   var icon = $(
       '<div '
       + 'class="icon" '
-      + 'onclick="controller.unitIconBtn(unit)">'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
+  icon.on('click', function(event) {
+    controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
+  });
   $('#unit-holder').append(icon);
 }
 
@@ -17,9 +19,11 @@ function addAbilityIcon(image, ability) {
   var icon = $(
       '<div '
       + 'class="icon" '
-      + 'onclick="controller.abilityIconBtn(ability)">'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
+  icon.on('click', function(event) {
+    controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey, event.which === 1);
+  });
   $('#ability-holder').append(icon);
 }
 
@@ -27,9 +31,11 @@ function addItemIcon(image, item) {
   var icon = $(
       '<div '
       + 'class="icon" '
-      + 'onclick="controller.itemIconBtn(item)">'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
+  icon.on('click', function(event) {
+    controller.itemIconBtn(item, event.shiftKey, event.ctrlKey, event.which === 1);
+  });
   $('#item-holder').append(icon);
 }
 
@@ -54,9 +60,21 @@ gameViewProxy.on('contextmenu', function (event) {
   return false;
 });
 
+gameViewProxy.on('dblclick', function (event) {
+  controller.onDbClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+  return false;
+});
+
 menuButton.on('click', function (event) {
     $('#overlay').fadeIn();
     $('#pause-menu').fadeIn();
+});
+
+$("#pause-menu").on("hidden.bs.modal", function (event) {
+    controller.resume();
+});
+$("#pause-menu").on("shown.bs.modal", function(event) {
+    controller.pause();
 });
 
 resumeButton.on('click', function (event) {
