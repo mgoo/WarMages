@@ -28,7 +28,7 @@ import main.common.util.Looper;
 import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.Level;
-import main.game.model.entity.HeroUnit;
+import main.common.entity.HeroUnit;
 import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.Menu;
@@ -60,11 +60,11 @@ public class AllJfxTests {
    * Creates the gameviews and imageviews based on a level and hero unit.
    */
   public static Image testImage() {
-    hero = WorldTestUtils.createHeroUnit(new MapPoint(0, 0));
+    hero = WorldTestUtils.createDefaultHeroUnit(new MapPoint(0, 0));
     level = WorldTestUtils.createLevelWith(
-        WorldTestUtils.createUnit(new MapPoint(1, 0)),
-        WorldTestUtils.createUnit(new MapPoint(2, 0)),
-        WorldTestUtils.createUnit(new MapPoint(3, 0)));
+        WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+        WorldTestUtils.createDefaultUnit(new MapPoint(2, 0)),
+        WorldTestUtils.createDefaultUnit(new MapPoint(3, 0)));
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
         .createWorld(
             WorldTestUtils.createLevels(level),

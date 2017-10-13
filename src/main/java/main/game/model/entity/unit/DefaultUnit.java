@@ -1,29 +1,39 @@
-package main.game.model.entity;
+package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.Effect;
+import main.common.entity.Effect;
+import main.game.model.entity.unit.state.AttackingUnitState;
+import main.game.model.entity.unit.state.DeadUnit;
+import main.game.model.entity.DefaultEntity;
+import main.common.entity.Direction;
+import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.state.DyingState;
+import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.world.World;
 
-/**
- * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
- * health, and can attack other team units.
- */
-public class Unit extends Attackable implements Damageable {
+public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
 
+  private final double leewayForPath = 0.01;
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
+  private Unit target;
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
@@ -31,22 +41,31 @@ public class Unit extends Attackable implements Damageable {
   private boolean isDead = false;
   private boolean hasCreatedDeadUnit = false;
 
+  private int health;
+  private int damageAmount;
+  private final double attackDistance;
+  private double speed;
+  protected Queue<MapPoint> path = new LinkedList<>();
+
+
   /**
    * Constructor takes the unit's position, size, and team.
    */
-  public Unit(
+  public DefaultUnit(
       MapPoint position,
       MapSize size,
       Team team,
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    super(position, size, unitType.getMovingSpeed());
+    super(position, size);
     this.team = team;
     this.unitType = unitType;
     this.health = unitType.getStartingHealth();
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(this);
+    this.speed = unitType.getMovingSpeed();
+    this.attackDistance = unitType.getAttackDistance();
     setDamageAmount(unitType.getBaselineDamage());
   }
 
@@ -63,15 +82,12 @@ public class Unit extends Attackable implements Damageable {
     return unitType;
   }
 
+  @Override
   public double getLineOfSight() {
     return this.unitType.lineOfSight;
   }
 
-  /**
-   * Returns a DeadUnit to replace the current Unit when it dies.
-   *
-   * @return DeadUnit to represent dead current Unit.
-   */
+  @Override
   public DeadUnit createDeadUnit() {
     if (!isDead || hasCreatedDeadUnit) {
       throw new IllegalStateException();
@@ -90,7 +106,7 @@ public class Unit extends Attackable implements Damageable {
     //update path in case there is a target and it has moved.
     updatePath(world);
     //update position
-    super.tick(timeSinceLastTick, world);
+    tickPosition(timeSinceLastTick, world);
     //check if has target and target is within attacking proximity. Request state change.
     if (target != null && targetWithinProximity()) {
       attack();
@@ -109,7 +125,7 @@ public class Unit extends Attackable implements Damageable {
   }
 
   @Override
-  protected void attack() {
+  public void attack() {
     if (isDead) {
       throw new IllegalStateException("Is dead");
     }
@@ -127,7 +143,6 @@ public class Unit extends Attackable implements Damageable {
     if (isDead) {
       return;
     }
-
     super.translatePosition(dx, dy);
   }
 
@@ -167,6 +182,7 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return Team Unit is a part of.
    */
+  @Override
   public Team getTeam() {
     return team;
   }
@@ -176,21 +192,15 @@ public class Unit extends Attackable implements Damageable {
    *
    * @return int health of the Unit.
    */
+  @Override
   public int getHealth() {
     return health;
   }
 
   /**
-   * Gets the percentage of health remaining.
-   * Should be below 1 and above 0 if alive.
-   */
-  public double getHealthPercent() {
-    return (double)this.health / (double)this.unitType.getStartingHealth();
-  }
-
-  /**
    * Add a new effect and start it.
    */
+  @Override
   public void addEffect(Effect effect) {
     if (!effect.isTargetUnit(this)) {
       throw new IllegalArgumentException();
@@ -206,7 +216,7 @@ public class Unit extends Attackable implements Damageable {
 
   @Override
   public int getDamageAmount() {
-    int amount = super.getDamageAmount();
+    int amount = damageAmount;
 
     for (Effect activeEffect : activeEffects) {
       amount = activeEffect.alterDamageAmount(amount);
@@ -228,10 +238,12 @@ public class Unit extends Attackable implements Damageable {
     }
   }
 
+  @Override
   public Unit getTarget() {
     return target;
   }
 
+  @Override
   public UnitSpriteSheet getSpriteSheet() {
     return spriteSheet;
   }
@@ -239,8 +251,95 @@ public class Unit extends Attackable implements Damageable {
   /**
    * Gets the direction from the current state.
    */
+  @Override
   public Direction getCurrentDirection() {
     return unitState.getCurrentDirection();
   }
-}
 
+  @Override
+  public void setTarget(Unit target, World world) {
+    this.target = Objects.requireNonNull(target);
+    updatePath(world);
+  }
+
+  @Override
+  public void clearTarget() {
+    this.target = null;
+  }
+
+  /**
+   * Updates the path in case target has moved.
+   */
+  protected void updatePath(World world) {
+    if (target == null) {
+      return;
+    }
+    setPath(world.findPath(getCentre(), target.getCentre()));
+  }
+
+  @Override
+  public void setDamageAmount(int amount) {
+    if (amount <= 0 || amount >= 100) {
+      throw new IllegalArgumentException("Invalid damage: " + amount);
+    }
+
+    damageAmount = amount;
+  }
+
+  @Override
+  public void setPath(List<MapPoint> path) {
+    this.path = new LinkedList<>(path);
+  }
+
+  @Override
+  public boolean contains(MapPoint point) {
+    return getRect().contains(point);
+  }
+
+  @Override
+  public double getHealthPercent() {
+    return health / unitType.getStartingHealth();
+  }
+
+  /**
+   * Updates the DefaultUnit's position depending on it's path.
+   *
+   * @param timeSinceLastTick time passed since last tick.
+   * @param world that this DefaultUnit is in.
+   */
+  private void tickPosition(long timeSinceLastTick, World world) {
+    if (path == null || path.isEmpty()) {
+      return;
+    }
+    MapPoint target = this.path.peek();
+    double distance = getCentre().distanceTo(target);
+    if (distance < leewayForPath) {
+      this.path.poll();
+      if (this.path.size() == 0) {
+        return;
+      }
+      target = this.path.peek();
+    }
+
+    double dx = target.x - getCentre().x;
+    double dy = target.y - getCentre().y;
+    double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
+    double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
+    assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
+    assert Math.abs(mx) > 0 || Math.abs(my) > 0;
+    translatePosition(mx, my);
+  }
+
+  /**
+   * Returns boolean whether the distance between the target and the Unit is less than the
+   * attackDistance.
+   *
+   * @return boolean representing distance less than attackDistance.
+   */
+  private boolean targetWithinProximity() {
+    if (target == null) {
+      throw new IllegalStateException("No target set");
+    }
+    return target.getCentre().distanceTo(getCentre()) < attackDistance;
+  }
+}

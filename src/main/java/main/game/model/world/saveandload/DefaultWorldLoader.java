@@ -24,21 +24,19 @@ import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.game.model.entity.Entity;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Team;
-import main.game.model.entity.UninteractableEntity;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
+import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
+import main.common.entity.MapEntity;
+import main.game.model.entity.DefaultMapEntity;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
+import main.common.entity.Team;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.images.DefaultUnitSpriteSheet;
 
 public class DefaultWorldLoader implements WorldLoader {
@@ -49,16 +47,16 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
-  public static Collection<UninteractableEntity> generateBorderEntities(
+  public static Collection<DefaultMapEntity> generateBorderEntities(
       MapRect bounds,
-      Function<MapPoint, UninteractableEntity> entityGenerator
+      Function<MapPoint, DefaultMapEntity> entityGenerator
   ) {
     int left = (int) bounds.topLeft.x;
     int top = (int) bounds.topLeft.y;
     int right = (int) bounds.bottomRight.x;
     int bottom = (int) bounds.bottomRight.y;
 
-    Collection<UninteractableEntity> mapEntities = new ArrayList<>();
+    Collection<DefaultMapEntity> mapEntities = new ArrayList<>();
 
     // Generate top and bottom rows
     for (int x = left; x < right; x++) {
@@ -79,8 +77,8 @@ public class DefaultWorldLoader implements WorldLoader {
    * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
    * the user from leaving the area.
    */
-  public static UninteractableEntity newBorderEntityAt(MapPoint point) {
-    return new UninteractableEntity(
+  public static DefaultMapEntity newBorderEntityAt(MapPoint point) {
+    return new DefaultMapEntity(
         point,
         TREE_MAP_ENTITY.getGameImage()
     );
@@ -98,7 +96,7 @@ public class DefaultWorldLoader implements WorldLoader {
    * for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
@@ -116,10 +114,10 @@ public class DefaultWorldLoader implements WorldLoader {
     Level level = new Level(
         bounds,
         Arrays.asList(
-            new Unit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
+            new DefaultUnit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
                 new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
-            new Unit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+            new DefaultUnit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
                 new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),
@@ -145,10 +143,10 @@ public class DefaultWorldLoader implements WorldLoader {
             )
         ),
         Arrays.asList(
-            new UninteractableEntity(
+            new DefaultMapEntity(
                 new MapPoint(2, 1), TREE_MAP_ENTITY.getGameImage()
             ),
-            new UninteractableEntity(
+            new DefaultMapEntity(
                 new MapPoint(5, 5), TREE_MAP_ENTITY.getGameImage()
             )
         ),
@@ -165,7 +163,7 @@ public class DefaultWorldLoader implements WorldLoader {
    * and the player moves along the x axis.
    */
   public World loadMultilevelWorld() {
-    final HeroUnit heroUnit = new HeroUnit(
+    final HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(2, 5),
         HERO_SIZE,
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
@@ -186,19 +184,19 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
           Arrays.asList(),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -218,19 +216,19 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(10, 8), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(10, 8), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
-              new Unit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),
@@ -253,7 +251,7 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   bounds.getCenter().floored(),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -273,60 +271,60 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(25, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(25, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(25, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(25, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(26, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(26, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(26, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(26, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
-              new Unit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(41, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(41, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(40, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(40, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
-              new Unit(new MapPoint(39, 5), HERO_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(39, 5), HERO_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(40, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(40, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
-              new Unit(new MapPoint(41, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(41, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
           ),
           Arrays.asList(),
           Arrays.asList(
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 1),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 2),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 3),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 7),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 8),
                   TREE_MAP_ENTITY.getGameImage()
               ),
-              new UninteractableEntity(
+              new DefaultMapEntity(
                   new MapPoint(37, 9),
                   TREE_MAP_ENTITY.getGameImage()
               )
@@ -343,22 +341,22 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new Unit(new MapPoint(39, 2), HERO_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(39, 2), HERO_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(39, 8), HERO_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(39, 8), HERO_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN
               ),
-              new Unit(new MapPoint(43, 2), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(43, 2), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(43, 8), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(43, 8), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new Unit(new MapPoint(43, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(43, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
-              new Unit(new MapPoint(43, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(43, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               )
           ),

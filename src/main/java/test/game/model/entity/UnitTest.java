@@ -11,18 +11,19 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.common.Effect;
-import main.common.PathFinder;
+import main.common.entity.Effect;
+import main.common.entity.HeroUnit;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
-import main.game.model.entity.HeroUnit;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.Projectile;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
+import main.common.entity.Team;
+import main.common.entity.Unit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
@@ -50,7 +51,7 @@ public class UnitTest {
       // pretend there are no objects in the way
       when(world.isPassable(any())).thenReturn(true);
 
-      enemyUnit = new Unit(
+      enemyUnit = new DefaultUnit(
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
@@ -159,7 +160,7 @@ public class UnitTest {
     }
 
     private Unit createPlayerUnit(UnitType unitType) {
-      return new Unit(
+      return new DefaultUnit(
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
@@ -169,7 +170,7 @@ public class UnitTest {
     }
 
     private Unit createEnemyUnit(UnitType unitType) {
-      return new Unit(
+      return new DefaultUnit(
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.ENEMY,
@@ -182,12 +183,12 @@ public class UnitTest {
 
   @Test
   public void testTickEffects() {
-    Unit unit = new Unit(new MapPoint(0,0),
+    Unit unit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
-    HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
+    HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
         new MapSize(100, 100),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
@@ -256,17 +257,17 @@ public class UnitTest {
 
   @Test
   public void testEntityAttack() {
-    Unit playerUnit = new Unit(new MapPoint(0,0),
+    Unit playerUnit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(0.5, 0.5),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER);
-    Unit enemyUnit = new Unit(new MapPoint(1,1),
+    Unit enemyUnit = new DefaultUnit(new MapPoint(1,1),
         new MapSize(0.5, 0.5),
         Team.ENEMY,
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.SPEARMAN);
-    HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
+    HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
         new MapSize(0.5, 0.5),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
