@@ -88,7 +88,8 @@ public class MainMenuController extends MenuController {
         gameController,
         gameModel,
         imageProvider,
-        mouseClickEvent);
+        mouseClickEvent,
+        world.getInitialViewBoxOrigin());
     tickEvent.registerListener(parameter -> gameView.onTick(parameter));
     mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
     Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());

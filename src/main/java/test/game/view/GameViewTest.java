@@ -55,7 +55,12 @@ public class GameViewTest {
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
     this.gameView = new GameView(config,
-        gameController, gameModelMock, imageProvider, new Event<>());
+        gameController,
+        gameModelMock,
+        imageProvider,
+        new Event<>(),
+        new MapPoint(-20,
+            0));
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
