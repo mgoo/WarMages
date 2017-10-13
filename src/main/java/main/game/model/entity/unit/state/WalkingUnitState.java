@@ -59,6 +59,7 @@ public class WalkingUnitState extends UnitState {
       return this;
     }
 
+    // Arrived at destination
     if (targetUnitOrNull == null || targetUnitOrNull.getHealth() == 0) {
       return new IdleUnitState(unit);
     } else {

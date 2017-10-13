@@ -329,6 +329,9 @@ public class DefaultUnitTest {
       world = mock(World.class);
       // pretend there are no objects in the way
       when(world.isPassable(any())).thenReturn(true);
+      // path is direct
+      when(world.findPath(any(), any()))
+          .thenAnswer(invocation -> Arrays.asList(invocation.getArguments()));
 
       enemyUnit = new DefaultUnit(
           new MapPoint(0.1, 0),

@@ -267,7 +267,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
-   * Public for testing only!
+   * Public for testing only.
    */
   public UnitState _getUnitState() {
     return unitState;
