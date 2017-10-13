@@ -10,7 +10,7 @@ public class Events {
 
   }
 
-  public static class GameCompletion extends Event<Long> {
+  public static class GameCompletion extends Event<Void> {
 
   }
 }

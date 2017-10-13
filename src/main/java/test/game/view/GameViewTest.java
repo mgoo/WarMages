@@ -259,9 +259,6 @@ public class GameViewTest {
       this.entities = entities;
     }
 
-    @Override
-    public void checkGameCompletion() {
-    }
   }
 
   private class EntityMock extends Entity {

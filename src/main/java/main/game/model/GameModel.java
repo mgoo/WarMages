@@ -75,7 +75,12 @@ public class GameModel {
    * Starts the main game loop of this app.
    */
   public void startGame() {
-    looper.startWithSchedule(() -> mainGameTick.broadcast(System.currentTimeMillis()), DELAY);
+    looper.startWithSchedule(() -> {
+      mainGameTick.broadcast(System.currentTimeMillis());
+      if (world.isCompleted()) {
+        gameCompletion.broadcast(null);
+      }
+    }, DELAY);
   }
 
   /**
@@ -138,12 +143,4 @@ public class GameModel {
     looper.stop();
   }
 
-  /**
-   * Checks whether the game is completed. Broadcasts when it is completed.
-   */
-  public void checkGameCompletion() {
-    if (world.isCompleted()) {
-      gameCompletion.broadcast(System.currentTimeMillis());
-    }
-  }
 }

@@ -84,6 +84,7 @@ public class MainMenuController extends MenuController {
       completedEvent.registerListener(parameter -> {
         throw new Error("NYI");
         //TODO andrew finish this off pls :) possibly new menu? or go back to main menu?
+        //You can remove the Event if you want andrew
       });
       renderer.start();
       gameModel.startGame();
