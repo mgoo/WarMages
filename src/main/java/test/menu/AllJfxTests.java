@@ -22,19 +22,18 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.common.entity.HeroUnit;
 import main.common.util.Config;
 import main.common.util.Events.MainGameTick;
 import main.common.util.Looper;
 import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.Level;
-import main.common.entity.HeroUnit;
 import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import main.renderer.Renderer;
 import netscape.javascript.JSObject;
-import org.junit.Ignore;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 import test.renderer.RendererTestUtils;
@@ -49,7 +48,6 @@ public class AllJfxTests {
   static HeroUnit hero = null;
 
   @Test
-  @Ignore // TODO dont commit
   public void testMainMenu() {
     if (!Desktop.isDesktopSupported()) {
       return;
