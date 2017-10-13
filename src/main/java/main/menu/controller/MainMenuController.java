@@ -3,7 +3,8 @@ package main.menu.controller;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.util.Looper;
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.common.WorldLoader;
@@ -61,7 +62,7 @@ public class MainMenuController extends MenuController {
       Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
       GameModel gameModel = new GameModel(world, tickEvent);
-      GameController gameController = new GameController(gameModel);
+      GameController gameController = new DefaultGameController(gameModel);
       GameView gameView = new GameView(this.config,
           gameController,
           gameModel,
