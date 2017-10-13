@@ -4,6 +4,7 @@ import main.common.entity.usable.Effect;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.game.model.entity.unit.DeadUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 
 /**
@@ -83,5 +84,10 @@ public interface Unit extends Entity {
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
    */
   double getHealthPercent();
+
+  /**
+   * Gets the base type of the unit.
+   */
+  UnitType getType();
 }
 

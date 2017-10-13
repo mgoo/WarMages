@@ -55,6 +55,8 @@ public interface GameController {
    */
   public void onMouseDrag(MouseDrag mouseEvent);
 
+  void onDbClick(MouseClick mouseClick);
+
   void onUnitIconClick(UnitIconClick clickEvent);
 
   void onAbilityIconClick(AbilityIconClick clickEvent);
