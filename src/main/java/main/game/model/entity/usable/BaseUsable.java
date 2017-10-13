@@ -3,7 +3,7 @@ package main.game.model.entity.usable;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
-import main.common.entity.Effect;
+import main.common.entity.usable.Effect;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.exceptions.CantApplyToUnitsException;

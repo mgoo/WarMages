@@ -21,7 +21,7 @@ import main.game.model.entity.unit.UnitType;
 import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Item;
 import main.common.entity.Usable;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;

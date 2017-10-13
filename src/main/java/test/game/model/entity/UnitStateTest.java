@@ -10,7 +10,7 @@ import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.entity.Team;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.usable.Ability;
+import main.common.entity.usable.Ability;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;

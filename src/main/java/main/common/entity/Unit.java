@@ -1,6 +1,7 @@
 package main.common.entity;
 
 import java.util.List;
+import main.common.entity.usable.Effect;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.game.model.entity.unit.state.DeadUnit;

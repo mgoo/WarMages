@@ -4,7 +4,7 @@ import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.entity.Effect;
+import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -14,7 +14,7 @@ import main.game.model.world.World;
  * Heals a unit instantly.
  * @author chongdyla
  */
-public class HealAbility extends Ability {
+public class HealAbility extends BaseAbility {
 
   private static final long serialVersionUID = 1L;
 
