@@ -11,6 +11,7 @@ import main.game.model.world.World;
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
  * health increase or a damage increase for a certain amount of time).
+ * @author chongdyla
  */
 public interface Usable extends Serializable {
 

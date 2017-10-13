@@ -6,6 +6,7 @@ import main.common.util.TickTimer;
 
 /**
  * An ability can be applied to (a) HeroUnit(s).
+ * @author chongdyla
  */
 public abstract class Ability implements BaseUsable, Serializable {
 

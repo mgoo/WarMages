@@ -39,6 +39,10 @@ import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
+/**
+ * Loads a complex enough world to be played enjoyably.
+ * @author chongdyla
+ */
 public class DefaultWorldLoader implements WorldLoader {
 
   private static final MapSize HERO_SIZE = new MapSize(1, 1);

@@ -25,11 +25,16 @@ import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.world.World;
 
+/**
+ * Default Unit implementation.
+ * @author chongdyla (Secondary author)
+ */
 public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
 
-  private final double leewayForPath = 0.01;
+  private static final double LEEWAY_FOR_PATH = 0.01;
+
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
@@ -313,7 +318,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
     MapPoint target = this.path.peek();
     double distance = getCentre().distanceTo(target);
-    if (distance < leewayForPath) {
+    if (distance < LEEWAY_FOR_PATH) {
       this.path.poll();
       if (this.path.size() == 0) {
         return;

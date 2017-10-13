@@ -15,6 +15,7 @@ package main.common.images;
  * This enum provides easy access to images to the rest of the app without the rest of the app
  * having to know about the file paths.
  * </p>
+ * @author chongdyla
  */
 public enum GameImageResource {
   // Items

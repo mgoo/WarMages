@@ -9,13 +9,13 @@ import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
+import main.common.exceptions.ItemNotInRangeException;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.common.entity.HeroUnit;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
@@ -23,6 +23,10 @@ import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Some tests.
+ * @author chongdyla
+ */
 public class HeroUnitTest {
 
   private World mockWorld = mock(World.class);

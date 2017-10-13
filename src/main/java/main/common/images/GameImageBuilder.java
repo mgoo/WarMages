@@ -1,5 +1,10 @@
 package main.common.images;
 
+/**
+ * Builds {@link GameImage}s.
+ *
+ * @author chongdyla
+ */
 public class GameImageBuilder {
 
   private String filePath;

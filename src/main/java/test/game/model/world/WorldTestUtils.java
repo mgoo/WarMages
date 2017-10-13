@@ -30,6 +30,10 @@ import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
+/**
+ * Useful factory methods.
+ * @author chongdyla (External Tester)
+ */
 public class WorldTestUtils {
 
   /**

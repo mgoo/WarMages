@@ -7,6 +7,10 @@ import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 
+/**
+ * Handles what image should be shown as time progresses.
+ * @author chongdyla (Secondary author)
+ */
 public class UnitImagesComponent implements Serializable {
 
   private static final long serialVersionUID = 1L;

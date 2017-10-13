@@ -16,6 +16,7 @@ import main.common.util.MapPoint;
  * <p>
  * Functionality should be delegated to the {@link Ability}.
  * </p>
+ * @author chongdyla
  */
 public class Item extends DefaultMapEntity implements BaseUsable {
 

@@ -7,6 +7,10 @@ import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
 
+/**
+ * Default implementation of {@link Entity}.
+ * @author chongdyla (Secondary Author)
+ */
 public abstract class DefaultEntity implements Entity {
 
   private static final long serialVersionUID = 1L;
