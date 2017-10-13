@@ -25,7 +25,7 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
 import main.game.model.entity.DefaultMapEntity;
@@ -41,6 +41,7 @@ import main.images.DefaultUnitSpriteSheet;
 
 /**
  * Loads a complex enough world to be played enjoyably.
+ *
  * @author chongdyla
  */
 public class DefaultWorldLoader implements WorldLoader {
@@ -78,8 +79,8 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
-   * the user from leaving the area.
+   * Factory method for creating a new entity to be put on the border of a {@link Level} to stop the
+   * user from leaving the area.
    */
   public static DefaultMapEntity newBorderEntityAt(MapPoint point) {
     return new DefaultMapEntity(
@@ -94,8 +95,8 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Creates a new {@link GameModel} with the single level and example data. This level doesn't have
-   * a wall of {@link MapEntity}s around the bounds. This should have every non {@link
+   * Creates a new {@link DefaultGameModel} with the single level and example data. This level
+   * doesn't have a wall of {@link MapEntity}s around the bounds. This should have every non {@link
    * main.game.model.entity.Projectile} {@link Entity} in the {@link main.game.model.entity} package
    * for maximum coverage in tests.
    */

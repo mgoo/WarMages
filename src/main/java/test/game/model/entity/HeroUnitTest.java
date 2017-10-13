@@ -12,7 +12,7 @@ import java.util.Arrays;
 import main.common.exceptions.ItemNotInRangeException;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.HeroUnit;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
@@ -57,7 +57,7 @@ public class HeroUnitTest {
         UnitType.SWORDSMAN,
         Arrays.asList(mockAbility)
     );
-    long delay = GameModel.DELAY;
+    long delay = DefaultGameModel.DELAY;
 
     // when I call tick
     heroUnit.tick(delay, mockWorld);
@@ -70,7 +70,7 @@ public class HeroUnitTest {
   public void heroUnitShouldTickItemsButOnlyWhenInTheInventory() {
     // Given a hero
     HeroUnit heroUnit = createDefaultHeroUnit();
-    long delay = GameModel.DELAY;
+    long delay = DefaultGameModel.DELAY;
     // and an item close to the hero
     Item mockItem = mock(Item.class);
     when(mockItem.getCentre()).thenReturn(heroUnit.getCentre());

@@ -5,7 +5,7 @@ import main.Main;
 import main.common.util.Looper;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.world.World;
 import main.common.WorldLoader;
 import main.common.WorldSaveModel;
@@ -61,11 +61,11 @@ public class MainMenuController extends MenuController {
       MainGameTick tickEvent = new MainGameTick();
       Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, tickEvent);
-      GameController gameController = new DefaultGameController(gameModel);
+      DefaultGameModel defaultGameModel = new DefaultGameModel(world, tickEvent);
+      GameController gameController = new DefaultGameController(defaultGameModel);
       GameView gameView = new GameView(this.config,
           gameController,
-          gameModel,
+          defaultGameModel,
           imageProvider,
           mouseClickEvent);
       tickEvent.registerListener(parameter -> gameView.onTick(parameter));
@@ -75,13 +75,13 @@ public class MainMenuController extends MenuController {
           this.mainMenu,
           gameView,
           renderer,
-          gameModel,
+          defaultGameModel,
           imageProvider);
       tickEvent.registerListener(parameter -> hud.updateIcons());
       tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
       tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
       renderer.start();
-      gameModel.startGame();
+      defaultGameModel.startGame();
 
       this.main.loadMenu(hud);
     } catch (Exception e) {

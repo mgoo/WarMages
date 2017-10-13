@@ -8,11 +8,10 @@ import static test.game.model.world.WorldTestUtils.createEmptyLevel;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import main.common.entity.Unit;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.util.MapPoint;
 import main.game.model.world.World;
 import org.junit.Test;
@@ -80,7 +79,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(GameModel.DELAY, world);
+      unit.tick(DefaultGameModel.DELAY, world);
     }
   }
 
@@ -95,7 +94,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(GameModel.DELAY, world);
+      unit.tick(DefaultGameModel.DELAY, world);
     }
   }
 
@@ -110,7 +109,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(GameModel.DELAY, world);
+      unit.tick(DefaultGameModel.DELAY, world);
     }
   }
 
@@ -125,7 +124,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(GameModel.DELAY, world);
+      unit.tick(DefaultGameModel.DELAY, world);
     }
   }
 
@@ -140,7 +139,7 @@ public class DefaultUnitTest {
     for (int i = 0; i < 10; i++) {
       assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().x, 0.001);
       assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().y, 0.001);
-      unit.tick(GameModel.DELAY, world);
+      unit.tick(DefaultGameModel.DELAY, world);
     }
   }
 }

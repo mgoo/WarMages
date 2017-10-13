@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.Direction;
 import main.common.entity.Unit;
 import main.game.model.entity.unit.UnitImagesComponent;
@@ -44,7 +44,7 @@ public class UnitImagesComponentTest {
           unitImagesComponent.getImage(),
           (image, count) -> count == null ? 1 : count + 1
       );
-      unitImagesComponent.tick(GameModel.DELAY);
+      unitImagesComponent.tick(DefaultGameModel.DELAY);
     } while (unitImagesComponent._getCurrentTick() > 0);
 
     // then each image should have been shown for the right number of frames

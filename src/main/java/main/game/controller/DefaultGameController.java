@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.common.GameController;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.game.view.GameView;
@@ -22,10 +22,10 @@ import main.game.view.events.MouseDrag;
  */
 public class DefaultGameController implements GameController {
 
-  private final GameModel gameModel;
+  private final DefaultGameModel defaultGameModel;
 
-  public DefaultGameController(GameModel model) {
-    this.gameModel = model;
+  public DefaultGameController(DefaultGameModel model) {
+    this.defaultGameModel = model;
   }
 
   /**
@@ -39,7 +39,7 @@ public class DefaultGameController implements GameController {
     switch (key) {
       case '.':
         //select all units owned  by the player
-        gameModel.setUnitSelection(gameModel.getAllUnits());
+        defaultGameModel.setUnitSelection(defaultGameModel.getAllUnits());
         break;
       case 'w': //up
         if (keyevent.wasCtrlDown()) {
@@ -97,7 +97,7 @@ public class DefaultGameController implements GameController {
   public void onMouseEvent(MouseClick mouseEvent) {
 
     //select the unit under the click if there is one
-    Unit selectedUnit = gameModel.getAllUnits()
+    Unit selectedUnit = defaultGameModel.getAllUnits()
         .stream()
         .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
             <= Math.max(u.getSize().width, u.getSize().height))
@@ -111,15 +111,16 @@ public class DefaultGameController implements GameController {
 
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+        Collection<Unit> updatedUnitSelection = new ArrayList<>(
+            defaultGameModel.getUnitSelection());
         if (selectedUnit != null) {
           updatedUnitSelection.add(selectedUnit);
         }
-        gameModel.setUnitSelection(updatedUnitSelection);
+        defaultGameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseEvent.wasCtrlDown()) {
         //if clicked unit already selected, deselect it. otherwise, select it
-        Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+        Collection<Unit> updatedUnits = new ArrayList<>(defaultGameModel.getUnitSelection());
 
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
@@ -128,25 +129,26 @@ public class DefaultGameController implements GameController {
             updatedUnits.add(selectedUnit);
           }
         }
-        gameModel.setUnitSelection(updatedUnits);
+        defaultGameModel.setUnitSelection(updatedUnits);
 
       } else {
         //deselect all previous selected units and select the clicked unit
-        gameModel.setUnitSelection(new ArrayList<>());
+        defaultGameModel.setUnitSelection(new ArrayList<>());
         if (selectedUnit != null) {
-          gameModel.setUnitSelection(Collections.singletonList(selectedUnit));
+          defaultGameModel.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       }
     } else { //otherwise, it must have been a right click
       if (selectedUnit != null) {
         //attack an enemy
-        for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setTarget(selectedUnit, gameModel.getWorld());
+        for (Unit unit : defaultGameModel.getUnitSelection()) {
+          unit.setTarget(selectedUnit, defaultGameModel.getWorld());
         }
       } else {
         // move all selected units to the clicked location
-        for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+        for (Unit unit : defaultGameModel.getUnitSelection()) {
+          unit.setPath(
+              defaultGameModel.getWorld().findPath(unit.getTopLeft(), mouseEvent.getLocation()));
         }
       }
     }
@@ -166,7 +168,7 @@ public class DefaultGameController implements GameController {
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
   public void onMouseDrag(MouseDrag mouseEvent) {
-    Collection<Unit> selectedUnits = gameModel.getAllUnits()
+    Collection<Unit> selectedUnits = defaultGameModel.getAllUnits()
         .stream()
         .filter(u -> mouseEvent.getMapShape().contains(u.getCentre()))
         .filter(u -> u.getTeam() == Team.PLAYER)
@@ -174,14 +176,14 @@ public class DefaultGameController implements GameController {
 
     if (mouseEvent.wasShiftDown()) {
       //add all units in the drag rectangle to the currently selected units
-      Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
+      Collection<Unit> updatedUnitSelection = new ArrayList<>(defaultGameModel.getUnitSelection());
       updatedUnitSelection.addAll(selectedUnits);
-      gameModel.setUnitSelection(updatedUnitSelection);
+      defaultGameModel.setUnitSelection(updatedUnitSelection);
 
     } else if (mouseEvent.wasCtrlDown()) {
       //toggle all units under the drag rectangle
 
-      Collection<Unit> updatedUnits = new ArrayList<>(gameModel.getUnitSelection());
+      Collection<Unit> updatedUnits = new ArrayList<>(defaultGameModel.getUnitSelection());
 
       for (Unit unit : selectedUnits) {
         if (updatedUnits.contains(unit)) {
@@ -190,11 +192,11 @@ public class DefaultGameController implements GameController {
           updatedUnits.add(unit);
         }
       }
-      gameModel.setUnitSelection(updatedUnits);
+      defaultGameModel.setUnitSelection(updatedUnits);
 
     } else {
       //deselect all units then select all units in the drag rectangle
-      gameModel.setUnitSelection(selectedUnits); // may be empty
+      defaultGameModel.setUnitSelection(selectedUnits); // may be empty
     }
 
   }

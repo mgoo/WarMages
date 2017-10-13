@@ -1,7 +1,7 @@
 package main.common.util;
 
 import java.io.Serializable;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 
 /**
  * ﻿A restartable timer.
@@ -12,7 +12,7 @@ public class TickTimer implements Serializable {
   private static final long serialVersionUID = 1L;
 
   public static int secondsToTicks(double seconds) {
-    double ticksPerSecond = 1000 / GameModel.DELAY;
+    double ticksPerSecond = 1000 / DefaultGameModel.DELAY;
     return (int) (seconds * ticksPerSecond);
   }
 
