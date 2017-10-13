@@ -81,8 +81,8 @@ import main.images.DefaultUnitSpriteSheet;
  */
 public class DefaultWorldLoader implements WorldLoader {
 
-  private static final MapSize HERO_SIZE = new MapSize(1, 1);
-  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.7, 0.7);
+  private static final MapSize HERO_SIZE = new MapSize(0.9, 0.9);
+  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.6, 0.6);
 
   private static GameImage[] trees = new GameImage[]{
       //      TREE_1.getGameImage(),
