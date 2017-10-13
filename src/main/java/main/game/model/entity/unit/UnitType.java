@@ -78,7 +78,7 @@ public enum UnitType {
           creatorSize.scaledBy(0.4),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-          (int) (creator.getDamageAmount() * 0.08),
+          (int) (creator.getDamageAmount() * 0.06),
           0.1
       );
     }
