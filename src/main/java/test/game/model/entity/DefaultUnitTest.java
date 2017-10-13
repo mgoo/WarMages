@@ -69,7 +69,7 @@ public class DefaultUnitTest {
     Unit unit = getUnit();
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
-    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
+    unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
     // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
@@ -86,7 +86,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
+    unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
     for (int i = 0; i < 20; i++) {
       MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
@@ -101,7 +101,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
+    unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
     for (int i = 0; i < 10; i++) {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
@@ -116,7 +116,7 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
+    unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
     for (int i = 0; i < 20; i++) {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
