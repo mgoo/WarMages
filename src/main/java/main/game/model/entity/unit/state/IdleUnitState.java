@@ -18,6 +18,6 @@ public class IdleUnitState extends UnitState {
 
   @Override
   public UnitState updateState() {
-    return (nextState == null) ? this : nextState;
+    return (requestedNextState == null) ? this : requestedNextState;
   }
 }

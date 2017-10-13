@@ -40,7 +40,7 @@ public class EntityTest {
     Unit unit1 = getPlayer();
     Unit unit2 = getEnemy();
     World world = getWorld();
-    unit1.setTarget(unit2, world);
+    unit1.setTargetUnit(unit2, world);
     int prevHealth = unit2.getHealth();
     for (int i = 0; i < 900; i++) {
       unit1.tick(GameModel.DELAY, world);

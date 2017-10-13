@@ -19,7 +19,7 @@ public abstract class UnitState implements Serializable {
   protected final DefaultUnit unit;
 
   protected UnitImagesComponent imagesComponent;
-  protected UnitState nextState;
+  protected UnitState requestedNextState;
 
   public UnitState(Sequence sequence, DefaultUnit unit) {
     this.unit = unit;
@@ -53,7 +53,7 @@ public abstract class UnitState implements Serializable {
     if (this.getClass().equals(nextState.getClass())) {
       return;
     }
-    this.nextState = nextState;
+    this.requestedNextState = nextState;
   }
 
   /**
