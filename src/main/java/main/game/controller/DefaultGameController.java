@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import main.common.GameController;
+import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
+import main.common.entity.usable.Item;
 import main.game.model.GameModel;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -138,6 +141,23 @@ public class DefaultGameController implements GameController {
         }
       }
     } else { //otherwise, it must have been a right click
+
+      //select the item under the click if there is one
+      Item selectedItem = gameModel.getAllEntities()
+          .stream()
+          .filter(u -> u instanceof Item)
+          .map(Item.class::cast)
+          .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+              <= Math.max(u.getSize().width, u.getSize().height))
+          .sorted(Comparator.comparingDouble(
+              s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+          .findFirst().orElse(null);
+
+      //find the closest thing i.e. unit or item
+      Entity closest = null;
+      if (selectedUnit != null && selectedItem !=null) {
+        if()
+      } //else
       if (selectedUnit != null) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
@@ -147,6 +167,11 @@ public class DefaultGameController implements GameController {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+
+          //if it was a hero unit, then it can also pickup item
+          if(unit instanceof HeroUnit && selectedItem != null) {
+            ((HeroUnit) unit).pickUp(selectedItem);
+          }
         }
       }
     }
