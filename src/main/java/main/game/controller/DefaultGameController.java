@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import main.common.GameController;
 import main.game.model.GameModel;
@@ -198,6 +200,40 @@ public class DefaultGameController implements GameController {
     } else {
       //deselect all units then select all units in the drag rectangle
       gameModel.setUnitSelection(selectedUnits); // may be empty
+    }
+
+  }
+
+  /**
+   * When the GameView is double clicked it should select all the units of the same type.
+   */
+  public void onDbClick(MouseClick mouseEvent) {
+    //select the unit under the click if there is one
+    Unit dbClickedUnit = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getTeam() == Team.PLAYER)
+        .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+            <= Math.max(u.getSize().width, u.getSize().height))
+        .sorted(Comparator.comparingDouble(
+            s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+        .findFirst().orElse(null);
+    if (dbClickedUnit == null) {
+      return;
+    }
+    // Get all units that are of the same Type
+    Set<Unit> unitsSelected = gameModel.getAllUnits()
+        .stream()
+        .filter(u -> u.getTeam() == Team.PLAYER)
+        .filter(unit -> dbClickedUnit.getType() == unit.getType())
+        .filter(unit -> dbClickedUnit.getClass() == unit.getClass())
+        .collect(Collectors.toSet());
+
+    if (mouseEvent.wasShiftDown()) {
+      unitsSelected.stream()
+          .filter(unit -> !gameModel.getUnitSelection().contains(unit))
+          .forEach(unit -> gameModel.addToUnitSelection(unit));
+    } else {
+      gameModel.setUnitSelection(unitsSelected);
     }
 
   }

@@ -60,6 +60,11 @@ gameViewProxy.on('contextmenu', function (event) {
   return false;
 });
 
+gameViewProxy.on('dblclick', function (event) {
+  controller.onDbClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+  return false;
+});
+
 menuButton.on('click', function (event) {
     $('#overlay').fadeIn();
     $('#pause-menu').fadeIn();
