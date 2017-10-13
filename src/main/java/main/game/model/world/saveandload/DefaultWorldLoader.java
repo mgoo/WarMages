@@ -89,7 +89,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
   @Override
   public World load() {
-    return loadSingleLevelTestWorld();
+    return loadMultilevelWorld();
   }
 
   /**
