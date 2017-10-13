@@ -1,16 +1,22 @@
-package main.game.model.entity;
+package main.game.model.entity.unit;
 
 import java.io.Serializable;
 import java.util.List;
+import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 
+/**
+ * Handles what image should be shown as time progresses.
+ * @author chongdyla (Secondary author)
+ * @author paladogabr
+ */
 public class UnitImagesComponent implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int TICKS_PER_FRAME = 5;
+  public static final int TICKS_PER_FRAME = 3;
 
   private final Sequence sequence;
   private final UnitSpriteSheet spriteSheet;

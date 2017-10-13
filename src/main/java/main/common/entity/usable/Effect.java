@@ -1,12 +1,14 @@
-package main.common;
+package main.common.entity.usable;
 
 import java.io.Serializable;
-import main.game.model.entity.Unit;
+import main.common.entity.Unit;
+import main.common.entity.Usable;
 
 /**
  * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method
  * are useful to override. Effects are single use - once they are expired, they cannot be used
  * again. Multiple effect objects can be created to apply on effects to multiple units.
+ * @author chongdyla
  */
 public interface Effect extends Serializable {
 

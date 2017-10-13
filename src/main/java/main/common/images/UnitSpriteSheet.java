@@ -2,15 +2,17 @@ package main.common.images;
 
 import java.io.Serializable;
 import java.util.List;
-import main.game.model.entity.Direction;
+import main.common.entity.Unit;
+import main.common.entity.Direction;
 
 /**
  * Represents an image with multiple images on it.
+ * @author chongdyla
  */
 public interface UnitSpriteSheet extends Serializable {
 
   /**
-   * Gets a list of images for the sequence for when a {@link main.game.model.entity.Unit}
+   * Gets a list of images for the sequence for when a {@link Unit}
    * is in a given direction.
    */
   List<GameImage> getImagesForSequence(Sequence sequence, Direction unitDirection);
@@ -38,7 +40,7 @@ public interface UnitSpriteSheet extends Serializable {
     /**
      * Just reuses the first few frames of the {@link UnitSpriteSheet.Sequence#WALK} sequence.
      */
-    IDLE(8, 2, true);
+    IDLE(8, 1, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;

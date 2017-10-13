@@ -1,22 +1,19 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.common.Effect;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
-import main.game.model.world.World;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
+import main.game.model.entity.DefaultMapEntity;
+import main.game.model.world.World;
 
 /**
- * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.
- * For now, all items have an {@link Ability} (through decoration).
- *
- * <p>
- * Functionality should be delegated to the {@link Ability}.
- * </p>
+ * Default implementation of {@link Item}.
+ * @author chongdyla
  */
-public class Item extends MapEntity implements BaseUsable {
+public class DefaultItem extends DefaultMapEntity implements Item  {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
@@ -25,10 +22,14 @@ public class Item extends MapEntity implements BaseUsable {
    * Constructor takes the coordinates of the item.
    * @param onMapImage What this image looks like when it's on the map.
    */
-  public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
-    super(coord);
+  public DefaultItem(MapPoint coord, Ability ability, GameImage onMapImage) {
+    super(coord, onMapImage);
     this.ability = ability;
-    this.setImage(onMapImage);
+  }
+
+  @Override
+  public void use(World world, Collection<Unit> selectedUnits) {
+    ability.use(world, selectedUnits);
   }
 
   @Override
@@ -59,21 +60,6 @@ public class Item extends MapEntity implements BaseUsable {
     return ability.getCoolDownProgress();
   }
 
-  @Override
-  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return ability._selectUnitsToApplyOn(world, selectedUnits);
-  }
-
-  @Override
-  public void _startCoolDown() {
-    ability._startCoolDown();
-  }
-
-  @Override
-  public Effect _createEffectForUnit(Unit unit) {
-    return ability._createEffectForUnit(unit);
-  }
-
   /**
    * Should be called by the {@link World} if this is not picked up.
    */
@@ -86,4 +72,5 @@ public class Item extends MapEntity implements BaseUsable {
   public boolean isPassable() {
     return true;
   }
+
 }

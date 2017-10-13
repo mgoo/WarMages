@@ -1,13 +1,18 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.world.World;
 
+/**
+ * Used for representing the dying animation when a unit is dead.
+ * @author chongdyla
+ */
 public class DyingState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public DyingState(Sequence sequence, Unit unit) {
+  public DyingState(Sequence sequence, DefaultUnit unit) {
     super(sequence, unit);
   }
 
@@ -21,7 +26,7 @@ public class DyingState extends UnitState {
   }
 
   @Override
-  UnitState updateState() {
+  public UnitState updateState() {
     return this;
   }
 }

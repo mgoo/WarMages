@@ -7,9 +7,11 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
-import main.game.model.entity.Entity;
+import main.common.entity.Entity;
+import main.game.model.entity.DefaultEntity;
 import main.game.model.world.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
@@ -260,7 +262,7 @@ public class GameViewTest {
     }
   }
 
-  private class EntityMock extends Entity {
+  private class EntityMock extends DefaultEntity {
 
     public EntityMock(MapPoint position, MapSize size) {
       super(position, size);
@@ -277,6 +279,11 @@ public class GameViewTest {
     }
 
     @Override
+    public boolean contains(MapPoint point) {
+      return false;
+    }
+
+    @Override
     public MapPoint getTopLeft() {
       throw new AssertionError("This method is not used here");
     }
@@ -287,11 +294,10 @@ public class GameViewTest {
     }
   }
 
-  private class GameControllerMock extends GameController {
+  private class GameControllerMock extends DefaultGameController {
 
     GameControllerMock() {
       super(null);
-
     }
   }
 }

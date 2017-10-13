@@ -6,26 +6,32 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
+import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
+import main.common.entity.HeroUnit;
+import main.common.entity.Usable;
+import main.common.entity.usable.Item;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.UnitType;
-import main.common.exceptions.UsableStillInCoolDownException;
+import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.entity.usable.Item;
-import main.common.Usable;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Test for {@link Usable} implementations.
+ * @author chongdyla
+ */
 public class UsablesTest {
 
   private World stubWorld = mock(World.class);
@@ -37,7 +43,7 @@ public class UsablesTest {
         2,
         3
     );
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
@@ -55,7 +61,7 @@ public class UsablesTest {
 
   @Test
   public void healItemShouldIncreaseHealth() {
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
@@ -68,7 +74,7 @@ public class UsablesTest {
         2,
         3
     );
-    Item healItem = new Item(
+    Item healItem = new DefaultItem(
         heroUnit.getTopLeft().translate(0.001, 0.001),
         healAbility,
         GameImageResource.POTION_BLUE_ITEM.getGameImage()
@@ -123,7 +129,7 @@ public class UsablesTest {
   @Test
   public void healAbilityShouldThrowOnlyIfCoolingDown() {
     // Given a hero unit
-    HeroUnit heroUnit = createHeroUnit();
+    HeroUnit heroUnit = createDefaultHeroUnit();
     // and a heal ability
     HealAbility healAbility = new HealAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),
@@ -168,7 +174,7 @@ public class UsablesTest {
         1
     );
     // and a hero unit with the ability
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),

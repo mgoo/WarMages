@@ -1,13 +1,14 @@
 package main.game.model.entity.usable;
 
-import java.io.Serializable;
+import main.common.entity.usable.Ability;
 import main.common.images.GameImage;
 import main.common.util.TickTimer;
 
 /**
- * An ability can be applied to (a) HeroUnit(s).
+ * Superclass for all {@link Ability} implementations.
+ * @author chongdyla
  */
-public abstract class Ability implements BaseUsable, Serializable {
+public abstract class BaseAbility extends BaseUsable implements Ability {
 
   private static final long serialVersionUID = 1L;
 
@@ -17,7 +18,7 @@ public abstract class Ability implements BaseUsable, Serializable {
   private final TickTimer coolDownTimer;
   private final double effectDurationSeconds;
 
-  public Ability(
+  public BaseAbility(
       String description,
       GameImage icon,
       double coolDownSeconds,
@@ -61,14 +62,16 @@ public abstract class Ability implements BaseUsable, Serializable {
   }
 
   @Override
-  public void _startCoolDown() {
+  public void startCoolDown() {
     coolDownTimer.restart();
   }
 
+  @Override
   public double getEffectDurationSeconds() {
     return effectDurationSeconds;
   }
 
+  @Override
   public int getCoolDownTicks() {
     return coolDownTimer.getMaxTicks();
   }
