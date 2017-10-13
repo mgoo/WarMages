@@ -1,6 +1,5 @@
 package test.game.model.entity;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
@@ -13,8 +12,6 @@ import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
 public class EntityTest {
-
-  private final int damageAmt = 10;
 
   private World getWorld() {
     return WorldTestUtils
@@ -40,7 +37,7 @@ public class EntityTest {
     World world = getWorld();
     unit1.setTarget(unit2, world);
     int prevHealth = unit2.getHealth();
-    for (int i = 0; i < 9000; i++) {
+    for (int i = 0; i < 900; i++) {
       unit1.tick(GameModel.DELAY, world);
     }
     assertTrue(prevHealth > unit2.getHealth());
