@@ -3,10 +3,8 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Timer;
-import java.util.TimerTask;
-import main.common.util.Event;
-import main.common.util.Events.GameCompletion;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.util.Looper;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
@@ -28,7 +26,8 @@ public class GameModel {
   private final World world;
   private final MainGameTick mainGameTick;
   private final Looper looper;
-  private final GameCompletion gameCompletion;
+  private final GameWon gameWon;
+  private final GameLost gameLost;
 
   private Collection<Unit> selectedUnits;
 
@@ -38,13 +37,14 @@ public class GameModel {
    * @param world The world to use for the whole game.
    */
   public GameModel(
-      World world, Events.MainGameTick mainGameTick, Events.GameCompletion gameCompletion
+      World world, Events.MainGameTick mainGameTick, GameWon gameWon, GameLost gameLost
   ) {
     this.world = world;
     this.mainGameTick = mainGameTick;
     this.selectedUnits = Collections.emptySet();
     this.looper = new Looper();
-    this.gameCompletion = gameCompletion;
+    this.gameWon = gameWon;
+    this.gameLost = gameLost;
   }
 
   /**
@@ -62,8 +62,10 @@ public class GameModel {
   public void startGame() {
     looper.startWithSchedule(() -> {
       mainGameTick.broadcast(System.currentTimeMillis());
-      if (world.isCompleted()) {
-        gameCompletion.broadcast(null);
+      if (world.isWon()) {
+        gameWon.broadcast(null);
+      } else if (world.isLost()) {
+        gameLost.broadcast(null);
       }
     }, DELAY);
   }

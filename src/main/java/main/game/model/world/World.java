@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import main.common.util.Events.GameCompletion;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
@@ -19,7 +18,6 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
 import main.common.util.MapPoint;
 import main.common.PathFinder;
-import main.game.model.world.pathfinder.DefaultPathFinder;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -215,7 +213,19 @@ public class World implements Serializable {
     return currentLevel().getGoalDescription();
   }
 
-  public boolean isCompleted() {
+  /**
+   * Checks if game is won.
+   * @return whether game is won
+   */
+  public boolean isWon() {
     return levels.size() == 1 && currentLevel().areGoalsCompleted();
+  }
+
+  /**
+   * Checks if game is lost.
+   * @return whether game is lost
+   */
+  public boolean isLost() {
+    return heroUnit.getHealth() <= 0;
   }
 }

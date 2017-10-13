@@ -2,7 +2,8 @@ package main.menu.controller;
 
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.common.util.Events.GameCompletion;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.util.Looper;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
@@ -59,10 +60,11 @@ public class MainMenuController extends MenuController {
     try {
       ImageProvider imageProvider = new DefaultImageProvider();
       MainGameTick tickEvent = new MainGameTick();
-      GameCompletion completedEvent = new GameCompletion();
+      GameWon wonEvent = new GameWon();
+      GameLost lossEvent = new GameLost();
       Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, tickEvent, completedEvent);
+      GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lossEvent);
       GameController gameController = new GameController(gameModel);
       GameView gameView = new GameView(this.config,
           gameController,
@@ -81,9 +83,14 @@ public class MainMenuController extends MenuController {
       tickEvent.registerListener(parameter -> hud.updateIcons());
       tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
       tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
-      completedEvent.registerListener(parameter -> {
+      wonEvent.registerListener(parameter -> {
         throw new Error("NYI");
-        //TODO andrew finish this off pls :) possibly new menu? or go back to main menu?
+        //TODO andrew finish this off pls :) possibly new won menu? or go back to main menu?
+        //You can remove the Event if you want andrew
+      });
+      lossEvent.registerListener(parameter -> {
+        throw new Error("NYI");
+        //TODO andrew finish this off pls :) possibly new loss menu? or go back to main menu?
         //You can remove the Event if you want andrew
       });
       renderer.start();
