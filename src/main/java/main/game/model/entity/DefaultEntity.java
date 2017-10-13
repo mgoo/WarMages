@@ -10,6 +10,7 @@ import main.common.util.MapSize;
 /**
  * Default implementation of {@link Entity}.
  * @author chongdyla (Secondary Author)
+ * @author paladogabr
  */
 public abstract class DefaultEntity implements Entity {
 

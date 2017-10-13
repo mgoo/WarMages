@@ -10,6 +10,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * An interface for the states of a unit.
+ * @author paladogabr
  */
 public abstract class UnitState implements Serializable {
 

@@ -8,10 +8,10 @@ import main.game.model.entity.Projectile;
 /**
  * This enum represents the type of a Unit. A unit can be an archer, a swordsman, a spearman, or a
  * magician.
+ * @author paladogabr
  */
 public enum UnitType {
 
-  //todo confirm attack and moving speeds
   ARCHER(5, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
