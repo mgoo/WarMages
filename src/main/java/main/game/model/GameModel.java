@@ -37,7 +37,9 @@ public class GameModel {
    *
    * @param world The world to use for the whole game.
    */
-  public GameModel(World world, Events.MainGameTick mainGameTick, Events.GameCompletion gameCompletion) {
+  public GameModel(
+      World world, Events.MainGameTick mainGameTick, Events.GameCompletion gameCompletion
+  ) {
     this.world = world;
     this.mainGameTick = mainGameTick;
     this.selectedUnits = Collections.emptySet();
@@ -56,6 +58,8 @@ public class GameModel {
     this.selectedUnits = Collections.emptySet();
     this.looper = new Looper();
     this.gameCompletion = new GameCompletion();
+    gameCompletion.registerListener(parameter -> {
+    });
   }
 
   /**
@@ -134,6 +138,9 @@ public class GameModel {
     looper.stop();
   }
 
+  /**
+   * Checks whether the game is completed. Broadcasts when it is completed.
+   */
   public void checkGameCompletion() {
     if (world.isCompleted()) {
       gameCompletion.broadcast(System.currentTimeMillis());
