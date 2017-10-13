@@ -24,9 +24,13 @@ public class WalkingUnitState extends UnitState {
 
   private static final double LEEWAY_FOR_PATH = 0.01;
 
+  /**
+   * Note: Doesn't use {@link DefaultUnit#getTarget()} because if target changes, a new
+   * {@link UnitState} will be created anyway.
+   */
   private final Unit targetUnitOrNull;
   private final Supplier<MapPoint> targetFinder;
-  private MapPoint lastDestination;
+  private MapPoint lastKnownDestination;
   private Queue<MapPoint> path;
 
   public WalkingUnitState(DefaultUnit unit, Unit targetUnitOrNull) {
@@ -43,10 +47,20 @@ public class WalkingUnitState extends UnitState {
 
   @Override
   public UnitState updateState() {
-    // TODO if close to target
-    // attack enemy if target is enemy
-    // idle if no target
-    return (requestedNextState == null) ? this : requestedNextState;
+    if (requestedNextState != null) {
+      return requestedNextState;
+    }
+
+    if (unit.getCentre().distanceTo(lastKnownDestination) > LEEWAY_FOR_PATH) {
+      // Haven't arrived yet
+      return this;
+    }
+
+    if (targetUnitOrNull == null || targetUnitOrNull.getHealth() == 0) {
+      return new IdleUnitState(unit);
+    } else {
+      return new AttackingUnitState(unit);
+    }
   }
 
   @Override
@@ -70,9 +84,10 @@ public class WalkingUnitState extends UnitState {
 
     MapPoint target = path.peek();
     double distance = unit.getCentre().distanceTo(target);
-    if (distance < LEEWAY_FOR_PATH) {
+    if (distance <= LEEWAY_FOR_PATH) {
       path.poll();
       if (path.size() == 0) {
+        // Arrived at destination
         return;
       }
       target = path.peek();
@@ -95,12 +110,12 @@ public class WalkingUnitState extends UnitState {
    */
   private void updatePath(World world) {
     MapPoint destination = targetFinder.get();
-    if (path != null && lastDestination != null && destination.equals(lastDestination)) {
+    if (path != null && lastKnownDestination != null && destination.equals(lastKnownDestination)) {
       return;
     }
 
     List<MapPoint> pathList = world.findPath(unit.getCentre(), targetFinder.get());
     path = new ArrayDeque<>(pathList);
-    lastDestination = destination;
+    lastKnownDestination = destination;
   }
 }
