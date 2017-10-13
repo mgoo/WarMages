@@ -1,6 +1,7 @@
 package test.game.model.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 import static test.game.model.world.WorldTestUtils.createEmptyLevel;
@@ -21,14 +22,6 @@ public class DefaultUnitTest {
 
   private Unit getUnit() {
     return createDefaultUnit(new MapPoint(1, 1));
-  }
-
-  private double round(double toRound){
-    System.out.println(toRound);
-    System.out.println(toRound*10);
-    System.out.println(Math.round(toRound*10));
-    double top = Math.round(toRound*10);
-    return top/10;
   }
 
   private List<MapPoint> getPathDown() {
@@ -76,11 +69,13 @@ public class DefaultUnitTest {
     Unit unit = getUnit();
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
+    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
     // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
-      assertEquals(new MapPoint(1D + Math.min(0.1 * i, 1), 1).x, round(unit.getTopLeft().x), 0.001);
-      assertEquals(new MapPoint(1D + Math.min(0.1 * i, 1), 1).y, round(unit.getTopLeft().y), 0.001);
+      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
+      assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }
@@ -91,11 +86,11 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathAcross();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 200)
-    // the movable entity should move 200*0.01 = 2 map distances
+    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 20; i++) {
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).x, unit.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1D + 0.1 * i, 1).y, unit.getTopLeft().y, 0.001);
+      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
+      assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }
@@ -106,11 +101,11 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.01, with each tick (time since last being 100)
-    // the movable entity should move 100*0.01 = 1 map distance
+    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 10; i++) {
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
+      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
+      assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }
@@ -121,11 +116,12 @@ public class DefaultUnitTest {
     List<MapPoint> path = getPathDown();
     unit.setPath(path);
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
-    // with the given speed of 0.1, with each tick (time since last being 200)
-    // the movable entity should move 200*0.1 = 2 map distances?
+    unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 20; i++) {
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).x, unit.getTopLeft().x, 0.001);
-      assertEquals(new MapPoint(1, 1D + 0.1 * i).y, unit.getTopLeft().y, 0.001);
+      System.out.println("unit.EHHFJ() = " + unit.getCentre());
+      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
+      assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
+      assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }

@@ -301,6 +301,12 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return health / unitType.getStartingHealth();
   }
 
+  /**
+   * Updates the DefaultUnit's position depending on it's path.
+   *
+   * @param timeSinceLastTick time passed since last tick.
+   * @param world that this DefaultUnit is in.
+   */
   private void tickPosition(long timeSinceLastTick, World world) {
     if (path == null || path.isEmpty()) {
       return;
@@ -320,7 +326,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
     double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
     assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
-    assert mx > 0 || my > 0;
+    assert Math.abs(mx) > 0 || Math.abs(my) > 0;
     translatePosition(mx, my);
   }
 
