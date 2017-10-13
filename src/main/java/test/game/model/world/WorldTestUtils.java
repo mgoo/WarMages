@@ -128,14 +128,14 @@ public class WorldTestUtils {
     return new BaseAbility("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
 
       @Override
-      public Collection<Unit> _selectUnitsToApplyOn(
+      public Collection<Unit> selectUnitsToApplyOn(
           World world, Collection<Unit> selectedDefaultUnits
       ) {
         return Collections.emptyList();
       }
 
       @Override
-      public Effect _createEffectForUnit(Unit unit) {
+      public Effect createEffectForUnit(Unit unit) {
         return new BaseEffect(unit, 1) {
         };
       }
