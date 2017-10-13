@@ -33,7 +33,7 @@ public class RendererTestUtils {
   }
 
   /**
-   * Creates a controller (note: returns an empty GameController and the methods do nothing)
+   * Creates a controller (note: returns an empty GameController and the methods do nothing).
    *
    * @return a controller
    */
