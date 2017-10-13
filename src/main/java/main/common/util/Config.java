@@ -23,13 +23,12 @@ public class Config {
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
 
-  public void enableDebugMode(){
+  public void enableDebugMode() {
     this.isDebugMode = true;
   }
 
   /**
-   * Runs the game in debug mode
-   * @return
+   * Runs the game in debug mode.
    */
   public boolean isDebugMode() {
     return isDebugMode;

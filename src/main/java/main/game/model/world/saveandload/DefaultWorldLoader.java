@@ -84,6 +84,61 @@ public class DefaultWorldLoader implements WorldLoader {
   private static final MapSize HERO_SIZE = new MapSize(1, 1);
   private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.7, 0.7);
 
+  private static GameImage[] trees = new GameImage[]{
+      //      TREE_1.getGameImage(),
+      TREE_2.getGameImage(),
+      TREE_3.getGameImage(),
+      TREE_4.getGameImage(),
+      TREE_5.getGameImage(),
+      TREE_6.getGameImage(),
+      TREE_7.getGameImage(),
+      TREE_8.getGameImage()};
+
+  private static GameImage[] buildings = new GameImage[]{
+      BUILDING_1.getGameImage(),
+      BUILDING_2.getGameImage(),
+      BUILDING_3.getGameImage(),
+      BUILDING_4.getGameImage(),
+      BUILDING_5.getGameImage(),
+      BUILDING_6.getGameImage(),
+      BUILDING_7.getGameImage(),
+      BUILDING_8.getGameImage(),
+      BUILDING_9.getGameImage(),
+      BUILDING_10.getGameImage(),
+      BUILDING_11.getGameImage(),
+      BUILDING_12.getGameImage(),
+      BUILDING_13.getGameImage(),
+      BUILDING_14.getGameImage(),
+      BUILDING_15.getGameImage(),
+      BUILDING_16.getGameImage(),
+      BUILDING_17.getGameImage(),
+      BUILDING_18.getGameImage(),
+      BUILDING_19.getGameImage(),
+      BUILDING_20.getGameImage(),
+      BUILDING_21.getGameImage()};
+
+  private static DefaultMapEntity makeBuilding(MapPoint position) {
+    GameImage img = buildings[(int)(Math.random() * buildings.length)];
+    return new DefaultMapEntity(position, new MapSize(3, 3), img);
+  }
+
+  private static DefaultMapEntity makeTree(MapPoint position) {
+    GameImage img = trees[(int)(Math.random() * trees.length)];
+    return new DefaultMapEntity(position, new MapSize(1, 1), img);
+  }
+
+  private static DefaultUnit makeFootNight(MapPoint position) {
+    return new DefaultUnit(position, STANDARD_UNIT_SIZE, Team.PLAYER,
+        new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+    );
+  }
+
+  private static DefaultUnit makeOrc(MapPoint position) {
+    return new DefaultUnit(position, STANDARD_UNIT_SIZE, Team.ENEMY,
+        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+    );
+  }
+
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
@@ -123,8 +178,8 @@ public class DefaultWorldLoader implements WorldLoader {
 
   @Override
   public World load() {
-//    return loadMultilevelWorld();
-    return loadProductionWorld();
+    return loadMultilevelWorld();
+    //return loadProductionWorld();
   }
 
   /**
@@ -409,6 +464,9 @@ public class DefaultWorldLoader implements WorldLoader {
     return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
+  /**
+   * Loads a world with different assets.
+   */
   public World loadProductionWorld() {
     final HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(38, 10),
@@ -506,57 +564,5 @@ public class DefaultWorldLoader implements WorldLoader {
     levels.add(startingLevel);
 
     return new World(levels, heroUnit, new DefaultPathFinder());
-  }
-
-  private GameImage[] buildings = new GameImage[]{
-      BUILDING_1.getGameImage(),
-      BUILDING_2.getGameImage(),
-      BUILDING_3.getGameImage(),
-      BUILDING_4.getGameImage(),
-      BUILDING_5.getGameImage(),
-      BUILDING_6.getGameImage(),
-      BUILDING_7.getGameImage(),
-      BUILDING_8.getGameImage(),
-      BUILDING_9.getGameImage(),
-      BUILDING_10.getGameImage(),
-      BUILDING_11.getGameImage(),
-      BUILDING_12.getGameImage(),
-      BUILDING_13.getGameImage(),
-      BUILDING_14.getGameImage(),
-      BUILDING_15.getGameImage(),
-      BUILDING_16.getGameImage(),
-      BUILDING_17.getGameImage(),
-      BUILDING_18.getGameImage(),
-      BUILDING_19.getGameImage(),
-      BUILDING_20.getGameImage(),
-      BUILDING_21.getGameImage()};
-  private DefaultMapEntity makeBuilding(MapPoint position) {
-    GameImage img = this.buildings[(int)(Math.random() * buildings.length)];
-    return new DefaultMapEntity(position, new MapSize(3, 3), img);
-  }
-  private static GameImage[] trees = new GameImage[]{
-//      TREE_1.getGameImage(),
-      TREE_2.getGameImage(),
-      TREE_3.getGameImage(),
-      TREE_4.getGameImage(),
-      TREE_5.getGameImage(),
-      TREE_6.getGameImage(),
-      TREE_7.getGameImage(),
-      TREE_8.getGameImage()};
-  private static DefaultMapEntity makeTree(MapPoint position) {
-    GameImage img = trees[(int)(Math.random() * trees.length)];
-    return new DefaultMapEntity(position, new MapSize(1, 1), img);
-  }
-
-  private DefaultUnit makeFootNight(MapPoint position) {
-    return new DefaultUnit(position, STANDARD_UNIT_SIZE, Team.PLAYER,
-        new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
-    );
-  }
-
-  private DefaultUnit makeOrc(MapPoint position) {
-    return new DefaultUnit(position, STANDARD_UNIT_SIZE, Team.ENEMY,
-        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
-    );
   }
 }

@@ -61,8 +61,8 @@ public class Level implements Serializable {
     this.goal = goal;
     this.goalDescription = goalDescription;
 
-//    ensureNoMapEntitiesOverlap();
-//    ensureNoEntitiesOutOfBounds();
+    ensureNoMapEntitiesOverlap();
+    ensureNoEntitiesOutOfBounds();
   }
 
   public MapRect getBounds() {
