@@ -1,10 +1,13 @@
 package test.renderer;
 
 import javafx.scene.image.ImageView;
-import main.game.controller.GameController;
+import main.common.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.GameView;
+import main.game.view.events.KeyEvent;
+import main.game.view.events.MouseClick;
+import main.game.view.events.MouseDrag;
 import main.images.DefaultImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
@@ -30,12 +33,27 @@ public class RendererTestUtils {
   }
 
   /**
-   * Creates a controller.
+   * Creates a controller (note: returns an empty GameController and the methods do nothing)
    *
    * @return a controller
    */
   public static GameController createGameController(GameModel model) {
-    return new GameController(model);
+    return new GameController() {
+      @Override
+      public void onKeyPress(KeyEvent keyevent) {
+
+      }
+
+      @Override
+      public void onMouseEvent(MouseClick mouseEvent) {
+
+      }
+
+      @Override
+      public void onMouseDrag(MouseDrag mouseEvent) {
+
+      }
+    };
   }
 
   /**
