@@ -5,6 +5,7 @@ import java.util.Optional;
 
 /**
  * Generates a script that sets the values of the files in the load menu.
+ * THIS REQUREIS FILE SCRIPTS TO BE LOADED
  *
  * @author Andrew McGhie
  */
@@ -33,12 +34,10 @@ public class SaveFilesScriptGenerator extends ScriptGenerator {
     if (this.files == null) {
       throw new IllegalStateException("Files need to be set before generating script");
     }
-    StringBuffer script = new StringBuffer("$('#files').html('");
+    StringBuffer script = new StringBuffer();
     this.files.forEach(fileName -> {
-      script.append(fileName);
-      script.append(",");
+      script.append("addSaveFiles('").append(fileName).append("');");
     });
-    script.append("')");
     return Optional.of(script.toString());
   }
 }
