@@ -1,8 +1,8 @@
 package main.common.entity;
 
 import java.util.Collection;
-import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 
 /**
  * HeroUnit extends {@link Unit}. This unit is the main unit to be controlled by the user. It has

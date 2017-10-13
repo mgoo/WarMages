@@ -17,6 +17,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Function;
 import main.common.WorldLoader;
+import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
+import main.common.entity.MapEntity;
+import main.common.entity.Team;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
@@ -24,17 +28,13 @@ import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
-import main.common.entity.Entity;
-import main.common.entity.HeroUnit;
-import main.common.entity.MapEntity;
 import main.game.model.entity.DefaultMapEntity;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
-import main.common.entity.Team;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
@@ -126,7 +126,7 @@ public class DefaultWorldLoader implements WorldLoader {
             )
         ),
         Arrays.asList(
-            new Item(
+            new DefaultItem(
                 new MapPoint(2, 2),
                 new HealAbility(
                     GameImageResource.POTION_BLUE_ITEM.getGameImage(),
@@ -135,7 +135,7 @@ public class DefaultWorldLoader implements WorldLoader {
                 ),
                 POTION_BLUE_ITEM.getGameImage()
             ),
-            new Item(
+            new DefaultItem(
                 new MapPoint(3, 3),
                 new DamageBuffAbility(
                     GameImageResource.RING_GOLD_ITEM.getGameImage(),
@@ -237,7 +237,7 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(
-              new Item(
+              new DefaultItem(
                   new MapPoint(21, 1),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
@@ -245,7 +245,7 @@ public class DefaultWorldLoader implements WorldLoader {
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               ),
-              new Item(
+              new DefaultItem(
                   new MapPoint(24, 5),
                   new DamageBuffAbility(
                       GameImageResource.RING_GOLD_ITEM.getGameImage(),
