@@ -10,6 +10,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 /**
  * Handles what image should be shown as time progresses.
  * @author chongdyla (Secondary author)
+ * @author paladogabr
  */
 public class UnitImagesComponent implements Serializable {
 

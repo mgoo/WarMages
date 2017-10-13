@@ -12,6 +12,7 @@ import main.common.util.MapSize;
 /**
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
  * affects it in some way upon impact.
+ * @author paladogabr
  */
 public class Projectile extends DefaultEntity {
 

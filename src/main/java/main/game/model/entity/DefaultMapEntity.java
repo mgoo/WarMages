@@ -6,6 +6,10 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.world.World;
 
+/**
+ * Default implementation of MapEntity.
+ * @author paladogabr
+ */
 public class DefaultMapEntity extends DefaultEntity implements MapEntity {
 
   private static final long serialVersionUID = 1L;

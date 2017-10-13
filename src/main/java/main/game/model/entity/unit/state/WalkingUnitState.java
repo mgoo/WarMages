@@ -3,6 +3,11 @@ package main.game.model.entity.unit.state;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.DefaultUnit;
 
+/**
+ * Walking state for a Unit.
+ *
+ * @author paladogabr
+ */
 public class WalkingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
