@@ -126,7 +126,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       throw new IllegalArgumentException("Amount: " + amount);
     }
 
-    if (health - amount >= 0) {
+    if (health - amount > 0) {
       // Not dead
       health -= amount;
     } else {
