@@ -1,9 +1,12 @@
 package main.common;
 
 import main.game.view.GameView;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
+import main.game.view.events.UnitIconClick;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -51,4 +54,10 @@ public interface GameController {
    * @param mouseEvent -- the MouseClick object for the current mouse click
    */
   public void onMouseDrag(MouseDrag mouseEvent);
+
+  void onUnitIconClick(UnitIconClick clickEvent);
+
+  void onAbilityIconClick(AbilityIconClick clickEvent);
+
+  void onItemIconClick(ItemIconClick clickEvent);
 }
