@@ -62,6 +62,24 @@ public enum UnitType {
           0.3
       );
     }
+  },
+  LASER(20, 250, 8, 0.08, 10, 7, Sequence.SPELL_CAST) {
+    @Override
+    public boolean canShootProjectiles() {
+      return true;
+    }
+
+    @Override
+    protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      return new Projectile(
+          creator.getCentre(),
+          creator.getSize().scaledBy(1.2),
+          target,
+          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          (int) (creator.getDamageAmount() * 0.1),
+          0.05
+      );
+    }
   };
 
   protected int baselineDamage;
