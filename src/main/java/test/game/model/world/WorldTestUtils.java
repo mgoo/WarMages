@@ -24,7 +24,7 @@ import main.game.model.Level;
 import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.BaseAbility;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DefaultItem;
@@ -43,7 +43,7 @@ public class WorldTestUtils {
    *
    * @return an out of bounds unit
    */
-  public static Unit createDefaultUnit(MapPoint point) {
+  public static DefaultUnit createDefaultUnit(MapPoint point) {
     return new DefaultUnit(
         point,
         new MapSize(1, 1),

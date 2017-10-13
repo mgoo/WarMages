@@ -1,4 +1,4 @@
-package main.game.model.entity.unit.state;
+package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 

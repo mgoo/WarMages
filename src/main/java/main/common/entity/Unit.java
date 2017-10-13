@@ -1,10 +1,9 @@
 package main.common.entity;
 
-import java.util.List;
 import main.common.entity.usable.Effect;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.state.DeadUnit;
+import main.game.model.entity.unit.DeadUnit;
 import main.game.model.world.World;
 
 /**
@@ -50,16 +49,16 @@ public interface Unit extends Entity {
   Direction getCurrentDirection();
 
   /**
-   * Attacks the current target.
-   */
-  void attack();
-
-  /**
    * Set's the Unit's target to the given Unit.
    *
-   * @param target to be attacked
+   * @param targetUnit to be attacked
    */
-  void setTarget(Unit target, World world);
+  void setTargetUnit(Unit targetUnit, World world);
+
+  /**
+   * Set's the Unit's target to the given point.
+   */
+  void setTargetPoint(MapPoint targetPoint, World world);
 
   /**
    * Clears the current target.
@@ -79,13 +78,6 @@ public interface Unit extends Entity {
    * @return int amount of damage dealt.
    */
   int getDamageAmount();
-
-  /**
-   * Sets the Unit's path to the given path.
-   *
-   * @param path list of MapPoints
-   */
-  void setPath(List<MapPoint> path);
 
   /**
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
