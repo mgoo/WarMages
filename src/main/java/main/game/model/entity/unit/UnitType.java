@@ -31,14 +31,14 @@ public enum UnitType {
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, 5, 0.7, Sequence.SLASH) {
+  SWORDSMAN(10, 250, 6, 0.1, 5, 0.05, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(8, 200, 5, 0.1, 5, 1, Sequence.THRUST) {
+  SPEARMAN(8, 200, 5, 0.1, 5, 0.05, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;

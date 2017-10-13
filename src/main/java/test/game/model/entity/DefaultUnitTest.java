@@ -107,7 +107,7 @@ public class DefaultUnitTest {
 
     // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
-      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      MapPoint mapPoint = new MapPoint(1D + Math.min(unit.getType().getMovingSpeed() * i, 1), 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -130,7 +130,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 20; i++) {
-      MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
+      MapPoint mapPoint = new MapPoint(1D + unit.getType().getMovingSpeed() * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -153,7 +153,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 10; i++) {
-      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
+      MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -176,7 +176,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 20; i++) {
-      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
+      MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
