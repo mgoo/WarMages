@@ -90,7 +90,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
   @Override
   public World load() {
-    return loadMultilevelWorld();
+    return loadSingleLevelTestWorld();
   }
 
   /**
@@ -118,10 +118,10 @@ public class DefaultWorldLoader implements WorldLoader {
     Level level = new Level(
         bounds,
         Arrays.asList(
-            new DefaultUnit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
+            new DefaultUnit(new MapPoint(3, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
                 new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
-            new DefaultUnit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+            new DefaultUnit(new MapPoint(8, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
                 new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),

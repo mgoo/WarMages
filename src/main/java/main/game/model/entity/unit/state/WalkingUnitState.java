@@ -38,6 +38,11 @@ public class WalkingUnitState extends UnitState {
 
   public WalkingUnitState(DefaultUnit unit, Unit targetUnit) {
     super(Sequence.WALK, unit);
+
+    if (targetUnit.getHealth() == 0) {
+      throw new IllegalArgumentException();
+    }
+
     this.targetFinder = targetUnit::getCentre;
     this.targetUnitOrNull = requireNonNull(targetUnit);
   }
@@ -49,28 +54,39 @@ public class WalkingUnitState extends UnitState {
   }
 
   @Override
+  public void tick(Long timeSinceLastTick, World world) {
+    super.tick(timeSinceLastTick, world);
+    tickPosition(timeSinceLastTick, world);
+  }
+
+  @Override
   public UnitState updateState() {
     if (requestedNextState != null) {
       return requestedNextState;
     }
 
+    if (targetUnitOrNull != null && targetUnitOrNull.getHealth() == 0) {
+      return new IdleUnitState(unit);
+    }
+
     if (unit.getCentre().distanceTo(lastKnownDestination) > LEEWAY_FOR_PATH) {
       // Haven't arrived yet
+      if (path.isEmpty()) {
+        // Can't get to destination
+        return new IdleUnitState(unit);
+      }
+
       return this;
     }
 
     // Arrived at destination
-    if (targetUnitOrNull == null || targetUnitOrNull.getHealth() == 0) {
+    if (targetUnitOrNull == null
+        || targetUnitOrNull.getHealth() == 0
+        || !unit.getTeam().canAttack(targetUnitOrNull.getTeam())) {
       return new IdleUnitState(unit);
     } else {
       return new AttackingUnitState(unit, targetUnitOrNull);
     }
-  }
-
-  @Override
-  public void tick(Long timeSinceLastTick, World world) {
-    super.tick(timeSinceLastTick, world);
-    tickPosition(timeSinceLastTick, world);
   }
 
   /**
