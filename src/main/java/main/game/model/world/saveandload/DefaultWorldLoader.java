@@ -31,7 +31,7 @@ import main.game.model.Level.Goal;
 import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;

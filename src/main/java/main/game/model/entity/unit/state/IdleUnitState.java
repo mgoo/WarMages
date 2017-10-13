@@ -18,6 +18,7 @@ public class IdleUnitState extends UnitState {
 
   @Override
   public UnitState updateState() {
+    // TODO attack nearby entities in tick methd
     return (requestedNextState == null) ? this : requestedNextState;
   }
 }
