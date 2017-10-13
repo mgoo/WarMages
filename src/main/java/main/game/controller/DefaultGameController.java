@@ -19,11 +19,11 @@ import main.game.view.events.MouseDrag;
  *
  * @author Hrshikesh Arora
  */
-public class GameController {
+public class DefaultGameController {
 
   private final GameModel gameModel;
 
-  public GameController(GameModel model) {
+  public DefaultGameController(GameModel model) {
     this.gameModel = model;
   }
 
