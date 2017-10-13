@@ -3,6 +3,7 @@ package main.game.model.entity.unit;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.common.util.MapSize;
 import main.game.model.entity.Projectile;
 
 /**
@@ -71,13 +72,14 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      MapSize creatorSize = creator.getSize();
       return new Projectile(
-          creator.getCentre(),
-          creator.getSize().scaledBy(0.4),
+          creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
+          creatorSize.scaledBy(0.4),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           (int) (creator.getDamageAmount() * 0.1),
-          0.05
+          0.1
       );
     }
   };
