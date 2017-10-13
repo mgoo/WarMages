@@ -10,4 +10,6 @@ public interface IconClick {
   boolean wasShiftDown();
 
   boolean wasCtrlDown();
+
+  boolean wasLeftClick();
 }

@@ -32,9 +32,9 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an entity is clicked.
    */
-  public void unitIconBtn(Unit unit) {
+  public void unitIconBtn(Unit unit, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.unitClick(unit, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -43,9 +43,9 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an ability is clicked.
    */
-  public void abilityIconBtn(Ability ability) {
+  public void abilityIconBtn(Ability ability, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.abilityClick(ability, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -54,9 +54,9 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an item is clicked.
    */
-  public void itemIconBtn(Item item) {
+  public void itemIconBtn(Item item, boolean wasShiftDown, boolean wasCtrlDown, boolean wasLeftClick) {
     try {
-      // TODO event trigger here
+      this.gameView.itemClick(item, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -67,7 +67,7 @@ public class HudController extends MenuController {
    */
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
+      this.gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -84,7 +84,7 @@ public class HudController extends MenuController {
                      boolean wasShiftDown,
                      boolean wasCtrlDown) {
     try {
-      gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
+      this.gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -95,7 +95,7 @@ public class HudController extends MenuController {
    */
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {
-      gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
+      this.gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -103,12 +103,12 @@ public class HudController extends MenuController {
 
   @Override
   public void onMouseMove(MouseEvent event) {
-    gameView.updateMousePosition((int)event.getX(), (int)event.getY());
+    this.gameView.updateMousePosition((int)event.getX(), (int)event.getY());
   }
 
   @Override
   public void onKeyDown(KeyEvent event) {
-    gameView.onKeyDown(event.getCharacter().charAt(0),
+    this.gameView.onKeyDown(event.getCharacter().charAt(0),
         event.isShiftDown(),
         event.isControlDown());
   }
@@ -130,7 +130,7 @@ public class HudController extends MenuController {
    */
   public void resume() {
     try {
-      gameView.resumeGame();
+      this.gameView.resumeGame();
       renderer.resume();
     } catch (Exception e) {
       e.printStackTrace();
@@ -142,8 +142,8 @@ public class HudController extends MenuController {
    */
   public void quitBtn() {
     try {
-      renderer.stop();
-      gameView.stopGame();
+      this.renderer.stop();
+      this.gameView.stopGame();
       this.main.loadMenu(this.mainMenu);
     } catch (Exception e) {
       e.printStackTrace();

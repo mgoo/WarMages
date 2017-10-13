@@ -10,9 +10,12 @@ import main.game.model.GameModel;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.game.view.GameView;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
+import main.game.view.events.UnitIconClick;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -197,5 +200,17 @@ public class DefaultGameController implements GameController {
       gameModel.setUnitSelection(selectedUnits); // may be empty
     }
 
+  }
+
+  public void onUnitIconClick(UnitIconClick clickEvent) {
+    // TODO H
+  }
+
+  public void onAbilityIconClick(AbilityIconClick clickEvent) {
+    // TODO H
+  }
+
+  public void onItemIconClick(ItemIconClick clickEvent) {
+    // TODO H
   }
 }
