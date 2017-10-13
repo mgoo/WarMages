@@ -1,5 +1,5 @@
 package main.common;
-  
+
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
