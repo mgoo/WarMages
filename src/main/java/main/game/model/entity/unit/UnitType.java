@@ -38,7 +38,7 @@ public enum UnitType {
     }
   },
 
-  SPEARMAN(7, 150, 5, 0.1, 5, 2, Sequence.THRUST) {
+  SPEARMAN(7, 150, 5, 0.1, 5, 1.5, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
@@ -94,6 +94,13 @@ public enum UnitType {
 
   public Sequence getAttackSequence() {
     return attackSequence;
+  }
+
+  /**
+   * Distance at which the unit decides to automatically attack another unit in sight.
+   */
+  public double getAutoAttackDistance() {
+    return lineOfSight * 0.75;
   }
 
   /**

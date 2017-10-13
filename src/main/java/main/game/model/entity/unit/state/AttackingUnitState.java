@@ -23,6 +23,11 @@ public class AttackingUnitState extends UnitState {
 
   public AttackingUnitState(DefaultUnit unit, Unit target) {
     super(unit.getUnitType().getAttackSequence(), unit);
+
+    if (target.getHealth() == 0 || !unit.getTeam().canAttack(target.getTeam())) {
+      throw new IllegalArgumentException();
+    }
+
     this.target = requireNonNull(target);
   }
 
@@ -33,6 +38,10 @@ public class AttackingUnitState extends UnitState {
     double distanceToTarget = unit.getCentre().distanceTo(target.getCentre());
     if (distanceToTarget >= unit.getAttackDistance()) {
       requestedNextState = new WalkingUnitState(unit, target);
+      return;
+    }
+
+    if (target.getHealth() == 0) {
       return;
     }
 

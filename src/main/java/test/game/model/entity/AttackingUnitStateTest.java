@@ -31,6 +31,7 @@ public class AttackingUnitStateTest {
   public void onlyOneAttackShouldOccurPerCycle() {
     // Given a target
     DefaultUnit target = mock(DefaultUnit.class);
+    when(target.getHealth()).thenReturn(100);
     when(target.getTeam()).thenReturn(Team.ENEMY);
     MapPoint targetLocation = new MapPoint(0, 0);
     when(target.getCentre()).thenReturn(targetLocation);
