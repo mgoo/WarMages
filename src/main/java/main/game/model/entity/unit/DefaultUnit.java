@@ -261,7 +261,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getHealthPercent() {
-    return health / unitType.getStartingHealth();
+    return (double)health / (double)unitType.getStartingHealth();
   }
 
   public double getSpeed() {
