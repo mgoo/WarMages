@@ -29,7 +29,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
 
-  public static final double LEEWAY_FOR_PATH = 0.01; // TODO don't hard code
+  private final double leewayForPath = 0.01;
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
 
@@ -313,7 +313,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
     MapPoint target = this.path.peek();
     double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY_FOR_PATH) {
+    if (distance < leewayForPath) {
       this.path.poll();
       if (this.path.size() == 0) {
         return;
