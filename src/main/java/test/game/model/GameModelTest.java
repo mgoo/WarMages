@@ -16,17 +16,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.common.util.Events.GameCompletion;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GameModelTest {
 
   private GameModel model = null;
   private HeroUnit heroUnit = createHeroUnit();
+  private GameCompletion gc = new GameCompletion();
+
+  @Before
+  public void setup() {
+    gc.registerListener(parameter -> {});
+  }
 
   @Test
   public void testSetSelectionAndGetSelection() {
@@ -35,7 +43,8 @@ public class GameModelTest {
     Unit unit3 = createDefaultPlayerArcher();
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc
     );
     model.setUnitSelection(Arrays.asList(unit, unit2, unit3));
     Collection<Unit> selection = model.getUnitSelection();
@@ -53,7 +62,8 @@ public class GameModelTest {
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc
     );
     model.setUnitSelection(units);
     units.add(unit3);
@@ -69,7 +79,8 @@ public class GameModelTest {
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(3, model.getAllUnits().size());
@@ -85,7 +96,8 @@ public class GameModelTest {
             )),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(1, model.getAllUnits().size());

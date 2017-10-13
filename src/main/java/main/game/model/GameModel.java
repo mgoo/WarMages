@@ -48,21 +48,6 @@ public class GameModel {
   }
 
   /**
-   * Creates a game model.
-   *
-   * @param world The world to use for the whole game.
-   */
-  public GameModel(World world, Events.MainGameTick mainGameTick) {
-    this.world = world;
-    this.mainGameTick = mainGameTick;
-    this.selectedUnits = Collections.emptySet();
-    this.looper = new Looper();
-    this.gameCompletion = new GameCompletion();
-    gameCompletion.registerListener(parameter -> {
-    });
-  }
-
-  /**
    * A getter method to get all possible entities.
    *
    * @return a collection of all possible entities
