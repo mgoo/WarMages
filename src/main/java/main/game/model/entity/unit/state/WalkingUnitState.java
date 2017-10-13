@@ -192,7 +192,7 @@ public class WalkingUnitState extends UnitState {
 
     @Override
     double getDestinationLeeway() {
-      return unit.getUnitType().getAutoAttackDistance() * 0.99; // avoid floating point inaccuracy
+      return unit.getUnitType().getAttackDistance() * 0.99; // avoid floating point inaccuracy
     }
 
     @Override
