@@ -55,7 +55,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.3),
+          creator.getSize().scaledBy(0.6),
           target,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           creator.getDamageAmount(),
