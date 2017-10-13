@@ -15,7 +15,7 @@ public class Config {
 
   private double gameViewScrollSpeed = 50;
 
-  private double entityViewTilePixelsRatio = 2.0/3;
+  private double entityViewTilePixelsRatio = 2.0 / 3;
   private int entityViewTilePixelsX = 120;
   private int entityViewTilePixelsY = (int) (entityViewTilePixelsX * entityViewTilePixelsRatio);
 
