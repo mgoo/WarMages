@@ -10,19 +10,20 @@ import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
+import main.common.entity.HeroUnit;
+import main.common.entity.Usable;
+import main.common.entity.usable.Item;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
-import main.common.entity.HeroUnit;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.exceptions.UsableStillInCoolDownException;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.common.entity.usable.Item;
-import main.common.entity.Usable;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
@@ -73,7 +74,7 @@ public class UsablesTest {
         2,
         3
     );
-    Item healItem = new Item(
+    Item healItem = new DefaultItem(
         heroUnit.getTopLeft().translate(0.001, 0.001),
         healAbility,
         GameImageResource.POTION_BLUE_ITEM.getGameImage()
