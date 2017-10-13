@@ -10,22 +10,26 @@ import static org.mockito.Mockito.when;
 import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
 import main.game.model.GameModel;
-import main.game.model.entity.AttackingUnitState;
-import main.game.model.entity.Direction;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitImagesComponent;
-import main.game.model.entity.UnitType;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.state.AttackingUnitState;
+import main.common.entity.Direction;
+import main.common.entity.Team;
+import main.game.model.entity.unit.UnitImagesComponent;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Some tests.
+ * @author chongdyla
+ */
 public class AttackingUnitStateTest {
 
   @Test
   public void onlyOneAttackShouldOccurPerCycle() {
     // Given a target
-    Unit target = mock(Unit.class);
+    DefaultUnit target = mock(DefaultUnit.class);
     when(target.getTeam()).thenReturn(Team.ENEMY);
     // that counts attacks received
     AtomicInteger attackCount = new AtomicInteger(0);
@@ -33,7 +37,7 @@ public class AttackingUnitStateTest {
         .when(target)
         .takeDamage(anyInt(), any());
     // and a swordsman
-    Unit unit = mock(Unit.class);
+    DefaultUnit unit = mock(DefaultUnit.class);
     when(target.getTeam()).thenReturn(Team.PLAYER);
     when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
     when(unit.getSpriteSheet())

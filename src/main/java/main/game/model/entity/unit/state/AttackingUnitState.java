@@ -1,13 +1,18 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
 
+import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet;
+import main.common.entity.Direction;
+import main.game.model.entity.Projectile;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.world.World;
 
 public class AttackingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackingUnitState(Unit unit) {
+  public AttackingUnitState(DefaultUnit unit) {
     super(unit.getUnitType().getAttackSequence(), unit);
   }
 
@@ -21,7 +26,7 @@ public class AttackingUnitState extends UnitState {
   }
 
   @Override
-  UnitState updateState() {
+  public UnitState updateState() {
     if (!imagesComponent.isReadyToTransition() || nextState == null) {
       return this;
     }

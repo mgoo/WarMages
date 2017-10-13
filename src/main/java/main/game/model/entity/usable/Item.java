@@ -1,9 +1,10 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.common.Effect;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Unit;
+import main.common.entity.MapEntity;
+import main.common.entity.Unit;
+import main.common.entity.Effect;
+import main.game.model.entity.DefaultMapEntity;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
@@ -15,8 +16,9 @@ import main.common.util.MapPoint;
  * <p>
  * Functionality should be delegated to the {@link Ability}.
  * </p>
+ * @author chongdyla
  */
-public class Item extends MapEntity implements BaseUsable {
+public class Item extends DefaultMapEntity implements BaseUsable {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
@@ -26,9 +28,8 @@ public class Item extends MapEntity implements BaseUsable {
    * @param onMapImage What this image looks like when it's on the map.
    */
   public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
-    super(coord);
+    super(coord, onMapImage);
     this.ability = ability;
-    this.setImage(onMapImage);
   }
 
   @Override
