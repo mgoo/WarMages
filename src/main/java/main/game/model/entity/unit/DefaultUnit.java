@@ -278,4 +278,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   public double getAttackDistance() {
     return attackDistance;
   }
+
+
+  @Override
+  public UnitType getType() {
+    return this.unitType;
+  }
 }
