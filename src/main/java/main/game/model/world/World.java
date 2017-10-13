@@ -15,7 +15,7 @@ import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.common.entity.Unit;
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
 import main.common.PathFinder;
 

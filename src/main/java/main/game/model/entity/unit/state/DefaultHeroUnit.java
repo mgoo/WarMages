@@ -14,8 +14,8 @@ import main.common.util.MapSize;
 import main.common.exceptions.ItemNotInRangeException;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.game.model.world.World;
 
 public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {

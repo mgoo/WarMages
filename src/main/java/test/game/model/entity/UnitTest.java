@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.common.entity.Effect;
+import main.common.entity.usable.Effect;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -24,7 +24,7 @@ import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
-import main.game.model.entity.usable.Ability;
+import main.common.entity.usable.Ability;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.world.World;

@@ -1,6 +1,8 @@
-package main.common.entity;
+package main.common.entity.usable;
 
 import java.io.Serializable;
+import main.common.entity.Unit;
+import main.common.entity.Usable;
 
 /**
  * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method
