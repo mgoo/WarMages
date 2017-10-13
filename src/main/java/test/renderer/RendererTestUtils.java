@@ -1,7 +1,8 @@
 package test.renderer;
 
 import javafx.scene.image.ImageView;
-import main.common.util.Events.GameCompletion;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
@@ -27,9 +28,11 @@ public class RendererTestUtils {
    * Creates a model.
    */
   public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
-    GameCompletion gc = new GameCompletion();
+    GameWon gc = new GameWon();
     gc.registerListener(parameter -> {});
-    return new GameModel(world, mainGameTick, gc);
+    GameLost gl = new GameLost();
+    gl.registerListener(parameter -> {});
+    return new GameModel(world, mainGameTick, gc, gl);
   }
 
   /**

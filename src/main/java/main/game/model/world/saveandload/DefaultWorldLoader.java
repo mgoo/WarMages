@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.function.Function;
 import main.common.WorldLoader;
 import main.common.images.GameImageResource;
-import main.common.util.Events.GameCompletion;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
@@ -37,9 +36,6 @@ import main.game.model.entity.usable.HealAbility;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.images.DefaultUnitSpriteSheet;
 
 public class DefaultWorldLoader implements WorldLoader {

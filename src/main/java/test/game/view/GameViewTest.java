@@ -247,7 +247,7 @@ public class GameViewTest {
      * Creates a mock for testing game model.
      */
     GameModelMock() {
-      super(null, null, null);
+      super(null, null, null, null);
     }
 
     @Override
