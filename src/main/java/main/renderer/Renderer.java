@@ -78,23 +78,25 @@ public class Renderer {
     }
     g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
 
-    for (int i = 0; i < 100; i++) {
-      MapPoint x1 = EntityView.tileToPix(new MapPoint(i, 0), config);
-      MapPoint x2 = EntityView.tileToPix(new MapPoint(i, 100), config);
-      MapPoint y1 = EntityView.tileToPix(new MapPoint(0, i), config);
-      MapPoint y2 = EntityView.tileToPix(new MapPoint(100, i), config);
-      g.drawLine(
-          (int) (x1.x + gameView.getViewBox().topLeft.x),
-          (int) (x1.y + gameView.getViewBox().topLeft.y),
-          (int) (x2.x + gameView.getViewBox().topLeft.x),
-          (int) (x2.y + gameView.getViewBox().topLeft.y)
-      );
-      g.drawLine(
-          (int) (y1.x + gameView.getViewBox().topLeft.x),
-          (int) (y1.y + gameView.getViewBox().topLeft.y),
-          (int) (y2.x + gameView.getViewBox().topLeft.x),
-          (int) (y2.y + gameView.getViewBox().topLeft.y)
-      );
+    if (config.isDebugMode()) {
+      for (int i = 0; i < 100; i++) {
+        MapPoint x1 = EntityView.tileToPix(new MapPoint(i, 0), config);
+        MapPoint x2 = EntityView.tileToPix(new MapPoint(i, 100), config);
+        MapPoint y1 = EntityView.tileToPix(new MapPoint(0, i), config);
+        MapPoint y2 = EntityView.tileToPix(new MapPoint(100, i), config);
+        g.drawLine(
+            (int) (x1.x + gameView.getViewBox().topLeft.x),
+            (int) (x1.y + gameView.getViewBox().topLeft.y),
+            (int) (x2.x + gameView.getViewBox().topLeft.x),
+            (int) (x2.y + gameView.getViewBox().topLeft.y)
+        );
+        g.drawLine(
+            (int) (y1.x + gameView.getViewBox().topLeft.x),
+            (int) (y1.y + gameView.getViewBox().topLeft.y),
+            (int) (y2.x + gameView.getViewBox().topLeft.x),
+            (int) (y2.y + gameView.getViewBox().topLeft.y)
+        );
+      }
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
 
