@@ -1,23 +1,29 @@
-package main.game.model.entity;
+package main.game.model.entity.unit.state;
+
+import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
+import main.common.entity.Direction;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * An interface for the states of a unit.
+ * @author paladogabr
  */
 public abstract class UnitState implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  protected final Unit unit;
+  protected final DefaultUnit unit;
+  protected final UnitImagesComponent imagesComponent;
 
-  protected UnitImagesComponent imagesComponent;
-  protected UnitState nextState;
+  protected UnitState requestedNextState;
 
-  public UnitState(Sequence sequence, Unit unit) {
+  public UnitState(Sequence sequence, DefaultUnit unit) {
     this.unit = unit;
     this.imagesComponent = new UnitImagesComponent(sequence, unit);
   }
@@ -46,10 +52,7 @@ public abstract class UnitState implements Serializable {
    * @param nextState the requested state.
    */
   public void requestState(UnitState nextState) {
-    if (this.getClass().equals(nextState.getClass())) {
-      return;
-    }
-    this.nextState = nextState;
+    this.requestedNextState = requireNonNull(nextState);
   }
 
   /**
@@ -62,5 +65,5 @@ public abstract class UnitState implements Serializable {
   /**
    * Gets the next state or this if no change was requested.
    */
-  abstract UnitState updateState();
+  public abstract UnitState updateState();
 }

@@ -5,6 +5,7 @@ import main.game.model.GameModel;
 
 /**
  * ﻿A restartable timer.
+ * @author chongdyla
  */
 public class TickTimer implements Serializable {
 

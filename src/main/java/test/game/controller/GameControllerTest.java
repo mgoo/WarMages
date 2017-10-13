@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
@@ -14,7 +15,13 @@ import main.common.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
-public class ControllerTest {
+/**
+ * Tests for the GameController API.
+ *
+ * @author Hrshikesh Arora
+ * @author Eric Diputado (External Tester)
+ */
+public class GameControllerTest {
 
   GameModel gameModel = null;
   GameController controller = null;
@@ -23,13 +30,13 @@ public class ControllerTest {
   public void checkSelectOneUnit() {
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-            WorldTestUtils.createUnit(new MapPoint(1, 0)),
-            WorldTestUtils.createUnit(new MapPoint(1, 0))
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
-        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
-    controller = new GameController(gameModel);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
@@ -58,13 +65,13 @@ public class ControllerTest {
   public void checkSelectNoUnit() {
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-            WorldTestUtils.createUnit(new MapPoint(1, 0)),
-            WorldTestUtils.createUnit(new MapPoint(1, 0))
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
+            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
-        WorldTestUtils.createHeroUnit(new MapPoint(1,0)),
+        WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
-    controller = new GameController(gameModel);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {

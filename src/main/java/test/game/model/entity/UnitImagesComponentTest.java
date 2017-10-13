@@ -11,12 +11,16 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
-import main.game.model.entity.Direction;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitImagesComponent;
+import main.common.entity.Direction;
+import main.common.entity.Unit;
+import main.game.model.entity.unit.UnitImagesComponent;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Some tests.
+ * @author chongdyla
+ */
 public class UnitImagesComponentTest {
 
   @Test

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
+import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerArcher;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
 import static test.game.model.world.WorldTestUtils.createLevelWith;
 import static test.game.model.world.WorldTestUtils.createLevels;
 import static test.game.model.world.WorldTestUtils.createStubItem;
@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import org.junit.Test;
@@ -26,7 +26,7 @@ import org.junit.Test;
 public class GameModelTest {
 
   private GameModel model = null;
-  private HeroUnit heroUnit = createHeroUnit();
+  private HeroUnit heroUnit = createDefaultHeroUnit();
 
   @Test
   public void testSetSelectionAndGetSelection() {

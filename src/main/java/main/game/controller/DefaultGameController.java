@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import main.common.GameController;
 import main.game.model.GameModel;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
 import main.game.view.events.MouseClick;
 import main.game.view.events.MouseDrag;
-import main.common.util.MapRect;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
@@ -20,11 +20,11 @@ import main.common.util.MapRect;
  *
  * @author Hrshikesh Arora
  */
-public class GameController {
+public class DefaultGameController implements GameController {
 
   private final GameModel gameModel;
 
-  public GameController(GameModel model) {
+  public DefaultGameController(GameModel model) {
     this.gameModel = model;
   }
 
@@ -141,12 +141,12 @@ public class GameController {
       if (selectedUnit != null) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setTarget(selectedUnit, gameModel.getWorld());
+          unit.setTargetUnit(selectedUnit);
         }
       } else {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+          unit.setTargetPoint(mouseEvent.getLocation());
         }
       }
     }

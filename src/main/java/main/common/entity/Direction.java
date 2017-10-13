@@ -1,4 +1,4 @@
-package main.game.model.entity;
+package main.common.entity;
 
 import java.util.Arrays;
 import main.common.images.UnitSpriteSheet;

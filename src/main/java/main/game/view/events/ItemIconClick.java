@@ -1,6 +1,6 @@
 package main.game.view.events;
 
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Item;
 
 /**
  * Data class for when a Item Icon is clicked.

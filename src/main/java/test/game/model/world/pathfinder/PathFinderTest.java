@@ -16,6 +16,7 @@ import org.junit.Test;
  * Tests for the Pathfinder API.
  *
  * @author Hrshikesh Arora
+ * @author Andrew McGhie (External Tester)
  */
 public class PathFinderTest {
 
