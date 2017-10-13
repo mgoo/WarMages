@@ -15,7 +15,6 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.entity.unit.state.AttackingUnitState;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.entity.unit.state.UnitState;
@@ -108,19 +107,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   @Override
   public GameImage getImage() {
     return unitState.getImage();
-  }
-
-  private void attack() {
-    if (isDead) {
-      throw new IllegalStateException("Is dead");
-    }
-    if (target == null) {
-      throw new IllegalStateException(
-          "No target to attack. Check if there is a target before calling attack"
-      );
-    }
-
-    setNextState(new AttackingUnitState(this));
   }
 
   @Override
@@ -287,16 +273,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return unitState;
   }
 
-  /**
-   * Returns boolean whether the distance between the target and the Unit is less than the
-   * attackDistance.
-   *
-   * @return boolean representing distance less than attackDistance.
-   */
-  private boolean targetWithinProximity() {
-    if (target == null) {
-      throw new IllegalStateException("No target set");
-    }
-    return target.getCentre().distanceTo(getCentre()) < attackDistance;
+  public double getAttackDistance() {
+    return attackDistance;
   }
 }
