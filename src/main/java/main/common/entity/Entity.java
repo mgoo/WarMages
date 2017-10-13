@@ -9,6 +9,7 @@ import main.game.model.world.World;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
+ * @author paladogabr
  */
 public interface Entity extends Serializable {
 
