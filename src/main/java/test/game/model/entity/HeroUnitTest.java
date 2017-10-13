@@ -6,15 +6,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
+import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
 import main.common.exceptions.ItemNotInRangeException;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.UnitType;
+import main.common.entity.HeroUnit;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
@@ -29,7 +30,7 @@ import test.game.model.world.WorldTestUtils;
 public class HeroUnitTest {
 
   private World mockWorld = mock(World.class);
-  private HeroUnit heroUnit = createHeroUnit();
+  private HeroUnit heroUnit = createDefaultHeroUnit();
 
   @Test
   public void addingAnItemToTheInventoryShouldWorkWhenItemInRange() {
@@ -49,7 +50,7 @@ public class HeroUnitTest {
     // Given an ability
     Ability mockAbility = mock(Ability.class);
     // and a hero
-    HeroUnit heroUnit = new HeroUnit(
+    HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
@@ -68,7 +69,7 @@ public class HeroUnitTest {
   @Test
   public void heroUnitShouldTickItemsButOnlyWhenInTheInventory() {
     // Given a hero
-    HeroUnit heroUnit = createHeroUnit();
+    HeroUnit heroUnit = createDefaultHeroUnit();
     long delay = GameModel.DELAY;
     // and an item close to the hero
     Item mockItem = mock(Item.class);

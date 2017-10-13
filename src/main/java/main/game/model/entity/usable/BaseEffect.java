@@ -1,8 +1,8 @@
 package main.game.model.entity.usable;
 
-import main.common.Effect;
+import main.common.entity.Unit;
+import main.common.entity.Effect;
 import main.common.util.TickTimer;
-import main.game.model.entity.Unit;
 
 /**
  * All {@link Effect}s should extend this.
@@ -20,8 +20,9 @@ public abstract class BaseEffect implements Effect {
 
   /**
    * Default constructor.
-   * @param durationSeconds Number of seconds before this expires. Set to
-   *     {@link BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
+   *
+   * @param durationSeconds Number of seconds before this expires. Set to {@link
+   * BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
   public BaseEffect(Unit targetUnit, double durationSeconds) {
     if (durationSeconds < 0) {

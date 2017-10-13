@@ -1,20 +1,17 @@
 package test.game.model.entity;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
 import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
 public class EntityTest {
-
-  private final int damageAmt = 10;
 
   private World getWorld() {
     return WorldTestUtils
@@ -22,7 +19,7 @@ public class EntityTest {
   }
 
   private HeroUnit getHeroUnit() {
-    return createHeroUnit();
+    return WorldTestUtils.createDefaultHeroUnit();
   }
 
   private Unit getPlayer() {
@@ -40,9 +37,9 @@ public class EntityTest {
     World world = getWorld();
     unit1.setTarget(unit2, world);
     int prevHealth = unit2.getHealth();
-    for (int i = 0; i < 820; i++) {
+    for (int i = 0; i < 900; i++) {
       unit1.tick(GameModel.DELAY, world);
     }
-    assertEquals(prevHealth - damageAmt, unit2.getHealth());
+    assertTrue(prevHealth > unit2.getHealth());
   }
 }

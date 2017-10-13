@@ -9,7 +9,7 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.entity.Direction;
+import main.common.entity.Direction;
 import main.images.DefaultImageProvider;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;

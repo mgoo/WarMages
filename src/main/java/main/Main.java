@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.game.model.world.saveandload.DefaultWorldLoader;
@@ -43,6 +45,7 @@ public class Main extends Application {
    */
   public static void main(String[] args) {
     System.setProperty("sun.java2d.opengl", "true");
+    System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
     launch(args);
   }
 
@@ -70,8 +73,10 @@ public class Main extends Application {
       primaryStage.setY(screen.getBounds().getMinY() + 1);
       primaryStage.setWidth(screen.getBounds().getWidth());
       primaryStage.setHeight(screen.getBounds().getHeight());
-      Main.this.robot.mouseMove((int)(bounds.getMinX() + bounds.getWidth() / 2),
-          (int)(bounds.getMinY() + bounds.getHeight() / 2));
+      Main.this.robot.mouseMove(
+          (int) (bounds.getMinX() + bounds.getWidth() / 2),
+          (int) (bounds.getMinY() + bounds.getHeight() / 2)
+      );
       size = newSize;
     }
 
@@ -88,7 +93,7 @@ public class Main extends Application {
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
-    config.setScreenDim((int)primaryStage.getWidth(), (int)primaryStage.getHeight());
+    config.setScreenDim((int) primaryStage.getWidth(), (int) primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
         new DefaultWorldLoader(),
@@ -144,6 +149,8 @@ public class Main extends Application {
     browser.setOnMouseMoved(event -> {
       this.currentMenu.getMenuController().onMouseMove(event);
     });
+
+    primaryStage.setOnCloseRequest(e -> System.exit(0));
 
     root.getChildren().setAll(imageView, browser);
     scene.setRoot(root);

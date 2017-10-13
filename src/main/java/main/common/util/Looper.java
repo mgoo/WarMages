@@ -1,5 +1,8 @@
 package main.common.util;
 
+import static java.lang.Thread.sleep;
+
+import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -9,21 +12,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Looper {
 
   private final AtomicBoolean isPaused = new AtomicBoolean(false);
-  private final AtomicBoolean hasStarted = new AtomicBoolean(false);
+  private final AtomicBoolean isRunning = new AtomicBoolean(false);
   private final Object pauseLock = new Object();
 
   /**
    * Start looping on a new thread.
    */
   public synchronized void start(Runnable repeatable) {
-    if (hasStarted.get()) {
+    if (isRunning.get()) {
       throw new IllegalStateException();
     }
-    hasStarted.set(true);
+    isRunning.set(true);
 
     Thread thread = new Thread(() -> {
       try {
-        while (true) {
+        while (isRunning.get()) {
           repeatable.run();
 
           if (isPaused.get()) {
@@ -40,10 +43,39 @@ public class Looper {
   }
 
   /**
+   * Start looping on a new thread with a schedule.
+   * @param repeatable method to run
+   * @param delay time between ticks
+   */
+  public void startWithSchedule(Runnable repeatable, long delay) {
+    start(() -> {
+      repeatable.run();
+      try {
+        sleep(delay);
+      } catch (InterruptedException e) {
+        throw new IllegalStateException("task interrupted", e);
+      }
+    });
+  }
+
+  /**
+   * Stops the running thread.
+   */
+  public synchronized void stop() {
+    if (!isRunning.get()) {
+      throw new IllegalStateException("Thread is already stopped!");
+    }
+    isRunning.set(false);
+    synchronized (pauseLock) {
+      pauseLock.notify();
+    }
+  }
+
+  /**
    * Pause/resume.
    */
   public synchronized void setPaused(boolean paused) {
-    if (!hasStarted.get()) {
+    if (!isRunning.get()) {
       throw new IllegalStateException();
     }
 
@@ -59,4 +91,6 @@ public class Looper {
       }
     }
   }
+
+
 }
