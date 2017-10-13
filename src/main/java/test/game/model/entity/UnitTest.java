@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import main.common.entity.Effect;
 import main.common.entity.HeroUnit;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
-import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.Projectile;
-import main.common.entity.Team;
-import main.common.entity.Unit;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
@@ -34,6 +34,10 @@ import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Some tests for {@link Unit}.
+ * @author chongdyla
+ */
 public class UnitTest {
 
   /**

@@ -15,6 +15,10 @@ import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet;
 import main.common.entity.Direction;
 
+/**
+ * Default implementation.
+ * @author chongdyla
+ */
 public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
 
   private static final long serialVersionUID = 1L;

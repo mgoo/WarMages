@@ -7,6 +7,7 @@ import main.game.model.world.World;
 
 /**
  * Deals with the saving and loading of {@link GameModel} to and from files.
+ * @author chongdyla
  */
 public interface WorldSaveModel {
 

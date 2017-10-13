@@ -20,6 +20,10 @@ import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
+/**
+ * Some tests.
+ * @author chongdyla
+ */
 public class AttackingUnitStateTest {
 
   @Test
