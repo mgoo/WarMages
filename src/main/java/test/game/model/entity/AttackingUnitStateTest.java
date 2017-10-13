@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.state.AttackingUnitState;
@@ -30,7 +31,10 @@ public class AttackingUnitStateTest {
   public void onlyOneAttackShouldOccurPerCycle() {
     // Given a target
     DefaultUnit target = mock(DefaultUnit.class);
+    when(target.getHealth()).thenReturn(100);
     when(target.getTeam()).thenReturn(Team.ENEMY);
+    MapPoint targetLocation = new MapPoint(0, 0);
+    when(target.getCentre()).thenReturn(targetLocation);
     // that counts attacks received
     AtomicInteger attackCount = new AtomicInteger(0);
     doAnswer(invocation -> attackCount.incrementAndGet())
@@ -38,7 +42,9 @@ public class AttackingUnitStateTest {
         .takeDamage(anyInt(), any());
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
-    when(target.getTeam()).thenReturn(Team.PLAYER);
+    when(unit.getCentre()).thenReturn(targetLocation);
+    when(unit.getAttackDistance()).thenReturn(1D);
+    when(unit.getTeam()).thenReturn(Team.PLAYER);
     when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
     when(unit.getSpriteSheet())
         .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
@@ -48,7 +54,7 @@ public class AttackingUnitStateTest {
     final int attackFrame = unit.getUnitType().getAttackSequence().getAttackFrame();
     final int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and the state to test
-    AttackingUnitState state = new AttackingUnitState(unit);
+    AttackingUnitState state = new AttackingUnitState(unit, target);
     // and a stub world
     World world = mock(World.class);
 
