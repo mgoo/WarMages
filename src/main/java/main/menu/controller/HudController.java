@@ -1,5 +1,6 @@
 package main.menu.controller;
 
+import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
@@ -8,6 +9,7 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.game.view.GameView;
 import main.menu.MainMenu;
+import main.menu.generators.SaveFileAlertGenerator;
 import main.renderer.Renderer;
 
 /**
@@ -21,12 +23,18 @@ public class HudController extends MenuController {
   final MainMenu mainMenu;
   final GameView gameView;
   final Renderer renderer;
+  final SaveFunction saveFunction;
 
-  public HudController(Main main, MainMenu mainMenu, GameView gameView, Renderer renderer) {
+  public HudController(Main main,
+                       MainMenu mainMenu,
+                       GameView gameView,
+                       Renderer renderer,
+                       SaveFunction saveFunction) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.gameView = gameView;
     this.renderer = renderer;
+    this.saveFunction = saveFunction;
   }
 
   /**
@@ -162,11 +170,26 @@ public class HudController extends MenuController {
   /**
    * handles when the save button was pressed.
    */
-  public void saveBtn() {
+  public void save(String filename) {
     try {
-      // TODO handle going to the save menu and saving the game
-    } catch (Exception e) {
-      e.printStackTrace();
+      saveFunction.save(filename);
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setSuccess()
+              .getScript()
+      );
+    } catch (IOException e) {
+      this.main.executeScript(
+          new SaveFileAlertGenerator()
+              .setError()
+              .setMesg(e.getMessage())
+              .getScript()
+      );
     }
+  }
+
+  @FunctionalInterface
+  public interface SaveFunction {
+    void save(String filename) throws IOException;
   }
 }
