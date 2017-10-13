@@ -15,7 +15,7 @@ import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.entity.Effect;
+import main.common.entity.usable.Effect;
 import main.game.model.entity.unit.state.AttackingUnitState;
 import main.game.model.entity.unit.state.DeadUnit;
 import main.game.model.entity.DefaultEntity;

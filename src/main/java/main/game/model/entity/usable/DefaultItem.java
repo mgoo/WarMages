@@ -1,24 +1,20 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.common.entity.MapEntity;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Effect;
+import main.common.entity.usable.Item;
 import main.common.entity.Unit;
-import main.common.entity.Effect;
-import main.game.model.entity.DefaultMapEntity;
-import main.game.model.world.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
+import main.game.model.entity.DefaultMapEntity;
+import main.game.model.world.World;
 
 /**
- * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.
- * For now, all items have an {@link Ability} (through decoration).
- *
- * <p>
- * Functionality should be delegated to the {@link Ability}.
- * </p>
+ * Default implementation of {@link Item}.
  * @author chongdyla
  */
-public class Item extends DefaultMapEntity implements BaseUsable {
+public class DefaultItem extends DefaultMapEntity implements Item  {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
@@ -27,7 +23,7 @@ public class Item extends DefaultMapEntity implements BaseUsable {
    * Constructor takes the coordinates of the item.
    * @param onMapImage What this image looks like when it's on the map.
    */
-  public Item(MapPoint coord, Ability ability, GameImage onMapImage) {
+  public DefaultItem(MapPoint coord, Ability ability, GameImage onMapImage) {
     super(coord, onMapImage);
     this.ability = ability;
   }
@@ -87,4 +83,5 @@ public class Item extends DefaultMapEntity implements BaseUsable {
   public boolean isPassable() {
     return true;
   }
+
 }

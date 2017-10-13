@@ -13,7 +13,7 @@ import main.common.entity.MapEntity;
 import main.common.entity.Unit;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
-import main.game.model.entity.usable.Item;
+import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
 import org.junit.Test;
 
