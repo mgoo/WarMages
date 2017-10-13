@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.function.Function;
 import main.common.WorldLoader;
 import main.common.images.GameImageResource;
+import main.common.util.Events.GameCompletion;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
@@ -88,7 +89,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
   @Override
   public World load() {
-    return loadMultilevelWorld();
+    return loadSingleLevelTestWorld();
   }
 
   /**
@@ -99,7 +100,7 @@ public class DefaultWorldLoader implements WorldLoader {
    */
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new HeroUnit(
-        new MapPoint(1, 1),
+        new MapPoint(3, 2),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
@@ -116,10 +117,10 @@ public class DefaultWorldLoader implements WorldLoader {
     Level level = new Level(
         bounds,
         Arrays.asList(
-            new Unit(new MapPoint(3, 0), STANDARD_UNIT_SIZE, Team.PLAYER,
+            new Unit(new MapPoint(3, 1), STANDARD_UNIT_SIZE, Team.PLAYER,
                 new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
             ),
-            new Unit(new MapPoint(9, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+            new Unit(new MapPoint(8, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
                 new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
             )
         ),
@@ -369,7 +370,6 @@ public class DefaultWorldLoader implements WorldLoader {
           levels.getLast().getGoalDescription()
       ));
     }
-
     return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
