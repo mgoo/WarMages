@@ -118,6 +118,17 @@ public class HudController extends MenuController {
     }
   }
 
+  /**
+   * Triggers the double click event in GameView.
+   */
+  public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    try {
+      this.gameView.onDbClick(x, y, wasShiftDown, wasCtrlDown);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   @Override
   public void onMouseMove(MouseEvent event) {
     this.gameView.updateMousePosition((int)event.getX(), (int)event.getY());
