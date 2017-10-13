@@ -14,6 +14,12 @@ import main.common.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Tests for the GameController API.
+ *
+ * @author Hrshikesh Arora
+ * @author Eric Diputado (External
+ */
 public class GameControllerTest {
 
   GameModel gameModel = null;
