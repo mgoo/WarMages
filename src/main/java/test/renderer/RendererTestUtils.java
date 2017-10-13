@@ -2,6 +2,7 @@ package test.renderer;
 
 import javafx.scene.image.ImageView;
 import main.common.GameController;
+import main.common.util.MapPoint;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.view.GameView;
@@ -97,7 +98,12 @@ public class RendererTestUtils {
    * @return mock GameView
    */
   public static GameView createGameView(Config c, GameController gc, GameModel gm) {
-    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>());
+    GameView gv = new GameView(c,
+        gc,
+        gm,
+        new DefaultImageProvider(),
+        new Event<>(),
+        new MapPoint(0, 0));
     gv.updateRenderables(c.getGameModelDelay());
     return gv;
   }

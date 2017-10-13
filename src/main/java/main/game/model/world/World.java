@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import main.common.util.MapRect;
 import main.game.model.Level;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -201,6 +202,10 @@ public class World implements Serializable {
 
   public List<MapPoint> findPath(MapPoint start, MapPoint end) {
     return pathFinder.findPath(this::isPassable, start, end);
+  }
+
+  public MapPoint getInitialViewBoxOrigin() {
+    return this.levels.get(0).getBounds().topLeft;
   }
 
   /**
