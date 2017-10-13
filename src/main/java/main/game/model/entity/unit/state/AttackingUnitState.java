@@ -32,11 +32,11 @@ public class AttackingUnitState extends UnitState {
 
   @Override
   public UnitState updateState() {
-    if (!imagesComponent.isReadyToTransition() || nextState == null) {
+    if (!imagesComponent.isReadyToTransition() || requestedNextState == null) {
       return this;
     }
 
-    return nextState;
+    return requestedNextState;
   }
 
   @Override

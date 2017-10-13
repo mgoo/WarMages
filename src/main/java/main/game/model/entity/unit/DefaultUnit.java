@@ -4,25 +4,23 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
+import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.entity.Unit;
+import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.entity.usable.Effect;
+import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.unit.state.AttackingUnitState;
 import main.game.model.entity.unit.state.DeadUnit;
-import main.game.model.entity.DefaultEntity;
-import main.common.entity.Direction;
-import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
+import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.state.WalkingUnitState;
 import main.game.model.world.World;
 
 /**
@@ -33,8 +31,6 @@ import main.game.model.world.World;
 public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
-
-  private static final double LEEWAY_FOR_PATH = 0.01;
 
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
@@ -51,8 +47,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   private int damageAmount;
   private final double attackDistance;
   private double speed;
-  protected Queue<MapPoint> path = new LinkedList<>();
-
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -108,20 +102,22 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
-    unitState = requireNonNull(unitState.updateState());
-    //update path in case there is a target and it has moved.
-    updatePath(world);
-    //update position
-    tickPosition(timeSinceLastTick, world);
-    //check if has target and target is within attacking proximity. Request state change.
-    if (target != null && targetWithinProximity()) {
-      attack();
-    } else {
-      //if no target, check if unit reached destination and change to idle if so
-      if (this.path.size() == 0) {
-        setNextState(new IdleUnitState(this));
-      }
+    UnitState nextState = requireNonNull(this.unitState.updateState());
+    if (nextState != unitState) {
+      // Tests rely on unit moving immediately. Unit starts in Idle state and if target is set
+      // it takes one tick to move to the walking state, then another to start moving.
+      unitState = nextState;
     }
+    // TODO
+//    //check if has target and target is within attacking proximity. Request state change.
+//    if (target != null && targetWithinProximity()) {
+//      attack();
+//    } else {
+//      //if no target, check if unit reached destination and change to idle if so
+//      if (this.path.size() == 0) {
+//        setNextState(new IdleUnitState(this));
+//      }
+//    }
     tickEffects(timeSinceLastTick);
   }
 
@@ -130,8 +126,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return unitState.getImage();
   }
 
-  @Override
-  public void attack() {
+  private void attack() {
     if (isDead) {
       throw new IllegalStateException("Is dead");
     }
@@ -263,24 +258,19 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void setTarget(Unit target, World world) {
-    this.target = Objects.requireNonNull(target);
-    updatePath(world);
+  public void setTargetUnit(Unit targetUnit, World world) {
+    this.target = requireNonNull(targetUnit);
+    setNextState(new WalkingUnitState(this, targetUnit));
+  }
+
+  @Override
+  public void setTargetPoint(MapPoint targetPoint, World world) {
+    setNextState(new WalkingUnitState(this, targetPoint));
   }
 
   @Override
   public void clearTarget() {
     this.target = null;
-  }
-
-  /**
-   * Updates the path in case target has moved.
-   */
-  protected void updatePath(World world) {
-    if (target == null) {
-      return;
-    }
-    setPath(world.findPath(getCentre(), target.getCentre()));
   }
 
   @Override
@@ -293,11 +283,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void setPath(List<MapPoint> path) {
-    this.path = new LinkedList<>(path);
-  }
-
-  @Override
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
   }
@@ -307,33 +292,15 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return health / unitType.getStartingHealth();
   }
 
-  /**
-   * Updates the DefaultUnit's position depending on it's path.
-   *
-   * @param timeSinceLastTick time passed since last tick.
-   * @param world that this DefaultUnit is in.
-   */
-  private void tickPosition(long timeSinceLastTick, World world) {
-    if (path == null || path.isEmpty()) {
-      return;
-    }
-    MapPoint target = this.path.peek();
-    double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY_FOR_PATH) {
-      this.path.poll();
-      if (this.path.size() == 0) {
-        return;
-      }
-      target = this.path.peek();
-    }
+  public double getSpeed() {
+    return speed;
+  }
 
-    double dx = target.x - getCentre().x;
-    double dy = target.y - getCentre().y;
-    double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
-    double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
-    assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
-    assert Math.abs(mx) > 0 || Math.abs(my) > 0;
-    translatePosition(mx, my);
+  /**
+   * Public for testing only!
+   */
+  public UnitState _getUnitState() {
+    return unitState;
   }
 
   /**

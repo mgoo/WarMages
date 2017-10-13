@@ -141,12 +141,12 @@ public class DefaultGameController implements GameController {
       if (selectedUnit != null) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setTarget(selectedUnit, gameModel.getWorld());
+          unit.setTargetUnit(selectedUnit, gameModel.getWorld());
         }
       } else {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
-          unit.setPath(gameModel.getWorld().findPath(unit.getTopLeft(),mouseEvent.getLocation()));
+          unit.setTargetPoint(mouseEvent.getLocation(), gameModel.getWorld());
         }
       }
     }
