@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
@@ -35,7 +36,7 @@ public class GameControllerTest {
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
-    controller = new GameController(gameModel);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
@@ -70,7 +71,7 @@ public class GameControllerTest {
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
         new MainGameTick());
-    controller = new GameController(gameModel);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {

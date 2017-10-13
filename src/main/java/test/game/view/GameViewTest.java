@@ -7,7 +7,8 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
 import main.common.entity.Entity;
 import main.game.model.entity.DefaultEntity;
@@ -293,11 +294,10 @@ public class GameViewTest {
     }
   }
 
-  private class GameControllerMock extends GameController {
+  private class GameControllerMock extends DefaultGameController {
 
     GameControllerMock() {
       super(null);
-
     }
   }
 }
