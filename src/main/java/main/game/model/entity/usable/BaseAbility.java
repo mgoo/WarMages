@@ -8,7 +8,7 @@ import main.common.util.TickTimer;
  * Superclass for all {@link Ability} implementations.
  * @author chongdyla
  */
-public abstract class BaseAbility implements Ability {
+public abstract class BaseAbility extends BaseUsable implements Ability {
 
   private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,7 @@ public abstract class BaseAbility implements Ability {
   }
 
   @Override
-  public void _startCoolDown() {
+  public void startCoolDown() {
     coolDownTimer.restart();
   }
 

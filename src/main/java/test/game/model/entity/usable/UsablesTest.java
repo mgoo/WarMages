@@ -20,7 +20,7 @@ import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;

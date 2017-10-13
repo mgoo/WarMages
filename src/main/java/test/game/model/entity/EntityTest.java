@@ -37,14 +37,20 @@ public class EntityTest {
 
   @Test
   public void testDamageEnemy() {
-    Unit unit1 = getPlayer();
-    Unit unit2 = getEnemy();
+    Unit player = getPlayer();
+    Unit enemy = getEnemy();
+
+    // Make sure they are in range of each other (by making them on top of each other)
+    double dx = enemy.getCentre().x - player.getCentre().x;
+    double dy = enemy.getCentre().y - player.getCentre().y;
+    player.translatePosition(dx, dy);
+
     World world = getWorld();
-    unit1.setTarget(unit2, world);
-    int prevHealth = unit2.getHealth();
+    player.setTargetUnit(enemy);
+    int prevHealth = enemy.getHealth();
     for (int i = 0; i < 900; i++) {
-      unit1.tick(GameModel.DELAY, world);
+      player.tick(GameModel.DELAY, world);
     }
-    assertTrue(prevHealth > unit2.getHealth());
+    assertTrue(prevHealth > enemy.getHealth());
   }
 }
