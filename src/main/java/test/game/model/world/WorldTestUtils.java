@@ -43,7 +43,7 @@ public class WorldTestUtils {
    *
    * @return an out of bounds unit
    */
-  public static Unit createDefaultUnit(MapPoint point) {
+  public static DefaultUnit createDefaultUnit(MapPoint point) {
     return new DefaultUnit(
         point,
         new MapSize(1, 1),

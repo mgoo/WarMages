@@ -46,7 +46,7 @@ public class DefaultUnitTest {
 
   //note that CreateDefaultUnit creates a Spearman who travels with 0.1 travel speed
 
-  private Unit getUnit() {
+  private DefaultUnit getUnit() {
     return createDefaultUnit(new MapPoint(1, 1));
   }
 
@@ -102,6 +102,9 @@ public class DefaultUnitTest {
     unit.setTargetPoint(targetPoint, world);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
+    // Allow unit to go to from idle to walking state
+    unit.tick(GameModel.DELAY, world);
+
     // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
       MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
@@ -123,6 +126,9 @@ public class DefaultUnitTest {
     unit.setTargetPoint(targetPoint, world);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
+    // Allow unit to go to from idle to walking state
+    unit.tick(GameModel.DELAY, world);
+
     for (int i = 0; i < 20; i++) {
       MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
@@ -142,6 +148,9 @@ public class DefaultUnitTest {
 
     unit.setTargetPoint(targetPoint, world);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
+
+    // Allow unit to go to from idle to walking state
+    unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 10; i++) {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
@@ -163,6 +172,9 @@ public class DefaultUnitTest {
     unit.setTargetPoint(targetPoint, world);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
+    // Allow unit to go to from idle to walking state
+    unit.tick(GameModel.DELAY, world);
+
     for (int i = 0; i < 20; i++) {
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
@@ -182,6 +194,10 @@ public class DefaultUnitTest {
 
     unit.setTargetPoint(targetPoint, world);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
+
+    // Allow unit to go to from idle to walking state
+    unit.tick(GameModel.DELAY, world);
+
     // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 100*0.01 = 1 map distance which is approx 1 diagonal
     for (int i = 0; i < 10; i++) {
