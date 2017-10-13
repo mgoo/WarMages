@@ -58,7 +58,7 @@ public class UnitImagesComponent implements Serializable {
   }
 
   /**
-   * The unit should call this when the {@link DefaultGameModel} ticks.
+   * The unit should call this when the {@link main.game.model.GameModel} ticks.
    */
   public void tick(Long timeSinceLastTick) {
     currentTick = (currentTick + 1) % maxNumberOfTicks();

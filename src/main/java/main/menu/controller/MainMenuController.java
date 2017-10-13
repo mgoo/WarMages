@@ -6,6 +6,7 @@ import main.common.util.Looper;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
 import main.game.model.DefaultGameModel;
+import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.common.WorldLoader;
 import main.common.WorldSaveModel;
@@ -61,7 +62,7 @@ public class MainMenuController extends MenuController {
       MainGameTick tickEvent = new MainGameTick();
       Event<MouseClick> mouseClickEvent = new Event<>();
       World world = this.worldLoader.load();
-      DefaultGameModel defaultGameModel = new DefaultGameModel(world, tickEvent);
+      GameModel defaultGameModel = new DefaultGameModel(world, tickEvent);
       GameController gameController = new DefaultGameController(defaultGameModel);
       GameView gameView = new GameView(this.config,
           gameController,

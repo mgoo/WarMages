@@ -12,6 +12,7 @@ import main.common.images.GameImageResource;
 import main.common.GameController;
 import main.game.model.DefaultGameModel;
 import main.common.entity.Entity;
+import main.game.model.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
@@ -37,7 +38,7 @@ public class GameView {
   private final Config config;
 
   private final GameController gameController;
-  private final DefaultGameModel defaultGameModel;
+  private final GameModel model;
   private final ImageProvider imageProvider;
   private final Event<MouseClick> mouseClickEvent;
 
@@ -60,12 +61,12 @@ public class GameView {
    */
   public GameView(Config config,
                   GameController gameController,
-                  DefaultGameModel defaultGameModel,
+                  GameModel model,
                   ImageProvider imageProvider,
                   Event<MouseClick> mouseClickEvent) {
     this.config = config;
     this.gameController = gameController;
-    this.defaultGameModel = defaultGameModel;
+    this.model = model;
     this.imageProvider = imageProvider;
     this.mouseClickEvent = mouseClickEvent;
     this.viewBox = new MapRect(0, 0,
@@ -110,7 +111,7 @@ public class GameView {
    */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
-    final Set<Entity> entitiesToAdd = new HashSet<>(this.defaultGameModel.getAllEntities());
+    final Set<Entity> entitiesToAdd = new HashSet<>(this.model.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
       if (entitiesToAdd.contains(renderable.getEntity())) {
@@ -129,7 +130,7 @@ public class GameView {
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
-          this.defaultGameModel.getUnitSelection().contains(entityView.getEntity()));
+          this.model.getUnitSelection().contains(entityView.getEntity()));
     });
 
     // Update FoW
@@ -294,20 +295,20 @@ public class GameView {
    * Pauses the main game loop inside model.
    */
   public void pauseGame() {
-    defaultGameModel.pauseGame();
+    model.pauseGame();
   }
 
   /**
    * Resumes the main game loop inside model.
    */
   public void resumeGame() {
-    defaultGameModel.resumeGame();
+    model.resumeGame();
   }
 
   /**
    * Stops the main game loop inside model.
    */
   public void stopGame() {
-    defaultGameModel.stopGame();
+    model.stopGame();
   }
 }
