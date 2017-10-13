@@ -171,7 +171,7 @@ public class DefaultGameController implements GameController {
   public void onMouseDrag(MouseDrag mouseEvent) {
     Collection<Unit> selectedUnits = gameModel.getAllUnits()
         .stream()
-        .filter(u -> mouseEvent.getMapShape().contains(u.getCentre()))
+        .filter(u -> mouseEvent.getMapShape().contains(u.getRect()))
         .filter(u -> u.getTeam() == Team.PLAYER)
         .collect(Collectors.toSet());
 
