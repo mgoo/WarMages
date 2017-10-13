@@ -88,7 +88,7 @@ public class DefaultUnitTest {
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
     unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 20; i++) {
-      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -103,7 +103,7 @@ public class DefaultUnitTest {
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
     unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 10; i++) {
-      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -118,7 +118,6 @@ public class DefaultUnitTest {
     World world = createWorld(createLevels(createEmptyLevel()), createDefaultHeroUnit());
     unit.translatePosition(-unit.getSize().width/2, -unit.getSize().height/2);
     for (int i = 0; i < 20; i++) {
-      System.out.println("unit.EHHFJ() = " + unit.getCentre());
       MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
