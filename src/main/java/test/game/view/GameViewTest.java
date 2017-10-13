@@ -258,6 +258,10 @@ public class GameViewTest {
     void setEntities(List<Entity> entities) {
       this.entities = entities;
     }
+
+    @Override
+    public void checkGameCompletion() {
+    }
   }
 
   private class EntityMock extends Entity {
