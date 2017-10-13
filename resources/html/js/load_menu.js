@@ -29,4 +29,14 @@ $('#save-button').on('click', function(event) {
     controller.save(filename);
 });
 
+function addSuccessMessage() {
+    $('<p class="alert-success">Save successful</p>')
+        .prependTo($('#save-form'));
+}
+
+function addErrorMessage(mesg) {
+    $('<p class="alert-danger">Save Error :'+mesg+'</p>')
+        .prependTO($('#save-form'));
+}
+
 
