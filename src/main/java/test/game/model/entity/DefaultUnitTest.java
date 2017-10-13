@@ -17,6 +17,10 @@ import main.common.util.MapPoint;
 import main.game.model.world.World;
 import org.junit.Test;
 
+/**
+ * Tests for DefaultUnits.
+ * @author paladogabr
+ */
 public class DefaultUnitTest {
   //note that CreateDefaultUnit creates a Spearman who travels with 0.1 travel speed
 

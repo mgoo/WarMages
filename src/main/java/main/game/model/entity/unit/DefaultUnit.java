@@ -27,6 +27,7 @@ import main.game.model.world.World;
 
 /**
  * Default Unit implementation.
+ * @author paladogabr
  * @author chongdyla (Secondary author)
  */
 public class DefaultUnit extends DefaultEntity implements Unit {
