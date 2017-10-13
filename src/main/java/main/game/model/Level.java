@@ -11,6 +11,7 @@ import main.common.WorldSaveModel;
 import main.common.entity.Entity;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
+import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
 import main.common.entity.usable.Item;
 import main.common.entity.MapEntity;

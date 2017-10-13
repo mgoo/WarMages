@@ -276,6 +276,33 @@ public class GameView {
   }
 
   /**
+   * Triggers the double click event.
+   */
+  public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    this.gameController.onDbClick(new MouseClick() {
+      @Override
+      public boolean wasLeft() {
+        return true;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapPoint getLocation() {
+        return pixToTile(new MapPoint(x, y));
+      }
+    });
+  }
+
+  /**
    * Triggers a key event.
    */
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
