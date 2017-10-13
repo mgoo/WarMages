@@ -1,7 +1,6 @@
-package main.common;
+package main.common.entity;
 
 import java.io.Serializable;
-import main.game.model.entity.Unit;
 
 /**
  * Is created by the {@link Usable} to actually do the work. JavaDoc below tells which method

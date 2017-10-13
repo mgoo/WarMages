@@ -1,7 +1,9 @@
-package main.game.model.entity;
+package main.game.model.entity.unit;
 
+import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Projectile;
 
 /**
  * This enum represents the type of a Unit. A unit can be an archer, a swordsman, a spearman, or a
@@ -10,7 +12,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 public enum UnitType {
 
   //todo confirm attack and moving speeds
-  ARCHER(5, 200, 5, 0.1, 6, Sequence.SHOOT) {
+  ARCHER(5, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -29,21 +31,21 @@ public enum UnitType {
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, 5, Sequence.SLASH) {
+  SWORDSMAN(10, 250, 6, 0.1, 5, 1, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(7, 150, 5, 0.1, 5, Sequence.THRUST) {
+  SPEARMAN(7, 150, 5, 0.1, 5, 2, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(15, 300, 8, 0.1, 7, Sequence.SPELL_CAST) {
+  MAGICIAN(15, 300, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -67,6 +69,7 @@ public enum UnitType {
   protected double attackSpeed;
   protected double movingSpeed;
   protected double lineOfSight;
+  protected double attackDistance;
   protected Sequence attackSequence;
 
   public int getBaselineDamage() {
@@ -75,6 +78,10 @@ public enum UnitType {
 
   public int getStartingHealth() {
     return startingHealth;
+  }
+
+  public double getAttackDistance() {
+    return attackDistance;
   }
 
   public double getAttackSpeed() {
@@ -92,7 +99,7 @@ public enum UnitType {
   /**
    * Creates an appropriate projectile for this {@link UnitType}.
    */
-  public final Projectile createProjectile(Unit creator, Unit target) {
+  public final Projectile createProjectile(DefaultUnit creator, Unit target) {
     if (!canShootProjectiles()) {
       throw new UnsupportedOperationException();
     }
@@ -111,8 +118,7 @@ public enum UnitType {
 
   UnitType(
       int baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
-      double lineOfSight,
-      Sequence attackSequence
+      double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
@@ -120,6 +126,7 @@ public enum UnitType {
     this.movingSpeed = movingSpeed;
     this.lineOfSight = lineOfSight;
     this.attackSequence = attackSequence;
+    this.attackDistance = attackDistance;
 
     if (canShootProjectiles()) {
       try {
