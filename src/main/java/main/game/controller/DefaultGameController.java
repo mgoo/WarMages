@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import main.common.GameController;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -121,11 +122,9 @@ public class DefaultGameController implements GameController {
 
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         if (selectedUnit != null) {
-          updatedUnitSelection.add(selectedUnit);
+          gameModel.addToUnitSelection(selectedUnit);
         }
-        gameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseEvent.wasCtrlDown()) {
         //if clicked unit already selected, deselect it. otherwise, select it
@@ -133,10 +132,8 @@ public class DefaultGameController implements GameController {
 
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
-        } else {
-          if (selectedUnit != null) {
-            updatedUnits.add(selectedUnit);
-          }
+        } else if (selectedUnit != null) {
+          updatedUnits.add(selectedUnit);
         }
         gameModel.setUnitSelection(updatedUnits);
 
@@ -161,8 +158,7 @@ public class DefaultGameController implements GameController {
           .findFirst().orElse(null);
 
       //find the closest thing i.e. unit or item
-      Entity closest = Arrays.asList(selectedItem, selectedUnit)
-          .stream()
+      Entity closest = Stream.of(selectedItem, selectedUnit)
           .filter(Objects::nonNull)
           .sorted(Comparator.comparingDouble(
               s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
@@ -179,7 +175,7 @@ public class DefaultGameController implements GameController {
           unit.setTargetPoint(mouseEvent.getLocation());
 
           //if it was a hero unit, then it can also pickup item
-          if(unit instanceof HeroUnit && selectedItem != null) {
+          if(unit instanceof HeroUnit) {
             ((HeroUnit) unit).pickUp(selectedItem);
           }
         }
@@ -266,7 +262,7 @@ public class DefaultGameController implements GameController {
     if (mouseEvent.wasShiftDown()) {
       unitsSelected.stream()
           .filter(unit -> !gameModel.getUnitSelection().contains(unit))
-          .forEach(unit -> gameModel.addToUnitSelection(unit));
+          .forEach(gameModel::addToUnitSelection);
     } else {
       gameModel.setUnitSelection(unitsSelected);
     }
@@ -277,20 +273,20 @@ public class DefaultGameController implements GameController {
    * When a selected units icon is clicked in from the hud.
    */
   public void onUnitIconClick(UnitIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 
   /**
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 }
