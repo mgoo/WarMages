@@ -58,6 +58,11 @@ public class RendererTestUtils {
       }
 
       @Override
+      public void onDbClick(MouseClick mouseClick) {
+
+      }
+
+      @Override
       public void onUnitIconClick(UnitIconClick clickEvent) {
 
       }

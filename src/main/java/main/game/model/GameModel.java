@@ -78,6 +78,10 @@ public class GameModel {
     return Collections.unmodifiableCollection(selectedUnits);
   }
 
+  public void addToUnitSelection(Unit unit) {
+    this.selectedUnits.add(unit);
+  }
+
   /**
    * A getter method to get all possible units.
    *
