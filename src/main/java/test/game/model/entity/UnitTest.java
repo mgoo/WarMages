@@ -18,7 +18,7 @@ import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
@@ -79,7 +79,7 @@ public class UnitTest {
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
-        unit.tick(GameModel.DELAY, world);
+        unit.tick(DefaultGameModel.DELAY, world);
       }
 
       // then some projectiles should have been created
@@ -95,7 +95,7 @@ public class UnitTest {
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
-        unit.tick(GameModel.DELAY, world);
+        unit.tick(DefaultGameModel.DELAY, world);
       }
 
       // then no projectiles should have been fired
@@ -111,7 +111,7 @@ public class UnitTest {
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
-        unit.tick(GameModel.DELAY, world);
+        unit.tick(DefaultGameModel.DELAY, world);
       }
 
       // then no projectiles should have been fired
@@ -129,7 +129,7 @@ public class UnitTest {
 
       // when a projectile is eventually fired/created
       while (firedProjectiles.isEmpty()) {
-        unit.tick(GameModel.DELAY, world);
+        unit.tick(DefaultGameModel.DELAY, world);
       }
       Projectile projectile = firedProjectiles.get(0);
 
@@ -139,9 +139,9 @@ public class UnitTest {
 
       // when the projectile eventually hits something
       while (!projectile.hasHit()) {
-        unit.tick(GameModel.DELAY, world);
+        unit.tick(DefaultGameModel.DELAY, world);
         // (only tick this projectile, ignore others)
-        projectile.tick(GameModel.DELAY, world);
+        projectile.tick(DefaultGameModel.DELAY, world);
       }
 
       // then the enemy health should be reduced

@@ -2,7 +2,7 @@ package test.renderer;
 
 import javafx.scene.image.ImageView;
 import main.common.GameController;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.world.World;
 import main.game.view.GameView;
 import main.game.view.events.KeyEvent;
@@ -28,8 +28,8 @@ public class RendererTestUtils {
   /**
    * Creates a model.
    */
-  public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
-    return new GameModel(world, mainGameTick);
+  public static DefaultGameModel createGameModel(World world, MainGameTick mainGameTick) {
+    return new DefaultGameModel(world, mainGameTick);
   }
 
   /**
@@ -37,7 +37,7 @@ public class RendererTestUtils {
    *
    * @return a controller
    */
-  public static GameController createGameController(GameModel model) {
+  public static GameController createGameController(DefaultGameModel model) {
     return new GameController() {
       @Override
       public void onKeyPress(KeyEvent keyevent) {
@@ -73,7 +73,7 @@ public class RendererTestUtils {
    *
    * @return mock GameView
    */
-  public static GameView createGameView(Config c, GameController gc, GameModel gm) {
+  public static GameView createGameView(Config c, GameController gc, DefaultGameModel gm) {
     GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>());
     gv.updateRenderables(c.getGameModelDelay());
     return gv;

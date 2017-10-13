@@ -26,7 +26,7 @@ import main.common.util.Config;
 import main.common.util.Events.MainGameTick;
 import main.common.util.Looper;
 import main.common.util.MapPoint;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.Level;
 import main.common.entity.HeroUnit;
 import main.game.view.GameView;
@@ -65,7 +65,7 @@ public class AllJfxTests {
         WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
         WorldTestUtils.createDefaultUnit(new MapPoint(2, 0)),
         WorldTestUtils.createDefaultUnit(new MapPoint(3, 0)));
-    GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
+    DefaultGameModel model = RendererTestUtils.createGameModel(WorldTestUtils
         .createWorld(
             WorldTestUtils.createLevels(level),
             hero

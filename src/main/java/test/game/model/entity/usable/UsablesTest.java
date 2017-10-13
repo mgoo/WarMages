@@ -18,7 +18,7 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
@@ -116,7 +116,7 @@ public class UsablesTest {
 
     // when the ability finally cools down
     for (int i = 0; i < coolDownTicks; i++) {
-      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick usable
+      heroUnit.tick(DefaultGameModel.DELAY, stubWorld); // should tick usable
     }
     // and the heal is used again
     healer.use(world, Collections.emptyList());
@@ -155,7 +155,7 @@ public class UsablesTest {
     // when some time passes
     for (int i = 0; i < healAbility.getCoolDownTicks(); i++) {
       assertFalse(healAbility.isReadyToBeUsed());
-      healAbility.usableTick(GameModel.DELAY);
+      healAbility.usableTick(DefaultGameModel.DELAY);
     }
 
     // then we should be able to use the ability again
@@ -195,7 +195,7 @@ public class UsablesTest {
     for (int i = 0; i < effectDurationTicks; i++) {
       int buffedDamageAmount = heroUnit.getDamageAmount();
       assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount);
-      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
+      heroUnit.tick(DefaultGameModel.DELAY, stubWorld); // should tick ability
     }
 
     // then damageAmount should go back to normal

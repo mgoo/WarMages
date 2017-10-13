@@ -6,7 +6,7 @@ import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
 
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.world.World;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -43,7 +43,7 @@ public class EntityTest {
     unit1.setTarget(unit2, world);
     int prevHealth = unit2.getHealth();
     for (int i = 0; i < 900; i++) {
-      unit1.tick(GameModel.DELAY, world);
+      unit1.tick(DefaultGameModel.DELAY, world);
     }
     assertTrue(prevHealth > unit2.getHealth());
   }

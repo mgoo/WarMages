@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import org.junit.Test;
 
-public class GameModelTest {
+public class DefaultGameModelTest {
 
-  private GameModel model = null;
+  private DefaultGameModel model = null;
   private HeroUnit heroUnit = createDefaultHeroUnit();
 
   @Test
@@ -33,7 +33,7 @@ public class GameModelTest {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
         new MainGameTick()
     );
@@ -51,7 +51,7 @@ public class GameModelTest {
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
         new MainGameTick()
     );
@@ -64,7 +64,7 @@ public class GameModelTest {
 
   @Test
   public void testNumberOfEntities_1() {
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
@@ -77,7 +77,7 @@ public class GameModelTest {
 
   @Test
   public void testNumberOfEntities_2() {
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(
             createLevels(createLevelWith(
                 createStubItem(new MapPoint(2, 2)),
