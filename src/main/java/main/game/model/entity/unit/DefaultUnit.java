@@ -19,6 +19,8 @@ import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.WalkingUnitState;
+import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
+import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
 import main.game.model.world.World;
 
 /**
@@ -228,14 +230,14 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void setTargetUnit(Unit targetUnit, World world) {
+  public void setTargetUnit(Unit targetUnit) {
     this.target = requireNonNull(targetUnit);
-    setNextState(new WalkingUnitState(this, targetUnit));
+    setNextState(new WalkingUnitState(this, new EnemyUnitTarget(this, targetUnit)));
   }
 
   @Override
-  public void setTargetPoint(MapPoint targetPoint, World world) {
-    setNextState(new WalkingUnitState(this, targetPoint));
+  public void setTargetPoint(MapPoint targetPoint) {
+    setNextState(new WalkingUnitState(this, new MapPointTarget(this, targetPoint)));
   }
 
   @Override

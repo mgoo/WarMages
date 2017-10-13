@@ -99,7 +99,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -123,7 +123,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -146,7 +146,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -169,7 +169,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -192,7 +192,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint, world);
+    unit.setTargetPoint(targetPoint);
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -303,7 +303,7 @@ public class DefaultUnitTest {
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
     World world = new World(levels, heroUnit, new DefaultPathFinder());
 
-    playerUnit.setTargetUnit(enemyUnit, world);
+    playerUnit.setTargetUnit(enemyUnit);
 
     int previousHealth = enemyUnit.getHealth();
 
@@ -353,7 +353,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and an archer that targets the enemy
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -385,7 +385,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -401,7 +401,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit, world);
+      unit.setTargetUnit(enemyUnit);
       // and the initial health of the enemy
       final int enemyStartingHealth = enemyUnit.getHealth();
 
