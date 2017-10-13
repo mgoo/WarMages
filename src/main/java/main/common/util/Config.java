@@ -9,7 +9,7 @@ import java.awt.Color;
 public class Config {
   private static final int CONTEXT_SCREEN_SIZE_NOT_SET = -1;
 
-  private boolean isDebugMode = true;
+  private boolean isDebugMode = false;
 
   private int gameModelDelay = 50;
 
