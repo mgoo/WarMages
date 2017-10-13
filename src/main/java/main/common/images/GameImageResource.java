@@ -51,9 +51,7 @@ public enum GameImageResource {
   GOLDEN_HERO_SPRITE_SHEET("images/units/golden_hero.png"),
   MALE_MAGE_SPRITE_SHEET("images/units/male_mage.png"),
   ORC_SPEARMAN_SPRITE_SHEET("images/units/orc_spearman.png"),
-  SKELETON_ARCHER_SPRITE_SHEET(
-      "images/units/skeleton_archer.png"
-  ),
+  SKELETON_ARCHER_SPRITE_SHEET("images/units/skeleton_archer.png"),
 
   // Test Images
   TEST_IMAGE_FULL_SIZE("fixtures/images/image_for_image_provider_tests.png"),

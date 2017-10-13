@@ -34,7 +34,7 @@ public class HealAbility extends BaseAbility {
   }
 
   @Override
-  public Effect _createEffectForUnit(Unit unit) {
+  public Effect createEffectForUnit(Unit unit) {
     return new HealEffect(unit);
   }
 
@@ -43,7 +43,7 @@ public class HealAbility extends BaseAbility {
   }
 
   @Override
-  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+  public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
     return world.getAllUnits()
         .stream()
         .filter(unit -> unit.getTeam() == Team.PLAYER)
