@@ -161,6 +161,7 @@ public class GameView {
   public void onTick(Long tickTime) {
     this.updateRenderables(tickTime);
     this.updateViewBoxPosition();
+    gameModel.checkGameCompletion();
   }
 
   /**

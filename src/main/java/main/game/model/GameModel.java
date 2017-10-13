@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
+import main.common.util.Event;
+import main.common.util.Events.GameCompletion;
 import main.common.util.Looper;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
@@ -26,8 +28,22 @@ public class GameModel {
   private final World world;
   private final MainGameTick mainGameTick;
   private final Looper looper;
+  private final GameCompletion gameCompletion;
 
   private Collection<Unit> selectedUnits;
+
+  /**
+   * Creates a game model.
+   *
+   * @param world The world to use for the whole game.
+   */
+  public GameModel(World world, Events.MainGameTick mainGameTick, Events.GameCompletion gameCompletion) {
+    this.world = world;
+    this.mainGameTick = mainGameTick;
+    this.selectedUnits = Collections.emptySet();
+    this.looper = new Looper();
+    this.gameCompletion = gameCompletion;
+  }
 
   /**
    * Creates a game model.
@@ -39,6 +55,7 @@ public class GameModel {
     this.mainGameTick = mainGameTick;
     this.selectedUnits = Collections.emptySet();
     this.looper = new Looper();
+    this.gameCompletion = new GameCompletion();
   }
 
   /**
@@ -115,5 +132,11 @@ public class GameModel {
    */
   public void stopGame() {
     looper.stop();
+  }
+
+  public void checkGameCompletion() {
+    if (world.isCompleted()) {
+      gameCompletion.broadcast(System.currentTimeMillis());
+    }
   }
 }

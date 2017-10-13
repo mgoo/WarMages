@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import main.common.util.Events.GameCompletion;
 import main.game.model.Level;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
@@ -35,7 +36,6 @@ public class World implements Serializable {
   private final Set<Item> items;
   private final Set<MapEntity> mapEntities;
   private final Set<Projectile> projectiles;
-
   private final PathFinder pathFinder;
 
   /**
@@ -164,6 +164,9 @@ public class World implements Serializable {
     if (!currentLevel().areGoalsCompleted()) {
       throw new IllegalStateException();
     }
+    if (levels.size() == 1) {
+      return;
+    }
     mapEntities.removeAll(currentLevel().getBorderEntities());
     levels.remove(0);
 
@@ -210,5 +213,9 @@ public class World implements Serializable {
    */
   public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
+  }
+
+  public boolean isCompleted() {
+    return levels.size() == 1 && currentLevel().areGoalsCompleted();
   }
 }
