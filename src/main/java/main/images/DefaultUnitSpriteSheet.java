@@ -49,7 +49,7 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
   }
 
   /**
-   * Called during deserialisation
+   * Called during deserialisation.
    */
   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
     in.defaultReadObject();
