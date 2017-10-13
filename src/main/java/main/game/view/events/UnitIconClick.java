@@ -1,13 +1,14 @@
 package main.game.view.events;
 
 import main.common.entity.Entity;
+import main.common.entity.Unit;
 
 /**
  * Data class for when a Entity Icon is clicked.
  *
  * @author Andrew McGhie
  */
-public interface EntityIconClick {
+public interface UnitIconClick extends IconClick {
 
-  Entity getEntity();
+  Unit getUnit();
 }
