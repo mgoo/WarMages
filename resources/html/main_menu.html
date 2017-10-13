@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="css/main_menu.css">
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/load_menu.js"></script>
 </head>
-<body oncontextmenu="return false;">
-<div class="title">
-  <h1>Marco the Mage</h1>
-</div>
-<ul class="btn-list mainmenu-buttons">
-  <li><a class="btn green" onClick="controller.startBtn()" href="#">Start</a></li>
-  <li><a class="btn red" onClick="controller.loadBtn()" href="#">Load</a></li>
-  <li><a class="btn blue" onClick="controller.exitBtn()" href="#">Exit</a></li>
-</ul>
+<body>
+  <div class="title">
+    <h1>Marco the Mage</h1>
+  </div>
+  <ul class="btn-list mainmenu-buttons">
+    <li><a class="btn green" onClick="controller.startBtn()" href="#">Start</a></li>
+    <li><button class="btn red" data-toggle="modal" data-target="#load-menu">Load</button></li>
+    <li><a class="btn blue" onClick="controller.exitBtn()" href="#">Exit</a></li>
+  </ul>
+
+  <div id="load-menu" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1>Load Save Game</h1>
+        </div>
+        <div class="modal-body">
+          <form class="files" id="files">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a class="btn green" id="load-button">Load</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

@@ -7,7 +7,7 @@ import main.common.entity.usable.Ability;
  *
  * @author Andrew McGhie
  */
-public interface AbilityIconClick {
+public interface AbilityIconClick extends IconClick {
 
   Ability getAbility();
 }

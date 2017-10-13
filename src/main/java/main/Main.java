@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -129,6 +130,9 @@ public class Main extends Application {
       Arrays.stream(this.currentMenu.getScripts()).forEach(script -> {
         webEngine.executeScript(script);
       });
+    });
+    webEngine.setOnAlert((WebEvent<String> event) -> {
+      System.out.println("JS Alert: " + event.getData());
     });
 
     this.loadMenu(mainMenu);
