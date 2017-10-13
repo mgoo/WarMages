@@ -14,7 +14,7 @@ import main.common.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
-public class ControllerTest {
+public class GameControllerTest {
 
   GameModel gameModel = null;
   GameController controller = null;
