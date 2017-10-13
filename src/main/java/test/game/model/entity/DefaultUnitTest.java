@@ -201,8 +201,8 @@ public class DefaultUnitTest {
     // with the given speed of 0.01, with each tick (time since last being 200)
     // the movable entity should move 100*0.01 = 1 map distance which is approx 1 diagonal
     for (int i = 0; i < 10; i++) {
-      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().x, 0.001);
-      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getTopLeft().y, 0.001);
+      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getCentre().x, 0.001);
+      assertEquals(1D + 0.1 / Math.sqrt(2) * i, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
     }
   }
