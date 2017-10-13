@@ -18,7 +18,7 @@ import test.game.model.world.WorldTestUtils;
  * Tests for the GameController API.
  *
  * @author Hrshikesh Arora
- * @author Eric Diputado (External
+ * @author Eric Diputado (External Tester)
  */
 public class GameControllerTest {
 
