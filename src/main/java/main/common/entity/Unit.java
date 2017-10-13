@@ -3,7 +3,7 @@ package main.common.entity;
 import main.common.entity.usable.Effect;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.state.DeadUnit;
+import main.game.model.entity.unit.DeadUnit;
 import main.game.model.world.World;
 
 /**

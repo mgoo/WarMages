@@ -27,7 +27,7 @@ import main.game.model.Level;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.world.World;

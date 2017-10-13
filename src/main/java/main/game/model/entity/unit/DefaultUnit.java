@@ -16,7 +16,6 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.unit.state.AttackingUnitState;
-import main.game.model.entity.unit.state.DeadUnit;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
 import main.game.model.entity.unit.state.UnitState;
@@ -103,16 +102,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
     unitState = requireNonNull(this.unitState.updateState());
-    // TODO
-//    //check if has target and target is within attacking proximity. Request state change.
-//    if (target != null && targetWithinProximity()) {
-//      attack();
-//    } else {
-//      //if no target, check if unit reached destination and change to idle if so
-//      if (this.path.size() == 0) {
-//        setNextState(new IdleUnitState(this));
-//      }
-//    }
     tickEffects(timeSinceLastTick);
   }
 
