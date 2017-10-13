@@ -3,8 +3,9 @@
 @unit-holder-width: 70vw;
 
 @import "styles.less";
+@import (inline) "bootstrap.css";
 
-div, body{
+div, body {
   overflow: hidden;
 }
 
@@ -19,25 +20,6 @@ div, body{
   display: block;
   position: absolute;
   border: #000000 solid 2px;
-}
-
-.pause-menu {
-  position: fixed;
-  left: 40vw;
-  top: 20vh;
-  width: 20vw;
-  z-index: 10;
-
-  background-color: whitesmoke;
-  border: #AAAAAA inset 5px;
-
-  h2 {
-    text-align: center;
-  }
-
-  li {
-    width: 20vw;
-  }
 }
 
 .top-bar {
@@ -98,6 +80,8 @@ div, body{
 
     background-color: #EEEEEE;
     border: #b7b141 solid 5px;
+
+    overflow-y: auto;
   }
 
   .right-box {
@@ -119,5 +103,9 @@ div, body{
     .icon {
 
     }
+  }
+
+  .modal {
+
   }
 }

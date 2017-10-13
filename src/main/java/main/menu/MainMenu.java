@@ -7,6 +7,8 @@ import main.common.WorldLoader;
 import main.common.WorldSaveModel;
 import main.menu.controller.MainMenuController;
 import main.common.util.Config;
+import main.menu.generators.SaveFilesScriptGenerator;
+import main.menu.generators.ScriptFileGenerator;
 
 /**
  * The definitions of the file paths to the html file for the Main Menu.
@@ -50,10 +52,24 @@ public class MainMenu extends Menu {
   }
 
   /**
-   * The main menu has no scripts.
+   * TODO use dependancy injection to pass in the jquery script generator
+   * so it only has to load once .
    */
   @Override
   public String[] getScripts() {
-    return new String[0];
+    return new String[]{
+        new ScriptFileGenerator()
+            .setFile(MenuFileResources.JQUERY_JS.getPath())
+            .getScript(),
+        new ScriptFileGenerator()
+            .setFile(MenuFileResources.BOOTSTRAP_JS.getPath())
+            .getScript(),
+        new ScriptFileGenerator()
+            .setFile(MenuFileResources.FILE_SCRIPTS.getPath())
+            .getScript(),
+        new SaveFilesScriptGenerator()
+            .setData(this.worldSaveModel.getExistingGameSaves())
+            .getScript()
+    };
   }
 }
