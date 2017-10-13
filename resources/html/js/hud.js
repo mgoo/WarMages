@@ -77,6 +77,12 @@ $("#pause-menu").on("shown.bs.modal", function(event) {
     controller.pause();
 });
 
+$(document).keyup(function(event) {
+  if (event.keyCode === 27) { // escape key maps to keycode `27`
+    $("#pause-menu").modal("toggle")
+  }
+});
+
 resumeButton.on('click', function (event) {
     $('#overlay').fadeOut();
     $('#pause-menu').fadeOut();
