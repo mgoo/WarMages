@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import main.common.GameController;
 import main.game.model.GameModel;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
@@ -19,7 +20,7 @@ import main.game.view.events.MouseDrag;
  *
  * @author Hrshikesh Arora
  */
-public class DefaultGameController {
+public class DefaultGameController implements GameController {
 
   private final GameModel gameModel;
 
