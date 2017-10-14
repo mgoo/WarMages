@@ -32,6 +32,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
   private static final double LEVEL_DIVISOR = 10;
+  private static final double UNIT_MAX_SPEED = 0.12;
+  private static final double UNIT_MAX_SIZE = 1;
 
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
@@ -88,8 +90,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     super(position, size);
     this.level = level;
     this.origonalSize = size;
-    this.setSize(new MapSize(this.levelMultiplyer(size.width, 1),
-        this.levelMultiplyer(size.height, 1)));
+    this.setSize(new MapSize(this.levelMultiplyer(size.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(size.height, UNIT_MAX_SIZE)));
     this.team = team;
     this.unitType = unitType;
     this.health = this.levelMultiplyer(unitType.getStartingHealth());
@@ -102,6 +104,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   /**
    * Buffs the base stats based on what level the unit is on.
+   * @param val the value of the base stat
    */
   private double levelMultiplyer(double val) {
     return val * (1 + ((double)this.level / LEVEL_DIVISOR));
@@ -110,6 +113,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   /**
    * Buffs the base stats based on what level  the unit is on.
    * Cannot go above max
+   * @param val the value of the base stat
    * @param max the maximum that the stat can be
    */
   private double levelMultiplyer(double val, double max) {
@@ -121,8 +125,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   public void setLevel(int level) {
     this.level = level;
-    this.setSize(new MapSize(this.levelMultiplyer(this.origonalSize.width, 1),
-        this.levelMultiplyer(this.origonalSize.height, 1)));
+    this.setSize(new MapSize(this.levelMultiplyer(this.origonalSize.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(this.origonalSize.height, UNIT_MAX_SIZE)));
   }
 
 
@@ -329,7 +333,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   public double getSpeed() {
-    return this.levelMultiplyer(speed, 1.2);
+    return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
   }
 
   /**
