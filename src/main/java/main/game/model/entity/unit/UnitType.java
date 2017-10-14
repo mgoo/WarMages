@@ -46,7 +46,7 @@ public enum UnitType {
     }
   },
 
-  MAGICIAN(20, 250, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 250, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -64,7 +64,7 @@ public enum UnitType {
       );
     }
   },
-  LASER(20  * 0.06, 100, 8, 0.08, 10, 2, Sequence.SPELL_CAST) {
+  LASER(20  * 0.06, 100, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
