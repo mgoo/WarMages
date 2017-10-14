@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.concurrent.atomic.AtomicInteger;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.state.AttackingUnitState;
@@ -33,6 +34,7 @@ public class AttackingUnitStateTest {
     // Given a target
     DefaultUnit target = mock(DefaultUnit.class);
     when(target.getHealth()).thenReturn(100D);
+    when(target.getSize()).thenReturn(new MapSize(1, 1));
     when(target.getTeam()).thenReturn(Team.ENEMY);
     MapPoint targetLocation = new MapPoint(0, 0);
     when(target.getCentre()).thenReturn(targetLocation);
@@ -43,6 +45,7 @@ public class AttackingUnitStateTest {
         .takeDamage(anyDouble(), any());
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
+    when(unit.getSize()).thenReturn(new MapSize(1, 1));
     when(unit.getCentre()).thenReturn(targetLocation);
     when(unit.getAttackDistance()).thenReturn(1D);
     when(unit.getTeam()).thenReturn(Team.PLAYER);

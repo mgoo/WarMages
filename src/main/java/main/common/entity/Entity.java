@@ -44,6 +44,12 @@ public interface Entity extends Serializable {
   void translatePosition(double dx, double dy);
 
   /**
+   * Moves both the position and the previous position.
+   * This is to get arround jittery units when they repel each other
+   */
+  void slidePosition(double dx, double dy);
+
+  /**
    * Returns the image representing the Entity.
    *
    * @return GameImage of the Entity.

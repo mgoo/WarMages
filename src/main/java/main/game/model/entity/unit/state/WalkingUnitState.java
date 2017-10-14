@@ -19,7 +19,7 @@ import main.game.model.world.World;
 public class WalkingUnitState extends UnitState {
 
   private static final long serialVersionUID = 1L;
-  private static final double LEEWAY_FOR_PATH = 0.01;
+  private static final double LEEWAY_FOR_PATH = 0.5;
 
   private final Target target;
 
@@ -195,7 +195,9 @@ public class WalkingUnitState extends UnitState {
 
     @Override
     double getDestinationLeeway() {
-      return unit.getUnitType().getAttackDistance() * 0.99; // avoid floating point inaccuracy
+      return unit.getUnitType().getAttackDistance() * 0.999 // avoid floating point inaccuracy
+          + unit.getSize().width
+          + enemyUnitTarget.getSize().width;
     }
 
     @Override
