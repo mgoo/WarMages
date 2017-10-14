@@ -376,7 +376,8 @@ public class DefaultWorldLoader implements WorldLoader {
     LinkedList<Level> levels = new LinkedList<>();
 
     MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(45, 11));
-    Collection<MapEntity> boundEntities = generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt);
+    Collection<MapEntity> boundEntities =
+        generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt);
     boundEntities.add(makeBuilding(14, 3));
     boundEntities.add(makeBuilding(14, 7));
     {
