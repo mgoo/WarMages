@@ -66,7 +66,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -84,7 +84,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Arrays.asList(mapEntity),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -102,7 +102,7 @@ public class WorldTestUtils {
         Arrays.asList(item),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -184,7 +184,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }

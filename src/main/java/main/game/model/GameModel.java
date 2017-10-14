@@ -3,6 +3,7 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import main.common.entity.HeroUnit;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.entity.Entity;
@@ -111,6 +112,10 @@ public class GameModel {
    */
   public World getWorld() {
     return world;
+  }
+
+  public HeroUnit getHeroUnit() {
+    return world.getHeroUnit();
   }
 
   /**
