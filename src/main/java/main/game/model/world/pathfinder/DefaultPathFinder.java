@@ -42,6 +42,10 @@ public class DefaultPathFinder implements PathFinder, Serializable {
     start = start.rounded();
     end = end.rounded();
 
+    if(start.equals(end)) {
+      return Collections.singletonList(endUnrounded);
+    }
+
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
 
