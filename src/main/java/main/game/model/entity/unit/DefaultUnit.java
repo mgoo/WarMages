@@ -100,13 +100,25 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     setDamageAmount(unitType.getBaselineDamage());
   }
 
+  /**
+   * Buffs the base stats based on what level the unit is on.
+   */
   private double levelMultiplyer(double val) {
     return val * (1 + ((double)this.level / LEVEL_DIVISOR));
   }
+
+  /**
+   * Buffs the base stats based on what level  the unit is on.
+   * Cannot go above max
+   * @param max the maximum that the stat can be
+   */
   private double levelMultiplyer(double val, double max) {
     return Math.min(max, levelMultiplyer(val));
   }
 
+  /**
+   * Sets the level and adjusts the size of the unit accordingly.
+   */
   public void setLevel(int level) {
     this.level = level;
     this.setSize(new MapSize(this.levelMultiplyer(this.origonalSize.width, 1),
@@ -343,7 +355,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.setLevel(this.level + 1);
     // Maintain current level of health
     this.gainHealth(levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth
-        - this.health );
+        - this.health);
   }
 
   @Override

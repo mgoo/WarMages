@@ -180,7 +180,8 @@ public class DefaultWorldLoader implements WorldLoader {
 
     // Generate top row
     for (int x = left; x < right; x++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , top + (int)(Math.random() + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(x , top + (int)(Math.random() + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -188,7 +189,8 @@ public class DefaultWorldLoader implements WorldLoader {
     }
     // Generatebottom row
     for (int x = left; x < right; x++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , bottom - 1  + (int)(Math.random() + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(x , bottom - 1  + (int)(Math.random() + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -197,7 +199,8 @@ public class DefaultWorldLoader implements WorldLoader {
 
     // Generate right column
     for (int y = top + 1; y < bottom - 1; y++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(right - 1  + (int)(Math.random() + 0.5), y ));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(right - 1  + (int)(Math.random() + 0.5), y));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -205,7 +208,8 @@ public class DefaultWorldLoader implements WorldLoader {
     }
     // Generate left column excluding columns
     for (int y = top + 1; y < bottom - 1; y++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(left +  (int)(Math.random() + 0.5), y));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(left +  (int)(Math.random() + 0.5), y));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -217,7 +221,8 @@ public class DefaultWorldLoader implements WorldLoader {
       if (Math.random() > 0.7) {
         continue;
       }
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , top - 4 + (int)(Math.random()*2 + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(x , top - 4 + (int)(Math.random() * 2 + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -228,7 +233,8 @@ public class DefaultWorldLoader implements WorldLoader {
       if (Math.random() > 0.7) {
         continue;
       }
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , bottom + 3  + (int)(Math.random()*2 + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(x , bottom + 3  + (int)(Math.random() * 2 + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -240,7 +246,8 @@ public class DefaultWorldLoader implements WorldLoader {
       if (Math.random() > 0.7) {
         continue;
       }
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(right + 3  + (int)(Math.random()*2 + 0.5), y ));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(right + 3  + (int)(Math.random() * 2 + 0.5), y));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -251,7 +258,8 @@ public class DefaultWorldLoader implements WorldLoader {
       if (Math.random() > 0.7) {
         continue;
       }
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(left - 4 +  (int)(Math.random()*2 + 0.5), y));
+      MapEntity newEntity = entityGenerator.apply(
+          new MapPoint(left - 4 +  (int)(Math.random() * 2 + 0.5), y));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -594,7 +602,7 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(38.5, 5.5)),
           new Goal.AllEnemiesKilled(),
           "The Gold ring is was shiny and expensive<br>"
-              +"now more people want to be your friend"
+              + "now more people want to be your friend"
       ));
     }
 

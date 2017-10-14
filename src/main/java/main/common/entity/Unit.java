@@ -90,7 +90,7 @@ public interface Unit extends Entity {
   void nextLevel();
 
   /**
-   * Gets the current level that the unit is on
+   * Gets the current level that the unit is on.
    */
   int getLevel();
 }
