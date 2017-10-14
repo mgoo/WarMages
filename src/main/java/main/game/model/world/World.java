@@ -121,7 +121,7 @@ public class World implements Serializable {
    * @param entity the entity object to remove
    */
   public void removeMapEntity(MapEntity entity) {
-    if(mapEntities.contains(entity)) {
+    if (mapEntities.contains(entity)) {
       mapEntities.remove(entity);
     }
   }
