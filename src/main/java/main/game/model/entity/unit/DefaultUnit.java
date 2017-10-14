@@ -2,6 +2,7 @@ package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   /**
    * Constructor takes the unit's position, size, and team.
+   * Defaults the level to 0
    */
   public DefaultUnit(
       MapPoint position,
@@ -63,17 +65,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       UnitSpriteSheet sheet,
       UnitType unitType
   ) {
-    super(position, size);
-    this.originalSize = size;
-    this.level = 0;
-    this.team = team;
-    this.unitType = unitType;
-    this.health = this.levelMultiplyer(unitType.getStartingHealth());
-    this.spriteSheet = sheet;
-    this.unitState = new IdleUnitState(this);
-    this.speed = unitType.getMovingSpeed();
-    this.attackDistance = unitType.getAttackDistance();
-    setDamageAmount(unitType.getBaselineDamage());
+    this(position, size, team, sheet, unitType, 0);
   }
 
   /**
@@ -97,6 +89,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.health = this.levelMultiplyer(unitType.getStartingHealth());
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(this);
+
     this.speed = unitType.getMovingSpeed();
     this.attackDistance = unitType.getAttackDistance();
     setDamageAmount(unitType.getBaselineDamage());
@@ -283,6 +276,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   @Override
   public UnitSpriteSheet getSpriteSheet() {
     return spriteSheet;
+  }
+
+  @Override
+  public GameImage getIcon() {
+    return this.spriteSheet.getImagesForSequence(Sequence.IDLE, Direction.DOWN).get(0);
   }
 
   /**
