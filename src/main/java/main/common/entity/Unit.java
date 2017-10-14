@@ -1,6 +1,7 @@
 package main.common.entity;
 
 import main.common.entity.usable.Effect;
+import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.game.model.entity.unit.DeadUnit;
@@ -93,5 +94,10 @@ public interface Unit extends Entity {
    * Gets the current level that the unit is on.
    */
   int getLevel();
+
+  /**
+   * Gets the icon of the unit to display on the hud.
+   */
+  GameImage getIcon();
 }
 
