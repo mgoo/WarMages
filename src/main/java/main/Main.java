@@ -187,9 +187,11 @@ public class Main extends Application {
    * Loads a menu into the view and sets the controller.
    */
   public boolean loadMenu(Menu menu) {
-    this.currentMenu = menu;
-    webEngine.setUserStyleSheetLocation(menu.getStyleSheetLocation());
-    webEngine.loadContent(menu.getHtml());
+    Platform.runLater(() -> {
+      this.currentMenu = menu;
+      webEngine.setUserStyleSheetLocation(menu.getStyleSheetLocation());
+      webEngine.loadContent(menu.getHtml());
+    });
     return true;
   }
 
