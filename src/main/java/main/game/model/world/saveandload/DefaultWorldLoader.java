@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Function;
 import main.common.WorldLoader;
 import main.common.entity.Entity;
@@ -375,6 +376,9 @@ public class DefaultWorldLoader implements WorldLoader {
     LinkedList<Level> levels = new LinkedList<>();
 
     MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(45, 11));
+    Collection<MapEntity> boundEntities = generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt);
+    boundEntities.add(makeBuilding(14, 3));
+    boundEntities.add(makeBuilding(14, 7));
     {
       // Example level to allow the player to learn how to attack
 
@@ -412,11 +416,9 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(),
-          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+          boundEntities,
           Arrays.asList(
-              makeBuilding(16, 3),
-              makeBuilding(16, 5),
-              makeBuilding(16, 7)
+              makeBuilding(16, 5)
           ),
           new Goal.AllEnemiesKilled(),
           "Kill the enemy soldier with your hero and foot-knights"
@@ -428,15 +430,15 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new DefaultUnit(new MapPoint(8, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(4, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
                   1
               ),
-              new DefaultUnit(new MapPoint(8, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(4, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
                   1
               ),
-              new DefaultUnit(new MapPoint(8, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(4, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
                   1
               ),
@@ -503,9 +505,23 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(17, 9),
               makeBarrel(16, 3.5),
               makeTree(17, 3),
-              makeTree(18, 4)
+              makeTree(18, 4),
+
+              makeTree(29, 3),
+              makeTree(29, 4),
+              makeTree(29, 7),
+              makeTree(29, 8),
+              makeTree(29, 9),
+              makeTree(30, 4),
+              makeTree(30, 7),
+              makeTree(31, 9),
+              makeTree(31, 3)
           ),
-          Arrays.asList(),
+          Arrays.asList(
+              makeBarrel(29, 4.5),
+              makeBarrel(29, 5.5),
+              makeBarrel(29, 6.5)
+          ),
           new Goal.AllEnemiesKilled(),
           "Some Archer have joined your cause<br>Try out your new archers on the new enemies"
       ));
@@ -528,7 +544,13 @@ public class DefaultWorldLoader implements WorldLoader {
               goldRing
           ),
           Arrays.asList(),
-          Arrays.asList(),
+          Arrays.asList(
+              makeBarrel(29, 5),
+              makeBarrel(29, 5.5),
+              makeBarrel(29, 6.5),
+              makeBarrel(30, 5),
+              makeBarrel(30, 6)
+          ),
           (level, world) -> world.getHeroUnit().getItemInventory().contains(goldRing),
           "Pick up the Gold Ring"
       ));
@@ -575,15 +597,6 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(
-              makeTree(29, 3),
-              makeTree(29, 4),
-              makeTree(29, 7),
-              makeTree(29, 8),
-              makeTree(29, 9),
-              makeTree(30, 4),
-              makeTree(30, 7),
-              makeTree(31, 9),
-              makeTree(31, 3),
               makeTree(32, 8),
               makeTree(37, 3),
               makeTree(37, 4),
