@@ -57,7 +57,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   public void pickUp(Item item) {
     requireNonNull(item);
 
-    if (isItemWithinRange(item)) {
+    if (!isItemWithinRange(item)) {
       throw new ItemNotInRangeException("Item is too far away");
     }
 
@@ -65,7 +65,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   }
 
   public boolean isItemWithinRange(Item item) {
-    return getCentre().distanceTo(item.getCentre()) > PICK_UP_MAX_DISTANCE;
+    return getCentre().distanceTo(item.getCentre()) < PICK_UP_MAX_DISTANCE;
   }
 
   /**
