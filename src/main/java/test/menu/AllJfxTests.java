@@ -2,6 +2,7 @@ package test.menu;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static test.renderer.RendererTestUtils.createConfig;
 import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
@@ -10,6 +11,7 @@ import static test.renderer.RendererTestUtils.createImageView;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.util.Arrays;
+import java.util.Collections;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
@@ -22,14 +24,24 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.Main;
+import main.common.WorldLoader;
+import main.common.WorldSaveModel;
 import main.common.entity.HeroUnit;
+import main.common.entity.Team;
+import main.common.images.GameImageResource;
 import main.common.util.Config;
 import main.common.util.Events.MainGameTick;
 import main.common.util.Looper;
 import main.common.util.MapPoint;
+import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.Level;
+import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.view.GameView;
+import main.images.DefaultUnitSpriteSheet;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import main.renderer.Renderer;
@@ -40,19 +52,48 @@ import test.renderer.RendererTestUtils;
 
 /**
  * This contains visual tests.
+ * <p>
+ * NOTE TO TUTORS: This requires classes from multiple APIs, e.g. the
+ * {@link DefaultUnitSpriteSheet} from the images API and the {@link Renderer} from the Renderer API
+ * in order for this test to display things properly. It does not make sense to test a single API
+ * in isolation here.
+ * </p>
+ * <p>
+ * Also JavaFx only allows one {@link Application} to be instantiated in a single run of the program,
+ * so only one JavaFx test can be used.
+ * </p>
  * @author Andrew McGhie
+ * @author Dylan Chong (fixing a bug)
  */
 public class AllJfxTests {
 
-  static Level level = null;
-  static HeroUnit hero = null;
+  private static Level level = null;
+  private static HeroUnit hero = null;
+
+  private static DefaultUnit createDefaultUnit(MapPoint point) {
+    return new DefaultUnit(
+        point,
+        new MapSize(1, 1),
+        Team.ENEMY,
+        new DefaultUnitSpriteSheet(GameImageResource.ORC_SPEARMAN_SPRITE_SHEET),
+        UnitType.SPEARMAN
+    );
+  }
 
   @Test
   public void testMainMenu() {
     if (!Desktop.isDesktopSupported()) {
       return;
     }
-    TestApplication.show(new MainMenu(null, null, null, null, null));
+    WorldSaveModel worldSaveModel = mock(WorldSaveModel.class);
+    when(worldSaveModel.getExistingGameSaves()).thenReturn(Collections.emptyList());
+    TestApplication.show(new MainMenu(
+        mock(Main.class),
+        mock(WorldLoader.class),
+        worldSaveModel,
+        mock(ImageView.class),
+        mock(Config.class)
+    ));
     assertTrue(true);
   }
 
@@ -60,11 +101,19 @@ public class AllJfxTests {
    * Creates the gameviews and imageviews based on a level and hero unit.
    */
   public static Image testImage() {
-    hero = WorldTestUtils.createDefaultHeroUnit(new MapPoint(0, 0));
+    hero = new DefaultHeroUnit(
+        new MapPoint(0, 0),
+        new MapSize(1, 1),
+        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        UnitType.SWORDSMAN,
+        Collections.emptyList(),
+        0
+    );
     level = WorldTestUtils.createLevelWith(
-        WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
-        WorldTestUtils.createDefaultUnit(new MapPoint(2, 0)),
-        WorldTestUtils.createDefaultUnit(new MapPoint(3, 0)));
+        createDefaultUnit(new MapPoint(1, 0)),
+        createDefaultUnit(new MapPoint(2, 0)),
+        createDefaultUnit(new MapPoint(3, 0))
+    );
     GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
         .createWorld(
             WorldTestUtils.createLevels(level),
