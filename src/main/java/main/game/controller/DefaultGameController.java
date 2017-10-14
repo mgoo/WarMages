@@ -178,11 +178,11 @@ public class DefaultGameController implements GameController {
           }
         }
       } else {
-      // move all selected units to the clicked location
-      for (Unit unit : gameModel.getUnitSelection()) {
-        unit.setTargetPoint(mouseEvent.getLocation());
+        // move all selected units to the clicked location
+        for (Unit unit : gameModel.getUnitSelection()) {
+          unit.setTargetPoint(mouseEvent.getLocation());
+        }
       }
-    }
     }
   }
 
