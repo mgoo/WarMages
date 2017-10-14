@@ -66,7 +66,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -84,7 +84,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Arrays.asList(mapEntity),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -102,7 +102,7 @@ public class WorldTestUtils {
         Arrays.asList(item),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -184,7 +184,7 @@ public class WorldTestUtils {
         Collections.emptyList(),
         Collections.emptyList(),
         Collections.emptyList(),
-        e -> false,
+        (e, world) -> false,
         ""
     );
   }
@@ -257,7 +257,8 @@ public class WorldTestUtils {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
-        Collections.emptyList()
+        Collections.emptyList(),
+        0
     );
   }
 
@@ -273,7 +274,8 @@ public class WorldTestUtils {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
-        Collections.emptyList()
+        Collections.emptyList(),
+        0
     );
   }
 }

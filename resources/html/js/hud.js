@@ -43,7 +43,7 @@ function clearUnits() {
   $('#unit-holder').html('');
 }
 
-function clearAbilties() {
+function clearAbilities() {
   $('#ability-holder').html('');
 }
 
