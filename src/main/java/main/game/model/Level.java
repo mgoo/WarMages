@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
 import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
 import main.common.util.MapPoint;
@@ -92,8 +93,8 @@ public class Level implements Serializable {
   /**
    * See {@link Goal#isCompleted(Level)}.
    */
-  public boolean areGoalsCompleted() {
-    return goal.isCompleted(this);
+  public boolean areGoalsCompleted(World world) {
+    return goal.isCompleted(this, world);
   }
 
   public Stream<Entity> allEntities() {
@@ -152,14 +153,14 @@ public class Level implements Serializable {
      *
      * @param level The level that contains this {@link Goal}.
      */
-    boolean isCompleted(Level level);
+    boolean isCompleted(Level level, World world);
 
     class AllEnemiesKilled implements Goal {
 
       private static final long serialVersionUID = 1L;
 
       @Override
-      public boolean isCompleted(Level level) {
+      public boolean isCompleted(Level level, World world) {
         // TODO ERIC write tests
         Collection<Team> enemies = Team.PLAYER.getEnemies();
         return level.getUnits()

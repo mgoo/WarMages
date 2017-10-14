@@ -13,7 +13,7 @@ import main.game.model.entity.Projectile;
  */
 public enum UnitType {
 
-  ARCHER(30, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -23,7 +23,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.5),
+          new MapSize(0.4, 0.4),
           target,
           creator,
           GameImageResource.ARROW_PROJECTILE.getGameImage(),
@@ -46,7 +46,7 @@ public enum UnitType {
     }
   },
 
-  MAGICIAN(20, 250, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 150, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -56,7 +56,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          new MapSize(0.4, 0.4),
+          new MapSize(0.5, 0.5),
           target,
           creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
@@ -64,7 +64,7 @@ public enum UnitType {
       );
     }
   },
-  LASER(20  * 0.06, 100, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
+  LASER(20  * 0.06, 200, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -75,7 +75,7 @@ public enum UnitType {
       MapSize creatorSize = creator.getSize();
       return new Projectile(
           creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
-          creatorSize.scaledBy(0.4),
+          new MapSize(0.5, 0.5),
           target,
           creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
