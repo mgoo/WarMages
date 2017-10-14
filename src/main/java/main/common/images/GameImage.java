@@ -15,6 +15,7 @@ import java.io.Serializable;
  * <p>
  * Reference all of the image files in the app here by adding a new enum value.
  * </p>
+ * @author chongdyla
  */
 public class GameImage implements Serializable {
 

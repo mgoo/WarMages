@@ -7,6 +7,7 @@ import java.util.Collection;
  * Similar to the Observable class in Java.
  *
  * @param <ParamT> the arg
+ * @author chongdyla
  */
 public class Event<ParamT> {
 

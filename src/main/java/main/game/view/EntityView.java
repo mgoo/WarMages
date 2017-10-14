@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
-import main.game.model.entity.Entity;
-import main.game.model.entity.Unit;
+import main.common.entity.Entity;
+import main.common.entity.Unit;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapPoint;
@@ -43,7 +43,7 @@ public class EntityView implements main.renderer.Renderable {
     try {
       this.currentImage = entity.getImage().load(this.imageProvider);
     } catch (IOException e) {
-      assert false : "An image was not loaded";
+      assert false : "An image was not loaded because: " + e.getMessage();
     }
   }
 
@@ -54,7 +54,7 @@ public class EntityView implements main.renderer.Renderable {
   @Override
   public MapPoint getImagePosition(long currentTime) {
     MapPoint entityPosition = this.getEffectiveEntityPosition(currentTime);
-    MapPoint entityScreenPosition = this.tileToPix(entityPosition);
+    MapPoint entityScreenPosition = tileToPix(entityPosition, config);
 
     MapSize imageSize = this.getImageSize();
 
@@ -85,10 +85,10 @@ public class EntityView implements main.renderer.Renderable {
    * @param tilePosition Position in the model
    * @return pixel position still needs to br translated by current origin
    */
-  private MapPoint tileToPix(MapPoint tilePosition) {
+  public static MapPoint tileToPix(MapPoint tilePosition, Config config) {
     return new MapPoint(
-        ((double)this.config.getEntityViewTilePixelsX() / 2D) * (tilePosition.x - tilePosition.y),
-        ((double)this.config.getEntityViewTilePixelsY() / 2D) * (tilePosition.x + tilePosition.y)
+        ((double)config.getEntityViewTilePixelsX() / 2D) * (tilePosition.x - tilePosition.y),
+        ((double)config.getEntityViewTilePixelsY() / 2D) * (tilePosition.x + tilePosition.y)
     );
   }
 

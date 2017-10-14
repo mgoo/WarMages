@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 import main.common.WorldSaveModel;
 import main.game.model.world.World;
 
+/**
+ * Default implementation.
+ * @author chongdyla
+ */
 public class DefaultWorldSaveModel implements WorldSaveModel {
 
   private final Filesystem filesystem;
