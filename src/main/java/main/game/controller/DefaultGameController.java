@@ -172,9 +172,12 @@ public class DefaultGameController implements GameController {
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetPoint(mouseEvent.getLocation());
 
-          //if it was a hero unit, then it can also pickup item
+          //if it was a hero unit and item is in range, then pickup item
           if (unit instanceof HeroUnit) {
-            ((HeroUnit) unit).pickUp(selectedItem);
+            HeroUnit hunit = ((HeroUnit) unit);
+            if(hunit.isItemWithinRange(selectedItem)) {
+              hunit.pickUp(selectedItem);
+            }
           }
         }
       } else {
