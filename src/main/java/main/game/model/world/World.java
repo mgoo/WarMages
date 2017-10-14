@@ -173,6 +173,13 @@ public class World implements Serializable {
   }
 
   /**
+   * Gets the level that is currently active.
+   */
+  public Level getCurrentLevel() {
+    return this.levels.get(0);
+  }
+
+  /**
    * A method to change all the current positions/animations of all entities in the world.
    */
   public void tick(long timeSinceLastTick) {
