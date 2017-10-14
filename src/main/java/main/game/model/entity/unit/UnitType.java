@@ -3,6 +3,7 @@ package main.game.model.entity.unit;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.common.util.MapSize;
 import main.game.model.entity.Projectile;
 
 /**
@@ -60,6 +61,25 @@ public enum UnitType {
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           creator.getDamageAmount(),
           0.3
+      );
+    }
+  },
+  LASER(20, 100, 8, 0.08, 10, 2, Sequence.SPELL_CAST) {
+    @Override
+    public boolean canShootProjectiles() {
+      return true;
+    }
+
+    @Override
+    protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      MapSize creatorSize = creator.getSize();
+      return new Projectile(
+          creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
+          creatorSize.scaledBy(0.4),
+          target,
+          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          (int) (creator.getDamageAmount() * 0.06),
+          0.1
       );
     }
   };
