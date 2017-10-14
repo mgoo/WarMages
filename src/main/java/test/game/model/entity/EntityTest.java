@@ -47,7 +47,7 @@ public class EntityTest {
 
     World world = getWorld();
     player.setTargetUnit(enemy);
-    int prevHealth = enemy.getHealth();
+    double prevHealth = enemy.getHealth();
     for (int i = 0; i < 900; i++) {
       player.tick(GameModel.DELAY, world);
     }

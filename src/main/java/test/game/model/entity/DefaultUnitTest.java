@@ -223,7 +223,7 @@ public class DefaultUnitTest {
     final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
     final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
 
-    int baseDamageAmount = unit.getDamageAmount();
+    double baseDamageAmount = unit.getDamageAmount();
     assertEquals(baseDamageAmount, unit.getDamageAmount());
     ability1.use(world, Collections.emptyList());
     assertEquals(baseDamageAmount + 1, unit.getDamageAmount());
@@ -255,7 +255,8 @@ public class DefaultUnitTest {
         new MapSize(0.5, 0.5),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
-        new ArrayList<Ability>());
+        new ArrayList<Ability>(),
+        0);
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
@@ -263,7 +264,7 @@ public class DefaultUnitTest {
 
     playerUnit.setTargetUnit(enemyUnit);
 
-    int previousHealth = enemyUnit.getHealth();
+    double previousHealth = enemyUnit.getHealth();
 
     for (int i = 0; i < 100; i++) {
       world.tick(50);
@@ -361,7 +362,7 @@ public class DefaultUnitTest {
       Unit unit = createPlayerUnit(UnitType.ARCHER);
       unit.setTargetUnit(enemyUnit);
       // and the initial health of the enemy
-      final int enemyStartingHealth = enemyUnit.getHealth();
+      final double enemyStartingHealth = enemyUnit.getHealth();
 
       // when a projectile is eventually fired/created
       final int tickLimit = 100; // (in case the projectile never fires)
@@ -377,7 +378,7 @@ public class DefaultUnitTest {
       Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      int projectileDamage = projectile.getDamageAmount();
+      double projectileDamage = projectile.getDamageAmount();
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something
@@ -388,7 +389,7 @@ public class DefaultUnitTest {
       }
 
       // then the enemy health should be reduced
-      int hitEnemyHealth = enemyUnit.getHealth();
+      double hitEnemyHealth = enemyUnit.getHealth();
       assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
     }
 
@@ -401,7 +402,7 @@ public class DefaultUnitTest {
     @Test
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
-      int prevHealth = unit.getHealth();
+      double prevHealth = unit.getHealth();
       unit.takeDamage(5, this.world);
       assertEquals(prevHealth - 5, unit.getHealth());
     }

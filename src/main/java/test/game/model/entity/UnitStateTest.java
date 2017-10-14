@@ -38,7 +38,8 @@ public class UnitStateTest {
         new MapSize(100, 100),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
-        new ArrayList<Ability>());
+        new ArrayList<Ability>(),
+        0);
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(
         unit,

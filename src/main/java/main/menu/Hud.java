@@ -1,5 +1,7 @@
 package main.menu;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
@@ -93,7 +95,7 @@ public class Hud extends Menu {
     this.selectedUnits.removeAll(removeUnits);
     if (removeUnits.size() > 0) {
       this.main.callJsFunction("clearUnits");
-      this.main.callJsFunction("clearAbilties");
+      this.main.callJsFunction("clearAbilities");
       this.main.callJsFunction("clearItems");
       this.selectedUnits.forEach(this::addUnitIcon);
       if (hero != null) {
@@ -117,7 +119,13 @@ public class Hud extends Menu {
 
   private void addUnitIcon(Unit unit) {
     try {
-      this.addIcon("addUnitIcon", unit.getImage().load(this.imageProvider), unit);
+      BufferedImage baseIcon = unit.getImage().load(this.imageProvider);
+      BufferedImage icon = new BufferedImage(baseIcon.getWidth(), baseIcon.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+      Graphics2D g = ((Graphics2D) icon.getGraphics());
+      g.drawImage(baseIcon, 0, 0, null);
+      g.setColor(Color.decode("#000000"));
+      g.drawString(Integer.toString(unit.getLevel()), 1, 10);
+      this.addIcon("addUnitIcon", icon, unit);
     } catch (IOException e) {
       e.printStackTrace();
     }

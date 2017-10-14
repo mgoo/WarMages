@@ -28,7 +28,7 @@ public class Level implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private final Collection<DefaultMapEntity> borderEntities;
+  private final Collection<MapEntity> borderEntities;
   private final Goal goal;
   private final MapRect bounds;
   private final Collection<Unit> units;
@@ -49,7 +49,7 @@ public class Level implements Serializable {
       Collection<Unit> units,
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
-      Collection<DefaultMapEntity> borderEntities,
+      Collection<MapEntity> borderEntities,
       Goal goal,
       String goalDescription
   ) {
@@ -61,8 +61,8 @@ public class Level implements Serializable {
     this.goal = goal;
     this.goalDescription = goalDescription;
 
-    ensureNoMapEntitiesOverlap();
-    ensureNoEntitiesOutOfBounds();
+//    ensureNoMapEntitiesOverlap();
+//    ensureNoEntitiesOutOfBounds();
   }
 
   public MapRect getBounds() {
@@ -81,7 +81,7 @@ public class Level implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
-  public Collection<DefaultMapEntity> getBorderEntities() {
+  public Collection<MapEntity> getBorderEntities() {
     return borderEntities;
   }
 

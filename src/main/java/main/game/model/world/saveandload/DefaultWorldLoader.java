@@ -82,7 +82,7 @@ import main.images.DefaultUnitSpriteSheet;
 public class DefaultWorldLoader implements WorldLoader {
 
   private static final MapSize HERO_SIZE = new MapSize(0.9, 0.9);
-  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.6, 0.6);
+  private static final MapSize STANDARD_UNIT_SIZE = new MapSize(0.5, 0.5);
 
   private static GameImage[] trees = new GameImage[]{
       //      TREE_1.getGameImage(),
@@ -92,7 +92,11 @@ public class DefaultWorldLoader implements WorldLoader {
       TREE_5.getGameImage(),
       TREE_6.getGameImage(),
       TREE_7.getGameImage(),
-      TREE_8.getGameImage()};
+      TREE_8.getGameImage(),
+      BARRLE_1.getGameImage(),
+      BARRLE_2.getGameImage(),
+      BARRLE_3.getGameImage(),
+      BARRLE_4.getGameImage()};
 
   private static GameImage[] buildings = new GameImage[]{
       BUILDING_1.getGameImage(),
@@ -117,12 +121,16 @@ public class DefaultWorldLoader implements WorldLoader {
       BUILDING_20.getGameImage(),
       BUILDING_21.getGameImage()};
 
-  private static DefaultMapEntity makeBuilding(MapPoint position) {
+  private static MapEntity makeBuilding(MapPoint position) {
     GameImage img = buildings[(int)(Math.random() * buildings.length)];
-    return new DefaultMapEntity(position, new MapSize(3, 3), img);
+    return new DefaultMapEntity(position, new MapSize(2, 2), img);
   }
 
-  private static DefaultMapEntity makeTree(MapPoint position) {
+  private static MapEntity makeBuilding(int x, int y) {
+    return makeBuilding(new MapPoint(x, y));
+  }
+
+  private static MapEntity makeTree(MapPoint position) {
     GameImage img = trees[(int)(Math.random() * trees.length)];
     return new DefaultMapEntity(position, new MapSize(1, 1), img);
   }
@@ -142,27 +150,49 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Generates the rectangle of of entities that are around the edge (but inside) bounds.
    */
-  public static Collection<DefaultMapEntity> generateBorderEntities(
+  public static Collection<MapEntity> generateBorderEntities(
       MapRect bounds,
-      Function<MapPoint, DefaultMapEntity> entityGenerator
+      Function<MapPoint, MapEntity> entityGenerator
   ) {
     int left = (int) bounds.topLeft.x;
     int top = (int) bounds.topLeft.y;
     int right = (int) bounds.bottomRight.x;
     int bottom = (int) bounds.bottomRight.y;
 
-    Collection<DefaultMapEntity> mapEntities = new ArrayList<>();
+    Collection<MapEntity> mapEntities = new ArrayList<>();
 
-    // Generate top and bottom rows
+    // Generate top row
     for (int x = left; x < right; x++) {
-      mapEntities.add(entityGenerator.apply(new MapPoint(x, top)));
-      mapEntities.add(entityGenerator.apply(new MapPoint(x, bottom - 1)));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(x + (int)(Math.random() + 0.5), top));
+      mapEntities.add(newEntity);
+      if (newEntity.getSize().width > 1) {
+        x += newEntity.getSize().width - 1;
+      }
+    }
+    // Generatebottom row
+    for (int x = left; x < right; x++) {
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(x  + (int)(Math.random() + 0.5), bottom - 1));
+      mapEntities.add(newEntity);
+      if (newEntity.getSize().width > 1) {
+        x += newEntity.getSize().width - 1;
+      }
     }
 
-    // Generate left and right columns, excluding corners
+    // Generate right column
     for (int y = top + 1; y < bottom - 1; y++) {
-      mapEntities.add(entityGenerator.apply(new MapPoint(left, y)));
-      mapEntities.add(entityGenerator.apply(new MapPoint(right - 1, y)));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(right - 1, y  + (int)(Math.random() + 0.5)));
+      mapEntities.add(newEntity);
+      if (newEntity.getSize().width > 1) {
+        y += newEntity.getSize().width - 1;
+      }
+    }
+    // Generate left column excluding columns
+    for (int y = top + 1; y < bottom - 1; y++) {
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(left, y  + (int)(Math.random() + 0.5)));
+      mapEntities.add(newEntity);
+      if (newEntity.getSize().width > 1) {
+        y += newEntity.getSize().width - 1;
+      }
     }
 
     return mapEntities;
@@ -172,8 +202,8 @@ public class DefaultWorldLoader implements WorldLoader {
    * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
    * the user from leaving the area.
    */
-  public static DefaultMapEntity newBorderEntityAt(MapPoint point) {
-    return makeTree(point);
+  public static MapEntity newBorderEntityAt(MapPoint point) {
+    return Math.random() > 0.5 ? makeTree(point) : makeBuilding(point);
   }
 
   @Override
@@ -200,7 +230,8 @@ public class DefaultWorldLoader implements WorldLoader {
                 3,
                 30
             )
-        )
+        ),
+        3
     );
 
     MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(10, 8));
@@ -258,7 +289,7 @@ public class DefaultWorldLoader implements WorldLoader {
   public World loadMultilevelWorld() {
     final HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(2, 5),
-        HERO_SIZE,
+        STANDARD_UNIT_SIZE,
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.LASER,
         Arrays.asList(
@@ -266,35 +297,40 @@ public class DefaultWorldLoader implements WorldLoader {
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 120, 90
             )
-        )
+        ),
+        3
     );
+
     LinkedList<Level> levels = new LinkedList<>();
 
+    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(45, 11));
     {
       // Example level to allow the player to learn how to attack
-      MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(15, 11));
+
       // Bounds is 11 high, so y == 5 is center
       levels.add(new Level(
           bounds,
           Arrays.asList(
               new DefaultUnit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
+                  0
               ),
               new DefaultUnit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
+                  0
               ),
               new DefaultUnit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
               )
           ),
           Arrays.asList(),
-          Arrays.asList(
-              new DefaultMapEntity(
-                  bounds.getCenter().floored(),
-                  TREE_1.getGameImage()
-              )
-          ),
           generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+          Arrays.asList(
+              makeBuilding(16, 3),
+              makeBuilding(16, 5),
+              makeBuilding(16, 7)
+          ),
           new Goal.AllEnemiesKilled(),
           "Kill the enemy soldier with your hero and foot-knights"
       ));
@@ -302,10 +338,6 @@ public class DefaultWorldLoader implements WorldLoader {
 
     {
       // A level with a few units, and items
-      MapRect bounds = new MapRect(
-          levels.getFirst().getBounds().topLeft,
-          new MapPoint(30, levels.getFirst().getBounds().bottomRight.y)
-      );
       levels.add(new Level(
           bounds,
           Arrays.asList(
@@ -349,7 +381,8 @@ public class DefaultWorldLoader implements WorldLoader {
                   TREE_1.getGameImage()
               )
           ),
-          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+//          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+          Arrays.asList(),
           new Goal.AllEnemiesKilled(),
           "Try out your new archers on the new enemies"
       ));
@@ -357,10 +390,6 @@ public class DefaultWorldLoader implements WorldLoader {
 
     {
       // A level with more units
-      MapRect bounds = new MapRect(
-          levels.getFirst().getBounds().topLeft,
-          new MapPoint(45, levels.getFirst().getBounds().bottomRight.y)
-      );
       levels.add(new Level(
           bounds,
           Arrays.asList(
@@ -422,7 +451,7 @@ public class DefaultWorldLoader implements WorldLoader {
                   TREE_1.getGameImage()
               )
           ),
-          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+          Arrays.asList(),
           new Goal.AllEnemiesKilled(),
           "Use the gold ring buff, and kill all enemies"
       ));
@@ -430,7 +459,6 @@ public class DefaultWorldLoader implements WorldLoader {
 
     {
       // Surprise ambush level
-      MapRect bounds = levels.getLast().getBounds();
       levels.add(new Level(
           bounds,
           Arrays.asList(
@@ -455,7 +483,7 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(),
           Arrays.asList(),
-          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
+          Arrays.asList(),
           new Goal.AllEnemiesKilled(),
           levels.getLast().getGoalDescription()
       ));
@@ -477,7 +505,8 @@ public class DefaultWorldLoader implements WorldLoader {
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 120, 90
             )
-        )
+        ),
+        3
     );
     LinkedList<Level> levels = new LinkedList<>();
 

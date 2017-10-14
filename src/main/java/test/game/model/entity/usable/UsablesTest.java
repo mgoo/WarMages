@@ -48,7 +48,8 @@ public class UsablesTest {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
-        Arrays.asList(healAbility)
+        Arrays.asList(healAbility),
+        0
     );
 
     healUsableShouldIncreaseHealth(
@@ -66,7 +67,8 @@ public class UsablesTest {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
-        Arrays.asList()
+        Arrays.asList(),
+        0
     );
 
     HealAbility healAbility = new HealAbility(
@@ -104,12 +106,12 @@ public class UsablesTest {
 
     // when the hero takes damage
     heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
-    int lowHealth = heroUnit.getHealth();
+    double lowHealth = heroUnit.getHealth();
     // and the heal is used
     healer.use(world, Collections.emptyList());
 
     // then the health should go up
-    int firstNewHealth = heroUnit.getHealth();
+    double firstNewHealth = heroUnit.getHealth();
     assertEquals(lowHealth + healAmount, firstNewHealth);
     // and ability should be on cool-down
     assertFalse(healer.isReadyToBeUsed());
@@ -122,7 +124,7 @@ public class UsablesTest {
     healer.use(world, Collections.emptyList());
 
     // then health should increase again
-    int secondNewHealth = heroUnit.getHealth();
+    double secondNewHealth = heroUnit.getHealth();
     assertEquals(firstNewHealth + healAmount, secondNewHealth);
   }
 
@@ -179,9 +181,10 @@ public class UsablesTest {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
         UnitType.ARCHER,
-        Arrays.asList(buffAbility)
+        Arrays.asList(buffAbility),
+        0
     );
-    int baseDamageAmount = heroUnit.getDamageAmount();
+    double baseDamageAmount = heroUnit.getDamageAmount();
     // and a mock world
     World world = mock(World.class);
     when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
@@ -193,7 +196,7 @@ public class UsablesTest {
     // damageAmount should increase for several ticks
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());
     for (int i = 0; i < effectDurationTicks; i++) {
-      int buffedDamageAmount = heroUnit.getDamageAmount();
+      double buffedDamageAmount = heroUnit.getDamageAmount();
       assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount);
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
     }

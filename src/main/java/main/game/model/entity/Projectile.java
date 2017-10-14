@@ -19,8 +19,9 @@ public class Projectile extends DefaultEntity {
   private static final long serialVersionUID = 1L;
   private static final double IMPACT_DISTANCE = 0.01;
 
-  private final int damageAmount;
+  private final double damageAmount;
   private final Unit target;
+  private final Unit owner;
   private final double moveDistancePerTick;
 
   private boolean hasHit = false;
@@ -32,7 +33,7 @@ public class Projectile extends DefaultEntity {
    * @param coordinates at start of projectile path.
    * @param size of projectile.
    * @param target unit of projectile.
-   * @param damageAmount amount of damage to be dealt.
+   * @param owner the unit that fired the projectile
    * @param gameImage image of the projectile.
    * @param moveDistancePerTick distance to be moved per tick.
    */
@@ -40,13 +41,15 @@ public class Projectile extends DefaultEntity {
       MapPoint coordinates,
       MapSize size,
       Unit target,
+      Unit owner,
       GameImage gameImage,
-      int damageAmount,
       double moveDistancePerTick
   ) {
     super(coordinates, size);
     this.target = requireNonNull(target);
-    this.damageAmount = damageAmount;
+    this.owner = owner;
+    // So level ups and buffs do not effect fired projectile damage
+    this.damageAmount = owner.getDamageAmount();
     this.moveDistancePerTick = moveDistancePerTick;
     this.image = gameImage;
   }
@@ -90,7 +93,7 @@ public class Projectile extends DefaultEntity {
     return hasHit;
   }
 
-  public int getDamageAmount() {
+  public double getDamageAmount() {
     return damageAmount;
   }
 
@@ -98,7 +101,10 @@ public class Projectile extends DefaultEntity {
    * Applies actions to given unit when it is hit by the Projectile.
    */
   private void hitTarget(World world) {
-    target.takeDamage(damageAmount, world);
+    boolean killed = target.takeDamage(damageAmount, world);
+    if (killed) {
+      this.owner.nextLevel();
+    }
     world.removeProjectile(this);
   }
 

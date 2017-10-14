@@ -30,6 +30,10 @@ public abstract class DefaultEntity implements Entity {
     this.size = requireNonNull(size);
   }
 
+  protected void setSize(MapSize size) {
+    this.size = size;
+  }
+
   @Override
   public MapPoint getTopLeft() {
     return topLeft;

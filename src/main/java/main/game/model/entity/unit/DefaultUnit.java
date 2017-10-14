@@ -31,22 +31,25 @@ import main.game.model.world.World;
 public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
+  private static final double LEVEL_DIVISOR = 10;
 
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
-
   private Unit target;
+
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
-
   private boolean isDead = false;
+
   private boolean hasCreatedDeadUnit = false;
 
-  private int health;
-  private int damageAmount;
+  private int level;
+  private double health;
+  private double damageAmount;
   private final double attackDistance;
   private double speed;
+  private MapSize origonalSize;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -59,15 +62,58 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       UnitType unitType
   ) {
     super(position, size);
+    this.origonalSize = size;
+    this.level = 0;
     this.team = team;
     this.unitType = unitType;
-    this.health = unitType.getStartingHealth();
+    this.health = this.levelMultiplyer(unitType.getStartingHealth());
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(this);
     this.speed = unitType.getMovingSpeed();
     this.attackDistance = unitType.getAttackDistance();
     setDamageAmount(unitType.getBaselineDamage());
   }
+
+  /**
+   * Constructor takes the unit's position, size, and team.
+   */
+  public DefaultUnit(
+      MapPoint position,
+      MapSize size,
+      Team team,
+      UnitSpriteSheet sheet,
+      UnitType unitType,
+      int level
+  ) {
+    super(position, size);
+    this.level = level;
+    this.origonalSize = size;
+    this.setSize(new MapSize(this.levelMultiplyer(size.width, 1),
+        this.levelMultiplyer(size.height, 1)));
+    this.team = team;
+    this.unitType = unitType;
+    this.health = this.levelMultiplyer(unitType.getStartingHealth());
+    this.spriteSheet = sheet;
+    this.unitState = new IdleUnitState(this);
+    this.speed = unitType.getMovingSpeed();
+    this.attackDistance = unitType.getAttackDistance();
+    setDamageAmount(unitType.getBaselineDamage());
+  }
+
+  private double levelMultiplyer(double val) {
+    return val * (1 + ((double)this.level / LEVEL_DIVISOR));
+  }
+  private double levelMultiplyer(double val, double max) {
+    return Math.min(max, levelMultiplyer(val));
+  }
+
+  public void setLevel(int level) {
+    this.level = level;
+    this.setSize(new MapSize(this.levelMultiplyer(this.origonalSize.width, 1),
+        this.levelMultiplyer(this.origonalSize.height, 1)));
+  }
+
+
 
   /**
    * Sets the Unit's next state to be the given state.
@@ -84,7 +130,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getLineOfSight() {
-    return this.unitType.lineOfSight;
+    return this.levelMultiplyer(this.unitType.lineOfSight);
   }
 
   @Override
@@ -120,9 +166,9 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void takeDamage(int amount, World world) {
+  public boolean takeDamage(double amount, World world) {
     if (isDead) {
-      return;
+      return false;
     }
     if (amount < 0) {
       throw new IllegalArgumentException("Amount: " + amount);
@@ -131,15 +177,17 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     if (health - amount > 0) {
       // Not dead
       health -= amount;
+      return false;
     } else {
       isDead = true;
       health = 0;
       setNextState(new DyingState(Sequence.DYING, this));
+      return true;
     }
   }
 
   @Override
-  public void gainHealth(int amount) {
+  public void gainHealth(double amount) {
     if (isDead) {
       return;
     }
@@ -166,7 +214,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    * @return int health of the Unit.
    */
   @Override
-  public int getHealth() {
+  public double getHealth() {
     return health;
   }
 
@@ -188,14 +236,14 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public int getDamageAmount() {
-    int amount = damageAmount;
+  public double getDamageAmount() {
+    double amount = damageAmount;
 
     for (Effect activeEffect : activeEffects) {
       amount = activeEffect.alterDamageAmount(amount);
     }
 
-    return amount;
+    return this.levelMultiplyer(amount);
   }
 
   private void tickEffects(long timeSinceLastTick) {
@@ -246,7 +294,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void setDamageAmount(int amount) {
+  public void setDamageAmount(double amount) {
     if (amount <= 0 || amount >= 100) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }
@@ -261,11 +309,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getHealthPercent() {
-    return (double)health / (double)unitType.getStartingHealth();
+    return health / this.levelMultiplyer(unitType.getStartingHealth());
   }
 
   public double getSpeed() {
-    return speed;
+    return this.levelMultiplyer(speed, 1.2);
   }
 
   /**
@@ -276,12 +324,26 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   public double getAttackDistance() {
-    return attackDistance;
+    return this.levelMultiplyer(attackDistance);
   }
 
 
   @Override
   public UnitType getType() {
     return this.unitType;
+  }
+
+  @Override
+  public void nextLevel() {
+    double originalHealth = this.getHealthPercent();
+    this.setLevel(this.level + 1);
+    // Maintain current level of health
+    this.gainHealth(levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth
+        - this.health );
+  }
+
+  @Override
+  public int getLevel() {
+    return this.level;
   }
 }
