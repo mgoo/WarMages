@@ -257,7 +257,8 @@ public class WorldTestUtils {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
-        Collections.emptyList()
+        Collections.emptyList(),
+        0
     );
   }
 
@@ -273,7 +274,8 @@ public class WorldTestUtils {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
-        Collections.emptyList()
+        Collections.emptyList(),
+        0
     );
   }
 }

@@ -44,9 +44,10 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
       MapSize size,
       UnitSpriteSheet sheet,
       UnitType type,
-      Collection<Ability> abilities
+      Collection<Ability> abilities,
+      int level
   ) {
-    super(position, size, Team.PLAYER, sheet, type);
+    super(position, size, Team.PLAYER, sheet, type, level);
     this.abilities = new ArrayList<>(abilities);
   }
 
