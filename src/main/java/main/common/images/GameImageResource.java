@@ -184,6 +184,7 @@ public enum GameImageResource {
   ARCHER_SPRITE_SHEET("images/units/archer.png"),
   DARK_ELF_SPRITE_SHEET("images/units/dark_elf.png"),
   FOOT_KNIGHT_SPRITE_SHEET("images/units/footknight.png"),
+  SPEARMAN_SPRITE_SHEET("images/units/spearman.png"),
   GOLDEN_HERO_SPRITE_SHEET("images/units/golden_hero.png"),
   MALE_MAGE_SPRITE_SHEET("images/units/male_mage.png"),
   MAGE_CAPE_SPRITE_SHEET("images/units/female_mage.png"),

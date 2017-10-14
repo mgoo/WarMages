@@ -13,7 +13,7 @@ import main.game.model.entity.Projectile;
  */
 public enum UnitType {
 
-  ARCHER(30, 150, 3, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(30, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -32,14 +32,14 @@ public enum UnitType {
     }
   },
 
-  SWORDSMAN(8, 300, 6, 0.1, 5, 0.7, Sequence.SLASH) {
+  SWORDSMAN(5, 300, 6, 0.1, 5, 0.7, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(8, 200, 5, 0.1, 5, 1, Sequence.THRUST) {
+  SPEARMAN(15, 200, 5, 0.1, 5, 1, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
@@ -56,7 +56,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.6),
+          new MapSize(0.4, 0.4),
           target,
           creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),

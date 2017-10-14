@@ -68,13 +68,6 @@ public interface Unit extends Entity {
   void clearTarget();
 
   /**
-   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
-   *
-   * @param amount of damage to deal to target.
-   */
-  void setDamageAmount(double amount);
-
-  /**
    * Returns the amount of damage dealt.
    *
    * @return int amount of damage dealt.
