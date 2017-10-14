@@ -25,7 +25,7 @@ import main.game.model.world.World;
 public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private static final long serialVersionUID = 1L;
-  private static final double PICK_UP_MAX_DISTANCE = 0.5;
+  private static final double PICK_UP_MAX_DISTANCE = 2;
 
   private final List<Ability> abilities;
 
