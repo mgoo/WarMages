@@ -14,6 +14,10 @@ public enum MenuFileResources {
   MAIN_MENU_HTML("resources/html/main_menu.html"),
   MAIN_MENU_CSS("resources/html/css/main_menu.css"),
 
+  GAME_END_HTML("resources/html/game_end.html"),
+  GAME_END_CSS("resources/html/css/game_end.css"),
+  GAME_END_JS("resources/html/js/game_end.js"),
+
   FILE_SCRIPTS("resources/html/js/load_menu.js");
 
   private final String path;
