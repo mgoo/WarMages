@@ -115,6 +115,12 @@ public class World implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  public void removeMapEntity(MapEntity entity) {
+    if(mapEntities.contains(entity)) {
+      mapEntities.remove(entity);
+    }
+  }
+
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
   }
