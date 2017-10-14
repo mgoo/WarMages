@@ -32,7 +32,6 @@ import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -212,7 +211,7 @@ public class DefaultUnitTest {
     Unit unit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER
     );
 
@@ -244,16 +243,16 @@ public class DefaultUnitTest {
     Unit playerUnit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(0.5, 0.5),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER);
     Unit enemyUnit = new DefaultUnit(new MapPoint(1,1),
         new MapSize(0.5, 0.5),
         Team.ENEMY,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SPEARMAN);
     HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
         new MapSize(0.5, 0.5),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
         new ArrayList<Ability>(),
         0);
@@ -296,7 +295,7 @@ public class DefaultUnitTest {
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           UnitType.ARCHER
       );
 
@@ -412,7 +411,7 @@ public class DefaultUnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
-          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           unitType
       );
     }
@@ -422,7 +421,7 @@ public class DefaultUnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           unitType
       );
     }
