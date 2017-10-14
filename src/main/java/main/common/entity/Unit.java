@@ -11,6 +11,7 @@ import main.game.model.world.World;
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
  * health, and can attack other team units.
+ * @author paladogabr
  */
 public interface Unit extends Entity {
 
