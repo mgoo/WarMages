@@ -55,7 +55,11 @@ public class GameViewTest {
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
     this.gameView = new GameView(config,
-        gameController, gameModelMock, imageProvider, new Event<>());
+        gameController,
+        gameModelMock,
+        imageProvider,
+        new Event<>(),
+        null);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
@@ -223,14 +227,14 @@ public class GameViewTest {
   public void testMovingViewBox() {
     MapRect originalView = this.gameView.getViewBox();
     this.gameView.updateMousePosition(0, 0);
-    assertEquals(originalView.topLeft.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.topLeft.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.y - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.y - config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.y + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
   }
 
   @Test

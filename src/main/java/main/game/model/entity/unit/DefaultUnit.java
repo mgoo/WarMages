@@ -247,7 +247,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public void setDamageAmount(int amount) {
-    if (amount <= 0 || amount >= 100) {
+    if (amount <= 0) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }
 
