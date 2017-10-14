@@ -38,7 +38,6 @@ public class World implements Serializable {
   private final Set<Item> items;
   private final Set<MapEntity> mapEntities;
   private final Set<Projectile> projectiles;
-
   private final PathFinder pathFinder;
 
   /**
@@ -167,6 +166,9 @@ public class World implements Serializable {
     if (!currentLevel().areGoalsCompleted()) {
       throw new IllegalStateException();
     }
+    if (levels.size() == 1) {
+      return;
+    }
     mapEntities.removeAll(currentLevel().getBorderEntities());
     levels.remove(0);
 
@@ -248,5 +250,21 @@ public class World implements Serializable {
    */
   public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
+  }
+
+  /**
+   * Checks if game is won.
+   * @return whether game is won
+   */
+  public boolean isWon() {
+    return levels.size() == 1 && currentLevel().areGoalsCompleted();
+  }
+
+  /**
+   * Checks if game is lost.
+   * @return whether game is lost
+   */
+  public boolean isLost() {
+    return heroUnit.getHealth() <= 0;
   }
 }

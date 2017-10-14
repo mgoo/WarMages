@@ -16,17 +16,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.game.model.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GameModelTest {
-
-  private GameModel model = null;
   private HeroUnit heroUnit = createDefaultHeroUnit();
+  private GameModel model = null;
+  private GameWon gc = new GameWon();
+  GameLost gl = new GameLost();
+
+  @Before
+  public void setup() {
+    gc.registerListener(parameter -> {});
+    gl.registerListener(parameter -> {});
+  }
 
   @Test
   public void testSetSelectionAndGetSelection() {
@@ -35,7 +45,8 @@ public class GameModelTest {
     Unit unit3 = createDefaultPlayerArcher();
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     model.setUnitSelection(Arrays.asList(unit, unit2, unit3));
     Collection<Unit> selection = model.getUnitSelection();
@@ -53,7 +64,8 @@ public class GameModelTest {
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
     model = new GameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     model.setUnitSelection(units);
     units.add(unit3);
@@ -69,7 +81,8 @@ public class GameModelTest {
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(3, model.getAllUnits().size());
@@ -85,7 +98,8 @@ public class GameModelTest {
             )),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(1, model.getAllUnits().size());

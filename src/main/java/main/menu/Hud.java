@@ -139,7 +139,6 @@ public class Hud extends Menu {
     }
   }
 
-
   private void addIcon(String method, BufferedImage image, Object entity) {
     String entityIcon = this.formatImageForHtml(image);
     this.main.callJsFunction(method, entityIcon, entity);
@@ -162,6 +161,5 @@ public class Hud extends Menu {
         "data:" + imageMimeType + ";base64," + DatatypeConverter.printBase64Binary(bytes);
     return dataUri;
   }
-
 
 }
