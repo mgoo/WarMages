@@ -3,24 +3,21 @@ package test.game.model.entity;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import main.common.images.GameImageResource;
+import main.common.entity.Direction;
+import main.common.entity.Team;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.unit.state.AttackingUnitState;
-import main.common.entity.Direction;
-import main.common.entity.Team;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.AttackingUnitState;
 import main.game.model.world.World;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 /**
@@ -50,8 +47,7 @@ public class AttackingUnitStateTest {
     when(unit.getAttackDistance()).thenReturn(1D);
     when(unit.getTeam()).thenReturn(Team.PLAYER);
     when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
-    when(unit.getSpriteSheet())
-        .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+    when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());
     when(unit.getTarget()).thenReturn(target);
     when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // with some configuration parameters
