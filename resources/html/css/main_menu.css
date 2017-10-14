@@ -8,6 +8,7 @@ body {
   user-select: none;
 }
 .overlay {
+  z-index: -1;
   background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   width: 100vw;
@@ -6851,17 +6852,16 @@ body .title {
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-timing-function: cubic-bezier(1, -0.04, 0.91, 0.94);
-  width: 50vw;
+  text-align: center;
+  width: 75vw;
   position: absolute;
   bottom: 70vh;
-  left: 25vw;
+  left: 12vw;
 }
 body .title h1 {
   font-size: 130px;
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
+  text-align: center;
   overflow: visible;
 }
 body .mainmenu-buttons {
