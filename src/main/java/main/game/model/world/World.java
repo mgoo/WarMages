@@ -88,6 +88,13 @@ public class World implements Serializable {
   }
 
   /**
+   * Gets the hero unit in the world.
+   */
+  public HeroUnit getHeroUnit() {
+    return this.heroUnit;
+  }
+
+  /**
    * Gets all entities in the world (including map entities, units, projectiles and other entities.
    *
    * @return an unmodifiable collection of all Entities in the world.
@@ -161,7 +168,7 @@ public class World implements Serializable {
    * for progression.
    */
   private void checkLevelCompletion() {
-    if (currentLevel().areGoalsCompleted()) {
+    if (currentLevel().areGoalsCompleted(this)) {
       nextLevel();
     }
   }
@@ -170,7 +177,7 @@ public class World implements Serializable {
    * A method which moves to the next level.
    */
   private void nextLevel() {
-    if (!currentLevel().areGoalsCompleted()) {
+    if (!currentLevel().areGoalsCompleted(this)) {
       throw new IllegalStateException();
     }
     if (levels.size() == 1) {
@@ -229,7 +236,7 @@ public class World implements Serializable {
    * @return whether game is won
    */
   public boolean isWon() {
-    return levels.size() == 1 && currentLevel().areGoalsCompleted();
+    return levels.size() == 1 && currentLevel().areGoalsCompleted(this);
   }
 
   /**

@@ -55,7 +55,8 @@ public class HeroUnitTest {
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
-        Arrays.asList(mockAbility)
+        Arrays.asList(mockAbility),
+        0
     );
     long delay = GameModel.DELAY;
 

@@ -1,5 +1,7 @@
 package main.menu;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
@@ -86,38 +88,28 @@ public class Hud extends Menu {
    * Upate the icons that are displayed in the HUD.
    */
   public void updateIcons() {
-    final Collection<Unit> removeUnits = new HashSet<>();
-    this.selectedUnits.stream()
-        .filter(unit -> !this.gameModel.getUnitSelection().contains(unit))
-        .forEach(removeUnits::add);
-    this.selectedUnits.removeAll(removeUnits);
-    if (removeUnits.size() > 0) {
-      this.main.callJsFunction("clearUnits");
-      this.main.callJsFunction("clearAbilties");
-      this.main.callJsFunction("clearItems");
-      this.selectedUnits.forEach(this::addUnitIcon);
-      if (hero != null) {
-        hero.getAbilities().forEach(this::addAbilityIcon);
-        hero.getItemInventory().forEach(this::addItemIcon);
-      }
-    }
+    this.main.callJsFunction("clearUnits");
+    this.gameModel.getUnitSelection().forEach(this::addUnitIcon);
 
-    this.gameModel.getUnitSelection().stream()
-        .filter(unit -> !this.selectedUnits.contains(unit))
-        .forEach(unit -> {
-          if (unit instanceof HeroUnit) {
-            hero = ((HeroUnit) unit);
-            hero.getAbilities().forEach(this::addAbilityIcon);
-            hero.getItemInventory().forEach(this::addItemIcon);
-          }
-          addUnitIcon(unit);
-          this.selectedUnits.add(unit);
-        });
+    this.main.callJsFunction("clearAbilities");
+    this.main.callJsFunction("clearItems");
+    if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
+      this.gameModel.getHeroUnit().getAbilities().forEach(this::addAbilityIcon);
+      this.gameModel.getHeroUnit().getItemInventory().forEach(this::addItemIcon);
+    }
   }
 
   private void addUnitIcon(Unit unit) {
     try {
-      this.addIcon("addUnitIcon", unit.getImage().load(this.imageProvider), unit);
+      BufferedImage baseIcon = unit.getImage().load(this.imageProvider);
+      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+          baseIcon.getHeight(),
+          BufferedImage.TYPE_4BYTE_ABGR);
+      Graphics2D g = ((Graphics2D) icon.getGraphics());
+      g.drawImage(baseIcon, 0, 0, null);
+      g.setColor(Color.decode("#000000"));
+      g.drawString(Integer.toString(unit.getLevel()), 1, 10);
+      this.addIcon("addUnitIcon", icon, unit);
     } catch (IOException e) {
       e.printStackTrace();
     }
