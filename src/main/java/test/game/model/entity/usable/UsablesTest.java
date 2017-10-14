@@ -112,7 +112,7 @@ public class UsablesTest {
 
     // then the health should go up
     double firstNewHealth = heroUnit.getHealth();
-    assertEquals(lowHealth + healAmount, firstNewHealth);
+    assertEquals(lowHealth + healAmount, firstNewHealth, 0.001);
     // and ability should be on cool-down
     assertFalse(healer.isReadyToBeUsed());
 
@@ -125,7 +125,7 @@ public class UsablesTest {
 
     // then health should increase again
     double secondNewHealth = heroUnit.getHealth();
-    assertEquals(firstNewHealth + healAmount, secondNewHealth);
+    assertEquals(firstNewHealth + healAmount, secondNewHealth, 0.001);
   }
 
   @Test
@@ -197,11 +197,11 @@ public class UsablesTest {
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());
     for (int i = 0; i < effectDurationTicks; i++) {
       double buffedDamageAmount = heroUnit.getDamageAmount();
-      assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount);
+      assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount, 0.001);
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
     }
 
     // then damageAmount should go back to normal
-    assertEquals(baseDamageAmount, heroUnit.getDamageAmount());
+    assertEquals(baseDamageAmount, heroUnit.getDamageAmount(), 0.001);
   }
 }

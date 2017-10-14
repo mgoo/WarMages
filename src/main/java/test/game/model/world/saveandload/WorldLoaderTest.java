@@ -41,52 +41,6 @@ public class WorldLoaderTest {
     assertNotNull(load);
   }
 
-  @Test
-  public void generateBoundEntities_3x4Bounds_borderGeneratedProperly() {
-    // The method should generate the edges as well, but only top-left and bottom-right corners
-    // are checked.
-
-    MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(3, 4));
-    Collection<MapEntity> boundEntities = DefaultWorldLoader
-        .generateBorderEntities(
-            bounds,
-            DefaultWorldLoader::newBorderEntityAt
-        );
-
-    assertEquals(boundEntities.size(), 10); // 10 edge squares inside a 3x4 grid
-    assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getTopLeft().equals(bounds.topLeft)
-    ));
-    assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getTopLeft().equals(new MapPoint(
-            bounds.bottomRight.x - 1,
-            bounds.bottomRight.y - 1
-        ))
-    ));
-  }
-
-  @Test
-  public void generateBoundEntities_5x5Bounds_borderGeneratedProperly() {
-    // The method should generate the edges as well, but only top-left and bottom-right corners
-    // are checked.
-
-    MapRect bounds = new MapRect(new MapPoint(1, 2), new MapSize(5, 5));
-    Collection<MapEntity> boundEntities = DefaultWorldLoader
-        .generateBorderEntities(
-            bounds,
-            DefaultWorldLoader::newBorderEntityAt
-        );
-
-    assertEquals(boundEntities.size(), 16); // 16 edge squares inside a 5x5 grid
-    assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getTopLeft().equals(bounds.topLeft)
-    ));
-    assertTrue(boundEntities.stream().anyMatch(
-        entity -> entity.getTopLeft().equals(new MapPoint(
-            bounds.bottomRight.x - 1,
-            bounds.bottomRight.y - 1
-        ))
-    ));
-  }
+  // TODO test bounds generators soz dylan deleted more of your tests
 
 }

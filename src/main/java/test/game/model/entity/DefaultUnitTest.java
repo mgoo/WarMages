@@ -224,19 +224,19 @@ public class DefaultUnitTest {
     final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
 
     double baseDamageAmount = unit.getDamageAmount();
-    assertEquals(baseDamageAmount, unit.getDamageAmount());
+    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
     ability1.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 1, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 1, unit.getDamageAmount(), 0.001);
     ability2.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 2, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 2, unit.getDamageAmount(), 0.001);
     ability3.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 3, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 3, unit.getDamageAmount(), 0.001);
 
     for (int i = 0; i < 200; i++) {
       unit.tick(GameModel.DELAY, world);
     }
 
-    assertEquals(baseDamageAmount, unit.getDamageAmount());
+    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
   }
 
   @Test
@@ -390,7 +390,7 @@ public class DefaultUnitTest {
 
       // then the enemy health should be reduced
       double hitEnemyHealth = enemyUnit.getHealth();
-      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
+      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth, 0.001);
     }
 
     @Test
@@ -404,7 +404,7 @@ public class DefaultUnitTest {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
       double prevHealth = unit.getHealth();
       unit.takeDamage(5, this.world);
-      assertEquals(prevHealth - 5, unit.getHealth());
+      assertEquals(prevHealth - 5, unit.getHealth(), 0.001);
     }
 
     private Unit createPlayerUnit(UnitType unitType) {
