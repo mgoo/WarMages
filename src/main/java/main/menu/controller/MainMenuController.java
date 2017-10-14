@@ -3,6 +3,8 @@ package main.menu.controller;
 import java.io.IOException;
 import javafx.scene.image.ImageView;
 import main.Main;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.util.Looper;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
@@ -82,7 +84,9 @@ public class MainMenuController extends MenuController {
     ImageProvider imageProvider = new DefaultImageProvider();
     MainGameTick tickEvent = new MainGameTick();
     Event<MouseClick> mouseClickEvent = new Event<>();
-    GameModel gameModel = new GameModel(world, tickEvent);
+    GameWon wonEvent = new GameWon();
+    GameLost lostEvent = new GameLost();
+    GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lostEvent);
     GameController gameController = new DefaultGameController(gameModel);
     GameView gameView = new GameView(this.config,
         gameController,
@@ -104,6 +108,16 @@ public class MainMenuController extends MenuController {
     tickEvent.registerListener(parameter -> hud.updateIcons());
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
     tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+    wonEvent.registerListener(parameter -> {
+      throw new Error("NYI");
+      //TODO andrew finish this off pls :) possibly new won menu? or go back to main menu?
+      //You can remove the Event if you want andrew
+    });
+    lostEvent.registerListener(parameter -> {
+      throw new Error("NYI");
+      //TODO andrew finish this off pls :) possibly new loss menu? or go back to main menu?
+      //You can remove the Event if you want andrew
+    });
     renderer.start();
     gameModel.startGame();
 

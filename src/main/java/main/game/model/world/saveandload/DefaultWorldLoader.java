@@ -460,7 +460,6 @@ public class DefaultWorldLoader implements WorldLoader {
           levels.getLast().getGoalDescription()
       ));
     }
-
     return new World(levels, heroUnit, new DefaultPathFinder());
   }
 
