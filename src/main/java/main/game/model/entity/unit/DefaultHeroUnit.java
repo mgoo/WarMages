@@ -25,7 +25,7 @@ import main.game.model.world.World;
 public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private static final long serialVersionUID = 1L;
-  private static final double PICK_UP_MAX_DISTANCE = 0.5;
+  private static final double PICK_UP_MAX_DISTANCE = 2;
 
   private final List<Ability> abilities;
 
@@ -57,11 +57,19 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   public void pickUp(Item item) {
     requireNonNull(item);
 
-    if (getCentre().distanceTo(item.getCentre()) > PICK_UP_MAX_DISTANCE) {
+    if (!isItemWithinRange(item)) {
       throw new ItemNotInRangeException("Item is too far away");
     }
 
+    if (itemInventory.contains(item)) {
+      return;
+    }
+
     itemInventory.add(item);
+  }
+
+  public boolean isItemWithinRange(Item item) {
+    return getCentre().distanceTo(item.getCentre()) < PICK_UP_MAX_DISTANCE;
   }
 
   /**

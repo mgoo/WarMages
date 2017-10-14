@@ -114,6 +114,17 @@ public class World implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  /**
+   * Removes a given item from the map if it exists on the map.
+   *
+   * @param item -- the item to remove
+   */
+  public void removeItem(Item item) {
+    if (items.contains(item)) {
+      items.remove(item);
+    }
+  }
+
   public void addProjectile(Projectile projectile) {
     projectiles.add(projectile);
   }

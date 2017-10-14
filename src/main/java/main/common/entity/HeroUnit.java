@@ -12,6 +12,8 @@ public interface HeroUnit extends Unit {
 
   void pickUp(Item item);
 
+  public boolean isItemWithinRange(Item item);
+
   Collection<Ability> getAbilities();
 
   Collection<Item> getItemInventory();
