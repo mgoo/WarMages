@@ -422,7 +422,10 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBuilding(16, 5)
           ),
           new Goal.AllEnemiesKilled(),
-          "Kill the enemy soldier with your hero and foot-knights"
+          "Kill the enemy soldier with your hero and foot-knights<br>"
+            + "<br>"
+            + "<b>Left-Click</b> to select units<br>"
+            + "<b>Right-Click</b> to attack and move"
       ));
     }
 
@@ -553,7 +556,8 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(30, 6)
           ),
           (level, world) -> world.getHeroUnit().getItemInventory().contains(goldRing),
-          "Pick up the Gold Ring"
+          "Pick up the Gold Ring<br>"
+            + "<b>Right-Click</b> on the ring when the hero is over it"
       ));
     }
 
