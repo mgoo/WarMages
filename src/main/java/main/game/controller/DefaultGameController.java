@@ -175,7 +175,7 @@ public class DefaultGameController implements GameController {
           //if it was a hero unit and item is in range, then pickup item
           if (unit instanceof HeroUnit && ((HeroUnit) unit).isItemWithinRange(selectedItem)) {
             ((HeroUnit) unit).pickUp(selectedItem);
-            gameModel.getWorld().removeMapEntity(selectedItem);
+            gameModel.getWorld().removeItem(selectedItem);
           }
         }
       } else {

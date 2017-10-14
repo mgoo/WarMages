@@ -116,13 +116,13 @@ public class World implements Serializable {
   }
 
   /**
-   * Removes a given map entity from the map if it exists on the map.
+   * Removes a given item from the map if it exists on the map.
    *
-   * @param entity the entity object to remove
+   * @param item -- the item to remove
    */
-  public void removeMapEntity(MapEntity entity) {
-    if (mapEntities.contains(entity)) {
-      mapEntities.remove(entity);
+  public void removeItem(Item item) {
+    if (items.contains(item)) {
+      items.remove(item);
     }
   }
 
