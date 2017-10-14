@@ -293,8 +293,12 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.target = null;
   }
 
-  @Override
-  public void setDamageAmount(double amount) {
+  /**
+   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
+   *
+   * @param amount of damage to deal to target.
+   */
+  private void setDamageAmount(double amount) {
     if (amount <= 0 || amount >= 100) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }

@@ -96,7 +96,14 @@ public class Renderer {
             (int) (y2.x + gameView.getViewBox().topLeft.x),
             (int) (y2.y + gameView.getViewBox().topLeft.y)
         );
+        for (int j = 0; j < 100; j++) {
+          MapPoint mp = EntityView.tileToPix(new MapPoint(i, j), config);
+          g.drawString("{" + i + ", " + j + "}",
+              ((int) (mp.x + gameView.getViewBox().x())),
+              ((int) (mp.y + gameView.getViewBox().y())));
+        }
       }
+
     }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
 

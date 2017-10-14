@@ -36,6 +36,7 @@ import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.common.images.GameImageResource.POTION_BLUE_ITEM;
 import static main.common.images.GameImageResource.RING_GOLD_ITEM;
 import static main.common.images.GameImageResource.SKELETON_ARCHER_SPRITE_SHEET;
+import static main.common.images.GameImageResource.SPEARMAN_SPRITE_SHEET;
 import static main.common.images.GameImageResource.TREE_1;
 import static main.common.images.GameImageResource.TREE_2;
 import static main.common.images.GameImageResource.TREE_3;
@@ -92,7 +93,9 @@ public class DefaultWorldLoader implements WorldLoader {
       TREE_5.getGameImage(),
       TREE_6.getGameImage(),
       TREE_7.getGameImage(),
-      TREE_8.getGameImage(),
+      TREE_8.getGameImage()};
+
+  private static GameImage[] barrles = new GameImage[]{
       BARRLE_1.getGameImage(),
       BARRLE_2.getGameImage(),
       BARRLE_3.getGameImage(),
@@ -121,6 +124,15 @@ public class DefaultWorldLoader implements WorldLoader {
       BUILDING_20.getGameImage(),
       BUILDING_21.getGameImage()};
 
+  private static MapEntity makeBarrel(MapPoint position) {
+    GameImage img = barrles[(int)(Math.random() * barrles.length)];
+    return new DefaultMapEntity(position, new MapSize(0.3, 0.3), img);
+  }
+
+  private static MapEntity makeBarrel(double x, double y) {
+    return makeBarrel(new MapPoint(x, y));
+  }
+
   private static MapEntity makeBuilding(MapPoint position) {
     GameImage img = buildings[(int)(Math.random() * buildings.length)];
     return new DefaultMapEntity(position, new MapSize(2, 2), img);
@@ -133,6 +145,10 @@ public class DefaultWorldLoader implements WorldLoader {
   private static MapEntity makeTree(MapPoint position) {
     GameImage img = trees[(int)(Math.random() * trees.length)];
     return new DefaultMapEntity(position, new MapSize(1, 1), img);
+  }
+
+  private static MapEntity makeTree(double x, double y) {
+    return makeTree(new MapPoint(x, y));
   }
 
   private static DefaultUnit makeFootNight(MapPoint position) {
@@ -163,7 +179,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
     // Generate top row
     for (int x = left; x < right; x++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x + (int)(Math.random() + 0.5), top));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , top + (int)(Math.random() + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -171,7 +187,7 @@ public class DefaultWorldLoader implements WorldLoader {
     }
     // Generatebottom row
     for (int x = left; x < right; x++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(x  + (int)(Math.random() + 0.5), bottom - 1));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(x , bottom - 1  + (int)(Math.random() + 0.5)));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         x += newEntity.getSize().width - 1;
@@ -180,7 +196,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
     // Generate right column
     for (int y = top + 1; y < bottom - 1; y++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(right - 1, y  + (int)(Math.random() + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(right - 1  + (int)(Math.random() + 0.5), y ));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -188,7 +204,7 @@ public class DefaultWorldLoader implements WorldLoader {
     }
     // Generate left column excluding columns
     for (int y = top + 1; y < bottom - 1; y++) {
-      MapEntity newEntity = entityGenerator.apply(new MapPoint(left, y  + (int)(Math.random() + 0.5)));
+      MapEntity newEntity = entityGenerator.apply(new MapPoint(left +  (int)(Math.random() + 0.5), y));
       mapEntities.add(newEntity);
       if (newEntity.getSize().width > 1) {
         y += newEntity.getSize().width - 1;
@@ -288,7 +304,7 @@ public class DefaultWorldLoader implements WorldLoader {
    */
   public World loadMultilevelWorld() {
     final HeroUnit heroUnit = new DefaultHeroUnit(
-        new MapPoint(2, 5),
+        new MapPoint(3, 5),
         STANDARD_UNIT_SIZE,
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.LASER,
@@ -311,15 +327,31 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new DefaultUnit(new MapPoint(2, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(4, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
-                  0
+                  1
               ),
-              new DefaultUnit(new MapPoint(2, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+              new DefaultUnit(new MapPoint(4, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
-                  0
+                  1
+              ),
+              new DefaultUnit(new MapPoint(3, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(3, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
               ),
               new DefaultUnit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
+              ),
+              new DefaultUnit(new MapPoint(11, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
+              ),
+              new DefaultUnit(new MapPoint(11, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
                   0
               )
@@ -341,21 +373,48 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-              new DefaultUnit(new MapPoint(10, 2), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              new DefaultUnit(new MapPoint(8, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(8, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
+                  1
               ),
               new DefaultUnit(new MapPoint(10, 8), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new DefaultUnit(new MapPoint(23, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              new DefaultUnit(new MapPoint(22, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(22, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(22, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(23, 4.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new DefaultUnit(new MapPoint(23, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new DefaultUnit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              new DefaultUnit(new MapPoint(23, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(24, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(24, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(24, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
+
           ),
           Arrays.asList(
               new DefaultItem(
@@ -376,15 +435,26 @@ public class DefaultWorldLoader implements WorldLoader {
               )
           ),
           Arrays.asList(
-              new DefaultMapEntity(
-                  bounds.getCenter().floored(),
-                  TREE_1.getGameImage()
-              )
+              makeBarrel(16, 7),
+              makeBarrel(16.4, 7),
+              makeBarrel(16, 7.5),
+              makeBarrel(16, 6.4),
+              makeBarrel(16.4, 6.2),
+              makeBarrel(16.5, 7.5),
+              makeBarrel(17, 8),
+              makeBarrel(16.4, 8.5),
+              makeBarrel(16.5, 9),
+              makeBarrel(17, 9),
+              makeBarrel(16, 3.5),
+              makeTree(17, 3),
+              makeTree(18, 4)
+
+
           ),
 //          generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt),
           Arrays.asList(),
           new Goal.AllEnemiesKilled(),
-          "Try out your new archers on the new enemies"
+          "Some Archer have joined your cause<br>Try out your new archers on the new enemies"
       ));
     }
 
