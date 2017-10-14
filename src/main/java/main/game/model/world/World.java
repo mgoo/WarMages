@@ -88,7 +88,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Gets the hero unit in the world
+   * Gets the hero unit in the world.
    */
   public HeroUnit getHeroUnit() {
     return this.heroUnit;

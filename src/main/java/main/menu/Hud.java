@@ -102,7 +102,9 @@ public class Hud extends Menu {
   private void addUnitIcon(Unit unit) {
     try {
       BufferedImage baseIcon = unit.getImage().load(this.imageProvider);
-      BufferedImage icon = new BufferedImage(baseIcon.getWidth(), baseIcon.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+          baseIcon.getHeight(),
+          BufferedImage.TYPE_4BYTE_ABGR);
       Graphics2D g = ((Graphics2D) icon.getGraphics());
       g.drawImage(baseIcon, 0, 0, null);
       g.setColor(Color.decode("#000000"));
