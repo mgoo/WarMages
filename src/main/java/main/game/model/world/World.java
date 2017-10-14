@@ -225,7 +225,7 @@ public class World implements Serializable {
 
     unitMovements.keySet().forEach(unit -> {
       MapSize movement = unitMovements.get(unit);
-      unit.translatePosition(movement.width, movement.height);
+      unit.slidePosition(movement.width, movement.height);
     });
   }
 

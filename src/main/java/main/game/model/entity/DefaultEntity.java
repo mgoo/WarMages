@@ -57,6 +57,12 @@ public abstract class DefaultEntity implements Entity {
   }
 
   @Override
+  public void slidePosition(double dx, double dy) {
+    topLeft = topLeft.translate(dx, dy);
+  }
+
+
+  @Override
   public MapPoint getPreviousTopLeft() {
     return previousTopLeft;
   }
