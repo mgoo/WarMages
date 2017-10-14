@@ -286,7 +286,7 @@ public class PathFinderTest {
     MapPoint end = new MapPoint(8.0, 5.0);
 
     List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
-    assertEquals(Collections.emptyList(), path);
+    assertEquals(Collections.singletonList(end), path);
   }
 
   @Test
@@ -297,7 +297,7 @@ public class PathFinderTest {
     MapPoint end = new MapPoint(7.533999103769283, 5.183950935489803);
 
     List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
-    assertEquals(Collections.emptyList(), path);
+    assertEquals(Collections.singletonList(end), path);
   }
 
   @Test
@@ -308,7 +308,7 @@ public class PathFinderTest {
     MapPoint end = new MapPoint(8.0, 5.0);
 
     List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
-    assertEquals(Collections.emptyList(), path);
+    assertEquals(Collections.singletonList(end), path);
   }
 
   @Test
@@ -319,6 +319,6 @@ public class PathFinderTest {
     MapPoint end = new MapPoint(7.999, 4.99);
 
     List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
-    assertEquals(Collections.emptyList(), path);
+    assertEquals(Collections.singletonList(end), path);
   }
 }
