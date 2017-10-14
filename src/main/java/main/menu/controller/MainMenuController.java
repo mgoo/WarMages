@@ -16,6 +16,7 @@ import main.game.view.GameView;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
 import main.common.images.ImageProvider;
+import main.menu.GameEndMenu;
 import main.menu.Hud;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
@@ -109,14 +110,14 @@ public class MainMenuController extends MenuController {
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
     tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
     wonEvent.registerListener(parameter -> {
-      throw new Error("NYI");
-      //TODO andrew finish this off pls :) possibly new won menu? or go back to main menu?
-      //You can remove the Event if you want andrew
+      gameModel.stopGame();
+      renderer.stop();
+      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "You have Won"));
     });
     lostEvent.registerListener(parameter -> {
-      throw new Error("NYI");
-      //TODO andrew finish this off pls :) possibly new loss menu? or go back to main menu?
-      //You can remove the Event if you want andrew
+      gameModel.stopGame();
+      renderer.stop();
+      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "YOU LOST YOUR BAD HAHA"));
     });
     renderer.start();
     gameModel.startGame();
