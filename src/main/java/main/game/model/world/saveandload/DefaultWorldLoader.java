@@ -260,7 +260,7 @@ public class DefaultWorldLoader implements WorldLoader {
         new MapPoint(2, 5),
         HERO_SIZE,
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
-        UnitType.SWORDSMAN,
+        UnitType.LASER,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
