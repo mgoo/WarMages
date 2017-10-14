@@ -88,27 +88,50 @@ public class Hud extends Menu {
    * Upate the icons that are displayed in the HUD.
    */
   public void updateIcons() {
-    this.main.callJsFunction("clearUnits");
     this.gameModel.getUnitSelection().forEach(this::addUnitIcon);
+    this.main.callJsFunction("switchUnitHolder");
 
-    this.main.callJsFunction("clearAbilities");
-    this.main.callJsFunction("clearItems");
     if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
       this.gameModel.getHeroUnit().getAbilities().forEach(this::addAbilityIcon);
       this.gameModel.getHeroUnit().getItemInventory().forEach(this::addItemIcon);
     }
+    this.main.callJsFunction("switchAbilitiesHolder");
+    this.main.callJsFunction("switchItemsHolder");
   }
 
   private void addUnitIcon(Unit unit) {
     try {
-      BufferedImage baseIcon = unit.getImage().load(this.imageProvider);
+      BufferedImage baseIcon = unit.getIcon().load(this.imageProvider);
       BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
           baseIcon.getHeight(),
           BufferedImage.TYPE_4BYTE_ABGR);
       Graphics2D g = ((Graphics2D) icon.getGraphics());
       g.drawImage(baseIcon, 0, 0, null);
+
+      // Adds the units level
       g.setColor(Color.decode("#000000"));
       g.drawString(Integer.toString(unit.getLevel()), 1, 10);
+
+      // Adds the health bar
+      g.setColor(new Color(200,200,200, 155));
+      g.fillRect(0,
+          icon.getHeight() - 10,
+          icon.getWidth(),
+          10);
+      Color healthColor;
+      if (unit.getHealthPercent() > 0.5) {
+        healthColor = new Color(84,255, 106);
+      } else if (unit.getHealthPercent() > 0.25) {
+        healthColor = new Color(255, 194, 41);
+      } else {
+        healthColor = new Color(255, 0, 61);
+      }
+      g.setColor(healthColor);
+      g.fillRect(0,
+          icon.getHeight() - 10,
+          (int)(icon.getWidth() * unit.getHealthPercent()),
+          10);
+
       this.addIcon("addUnitIcon", icon, unit);
     } catch (IOException e) {
       e.printStackTrace();
