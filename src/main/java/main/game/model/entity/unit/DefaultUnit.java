@@ -51,7 +51,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   private double damageAmount;
   private final double attackDistance;
   private double speed;
-  private MapSize origonalSize;
+  private MapSize originalSize;
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -64,7 +64,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       UnitType unitType
   ) {
     super(position, size);
-    this.origonalSize = size;
+    this.originalSize = size;
     this.level = 0;
     this.team = team;
     this.unitType = unitType;
@@ -89,7 +89,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   ) {
     super(position, size);
     this.level = level;
-    this.origonalSize = size;
+    this.originalSize = size;
     this.setSize(new MapSize(this.levelMultiplyer(size.width, UNIT_MAX_SIZE),
         this.levelMultiplyer(size.height, UNIT_MAX_SIZE)));
     this.team = team;
@@ -125,8 +125,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   public void setLevel(int level) {
     this.level = level;
-    this.setSize(new MapSize(this.levelMultiplyer(this.origonalSize.width, UNIT_MAX_SIZE),
-        this.levelMultiplyer(this.origonalSize.height, UNIT_MAX_SIZE)));
+    this.setSize(new MapSize(this.levelMultiplyer(this.originalSize.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(this.originalSize.height, UNIT_MAX_SIZE)));
   }
 
 
