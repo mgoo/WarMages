@@ -1,6 +1,7 @@
 package test.game.controller;
 
 import static org.junit.Assert.assertEquals;
+
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.GameController;
