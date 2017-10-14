@@ -186,8 +186,12 @@ public class GameView {
     }
   }
 
-  public void onTick(Long tickTime) {
-    this.updateRenderables(tickTime);
+  /**
+   * Ticks the gameView and also checks if game is completed.
+   * @param timeSinceLastTick time since last tick
+   */
+  public void onTick(Long timeSinceLastTick) {
+    this.updateRenderables(timeSinceLastTick);
     this.updateViewBoxPosition();
   }
 
