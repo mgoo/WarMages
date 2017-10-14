@@ -13,7 +13,7 @@ import test.game.model.world.WorldTestUtils;
 
 /**
  * Tests for Entities.
- *
+ * TODO Gabei shouldnt this be in defaultunittest?.
  * @author paladogabr
  */
 public class EntityTest {

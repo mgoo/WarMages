@@ -1,10 +1,5 @@
 package test.game.model.world;
 
-import static main.common.images.GameImageResource.ARCHER_SPRITE_SHEET;
-import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
-import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
-import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,15 +17,15 @@ import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.DefaultMapEntity;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.BaseAbility;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.DefaultUnitSpriteSheet;
+import test.game.model.entity.StubUnitSpriteSheet;
 
 /**
  * Useful factory methods.
@@ -48,7 +43,7 @@ public class WorldTestUtils {
         point,
         new MapSize(1, 1),
         Team.ENEMY,
-        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SPEARMAN
     );
   }
@@ -211,7 +206,7 @@ public class WorldTestUtils {
         new MapPoint(60, 60),
         new MapSize(1, 1),
         Team.ENEMY,
-        new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SPEARMAN
     );
   }
@@ -226,7 +221,7 @@ public class WorldTestUtils {
         new MapPoint(0, 0),
         new MapSize(1, 1),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SWORDSMAN
     );
   }
@@ -241,7 +236,7 @@ public class WorldTestUtils {
         new MapPoint(20, 20),
         new MapSize(1, 1),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER
     );
   }
@@ -255,7 +250,7 @@ public class WorldTestUtils {
     return new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SWORDSMAN,
         Collections.emptyList(),
         0
@@ -272,7 +267,7 @@ public class WorldTestUtils {
     return new DefaultHeroUnit(
         mapPoint,
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SWORDSMAN,
         Collections.emptyList(),
         0

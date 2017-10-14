@@ -19,17 +19,18 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
-import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.world.World;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
+import test.game.model.entity.StubUnitSpriteSheet;
 
 /**
- * Test for {@link Usable} implementations.
+ * Test for {@link Usable} implementations in combination with {@link DefaultUnit}.
  * @author chongdyla
  */
 public class UsablesTest {
@@ -46,7 +47,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
         Arrays.asList(healAbility),
         0
@@ -65,7 +66,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
         Arrays.asList(),
         0
@@ -179,7 +180,7 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
         Arrays.asList(buffAbility),
         0
