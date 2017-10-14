@@ -115,6 +115,11 @@ public class World implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
+  /**
+   * Removes a given map entity from the map if it exists on the map.
+   *
+   * @param entity the entity object to remove
+   */
   public void removeMapEntity(MapEntity entity) {
     if(mapEntities.contains(entity)) {
       mapEntities.remove(entity);
