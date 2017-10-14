@@ -42,7 +42,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
     start = start.rounded();
     end = end.rounded();
 
-    if(start.equals(end)) {
+    if (start.equals(end)) {
       return Collections.singletonList(endUnrounded);
     }
 
