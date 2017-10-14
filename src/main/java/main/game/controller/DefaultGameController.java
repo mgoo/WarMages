@@ -175,7 +175,7 @@ public class DefaultGameController implements GameController {
           //if it was a hero unit and item is in range, then pickup item
           if (unit instanceof HeroUnit) {
             HeroUnit hunit = ((HeroUnit) unit);
-            if(hunit.isItemWithinRange(selectedItem)) {
+            if (hunit.isItemWithinRange(selectedItem)) {
               hunit.pickUp(selectedItem);
             }
           }
