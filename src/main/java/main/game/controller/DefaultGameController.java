@@ -167,13 +167,13 @@ public class DefaultGameController implements GameController {
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetUnit(selectedUnit);
         }
-      } else if (selectedItem != null && closest instanceof Item){
+      } else if (selectedItem != null && closest instanceof Item) {
         // move all selected units to the clicked location
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetPoint(mouseEvent.getLocation());
 
           //if it was a hero unit, then it can also pickup item
-          if(unit instanceof HeroUnit) {
+          if (unit instanceof HeroUnit) {
             ((HeroUnit) unit).pickUp(selectedItem);
           }
         }
