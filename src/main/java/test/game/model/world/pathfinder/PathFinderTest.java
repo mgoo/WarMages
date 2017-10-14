@@ -279,7 +279,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test15_cannotCloseStartAndEndPoints() {
+  public void test15_testCloseStartAndEndPoints() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     MapPoint start = new MapPoint(7.533999103769283, 5.183950935489803);
@@ -290,7 +290,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test16_cannotCloseStartAndEndPoints() {
+  public void test16_testCloseStartAndEndPoints() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     MapPoint start = new MapPoint(8.0, 5.0);
@@ -301,7 +301,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test17_cannotCloseStartAndEndPoints() {
+  public void test17_testCloseStartAndEndPoints() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     MapPoint start = new MapPoint(7.999, 4.99);
@@ -312,7 +312,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void test18_cannotCloseStartAndEndPoints() {
+  public void test18_testCloseStartAndEndPoints() {
     Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     MapPoint start = new MapPoint(8.0, 5.0);
