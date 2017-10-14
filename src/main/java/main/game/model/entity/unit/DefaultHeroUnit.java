@@ -61,7 +61,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
       throw new ItemNotInRangeException("Item is too far away");
     }
 
-    if(itemInventory.contains(item)) {
+    if (itemInventory.contains(item)) {
       return;
     }
 
