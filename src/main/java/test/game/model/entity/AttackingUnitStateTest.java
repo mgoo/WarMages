@@ -2,6 +2,7 @@ package test.game.model.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -31,15 +32,15 @@ public class AttackingUnitStateTest {
   public void onlyOneAttackShouldOccurPerCycle() {
     // Given a target
     DefaultUnit target = mock(DefaultUnit.class);
-    when(target.getHealth()).thenReturn(100);
+    when(target.getHealth()).thenReturn(100D);
     when(target.getTeam()).thenReturn(Team.ENEMY);
     MapPoint targetLocation = new MapPoint(0, 0);
     when(target.getCentre()).thenReturn(targetLocation);
     // that counts attacks received
     AtomicInteger attackCount = new AtomicInteger(0);
-    doAnswer(invocation -> attackCount.incrementAndGet())
+    doAnswer(invocation -> 1 == attackCount.incrementAndGet())
         .when(target)
-        .takeDamage(anyInt(), any());
+        .takeDamage(anyDouble(), any());
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
     when(unit.getCentre()).thenReturn(targetLocation);

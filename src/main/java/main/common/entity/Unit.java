@@ -15,20 +15,21 @@ public interface Unit extends Entity {
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
+   * @return returns true if the entity died
    */
-  void takeDamage(int amount, World world);
+  boolean takeDamage(double amount, World world);
 
   /**
    * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
    */
-  void gainHealth(int amount);
+  void gainHealth(double amount);
 
   /**
    * Returns the current health of the Unit.
    *
    * @return unt health of the Unit.
    */
-  int getHealth();
+  double getHealth();
 
   double getLineOfSight();
 
@@ -67,18 +68,11 @@ public interface Unit extends Entity {
   void clearTarget();
 
   /**
-   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
-   *
-   * @param amount of damage to deal to target.
-   */
-  void setDamageAmount(int amount);
-
-  /**
    * Returns the amount of damage dealt.
    *
    * @return int amount of damage dealt.
    */
-  int getDamageAmount();
+  double getDamageAmount();
 
   /**
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
@@ -89,5 +83,15 @@ public interface Unit extends Entity {
    * Gets the base type of the unit.
    */
   UnitType getType();
+
+  /**
+   * Elevates the unit to the next level.
+   */
+  void nextLevel();
+
+  /**
+   * Gets the current level that the unit is on.
+   */
+  int getLevel();
 }
 
