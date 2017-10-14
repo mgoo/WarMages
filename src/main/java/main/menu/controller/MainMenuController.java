@@ -1,11 +1,13 @@
 package main.menu.controller;
 
+import java.io.IOException;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.util.Looper;
-import main.game.controller.GameController;
+import main.common.GameController;
+import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.common.WorldLoader;
@@ -15,7 +17,6 @@ import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
 import main.common.images.ImageProvider;
 import main.menu.Hud;
-import main.menu.LoadMenu;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
 import main.common.util.Config;
@@ -54,63 +55,73 @@ public class MainMenuController extends MenuController {
   }
 
   /**
-   * Starts a new game from the beginning.
+   * Loads a game from the file.
+   * @param filename the path to the file to load from.
    */
-  public void startBtn() {
+  public void loadBtn(String filename) {
     try {
-      ImageProvider imageProvider = new DefaultImageProvider();
-      MainGameTick tickEvent = new MainGameTick();
-      GameWon wonEvent = new GameWon();
-      GameLost lossEvent = new GameLost();
-      Event<MouseClick> mouseClickEvent = new Event<>();
-      World world = this.worldLoader.load();
-      GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lossEvent);
-      GameController gameController = new GameController(gameModel);
-      GameView gameView = new GameView(this.config,
-          gameController,
-          gameModel,
-          imageProvider,
-          mouseClickEvent);
-      tickEvent.registerListener(parameter -> gameView.onTick(parameter));
-      mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
-      Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
-      Hud hud = new Hud(this.main,
-          this.mainMenu,
-          gameView,
-          renderer,
-          gameModel,
-          imageProvider);
-      tickEvent.registerListener(parameter -> hud.updateIcons());
-      tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
-      tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
-      wonEvent.registerListener(parameter -> {
-        throw new Error("NYI");
-        //TODO andrew finish this off pls :) possibly new won menu? or go back to main menu?
-        //You can remove the Event if you want andrew
-      });
-      lossEvent.registerListener(parameter -> {
-        throw new Error("NYI");
-        //TODO andrew finish this off pls :) possibly new loss menu? or go back to main menu?
-        //You can remove the Event if you want andrew
-      });
-      renderer.start();
-      gameModel.startGame();
-
-      this.main.loadMenu(hud);
+      System.out.println(filename);
+      World world = this.worldSaveModel.load(filename);
+      this.startGame(world);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   /**
-   * Loads the load menu.
+   * Starts a new game from the beginning.
    */
-  public void loadBtn() {
+  public void startBtn() {
     try {
-      this.main.loadMenu(new LoadMenu(this.main, this.mainMenu, this.worldSaveModel));
+      World world = this.worldLoader.load();
+      this.startGame(world);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void startGame(World world) {
+    ImageProvider imageProvider = new DefaultImageProvider();
+    MainGameTick tickEvent = new MainGameTick();
+    Event<MouseClick> mouseClickEvent = new Event<>();
+    GameWon wonEvent = new GameWon();
+    GameLost lostEvent = new GameLost();
+    GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lostEvent);
+    GameController gameController = new DefaultGameController(gameModel);
+    GameView gameView = new GameView(this.config,
+        gameController,
+        gameModel,
+        imageProvider,
+        mouseClickEvent);
+    tickEvent.registerListener(parameter -> gameView.onTick(parameter));
+    mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+    Renderer renderer = new Renderer(gameView, this.imageView, config, new Looper());
+    Hud hud = new Hud(this.main,
+        this.mainMenu,
+        gameView,
+        renderer,
+        gameModel,
+        imageProvider,
+        filename -> {
+          this.worldSaveModel.save(world, filename);
+        });
+    tickEvent.registerListener(parameter -> hud.updateIcons());
+    tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
+    tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+    wonEvent.registerListener(parameter -> {
+      throw new Error("NYI");
+      //TODO andrew finish this off pls :) possibly new won menu? or go back to main menu?
+      //You can remove the Event if you want andrew
+    });
+    lostEvent.registerListener(parameter -> {
+      throw new Error("NYI");
+      //TODO andrew finish this off pls :) possibly new loss menu? or go back to main menu?
+      //You can remove the Event if you want andrew
+    });
+    renderer.start();
+    gameModel.startGame();
+
+    this.main.loadMenu(hud);
   }
 
   /**

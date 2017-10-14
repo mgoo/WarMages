@@ -13,6 +13,7 @@ import main.common.images.ImageProvider;
 
 /**
  * Load the images from the resources folder.
+ * @author chongdyla
  */
 public class DefaultImageProvider extends ImageProvider {
 

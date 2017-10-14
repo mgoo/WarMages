@@ -9,24 +9,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import main.common.entity.HeroUnit;
+import main.common.entity.MapEntity;
+import main.common.entity.Team;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Effect;
+import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.MapEntity;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
-import main.game.model.entity.usable.Ability;
+import main.game.model.entity.DefaultMapEntity;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.usable.BaseAbility;
 import main.game.model.entity.usable.BaseEffect;
-import main.common.Effect;
-import main.game.model.entity.usable.Item;
+import main.game.model.entity.usable.DefaultItem;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
+/**
+ * Useful factory methods.
+ * @author chongdyla (External Tester)
+ */
 public class WorldTestUtils {
 
   /**
@@ -34,8 +43,8 @@ public class WorldTestUtils {
    *
    * @return an out of bounds unit
    */
-  public static Unit createUnit(MapPoint point) {
-    return new Unit(
+  public static DefaultUnit createDefaultUnit(MapPoint point) {
+    return new DefaultUnit(
         point,
         new MapSize(1, 1),
         Team.ENEMY,
@@ -105,7 +114,7 @@ public class WorldTestUtils {
    * @return an Item at the position point
    */
   public static Item createStubItem(MapPoint point) {
-    return new Item(
+    return new DefaultItem(
         point,
         createStubAbility(),
         GameImageResource.POTION_BLUE_ITEM.getGameImage()
@@ -116,14 +125,17 @@ public class WorldTestUtils {
    * Creates and ability that does nothing.
    */
   public static Ability createStubAbility() {
-    return new Ability("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+    return new BaseAbility("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+
       @Override
-      public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+      public Collection<Unit> selectUnitsToApplyOn(
+          World world, Collection<Unit> selectedDefaultUnits
+      ) {
         return Collections.emptyList();
       }
 
       @Override
-      public Effect _createEffectForUnit(Unit unit) {
+      public Effect createEffectForUnit(Unit unit) {
         return new BaseEffect(unit, 1) {
         };
       }
@@ -137,7 +149,7 @@ public class WorldTestUtils {
    * @return a new MapEntity
    */
   public static MapEntity createStubMapEntity(MapPoint mapPoint) {
-    return new MapEntity(mapPoint) {
+    return new DefaultMapEntity(mapPoint, GameImageResource.TEST_IMAGE_1_1.getGameImage()) {
       @Override
       public void tick(long timeSinceLastTick, World world) {
         //DO NOTHING
@@ -195,9 +207,9 @@ public class WorldTestUtils {
    * @return an enemy orc unit
    */
   public static Unit createDefaultEnemyOrc() {
-    return new Unit(
+    return new DefaultUnit(
         new MapPoint(60, 60),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.ENEMY,
         new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET),
         UnitType.SPEARMAN
@@ -210,9 +222,9 @@ public class WorldTestUtils {
    * @return a player knight unit
    */
   public static Unit createDefaultPlayerKnight() {
-    return new Unit(
+    return new DefaultUnit(
         new MapPoint(0, 0),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET),
         UnitType.SWORDSMAN
@@ -225,9 +237,9 @@ public class WorldTestUtils {
    * @return a player knight unit.
    */
   public static Unit createDefaultPlayerArcher() {
-    return new Unit(
+    return new DefaultUnit(
         new MapPoint(20, 20),
-        new MapSize(30, 30),
+        new MapSize(1, 1),
         Team.PLAYER,
         new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET),
         UnitType.ARCHER
@@ -236,10 +248,11 @@ public class WorldTestUtils {
 
   /**
    * Creates a hero unit at 1, 1.
-   * @return a new HeroUnit
+   *
+   * @return a new DefaultHeroUnit
    */
-  public static HeroUnit createHeroUnit() {
-    return new HeroUnit(
+  public static HeroUnit createDefaultHeroUnit() {
+    return new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
@@ -250,11 +263,12 @@ public class WorldTestUtils {
 
   /**
    * Creates a hero unit based on mapPoint.
+   *
    * @param mapPoint point on the map
-   * @return a new HeroUnit
+   * @return a new DefaultHeroUnit
    */
-  public static HeroUnit createHeroUnit(MapPoint mapPoint) {
-    return new HeroUnit(
+  public static HeroUnit createDefaultHeroUnit(MapPoint mapPoint) {
+    return new DefaultHeroUnit(
         mapPoint,
         new MapSize(1, 1),
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),

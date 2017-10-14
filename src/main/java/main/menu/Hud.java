@@ -12,13 +12,14 @@ import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
 import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
-import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.game.view.GameView;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
+import main.menu.controller.HudController.SaveFunction;
 import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
 import main.renderer.Renderer;
@@ -41,11 +42,12 @@ public class Hud extends Menu {
              GameView gameView,
              Renderer renderer,
              GameModel gameModel,
-             ImageProvider imageProvider) {
+             ImageProvider imageProvider,
+             SaveFunction saveFunction) {
     super(main);
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
-    this.menuController = new HudController(main, mainMenu, gameView, renderer);
+    this.menuController = new HudController(main, mainMenu, gameView, renderer, saveFunction);
   }
 
   @Override
@@ -65,7 +67,13 @@ public class Hud extends Menu {
           .setFile(MenuFileResources.JQUERY_JS.getPath())
           .getScript(),
       new ScriptFileGenerator()
+          .setFile(MenuFileResources.BOOTSTRAP_JS.getPath())
+          .getScript(),
+      new ScriptFileGenerator()
           .setFile(MenuFileResources.HUD_JS.getPath())
+          .getScript(),
+      new ScriptFileGenerator()
+          .setFile(MenuFileResources.FILE_SCRIPTS.getPath())
           .getScript()
     };
   }

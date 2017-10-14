@@ -2,17 +2,18 @@ package main.game.model.entity.usable;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.Effect;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
+import main.common.entity.usable.Effect;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.game.model.world.World;
 import main.common.images.GameImage;
 
 /**
  * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more
  * damage.
+ * @author chongdyla
  */
-public class DamageBuffAbility extends Ability {
+public class DamageBuffAbility extends BaseAbility {
 
   private static final long serialVersionUID = 1L;
   private final int damageIncrease;
@@ -45,7 +46,7 @@ public class DamageBuffAbility extends Ability {
   }
 
   @Override
-  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+  public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
     return world.getAllUnits()
         .stream()
         .filter(unit -> unit.getTeam() == Team.PLAYER)
@@ -53,7 +54,7 @@ public class DamageBuffAbility extends Ability {
   }
 
   @Override
-  public Effect _createEffectForUnit(Unit unit) {
+  public Effect createEffectForUnit(Unit unit) {
     return new DamageBuffEffect(unit, getEffectDurationSeconds());
   }
 

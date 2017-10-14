@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
+import main.common.entity.Entity;
+import main.common.entity.Unit;
 import main.common.util.Looper;
-import main.game.model.entity.Entity;
-import main.game.model.entity.Unit;
 import main.game.model.world.World;
 import main.common.util.Events;
 import main.common.util.Events.MainGameTick;
@@ -89,6 +89,10 @@ public class GameModel {
    */
   public Collection<Unit> getUnitSelection() {
     return Collections.unmodifiableCollection(selectedUnits);
+  }
+
+  public void addToUnitSelection(Unit unit) {
+    this.selectedUnits.add(unit);
   }
 
   /**

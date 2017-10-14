@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -39,6 +40,7 @@ import netscape.javascript.JSObject;
  * logic.
  */
 public class Main extends Application {
+  private static boolean isDebugging = false;
 
   /**
    * Start the app.
@@ -93,6 +95,9 @@ public class Main extends Application {
     final WebView browser = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
+    if (getParameters().getUnnamed().contains("--debug")) {
+      config.enableDebugMode();
+    }
     config.setScreenDim((int) primaryStage.getWidth(), (int) primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,
@@ -125,6 +130,9 @@ public class Main extends Application {
       Arrays.stream(this.currentMenu.getScripts()).forEach(script -> {
         webEngine.executeScript(script);
       });
+    });
+    webEngine.setOnAlert((WebEvent<String> event) -> {
+      System.out.println("JS Alert: " + event.getData());
     });
 
     this.loadMenu(mainMenu);
