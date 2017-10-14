@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import main.game.model.world.pathfinder.DefaultPathFinder;
@@ -275,5 +276,49 @@ public class PathFinderTest {
         new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 2));
 
     assertEquals(new MapPoint(3,2), actual.get(actual.size() - 1));
+  }
+
+  @Test
+  public void test15_testCloseStartAndEndPoints() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint start = new MapPoint(7.533999103769283, 5.183950935489803);
+    MapPoint end = new MapPoint(8.0, 5.0);
+
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
+    assertEquals(Collections.singletonList(end), path);
+  }
+
+  @Test
+  public void test16_testCloseStartAndEndPoints() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint start = new MapPoint(8.0, 5.0);
+    MapPoint end = new MapPoint(7.533999103769283, 5.183950935489803);
+
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
+    assertEquals(Collections.singletonList(end), path);
+  }
+
+  @Test
+  public void test17_testCloseStartAndEndPoints() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint start = new MapPoint(7.999, 4.99);
+    MapPoint end = new MapPoint(8.0, 5.0);
+
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
+    assertEquals(Collections.singletonList(end), path);
+  }
+
+  @Test
+  public void test18_testCloseStartAndEndPoints() {
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
+
+    MapPoint start = new MapPoint(8.0, 5.0);
+    MapPoint end = new MapPoint(7.999, 4.99);
+
+    List<MapPoint> path = new DefaultPathFinder().findPath(isPassable, start, end);
+    assertEquals(Collections.singletonList(end), path);
   }
 }
