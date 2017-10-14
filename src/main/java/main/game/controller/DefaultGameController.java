@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import main.common.GameController;
+import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
+import main.common.entity.usable.Item;
 import main.game.model.GameModel;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -116,11 +120,9 @@ public class DefaultGameController implements GameController {
 
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
-        Collection<Unit> updatedUnitSelection = new ArrayList<>(gameModel.getUnitSelection());
         if (selectedUnit != null) {
-          updatedUnitSelection.add(selectedUnit);
+          gameModel.addToUnitSelection(selectedUnit);
         }
-        gameModel.setUnitSelection(updatedUnitSelection);
 
       } else if (mouseEvent.wasCtrlDown()) {
         //if clicked unit already selected, deselect it. otherwise, select it
@@ -128,10 +130,8 @@ public class DefaultGameController implements GameController {
 
         if (updatedUnits.contains(selectedUnit)) {
           updatedUnits.remove(selectedUnit);
-        } else {
-          if (selectedUnit != null) {
-            updatedUnits.add(selectedUnit);
-          }
+        } else if (selectedUnit != null) {
+          updatedUnits.add(selectedUnit);
         }
         gameModel.setUnitSelection(updatedUnits);
 
@@ -143,10 +143,40 @@ public class DefaultGameController implements GameController {
         }
       }
     } else { //otherwise, it must have been a right click
-      if (selectedUnit != null) {
+
+      //select the item under the click if there is one
+      Item selectedItem = gameModel.getAllEntities()
+          .stream()
+          .filter(u -> u instanceof Item)
+          .map(Item.class::cast)
+          .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
+              <= Math.max(u.getSize().width, u.getSize().height))
+          .sorted(Comparator.comparingDouble(
+              s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+          .findFirst().orElse(null);
+
+      //find the closest thing i.e. unit or item
+      Entity closest = Stream.of(selectedItem, selectedUnit)
+          .filter(Objects::nonNull)
+          .sorted(Comparator.comparingDouble(
+              s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
+          .findFirst().orElse(null);
+
+      if (selectedUnit != null && closest instanceof Unit) {
         //attack an enemy
         for (Unit unit : gameModel.getUnitSelection()) {
           unit.setTargetUnit(selectedUnit);
+        }
+      } else if (selectedItem != null && closest instanceof Item) {
+        // move all selected units to the clicked location
+        for (Unit unit : gameModel.getUnitSelection()) {
+          unit.setTargetPoint(mouseEvent.getLocation());
+
+          //if it was a hero unit and item is in range, then pickup item
+          if (unit instanceof HeroUnit && ((HeroUnit) unit).isItemWithinRange(selectedItem)) {
+            ((HeroUnit) unit).pickUp(selectedItem);
+            gameModel.getWorld().removeItem(selectedItem);
+          }
         }
       } else {
         // move all selected units to the clicked location
@@ -231,7 +261,7 @@ public class DefaultGameController implements GameController {
     if (mouseEvent.wasShiftDown()) {
       unitsSelected.stream()
           .filter(unit -> !gameModel.getUnitSelection().contains(unit))
-          .forEach(unit -> gameModel.addToUnitSelection(unit));
+          .forEach(gameModel::addToUnitSelection);
     } else {
       gameModel.setUnitSelection(unitsSelected);
     }
@@ -242,20 +272,20 @@ public class DefaultGameController implements GameController {
    * When a selected units icon is clicked in from the hud.
    */
   public void onUnitIconClick(UnitIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 
   /**
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    // TODO H
+    // TODO Hrsh
   }
 }
