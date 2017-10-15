@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
+import main.common.GameModel;
 import main.common.WorldLoader;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -63,7 +64,6 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.Level.Goal;
 import main.game.model.Level.Goal.AllEnemiesKilled;
@@ -74,12 +74,14 @@ import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.world.World;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 
 /**
  * Loads a complex enough world to be played enjoyably.
+ *
  * @author chongdyla
  */
 public class DefaultWorldLoader implements WorldLoader {
@@ -271,8 +273,8 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Factory method for creating a new entity to be put on the border of a {@link Level} to stop
-   * the user from leaving the area.
+   * Factory method for creating a new entity to be put on the border of a {@link Level} to stop the
+   * user from leaving the area.
    */
   public static MapEntity newBorderEntityAt(MapPoint point) {
     return Math.random() > 0.5 ? makeTree(point) : makeBuilding(point);
@@ -285,10 +287,10 @@ public class DefaultWorldLoader implements WorldLoader {
   }
 
   /**
-   * Creates a new {@link GameModel} with the single level and example data. This level doesn't have
-   * a wall of {@link MapEntity}s around the bounds. This should have every non {@link
-   * main.game.model.entity.Projectile} {@link Entity} in the {@link main.game.model.entity} package
-   * for maximum coverage in tests.
+   * Creates a new {@link GameModel} with the single level and example data.
+   * This level doesn't have a wall of {@link MapEntity}s around the bounds.
+   * This should have every non {@link main.game.model.entity.Projectile} {@link Entity} in the
+   * {@link main.game.model.entity} package for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
     HeroUnit heroUnit = new DefaultHeroUnit(
@@ -351,7 +353,7 @@ public class DefaultWorldLoader implements WorldLoader {
         "Maybe kill all the enemies"
     );
 
-    return new World(Arrays.asList(level), heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(Arrays.asList(level), heroUnit, new DefaultPathFinder());
   }
 
   /**
@@ -667,7 +669,7 @@ public class DefaultWorldLoader implements WorldLoader {
           "Gold ring is love. Gold ring is life"
       ));
     }
-    return new World(levels, heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
   }
 
   /**
@@ -770,6 +772,6 @@ public class DefaultWorldLoader implements WorldLoader {
 
     levels.add(startingLevel);
 
-    return new World(levels, heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
   }
 }

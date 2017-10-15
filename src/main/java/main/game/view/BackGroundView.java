@@ -7,7 +7,8 @@ import main.common.util.MapSize;
 import main.renderer.Renderable;
 
 /**
- * Created by mgoo on 10/10/17.
+ * The View for the background.
+ * @author Andrew McGhie
  */
 public class BackGroundView implements Renderable {
 
@@ -52,14 +53,14 @@ public class BackGroundView implements Renderable {
 
   @Override
   public MapPoint getImagePosition(long currentTime) {
-    double x = gameView.getViewBox().x() > 0
-        ? gameView.getViewBox().x() % config.getContextScreenWidth()
+    double x = gameView.getViewBox().x() < 0
+        ? - gameView.getViewBox().x() % config.getContextScreenWidth()
         : config.getContextScreenWidth()
-            + gameView.getViewBox().x() % config.getContextScreenWidth();
-    double y = gameView.getViewBox().y() > 0
-        ? gameView.getViewBox().y() % config.getContextScreenHeight()
+            - gameView.getViewBox().x() % config.getContextScreenWidth();
+    double y = gameView.getViewBox().y() < 0
+        ? - gameView.getViewBox().y() % config.getContextScreenHeight()
         : config.getContextScreenHeight()
-            + gameView.getViewBox().y() % config.getContextScreenHeight();
+            - gameView.getViewBox().y() % config.getContextScreenHeight();
     return new MapPoint(
         x - config.getContextScreenWidth(),
         y - config.getContextScreenHeight());
