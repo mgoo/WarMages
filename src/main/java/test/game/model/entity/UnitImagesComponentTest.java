@@ -9,12 +9,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import main.common.entity.Direction;
 import main.common.images.GameImage;
-import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.GameModel;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitImagesComponent;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 /**
@@ -31,8 +29,7 @@ public class UnitImagesComponentTest {
     int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and a stub unit
     DefaultUnit unit = mock(DefaultUnit.class);
-    when(unit.getSpriteSheet())
-        .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+    when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());
     when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // and a UnitImagesComponent
     UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);

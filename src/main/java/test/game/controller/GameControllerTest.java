@@ -1,9 +1,9 @@
 package test.game.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
 import main.game.model.GameModel;
@@ -28,6 +28,10 @@ public class GameControllerTest {
 
   @Test
   public void checkSelectOneUnit() {
+    GameWon gc = new GameWon();
+    gc.registerListener(parameter -> {});
+    GameLost gl = new GameLost();
+    gl.registerListener(parameter -> {});
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
@@ -35,7 +39,7 @@ public class GameControllerTest {
         )),
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
+        new MainGameTick(), gc, gl);
     controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
@@ -63,6 +67,10 @@ public class GameControllerTest {
 
   @Test
   public void checkSelectNoUnit() {
+    GameWon gc = new GameWon();
+    gc.registerListener(parameter -> {});
+    GameLost gl = new GameLost();
+    gl.registerListener(parameter -> {});
     gameModel = new GameModel(new World(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
@@ -70,7 +78,7 @@ public class GameControllerTest {
         )),
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
+        new MainGameTick(), gc, gl);
     controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override

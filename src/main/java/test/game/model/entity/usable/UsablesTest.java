@@ -19,17 +19,18 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
 import main.game.model.GameModel;
-import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
 import main.game.model.world.World;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
+import test.game.model.entity.StubUnitSpriteSheet;
 
 /**
- * Test for {@link Usable} implementations.
+ * Test for {@link Usable} implementations in combination with {@link DefaultUnit}.
  * @author chongdyla
  */
 public class UsablesTest {
@@ -46,9 +47,10 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList(healAbility)
+        Arrays.asList(healAbility),
+        0
     );
 
     healUsableShouldIncreaseHealth(
@@ -64,9 +66,10 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList()
+        Arrays.asList(),
+        0
     );
 
     HealAbility healAbility = new HealAbility(
@@ -104,13 +107,13 @@ public class UsablesTest {
 
     // when the hero takes damage
     heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
-    int lowHealth = heroUnit.getHealth();
+    double lowHealth = heroUnit.getHealth();
     // and the heal is used
     healer.use(world, Collections.emptyList());
 
     // then the health should go up
-    int firstNewHealth = heroUnit.getHealth();
-    assertEquals(lowHealth + healAmount, firstNewHealth);
+    double firstNewHealth = heroUnit.getHealth();
+    assertEquals(lowHealth + healAmount, firstNewHealth, 0.001);
     // and ability should be on cool-down
     assertFalse(healer.isReadyToBeUsed());
 
@@ -122,8 +125,8 @@ public class UsablesTest {
     healer.use(world, Collections.emptyList());
 
     // then health should increase again
-    int secondNewHealth = heroUnit.getHealth();
-    assertEquals(firstNewHealth + healAmount, secondNewHealth);
+    double secondNewHealth = heroUnit.getHealth();
+    assertEquals(firstNewHealth + healAmount, secondNewHealth, 0.001);
   }
 
   @Test
@@ -177,11 +180,12 @@ public class UsablesTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList(buffAbility)
+        Arrays.asList(buffAbility),
+        0
     );
-    int baseDamageAmount = heroUnit.getDamageAmount();
+    double baseDamageAmount = heroUnit.getDamageAmount();
     // and a mock world
     World world = mock(World.class);
     when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
@@ -193,12 +197,12 @@ public class UsablesTest {
     // damageAmount should increase for several ticks
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());
     for (int i = 0; i < effectDurationTicks; i++) {
-      int buffedDamageAmount = heroUnit.getDamageAmount();
-      assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount);
+      double buffedDamageAmount = heroUnit.getDamageAmount();
+      assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount, 0.001);
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
     }
 
     // then damageAmount should go back to normal
-    assertEquals(baseDamageAmount, heroUnit.getDamageAmount());
+    assertEquals(baseDamageAmount, heroUnit.getDamageAmount(), 0.001);
   }
 }

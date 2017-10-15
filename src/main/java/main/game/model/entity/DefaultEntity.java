@@ -30,6 +30,10 @@ public abstract class DefaultEntity implements Entity {
     this.size = requireNonNull(size);
   }
 
+  protected void setSize(MapSize size) {
+    this.size = size;
+  }
+
   @Override
   public MapPoint getTopLeft() {
     return topLeft;
@@ -55,6 +59,12 @@ public abstract class DefaultEntity implements Entity {
     previousTopLeft = topLeft;
     topLeft = topLeft.translate(dx, dy);
   }
+
+  @Override
+  public void slidePosition(double dx, double dy) {
+    topLeft = topLeft.translate(dx, dy);
+  }
+
 
   @Override
   public MapPoint getPreviousTopLeft() {
