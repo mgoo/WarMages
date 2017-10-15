@@ -2,28 +2,27 @@ package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
+import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.entity.Unit;
+import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.entity.usable.Effect;
-import main.game.model.entity.unit.state.AttackingUnitState;
-import main.game.model.entity.unit.state.DeadUnit;
 import main.game.model.entity.DefaultEntity;
-import main.common.entity.Direction;
-import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
 import main.common.World;
+import main.game.model.entity.unit.state.UnitState;
+import main.game.model.entity.unit.state.WalkingUnitState;
+import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
+import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
 
 /**
  * Default Unit implementation.
@@ -33,26 +32,41 @@ import main.common.World;
 public class DefaultUnit extends DefaultEntity implements Unit {
 
   private static final long serialVersionUID = 1L;
-
-  private static final double LEEWAY_FOR_PATH = 0.01;
+  private static final double LEVEL_DIVISOR = 10;
+  private static final double UNIT_MAX_SPEED = 0.12;
+  private static final double UNIT_MAX_SIZE = 1;
 
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
-
   private Unit target;
+
   private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
-
   private boolean isDead = false;
+
   private boolean hasCreatedDeadUnit = false;
 
-  private int health;
-  private int damageAmount;
+  private int level;
+  private double health;
+  private double damageAmount;
   private final double attackDistance;
   private double speed;
-  protected Queue<MapPoint> path = new LinkedList<>();
+  private MapSize originalSize;
 
+  /**
+   * Constructor takes the unit's position, size, and team.
+   * Defaults the level to 0
+   */
+  public DefaultUnit(
+      MapPoint position,
+      MapSize size,
+      Team team,
+      UnitSpriteSheet sheet,
+      UnitType unitType
+  ) {
+    this(position, size, team, sheet, unitType, 0);
+  }
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -62,18 +76,53 @@ public class DefaultUnit extends DefaultEntity implements Unit {
       MapSize size,
       Team team,
       UnitSpriteSheet sheet,
-      UnitType unitType
+      UnitType unitType,
+      int level
   ) {
     super(position, size);
+    this.level = level;
+    this.originalSize = size;
+    this.setSize(new MapSize(this.levelMultiplyer(size.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(size.height, UNIT_MAX_SIZE)));
     this.team = team;
     this.unitType = unitType;
-    this.health = unitType.getStartingHealth();
+    this.health = this.levelMultiplyer(unitType.getStartingHealth());
     this.spriteSheet = sheet;
     this.unitState = new IdleUnitState(this);
+
     this.speed = unitType.getMovingSpeed();
     this.attackDistance = unitType.getAttackDistance();
     setDamageAmount(unitType.getBaselineDamage());
   }
+
+  /**
+   * Buffs the base stats based on what level the unit is on.
+   * @param val the value of the base stat
+   */
+  private double levelMultiplyer(double val) {
+    return val * (1 + ((double)this.level / LEVEL_DIVISOR));
+  }
+
+  /**
+   * Buffs the base stats based on what level  the unit is on.
+   * Cannot go above max
+   * @param val the value of the base stat
+   * @param max the maximum that the stat can be
+   */
+  private double levelMultiplyer(double val, double max) {
+    return Math.min(max, levelMultiplyer(val));
+  }
+
+  /**
+   * Sets the level and adjusts the size of the unit accordingly.
+   */
+  public void setLevel(int level) {
+    this.level = level;
+    this.setSize(new MapSize(this.levelMultiplyer(this.originalSize.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(this.originalSize.height, UNIT_MAX_SIZE)));
+  }
+
+
 
   /**
    * Sets the Unit's next state to be the given state.
@@ -90,7 +139,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getLineOfSight() {
-    return this.unitType.lineOfSight;
+    return this.levelMultiplyer(this.unitType.lineOfSight);
   }
 
   @Override
@@ -108,40 +157,13 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     unitState.tick(timeSinceLastTick, world);
-    unitState = requireNonNull(unitState.updateState());
-    //update path in case there is a target and it has moved.
-    updatePath(world);
-    //update position
-    tickPosition(timeSinceLastTick, world);
-    //check if has target and target is within attacking proximity. Request state change.
-    if (target != null && targetWithinProximity()) {
-      attack();
-    } else {
-      //if no target, check if unit reached destination and change to idle if so
-      if (this.path.size() == 0) {
-        setNextState(new IdleUnitState(this));
-      }
-    }
+    unitState = requireNonNull(this.unitState.updateState());
     tickEffects(timeSinceLastTick);
   }
 
   @Override
   public GameImage getImage() {
     return unitState.getImage();
-  }
-
-  @Override
-  public void attack() {
-    if (isDead) {
-      throw new IllegalStateException("Is dead");
-    }
-    if (target == null) {
-      throw new IllegalStateException(
-          "No target to attack. Check if there is a target before calling attack"
-      );
-    }
-
-    setNextState(new AttackingUnitState(this));
   }
 
   @Override
@@ -153,26 +175,28 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void takeDamage(int amount, World world) {
+  public boolean takeDamage(double amount, World world) {
     if (isDead) {
-      return;
+      return false;
     }
     if (amount < 0) {
       throw new IllegalArgumentException("Amount: " + amount);
     }
 
-    if (health - amount >= 0) {
+    if (health - amount > 0) {
       // Not dead
       health -= amount;
+      return false;
     } else {
       isDead = true;
       health = 0;
       setNextState(new DyingState(Sequence.DYING, this));
+      return true;
     }
   }
 
   @Override
-  public void gainHealth(int amount) {
+  public void gainHealth(double amount) {
     if (isDead) {
       return;
     }
@@ -199,7 +223,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    * @return int health of the Unit.
    */
   @Override
-  public int getHealth() {
+  public double getHealth() {
     return health;
   }
 
@@ -221,14 +245,14 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public int getDamageAmount() {
-    int amount = damageAmount;
+  public double getDamageAmount() {
+    double amount = damageAmount;
 
     for (Effect activeEffect : activeEffects) {
       amount = activeEffect.alterDamageAmount(amount);
     }
 
-    return amount;
+    return this.levelMultiplyer(amount);
   }
 
   private void tickEffects(long timeSinceLastTick) {
@@ -254,6 +278,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return spriteSheet;
   }
 
+  @Override
+  public GameImage getIcon() {
+    return this.spriteSheet.getImagesForSequence(Sequence.IDLE, Direction.DOWN).get(0);
+  }
+
   /**
    * Gets the direction from the current state.
    */
@@ -263,9 +292,14 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public void setTarget(Unit target, World world) {
-    this.target = Objects.requireNonNull(target);
-    updatePath(world);
+  public void setTargetUnit(Unit targetUnit) {
+    this.target = requireNonNull(targetUnit);
+    setNextState(new WalkingUnitState(this, new EnemyUnitTarget(this, targetUnit)));
+  }
+
+  @Override
+  public void setTargetPoint(MapPoint targetPoint) {
+    setNextState(new WalkingUnitState(this, new MapPointTarget(this, targetPoint)));
   }
 
   @Override
@@ -274,27 +308,16 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   /**
-   * Updates the path in case target has moved.
+   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
+   *
+   * @param amount of damage to deal to target.
    */
-  protected void updatePath(World world) {
-    if (target == null) {
-      return;
-    }
-    setPath(world.findPath(getCentre(), target.getCentre()));
-  }
-
-  @Override
-  public void setDamageAmount(int amount) {
+  private void setDamageAmount(double amount) {
     if (amount <= 0 || amount >= 100) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }
 
     damageAmount = amount;
-  }
-
-  @Override
-  public void setPath(List<MapPoint> path) {
-    this.path = new LinkedList<>(path);
   }
 
   @Override
@@ -304,48 +327,41 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getHealthPercent() {
-    return health / unitType.getStartingHealth();
+    return health / this.levelMultiplyer(unitType.getStartingHealth());
+  }
+
+  public double getSpeed() {
+    return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
   }
 
   /**
-   * Updates the DefaultUnit's position depending on it's path.
-   *
-   * @param timeSinceLastTick time passed since last tick.
-   * @param world that this DefaultUnit is in.
+   * Public for testing only.
    */
-  private void tickPosition(long timeSinceLastTick, World world) {
-    if (path == null || path.isEmpty()) {
-      return;
-    }
-    MapPoint target = this.path.peek();
-    double distance = getCentre().distanceTo(target);
-    if (distance < LEEWAY_FOR_PATH) {
-      this.path.poll();
-      if (this.path.size() == 0) {
-        return;
-      }
-      target = this.path.peek();
-    }
-
-    double dx = target.x - getCentre().x;
-    double dy = target.y - getCentre().y;
-    double mx = (Math.min(speed / Math.hypot(dx, dy), 1)) * dx;
-    double my = (Math.min(speed / Math.hypot(dx, dy), 1)) * dy;
-    assert speed + 0.001 > Math.hypot(mx, my) : "the unit tried to move faster than its speed";
-    assert Math.abs(mx) > 0 || Math.abs(my) > 0;
-    translatePosition(mx, my);
+  public UnitState _getUnitState() {
+    return unitState;
   }
 
-  /**
-   * Returns boolean whether the distance between the target and the Unit is less than the
-   * attackDistance.
-   *
-   * @return boolean representing distance less than attackDistance.
-   */
-  private boolean targetWithinProximity() {
-    if (target == null) {
-      throw new IllegalStateException("No target set");
-    }
-    return target.getCentre().distanceTo(getCentre()) < attackDistance;
+  public double getAttackDistance() {
+    return this.levelMultiplyer(attackDistance);
+  }
+
+
+  @Override
+  public UnitType getType() {
+    return this.unitType;
+  }
+
+  @Override
+  public void nextLevel() {
+    double originalHealth = this.getHealthPercent();
+    this.setLevel(this.level + 1);
+    // Maintain current level of health
+    this.gainHealth(levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth
+        - this.health);
+  }
+
+  @Override
+  public int getLevel() {
+    return this.level;
   }
 }

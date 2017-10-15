@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
 import main.common.entity.Unit;
+import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
@@ -20,6 +22,11 @@ public interface World {
   Collection<Unit> getAllUnits();
 
   /**
+   * Gets the hero unit in the world.
+   */
+  HeroUnit getHeroUnit();
+
+  /**
    * Gets all entities in the world (including map entities, units, projectiles and other entities.
    *
    * @return an unmodifiable collection of all Entities in the world.
@@ -32,6 +39,13 @@ public interface World {
    * @return an unmodifiable collection of all the mapEntities.
    */
   Collection<MapEntity> getAllMapEntities();
+
+  /**
+   * Removes a given item from the map if it exists on the map.
+   *
+   * @param item -- the item to remove
+   */
+  void removeItem(Item item);
 
   void addProjectile(Projectile projectile);
 

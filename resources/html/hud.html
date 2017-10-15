@@ -3,36 +3,53 @@
 <head>
   <link rel="stylesheet" href="css/hud.css">
   <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/load_menu.js"></script>
   <script src="js/hud.js"></script>
 </head>
 <body oncontextmenu="return false">
 <div class="game-view-proxy" id="game-view-proxy" style="background-color: rgba(0,0,0,0);"></div>
 <div class="top-bar">
-  <a class="btn blue" id="menu-button" onclick="controller.pause()">Menu</a>
+  <a class="btn" id="menu-button" data-target="#pause-menu" data-toggle="modal">Menu</a>
 </div>
 
 <div class="goal" id="goal"></div>
 <div class="bottom-bar">
-  <div class="unit-holder holder" id="unit-holder">
-
-  </div>
-  <div class="right-box">
-    <div class="item-holder holder" id="item-holder"></div>
-    <div class="ability-holder holder" id="ability-holder"></div>
+  <div class="unit-holder holder col-lg-8 container"></div>
+  <div class="unit-holder holder col-lg-8 container" style="display: none;"></div>
+  <div class="right-box col-lg-4 col-lg-offset-8">
+    <div class="ability-holder holder"></div>
+    <div class="ability-holder holder" style="display: none"></div>
+    <div class="item-holder holder"></div>
+    <div class="item-holder holder" style="display: none"></div>
   </div>
 </div>
 
-<div class="overlay" id="overlay" style="display: none"></div>
-<div class="pause-menu" id="pause-menu" style="display: none">
-  <h2>Paused</h2>
-  <ul class="btn-list">
-    <li><a class="btn orange" onclick="controller.quitBtn()">Exit Game</a></li>
-    <li><a class="btn blue" onclick="controller.save()">Save</a></li>
-    <li><a id="resume-btn" class="btn green" onclick="controller.resume()">Resume</a></li>
-  </ul>
+<div id="pause-menu" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h1>Game Paused</h1>
+      </div>
+      <div class="modal-body">
+        <form id="save-form">
+          <label>Save File</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+            <input type="text" id="save-file" class="form-control col-lg-7" placeholder="File Name">
+            <span class="input-group-btn">
+              <button class="btn btn-success save-button" id="save-button">Save</button>
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-danger exit-button" onclick="controller.quitBtn()">Exit Game</a>
+      </div>
+    </div>
+  </div>
 </div>
+
 </body>
-<script>
-
-</script>
 </html>

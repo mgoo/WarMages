@@ -17,8 +17,8 @@ import main.common.World;
 public interface Usable extends Serializable {
 
   /**
-   * Creates an {@link Effect} for each unit through {@link BaseUsable#_createEffectForUnit(Unit)}
-   * that this {@link Usable} selects through {@link BaseUsable#_selectUnitsToApplyOn(World,
+   * Creates an {@link Effect} for each unit through {@link BaseUsable#createEffectForUnit(Unit)}
+   * that this {@link Usable} selects through {@link BaseUsable#selectUnitsToApplyOn(World,
    * Collection)} and applies the effects.
    *
    * @throws IllegalStateException When this is not ready to be used yet (e.g. cool-down).

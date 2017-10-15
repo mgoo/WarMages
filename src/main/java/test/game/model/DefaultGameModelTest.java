@@ -17,17 +17,28 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import main.game.model.DefaultGameModel;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import main.common.GameModel;
 import org.junit.Test;
+import org.junit.Before;
 
 public class DefaultGameModelTest {
 
-  private GameModel model = null;
   private HeroUnit heroUnit = createDefaultHeroUnit();
+  private GameModel model = null;
+  private GameWon gc = new GameWon();
+  GameLost gl = new GameLost();
+
+  @Before
+  public void setup() {
+    gc.registerListener(parameter -> {});
+    gl.registerListener(parameter -> {});
+  }
 
   @Test
   public void testSetSelectionAndGetSelection() {
@@ -36,7 +47,8 @@ public class DefaultGameModelTest {
     Unit unit3 = createDefaultPlayerArcher();
     model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     model.setUnitSelection(Arrays.asList(unit, unit2, unit3));
     Collection<Unit> selection = model.getUnitSelection();
@@ -54,7 +66,8 @@ public class DefaultGameModelTest {
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
     model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     model.setUnitSelection(units);
     units.add(unit3);
@@ -70,7 +83,8 @@ public class DefaultGameModelTest {
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(3, model.getAllUnits().size());
@@ -86,7 +100,8 @@ public class DefaultGameModelTest {
             )),
             heroUnit
         ),
-        new MainGameTick()
+        new MainGameTick(),
+        gc, gl
     );
     assertEquals(3, model.getAllEntities().size());
     assertEquals(1, model.getAllUnits().size());

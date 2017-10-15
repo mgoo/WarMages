@@ -248,7 +248,7 @@ public class GameViewTest {
      * Creates a mock for testing game model.
      */
     GameModelMock() {
-      super(null, null);
+      super(null, null, null, null);
     }
 
     @Override
@@ -259,6 +259,7 @@ public class GameViewTest {
     void setEntities(List<Entity> entities) {
       this.entities = entities;
     }
+
   }
 
   private class EntityMock extends DefaultEntity {

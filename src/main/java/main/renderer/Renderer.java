@@ -10,6 +10,7 @@ import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.Looper;
+import main.game.view.EntityView;
 import main.game.view.GameView;
 
 /**
@@ -76,7 +77,36 @@ public class Renderer {
           null);
     }
     g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
+
+    if (config.isDebugMode()) {
+      for (int i = 0; i < 100; i++) {
+        MapPoint x1 = EntityView.tileToPix(new MapPoint(i, 0), config);
+        MapPoint x2 = EntityView.tileToPix(new MapPoint(i, 100), config);
+        MapPoint y1 = EntityView.tileToPix(new MapPoint(0, i), config);
+        MapPoint y2 = EntityView.tileToPix(new MapPoint(100, i), config);
+        g.drawLine(
+            (int) (x1.x + gameView.getViewBox().topLeft.x),
+            (int) (x1.y + gameView.getViewBox().topLeft.y),
+            (int) (x2.x + gameView.getViewBox().topLeft.x),
+            (int) (x2.y + gameView.getViewBox().topLeft.y)
+        );
+        g.drawLine(
+            (int) (y1.x + gameView.getViewBox().topLeft.x),
+            (int) (y1.y + gameView.getViewBox().topLeft.y),
+            (int) (y2.x + gameView.getViewBox().topLeft.x),
+            (int) (y2.y + gameView.getViewBox().topLeft.y)
+        );
+        for (int j = 0; j < 100; j++) {
+          MapPoint mp = EntityView.tileToPix(new MapPoint(i, j), config);
+          g.drawString("{" + i + ", " + j + "}",
+              ((int) (mp.x + gameView.getViewBox().x())),
+              ((int) (mp.y + gameView.getViewBox().y())));
+        }
+      }
+
+    }
     imageView.setImage(SwingFXUtils.toFXImage(image, null));
+
   }
 
   /**

@@ -7,14 +7,14 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import main.common.entity.Direction;
 import main.common.images.GameImage;
-import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.DefaultGameModel;
 import main.common.entity.Direction;
 import main.common.entity.Unit;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitImagesComponent;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 
 /**
@@ -30,9 +30,8 @@ public class UnitImagesComponentTest {
     // and a fixed number of ticks per frame
     int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and a stub unit
-    Unit unit = mock(Unit.class);
-    when(unit.getSpriteSheet())
-        .thenReturn(new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET));
+    DefaultUnit unit = mock(DefaultUnit.class);
+    when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());
     when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
     // and a UnitImagesComponent
     UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);

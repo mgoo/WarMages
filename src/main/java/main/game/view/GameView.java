@@ -8,11 +8,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
 import main.common.GameController;
 import main.common.entity.Entity;
 import main.common.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
@@ -21,6 +26,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.game.view.events.MouseDrag;
 import main.common.util.MapPolygon;
+import main.game.view.events.UnitIconClick;
 import main.renderer.Renderable;
 
 /**
@@ -158,8 +164,12 @@ public class GameView {
     }
   }
 
-  public void onTick(Long tickTime) {
-    this.updateRenderables(tickTime);
+  /**
+   * Ticks the gameView and also checks if game is completed.
+   * @param timeSinceLastTick time since last tick
+   */
+  public void onTick(Long timeSinceLastTick) {
+    this.updateRenderables(timeSinceLastTick);
     this.updateViewBoxPosition();
   }
 
@@ -269,6 +279,33 @@ public class GameView {
   }
 
   /**
+   * Triggers the double click event.
+   */
+  public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    this.gameController.onDbClick(new MouseClick() {
+      @Override
+      public boolean wasLeft() {
+        return true;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapPoint getLocation() {
+        return pixToTile(new MapPoint(x, y));
+      }
+    });
+  }
+
+  /**
    * Triggers a key event.
    */
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
@@ -287,6 +324,97 @@ public class GameView {
       public boolean wasCtrlDown() {
         return wasCtrlDown;
       }
+    });
+  }
+
+  /**
+   * Triggers the event when a units icon is clicked.
+   */
+  public void unitClick(Unit unit,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
+    this.gameController.onUnitIconClick(new UnitIconClick() {
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+
+      @Override
+      public Unit getUnit() {
+        return unit;
+      }
+    });
+  }
+
+  /**
+   * Triggers the event when a abilities icon is clicked.
+   */
+  public void abilityClick(Ability ability,
+                           boolean wasShiftDown,
+                           boolean wasCtrlDown,
+                           boolean wasLeftClick) {
+    this.gameController.onAbilityIconClick(new AbilityIconClick() {
+      @Override
+      public Ability getAbility() {
+        return ability;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+    });
+  }
+
+  /**
+   * Triggers the event when a item icon is clicked.
+   */
+  public void itemClick(Item item,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
+    this.gameController.onItemIconClick(new ItemIconClick() {
+      @Override
+      public Item getItem() {
+        return item;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+
     });
   }
 

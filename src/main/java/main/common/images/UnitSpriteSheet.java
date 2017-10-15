@@ -40,7 +40,7 @@ public interface UnitSpriteSheet extends Serializable {
     /**
      * Just reuses the first few frames of the {@link UnitSpriteSheet.Sequence#WALK} sequence.
      */
-    IDLE(8, 2, true);
+    IDLE(8, 1, true);
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;

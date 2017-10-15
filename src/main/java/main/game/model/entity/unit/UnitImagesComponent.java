@@ -17,11 +17,11 @@ public class UnitImagesComponent implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static final int TICKS_PER_FRAME = 5;
+  public static final int TICKS_PER_FRAME = 2;
 
   private final Sequence sequence;
   private final UnitSpriteSheet spriteSheet;
-  private final Unit unit;
+  private final DefaultUnit unit;
 
   private int currentTick = 0;
 
@@ -32,7 +32,7 @@ public class UnitImagesComponent implements Serializable {
    */
   public UnitImagesComponent(
       Sequence sequence,
-      Unit unit
+      DefaultUnit unit
   ) {
     this.sequence = sequence;
     this.spriteSheet = unit.getSpriteSheet();
@@ -83,6 +83,9 @@ public class UnitImagesComponent implements Serializable {
    *     specified in {@link Sequence#getAttackFrame()};
    */
   public boolean isOnAttackTick() {
+    if (unit.getUnitType() == UnitType.LASER) {
+      return true;
+    }
     return sequence.getAttackFrame() * TICKS_PER_FRAME == currentTick;
   }
 

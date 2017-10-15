@@ -1,34 +1,37 @@
 package main.common.entity;
 
-import java.util.List;
 import main.common.entity.usable.Effect;
+import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.state.DeadUnit;
 import main.common.World;
+import main.game.model.entity.unit.DeadUnit;
+import main.game.model.entity.unit.UnitType;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
  * health, and can attack other team units.
+ * @author paladogabr
  */
 public interface Unit extends Entity {
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
+   * @return returns true if the entity died
    */
-  void takeDamage(int amount, World world);
+  boolean takeDamage(double amount, World world);
 
   /**
    * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
    */
-  void gainHealth(int amount);
+  void gainHealth(double amount);
 
   /**
    * Returns the current health of the Unit.
    *
    * @return unt health of the Unit.
    */
-  int getHealth();
+  double getHealth();
 
   double getLineOfSight();
 
@@ -50,16 +53,16 @@ public interface Unit extends Entity {
   Direction getCurrentDirection();
 
   /**
-   * Attacks the current target.
-   */
-  void attack();
-
-  /**
    * Set's the Unit's target to the given Unit.
    *
-   * @param target to be attacked
+   * @param targetUnit to be attacked
    */
-  void setTarget(Unit target, World world);
+  void setTargetUnit(Unit targetUnit);
+
+  /**
+   * Set's the Unit's target to the given point.
+   */
+  void setTargetPoint(MapPoint targetPoint);
 
   /**
    * Clears the current target.
@@ -67,29 +70,35 @@ public interface Unit extends Entity {
   void clearTarget();
 
   /**
-   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
-   *
-   * @param amount of damage to deal to target.
-   */
-  void setDamageAmount(int amount);
-
-  /**
    * Returns the amount of damage dealt.
    *
    * @return int amount of damage dealt.
    */
-  int getDamageAmount();
-
-  /**
-   * Sets the Unit's path to the given path.
-   *
-   * @param path list of MapPoints
-   */
-  void setPath(List<MapPoint> path);
+  double getDamageAmount();
 
   /**
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
    */
   double getHealthPercent();
+
+  /**
+   * Gets the base type of the unit.
+   */
+  UnitType getType();
+
+  /**
+   * Elevates the unit to the next level.
+   */
+  void nextLevel();
+
+  /**
+   * Gets the current level that the unit is on.
+   */
+  int getLevel();
+
+  /**
+   * Gets the icon of the unit to display on the hud.
+   */
+  GameImage getIcon();
 }
 
