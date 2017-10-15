@@ -6803,34 +6803,11 @@ button.close {
 /*# sourceMappingURL=bootstrap.css.map */
 
 @keyframes title-drop {
-  0% {
+  from {
     bottom: calc(100vh + 130px);
   }
-  75% {
-    transform: rotate(30deg);
-  }
-  80% {
+  to {
     bottom: 70vh;
-  }
-  80%,
-  90% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  85%,
-  95% {
-    transform: translate3d(2px, 0, 0);
-  }
-  85% {
-    transform: rotate(1deg);
-  }
-  87% {
-    transform: rotate(-1deg);
-  }
-  89% {
-    transform: rotate(0.5deg);
-  }
-  91% {
-    transform: rotate(-0.5deg);
   }
 }
 @keyframes buttons-slide {
@@ -6848,10 +6825,9 @@ body {
   /* Load Menu */
 }
 body .title {
-  animation-name: title-drop, shake;
+  animation-name: title-drop;
   animation-duration: 1s;
   animation-iteration-count: 1;
-  animation-timing-function: cubic-bezier(1, -0.04, 0.91, 0.94);
   text-align: center;
   width: 75vw;
   position: absolute;
@@ -6859,6 +6835,7 @@ body .title {
   left: 12vw;
 }
 body .title h1 {
+  font-weight: bold;
   font-size: 130px;
   display: block;
   text-align: center;
@@ -6870,6 +6847,12 @@ body .mainmenu-buttons {
   left: 70vw;
   animation-name: buttons-slide;
   animation-duration: 1.5s;
+}
+body .mainmenu-buttons .btn {
+  font-size: 2em;
+}
+body .mainmenu-buttons .btn:hover {
+  color: #2b669a;
 }
 body .files .radio {
   padding: 15px;
@@ -6890,4 +6873,12 @@ body .files input[type="radio"]:checked + span hr {
 }
 body .files input[type="radio"]:checked + span .alert-link {
   color: #2b542c;
+}
+.modal-content {
+  border-bottom: #66420f outset 5px;
+  border-right: #66420f outset 5px;
+  border-top: #66420f ridge 5px;
+  border-left: #66420f ridge 5px;
+  border-radius: 0;
+  background-color: #a89454;
 }

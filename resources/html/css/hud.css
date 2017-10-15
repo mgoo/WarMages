@@ -6823,8 +6823,13 @@ body {
   left: 0;
   width: 100vw;
   height: 5vh;
-  background-color: #EEEEEE;
-  border: #b7b141 solid 5px;
+  background-color: #a89454;
+  border-bottom: #66420f ridge 5px;
+}
+.top-bar .btn {
+  margin: 5px;
+  background-color: #8a6d3b;
+  color: #3c3c3c;
 }
 .goal {
   padding: 10px;
@@ -6854,28 +6859,56 @@ body {
   height: 9vh;
   margin: 5px;
   background-size: 100% 100%;
-  border: #000 solid 1px;
+  border: #66420f ridge 2px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (min-width: 1200px) {
+  .bottom-bar .holder .icon {
+    float: left;
+    width: 8.33333333%;
+  }
 }
 .bottom-bar .unit-holder {
   position: absolute;
   left: 0;
   bottom: 0;
   height: 70%;
-  width: 70vw;
-  background-color: #EEEEEE;
-  border: #b7b141 solid 5px;
+  background-color: #a89454;
+  border-top: #66420f ridge 5px;
   overflow-y: auto;
+}
+.bottom-bar .unit-holder .icon {
+  background-color: #2b542c;
 }
 .bottom-bar .right-box {
   display: block;
   position: absolute;
-  left: 70vw;
   bottom: 0;
-  width: calc(100vw - 70vw);
   height: 100%;
-  background-color: #EEEEEE;
-  border: #b7b141 solid 5px;
+  background-color: #a89454;
+  border-top: #66420f ridge 5px;
+  border-left: #66420f ridge 5px;
 }
-.bottom-bar .right-box .holder {
-  width: 100%;
+.bottom-bar .right-box .holder .icon {
+  background-color: #825fb9;
+  position: relative;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (min-width: 1200px) {
+  .bottom-bar .right-box .holder .icon {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+.modal-content {
+  border: 5px ridge #66420f;
+  border-right-style: outset;
+  border-bottom-style: outset;
+  border-radius: 0;
+  background-color: #a89454;
 }
