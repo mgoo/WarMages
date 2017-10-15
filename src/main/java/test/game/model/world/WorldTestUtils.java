@@ -137,6 +137,11 @@ public class WorldTestUtils {
         return new BaseEffect(unit, 1) {
         };
       }
+
+      @Override
+      public boolean canApplyTo(Unit unit) {
+        return true;
+      }
     };
   }
 

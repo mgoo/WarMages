@@ -3,7 +3,6 @@ package main.game.model.entity.usable;
 import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.entity.Team;
@@ -44,10 +43,7 @@ public class HealAbility extends BaseAbility {
 
   @Override
   public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return world.getAllUnits()
-        .stream()
-        .filter(unit -> unit.getTeam() == Team.PLAYER)
-        .collect(Collectors.toList());
+    return selectedUnits;
   }
 
   private class HealEffect extends BaseEffect {
@@ -68,4 +64,8 @@ public class HealAbility extends BaseAbility {
     }
   }
 
+  @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit.getTeam() == Team.PLAYER;
+  }
 }

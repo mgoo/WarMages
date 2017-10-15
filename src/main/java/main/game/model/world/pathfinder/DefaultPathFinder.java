@@ -170,7 +170,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
      * @param costFromStart -- the cost to get up to this node
      * @param totalCost -- the total estimated cost to the goal
      */
-    public AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
+    AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
       this.currentPoint = currentPoint;
       this.from = from;
       this.costFromStart = costFromStart;
@@ -178,7 +178,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       this.pathTaken = new ArrayList<>();
     }
 
-    public AStarNode(
+    AStarNode(
         MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost,
         List<MapPoint> pathTaken
     ) {
@@ -195,11 +195,11 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       return currentPoint;
     }
 
-    public double getCostFromStart() {
+    double getCostFromStart() {
       return costFromStart;
     }
 
-    public double getEstimateToGoal() {
+    double getEstimateToGoal() {
       return totalCost - costFromStart;
     }
 

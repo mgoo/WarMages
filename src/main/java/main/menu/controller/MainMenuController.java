@@ -1,6 +1,5 @@
 package main.menu.controller;
 
-import java.io.IOException;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.util.Events.GameLost;
@@ -97,8 +96,8 @@ public class MainMenuController extends MenuController {
         imageProvider,
         mouseClickEvent,
         world);
-    tickEvent.registerListener(parameter -> gameView.onTick(parameter));
-    mouseClickEvent.registerListener(parameter -> gameController.onMouseEvent(parameter));
+    tickEvent.registerListener(gameView::onTick);
+    mouseClickEvent.registerListener(gameController::onMouseEvent);
     Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
     Hud hud = new Hud(this.main,
         this.mainMenu,
@@ -106,9 +105,8 @@ public class MainMenuController extends MenuController {
         renderer,
         gameModel,
         imageProvider,
-        filename -> {
-          this.worldSaveModel.save(world, filename);
-        });
+        filename -> this.worldSaveModel.save(world, filename)
+    );
     tickEvent.registerListener(parameter -> hud.updateIcons());
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
     tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
