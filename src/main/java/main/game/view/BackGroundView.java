@@ -7,7 +7,7 @@ import main.common.util.MapSize;
 import main.renderer.Renderable;
 
 /**
- * The View for the background
+ * The View for the background.
  * @author Andrew McGhie
  */
 public class BackGroundView implements Renderable {
