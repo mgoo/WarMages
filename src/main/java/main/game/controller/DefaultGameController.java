@@ -121,9 +121,10 @@ public class DefaultGameController implements GameController {
     if (mouseEvent.wasLeft()) {
 
       //check if clicked on a valid unit so need to activate ability
-      if(selectedUnit != null && ability != null) {
+      if(selectedUnit != null && selectedUnit instanceof HeroUnit && ability != null) {
         ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
         ability = null;
+        return;
       }
 
       if (mouseEvent.wasShiftDown()) {
