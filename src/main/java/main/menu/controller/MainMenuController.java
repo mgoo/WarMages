@@ -2,6 +2,7 @@ package main.menu.controller;
 
 import javafx.scene.image.ImageView;
 import main.Main;
+import main.common.menu.MenuController;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.util.Looper;
