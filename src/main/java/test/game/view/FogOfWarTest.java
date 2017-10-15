@@ -33,7 +33,25 @@ public class FogOfWarTest extends GameViewTest {
   }
 
   @Test
-  public void testFogOfWarImageSize() {
+  public void testFogOfWar_withoutUnit() {
+    this.gameView.onTick(0L);
+
+    Renderable fow = this.gameView.getFogOfWarView();
+    assertEquals(0, fow.getImagePosition(0).x, 0.001);
+    assertEquals(0, fow.getImagePosition(0).y, 0.001);
+    assertEquals(this.config.getContextScreenWidth(), fow.getImageSize().width, 0.001);
+    assertEquals(this.config.getContextScreenHeight(), fow.getImageSize().height, 0.001);
+
+    // Check center is see though
+    assertNotEquals(0, fow.getImage().getRGB(0 ,0));
+
+    // Check LOS
+    assertNotEquals(0, fow.getImage().getRGB(config.getEntityViewTilePixelsX(), 0));
+
+  }
+
+  @Test
+  public void testFogOfWar_withUnit() {
     this.gameModelMock.setEntities(
         Collections.singletonList(new UnitMock(new MapPoint(0, 0), new MapSize(1, 1)))
     );
