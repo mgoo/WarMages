@@ -6,6 +6,7 @@ import main.menu.MainMenu;
 
 /**
  * This is the controller for the menu displayed at the end of the game.
+ *
  * @author Andrew McGhie
  */
 public class GameEndController extends MenuController {

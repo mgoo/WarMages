@@ -128,8 +128,8 @@ public class MainMenuController extends MenuController {
       renderer.stop();
       this.main.loadMenu(new GameEndMenu(this.main,
           this.mainMenu,
-          "YOU LOST YOUR BAD HAHA"
-          , config));
+          "You have lost",
+          config));
     });
     renderer.start();
     gameModel.startGame();

@@ -8,11 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the background view class
+ * Tests the background view class.
  *
  * @author Andrew Mcghie
  */
-public class BackGroundViewTest extends GameViewTest{
+public class BackGroundViewTest extends GameViewTest {
 
   @Override
   @Before
@@ -26,7 +26,7 @@ public class BackGroundViewTest extends GameViewTest{
 
     Renderable bg = gameView.getBackGroundView();
 
-    // Test inital position
+    // Test initial position
     assertEquals(0, bg.getImagePosition(0).x, 0.001);
     assertEquals(0, bg.getImagePosition(0).y, 0.001);
     assertEquals(config.getContextScreenWidth() * 2, bg.getImageSize().width, 0.001);
@@ -36,8 +36,10 @@ public class BackGroundViewTest extends GameViewTest{
     gameView.onTick(GameModel.DELAY);
 
     // Test Up to the left movement
-    assertEquals(-config.getContextScreenWidth() + config.getGameViewScrollSpeed(), bg.getImagePosition(0).x, 0.001);
-    assertEquals(-config.getContextScreenHeight() + config.getGameViewScrollSpeed(), bg.getImagePosition(0).y, 0.001);
+    assertEquals(-config.getContextScreenWidth() + config.getGameViewScrollSpeed(),
+        bg.getImagePosition(0).x, 0.001);
+    assertEquals(-config.getContextScreenHeight() + config.getGameViewScrollSpeed(),
+        bg.getImagePosition(0).y, 0.001);
 
     gameView.updateMousePosition(config.getContextScreenWidth() ,config.getContextScreenHeight());
     gameView.onTick(GameModel.DELAY * 2);

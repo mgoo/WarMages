@@ -8,6 +8,7 @@ import main.menu.generators.ScriptFileGenerator;
 
 /**
  * This menu is displayed when the game finishes.
+ *
  * @author Andrew McGhie
  */
 public class GameEndMenu extends Menu {

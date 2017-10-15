@@ -3,7 +3,9 @@ package main.menu.generators;
 import java.util.Optional;
 
 /**
- * Created by mgoo on 10/10/17.
+ * sets the goal text when in game.
+ *
+ * @author Andrew McGhie
  */
 public class GoalTextGenerator extends ScriptGenerator {
 

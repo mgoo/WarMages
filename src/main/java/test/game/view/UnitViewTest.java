@@ -8,7 +8,7 @@ import main.common.util.MapSize;
 import main.game.view.UnitView;
 import org.junit.Before;
 import org.junit.Test;
-import test.game.view.FogOfWarTest.UnitMock;
+import test.game.view.FogOfWarViewTest.UnitMock;
 
 /**
  * Created by mgoo on 15/10/17.
