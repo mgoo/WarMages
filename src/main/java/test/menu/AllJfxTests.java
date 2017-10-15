@@ -64,6 +64,7 @@ import test.renderer.RendererTestUtils;
  * </p>
  * @author Andrew McGhie
  * @author Dylan Chong (fixing a bug)
+ * @author Eric Diputado (Renderer tests)
  */
 public class AllJfxTests {
 
