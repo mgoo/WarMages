@@ -1,5 +1,7 @@
 package main.menu.controller;
 
+import java.io.File;
+import javafx.scene.image.Image;
 import main.Main;
 import main.menu.MainMenu;
 
