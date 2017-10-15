@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import main.common.GameModel;
-import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.state.AttackingUnitState;
 import main.common.entity.Direction;

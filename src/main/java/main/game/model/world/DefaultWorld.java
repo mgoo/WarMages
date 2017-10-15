@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +23,10 @@ import main.common.util.MapPoint;
 import main.common.PathFinder;
 
 /**
- * World class is a representation of all the in-play entities and in-play entities: all entity
- * objects that have been instantiated.
+ * Implementation of the World API.
+ *
+ * @author Eric Diputado
+ * @author Hrshikesh Arora (Secondary author)
  */
 public class DefaultWorld implements Serializable, World {
 
@@ -180,6 +181,11 @@ public class DefaultWorld implements Serializable, World {
   }
 
   @Override
+  public Level getCurrentLevel() {
+    return this.levels.get(0);
+  }
+
+  @Override
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
     for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {
@@ -197,30 +203,28 @@ public class DefaultWorld implements Serializable, World {
   private void repelUnits() {
     HashMap<Unit, MapSize> unitMovements = new HashMap<>();
 
-    getAllUnits().forEach(baseUnit -> {
-      getAllUnits()
-          .stream()
-          .filter(otherUnit -> otherUnit != baseUnit)
-          .filter(otherUnit -> otherUnit.getTeam() == baseUnit.getTeam())
-          .forEach(otherUnit -> {
-            if (baseUnit == otherUnit) {
-              return;
-            }
-            double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
-            double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
-            if (distance < minDistance) {
-              double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
-              double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
-              double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
-              unitMovements.computeIfAbsent(baseUnit,
-                  unit -> unitMovements.put(unit, new MapSize(0, 0)));
-              MapSize currentMovement = unitMovements.get(baseUnit);
-              MapSize newMovement = new MapSize(currentMovement.width - dx,
-                  currentMovement.height - dy);
-              unitMovements.put(baseUnit, newMovement);
-            }
-          });
-    });
+    getAllUnits().forEach(baseUnit -> getAllUnits()
+        .stream()
+        .filter(otherUnit -> otherUnit != baseUnit)
+        .filter(otherUnit -> otherUnit.getTeam() == baseUnit.getTeam())
+        .forEach(otherUnit -> {
+          if (baseUnit == otherUnit) {
+            return;
+          }
+          double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
+          double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
+          if (distance < minDistance) {
+            double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
+            double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
+            double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
+            unitMovements.computeIfAbsent(baseUnit,
+                unit -> unitMovements.put(unit, new MapSize(0, 0)));
+            MapSize currentMovement = unitMovements.get(baseUnit);
+            MapSize newMovement = new MapSize(currentMovement.width - dx,
+                currentMovement.height - dy);
+            unitMovements.put(baseUnit, newMovement);
+          }
+        }));
 
     unitMovements.keySet().forEach(unit -> {
       MapSize movement = unitMovements.get(unit);
@@ -241,7 +245,10 @@ public class DefaultWorld implements Serializable, World {
     return pathFinder.findPath(this::isPassable, start, end);
   }
 
-  @Override
+  /**
+   * Gets the current goal for the current level.
+   * @return String description of the current goal
+   */
   public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
   }

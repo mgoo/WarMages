@@ -29,7 +29,9 @@ import main.game.model.world.pathfinder.DefaultPathFinder;
 import test.game.model.entity.StubUnitSpriteSheet;
 
 /**
- * Useful factory methods.
+ * A testUtil to help createWorlds/Models.
+ *
+ * @author Eric Diputado
  * @author chongdyla (External Tester)
  */
 public class WorldTestUtils {
@@ -134,6 +136,11 @@ public class WorldTestUtils {
       public Effect createEffectForUnit(Unit unit) {
         return new BaseEffect(unit, 1) {
         };
+      }
+
+      @Override
+      public boolean canApplyTo(Unit unit) {
+        return true;
       }
     };
   }

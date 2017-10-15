@@ -7,6 +7,7 @@ import org.junit.Test;
 
 /**
  * Tests the MapPoint class.
+ *
  * @author Andrew McGhie
  */
 public class MapPointTest {

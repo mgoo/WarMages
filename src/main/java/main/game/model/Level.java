@@ -1,19 +1,11 @@
 package main.game.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
 import main.common.entity.Entity;
-import main.common.entity.HeroUnit;
-import main.common.exceptions.EntityOutOfBoundsException;
-import main.common.exceptions.OverlappingMapEntitiesException;
-import main.common.util.MapPoint;
-import main.game.model.entity.DefaultMapEntity;
 import main.common.entity.usable.Item;
 import main.common.entity.MapEntity;
 import main.common.entity.Team;

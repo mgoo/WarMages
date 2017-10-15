@@ -12,7 +12,6 @@ import main.game.model.Level;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.entity.usable.Ability;
 import main.common.World;
 import main.game.model.world.DefaultWorld;
 import main.game.model.entity.unit.state.WalkingUnitState;
@@ -38,7 +37,7 @@ public class UnitStateTest {
         new MapSize(100, 100),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>(),
+        new ArrayList<>(),
         0);
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(

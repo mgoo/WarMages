@@ -369,7 +369,7 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                120, 90
+                20, 90
             )
         ),
         3
@@ -648,7 +648,7 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(),
           Arrays.asList(),
           new Goal.AllEnemiesKilled(),
-          "Slaughter the infidels that don't like your gold ring"
+          "Slaughter the infidels that do not like your gold ring"
       ));
     }
 

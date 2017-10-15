@@ -205,6 +205,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
 
     health += amount;
+
+    if (health > this.levelMultiplyer(this.unitType.getStartingHealth())) {
+      health = this.levelMultiplyer(this.unitType.getStartingHealth());
+    }
   }
 
   /**
@@ -307,13 +311,8 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.target = null;
   }
 
-  /**
-   * Sets the damage amount of this Unit's attack to the given amount. Must be 0 < amount < 100.
-   *
-   * @param amount of damage to deal to target.
-   */
   private void setDamageAmount(double amount) {
-    if (amount <= 0 || amount >= 100) {
+    if (amount <= 0) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }
 

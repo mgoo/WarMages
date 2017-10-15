@@ -1,12 +1,17 @@
 package test.renderer;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import javafx.scene.image.ImageView;
+import main.common.entity.HeroUnit;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.GameController;
 import main.game.model.DefaultGameModel;
 import main.common.GameModel;
 import main.common.World;
+import main.common.util.MapPoint;
 import main.game.view.GameView;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -102,7 +107,11 @@ public class RendererTestUtils {
    * @return mock GameView
    */
   public static GameView createGameView(Config c, GameController gc, GameModel gm) {
-    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>());
+    World world = mock(World.class);
+    HeroUnit hero = mock(HeroUnit.class);
+    when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
+    when(world.getHeroUnit()).thenReturn(hero);
+    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>(), world);
     gv.updateRenderables(c.getGameModelDelay());
     return gv;
   }
