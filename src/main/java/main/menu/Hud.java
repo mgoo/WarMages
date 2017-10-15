@@ -9,6 +9,8 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.imageio.ImageIO;
@@ -159,14 +161,26 @@ public class Hud extends Menu {
 
   private BufferedImage getIcon(Usable usable) throws IOException {
       BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
-      if (usable.isReadyToBeUsed()) {
-        return baseIcon;
-      }
+
       BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
           baseIcon.getHeight(),
           BufferedImage.TYPE_4BYTE_ABGR);
       Graphics2D g = ((Graphics2D) icon.getGraphics());
+
+      // @HACK to top the icon background from flashing from the lag of css appyling
+      if (usable instanceof Item) {
+        g.setColor(Color.decode("#433ab9"));
+      }
+      if (usable instanceof Ability) {
+        g.setColor(Color.decode("#9c8d46"));
+      }
+
+      g.fillRect(0, 0, icon.getWidth(), icon.getHeight());
       g.drawImage(baseIcon, 0, 0, null);
+      if (usable.isReadyToBeUsed()) {
+        return icon;
+      }
+
       double progress = usable.getCoolDownProgress();
       Arc2D arc = new Double(0, 0,
           icon.getWidth(), icon.getHeight(),
@@ -179,15 +193,19 @@ public class Hud extends Menu {
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
-    String entityIcon = this.formatImageForHtml(image);
-    this.main.callJsFunction(method, entityIcon, entity);
+    try {
+      String entityIcon = this.formatImageForHtml(image);
+      this.main.callJsFunction(method, entityIcon, entity);
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
   }
 
 
   /**
    * Assumes that the image is png formatted.
    */
-  private String formatImageForHtml(RenderedImage image) {
+  private String formatImageForHtml(RenderedImage image) throws UnsupportedEncodingException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       ImageIO.write(image, "png", baos);
@@ -198,6 +216,8 @@ public class Hud extends Menu {
     String imageMimeType = "image/png";
     String dataUri =
         "data:" + imageMimeType + ";base64," + DatatypeConverter.printBase64Binary(bytes);
+    dataUri = dataUri.replace("\'", "\\'");
+    dataUri = dataUri.replace("\\", "\\\\");
     return dataUri;
   }
 
