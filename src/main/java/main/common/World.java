@@ -79,4 +79,16 @@ public interface World {
    * @return String description of the current goal
    */
   String getCurrentGoalDescription();
+
+  /**
+   * Checks if game is won.
+   * @return whether game is won
+   */
+  boolean isWon();
+
+  /**
+   * Checks if game is lost.
+   * @return whether game is lost
+   */
+  boolean isLost();
 }

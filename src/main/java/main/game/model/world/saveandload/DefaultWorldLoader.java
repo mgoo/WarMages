@@ -772,6 +772,6 @@ public class DefaultWorldLoader implements WorldLoader {
 
     levels.add(startingLevel);
 
-    return new World(levels, heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
   }
 }
