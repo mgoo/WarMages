@@ -1,12 +1,9 @@
 package main.game.view;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
 import main.common.entity.Entity;
-import main.common.entity.Unit;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapPoint;

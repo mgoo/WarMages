@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,12 +21,10 @@ import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.game.model.DefaultGameModel;
 import main.common.util.MapPoint;
 import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
-import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
@@ -219,7 +218,7 @@ public class DefaultUnitTest {
     );
 
     World world = mock(World.class);
-    when(world.getAllUnits()).thenReturn(Arrays.asList(unit));
+    when(world.getAllUnits()).thenReturn(Collections.singletonList(unit));
 
     final Ability ability1 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
     final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
@@ -227,11 +226,11 @@ public class DefaultUnitTest {
 
     double baseDamageAmount = unit.getDamageAmount();
     assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
-    ability1.use(world, Collections.emptyList());
+    ability1.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 1, unit.getDamageAmount(), 0.001);
-    ability2.use(world, Collections.emptyList());
+    ability2.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 2, unit.getDamageAmount(), 0.001);
-    ability3.use(world, Collections.emptyList());
+    ability3.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 3, unit.getDamageAmount(), 0.001);
 
     for (int i = 0; i < 200; i++) {
@@ -257,7 +256,7 @@ public class DefaultUnitTest {
         new MapSize(0.5, 0.5),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>(),
+        new ArrayList<>(),
         0);
 
     List<Level> levels = new ArrayList<>();
@@ -444,11 +443,6 @@ public class DefaultUnitTest {
           coolDownSeconds,
           effectDurationSeconds
       );
-    }
-
-    @Override
-    public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-      return world.getAllUnits();
     }
   }
 

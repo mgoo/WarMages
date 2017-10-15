@@ -4,7 +4,14 @@ import java.util.Collection;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
+import main.game.model.Level;
 
+/**
+ * Contains the main game loop, and controls the the progression of the story/game through the use
+ * of {@link Level}s.
+ *
+ * @author Eric Diputado
+ */
 public interface GameModel {
 
   /**

@@ -12,7 +12,9 @@ import org.junit.Test;
 /**
  * Test names here follow the test naming convention:
  * unitOfWorkUnderTest_typeOfInput_expectedResult.
+ *
  * @author chongdyla
+ * @author Eric Diputado (External Tester)
  */
 public class DefaultImageProviderTest {
 
@@ -33,6 +35,11 @@ public class DefaultImageProviderTest {
   @Test(expected = IOException.class)
   public void load_nonExistentImage_throwsException() throws IOException {
     new DefaultImageProvider().load("some_file_that_doesnt_exist.png");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void load_ImageWithSlash_throwsException() throws IOException {
+    new DefaultImageProvider().load("/fixtures/images/image_for_image_provider_tests.png.png");
   }
 
 }

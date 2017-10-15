@@ -1,6 +1,8 @@
 package test.game.view;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.common.entity.HeroUnit;
 import main.common.GameController;
 import main.game.view.GameView;
 import main.common.GameModel;
@@ -74,8 +77,16 @@ public class GameViewTest {
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
+    World world = mock(World.class);
+    HeroUnit hero = mock(HeroUnit.class);
+    when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
+    when(world.getHeroUnit()).thenReturn(hero);
     this.gameView = new GameView(config,
-        gameController, gameModelMock, imageProvider, new Event<>());
+        gameController,
+        gameModelMock,
+        imageProvider,
+        new Event<>(),
+        world);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
@@ -87,14 +98,14 @@ public class GameViewTest {
   public void testMovingViewBox() {
     MapRect originalView = this.gameView.getViewBox();
     this.gameView.updateMousePosition(0, 0);
-    assertEquals(originalView.topLeft.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.topLeft.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.y - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.y - config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.y + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
   }
 
   @Test

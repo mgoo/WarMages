@@ -2,7 +2,6 @@ package main.common;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
@@ -12,6 +11,12 @@ import main.common.util.MapPoint;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
 
+/**
+ * World class is a representation of all the in-play entities and in-play entities: all entity
+ * objects that have been instantiated.
+ *
+ * @author Eric Diputado
+ */
 public interface World {
 
   /**
@@ -91,4 +96,9 @@ public interface World {
    * @return whether game is lost
    */
   boolean isLost();
+
+  /**
+   * Gets the current active level.
+   */
+  Level getCurrentLevel();
 }
