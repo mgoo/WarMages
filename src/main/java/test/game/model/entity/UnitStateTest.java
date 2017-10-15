@@ -12,8 +12,10 @@ import main.game.model.Level;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.common.entity.usable.Ability;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.entity.unit.state.WalkingUnitState;
-import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,10 +45,9 @@ public class UnitStateTest {
         unit,
         heroUnit
     ));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder()); //TODO mock world
 
     unit.setTargetPoint(new MapPoint(20, 2));
-
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);

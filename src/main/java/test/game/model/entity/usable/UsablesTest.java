@@ -10,6 +10,7 @@ import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
+import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Item;
@@ -18,14 +19,15 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.game.model.world.World;
+import main.common.World;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 import test.game.model.entity.StubUnitSpriteSheet;
 
