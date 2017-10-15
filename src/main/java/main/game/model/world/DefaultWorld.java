@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import main.common.util.MapRect;
 import main.common.World;
 import main.common.util.MapSize;
 import main.game.model.Level;
@@ -28,6 +26,7 @@ import main.common.PathFinder;
  * Implementation of the World API.
  *
  * @author Eric Diputado
+ * @author Hrshikesh Arora (Secondary author)
  */
 public class DefaultWorld implements Serializable, World {
 
