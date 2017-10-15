@@ -126,6 +126,8 @@ public class DefaultGameController implements GameController {
         ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
         ability = null;
         return;
+      } else {
+        ability = null;
       }
 
       if (mouseEvent.wasShiftDown()) {
