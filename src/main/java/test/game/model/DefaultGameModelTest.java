@@ -34,12 +34,6 @@ public class DefaultGameModelTest {
   private GameWon gc = new GameWon();
   GameLost gl = new GameLost();
 
-  @Before
-  public void setup() {
-    gc.registerListener(parameter -> {});
-    gl.registerListener(parameter -> {});
-  }
-
   @Test
   public void testSetSelectionAndGetSelection() {
     Unit unit = createDefaultEnemyOrc();
