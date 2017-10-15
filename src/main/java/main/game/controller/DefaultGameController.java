@@ -302,21 +302,13 @@ public class DefaultGameController implements GameController {
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    if (clickEvent.getAbility().isReadyToBeUsed()) {
-      this.ability = clickEvent;
-    } else {
-      this.ability = null;
-    }
+    this.ability = (clickEvent.getAbility().isReadyToBeUsed()) ? clickEvent : null;
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    if (clickEvent.getItem().isReadyToBeUsed()) {
-      this.item = clickEvent;
-    } else {
-      this.item = null;
-    }
+    this.item = (clickEvent.getItem().isReadyToBeUsed()) ? clickEvent : null;
   }
 }
