@@ -3,7 +3,6 @@ package test.game.view;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.util.Arrays;
 import java.util.Collections;
 import main.common.World;
 import main.common.entity.Direction;
@@ -16,15 +15,16 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.DeadUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.view.FogOfWarView;
 import main.renderer.Renderable;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Tests the FogOfWarView class.
+ *
  * @author Andrew McGhie
  */
-public class FogOfWarTest extends GameViewTest {
+public class FogOfWarViewTest extends GameViewTest {
 
   @Override
   @Before

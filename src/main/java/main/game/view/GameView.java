@@ -53,9 +53,9 @@ public class GameView {
 
   /**
    * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while
-   * {@link main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying, if adding a
-   * large amount of items to this list, prefer using {@link List#addAll(Collection)} rather than
-   * calling {@link List#add(Object)} for each element.
+   * {@link main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying,
+   * if adding a large amount of items to this list, prefer using {@link List#addAll(Collection)}
+   * rather than calling {@link List#add(Object)} for each element.
    */
   private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
   private FogOfWarView fogOfWarView;

@@ -80,10 +80,7 @@ public class GameViewTest {
       }
     };
     gameControllerMock = mock(GameControllerMock.class);
-    this.gameModelMock = mock(GameModelMock.class);
-    when(gameModelMock.getAllEntities()).thenCallRealMethod();
-    doCallRealMethod().when(gameModelMock).setUnitSelection(anyCollection());
-    when(gameModelMock.getUnitSelection()).thenReturn(Collections.emptyList());
+    this.gameModelMock = new GameModelMock();
 
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);

@@ -10,7 +10,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
 /**
- * View of an entity
+ * View of an entity.
  * @author Andrew McGhie
  */
 public class EntityView implements main.renderer.Renderable {
