@@ -1,5 +1,6 @@
 package main.common.entity.usable;
 
+import main.common.entity.Unit;
 import main.common.entity.Usable;
 
 /**
@@ -11,4 +12,6 @@ public interface Ability extends Usable {
   double getEffectDurationSeconds();
 
   int getCoolDownTicks();
+
+  boolean canApplyTo(Unit unit);
 }
