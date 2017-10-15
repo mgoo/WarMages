@@ -2,6 +2,8 @@ package main.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Arc2D.Double;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +16,7 @@ import javax.xml.bind.DatatypeConverter;
 import main.Main;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
+import main.common.entity.Usable;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.GameModel;
@@ -140,7 +143,7 @@ public class Hud extends Menu {
 
   private void addItemIcon(Item item) {
     try {
-      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
+      this.addIcon("addItemIcon", this.getIcon(item), item);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -148,10 +151,31 @@ public class Hud extends Menu {
 
   private void addAbilityIcon(Ability ability) {
     try {
-      this.addIcon("addAbilityIcon", ability.getIconImage().load(this.imageProvider), ability);
+      this.addIcon("addAbilityIcon", this.getIcon(ability), ability);
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private BufferedImage getIcon(Usable usable) throws IOException {
+      BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
+      if (usable.isReadyToBeUsed()) {
+        return baseIcon;
+      }
+      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+          baseIcon.getHeight(),
+          BufferedImage.TYPE_4BYTE_ABGR);
+      Graphics2D g = ((Graphics2D) icon.getGraphics());
+      g.drawImage(baseIcon, 0, 0, null);
+      double progress = usable.getCoolDownProgress();
+      Arc2D arc = new Double(0, 0,
+          icon.getWidth(), icon.getHeight(),
+          90, (360 - (int)(360*progress)) % 360,
+          Arc2D.PIE);
+      g.setColor(new Color(0,0,0, 155));
+      g.fill(arc);
+
+      return icon;
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
