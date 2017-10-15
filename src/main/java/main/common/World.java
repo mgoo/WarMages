@@ -12,6 +12,12 @@ import main.common.util.MapPoint;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
 
+/**
+ * World class is a representation of all the in-play entities and in-play entities: all entity
+ * objects that have been instantiated.
+ *
+ * @author Eric Diputado
+ */
 public interface World {
 
   /**
