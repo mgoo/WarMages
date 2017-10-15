@@ -60,6 +60,18 @@ public class MapRect implements Serializable {
   }
 
   /**
+   * Checks whether a point is inside this MapRect.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  public boolean contains(double x, double y) {
+    return x >= topLeft.x
+        && x <= bottomRight.x
+        && y >= topLeft.y
+        && y <= bottomRight.y;
+  }
+
+  /**
    * The point in the exact centre of this rectangle. The coordinates, of course, may not be
    * rounded.
    */

@@ -102,7 +102,7 @@ public class RendererTestUtils {
    * @return mock GameView
    */
   public static GameView createGameView(Config c, GameController gc, GameModel gm) {
-    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>());
+    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>(), null);
     gv.updateRenderables(c.getGameModelDelay());
     return gv;
   }
