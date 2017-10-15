@@ -123,9 +123,11 @@ public class Main extends Application {
 
       JSObject window = (JSObject) webEngine.executeScript("window");
       window.setMember("controller", this.currentMenu.getMenuController());
-      Arrays.stream(this.currentMenu.getScripts()).forEach(script -> webEngine.executeScript(script));
+      Arrays.stream(this.currentMenu.getScripts())
+          .forEach(script -> webEngine.executeScript(script));
     });
-    webEngine.setOnAlert((WebEvent<String> event) -> System.out.println("JS Alert: " + event.getData()));
+    webEngine.setOnAlert((WebEvent<String> event)
+        -> System.out.println("JS Alert: " + event.getData()));
 
     this.loadMenu(mainMenu);
 

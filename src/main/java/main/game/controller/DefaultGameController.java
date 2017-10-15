@@ -316,7 +316,8 @@ public class DefaultGameController implements GameController {
   public void onItemIconClick(ItemIconClick clickEvent) {
     if (clickEvent.getItem().isReadyToBeUsed()) {
       this.item = clickEvent;
-    } else
+    } else {
       throw new UsableStillInCoolDownException();
     }
+  }
 }
