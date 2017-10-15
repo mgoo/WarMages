@@ -205,6 +205,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
 
     health += amount;
+
+    if (health > this.levelMultiplyer(this.unitType.getStartingHealth())) {
+      health = this.levelMultiplyer(this.unitType.getStartingHealth());
+    }
   }
 
   /**
