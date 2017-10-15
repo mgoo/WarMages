@@ -71,8 +71,7 @@ public class DefaultWorld implements Serializable, World {
     return Collections.newSetFromMap(new ConcurrentHashMap<>());
   }
 
-  @Override
-  public Level currentLevel() {
+  private Level currentLevel() {
     if (levels.isEmpty()) {
       throw new IllegalStateException("No levels left");
     }

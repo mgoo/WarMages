@@ -12,8 +12,6 @@ import main.game.model.entity.Projectile;
 
 public interface World {
 
-  Level currentLevel();
-
   /**
    * A getter method to get all possible units of type=PLAYER.
    *
