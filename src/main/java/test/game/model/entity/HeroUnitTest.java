@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
+import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
@@ -61,7 +62,7 @@ public class HeroUnitTest {
         Arrays.asList(mockAbility),
         0
     );
-    long delay = DefaultGameModel.DELAY;
+    long delay = GameModel.DELAY;
 
     // when I call tick
     heroUnit.tick(delay, mockWorld);
@@ -74,7 +75,7 @@ public class HeroUnitTest {
   public void heroUnitShouldTickItemsButOnlyWhenInTheInventory() {
     // Given a hero
     HeroUnit heroUnit = createDefaultHeroUnit();
-    long delay = DefaultGameModel.DELAY;
+    long delay = GameModel.DELAY;
     // and an item close to the hero
     Item mockItem = mock(Item.class);
     when(mockItem.getCentre()).thenReturn(heroUnit.getCentre());

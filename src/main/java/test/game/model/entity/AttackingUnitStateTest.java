@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import main.common.GameModel;
 import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.state.AttackingUnitState;
@@ -60,7 +61,7 @@ public class AttackingUnitStateTest {
 
     // when enough ticks happen (up to start of attack frame)
     for (int i = 0; i < attackFrame * ticksPerFrame - 1; i++) {
-      state.tick(DefaultGameModel.DELAY, world);
+      state.tick(GameModel.DELAY, world);
     }
 
     // then no attacks should have occurred
@@ -68,7 +69,7 @@ public class AttackingUnitStateTest {
 
     // when the attack frame is eventually completed
     for (int i = 0; i < ticksPerFrame; i++) {
-      state.tick(DefaultGameModel.DELAY, world);
+      state.tick(GameModel.DELAY, world);
     }
 
     // then exactly one attack should have occurred
