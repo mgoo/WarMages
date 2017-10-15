@@ -30,9 +30,7 @@ public class GameControllerTest {
   @Test
   public void checkSelectOneUnit() {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
     gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
@@ -69,9 +67,7 @@ public class GameControllerTest {
   @Test
   public void checkSelectNoUnit() {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
     gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),

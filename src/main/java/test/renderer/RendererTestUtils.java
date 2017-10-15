@@ -36,9 +36,7 @@ public class RendererTestUtils {
    */
   public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
     return new DefaultGameModel(world, mainGameTick, gc, gl);
   }
 
