@@ -33,6 +33,8 @@ public class DefaultGameController implements GameController {
 
   private final GameModel model;
 
+  private AbilityIconClick ability = null;
+
   public DefaultGameController(GameModel model) {
     this.model = model;
   }
@@ -117,6 +119,12 @@ public class DefaultGameController implements GameController {
 
     //If it was a left click
     if (mouseEvent.wasLeft()) {
+
+      //check if clicked on a valid unit so need to activate ability
+      if(selectedUnit != null && ability != null) {
+        ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
+        ability = null;
+      }
 
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
@@ -285,7 +293,7 @@ public class DefaultGameController implements GameController {
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    // TODO Hrsh
+    this.ability = clickEvent;
   }
 
   /**
