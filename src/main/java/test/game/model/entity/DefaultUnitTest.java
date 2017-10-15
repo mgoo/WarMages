@@ -32,7 +32,6 @@ import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -107,7 +106,7 @@ public class DefaultUnitTest {
 
     // speed = 0.1, delay = 50
     for (int i = 0; i < 10; i++) {
-      MapPoint mapPoint = new MapPoint(1D + Math.min(0.1 * i, 1), 1);
+      MapPoint mapPoint = new MapPoint(1D + Math.min(unit.getType().getMovingSpeed() * i, 1), 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -130,7 +129,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 20; i++) {
-      MapPoint mapPoint = new MapPoint(1D + 0.1 * i, 1);
+      MapPoint mapPoint = new MapPoint(1D + unit.getType().getMovingSpeed() * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -153,7 +152,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 10; i++) {
-      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
+      MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -176,7 +175,7 @@ public class DefaultUnitTest {
     unit.tick(GameModel.DELAY, world);
 
     for (int i = 0; i < 20; i++) {
-      MapPoint mapPoint = new MapPoint(1, 1D + 0.1 * i);
+      MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
       unit.tick(GameModel.DELAY, world);
@@ -212,7 +211,7 @@ public class DefaultUnitTest {
     Unit unit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER
     );
 
@@ -223,20 +222,20 @@ public class DefaultUnitTest {
     final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
     final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
 
-    int baseDamageAmount = unit.getDamageAmount();
-    assertEquals(baseDamageAmount, unit.getDamageAmount());
+    double baseDamageAmount = unit.getDamageAmount();
+    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
     ability1.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 1, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 1, unit.getDamageAmount(), 0.001);
     ability2.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 2, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 2, unit.getDamageAmount(), 0.001);
     ability3.use(world, Collections.emptyList());
-    assertEquals(baseDamageAmount + 3, unit.getDamageAmount());
+    assertEquals(baseDamageAmount + 3, unit.getDamageAmount(), 0.001);
 
     for (int i = 0; i < 200; i++) {
       unit.tick(GameModel.DELAY, world);
     }
 
-    assertEquals(baseDamageAmount, unit.getDamageAmount());
+    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
   }
 
   @Test
@@ -244,18 +243,19 @@ public class DefaultUnitTest {
     Unit playerUnit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(0.5, 0.5),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER);
     Unit enemyUnit = new DefaultUnit(new MapPoint(1,1),
         new MapSize(0.5, 0.5),
         Team.ENEMY,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SPEARMAN);
     HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
         new MapSize(0.5, 0.5),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>());
+        new ArrayList<Ability>(),
+        0);
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
@@ -263,7 +263,7 @@ public class DefaultUnitTest {
 
     playerUnit.setTargetUnit(enemyUnit);
 
-    int previousHealth = enemyUnit.getHealth();
+    double previousHealth = enemyUnit.getHealth();
 
     for (int i = 0; i < 100; i++) {
       world.tick(50);
@@ -295,7 +295,7 @@ public class DefaultUnitTest {
           new MapPoint(0.1, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           UnitType.ARCHER
       );
 
@@ -361,7 +361,7 @@ public class DefaultUnitTest {
       Unit unit = createPlayerUnit(UnitType.ARCHER);
       unit.setTargetUnit(enemyUnit);
       // and the initial health of the enemy
-      final int enemyStartingHealth = enemyUnit.getHealth();
+      final double enemyStartingHealth = enemyUnit.getHealth();
 
       // when a projectile is eventually fired/created
       final int tickLimit = 100; // (in case the projectile never fires)
@@ -377,7 +377,7 @@ public class DefaultUnitTest {
       Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      int projectileDamage = projectile.getDamageAmount();
+      double projectileDamage = projectile.getDamageAmount();
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something
@@ -388,8 +388,8 @@ public class DefaultUnitTest {
       }
 
       // then the enemy health should be reduced
-      int hitEnemyHealth = enemyUnit.getHealth();
-      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth);
+      double hitEnemyHealth = enemyUnit.getHealth();
+      assertEquals(enemyStartingHealth - projectileDamage, hitEnemyHealth, 0.001);
     }
 
     @Test
@@ -401,9 +401,9 @@ public class DefaultUnitTest {
     @Test
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
-      int prevHealth = unit.getHealth();
+      double prevHealth = unit.getHealth();
       unit.takeDamage(5, this.world);
-      assertEquals(prevHealth - 5, unit.getHealth());
+      assertEquals(prevHealth - 5, unit.getHealth(), 0.001);
     }
 
     private Unit createPlayerUnit(UnitType unitType) {
@@ -411,7 +411,7 @@ public class DefaultUnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.PLAYER,
-          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           unitType
       );
     }
@@ -421,7 +421,7 @@ public class DefaultUnitTest {
           new MapPoint(0, 0),
           new MapSize(1, 1),
           Team.ENEMY,
-          new DefaultUnitSpriteSheet(GameImageResource.ARCHER_SPRITE_SHEET),
+          new StubUnitSpriteSheet(),
           unitType
       );
     }

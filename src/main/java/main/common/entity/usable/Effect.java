@@ -35,5 +35,5 @@ public interface Effect extends Serializable {
    * Optionally change the damage amount. The unit will call this method and pass in its damage
    * amount and use the returned value. Do nothing by not overriding (i.e. return the parameter).
    */
-  int alterDamageAmount(int currentDamageAmount);
+  double alterDamageAmount(double currentDamageAmount);
 }
