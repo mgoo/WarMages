@@ -7,7 +7,7 @@ import main.common.entity.usable.Effect;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.game.model.entity.usable.BaseUsable;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant

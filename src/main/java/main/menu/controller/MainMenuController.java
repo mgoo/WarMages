@@ -8,8 +8,9 @@ import main.common.util.Events.GameWon;
 import main.common.util.Looper;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
-import main.game.model.GameModel;
-import main.game.model.world.World;
+import main.game.model.DefaultGameModel;
+import main.common.GameModel;
+import main.common.World;
 import main.common.WorldLoader;
 import main.common.WorldSaveModel;
 import main.game.view.GameView;
@@ -61,7 +62,7 @@ public class MainMenuController extends MenuController {
    */
   public void loadBtn(String filename) {
     try {
-      System.out.println(filename);
+      System.out.println(filename); //TODO remove this?
       World world = this.worldSaveModel.load(filename);
       this.startGame(world);
     } catch (Exception e) {
@@ -87,7 +88,7 @@ public class MainMenuController extends MenuController {
     Event<MouseClick> mouseClickEvent = new Event<>();
     GameWon wonEvent = new GameWon();
     GameLost lostEvent = new GameLost();
-    GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lostEvent);
+    GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
     GameController gameController = new DefaultGameController(gameModel);
     GameView gameView = new GameView(this.config,
         gameController,

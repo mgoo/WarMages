@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.World;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
 import main.common.GameController;
-import main.game.model.GameModel;
 import main.common.entity.Entity;
-import main.game.model.world.World;
+import main.common.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -44,7 +44,7 @@ public class GameView {
   private final Config config;
 
   private final GameController gameController;
-  private final GameModel gameModel;
+  private final GameModel model;
   private final ImageProvider imageProvider;
   private final Event<MouseClick> mouseClickEvent;
   private final World world;
@@ -68,13 +68,13 @@ public class GameView {
    */
   public GameView(Config config,
                   GameController gameController,
-                  GameModel gameModel,
+                  GameModel model,
                   ImageProvider imageProvider,
                   Event<MouseClick> mouseClickEvent,
                   World world) {
     this.config = config;
     this.gameController = gameController;
-    this.gameModel = gameModel;
+    this.model = model;
     this.imageProvider = imageProvider;
     this.mouseClickEvent = mouseClickEvent;
     this.world = world;
@@ -120,7 +120,7 @@ public class GameView {
    */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
-    final Set<Entity> entitiesToAdd = new HashSet<>(this.gameModel.getAllEntities());
+    final Set<Entity> entitiesToAdd = new HashSet<>(this.model.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
       if (entitiesToAdd.contains(renderable.getEntity())) {
@@ -139,7 +139,7 @@ public class GameView {
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
-          this.gameModel.getUnitSelection().contains(entityView.getEntity()));
+          this.model.getUnitSelection().contains(entityView.getEntity()));
     });
 
     // Update FoW
@@ -451,20 +451,20 @@ public class GameView {
    * Pauses the main game loop inside model.
    */
   public void pauseGame() {
-    gameModel.pauseGame();
+    model.pauseGame();
   }
 
   /**
    * Resumes the main game loop inside model.
    */
   public void resumeGame() {
-    gameModel.resumeGame();
+    model.resumeGame();
   }
 
   /**
    * Stops the main game loop inside model.
    */
   public void stopGame() {
-    gameModel.stopGame();
+    model.stopGame();
   }
 }

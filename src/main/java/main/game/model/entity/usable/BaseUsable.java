@@ -8,7 +8,7 @@ import main.common.entity.Usable;
 import main.common.entity.usable.Effect;
 import main.common.exceptions.CantApplyToUnitsException;
 import main.common.exceptions.UsableStillInCoolDownException;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * All {@link Usable}s should extend {@link BaseUsable}.
