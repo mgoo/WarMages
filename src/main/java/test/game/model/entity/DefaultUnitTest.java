@@ -112,7 +112,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1D + Math.min(unit.getType().getMovingSpeed() * i, 1), 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(DefaultGameModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -135,7 +135,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1D + unit.getType().getMovingSpeed() * i, 1);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(DefaultGameModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -158,7 +158,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(DefaultGameModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 
@@ -181,7 +181,7 @@ public class DefaultUnitTest {
       MapPoint mapPoint = new MapPoint(1, 1D + unit.getType().getMovingSpeed() * i);
       assertEquals(mapPoint.x, unit.getCentre().x, 0.001);
       assertEquals(mapPoint.y, unit.getCentre().y, 0.001);
-      unit.tick(DefaultGameModel.DELAY, world);
+      unit.tick(GameModel.DELAY, world);
     }
   }
 

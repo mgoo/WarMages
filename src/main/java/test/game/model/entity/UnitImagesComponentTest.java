@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import main.common.GameModel;
 import main.common.entity.Direction;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -43,7 +44,7 @@ public class UnitImagesComponentTest {
           unitImagesComponent.getImage(),
           (image, count) -> count == null ? 1 : count + 1
       );
-      unitImagesComponent.tick(DefaultGameModel.DELAY);
+      unitImagesComponent.tick(GameModel.DELAY);
     } while (unitImagesComponent._getCurrentTick() > 0);
 
     // then each image should have been shown for the right number of frames

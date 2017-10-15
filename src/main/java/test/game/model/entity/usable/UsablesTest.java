@@ -121,7 +121,7 @@ public class UsablesTest {
 
     // when the ability finally cools down
     for (int i = 0; i < coolDownTicks; i++) {
-      heroUnit.tick(DefaultGameModel.DELAY, stubWorld); // should tick usable
+      heroUnit.tick(GameModel.DELAY, stubWorld); // should tick usable
     }
     // and the heal is used again
     healer.use(world, Collections.emptyList());
@@ -160,7 +160,7 @@ public class UsablesTest {
     // when some time passes
     for (int i = 0; i < healAbility.getCoolDownTicks(); i++) {
       assertFalse(healAbility.isReadyToBeUsed());
-      healAbility.usableTick(DefaultGameModel.DELAY);
+      healAbility.usableTick(GameModel.DELAY);
     }
 
     // then we should be able to use the ability again
