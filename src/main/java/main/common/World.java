@@ -8,6 +8,8 @@ import main.common.entity.MapEntity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
+import main.common.util.MapRect;
+import main.game.model.Level;
 import main.game.model.entity.Projectile;
 
 /**
@@ -99,5 +101,5 @@ public interface World {
   /**
    * Gets the current active level.
    */
-  Level getCurrentLevel();
+  MapRect getCurrentLevelBounds();
 }

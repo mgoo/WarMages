@@ -5,24 +5,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import main.common.util.MapRect;
+import main.common.PathFinder;
 import main.common.World;
-import main.common.util.MapSize;
-import main.game.model.Level;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
-import main.game.model.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
-import main.common.PathFinder;
+import main.common.util.MapRect;
+import main.common.util.MapSize;
+import main.game.model.Level;
+import main.game.model.entity.Projectile;
 
 /**
  * Implementation of the World API.
@@ -182,8 +181,8 @@ public class DefaultWorld implements Serializable, World {
   }
 
   @Override
-  public Level getCurrentLevel() {
-    return this.levels.get(0);
+  public MapRect getCurrentLevelBounds() {
+    return currentLevel().getBounds();
   }
 
   @Override
