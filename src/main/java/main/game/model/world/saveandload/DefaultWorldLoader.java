@@ -486,14 +486,6 @@ public class DefaultWorldLoader implements WorldLoader {
                       30, 30
                   ),
                   POTION_BLUE_ITEM.getGameImage()
-              ),
-              new DefaultItem(
-                  new MapPoint(24, 5),
-                  new DamageBuffAbility(
-                      GameImageResource.RING_GOLD_ITEM.getGameImage(),
-                      20, 15, 10
-                  ),
-                  RING_GOLD_ITEM.getGameImage()
               )
           ),
           Arrays.asList(
