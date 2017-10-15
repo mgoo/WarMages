@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import main.common.Renderer;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
@@ -14,13 +15,11 @@ import main.game.view.EntityView;
 import main.game.view.GameView;
 
 /**
- * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use
- * OpenGL to take advantage of hardware acceleration. This class should also be responsible for
- * looping.
+ * Implementation of Renderer API.
  *
  * @author Eric Diputado
  */
-public class Renderer {
+public class DefaultRenderer implements Renderer {
 
   private final GameView gameView;
   private final ImageView imageView;
@@ -33,7 +32,7 @@ public class Renderer {
    * @param gameView the object the contains the GUI.
    * @param imageView the javaFX object that actually draws the GUI.
    */
-  public Renderer(
+  public DefaultRenderer(
       GameView gameView, ImageView imageView, Config config, Looper looper
   ) {
     this.gameView = gameView;
@@ -42,12 +41,7 @@ public class Renderer {
     this.looper = looper;
   }
 
-  /**
-   * A method which draws all the renderables in gameView and sets it to the imageView.
-   *
-   * @param gameView the object the contains the GUI.
-   * @param imageView the javaFX object that actually draws the GUI.
-   */
+  @Override
   public void drawAll(long currentTime, GameView gameView, ImageView imageView) {
     Objects.requireNonNull(gameView);
     Objects.requireNonNull(imageView);
@@ -111,36 +105,24 @@ public class Renderer {
 
   }
 
-  /**
-   * Pauses the rendering loop.
-   *
-   * @throws InterruptedException InterruptedException if any thread interrupted the current thread
-   *        before or while the current thread was waiting for a notification.  The <i>interrupted
-   *        status</i> of the current thread is cleared when this exception is thrown.
-   */
+  @Override
   public void pause() throws InterruptedException {
     looper.setPaused(true);
   }
 
-  /**
-   * Resumes the rendering loop. Assumes that rendering loop is currently waiting.
-   */
+  @Override
   public void resume() {
     looper.setPaused(false);
   }
 
-  /**
-   * Starts the looper to render the game.
-   */
+  @Override
   public void start() {
     looper.start(
         () -> drawAll(System.currentTimeMillis(), gameView, imageView)
     );
   }
 
-  /**
-   * Stops the looper.
-   */
+  @Override
   public void stop() {
     looper.stop();
   }
