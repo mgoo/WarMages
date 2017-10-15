@@ -8,7 +8,7 @@ import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Heals a unit instantly.

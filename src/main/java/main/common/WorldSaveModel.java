@@ -2,11 +2,10 @@ package main.common;
 
 import java.io.IOException;
 import java.util.Collection;
-import main.game.model.GameModel;
-import main.game.model.world.World;
+import main.game.model.DefaultGameModel;
 
 /**
- * Deals with the saving and loading of {@link GameModel} to and from files.
+ * Deals with the saving and loading of {@link DefaultGameModel} to and from files.
  * @author chongdyla
  */
 public interface WorldSaveModel {
@@ -23,7 +22,7 @@ public interface WorldSaveModel {
   String SAVE_FILE_DIRECTORY = "./saves/";
 
   /**
-   * Stores the {@link main.game.model.world.World} (through serialisation).
+   * Stores the {@link World} (through serialisation).
    *
    * @param filename Name with no slashes is it.
    */

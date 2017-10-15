@@ -7,12 +7,11 @@ import static junit.framework.TestCase.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import main.common.GameController;
 import main.game.controller.DefaultGameController;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.Entity;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.world.World;
+import main.common.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
@@ -245,7 +244,7 @@ public class GameViewTest {
     assertEquals(new MapPoint(7, 5), this.gameView.pixToTile(new MapPoint(50, 300)));
   }
 
-  private class GameModelMock extends GameModel {
+  private class GameModelMock extends DefaultGameModel {
 
     private List<Entity> entities = new ArrayList<>();
 
