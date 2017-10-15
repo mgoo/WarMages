@@ -24,7 +24,7 @@ import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
 import main.common.util.MapSize;
-import main.game.model.entity.Projectile;
+import main.common.entity.Projectile;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
