@@ -158,24 +158,24 @@ public class Hud extends Menu {
   }
 
   private BufferedImage getIcon(Usable usable) throws IOException {
-      BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
-      if (usable.isReadyToBeUsed()) {
-        return baseIcon;
-      }
-      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-          baseIcon.getHeight(),
-          BufferedImage.TYPE_4BYTE_ABGR);
-      Graphics2D g = ((Graphics2D) icon.getGraphics());
-      g.drawImage(baseIcon, 0, 0, null);
-      double progress = usable.getCoolDownProgress();
-      Arc2D arc = new Double(0, 0,
-          icon.getWidth(), icon.getHeight(),
-          90, (360 - (int)(360*progress)) % 360,
-          Arc2D.PIE);
-      g.setColor(new Color(0,0,0, 155));
-      g.fill(arc);
+    BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
+    if (usable.isReadyToBeUsed()) {
+      return baseIcon;
+    }
+    BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+        baseIcon.getHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
+    Graphics2D g = ((Graphics2D) icon.getGraphics());
+    g.drawImage(baseIcon, 0, 0, null);
+    double progress = usable.getCoolDownProgress();
+    Arc2D arc = new Double(0, 0,
+        icon.getWidth(), icon.getHeight(),
+        90, (360 - (int)(360*progress)) % 360,
+        Arc2D.PIE);
+    g.setColor(new Color(0,0,0, 155));
+    g.fill(arc);
 
-      return icon;
+    return icon;
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
