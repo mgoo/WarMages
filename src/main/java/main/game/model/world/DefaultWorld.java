@@ -246,18 +246,12 @@ public class DefaultWorld implements Serializable, World {
     return currentLevel().getGoalDescription();
   }
 
-  /**
-   * Checks if game is won.
-   * @return whether game is won
-   */
+  @Override
   public boolean isWon() {
     return levels.size() == 1 && currentLevel().areGoalsCompleted(this);
   }
 
-  /**
-   * Checks if game is lost.
-   * @return whether game is lost
-   */
+  @Override
   public boolean isLost() {
     return heroUnit.getHealth() <= 0;
   }

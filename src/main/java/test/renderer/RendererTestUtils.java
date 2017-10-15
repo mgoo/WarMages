@@ -39,7 +39,7 @@ public class RendererTestUtils {
     gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
     gl.registerListener(parameter -> {});
-    return new GameModel(world, mainGameTick, gc, gl);
+    return new DefaultGameModel(world, mainGameTick, gc, gl);
   }
 
   /**
