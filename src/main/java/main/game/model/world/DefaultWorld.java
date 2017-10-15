@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import main.common.util.MapRect;
 import main.common.World;
 import main.common.util.MapSize;
 import main.game.model.Level;
@@ -246,7 +247,10 @@ public class DefaultWorld implements Serializable, World {
     return pathFinder.findPath(this::isPassable, start, end);
   }
 
-  @Override
+  /**
+   * Gets the current goal for the current level.
+   * @return String description of the current goal
+   */
   public String getCurrentGoalDescription() {
     return currentLevel().getGoalDescription();
   }

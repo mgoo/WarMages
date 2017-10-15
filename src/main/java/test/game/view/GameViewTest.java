@@ -3,10 +3,13 @@ package test.game.view;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import main.common.entity.HeroUnit;
 import main.game.controller.DefaultGameController;
 import main.game.model.DefaultGameModel;
 import main.common.entity.Entity;
@@ -53,12 +56,16 @@ public class GameViewTest {
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
+    World world = mock(World.class);
+    HeroUnit hero = mock(HeroUnit.class);
+    when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
+    when(world.getHeroUnit()).thenReturn(hero);
     this.gameView = new GameView(config,
         gameController,
         gameModelMock,
         imageProvider,
         new Event<>(),
-        null);
+        world);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
