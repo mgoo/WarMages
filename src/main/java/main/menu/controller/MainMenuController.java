@@ -3,6 +3,8 @@ package main.menu.controller;
 import java.io.IOException;
 import javafx.scene.image.ImageView;
 import main.Main;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.util.Looper;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
@@ -14,6 +16,7 @@ import main.game.view.GameView;
 import main.game.view.events.MouseClick;
 import main.images.DefaultImageProvider;
 import main.common.images.ImageProvider;
+import main.menu.GameEndMenu;
 import main.menu.Hud;
 import main.menu.MainMenu;
 import main.renderer.Renderer;
@@ -82,7 +85,9 @@ public class MainMenuController extends MenuController {
     ImageProvider imageProvider = new DefaultImageProvider();
     MainGameTick tickEvent = new MainGameTick();
     Event<MouseClick> mouseClickEvent = new Event<>();
-    GameModel gameModel = new GameModel(world, tickEvent);
+    GameWon wonEvent = new GameWon();
+    GameLost lostEvent = new GameLost();
+    GameModel gameModel = new GameModel(world, tickEvent, wonEvent, lostEvent);
     GameController gameController = new DefaultGameController(gameModel);
     GameView gameView = new GameView(this.config,
         gameController,
@@ -105,6 +110,16 @@ public class MainMenuController extends MenuController {
     tickEvent.registerListener(parameter -> hud.updateIcons());
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
     tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+    wonEvent.registerListener(parameter -> {
+      gameModel.stopGame();
+      renderer.stop();
+      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "You have Won"));
+    });
+    lostEvent.registerListener(parameter -> {
+      gameModel.stopGame();
+      renderer.stop();
+      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "YOU LOST YOUR BAD HAHA"));
+    });
     renderer.start();
     gameModel.startGame();
 

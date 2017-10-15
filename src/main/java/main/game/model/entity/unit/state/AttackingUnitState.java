@@ -37,7 +37,8 @@ public class AttackingUnitState extends UnitState {
     super.tick(timeSinceLastTick, world);
 
     double distanceToTarget = unit.getCentre().distanceTo(target.getCentre());
-    if (distanceToTarget >= unit.getAttackDistance()) {
+    double widthOffSet = unit.getSize().width + target.getSize().width;
+    if (distanceToTarget - widthOffSet >= unit.getAttackDistance()) {
       requestedNextState = new WalkingUnitState(
           unit,
           new MapPointTarget(unit, target.getCentre())
@@ -84,7 +85,10 @@ public class AttackingUnitState extends UnitState {
       world.addProjectile(projectile);
     } else {
       // Non projectile attack (e.g. spear)
-      target.takeDamage(unit.getDamageAmount(), world);
+      boolean killed = target.takeDamage(unit.getDamageAmount(), world);
+      if (killed) {
+        unit.nextLevel();
+      }
     }
   }
 }
