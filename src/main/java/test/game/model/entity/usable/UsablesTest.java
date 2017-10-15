@@ -108,7 +108,7 @@ public class UsablesTest {
     heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
     double lowHealth = heroUnit.getHealth();
     // and the heal is used
-    healer.use(world, Collections.emptyList());
+    healer.use(world, Collections.singletonList(heroUnit));
 
     // then the health should go up
     double firstNewHealth = heroUnit.getHealth();
@@ -121,7 +121,7 @@ public class UsablesTest {
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick usable
     }
     // and the heal is used again
-    healer.use(world, Collections.emptyList());
+    healer.use(world, Collections.singletonList(heroUnit));
 
     // then health should increase again
     double secondNewHealth = heroUnit.getHealth();
@@ -191,7 +191,7 @@ public class UsablesTest {
     when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
 
     // when we use the buff
-    buffAbility.use(world, Collections.emptyList());
+    buffAbility.use(world, Collections.singletonList(heroUnit));
 
     // damageAmount should increase for several ticks
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());
