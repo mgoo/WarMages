@@ -78,8 +78,11 @@ public class GameView {
     this.imageProvider = imageProvider;
     this.mouseClickEvent = mouseClickEvent;
     this.world = world;
-    this.viewBox = new MapRect(0, 0,
-        this.config.getContextScreenWidth(), this.config.getContextScreenHeight());
+    MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
+    this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
+        initialPositionPixel.y - this.config.getContextScreenHeight() / 2,
+        this.config.getContextScreenWidth(),
+        this.config.getContextScreenHeight());
     this.fogOfWarView = ViewFactory.makeFogOfWarView(config);
     this.mousePosition = new MapPoint(config.getContextScreenWidth() / 2,
         config.getContextScreenHeight() / 2);
