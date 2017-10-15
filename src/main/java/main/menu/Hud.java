@@ -160,34 +160,34 @@ public class Hud extends Menu {
   }
 
   private BufferedImage getIcon(Usable usable) throws IOException {
-      BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
+    BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
 
-      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-          baseIcon.getHeight(),
-          BufferedImage.TYPE_4BYTE_ABGR);
-      Graphics2D g = ((Graphics2D) icon.getGraphics());
+    BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+        baseIcon.getHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
+    Graphics2D g = ((Graphics2D) icon.getGraphics());
 
-      // @HACK to top the icon background from flashing from the lag of css appyling
-      if (usable instanceof Item) {
-        g.setColor(Color.decode("#433ab9"));
-      }
-      if (usable instanceof Ability) {
-        g.setColor(Color.decode("#9c8d46"));
-      }
+    // @HACK to top the icon background from flashing from the lag of css appyling
+    if (usable instanceof Item) {
+      g.setColor(Color.decode("#433ab9"));
+    }
+    if (usable instanceof Ability) {
+      g.setColor(Color.decode("#9c8d46"));
+    }
 
-      g.fillRect(0, 0, icon.getWidth(), icon.getHeight());
-      g.drawImage(baseIcon, 0, 0, null);
-      if (usable.isReadyToBeUsed()) {
-        return icon;
-      }
+    g.fillRect(0, 0, icon.getWidth(), icon.getHeight());
+    g.drawImage(baseIcon, 0, 0, null);
+    if (usable.isReadyToBeUsed()) {
+      return icon;
+    }
 
-      double progress = usable.getCoolDownProgress();
-      Arc2D arc = new Double(0, 0,
-          icon.getWidth(), icon.getHeight(),
-          90, (360 - (int)(360*progress)) % 360,
-          Arc2D.PIE);
-      g.setColor(new Color(0,0,0, 155));
-      g.fill(arc);
+    double progress = usable.getCoolDownProgress();
+    Arc2D arc = new Double(0, 0,
+        icon.getWidth(), icon.getHeight(),
+        90, (360 - (int)(360*progress)) % 360,
+        Arc2D.PIE);
+    g.setColor(new Color(0,0,0, 155));
+    g.fill(arc);
 
     return icon;
   }
