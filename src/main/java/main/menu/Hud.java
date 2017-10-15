@@ -22,6 +22,7 @@ import main.common.entity.Usable;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.GameModel;
+import main.common.util.Config;
 import main.game.view.GameView;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
@@ -39,8 +40,6 @@ public class Hud extends Menu {
 
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
-  private final Collection<Unit> selectedUnits = new ArrayList<>();
-  private HeroUnit hero;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
 
   public Hud(Main main,
@@ -49,11 +48,17 @@ public class Hud extends Menu {
              Renderer renderer,
              GameModel gameModel,
              ImageProvider imageProvider,
-             SaveFunction saveFunction) {
+             SaveFunction saveFunction,
+             Config config) {
     super(main);
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
-    this.menuController = new HudController(main, mainMenu, gameView, renderer, saveFunction);
+    this.menuController = new HudController(main,
+        mainMenu,
+        gameView,
+        renderer,
+        saveFunction,
+        config);
   }
 
   @Override
