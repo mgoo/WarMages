@@ -42,10 +42,8 @@ public class FogOfWarTest extends GameViewTest {
     assertEquals(this.config.getContextScreenWidth(), fow.getImageSize().width, 0.001);
     assertEquals(this.config.getContextScreenHeight(), fow.getImageSize().height, 0.001);
 
-    // Check center is see though
+    // Check center is not see though
     assertNotEquals(0, fow.getImage().getRGB(0 ,0));
-
-    // Check LOS
     assertNotEquals(0, fow.getImage().getRGB(config.getEntityViewTilePixelsX(), 0));
 
   }
@@ -71,7 +69,7 @@ public class FogOfWarTest extends GameViewTest {
 
   }
 
-  class UnitMock extends EntityMock implements Unit {
+  static class UnitMock extends EntityMock implements Unit {
 
     UnitMock(MapPoint position, MapSize size) {
       super(position, size);

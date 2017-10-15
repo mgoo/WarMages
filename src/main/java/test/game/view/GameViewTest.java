@@ -1,7 +1,13 @@
 package test.game.view;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollection;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.awt.image.BufferedImage;
@@ -9,12 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import main.common.entity.HeroUnit;
 import main.common.GameController;
+import main.game.model.Level;
 import main.game.view.GameView;
 import main.common.GameModel;
-import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.entity.Entity;
 import main.common.World;
@@ -47,6 +54,7 @@ public class GameViewTest {
 
   GameView gameView;
   GameModelMock gameModelMock;
+  GameControllerMock gameControllerMock;
   List<Entity> entityList;
   Config config;
 
@@ -71,8 +79,12 @@ public class GameViewTest {
         return new BufferedImage(1,1, BufferedImage.TYPE_4BYTE_ABGR);
       }
     };
-    final GameControllerMock gameController = new GameControllerMock();
-    this.gameModelMock = new GameModelMock();
+    gameControllerMock = mock(GameControllerMock.class);
+    this.gameModelMock = mock(GameModelMock.class);
+    when(gameModelMock.getAllEntities()).thenCallRealMethod();
+    doCallRealMethod().when(gameModelMock).setUnitSelection(anyCollection());
+    when(gameModelMock.getUnitSelection()).thenReturn(Collections.emptyList());
+
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
@@ -81,11 +93,13 @@ public class GameViewTest {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
+    Level level = mock(Level.class); // TODO use interface rather than concreet
+    when(level.getBounds()).thenReturn(new MapRect(-100, -100, 200, 200));
+    when(world.getCurrentLevel()).thenReturn(level);
     this.gameView = new GameView(config,
-        gameController,
+        gameControllerMock,
         gameModelMock,
         imageProvider,
-        new Event<>(),
         world);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
@@ -116,7 +130,30 @@ public class GameViewTest {
     assertEquals(new MapPoint(7, 5), this.gameView.pixToTile(new MapPoint(50, 300)));
   }
 
-  class GameModelMock implements GameModel {
+  @Test
+  public void test_eventPassThroughs() {
+    this.gameView.onLeftClick(0, 0, true, true);
+    verify(this.gameControllerMock).onMouseEvent(any());
+    this.gameView.onRightClick(0 ,0,false, false);
+    verify(this.gameControllerMock, times(2)).onMouseEvent(any());
+    this.gameView.onDbClick(0 , 0, true, true);
+    verify(this.gameControllerMock).onDbClick(any());
+    this.gameView.onDrag(0, 0, 1, 1, true, false);
+    verify(this.gameControllerMock).onMouseDrag(any());
+    this.gameView.onKeyDown('z', true, false);
+    verify(this.gameControllerMock).onKeyPress(any());
+
+    this.gameView.unitClick(null, true, true, true);
+    verify(this.gameControllerMock).onUnitIconClick(any());
+    this.gameView.abilityClick(null,false, false, true);
+    verify(this.gameControllerMock).onAbilityIconClick(any());
+    this.gameView.itemClick(null, true, true, true);
+    verify(this.gameControllerMock).onItemIconClick(any());
+
+
+  }
+
+  static class GameModelMock implements GameModel {
 
     private List<Entity> entities = new ArrayList<>();
 
@@ -181,7 +218,7 @@ public class GameViewTest {
 
   }
 
-  class EntityMock implements Entity {
+  static class EntityMock implements Entity {
 
 
     private MapPoint position;
@@ -243,7 +280,7 @@ public class GameViewTest {
     }
   }
 
-  class GameControllerMock implements GameController {
+  static class GameControllerMock implements GameController {
 
     GameControllerMock() {
 
