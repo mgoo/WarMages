@@ -12,10 +12,6 @@ import main.game.model.entity.Projectile;
 
 public interface World {
 
-  <T> Set<T> newConcurrentSetOf(Collection<T> collection);
-
-  <T> Set<T> newConcurrentSet();
-
   Level currentLevel();
 
   /**

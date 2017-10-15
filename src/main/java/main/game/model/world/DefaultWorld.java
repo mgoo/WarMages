@@ -61,15 +61,13 @@ public class DefaultWorld implements Serializable, World {
     this.pathFinder = pathfinder;
   }
 
-  @Override
-  public <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
+  private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
     Set<T> set = newConcurrentSet();
     set.addAll(collection);
     return set;
   }
 
-  @Override
-  public <T> Set<T> newConcurrentSet() {
+  private <T> Set<T> newConcurrentSet() {
     return Collections.newSetFromMap(new ConcurrentHashMap<>());
   }
 
