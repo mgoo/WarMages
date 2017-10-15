@@ -6823,12 +6823,12 @@ body {
   left: 0;
   width: 100vw;
   height: 5vh;
-  background-color: #a89454;
-  border-bottom: #66420f ridge 5px;
+  background: linear-gradient(#133615, #254b25, #133615);
+  border-bottom: #5b825c ridge 5px;
 }
 .top-bar .btn {
   margin: 5px;
-  background-color: #8a6d3b;
+  background-color: #3d85cb;
   color: #3c3c3c;
 }
 .goal {
@@ -6859,7 +6859,7 @@ body {
   height: 9vh;
   margin: 5px;
   background-size: 100% 100%;
-  border: #66420f ridge 2px;
+  border: #5b825c ridge 2px;
   position: relative;
   min-height: 1px;
   padding-left: 0;
@@ -6876,24 +6876,23 @@ body {
   left: 0;
   bottom: 0;
   height: 70%;
-  background-color: #a89454;
-  border-top: #66420f ridge 5px;
+  background: linear-gradient(#133615, #254b25, #133615);
+  border-top: #000 ridge 5px;
   overflow-y: auto;
 }
 .bottom-bar .unit-holder .icon {
-  background-color: #2b542c;
+  background-color: #9f9f9e;
 }
 .bottom-bar .right-box {
   display: block;
   position: absolute;
   bottom: 0;
   height: 100%;
-  background-color: #a89454;
-  border-top: #66420f ridge 5px;
-  border-left: #66420f ridge 5px;
+  background: linear-gradient(#133615, #254b25, #133615);
+  border-top: #5b825c ridge 5px;
+  border-left: #5b825c ridge 5px;
 }
 .bottom-bar .right-box .holder .icon {
-  background-color: #825fb9;
   position: relative;
   min-height: 1px;
   padding-left: 0;
@@ -6905,10 +6904,19 @@ body {
     width: 16.66666667%;
   }
 }
+.bottom-bar .right-box .holder.ability-holder .icon {
+  background-color: #9c8d46;
+}
+.bottom-bar .right-box .holder.item-holder .icon {
+  background-color: #433ab9;
+}
 .modal-content {
-  border: 5px ridge #66420f;
-  border-right-style: outset;
-  border-bottom-style: outset;
+  color: #f5f5f5;
+  border: 5px ridge ;
+  border-bottom: #5b825c outset 5px;
+  border-right: #5b825c outset 5px;
+  border-top: #5b825c ridge 5px;
+  border-left: #5b825c ridge 5px;
   border-radius: 0;
-  background-color: #a89454;
+  background: linear-gradient(#133615, #254b25, #133615);
 }

@@ -6814,6 +6814,7 @@ body .title {
   left: 12vw;
 }
 body .title h1 {
+  color: #f5f5f5;
   font-size: 130px;
   display: block;
   overflow: visible;
