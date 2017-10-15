@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.World;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
 import main.common.GameController;
-import main.game.model.GameModel;
 import main.common.entity.Entity;
+import main.common.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -43,9 +44,10 @@ public class GameView {
   private final Config config;
 
   private final GameController gameController;
-  private final GameModel gameModel;
+  private final GameModel model;
   private final ImageProvider imageProvider;
   private final Event<MouseClick> mouseClickEvent;
+  private final World world;
 
   private MapRect viewBox;
   private MapPoint mousePosition;
@@ -66,18 +68,19 @@ public class GameView {
    */
   public GameView(Config config,
                   GameController gameController,
-                  GameModel gameModel,
+                  GameModel model,
                   ImageProvider imageProvider,
                   Event<MouseClick> mouseClickEvent,
-                  MapPoint initialPosition) {
+                  World world) {
     this.config = config;
     this.gameController = gameController;
-    this.gameModel = gameModel;
+    this.model = model;
     this.imageProvider = imageProvider;
     this.mouseClickEvent = mouseClickEvent;
-    MapPoint initialPositionPixel = EntityView.tileToPix(initialPosition, config);
-    this.viewBox = new MapRect(initialPositionPixel.x + this.config.getContextScreenWidth() / 2 ,
-        initialPositionPixel.y + this.config.getContextScreenHeight() / 2,
+    this.world = world;
+    MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
+    this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
+        initialPositionPixel.y - this.config.getContextScreenHeight() / 2,
         this.config.getContextScreenWidth(),
         this.config.getContextScreenHeight());
     this.fogOfWarView = ViewFactory.makeFogOfWarView(config);
@@ -120,7 +123,7 @@ public class GameView {
    */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
-    final Set<Entity> entitiesToAdd = new HashSet<>(this.gameModel.getAllEntities());
+    final Set<Entity> entitiesToAdd = new HashSet<>(this.model.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
       if (entitiesToAdd.contains(renderable.getEntity())) {
@@ -139,7 +142,7 @@ public class GameView {
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
-          this.gameModel.getUnitSelection().contains(entityView.getEntity()));
+          this.model.getUnitSelection().contains(entityView.getEntity()));
     });
 
     // Update FoW
@@ -154,17 +157,35 @@ public class GameView {
   }
 
   private synchronized void updateViewBoxPosition() {
+    double dx = 0;
+    double dy = 0;
     if (this.mousePosition.x <= SCROLL_AREA_WIDTH)  {
-      this.viewBox = this.viewBox.move(this.config.getGameViewScrollSpeed(), 0);
-    }
-    if (this.mousePosition.x >= this.config.getContextScreenWidth() - SCROLL_AREA_WIDTH) {
-      this.viewBox = this.viewBox.move(-this.config.getGameViewScrollSpeed(), 0);
+      dx = -this.config.getGameViewScrollSpeed();
+    } else if (this.mousePosition.x >= this.config.getContextScreenWidth() - SCROLL_AREA_WIDTH) {
+      dx = this.config.getGameViewScrollSpeed();
     }
     if (this.mousePosition.y <= SCROLL_AREA_WIDTH) {
-      this.viewBox = this.viewBox.move(0, this.config.getGameViewScrollSpeed());
+      dy = -this.config.getGameViewScrollSpeed();
+    } else if (this.mousePosition.y >= this.config.getContextScreenHeight() - SCROLL_AREA_WIDTH) {
+      dy = this.config.getGameViewScrollSpeed();
     }
-    if (this.mousePosition.y >= this.config.getContextScreenHeight() - SCROLL_AREA_WIDTH) {
-      this.viewBox = this.viewBox.move(0, -this.config.getGameViewScrollSpeed());
+    if (dx != 0 || dy != 0) {
+      // Make sure the new position is in the level bounds
+      MapPoint topLeft
+          = this.pixToTile(this.viewBox.topLeft.x + dx, this.viewBox.topLeft.y + dy);
+      MapPoint topRight
+          = this.pixToTile(this.viewBox.bottomRight.x + dx, this.viewBox.topLeft.y + dy);
+      MapPoint bottomLeft
+          = this.pixToTile(this.viewBox.topLeft.x + dx, this.viewBox.bottomRight.y + dy);
+      MapPoint bottomRight
+          = this.pixToTile(this.viewBox.bottomRight.x + dx, this.viewBox.bottomRight.y + dy);
+
+      MapPolygon mapRectTiles = new MapPolygon(topLeft, topRight, bottomLeft, bottomRight);
+
+      if (!mapRectTiles.contains(this.world.getCurrentLevel().getBounds())) {
+        return;
+      }
+      this.viewBox = this.viewBox.move(dx, dy);
     }
   }
 
@@ -181,8 +202,15 @@ public class GameView {
    * Takes the position on the screen an turns it into the Map Point that it is on.
    */
   public /*@ pure; non_null @*/ MapPoint pixToTile(MapPoint screenPos) {
-    int originAdjustedX = (int)(screenPos.x - this.viewBox.x());
-    int originAdjustedY = (int)(screenPos.y - this.viewBox.y());
+    return this.pixToTile(screenPos.x, screenPos.y);
+  }
+
+  /**
+   * Takes the position on the screen an turns it into the Map Point that it is on.
+   */
+  public /*@ pure; non_null @*/ MapPoint pixToTile(double x, double y) {
+    int originAdjustedX = (int)(x + this.viewBox.x());
+    int originAdjustedY = (int)(y + this.viewBox.y());
 
     double tileWidthHalf = this.config.getEntityViewTilePixelsX() / 2D;
     double tileHeightHalf = this.config.getEntityViewTilePixelsY() / 2D;
@@ -426,20 +454,20 @@ public class GameView {
    * Pauses the main game loop inside model.
    */
   public void pauseGame() {
-    gameModel.pauseGame();
+    model.pauseGame();
   }
 
   /**
    * Resumes the main game loop inside model.
    */
   public void resumeGame() {
-    gameModel.resumeGame();
+    model.resumeGame();
   }
 
   /**
    * Stops the main game loop inside model.
    */
   public void stopGame() {
-    gameModel.stopGame();
+    model.stopGame();
   }
 }

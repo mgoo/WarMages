@@ -1,11 +1,11 @@
 package main.game.model.entity.unit.state;
 
 import java.util.Comparator;
+import main.common.World;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
-import main.game.model.world.World;
 
 /**
  * Idle state for Unit.

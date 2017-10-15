@@ -8,8 +8,8 @@ import main.common.entity.Direction;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.common.World;
 import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
-import main.game.model.world.World;
 
 /**
  * Attacking state for Unit.

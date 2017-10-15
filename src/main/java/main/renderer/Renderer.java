@@ -70,8 +70,8 @@ public class Renderer {
       MapPoint position = r.getImagePosition(currentTime);
       MapSize size = r.getImageSize();
       g.drawImage(r.getImage(),
-          (int)(position.x + gameView.getViewBox().topLeft.x),
-          (int)(position.y + gameView.getViewBox().topLeft.y),
+          (int)(position.x - gameView.getViewBox().topLeft.x),
+          (int)(position.y - gameView.getViewBox().topLeft.y),
           (int)size.width,
           (int)size.height,
           null);
@@ -85,16 +85,16 @@ public class Renderer {
         MapPoint y1 = EntityView.tileToPix(new MapPoint(0, i), config);
         MapPoint y2 = EntityView.tileToPix(new MapPoint(100, i), config);
         g.drawLine(
-            (int) (x1.x + gameView.getViewBox().topLeft.x),
-            (int) (x1.y + gameView.getViewBox().topLeft.y),
-            (int) (x2.x + gameView.getViewBox().topLeft.x),
-            (int) (x2.y + gameView.getViewBox().topLeft.y)
+            (int) (x1.x - gameView.getViewBox().topLeft.x),
+            (int) (x1.y - gameView.getViewBox().topLeft.y),
+            (int) (x2.x - gameView.getViewBox().topLeft.x),
+            (int) (x2.y - gameView.getViewBox().topLeft.y)
         );
         g.drawLine(
-            (int) (y1.x + gameView.getViewBox().topLeft.x),
-            (int) (y1.y + gameView.getViewBox().topLeft.y),
-            (int) (y2.x + gameView.getViewBox().topLeft.x),
-            (int) (y2.y + gameView.getViewBox().topLeft.y)
+            (int) (y1.x - gameView.getViewBox().topLeft.x),
+            (int) (y1.y - gameView.getViewBox().topLeft.y),
+            (int) (y2.x - gameView.getViewBox().topLeft.x),
+            (int) (y2.y - gameView.getViewBox().topLeft.y)
         );
         for (int j = 0; j < 100; j++) {
           MapPoint mp = EntityView.tileToPix(new MapPoint(i, j), config);

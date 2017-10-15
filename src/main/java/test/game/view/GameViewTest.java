@@ -3,16 +3,18 @@ package test.game.view;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import main.common.GameController;
+import main.common.entity.HeroUnit;
 import main.game.controller.DefaultGameController;
-import main.game.model.GameModel;
+import main.game.model.DefaultGameModel;
 import main.common.entity.Entity;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.world.World;
+import main.common.World;
 import main.game.view.EntityView;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
@@ -54,13 +56,16 @@ public class GameViewTest {
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
+    World world = mock(World.class);
+    HeroUnit hero = mock(HeroUnit.class);
+    when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
+    when(world.getHeroUnit()).thenReturn(hero);
     this.gameView = new GameView(config,
         gameController,
         gameModelMock,
         imageProvider,
         new Event<>(),
-        new MapPoint(-20,
-            0));
+        world);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
     entityList = new ArrayList<>();
@@ -228,14 +233,14 @@ public class GameViewTest {
   public void testMovingViewBox() {
     MapRect originalView = this.gameView.getViewBox();
     this.gameView.updateMousePosition(0, 0);
-    assertEquals(originalView.topLeft.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.topLeft.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().topLeft.y - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.x - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.x - config.getGameViewScrollSpeed());
-    assertEquals(originalView.bottomRight.y - config.getGameViewScrollSpeed(),
-        this.gameView.getViewBox().bottomRight.y - config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.topLeft.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().topLeft.y + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.x + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.x + config.getGameViewScrollSpeed());
+    assertEquals(originalView.bottomRight.y + config.getGameViewScrollSpeed(),
+        this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
   }
 
   @Test
@@ -246,7 +251,7 @@ public class GameViewTest {
     assertEquals(new MapPoint(7, 5), this.gameView.pixToTile(new MapPoint(50, 300)));
   }
 
-  private class GameModelMock extends GameModel {
+  private class GameModelMock extends DefaultGameModel {
 
     private List<Entity> entities = new ArrayList<>();
 

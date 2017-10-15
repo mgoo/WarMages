@@ -6,8 +6,9 @@ import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
-import main.game.model.GameModel;
-import main.game.model.world.World;
+import main.game.model.DefaultGameModel;
+import main.common.GameModel;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.game.view.events.MouseClick;
 import main.common.util.Events.MainGameTick;
@@ -29,10 +30,8 @@ public class GameControllerTest {
   @Test
   public void checkSelectOneUnit() {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
-    gameModel = new GameModel(new World(
+    gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
@@ -62,16 +61,14 @@ public class GameControllerTest {
         return new MapPoint(1, 0);
       }
     });
-    assertEquals(1,gameModel.getUnitSelection().size());
+    assertEquals(1, gameModel.getUnitSelection().size());
   }
 
   @Test
   public void checkSelectNoUnit() {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
-    gameModel = new GameModel(new World(
+    gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
@@ -101,7 +98,7 @@ public class GameControllerTest {
         return new MapPoint(20, 0);
       }
     });
-    assertEquals(0,gameModel.getUnitSelection().size());
+    assertEquals(0, gameModel.getUnitSelection().size());
   }
 
 

@@ -53,6 +53,12 @@ public class MapPolygon {
    * the entire shape is in.
    */
   public boolean contains(MapRect mapRect) {
+    for (int i = 0; i < this.shape.npoints; i++) {
+      if (mapRect.contains(this.shape.xpoints[i], this.shape.ypoints.length)) {
+        return true;
+      }
+    }
+
     Rectangle2D rect = new java.awt.geom.Rectangle2D.Double(mapRect.x(),
         mapRect.y(),
         mapRect.getWidth(),

@@ -1,7 +1,8 @@
 package main.common.util;
 
 import java.io.Serializable;
-import main.game.model.GameModel;
+import main.common.GameModel;
+import main.game.model.DefaultGameModel;
 
 /**
  * ﻿A restartable timer.
