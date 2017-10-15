@@ -15,6 +15,7 @@ import main.common.entity.usable.Item;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.GameModel;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.view.GameView;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -302,13 +303,20 @@ public class DefaultGameController implements GameController {
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    this.ability = (clickEvent.getAbility().isReadyToBeUsed()) ? clickEvent : null;
+    if (clickEvent.getAbility().isReadyToBeUsed()) {
+      this.ability = clickEvent;
+    } else {
+      throw new UsableStillInCoolDownException();
+    }
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    this.item = (clickEvent.getItem().isReadyToBeUsed()) ? clickEvent : null;
-  }
+    if (clickEvent.getItem().isReadyToBeUsed()) {
+      this.item = clickEvent;
+    } else
+      throw new UsableStillInCoolDownException();
+    }
 }
