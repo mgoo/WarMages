@@ -13,7 +13,8 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
 /**
- * Created by mgoo on 9/22/17.
+ * View of an entity
+ * @author Andrew McGhie
  */
 public class EntityView implements main.renderer.Renderable {
 

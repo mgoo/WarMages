@@ -11,7 +11,8 @@ import main.common.entity.Team;
 import main.common.entity.Unit;
 
 /**
- * Created by mgoo on 10/10/17.
+ * View of a unit.
+ * @author Andrew McGhie
  */
 public class UnitView extends EntityView {
 
@@ -80,8 +81,6 @@ public class UnitView extends EntityView {
         config.getEntityViewTilePixelsY() / 20);
     return newImage;
   }
-
-
 
   MapSize getLos() {
     return new MapSize(
