@@ -9,6 +9,7 @@ import main.common.util.MapSize;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.
+ * @author paladogabr
  */
 public interface Entity extends Serializable {
 
@@ -42,6 +43,12 @@ public interface Entity extends Serializable {
    * Moves the entity.
    */
   void translatePosition(double dx, double dy);
+
+  /**
+   * Moves both the position and the previous position.
+   * This is to get arround jittery units when they repel each other
+   */
+  void slidePosition(double dx, double dy);
 
   /**
    * Returns the image representing the Entity.

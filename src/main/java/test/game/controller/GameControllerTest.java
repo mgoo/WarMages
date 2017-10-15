@@ -1,14 +1,13 @@
 package test.game.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.GameController;
 import main.game.controller.DefaultGameController;
 import main.game.model.DefaultGameModel;
 import main.common.GameModel;
-import main.common.World;
 import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.game.view.events.MouseClick;
@@ -25,20 +24,24 @@ import test.game.model.world.WorldTestUtils;
  */
 public class GameControllerTest {
 
-  GameModel model = null;
+  GameModel gameModel = null;
   GameController controller = null;
 
   @Test
   public void checkSelectOneUnit() {
-    model = new DefaultGameModel(new DefaultWorld(
+    GameWon gc = new GameWon();
+    gc.registerListener(parameter -> {});
+    GameLost gl = new GameLost();
+    gl.registerListener(parameter -> {});
+    gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
-    controller = new DefaultGameController(model);
+        new MainGameTick(), gc, gl);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
@@ -60,20 +63,24 @@ public class GameControllerTest {
         return new MapPoint(1, 0);
       }
     });
-    assertEquals(1, model.getUnitSelection().size());
+    assertEquals(1, gameModel.getUnitSelection().size());
   }
 
   @Test
   public void checkSelectNoUnit() {
-    model = new DefaultGameModel(new DefaultWorld(
+    GameWon gc = new GameWon();
+    gc.registerListener(parameter -> {});
+    GameLost gl = new GameLost();
+    gl.registerListener(parameter -> {});
+    gameModel = new DefaultGameModel(new DefaultWorld(
         WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
             WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
         )),
         WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
         new DefaultPathFinder()),
-        new MainGameTick());
-    controller = new DefaultGameController(model);
+        new MainGameTick(), gc, gl);
+    controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
@@ -95,7 +102,7 @@ public class GameControllerTest {
         return new MapPoint(20, 0);
       }
     });
-    assertEquals(0, model.getUnitSelection().size());
+    assertEquals(0, gameModel.getUnitSelection().size());
   }
 
 

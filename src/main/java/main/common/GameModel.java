@@ -2,6 +2,7 @@ package main.common;
 
 import java.util.Collection;
 import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 
 public interface GameModel {
@@ -37,6 +38,8 @@ public interface GameModel {
    */
   Collection<Unit> getUnitSelection();
 
+  void addToUnitSelection(Unit unit);
+
   /**
    * A getter method to get all possible units.
    *
@@ -50,6 +53,8 @@ public interface GameModel {
    * @return world
    */
   World getWorld();
+
+  HeroUnit getHeroUnit();
 
   /**
    * Pauses the main game loop.

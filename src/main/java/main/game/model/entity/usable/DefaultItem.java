@@ -1,10 +1,9 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Effect;
-import main.common.entity.usable.Item;
 import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
@@ -26,6 +25,11 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   public DefaultItem(MapPoint coord, Ability ability, GameImage onMapImage) {
     super(coord, onMapImage);
     this.ability = ability;
+  }
+
+  @Override
+  public void use(World world, Collection<Unit> selectedUnits) {
+    ability.use(world, selectedUnits);
   }
 
   @Override
@@ -54,21 +58,6 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   @Override
   public double getCoolDownProgress() {
     return ability.getCoolDownProgress();
-  }
-
-  @Override
-  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return ability._selectUnitsToApplyOn(world, selectedUnits);
-  }
-
-  @Override
-  public void _startCoolDown() {
-    ability._startCoolDown();
-  }
-
-  @Override
-  public Effect _createEffectForUnit(Unit unit) {
-    return ability._createEffectForUnit(unit);
   }
 
   /**

@@ -1,5 +1,7 @@
 package main.game.model.entity.unit.state;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 import main.common.entity.Direction;
 import main.game.model.entity.unit.DefaultUnit;
@@ -17,9 +19,9 @@ public abstract class UnitState implements Serializable {
   private static final long serialVersionUID = 1L;
 
   protected final DefaultUnit unit;
+  protected final UnitImagesComponent imagesComponent;
 
-  protected UnitImagesComponent imagesComponent;
-  protected UnitState nextState;
+  protected UnitState requestedNextState;
 
   public UnitState(Sequence sequence, DefaultUnit unit) {
     this.unit = unit;
@@ -50,10 +52,7 @@ public abstract class UnitState implements Serializable {
    * @param nextState the requested state.
    */
   public void requestState(UnitState nextState) {
-    if (this.getClass().equals(nextState.getClass())) {
-      return;
-    }
-    this.nextState = nextState;
+    this.requestedNextState = requireNonNull(nextState);
   }
 
   /**

@@ -1,7 +1,7 @@
 package main.common.entity.usable;
 
 import main.common.entity.MapEntity;
-import main.game.model.entity.usable.BaseUsable;
+import main.common.entity.Usable;
 
 /**
  * Item extends {@link MapEntity}. An item is something that can be picked up and used by HeroUnit.
@@ -12,5 +12,5 @@ import main.game.model.entity.usable.BaseUsable;
  * </p>
  * @author chongdyla
  */
-public interface Item extends MapEntity, BaseUsable {
+public interface Item extends MapEntity, Usable {
 }

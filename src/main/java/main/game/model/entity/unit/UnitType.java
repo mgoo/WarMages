@@ -3,6 +3,7 @@ package main.game.model.entity.unit;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.common.util.MapSize;
 import main.game.model.entity.Projectile;
 
 /**
@@ -12,7 +13,7 @@ import main.game.model.entity.Projectile;
  */
 public enum UnitType {
 
-  ARCHER(5, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -22,30 +23,30 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.5),
+          new MapSize(0.4, 0.4),
           target,
+          creator,
           GameImageResource.ARROW_PROJECTILE.getGameImage(),
-          creator.getDamageAmount(),
           0.5
       );
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, 5, 1, Sequence.SLASH) {
+  SWORDSMAN(5, 300, 6, 0.1, 5, 0.05, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(7, 150, 5, 0.1, 5, 2, Sequence.THRUST) {
+  SPEARMAN(15, 200, 5, 0.1, 5, 0.2, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(15, 300, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 150, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -55,28 +56,47 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.3),
+          new MapSize(0.5, 0.5),
           target,
+          creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-          creator.getDamageAmount(),
           0.3
+      );
+    }
+  },
+  LASER(20  * 0.06, 200, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
+    @Override
+    public boolean canShootProjectiles() {
+      return true;
+    }
+
+    @Override
+    protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      MapSize creatorSize = creator.getSize();
+      return new Projectile(
+          creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
+          new MapSize(0.5, 0.5),
+          target,
+          creator,
+          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          0.1
       );
     }
   };
 
-  protected int baselineDamage;
-  protected int startingHealth;
+  protected double baselineDamage;
+  protected double startingHealth;
   protected double attackSpeed;
   protected double movingSpeed;
   protected double lineOfSight;
   protected double attackDistance;
   protected Sequence attackSequence;
 
-  public int getBaselineDamage() {
+  public double getBaselineDamage() {
     return baselineDamage;
   }
 
-  public int getStartingHealth() {
+  public double getStartingHealth() {
     return startingHealth;
   }
 
@@ -94,6 +114,13 @@ public enum UnitType {
 
   public Sequence getAttackSequence() {
     return attackSequence;
+  }
+
+  /**
+   * Distance at which the unit decides to automatically attack another unit in sight.
+   */
+  public double getAutoAttackDistance() {
+    return lineOfSight * 0.8;
   }
 
   /**
@@ -117,7 +144,7 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      int baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;
@@ -127,6 +154,10 @@ public enum UnitType {
     this.lineOfSight = lineOfSight;
     this.attackSequence = attackSequence;
     this.attackDistance = attackDistance;
+
+    if (lineOfSight < attackDistance) {
+      throw new IllegalArgumentException();
+    }
 
     if (canShootProjectiles()) {
       try {

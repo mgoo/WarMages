@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.WorldSaveModel;
 import main.common.entity.Entity;
+import main.common.entity.HeroUnit;
 import main.common.exceptions.EntityOutOfBoundsException;
 import main.common.exceptions.OverlappingMapEntitiesException;
+import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
 import main.common.entity.usable.Item;
 import main.common.entity.MapEntity;
@@ -27,7 +29,7 @@ public class Level implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private final Collection<DefaultMapEntity> borderEntities;
+  private final Collection<MapEntity> borderEntities;
   private final Goal goal;
   private final MapRect bounds;
   private final Collection<Unit> units;
@@ -48,7 +50,7 @@ public class Level implements Serializable {
       Collection<Unit> units,
       Collection<Item> items,
       Collection<MapEntity> mapEntities,
-      Collection<DefaultMapEntity> borderEntities,
+      Collection<MapEntity> borderEntities,
       Goal goal,
       String goalDescription
   ) {
@@ -60,8 +62,6 @@ public class Level implements Serializable {
     this.goal = goal;
     this.goalDescription = goalDescription;
 
-    ensureNoMapEntitiesOverlap();
-    ensureNoEntitiesOutOfBounds();
   }
 
   public MapRect getBounds() {
@@ -80,7 +80,7 @@ public class Level implements Serializable {
     return Collections.unmodifiableCollection(mapEntities);
   }
 
-  public Collection<DefaultMapEntity> getBorderEntities() {
+  public Collection<MapEntity> getBorderEntities() {
     return borderEntities;
   }
 
@@ -89,50 +89,15 @@ public class Level implements Serializable {
   }
 
   /**
-   * See {@link Goal#isCompleted(Level)}.
+   * See {@link Goal#isCompleted(Level, World)}.
    */
-  public boolean areGoalsCompleted() {
-    return goal.isCompleted(this);
+  public boolean areGoalsCompleted(World world) {
+    return goal.isCompleted(this, world);
   }
 
   public Stream<Entity> allEntities() {
     return Stream.of(units, items, mapEntities, borderEntities)
         .flatMap(Collection::stream);
-  }
-
-  private void ensureNoMapEntitiesOverlap() {
-    List<MapEntity> allMapEntities = Stream.of(mapEntities, borderEntities, items)
-        .flatMap(Collection::stream)
-        .collect(Collectors.toList());
-    List<MapEntity[]> overlappingPairs = new ArrayList<>();
-
-    for (int i = 0; i < allMapEntities.size() - 1; i++) {
-      MapEntity currentEntity = allMapEntities.get(i);
-
-      for (int j = i + 1; j < allMapEntities.size(); j++) {
-        MapEntity entityToCompareWith = allMapEntities.get(j);
-
-        MapRect rectA = currentEntity.getRect();
-        MapRect rectB = entityToCompareWith.getRect();
-
-        if (rectA.overlapsWith(rectB)) {
-          overlappingPairs.add(new MapEntity[]{currentEntity, entityToCompareWith});
-        }
-      }
-    }
-
-    if (!overlappingPairs.isEmpty()) {
-      throw new OverlappingMapEntitiesException("Some MapEntities overlap: " + overlappingPairs);
-    }
-  }
-
-  private void ensureNoEntitiesOutOfBounds() {
-    Collection<Entity> outOfBoundsEntities = allEntities()
-        .filter((entity) -> !bounds.contains(entity.getRect()))
-        .collect(Collectors.toList());
-    if (!outOfBoundsEntities.isEmpty()) {
-      throw new EntityOutOfBoundsException("Entities out of bounds: " + outOfBoundsEntities);
-    }
   }
 
   /**
@@ -151,14 +116,14 @@ public class Level implements Serializable {
      *
      * @param level The level that contains this {@link Goal}.
      */
-    boolean isCompleted(Level level);
+    boolean isCompleted(Level level, World world);
 
     class AllEnemiesKilled implements Goal {
 
       private static final long serialVersionUID = 1L;
 
       @Override
-      public boolean isCompleted(Level level) {
+      public boolean isCompleted(Level level, World world) {
         // TODO ERIC write tests
         Collection<Team> enemies = Team.PLAYER.getEnemies();
         return level.getUnits()

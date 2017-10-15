@@ -1,6 +1,5 @@
 package test.game.model.entity;
 
-import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -9,17 +8,21 @@ import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
 import java.util.Arrays;
+import main.common.entity.HeroUnit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.common.exceptions.ItemNotInRangeException;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.DefaultGameModel;
 import main.common.entity.HeroUnit;
-import main.game.model.entity.unit.state.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.World;
 import main.images.DefaultUnitSpriteSheet;
+import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.unit.UnitType;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
@@ -53,9 +56,10 @@ public class HeroUnitTest {
     HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.SWORDSMAN,
-        Arrays.asList(mockAbility)
+        Arrays.asList(mockAbility),
+        0
     );
     long delay = DefaultGameModel.DELAY;
 

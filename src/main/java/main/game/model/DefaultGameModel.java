@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import main.common.GameModel;
+import main.common.entity.HeroUnit;
+import main.common.util.Events.GameLost;
+import main.common.util.Events.GameWon;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.util.Looper;
@@ -20,6 +23,8 @@ public class DefaultGameModel implements GameModel {
   private final World world;
   private final MainGameTick mainGameTick;
   private final Looper looper;
+  private final GameWon gameWon;
+  private final GameLost gameLost;
 
   private Collection<Unit> selectedUnits;
 
@@ -28,11 +33,15 @@ public class DefaultGameModel implements GameModel {
    *
    * @param world The world to use for the whole game.
    */
-  public DefaultGameModel(World world, Events.MainGameTick mainGameTick) {
+  public DefaultGameModel(
+      World world, Events.MainGameTick mainGameTick, GameWon gameWon, GameLost gameLost
+  ) {
     this.world = world;
     this.mainGameTick = mainGameTick;
     this.selectedUnits = Collections.emptySet();
     this.looper = new Looper();
+    this.gameWon = gameWon;
+    this.gameLost = gameLost;
   }
 
   @Override
@@ -42,7 +51,14 @@ public class DefaultGameModel implements GameModel {
 
   @Override
   public void startGame() {
-    looper.startWithSchedule(() -> mainGameTick.broadcast(System.currentTimeMillis()), DELAY);
+    looper.startWithSchedule(() -> {
+      mainGameTick.broadcast(System.currentTimeMillis());
+      if (world.isWon()) {
+        gameWon.broadcast(null);
+      } else if (world.isLost()) {
+        gameLost.broadcast(null);
+      }
+    }, DELAY);
   }
 
   @Override
@@ -59,6 +75,11 @@ public class DefaultGameModel implements GameModel {
   }
 
   @Override
+  public void addToUnitSelection(Unit unit) {
+    this.selectedUnits.add(unit);
+  }
+
+  @Override
   public Collection<Unit> getAllUnits() {
     return world.getAllUnits();
   }
@@ -66,6 +87,11 @@ public class DefaultGameModel implements GameModel {
   @Override
   public World getWorld() {
     return world;
+  }
+
+  @Override
+  public HeroUnit getHeroUnit() {
+    return world.getHeroUnit();
   }
 
   @Override
@@ -82,4 +108,5 @@ public class DefaultGameModel implements GameModel {
   public void stopGame() {
     looper.stop();
   }
+
 }

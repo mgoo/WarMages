@@ -3,9 +3,9 @@ package main.game.model.entity.usable;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
-import main.common.entity.usable.Effect;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
+import main.common.entity.usable.Effect;
 import main.common.exceptions.CantApplyToUnitsException;
 import main.common.exceptions.UsableStillInCoolDownException;
 import main.common.World;
@@ -13,45 +13,48 @@ import main.common.World;
 /**
  * All {@link Usable}s should extend {@link BaseUsable}.
  */
-public interface BaseUsable extends Usable {
+public abstract class BaseUsable implements Usable {
+
+  private static final long serialVersionUID = 1L;
 
   @Override
-  default void use(World world, Collection<Unit> selectedUnits) {
+  public final void use(World world, Collection<Unit> selectedUnits) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
 
-    Collection<Unit> unitsToApplyOn = _selectUnitsToApplyOn(
+    Collection<Unit> unitsToApplyOn = selectUnitsToApplyOn(
         requireNonNull(world),
         requireNonNull(selectedUnits)
     );
 
     for (Unit unit : unitsToApplyOn) {
-      Effect effect = _createEffectForUnit(unit);
+      Effect effect = createEffectForUnit(unit);
       unit.addEffect(effect);
     }
 
-    _startCoolDown();
+    startCoolDown();
   }
 
   /**
-   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS!
    * Pick what units to apply this ability to.
    *
    * @param selectedUnits The units that are currently selected by the user.
    * @throws CantApplyToUnitsException When there is a unit that we cannot apply this {@link Usable}
    *     to.
    */
-  Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits);
+  protected abstract Collection<Unit> selectUnitsToApplyOn(
+      World world,
+      Collection<Unit> selectedUnits
+  );
 
   /**
-   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS! Starts the cool-down period.
+   * Starts the cool-down period.
    */
-  void _startCoolDown();
+  protected abstract void startCoolDown();
 
   /**
-   * PROTECTED - DON"T CALL FROM OUTSIDE THIS CLASS! Creates a new effect. Does not need to check
-   * {@link Usable#isReadyToBeUsed()}.
+   * Creates a new effect. Does not need to check {@link Usable#isReadyToBeUsed()}.
    */
-  Effect _createEffectForUnit(Unit unit);
+  protected abstract Effect createEffectForUnit(Unit unit);
 }
