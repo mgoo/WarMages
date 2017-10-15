@@ -6815,7 +6815,7 @@ button.close {
     left: 100vw;
   }
   to {
-    left: 70vw;
+    left: 80vw;
   }
 }
 body {
@@ -6844,15 +6844,16 @@ body .title h1 {
 body .mainmenu-buttons {
   position: absolute;
   bottom: 10vh;
-  left: 70vw;
+  left: 80vw;
   animation-name: buttons-slide;
   animation-duration: 1.5s;
 }
 body .mainmenu-buttons .btn {
   font-size: 2em;
+  color: #2b669a;
 }
 body .mainmenu-buttons .btn:hover {
-  color: #2b669a;
+  color: #3d85cb;
 }
 body .files .radio {
   padding: 15px;

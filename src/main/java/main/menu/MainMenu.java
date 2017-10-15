@@ -82,7 +82,7 @@ public class MainMenu extends Menu {
   @Override
   public void onLoad() {
     this.imageView.setImage(new Image(
-        new File("resources/images/menu/titleArt.jpg").toURI().toString(),
+        new File("resources/images/menu/titleArt.png").toURI().toString(),
         config.getContextScreenWidth(),
         config.getContextScreenHeight(),
         false,
