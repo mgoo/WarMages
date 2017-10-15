@@ -71,7 +71,7 @@ sourceSets {
 run {
     standardInput = System.in
     enableAssertions = true
-    args = ["--debug"]
+    //args = ["--debug"]
 }
 
 task(lint) {
