@@ -8,6 +8,7 @@ import main.common.Renderer;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
+import main.common.menu.MenuController;
 import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.generators.SaveFileAlertGenerator;
