@@ -1,9 +1,11 @@
 @tob-bar-height: 5vh;
 @bottom-bar-height: 30vh;
-@unit-holder-width: 70vw;
+//@unit-holder-width: 70vw;
 
 @import "styles.less";
 @import (inline) "bootstrap.css";
+@import "less/mixins";
+@import "less/variables";
 
 div, body {
   overflow: hidden;
@@ -30,8 +32,13 @@ div, body {
   width: 100vw;
   height: 5vh;
 
-  background-color: #EEEEEE;
-  border: #b7b141 solid 5px;
+  background-color: #a89454;
+  border-bottom: #66420f ridge 5px;
+  .btn {
+    margin: 5px;
+    background-color: #8a6d3b;
+    color: #3c3c3c;
+  }
 }
 
 .goal {
@@ -67,7 +74,9 @@ div, body {
 
       background-size: 100% 100%;
 
-      border: #000 solid 1px; // TODO remove
+      border: #66420f ridge 2px;
+
+      .make-lg-column(@columns: 1, @gutter: 0);
     }
   }
 
@@ -76,36 +85,40 @@ div, body {
     left: 0;
     bottom: 0;
     height: 70%;
-    width: @unit-holder-width;
 
-    background-color: #EEEEEE;
-    border: #b7b141 solid 5px;
+    background-color: #a89454;
+    border-top: #66420f ridge 5px;
 
     overflow-y: auto;
+
+    .icon {
+      background-color: #2b542c;
+    }
   }
 
   .right-box {
     display: block;
     position: absolute;
-    left: @unit-holder-width;
     bottom: 0;
 
-    width: calc(100vw - @unit-holder-width);
     height: 100%;
 
-    background-color: #EEEEEE;
-    border: #b7b141 solid 5px;
+    background-color: #a89454;
+    border-top: #66420f ridge 5px;
+    border-left: #66420f ridge 5px;
 
     .holder {
-      width: 100%;
-    }
-
-    .icon {
-
+      .icon {
+        background-color: #825fb9;
+        .make-lg-column(@columns: 2, @gutter: 0);
+      }
     }
   }
-
-  .modal {
-
-  }
+}
+.modal-content {
+  border: 5px ridge #66420f;
+  border-right-style: outset;
+  border-bottom-style: outset;
+  border-radius: 0;
+  background-color: #a89454;
 }

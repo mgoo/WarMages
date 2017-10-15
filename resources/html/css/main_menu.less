@@ -4,34 +4,11 @@
 @import "less/mixins";
 
 @keyframes title-drop {
-  0% {
+  from {
     bottom: calc(100vh + 130px);
   }
-  75% {
-    transform: rotate(30deg);
-  }
-  80% {
+  to {
     bottom: 70vh;
-  }
-
-  80%, 90% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  85%, 95% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  85% {
-    transform: rotate(1deg);
-  }
-  87% {
-    transform: rotate(-1deg);
-  }
-  89% {
-    transform: rotate(0.5deg);
-  }
-  91% {
-    transform: rotate(-0.5deg);
   }
 }
 
@@ -48,16 +25,16 @@ body {
 
   .title {
     h1 {
+      font-weight: bold;
       font-size: 130px;
       display: block;
       text-align: center;
       overflow: visible;
     }
 
-    animation-name: title-drop, shake;
+    animation-name: title-drop;
     animation-duration: 1s;
     animation-iteration-count: 1;
-    animation-timing-function: cubic-bezier(1,-0.04,.91,.94);
 
     text-align: center;
     width: 75vw;
@@ -74,6 +51,12 @@ body {
 
     animation-name: buttons-slide;
     animation-duration: 1.5s;
+    .btn {
+      font-size: 2em;
+      &:hover {
+        color: #2b669a;
+      }
+    }
   }
 
   /* Load Menu */
@@ -91,4 +74,13 @@ body {
       .alert-variant(@alert-success-bg;  @alert-success-border; @alert-success-text)
     }
   }
+}
+
+.modal-content {
+  border-bottom: #66420f outset 5px;
+  border-right: #66420f outset 5px;
+  border-top: #66420f ridge 5px;
+  border-left: #66420f ridge 5px;
+  border-radius: 0;
+  background-color: #a89454;
 }

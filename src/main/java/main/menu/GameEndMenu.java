@@ -47,4 +47,9 @@ public class GameEndMenu extends Menu {
         "setTitle('" + message + "');"
     };
   }
+
+  @Override
+  public void onLoad() {
+    // Do Nothing
+  }
 }

@@ -137,14 +137,6 @@ public class Main extends Application {
 
     this.loadMenu(mainMenu);
 
-    imageView.setImage(new Image(
-        new File("resources/images/units/archer.png").toURI().toString(),
-        primaryStage.getWidth(),
-        primaryStage.getHeight(),
-        true,
-        true
-    ));
-
     imageView.setFitWidth(scene.getWidth());
     imageView.setFitHeight(scene.getHeight());
 
@@ -188,7 +180,11 @@ public class Main extends Application {
    */
   public boolean loadMenu(Menu menu) {
     Platform.runLater(() -> {
+      if (this.currentMenu != null) {
+        this.currentMenu.onExit();
+      }
       this.currentMenu = menu;
+      this.currentMenu.onLoad();
       webEngine.setUserStyleSheetLocation(menu.getStyleSheetLocation());
       webEngine.loadContent(menu.getHtml());
     });
