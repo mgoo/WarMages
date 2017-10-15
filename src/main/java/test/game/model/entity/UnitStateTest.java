@@ -1,19 +1,22 @@
 package test.game.model.entity;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-import main.common.images.GameImageResource;
+import main.common.entity.Team;
+import main.common.entity.usable.Ability;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.Level;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
-import main.game.model.entity.UnitType;
-import main.game.model.entity.usable.Ability;
-import main.game.model.world.World;
+import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.UnitType;
+import main.common.entity.usable.Ability;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
+import main.game.model.entity.unit.state.WalkingUnitState;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Ignore;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -24,35 +27,32 @@ import test.game.model.world.WorldTestUtils;
  */
 public class UnitStateTest {
 
-  @Ignore
   @Test
   public void testUnitState_unitShouldBeInWalkingStateWhenMoving() {
-    Unit unit = new Unit(new MapPoint(0,0),
+    DefaultUnit unit = new DefaultUnit(new MapPoint(0,0),
         new MapSize(100, 100),
         Team.PLAYER,
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER);
-    final HeroUnit heroUnit = new HeroUnit(new MapPoint(50,50),
+    final DefaultHeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
         new MapSize(100, 100),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+        new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>());
-    List<MapPoint> path = new ArrayList<>();
-    path.add(new MapPoint(1,1));
-    path.add(new MapPoint(2,2));
-
-    unit.setPath(path);
-
+        new ArrayList<Ability>(),
+        0);
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(
         unit,
         heroUnit
     ));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder()); //TODO mock world
+
+    unit.setTargetPoint(new MapPoint(20, 2));
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);
-    // TODO assert unit state
+
+    assertTrue(unit._getUnitState() instanceof WalkingUnitState);
   }
 
   @Ignore

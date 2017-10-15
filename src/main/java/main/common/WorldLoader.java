@@ -1,7 +1,6 @@
 package main.common;
 
-import main.game.model.entity.Entity;
-import main.game.model.world.World;
+import main.common.entity.Entity;
 
 /**
  * A Factory and Facade.
@@ -11,6 +10,7 @@ import main.game.model.world.World;
  * NOTE: We decided not to load the world from a file for now
  * because that does not provide any improvements to the game or requirements of the game.
  * </p>
+ * @author chongdyla
  */
 public interface WorldLoader {
 

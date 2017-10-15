@@ -4,45 +4,86 @@
  */
 
 function addUnitIcon(image, unit) {
-  var icon = $(
-      '<div '
-      + 'class="icon" '
-      + 'onclick="controller.unitIconBtn(unit)">'
-      + '</div>');
-  icon.css('background-image', 'url("' + image + '")');
-  $('#unit-holder').append(icon);
+  $('.unit-holder').each(function(idx, unit_holder) {
+    if (!$(unit_holder).is(":visible")) {
+      var icon = $(
+          '<div '
+          + 'class="icon" '
+          + '</div>');
+      icon.css('background-image', 'url("' + image + '")');
+      icon.on('mouseup', function(event) {
+        controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
+      });
+      $(unit_holder).append(icon);
+    }
+  });
 }
 
 function addAbilityIcon(image, ability) {
-  var icon = $(
-      '<div '
-      + 'class="icon" '
-      + 'onclick="controller.abilityIconBtn(ability)">'
-      + '</div>');
-  icon.css('background-image', 'url("' + image + '")');
-  $('#ability-holder').append(icon);
+  $('.ability-holder').each(function(idx, ability_holder) {
+    if (!$(ability_holder).is(":visible")) {
+      var icon = $(
+          '<div '
+          + 'class="icon" '
+          + '</div>');
+      icon.css('background-image', 'url("' + image + '")');
+      icon.on('mouseup', function (event) {
+        controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
+            event.which === 1);
+      });
+      $(ability_holder).append(icon);
+    }
+  });
 }
 
 function addItemIcon(image, item) {
-  var icon = $(
-      '<div '
-      + 'class="icon" '
-      + 'onclick="controller.itemIconBtn(item)">'
-      + '</div>');
-  icon.css('background-image', 'url("' + image + '")');
-  $('#item-holder').append(icon);
+  $('.item-holder').each(function(idx, item_holder) {
+    if (!$(item_holder).is(":visible")) {
+      var icon = $(
+          '<div '
+          + 'class="icon" '
+          + '</div>');
+      icon.css('background-image', 'url("' + image + '")');
+      icon.on('mouseup', function (event) {
+        controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
+            event.which === 1);
+      });
+      $(item_holder).append(icon);
+    }
+  });
 }
 
-function clearUnits() {
-  $('#unit-holder').html('');
+function switchUnitHolder() {
+  $('.unit-holder').each(function(idx, unit_holder) {
+    if ($(unit_holder).is(":visible")) {
+      $(unit_holder).hide();
+      $(unit_holder).html('');
+    } else {
+      $(unit_holder).show();
+    }
+  });
 }
 
-function clearAbilties() {
-  $('#ability-holder').html('');
+function switchAbilitiesHolder() {
+  $('.ability-holder').each(function(idx, ability_holder) {
+    if ($(ability_holder).is(":visible")) {
+      $(ability_holder).hide();
+      $(ability_holder).html('');
+    } else {
+      $(ability_holder).show();
+    }
+  });
 }
 
-function clearItems() {
-  $('#item-holder').html('');
+function switchItemsHolder() {
+  $('.item-holder').each(function(idx, item_holder) {
+    if ($(item_holder).is(":visible")) {
+      $(item_holder).hide();
+      $(item_holder).html('');
+    } else {
+      $(item_holder).show();
+    }
+  });
 }
 
 var gameViewProxy = $('#game-view-proxy');
@@ -54,9 +95,27 @@ gameViewProxy.on('contextmenu', function (event) {
   return false;
 });
 
+gameViewProxy.on('dblclick', function (event) {
+  controller.onDbClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
+  return false;
+});
+
 menuButton.on('click', function (event) {
     $('#overlay').fadeIn();
     $('#pause-menu').fadeIn();
+});
+
+$("#pause-menu").on("hidden.bs.modal", function (event) {
+    controller.resume();
+});
+$("#pause-menu").on("shown.bs.modal", function(event) {
+    controller.pause();
+});
+
+$(document).keyup(function(event) {
+  if (event.keyCode === 27) { // escape key maps to keycode `27`
+    $("#pause-menu").modal("toggle")
+  }
 });
 
 resumeButton.on('click', function (event) {

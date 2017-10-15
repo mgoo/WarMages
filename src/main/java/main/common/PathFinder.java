@@ -21,8 +21,6 @@ public interface PathFinder {
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  public List<MapPoint> findPath(
-      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
-  );
+  List<MapPoint> findPath(Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end);
 
 }

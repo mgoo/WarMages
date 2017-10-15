@@ -1,5 +1,7 @@
 package main.menu;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
@@ -7,18 +9,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
-import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
-import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
+import main.common.GameModel;
 import main.game.view.GameView;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
+import main.menu.controller.HudController.SaveFunction;
 import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
 import main.renderer.Renderer;
@@ -41,11 +43,12 @@ public class Hud extends Menu {
              GameView gameView,
              Renderer renderer,
              GameModel gameModel,
-             ImageProvider imageProvider) {
+             ImageProvider imageProvider,
+             SaveFunction saveFunction) {
     super(main);
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
-    this.menuController = new HudController(main, mainMenu, gameView, renderer);
+    this.menuController = new HudController(main, mainMenu, gameView, renderer, saveFunction);
   }
 
   @Override
@@ -65,10 +68,17 @@ public class Hud extends Menu {
           .setFile(MenuFileResources.JQUERY_JS.getPath())
           .getScript(),
       new ScriptFileGenerator()
+          .setFile(MenuFileResources.BOOTSTRAP_JS.getPath())
+          .getScript(),
+      new ScriptFileGenerator()
           .setFile(MenuFileResources.HUD_JS.getPath())
+          .getScript(),
+      new ScriptFileGenerator()
+          .setFile(MenuFileResources.FILE_SCRIPTS.getPath())
           .getScript()
     };
   }
+
 
   public void updateGoal(String goal) {
     this.main.executeScript(goalScript.setText(goal).getScript());
@@ -78,38 +88,51 @@ public class Hud extends Menu {
    * Upate the icons that are displayed in the HUD.
    */
   public void updateIcons() {
-    final Collection<Unit> removeUnits = new HashSet<>();
-    this.selectedUnits.stream()
-        .filter(unit -> !this.gameModel.getUnitSelection().contains(unit))
-        .forEach(removeUnits::add);
-    this.selectedUnits.removeAll(removeUnits);
-    if (removeUnits.size() > 0) {
-      this.main.callJsFunction("clearUnits");
-      this.main.callJsFunction("clearAbilties");
-      this.main.callJsFunction("clearItems");
-      this.selectedUnits.forEach(this::addUnitIcon);
-      if (hero != null) {
-        hero.getAbilities().forEach(this::addAbilityIcon);
-        hero.getItemInventory().forEach(this::addItemIcon);
-      }
-    }
+    this.gameModel.getUnitSelection().forEach(this::addUnitIcon);
+    this.main.callJsFunction("switchUnitHolder");
 
-    this.gameModel.getUnitSelection().stream()
-        .filter(unit -> !this.selectedUnits.contains(unit))
-        .forEach(unit -> {
-          if (unit instanceof HeroUnit) {
-            hero = ((HeroUnit) unit);
-            hero.getAbilities().forEach(this::addAbilityIcon);
-            hero.getItemInventory().forEach(this::addItemIcon);
-          }
-          addUnitIcon(unit);
-          this.selectedUnits.add(unit);
-        });
+    if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
+      this.gameModel.getHeroUnit().getAbilities().forEach(this::addAbilityIcon);
+      this.gameModel.getHeroUnit().getItemInventory().forEach(this::addItemIcon);
+    }
+    this.main.callJsFunction("switchAbilitiesHolder");
+    this.main.callJsFunction("switchItemsHolder");
   }
 
   private void addUnitIcon(Unit unit) {
     try {
-      this.addIcon("addUnitIcon", unit.getImage().load(this.imageProvider), unit);
+      BufferedImage baseIcon = unit.getIcon().load(this.imageProvider);
+      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
+          baseIcon.getHeight(),
+          BufferedImage.TYPE_4BYTE_ABGR);
+      Graphics2D g = ((Graphics2D) icon.getGraphics());
+      g.drawImage(baseIcon, 0, 0, null);
+
+      // Adds the units level
+      g.setColor(Color.decode("#000000"));
+      g.drawString(Integer.toString(unit.getLevel()), 1, 10);
+
+      // Adds the health bar
+      g.setColor(new Color(200,200,200, 155));
+      g.fillRect(0,
+          icon.getHeight() - 10,
+          icon.getWidth(),
+          10);
+      Color healthColor;
+      if (unit.getHealthPercent() > 0.5) {
+        healthColor = new Color(84,255, 106);
+      } else if (unit.getHealthPercent() > 0.25) {
+        healthColor = new Color(255, 194, 41);
+      } else {
+        healthColor = new Color(255, 0, 61);
+      }
+      g.setColor(healthColor);
+      g.fillRect(0,
+          icon.getHeight() - 10,
+          (int)(icon.getWidth() * unit.getHealthPercent()),
+          10);
+
+      this.addIcon("addUnitIcon", icon, unit);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -130,7 +153,6 @@ public class Hud extends Menu {
       e.printStackTrace();
     }
   }
-
 
   private void addIcon(String method, BufferedImage image, Object entity) {
     String entityIcon = this.formatImageForHtml(image);
@@ -154,6 +176,5 @@ public class Hud extends Menu {
         "data:" + imageMimeType + ";base64," + DatatypeConverter.printBase64Binary(bytes);
     return dataUri;
   }
-
 
 }

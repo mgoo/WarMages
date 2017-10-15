@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import main.common.WorldSaveModel;
-import main.game.model.world.World;
+import main.common.World;
 import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
@@ -28,6 +28,7 @@ import org.junit.Test;
 /**
  * Test names here follow the test naming convention:
  * unitOfWorkUnderTest_typeOfInput_expectedResult.
+ * @author chongdyla
  */
 public class WorldSaveModelTest {
 

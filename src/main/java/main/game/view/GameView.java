@@ -8,11 +8,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.entity.Unit;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
-import main.game.controller.GameController;
-import main.game.model.GameModel;
-import main.game.model.entity.Entity;
+import main.common.GameController;
+import main.common.entity.Entity;
+import main.common.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
 import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
@@ -21,6 +26,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.game.view.events.MouseDrag;
 import main.common.util.MapPolygon;
+import main.game.view.events.UnitIconClick;
 import main.renderer.Renderable;
 
 /**
@@ -37,7 +43,7 @@ public class GameView {
   private final Config config;
 
   private final GameController gameController;
-  private final GameModel gameModel;
+  private final GameModel model;
   private final ImageProvider imageProvider;
   private final Event<MouseClick> mouseClickEvent;
 
@@ -60,12 +66,12 @@ public class GameView {
    */
   public GameView(Config config,
                   GameController gameController,
-                  GameModel gameModel,
+                  GameModel model,
                   ImageProvider imageProvider,
                   Event<MouseClick> mouseClickEvent) {
     this.config = config;
     this.gameController = gameController;
-    this.gameModel = gameModel;
+    this.model = model;
     this.imageProvider = imageProvider;
     this.mouseClickEvent = mouseClickEvent;
     this.viewBox = new MapRect(0, 0,
@@ -110,7 +116,7 @@ public class GameView {
    */
   public synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
-    final Set<Entity> entitiesToAdd = new HashSet<>(this.gameModel.getAllEntities());
+    final Set<Entity> entitiesToAdd = new HashSet<>(this.model.getAllEntities());
 
     this.renderablesCache.forEach(renderable -> {
       if (entitiesToAdd.contains(renderable.getEntity())) {
@@ -129,7 +135,7 @@ public class GameView {
 
     this.renderablesCache.forEach(entityView -> {
       entityView.update(tickTime,
-          this.gameModel.getUnitSelection().contains(entityView.getEntity()));
+          this.model.getUnitSelection().contains(entityView.getEntity()));
     });
 
     // Update FoW
@@ -158,8 +164,12 @@ public class GameView {
     }
   }
 
-  public void onTick(Long tickTime) {
-    this.updateRenderables(tickTime);
+  /**
+   * Ticks the gameView and also checks if game is completed.
+   * @param timeSinceLastTick time since last tick
+   */
+  public void onTick(Long timeSinceLastTick) {
+    this.updateRenderables(timeSinceLastTick);
     this.updateViewBoxPosition();
   }
 
@@ -269,6 +279,33 @@ public class GameView {
   }
 
   /**
+   * Triggers the double click event.
+   */
+  public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
+    this.gameController.onDbClick(new MouseClick() {
+      @Override
+      public boolean wasLeft() {
+        return true;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public MapPoint getLocation() {
+        return pixToTile(new MapPoint(x, y));
+      }
+    });
+  }
+
+  /**
    * Triggers a key event.
    */
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
@@ -291,23 +328,114 @@ public class GameView {
   }
 
   /**
+   * Triggers the event when a units icon is clicked.
+   */
+  public void unitClick(Unit unit,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
+    this.gameController.onUnitIconClick(new UnitIconClick() {
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+
+      @Override
+      public Unit getUnit() {
+        return unit;
+      }
+    });
+  }
+
+  /**
+   * Triggers the event when a abilities icon is clicked.
+   */
+  public void abilityClick(Ability ability,
+                           boolean wasShiftDown,
+                           boolean wasCtrlDown,
+                           boolean wasLeftClick) {
+    this.gameController.onAbilityIconClick(new AbilityIconClick() {
+      @Override
+      public Ability getAbility() {
+        return ability;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+    });
+  }
+
+  /**
+   * Triggers the event when a item icon is clicked.
+   */
+  public void itemClick(Item item,
+                        boolean wasShiftDown,
+                        boolean wasCtrlDown,
+                        boolean wasLeftClick) {
+    this.gameController.onItemIconClick(new ItemIconClick() {
+      @Override
+      public Item getItem() {
+        return item;
+      }
+
+      @Override
+      public boolean wasShiftDown() {
+        return wasShiftDown;
+      }
+
+      @Override
+      public boolean wasCtrlDown() {
+        return wasCtrlDown;
+      }
+
+      @Override
+      public boolean wasLeftClick() {
+        return wasLeftClick;
+      }
+
+    });
+  }
+
+  /**
    * Pauses the main game loop inside model.
    */
   public void pauseGame() {
-    gameModel.pauseGame();
+    model.pauseGame();
   }
 
   /**
    * Resumes the main game loop inside model.
    */
   public void resumeGame() {
-    gameModel.resumeGame();
+    model.resumeGame();
   }
 
   /**
    * Stops the main game loop inside model.
    */
   public void stopGame() {
-    gameModel.stopGame();
+    model.stopGame();
   }
 }
