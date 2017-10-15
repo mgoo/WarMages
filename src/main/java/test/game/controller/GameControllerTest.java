@@ -24,8 +24,8 @@ import test.game.model.world.WorldTestUtils;
  */
 public class GameControllerTest {
 
-  GameModel gameModel = null;
-  GameController controller = null;
+  private GameModel gameModel = null;
+  private GameController controller = null;
 
   @Test
   public void checkSelectOneUnit() {

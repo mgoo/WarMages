@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
 
-import java.util.Arrays;
 import java.util.Collections;
 import main.common.GameModel;
 import main.common.entity.HeroUnit;
@@ -19,7 +18,6 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
-import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
@@ -27,7 +25,6 @@ import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
 import main.common.World;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 import test.game.model.entity.StubUnitSpriteSheet;
 
@@ -51,7 +48,7 @@ public class UsablesTest {
         new MapSize(1, 1),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList(healAbility),
+        Collections.singletonList(healAbility),
         0
     );
 
@@ -70,7 +67,7 @@ public class UsablesTest {
         new MapSize(1, 1),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList(),
+        Collections.emptyList(),
         0
     );
 
@@ -104,8 +101,8 @@ public class UsablesTest {
     assertTrue(healAmount > 0);
     // and a mock world
     World world = mock(World.class);
-    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
-    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
 
     // when the hero takes damage
     heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
@@ -144,8 +141,8 @@ public class UsablesTest {
     assertTrue(healAbility.getCoolDownTicks() > 0); // sanity check
     // and a mock world
     World world = mock(World.class);
-    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
-    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
 
     // when ability is used
     healAbility.use(world, Collections.emptyList()); // should be ok
@@ -184,14 +181,14 @@ public class UsablesTest {
         new MapSize(1, 1),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        Arrays.asList(buffAbility),
+        Collections.singletonList(buffAbility),
         0
     );
     double baseDamageAmount = heroUnit.getDamageAmount();
     // and a mock world
     World world = mock(World.class);
-    when(world.getAllEntities()).thenReturn(Arrays.asList(heroUnit));
-    when(world.getAllUnits()).thenReturn(Arrays.asList(heroUnit));
+    when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
+    when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
 
     // when we use the buff
     buffAbility.use(world, Collections.emptyList());
