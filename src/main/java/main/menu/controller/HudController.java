@@ -4,13 +4,13 @@ import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
+import main.common.Renderer;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.generators.SaveFileAlertGenerator;
-import main.renderer.Renderer;
 
 /**
  * Controls the hud when in game. Receives the click events when in game.

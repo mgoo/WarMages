@@ -23,7 +23,7 @@ import main.menu.controller.HudController;
 import main.menu.controller.HudController.SaveFunction;
 import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
-import main.renderer.Renderer;
+import main.common.Renderer;
 
 /**
  * The definitions of the file paths to the html file for the Heads Up Display.
