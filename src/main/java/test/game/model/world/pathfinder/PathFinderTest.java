@@ -25,9 +25,7 @@ public class PathFinderTest {
 
   @Test
   public void test01_testHorizontalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return true;
-    };
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     List<MapPoint> actual =
         new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 1));
@@ -39,9 +37,7 @@ public class PathFinderTest {
 
   @Test
   public void test02_testVerticalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return true;
-    };
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     List<MapPoint> actual =
         new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(1, 3));
@@ -53,9 +49,7 @@ public class PathFinderTest {
 
   @Test
   public void test03_testDiagonalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return true;
-    };
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     List<MapPoint> actual =
         new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(3, 3));
@@ -67,9 +61,7 @@ public class PathFinderTest {
 
   @Test
   public void test04_testDiagonalPath() {
-    Function<MapPoint, Boolean> isPassable = mapPoint -> {
-      return true;
-    };
+    Function<MapPoint, Boolean> isPassable = mapPoint -> true;
 
     List<MapPoint> actual =
         new DefaultPathFinder().findPath(isPassable, new MapPoint(1, 1), new MapPoint(5, 5));

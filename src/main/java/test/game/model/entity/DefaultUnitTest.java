@@ -20,12 +20,10 @@ import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.game.model.DefaultGameModel;
 import main.common.util.MapPoint;
 import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
-import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
@@ -219,7 +217,7 @@ public class DefaultUnitTest {
     );
 
     World world = mock(World.class);
-    when(world.getAllUnits()).thenReturn(Arrays.asList(unit));
+    when(world.getAllUnits()).thenReturn(Collections.singletonList(unit));
 
     final Ability ability1 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
     final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
@@ -257,7 +255,7 @@ public class DefaultUnitTest {
         new MapSize(0.5, 0.5),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>(),
+        new ArrayList<>(),
         0);
 
     List<Level> levels = new ArrayList<>();
