@@ -1,10 +1,9 @@
-package main.menu;
+package main.common.menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import main.Main;
-import main.menu.controller.MenuController;
 
 /**
  * Essentially a wrapper that brings the html and the controller together.
@@ -13,8 +12,8 @@ import main.menu.controller.MenuController;
  */
 public abstract class Menu {
 
-  final Main main;
-  MenuController menuController;
+  protected final Main main;
+  protected MenuController menuController;
 
   public Menu(Main main) {
     this.main = main;
@@ -23,7 +22,7 @@ public abstract class Menu {
   /**
    * Turns a file into a string.
    */
-  String fileToString(String fileName) {
+  protected String fileToString(String fileName) {
     try (Scanner scanner = new Scanner(new File(fileName), "utf-8")) {
       scanner.useDelimiter("\\A");
       return scanner.next();
