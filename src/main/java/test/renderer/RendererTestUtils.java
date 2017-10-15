@@ -4,8 +4,9 @@ import javafx.scene.image.ImageView;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.GameController;
-import main.game.model.GameModel;
-import main.game.model.world.World;
+import main.game.model.DefaultGameModel;
+import main.common.GameModel;
+import main.common.World;
 import main.game.view.GameView;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -35,10 +36,8 @@ public class RendererTestUtils {
    */
   public static GameModel createGameModel(World world, MainGameTick mainGameTick) {
     GameWon gc = new GameWon();
-    gc.registerListener(parameter -> {});
     GameLost gl = new GameLost();
-    gl.registerListener(parameter -> {});
-    return new GameModel(world, mainGameTick, gc, gl);
+    return new DefaultGameModel(world, mainGameTick, gc, gl);
   }
 
   /**
