@@ -51,8 +51,6 @@ public class Main extends Application {
   private WebEngine webEngine;
   private Menu currentMenu;
 
-  private final Event<MouseClick> mouseClickEvent = new Event<>();
-
   public Scene scene;
 
   public Main() throws AWTException {

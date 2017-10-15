@@ -46,15 +46,14 @@ public class GameView {
   private final GameController gameController;
   private final GameModel model;
   private final ImageProvider imageProvider;
-  private final Event<MouseClick> mouseClickEvent;
   private final World world;
 
   private MapRect viewBox;
   private MapPoint mousePosition;
 
   /**
-   * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
-   * main.renderer.Renderer} is reading it. To avoid unnecessary amounts of copying, if adding a
+   * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while
+   * {@link main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying, if adding a
    * large amount of items to this list, prefer using {@link List#addAll(Collection)} rather than
    * calling {@link List#add(Object)} for each element.
    */
@@ -70,13 +69,11 @@ public class GameView {
                   GameController gameController,
                   GameModel model,
                   ImageProvider imageProvider,
-                  Event<MouseClick> mouseClickEvent,
                   World world) {
     this.config = config;
     this.gameController = gameController;
     this.model = model;
     this.imageProvider = imageProvider;
-    this.mouseClickEvent = mouseClickEvent;
     this.world = world;
     MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
     this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
@@ -231,7 +228,7 @@ public class GameView {
    * Triggers event for when Game View is clicked.
    */
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return true;
@@ -285,7 +282,7 @@ public class GameView {
    * Triggers event for when Game View is clicked.
    */
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return false;

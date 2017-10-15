@@ -62,7 +62,6 @@ public class MainMenuController extends MenuController {
    */
   public void loadBtn(String filename) {
     try {
-      System.out.println(filename); //TODO remove this?
       World world = this.worldSaveModel.load(filename);
       this.startGame(world);
     } catch (Exception e) {
@@ -85,7 +84,6 @@ public class MainMenuController extends MenuController {
   private void startGame(World world) {
     ImageProvider imageProvider = new DefaultImageProvider();
     MainGameTick tickEvent = new MainGameTick();
-    Event<MouseClick> mouseClickEvent = new Event<>();
     GameWon wonEvent = new GameWon();
     GameLost lostEvent = new GameLost();
     GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
@@ -94,10 +92,8 @@ public class MainMenuController extends MenuController {
         gameController,
         gameModel,
         imageProvider,
-        mouseClickEvent,
         world);
     tickEvent.registerListener(gameView::onTick);
-    mouseClickEvent.registerListener(gameController::onMouseEvent);
     Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
     Hud hud = new Hud(this.main,
         this.mainMenu,
