@@ -47,14 +47,6 @@ public class DamageBuffAbility extends BaseAbility {
   }
 
   @Override
-  public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return world.getAllUnits()
-        .stream()
-        .filter(unit -> unit.getTeam() == Team.PLAYER)
-        .collect(Collectors.toList());
-  }
-
-  @Override
   public Effect createEffectForUnit(Unit unit) {
     return new DamageBuffEffect(unit, getEffectDurationSeconds());
   }

@@ -1,7 +1,6 @@
 package test.game.model.world;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.common.entity.HeroUnit;
@@ -124,13 +123,6 @@ public class WorldTestUtils {
    */
   public static Ability createStubAbility() {
     return new BaseAbility("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
-
-      @Override
-      public Collection<Unit> selectUnitsToApplyOn(
-          World world, Collection<Unit> selectedDefaultUnits
-      ) {
-        return Collections.emptyList();
-      }
 
       @Override
       public Effect createEffectForUnit(Unit unit) {
