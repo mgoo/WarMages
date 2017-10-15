@@ -17,11 +17,6 @@ import main.common.util.Events.MainGameTick;
  */
 public class DefaultGameModel implements GameModel {
 
-  /**
-   * Milliseconds between ticks.
-   */
-  public static final long DELAY = 50;
-
   private final World world;
   private final MainGameTick mainGameTick;
   private final Looper looper;
