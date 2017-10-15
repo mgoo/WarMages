@@ -180,6 +180,11 @@ public class DefaultWorld implements Serializable, World {
   }
 
   @Override
+  public Level getCurrentLevel() {
+    return this.levels.get(0);
+  }
+
+  @Override
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
     for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {

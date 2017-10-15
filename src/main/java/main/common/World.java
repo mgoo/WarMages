@@ -91,4 +91,9 @@ public interface World {
    * @return whether game is lost
    */
   boolean isLost();
+
+  /**
+   * Gets the current active level.
+   */
+  Level getCurrentLevel();
 }
