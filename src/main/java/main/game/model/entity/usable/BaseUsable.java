@@ -57,4 +57,7 @@ public abstract class BaseUsable implements Usable {
    * Creates a new effect. Does not need to check {@link Usable#isReadyToBeUsed()}.
    */
   protected abstract Effect createEffectForUnit(Unit unit);
+
+  public abstract boolean canApplyTo(Unit unit);
+
 }

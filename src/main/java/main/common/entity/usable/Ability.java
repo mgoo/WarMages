@@ -12,6 +12,4 @@ public interface Ability extends Usable {
   double getEffectDurationSeconds();
 
   int getCoolDownTicks();
-
-  boolean canApplyTo(Unit unit);
 }
