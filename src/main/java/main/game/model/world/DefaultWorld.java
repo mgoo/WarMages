@@ -27,6 +27,7 @@ import main.common.entity.Projectile;
  * Implementation of the World API.
  *
  * @author Eric Diputado
+ * @author Hrshikesh Arora (Secondary author)
  */
 public class DefaultWorld implements Serializable, World {
 
@@ -203,30 +204,28 @@ public class DefaultWorld implements Serializable, World {
   private void repelUnits() {
     HashMap<Unit, MapSize> unitMovements = new HashMap<>();
 
-    getAllUnits().forEach(baseUnit -> {
-      getAllUnits()
-          .stream()
-          .filter(otherUnit -> otherUnit != baseUnit)
-          .filter(otherUnit -> otherUnit.getTeam() == baseUnit.getTeam())
-          .forEach(otherUnit -> {
-            if (baseUnit == otherUnit) {
-              return;
-            }
-            double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
-            double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
-            if (distance < minDistance) {
-              double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
-              double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
-              double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
-              unitMovements.computeIfAbsent(baseUnit,
-                  unit -> unitMovements.put(unit, new MapSize(0, 0)));
-              MapSize currentMovement = unitMovements.get(baseUnit);
-              MapSize newMovement = new MapSize(currentMovement.width - dx,
-                  currentMovement.height - dy);
-              unitMovements.put(baseUnit, newMovement);
-            }
-          });
-    });
+    getAllUnits().forEach(baseUnit -> getAllUnits()
+        .stream()
+        .filter(otherUnit -> otherUnit != baseUnit)
+        .filter(otherUnit -> otherUnit.getTeam() == baseUnit.getTeam())
+        .forEach(otherUnit -> {
+          if (baseUnit == otherUnit) {
+            return;
+          }
+          double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
+          double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
+          if (distance < minDistance) {
+            double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
+            double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
+            double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
+            unitMovements.computeIfAbsent(baseUnit,
+                unit -> unitMovements.put(unit, new MapSize(0, 0)));
+            MapSize currentMovement = unitMovements.get(baseUnit);
+            MapSize newMovement = new MapSize(currentMovement.width - dx,
+                currentMovement.height - dy);
+            unitMovements.put(baseUnit, newMovement);
+          }
+        }));
 
     unitMovements.keySet().forEach(unit -> {
       MapSize movement = unitMovements.get(unit);

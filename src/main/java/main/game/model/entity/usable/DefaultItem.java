@@ -1,6 +1,7 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
+import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
@@ -73,4 +74,8 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
     return true;
   }
 
+  @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit.getTeam() == Team.PLAYER;
+  }
 }

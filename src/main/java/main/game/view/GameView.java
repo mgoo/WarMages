@@ -140,10 +140,8 @@ public class GameView {
         .collect(Collectors.toList());
     this.renderablesCache.addAll(entityViewsToAdd);
 
-    this.renderablesCache.forEach(entityView -> {
-      entityView.update(tickTime,
-          this.model.getUnitSelection().contains(entityView.getEntity()));
-    });
+    this.renderablesCache.forEach(entityView -> entityView.update(tickTime,
+        this.model.getUnitSelection().contains(entityView.getEntity())));
 
     // Update FoW
 

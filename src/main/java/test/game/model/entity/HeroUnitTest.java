@@ -6,7 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static test.game.model.entity.DefaultUnitTest.getHeroUnit;
-import static test.game.model.entity.DefaultUnitTest.getWorld;
 
 import java.util.Arrays;
 import main.common.GameModel;

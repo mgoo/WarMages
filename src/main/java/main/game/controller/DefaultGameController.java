@@ -15,6 +15,7 @@ import main.common.entity.usable.Item;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.GameModel;
+import main.common.exceptions.UsableStillInCoolDownException;
 import main.game.view.GameView;
 import main.game.view.events.AbilityIconClick;
 import main.game.view.events.ItemIconClick;
@@ -32,6 +33,9 @@ import main.game.view.events.UnitIconClick;
 public class DefaultGameController implements GameController {
 
   private final GameModel model;
+
+  private AbilityIconClick ability = null;
+  private ItemIconClick item = null;
 
   public DefaultGameController(GameModel model) {
     this.model = model;
@@ -117,6 +121,20 @@ public class DefaultGameController implements GameController {
 
     //If it was a left click
     if (mouseEvent.wasLeft()) {
+
+      //check if clicked on a valid unit so need to activate ability
+      if (selectedUnit != null && ability != null
+          && ability.getAbility().canApplyTo(selectedUnit)) {
+        ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
+        ability = null;
+        return;
+      } else if (selectedUnit != null && item != null && item.getItem().isReadyToBeUsed()) {
+        item.getItem().use(model.getWorld(), Collections.singletonList(selectedUnit));
+        item = null;
+        return;
+      } else {
+        ability = null;
+      }
 
       if (mouseEvent.wasShiftDown()) {
         //add the new selected unit to the previously selected ones
@@ -285,13 +303,21 @@ public class DefaultGameController implements GameController {
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    // TODO Hrsh
+    if (clickEvent.getAbility().isReadyToBeUsed()) {
+      this.ability = clickEvent;
+    } else {
+      throw new UsableStillInCoolDownException();
+    }
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    // TODO Hrsh
+    if (clickEvent.getItem().isReadyToBeUsed()) {
+      this.item = clickEvent;
+    } else {
+      throw new UsableStillInCoolDownException();
+    }
   }
 }

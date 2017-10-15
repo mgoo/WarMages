@@ -1,7 +1,6 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import main.common.entity.usable.Effect;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -47,10 +46,7 @@ public class DamageBuffAbility extends BaseAbility {
 
   @Override
   public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return world.getAllUnits()
-        .stream()
-        .filter(unit -> unit.getTeam() == Team.PLAYER)
-        .collect(Collectors.toList());
+    return selectedUnits;
   }
 
   @Override
@@ -70,5 +66,10 @@ public class DamageBuffAbility extends BaseAbility {
     public double alterDamageAmount(double currentDamageAmount) {
       return super.alterDamageAmount(currentDamageAmount) + damageIncrease;
     }
+  }
+
+  @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit.getTeam() == Team.PLAYER;
   }
 }

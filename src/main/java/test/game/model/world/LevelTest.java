@@ -19,6 +19,7 @@ import org.junit.Test;
 
 /**
  * Some tests for {@link Unit}.
+ *
  * @author chongdyla (External Tester)
  */
 public class LevelTest {
