@@ -43,14 +43,6 @@ public class HealAbility extends BaseAbility {
     return healAmount;
   }
 
-  @Override
-  public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-    return world.getAllUnits()
-        .stream()
-        .filter(unit -> unit.getTeam() == Team.PLAYER)
-        .collect(Collectors.toList());
-  }
-
   private class HealEffect extends BaseEffect {
 
     private static final long serialVersionUID = 1L;

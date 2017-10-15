@@ -189,7 +189,7 @@ public class Hud extends Menu {
       g.setColor(new Color(0,0,0, 155));
       g.fill(arc);
 
-      return icon;
+    return icon;
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
