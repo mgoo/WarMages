@@ -13,7 +13,7 @@ import main.game.model.entity.Projectile;
  */
 public enum UnitType {
 
-  ARCHER(15, 200, 5, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -23,30 +23,30 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.5),
+          new MapSize(0.4, 0.4),
           target,
+          creator,
           GameImageResource.ARROW_PROJECTILE.getGameImage(),
-          creator.getDamageAmount(),
           0.5
       );
     }
   },
 
-  SWORDSMAN(10, 250, 6, 0.1, 5, 0.7, Sequence.SLASH) {
+  SWORDSMAN(5, 300, 6, 0.1, 5, 0.05, Sequence.SLASH) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  SPEARMAN(8, 200, 5, 0.1, 5, 1, Sequence.THRUST) {
+  SPEARMAN(15, 200, 5, 0.1, 5, 0.2, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(20, 250, 8, 0.1, 7, 4, Sequence.SPELL_CAST) {
+  MAGICIAN(20, 150, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -56,15 +56,15 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       return new Projectile(
           creator.getCentre(),
-          creator.getSize().scaledBy(0.6),
+          new MapSize(0.5, 0.5),
           target,
+          creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-          creator.getDamageAmount(),
           0.3
       );
     }
   },
-  LASER(20, 100, 8, 0.08, 10, 2, Sequence.SPELL_CAST) {
+  LASER(20  * 0.06, 200, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -75,28 +75,28 @@ public enum UnitType {
       MapSize creatorSize = creator.getSize();
       return new Projectile(
           creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
-          creatorSize.scaledBy(0.4),
+          new MapSize(0.5, 0.5),
           target,
+          creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-          (int) (creator.getDamageAmount() * 0.06),
           0.1
       );
     }
   };
 
-  protected int baselineDamage;
-  protected int startingHealth;
+  protected double baselineDamage;
+  protected double startingHealth;
   protected double attackSpeed;
   protected double movingSpeed;
   protected double lineOfSight;
   protected double attackDistance;
   protected Sequence attackSequence;
 
-  public int getBaselineDamage() {
+  public double getBaselineDamage() {
     return baselineDamage;
   }
 
-  public int getStartingHealth() {
+  public double getStartingHealth() {
     return startingHealth;
   }
 
@@ -144,7 +144,7 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      int baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;

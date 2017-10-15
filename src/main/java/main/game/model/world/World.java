@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import main.common.util.MapSize;
 import main.game.model.Level;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
@@ -26,6 +29,7 @@ import main.common.PathFinder;
 public class World implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  private static final double UNIT_REPEL_MULTIPLIER = 25; // bigger is smaller repel
 
   private final List<Level> levels;
   private final HeroUnit heroUnit;
@@ -88,6 +92,13 @@ public class World implements Serializable {
   }
 
   /**
+   * Gets the hero unit in the world.
+   */
+  public HeroUnit getHeroUnit() {
+    return this.heroUnit;
+  }
+
+  /**
    * Gets all entities in the world (including map entities, units, projectiles and other entities.
    *
    * @return an unmodifiable collection of all Entities in the world.
@@ -112,6 +123,17 @@ public class World implements Serializable {
    */
   public Collection<MapEntity> getAllMapEntities() {
     return Collections.unmodifiableCollection(mapEntities);
+  }
+
+  /**
+   * Removes a given item from the map if it exists on the map.
+   *
+   * @param item -- the item to remove
+   */
+  public void removeItem(Item item) {
+    if (items.contains(item)) {
+      items.remove(item);
+    }
   }
 
   public void addProjectile(Projectile projectile) {
@@ -150,7 +172,7 @@ public class World implements Serializable {
    * for progression.
    */
   private void checkLevelCompletion() {
-    if (currentLevel().areGoalsCompleted()) {
+    if (currentLevel().areGoalsCompleted(this)) {
       nextLevel();
     }
   }
@@ -159,7 +181,7 @@ public class World implements Serializable {
    * A method which moves to the next level.
    */
   private void nextLevel() {
-    if (!currentLevel().areGoalsCompleted()) {
+    if (!currentLevel().areGoalsCompleted(this)) {
       throw new IllegalStateException();
     }
     if (levels.size() == 1) {
@@ -194,7 +216,42 @@ public class World implements Serializable {
       mapEntities.add(deadUnit.createDeadUnit());
     }
 
+    this.repelUnits();
     checkLevelCompletion();
+  }
+
+  private void repelUnits() {
+    HashMap<Unit, MapSize> unitMovements = new HashMap<>();
+
+    getAllUnits().forEach(baseUnit -> {
+      getAllUnits()
+          .stream()
+          .filter(otherUnit -> otherUnit != baseUnit)
+          .filter(otherUnit -> otherUnit.getTeam() == baseUnit.getTeam())
+          .forEach(otherUnit -> {
+            if (baseUnit == otherUnit) {
+              return;
+            }
+            double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
+            double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
+            if (distance < minDistance) {
+              double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
+              double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
+              double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
+              unitMovements.computeIfAbsent(baseUnit,
+                  unit -> unitMovements.put(unit, new MapSize(0, 0)));
+              MapSize currentMovement = unitMovements.get(baseUnit);
+              MapSize newMovement = new MapSize(currentMovement.width - dx,
+                  currentMovement.height - dy);
+              unitMovements.put(baseUnit, newMovement);
+            }
+          });
+    });
+
+    unitMovements.keySet().forEach(unit -> {
+      MapSize movement = unitMovements.get(unit);
+      unit.slidePosition(movement.width, movement.height);
+    });
   }
 
   /**
@@ -225,7 +282,7 @@ public class World implements Serializable {
    * @return whether game is won
    */
   public boolean isWon() {
-    return levels.size() == 1 && currentLevel().areGoalsCompleted();
+    return levels.size() == 1 && currentLevel().areGoalsCompleted(this);
   }
 
   /**

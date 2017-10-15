@@ -54,4 +54,20 @@ public abstract class Menu {
   public MenuController getMenuController() {
     return this.menuController;
   }
+
+  /**
+   * Is Executed when the menu is loaded.
+   * By default do nothing
+   */
+  public void onLoad() {
+
+  }
+
+  /**
+   * Is executed when a menu is replaces.
+   * By default do nothing
+   */
+  public void onExit() {
+
+  }
 }

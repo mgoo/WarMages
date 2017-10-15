@@ -1,6 +1,10 @@
 package main.menu;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.WorldLoader;
@@ -17,8 +21,9 @@ import main.menu.generators.ScriptFileGenerator;
  */
 public class MainMenu extends Menu {
 
-  private final WorldLoader worldLoader;
   private final WorldSaveModel worldSaveModel;
+  private final ImageView imageView;
+  private final Config config;
 
   /**
    * Injects the dependencies.
@@ -29,8 +34,9 @@ public class MainMenu extends Menu {
                   ImageView imageView,
                   Config config) {
     super(main);
-    this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
+    this.imageView = imageView;
+    this.config = config;
     this.menuController = new MainMenuController(
         this.main,
         this,
@@ -71,5 +77,28 @@ public class MainMenu extends Menu {
             .setData(this.worldSaveModel.getExistingGameSaves())
             .getScript()
     };
+  }
+
+  @Override
+  public void onLoad() {
+    this.imageView.setImage(new Image(
+        new File("resources/images/menu/titleArt.png").toURI().toString(),
+        config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        false,
+        true
+    ));
+  }
+
+
+  @Override
+  public void onExit() {
+    BufferedImage empty = new BufferedImage(config.getContextScreenWidth(),
+        config.getContextScreenHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
+    Graphics g = empty.getGraphics();
+    g.setColor(config.getBaseFogOfWarColor());
+    g.drawRect(0,0, empty.getWidth(), empty.getHeight());
+    this.imageView.setImage(SwingFXUtils.toFXImage(empty, null));
   }
 }
