@@ -44,7 +44,8 @@ import main.game.view.GameView;
 import main.images.DefaultUnitSpriteSheet;
 import main.menu.MainMenu;
 import main.menu.Menu;
-import main.renderer.Renderer;
+import main.common.Renderer;
+import main.renderer.DefaultRenderer;
 import netscape.javascript.JSObject;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
@@ -54,7 +55,7 @@ import test.renderer.RendererTestUtils;
  * This contains visual tests.
  * <p>
  * NOTE TO TUTORS: This requires classes from multiple APIs, e.g. the
- * {@link DefaultUnitSpriteSheet} from the images API and the {@link Renderer} from the Renderer API
+ * {@link DefaultUnitSpriteSheet} from the images API and the {@link Renderer} from the Renderer
  * in order for this test to display things properly. It does not make sense to test a single API
  * in isolation here.
  * </p>
@@ -125,7 +126,8 @@ public class AllJfxTests {
     Config config = createConfig();
     GameView gv = createGameView(config, createGameController(model), model);
     ImageView iv = createImageView(config);
-    new Renderer(gv, iv, config, mock(Looper.class)).drawAll(config.getGameModelDelay(), gv, iv);
+    new DefaultRenderer(gv, iv, config, mock(Looper.class))
+        .drawAll(config.getGameModelDelay(), gv, iv);
     return iv.getImage();
   }
 
