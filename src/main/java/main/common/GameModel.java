@@ -7,6 +7,11 @@ import main.common.entity.Unit;
 public interface GameModel {
 
   /**
+   * Milliseconds between ticks.
+   */
+  long DELAY = 50;
+
+  /**
    * A getter method to get all possible entities.
    *
    * @return a collection of all possible entities
