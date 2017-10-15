@@ -34,6 +34,7 @@ public class DefaultGameController implements GameController {
   private final GameModel model;
 
   private AbilityIconClick ability = null;
+  private ItemIconClick item = null;
 
   public DefaultGameController(GameModel model) {
     this.model = model;
@@ -125,6 +126,10 @@ public class DefaultGameController implements GameController {
           && ability.getAbility().canApplyTo(selectedUnit)) {
         ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
         ability = null;
+        return;
+      } else if (selectedUnit != null && item != null && item.getItem().isReadyToBeUsed()) {
+        item.getItem().use(model.getWorld(), Collections.singletonList(selectedUnit));
+        item = null;
         return;
       } else {
         ability = null;
@@ -304,6 +309,6 @@ public class DefaultGameController implements GameController {
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    // TODO Hrsh
+    this.item = clickEvent;
   }
 }
