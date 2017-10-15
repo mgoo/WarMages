@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.renderer.Renderable;
+import main.common.Renderable;
 
 /**
  * The View for the background.
@@ -13,11 +13,11 @@ import main.renderer.Renderable;
 public class BackGroundView implements Renderable {
 
   private final Config config;
-  private final GameView gameView;
+  private final DefaultGameView gameView;
   private final MapSize size;
   private final BufferedImage background;
 
-  BackGroundView(Config config, GameView gameView, BufferedImage baseImage) {
+  BackGroundView(Config config, DefaultGameView gameView, BufferedImage baseImage) {
     this.config = config;
     this.gameView = gameView;
     this.size = new MapSize(config.getContextScreenWidth() * 2,

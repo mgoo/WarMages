@@ -9,14 +9,15 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import main.common.GameView;
 import main.common.entity.HeroUnit;
 import main.game.controller.DefaultGameController;
 import main.game.model.DefaultGameModel;
 import main.common.entity.Entity;
 import main.game.model.entity.DefaultEntity;
 import main.common.World;
+import main.game.view.DefaultGameView;
 import main.game.view.EntityView;
-import main.game.view.GameView;
 import main.images.DefaultImageProvider;
 import main.common.images.GameImage;
 import main.common.images.GameImageResource;
@@ -31,7 +32,7 @@ import org.junit.Test;
 
 
 /**
- * tests for the GameView class.
+ * tests for the DefaultGameView class.
  *
  * <p>checks position, initial load and image size.</p>
  *
@@ -60,7 +61,7 @@ public class GameViewTest {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
-    this.gameView = new GameView(config,
+    this.gameView = new DefaultGameView(config,
         gameController,
         gameModelMock,
         imageProvider,
@@ -241,14 +242,6 @@ public class GameViewTest {
         this.gameView.getViewBox().bottomRight.x + config.getGameViewScrollSpeed());
     assertEquals(originalView.bottomRight.y + config.getGameViewScrollSpeed(),
         this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
-  }
-
-  @Test
-  public void testPixToTile() {
-    assertEquals(new MapPoint(1, 1), this.gameView.pixToTile(new MapPoint(0, 50)));
-    assertEquals(new MapPoint(1, 0), this.gameView.pixToTile(new MapPoint(25, 25)));
-    assertEquals(new MapPoint(0, 1), this.gameView.pixToTile(new MapPoint(-25, 25)));
-    assertEquals(new MapPoint(7, 5), this.gameView.pixToTile(new MapPoint(50, 300)));
   }
 
   private class GameModelMock extends DefaultGameModel {

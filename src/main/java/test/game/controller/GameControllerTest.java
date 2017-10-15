@@ -10,7 +10,7 @@ import main.game.model.DefaultGameModel;
 import main.common.GameModel;
 import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.game.view.events.MouseClick;
+import main.common.events.MouseClick;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import org.junit.Test;

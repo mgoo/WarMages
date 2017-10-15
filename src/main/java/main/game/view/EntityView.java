@@ -3,6 +3,7 @@ package main.game.view;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
+import main.common.Renderable;
 import main.common.entity.Entity;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
@@ -12,7 +13,7 @@ import main.common.util.MapSize;
 /**
  * Created by mgoo on 9/22/17.
  */
-public class EntityView implements main.renderer.Renderable {
+public class EntityView implements Renderable {
 
   final Config config;
 

@@ -1,4 +1,4 @@
-package main.game.view.events;
+package main.common.events;
 
 /**
  * Data class for when a Key is pressed.
