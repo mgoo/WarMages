@@ -43,7 +43,7 @@ import main.game.model.entity.unit.UnitType;
 import main.game.view.GameView;
 import main.images.DefaultUnitSpriteSheet;
 import main.menu.MainMenu;
-import main.menu.Menu;
+import main.common.menu.Menu;
 import main.common.Renderer;
 import main.renderer.DefaultRenderer;
 import netscape.javascript.JSObject;
