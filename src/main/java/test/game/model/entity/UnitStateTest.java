@@ -1,25 +1,25 @@
 package test.game.model.entity;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static test.game.model.entity.DefaultUnitTest.getWorld;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.Level;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.entity.usable.Ability;
 import main.common.World;
-import main.game.model.world.DefaultWorld;
 import main.game.model.entity.unit.state.WalkingUnitState;
-import main.game.model.world.pathfinder.DefaultPathFinder;
 import org.junit.Ignore;
 import org.junit.Test;
-import test.game.model.world.WorldTestUtils;
 
 /**
  * Test the changing of states works properly.
@@ -40,12 +40,12 @@ public class UnitStateTest {
         UnitType.ARCHER,
         new ArrayList<Ability>(),
         0);
-    List<Level> levels = new ArrayList<>();
-    levels.add(WorldTestUtils.createLevelWith(
-        unit,
-        heroUnit
-    ));
-    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder()); //TODO mock world
+
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, heroUnit);
+    when(world.findPath(any(), any()))
+        .thenAnswer(invocation -> Arrays.asList(invocation.getArguments()));
 
     unit.setTargetPoint(new MapPoint(20, 2));
     unit.tick(50, world);
