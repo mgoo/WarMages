@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -225,11 +226,11 @@ public class DefaultUnitTest {
 
     double baseDamageAmount = unit.getDamageAmount();
     assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
-    ability1.use(world, Collections.emptyList());
+    ability1.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 1, unit.getDamageAmount(), 0.001);
-    ability2.use(world, Collections.emptyList());
+    ability2.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 2, unit.getDamageAmount(), 0.001);
-    ability3.use(world, Collections.emptyList());
+    ability3.use(world, Collections.singletonList(unit));
     assertEquals(baseDamageAmount + 3, unit.getDamageAmount(), 0.001);
 
     for (int i = 0; i < 200; i++) {
