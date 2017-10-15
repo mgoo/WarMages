@@ -11,7 +11,7 @@ function addUnitIcon(image, unit) {
           + 'class="icon" '
           + '</div>');
       icon.css('background-image', 'url("' + image + '")');
-      icon.on('click', function(event) {
+      icon.on('mouseup', function(event) {
         controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
       });
       $(unit_holder).append(icon);
@@ -27,7 +27,7 @@ function addAbilityIcon(image, ability) {
           + 'class="icon" '
           + '</div>');
       icon.css('background-image', 'url("' + image + '")');
-      icon.on('click', function (event) {
+      icon.on('mouseup', function (event) {
         controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
             event.which === 1);
       });
@@ -44,7 +44,7 @@ function addItemIcon(image, item) {
           + 'class="icon" '
           + '</div>');
       icon.css('background-image', 'url("' + image + '")');
-      icon.on('click', function (event) {
+      icon.on('mouseup', function (event) {
         controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
             event.which === 1);
       });
