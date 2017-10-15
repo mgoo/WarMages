@@ -15,15 +15,9 @@ import main.common.entity.usable.Item;
 import main.common.exceptions.ItemNotInRangeException;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.DefaultGameModel;
-import main.common.entity.HeroUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
 import main.common.World;
-import main.images.DefaultUnitSpriteSheet;
 import main.game.model.entity.unit.DefaultHeroUnit;
-import main.game.model.entity.unit.UnitType;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import main.common.util.MapPoint;
 import main.common.util.MapPolygon;
-import main.common.util.MapSize;
 import org.junit.Test;
 
 /**
