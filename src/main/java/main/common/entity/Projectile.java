@@ -1,8 +1,6 @@
-package main.game.model.entity;
-
+package main.common.entity;
 
 import main.common.World;
-import main.common.entity.Entity;
 
 /**
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
@@ -31,7 +29,7 @@ public interface Projectile extends Entity {
   void hitTarget(World world);
 
   /**
-   * Returns the distance to the target
+   * Returns the distance to the target.
    *
    * @return double distance
    */

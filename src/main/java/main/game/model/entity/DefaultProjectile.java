@@ -3,6 +3,7 @@ package main.game.model.entity;
 import static java.util.Objects.requireNonNull;
 
 import main.common.World;
+import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
@@ -13,7 +14,7 @@ import main.common.util.MapSize;
  *
  * @author paladogabr
  */
-public class DefaultProjectile extends DefaultEntity implements Projectile{
+public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   private static final long serialVersionUID = 1L;
   private static final double IMPACT_DISTANCE = 0.01;

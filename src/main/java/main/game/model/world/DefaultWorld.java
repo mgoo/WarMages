@@ -21,7 +21,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
-import main.game.model.entity.Projectile;
+import main.common.entity.Projectile;
 
 /**
  * Implementation of the World API.
