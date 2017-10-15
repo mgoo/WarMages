@@ -443,11 +443,6 @@ public class DefaultUnitTest {
           effectDurationSeconds
       );
     }
-
-    @Override
-    public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
-      return world.getAllUnits();
-    }
   }
 
 }
