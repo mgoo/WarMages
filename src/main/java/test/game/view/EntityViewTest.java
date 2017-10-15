@@ -45,9 +45,7 @@ import org.junit.Test;
  */
 public class EntityViewTest extends GameViewTest {
 
-  /**
-   * sets up the class variables that are used in every test.
-   */
+  @Override
   @Before
   public void setUp() {
     super.setUp();
