@@ -75,6 +75,6 @@ public class DamageBuffAbility extends BaseAbility {
 
   @Override
   public boolean canApplyTo(Unit unit) {
-    return unit instanceof HeroUnit;
+    return unit.getTeam() == Team.PLAYER;
   }
 }
