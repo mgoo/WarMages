@@ -1,4 +1,4 @@
-package main.renderer;
+package main.common;
 
 import java.awt.image.BufferedImage;
 import main.common.util.MapPoint;

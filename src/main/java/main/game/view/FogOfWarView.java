@@ -9,7 +9,7 @@ import java.util.Collection;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.renderer.Renderable;
+import main.common.Renderable;
 
 /**
  * Represents the fog of war that covers anything that the player doesnt have a unit close enough.
@@ -31,7 +31,7 @@ public class FogOfWarView implements Renderable {
   /**
    * Recalculates what the fog of war should cover and what it should display.
    */
-  void calculate(Collection<UnitView> unitViews, GameView gameView, long currentTime) {
+  void calculate(Collection<UnitView> unitViews, DefaultGameView gameView, long currentTime) {
     this.fowMask = new BufferedImage((int)this.size.width,
         (int)this.size.height,
         BufferedImage.TYPE_4BYTE_ABGR);

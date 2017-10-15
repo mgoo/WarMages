@@ -7,7 +7,9 @@ import main.common.entity.Entity;
 import main.common.entity.Unit;
 
 /**
- * Created by mgoo on 10/10/17.
+ * Makes Views.
+ *
+ * @author Andrew McGhie
  */
 public class ViewFactory {
 
@@ -24,7 +26,7 @@ public class ViewFactory {
   }
 
   static BackGroundView makeBackGroundView(Config config,
-                                           GameView gameView,
+                                           DefaultGameView gameView,
                                            BufferedImage baseImage) {
     return new BackGroundView(config, gameView, baseImage);
   }

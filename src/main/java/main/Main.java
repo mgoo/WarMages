@@ -26,7 +26,7 @@ import main.common.util.Event;
 import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
-import main.game.view.events.MouseClick;
+import main.common.events.MouseClick;
 import main.menu.MainMenu;
 import main.menu.Menu;
 import netscape.javascript.JSObject;
