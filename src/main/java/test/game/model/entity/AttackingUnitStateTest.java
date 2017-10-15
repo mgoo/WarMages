@@ -8,16 +8,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import main.common.GameModel;
+import main.game.model.DefaultGameModel;
+import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.unit.state.AttackingUnitState;
 import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
-import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.AttackingUnitState;
-import main.game.model.world.World;
+import main.common.World;
 import org.junit.Test;
 
 /**

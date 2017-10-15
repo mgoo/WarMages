@@ -16,34 +16,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.game.model.DefaultGameModel;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
-import main.game.model.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
-import org.junit.Before;
+import main.common.GameModel;
 import org.junit.Test;
+import org.junit.Before;
 
-public class GameModelTest {
+public class DefaultGameModelTest {
+
   private HeroUnit heroUnit = createDefaultHeroUnit();
   private GameModel model = null;
   private GameWon gc = new GameWon();
   GameLost gl = new GameLost();
-
-  @Before
-  public void setup() {
-    gc.registerListener(parameter -> {});
-    gl.registerListener(parameter -> {});
-  }
 
   @Test
   public void testSetSelectionAndGetSelection() {
     Unit unit = createDefaultEnemyOrc();
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
         new MainGameTick(),
         gc, gl
@@ -62,7 +58,7 @@ public class GameModelTest {
     Unit unit2 = createDefaultPlayerKnight();
     Unit unit3 = createDefaultPlayerArcher();
     List<Unit> units = new ArrayList<>(Arrays.asList(unit, unit2));
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(createLevels(createLevelWith(unit, unit2, unit3)), heroUnit),
         new MainGameTick(),
         gc, gl
@@ -76,7 +72,7 @@ public class GameModelTest {
 
   @Test
   public void testNumberOfEntities_1() {
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(
             createLevels(createLevelWith(createDefaultPlayerArcher(), createDefaultPlayerKnight())),
             heroUnit
@@ -90,7 +86,7 @@ public class GameModelTest {
 
   @Test
   public void testNumberOfEntities_2() {
-    model = new GameModel(
+    model = new DefaultGameModel(
         createWorld(
             createLevels(createLevelWith(
                 createStubItem(new MapPoint(2, 2)),

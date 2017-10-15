@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Used for representing the dying animation when a unit is dead.

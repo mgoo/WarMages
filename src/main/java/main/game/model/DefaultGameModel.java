@@ -3,13 +3,14 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.util.Looper;
-import main.game.model.world.World;
+import main.common.World;
 import main.common.util.Events;
 import main.common.util.Events.MainGameTick;
 
@@ -17,12 +18,7 @@ import main.common.util.Events.MainGameTick;
  * Contains the main game loop, and controls the the progression of the story/game through the use
  * of {@link Level}s.
  */
-public class GameModel {
-
-  /**
-   * Milliseconds between ticks.
-   */
-  public static final long DELAY = 50;
+public class DefaultGameModel implements GameModel {
 
   private final World world;
   private final MainGameTick mainGameTick;
@@ -37,7 +33,7 @@ public class GameModel {
    *
    * @param world The world to use for the whole game.
    */
-  public GameModel(
+  public DefaultGameModel(
       World world, Events.MainGameTick mainGameTick, GameWon gameWon, GameLost gameLost
   ) {
     this.world = world;
@@ -48,18 +44,12 @@ public class GameModel {
     this.gameLost = gameLost;
   }
 
-  /**
-   * A getter method to get all possible entities.
-   *
-   * @return a collection of all possible entities
-   */
+  @Override
   public Collection<Entity> getAllEntities() {
     return world.getAllEntities();
   }
 
-  /**
-   * Starts the main game loop of this app.
-   */
+  @Override
   public void startGame() {
     looper.startWithSchedule(() -> {
       mainGameTick.broadcast(System.currentTimeMillis());
@@ -71,11 +61,7 @@ public class GameModel {
     }, DELAY);
   }
 
-  /**
-   * A setter method to select a collection.
-   *
-   * @param unitSelection Selection points on the world that may contain units
-   */
+  @Override
   public void setUnitSelection(Collection<Unit> unitSelection) {
     selectedUnits = new HashSet<>(unitSelection);
     if (selectedUnits.contains(null)) {
@@ -83,58 +69,42 @@ public class GameModel {
     }
   }
 
-  /**
-   * A getter method get a previously selected collection.
-   *
-   * @return a collection of selected entities
-   */
+  @Override
   public Collection<Unit> getUnitSelection() {
     return Collections.unmodifiableCollection(selectedUnits);
   }
 
+  @Override
   public void addToUnitSelection(Unit unit) {
     this.selectedUnits.add(unit);
   }
 
-  /**
-   * A getter method to get all possible units.
-   *
-   * @return a collection of all possible units
-   */
+  @Override
   public Collection<Unit> getAllUnits() {
     return world.getAllUnits();
   }
 
-  /**
-   * Getter for the world.
-   *
-   * @return world
-   */
+  @Override
   public World getWorld() {
     return world;
   }
 
+  @Override
   public HeroUnit getHeroUnit() {
     return world.getHeroUnit();
   }
 
-  /**
-   * Pauses the main game loop.
-   */
+  @Override
   public void pauseGame() {
     looper.setPaused(true);
   }
 
-  /**
-   * Resumes the main game loop.
-   */
+  @Override
   public void resumeGame() {
     looper.setPaused(false);
   }
 
-  /**
-   * Stops the main game loop.
-   */
+  @Override
   public void stopGame() {
     looper.stop();
   }

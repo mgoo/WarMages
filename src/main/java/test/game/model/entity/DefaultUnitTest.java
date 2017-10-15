@@ -16,21 +16,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import main.common.GameModel;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.entity.Unit;
+import main.game.model.DefaultGameModel;
+import main.common.util.MapPoint;
+import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.GameModel;
 import main.game.model.Level;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
-import main.game.model.world.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import org.junit.Before;
 import org.junit.Test;
@@ -259,7 +262,7 @@ public class DefaultUnitTest {
 
     List<Level> levels = new ArrayList<>();
     levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
-    World world = new World(levels, heroUnit, new DefaultPathFinder());
+    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder());//TODO mock world
 
     playerUnit.setTargetUnit(enemyUnit);
 
