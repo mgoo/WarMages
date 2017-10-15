@@ -1,44 +1,23 @@
 @import "styles.less";
+@import "variables";
 @import (inline) "bootstrap.css";
 @import "less/variables";
 @import "less/mixins";
 
+
 @keyframes title-drop {
-  0% {
+  from {
     bottom: calc(100vh + 130px);
   }
-  75% {
-    transform: rotate(30deg);
-  }
-  80% {
+  to {
     bottom: 70vh;
-  }
-
-  80%, 90% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  85%, 95% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  85% {
-    transform: rotate(1deg);
-  }
-  87% {
-    transform: rotate(-1deg);
-  }
-  89% {
-    transform: rotate(0.5deg);
-  }
-  91% {
-    transform: rotate(-0.5deg);
   }
 }
 
 
 @keyframes buttons-slide {
   from {left: 100vw;}
-  to {left: 70vw;}
+  to {left: 80vw;}
 }
 
 body {
@@ -48,16 +27,16 @@ body {
 
   .title {
     h1 {
+      font-weight: bold;
       font-size: 130px;
       display: block;
       text-align: center;
       overflow: visible;
     }
 
-    animation-name: title-drop, shake;
+    animation-name: title-drop;
     animation-duration: 1s;
     animation-iteration-count: 1;
-    animation-timing-function: cubic-bezier(1,-0.04,.91,.94);
 
     text-align: center;
     width: 75vw;
@@ -70,10 +49,17 @@ body {
   .mainmenu-buttons {
     position: absolute;
     bottom: 10vh;
-    left: 70vw;
+    left: 80vw;
 
     animation-name: buttons-slide;
     animation-duration: 1.5s;
+    .btn {
+      font-size: 2em;
+      color: #3a753a;
+      &:hover {
+        color: #479147;
+      }
+    }
   }
 
   /* Load Menu */
@@ -91,4 +77,14 @@ body {
       .alert-variant(@alert-success-bg;  @alert-success-border; @alert-success-text)
     }
   }
+}
+
+.modal-content {
+  border-bottom: @hub-border-color outset 5px;
+  border-right: @hub-border-color outset 5px;
+  border-top: @hub-border-color ridge 5px;
+  border-left: @hub-border-color ridge 5px;
+  border-radius: 0;
+  background: @hub-background;
+  color: whitesmoke;
 }
