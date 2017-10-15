@@ -304,6 +304,8 @@ public class DefaultGameController implements GameController {
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
     if (clickEvent.getAbility().isReadyToBeUsed()) {
       this.ability = clickEvent;
+    } else {
+      this.ability = null;
     }
   }
 
@@ -313,6 +315,8 @@ public class DefaultGameController implements GameController {
   public void onItemIconClick(ItemIconClick clickEvent) {
     if (clickEvent.getItem().isReadyToBeUsed()) {
       this.item = clickEvent;
+    } else {
+      this.item = null;
     }
   }
 }
