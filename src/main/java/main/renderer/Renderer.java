@@ -76,7 +76,7 @@ public class Renderer {
           (int)size.height,
           null);
     }
-//    g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
+    g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
 
     if (config.isDebugMode()) {
       for (int i = 0; i < 100; i++) {

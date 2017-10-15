@@ -1,11 +1,11 @@
 @tob-bar-height: 5vh;
 @bottom-bar-height: 30vh;
-//@unit-holder-width: 70vw;
 
 @import "styles.less";
 @import (inline) "bootstrap.css";
 @import "less/mixins";
 @import "less/variables";
+@import "variables";
 
 div, body {
   overflow: hidden;
@@ -32,12 +32,12 @@ div, body {
   width: 100vw;
   height: 5vh;
 
-  background-color: #a89454;
-  border-bottom: #66420f ridge 5px;
+  background: @hub-background;
+  border-bottom: @hub-border-color ridge 5px;
   .btn {
     margin: 5px;
-    background-color: #8a6d3b;
-    color: #3c3c3c;
+    background-color: @hub-button-bg-color;
+    color: @hub-button-text-color;
   }
 }
 
@@ -74,7 +74,7 @@ div, body {
 
       background-size: 100% 100%;
 
-      border: #66420f ridge 2px;
+      border: @hub-border-color ridge 2px;
 
       .make-lg-column(@columns: 1, @gutter: 0);
     }
@@ -86,13 +86,13 @@ div, body {
     bottom: 0;
     height: 70%;
 
-    background-color: #a89454;
-    border-top: #66420f ridge 5px;
+    background: @hub-background;
+    border-top: #000 ridge 5px;
 
     overflow-y: auto;
 
     .icon {
-      background-color: #2b542c;
+      background-color: @unit-icon-bg;
     }
   }
 
@@ -103,22 +103,30 @@ div, body {
 
     height: 100%;
 
-    background-color: #a89454;
-    border-top: #66420f ridge 5px;
-    border-left: #66420f ridge 5px;
+    background: @hub-background;
+    border-top: @hub-border-color ridge 5px;
+    border-left: @hub-border-color ridge 5px;
 
     .holder {
       .icon {
-        background-color: #825fb9;
         .make-lg-column(@columns: 2, @gutter: 0);
+      }
+      &.ability-holder .icon {
+        background-color: @ability-icon-bg;
+      }
+      &.item-holder .icon {
+        background-color: @item-icon-bg;
       }
     }
   }
 }
 .modal-content {
-  border: 5px ridge #66420f;
-  border-right-style: outset;
-  border-bottom-style: outset;
+  color: #f5f5f5;
+  border: 5px ridge ;
+  border-bottom: @hub-border-color outset 5px;
+  border-right: @hub-border-color outset 5px;
+  border-top: @hub-border-color ridge 5px;
+  border-left: @hub-border-color ridge 5px;
   border-radius: 0;
-  background-color: #a89454;
+  background: @hub-background;
 }

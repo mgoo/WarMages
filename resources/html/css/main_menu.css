@@ -6850,10 +6850,10 @@ body .mainmenu-buttons {
 }
 body .mainmenu-buttons .btn {
   font-size: 2em;
-  color: #2b669a;
+  color: #3a753a;
 }
 body .mainmenu-buttons .btn:hover {
-  color: #3d85cb;
+  color: #479147;
 }
 body .files .radio {
   padding: 15px;
@@ -6876,10 +6876,11 @@ body .files input[type="radio"]:checked + span .alert-link {
   color: #2b542c;
 }
 .modal-content {
-  border-bottom: #66420f outset 5px;
-  border-right: #66420f outset 5px;
-  border-top: #66420f ridge 5px;
-  border-left: #66420f ridge 5px;
+  border-bottom: #5b825c outset 5px;
+  border-right: #5b825c outset 5px;
+  border-top: #5b825c ridge 5px;
+  border-left: #5b825c ridge 5px;
   border-radius: 0;
-  background-color: #a89454;
+  background: linear-gradient(#133615, #254b25, #133615);
+  color: whitesmoke;
 }

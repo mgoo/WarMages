@@ -1,7 +1,9 @@
 @import "styles.less";
+@import "variables";
 @import (inline) "bootstrap.css";
 @import "less/variables";
 @import "less/mixins";
+
 
 @keyframes title-drop {
   from {
@@ -53,9 +55,9 @@ body {
     animation-duration: 1.5s;
     .btn {
       font-size: 2em;
-      color: #2b669a;
+      color: #3a753a;
       &:hover {
-        color: #3d85cb;
+        color: #479147;
       }
     }
   }
@@ -78,10 +80,11 @@ body {
 }
 
 .modal-content {
-  border-bottom: #66420f outset 5px;
-  border-right: #66420f outset 5px;
-  border-top: #66420f ridge 5px;
-  border-left: #66420f ridge 5px;
+  border-bottom: @hub-border-color outset 5px;
+  border-right: @hub-border-color outset 5px;
+  border-top: @hub-border-color ridge 5px;
+  border-left: @hub-border-color ridge 5px;
   border-radius: 0;
-  background-color: #a89454;
+  background: @hub-background;
+  color: whitesmoke;
 }
