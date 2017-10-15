@@ -27,6 +27,11 @@ import main.common.GameModel;
 import org.junit.Test;
 import org.junit.Before;
 
+/**
+ * Tests for the GameModel.
+ *
+ * @author Eric Diputado
+ */
 public class DefaultGameModelTest {
 
   private HeroUnit heroUnit = createDefaultHeroUnit();
