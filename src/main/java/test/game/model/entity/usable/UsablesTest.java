@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
+import static test.game.model.entity.DefaultUnitTest.getHeroUnit;
 
 import java.util.Collections;
 import main.common.GameModel;
@@ -131,7 +131,7 @@ public class UsablesTest {
   @Test
   public void healAbilityShouldThrowOnlyIfCoolingDown() {
     // Given a hero unit
-    HeroUnit heroUnit = createDefaultHeroUnit();
+    HeroUnit heroUnit = getHeroUnit();
     // and a heal ability
     HealAbility healAbility = new HealAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),
