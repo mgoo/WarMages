@@ -50,13 +50,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Function;
 import main.common.GameModel;
 import main.common.WorldLoader;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
+import main.common.entity.Projectile;
 import main.common.entity.Team;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
@@ -289,7 +289,7 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Creates a new {@link GameModel} with the single level and example data.
    * This level doesn't have a wall of {@link MapEntity}s around the bounds.
-   * This should have every non {@link main.game.model.entity.Projectile} {@link Entity} in the
+   * This should have every non {@link Projectile} {@link Entity} in the
    * {@link main.game.model.entity} package for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {

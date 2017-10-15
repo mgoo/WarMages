@@ -8,25 +8,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.GameController;
+import main.common.GameModel;
 import main.common.World;
+import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.images.GameImageResource;
-import main.common.GameController;
-import main.common.entity.Entity;
-import main.common.GameModel;
-import main.game.view.EntityView.EntityRenderableComparator;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.MouseClick;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.game.view.events.MouseDrag;
 import main.common.util.MapPolygon;
+import main.common.util.MapRect;
+import main.game.view.EntityView.EntityRenderableComparator;
+import main.game.view.events.AbilityIconClick;
+import main.game.view.events.ItemIconClick;
+import main.game.view.events.MouseClick;
+import main.game.view.events.MouseDrag;
 import main.game.view.events.UnitIconClick;
 import main.renderer.Renderable;
 
@@ -54,9 +54,9 @@ public class GameView {
 
   /**
    * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
-   * main.renderer.Renderer} is reading it. To avoid unnecessary amounts of copying, if adding a
-   * large amount of items to this list, prefer using {@link List#addAll(Collection)} rather than
-   * calling {@link List#add(Object)} for each element.
+   * main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying, if
+   * adding a large amount of items to this list, prefer using {@link List#addAll(Collection)}
+   * rather than calling {@link List#add(Object)} for each element.
    */
   private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
   private FogOfWarView fogOfWarView;
@@ -180,7 +180,7 @@ public class GameView {
 
       MapPolygon mapRectTiles = new MapPolygon(topLeft, topRight, bottomLeft, bottomRight);
 
-      if (!mapRectTiles.contains(this.world.getCurrentLevel().getBounds())) {
+      if (!mapRectTiles.contains(this.world.getCurrentLevelBounds())) {
         return;
       }
       this.viewBox = this.viewBox.move(dx, dy);

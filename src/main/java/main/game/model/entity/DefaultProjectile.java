@@ -2,19 +2,19 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import main.common.entity.Entity;
-import main.common.entity.Unit;
 import main.common.World;
+import main.common.entity.Projectile;
+import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
 /**
- * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
- * affects it in some way upon impact.
+ * Concrete implementation of Projectile.
+ *
  * @author paladogabr
  */
-public class Projectile extends DefaultEntity {
+public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   private static final long serialVersionUID = 1L;
   private static final double IMPACT_DISTANCE = 0.01;
@@ -37,7 +37,7 @@ public class Projectile extends DefaultEntity {
    * @param gameImage image of the projectile.
    * @param moveDistancePerTick distance to be moved per tick.
    */
-  public Projectile(
+  public DefaultProjectile(
       MapPoint coordinates,
       MapSize size,
       Unit target,
@@ -89,18 +89,18 @@ public class Projectile extends DefaultEntity {
     return getRect().contains(point);
   }
 
+  @Override
   public boolean hasHit() {
     return hasHit;
   }
 
+  @Override
   public double getDamageAmount() {
     return damageAmount;
   }
 
-  /**
-   * Applies actions to given unit when it is hit by the Projectile.
-   */
-  private void hitTarget(World world) {
+  @Override
+  public void hitTarget(World world) {
     boolean killed = target.takeDamage(damageAmount, world);
     if (killed) {
       this.owner.nextLevel();
@@ -108,8 +108,8 @@ public class Projectile extends DefaultEntity {
     world.removeProjectile(this);
   }
 
-  private double getDistanceToTarget() {
+  @Override
+  public double getDistanceToTarget() {
     return getCentre().distanceTo(target.getCentre());
   }
 }
-
