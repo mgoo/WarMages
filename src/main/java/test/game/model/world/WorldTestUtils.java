@@ -29,7 +29,9 @@ import main.game.model.world.pathfinder.DefaultPathFinder;
 import test.game.model.entity.StubUnitSpriteSheet;
 
 /**
- * Useful factory methods.
+ * A testUtil to help createWorlds/Models.
+ *
+ * @author Eric Diputado
  * @author chongdyla (External Tester)
  */
 public class WorldTestUtils {

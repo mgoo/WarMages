@@ -15,8 +15,9 @@ import main.common.util.Events;
 import main.common.util.Events.MainGameTick;
 
 /**
- * Contains the main game loop, and controls the the progression of the story/game through the use
- * of {@link Level}s.
+ * Implementation of GameModel.
+ *
+ * @author Eric Diputado
  */
 public class DefaultGameModel implements GameModel {
 
