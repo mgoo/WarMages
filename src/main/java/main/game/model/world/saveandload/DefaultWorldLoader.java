@@ -369,7 +369,7 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                120, 90
+                20, 90
             )
         ),
         3
