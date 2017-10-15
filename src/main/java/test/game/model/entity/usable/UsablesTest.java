@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createDefaultHeroUnit;
+import static test.game.model.entity.DefaultUnitTest.getHeroUnit;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +19,6 @@ import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.TickTimer;
-import main.game.model.DefaultGameModel;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
@@ -27,7 +26,6 @@ import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
 import main.common.World;
-import main.images.DefaultUnitSpriteSheet;
 import org.junit.Test;
 import test.game.model.entity.StubUnitSpriteSheet;
 
@@ -134,7 +132,7 @@ public class UsablesTest {
   @Test
   public void healAbilityShouldThrowOnlyIfCoolingDown() {
     // Given a hero unit
-    HeroUnit heroUnit = createDefaultHeroUnit();
+    HeroUnit heroUnit = getHeroUnit();
     // and a heal ability
     HealAbility healAbility = new HealAbility(
         GameImageResource.POTION_BLUE_ITEM.getGameImage(),

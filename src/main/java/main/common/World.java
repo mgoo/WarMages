@@ -2,14 +2,12 @@ package main.common;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
-import main.game.model.Level;
 import main.game.model.entity.Projectile;
 
 /**
