@@ -1,6 +1,7 @@
 package main.game.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -272,7 +273,13 @@ public class DefaultGameController implements GameController {
    * When a selected units icon is clicked in from the hud.
    */
   public void onUnitIconClick(UnitIconClick clickEvent) {
-    // TODO Hrsh
+    if (clickEvent.wasCtrlDown()) {
+      Collection<Unit> newSelection = new ArrayList<>(this.gameModel.getUnitSelection());
+      newSelection.remove(clickEvent.getUnit());
+      this.gameModel.setUnitSelection(newSelection);
+    } else {
+      gameModel.setUnitSelection(Collections.singletonList(clickEvent.getUnit()));
+    }
   }
 
   /**
