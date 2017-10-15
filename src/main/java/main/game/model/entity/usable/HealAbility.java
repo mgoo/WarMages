@@ -4,6 +4,7 @@ import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import main.common.entity.HeroUnit;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.entity.Team;
@@ -68,4 +69,8 @@ public class HealAbility extends BaseAbility {
     }
   }
 
+  @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit instanceof HeroUnit;
+  }
 }
