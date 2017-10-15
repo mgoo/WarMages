@@ -63,6 +63,7 @@ import test.renderer.RendererTestUtils;
  * Also JavaFx only allows one {@link Application} to be instantiated in a single run of the
  * program, so only one JavaFx test can be used.
  * </p>
+ *
  * @author Andrew McGhie
  * @author Dylan Chong (fixing a bug)
  * @author Eric Diputado (Renderer tests)

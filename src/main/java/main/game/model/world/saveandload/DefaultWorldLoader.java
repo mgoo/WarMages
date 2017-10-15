@@ -369,7 +369,7 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                120, 90
+                20, 150
             )
         ),
         3
@@ -521,7 +521,11 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(29, 6.5)
           ),
           new Goal.AllEnemiesKilled(),
-          "Some Archer have joined your cause<br>Try out your new archers on the new enemies"
+          "Some Archer have joined your cause<br>"
+              + "Try out your new archers on the new enemies<br>"
+              + "<br>"
+              + "To use abilities: <b>Left-Click</b> the icon then <b>Left-Click</b> a unit"
+
       ));
     }
 
@@ -648,7 +652,7 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(),
           Arrays.asList(),
           new Goal.AllEnemiesKilled(),
-          "Slaughter the infidels that don't like your gold ring"
+          "Slaughter the infidels that do not like your gold ring"
       ));
     }
 

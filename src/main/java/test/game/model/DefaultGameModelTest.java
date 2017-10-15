@@ -25,7 +25,6 @@ import main.common.util.Events.MainGameTick;
 import main.common.util.MapPoint;
 import main.common.GameModel;
 import org.junit.Test;
-import org.junit.Before;
 
 /**
  * Tests for the GameModel.
@@ -37,7 +36,7 @@ public class DefaultGameModelTest {
   private HeroUnit heroUnit = createDefaultHeroUnit();
   private GameModel model = null;
   private GameWon gc = new GameWon();
-  GameLost gl = new GameLost();
+  private GameLost gl = new GameLost();
 
   @Test
   public void testSetSelectionAndGetSelection() {

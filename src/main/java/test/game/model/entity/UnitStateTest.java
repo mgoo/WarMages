@@ -38,7 +38,7 @@ public class UnitStateTest {
         new MapSize(100, 100),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
-        new ArrayList<Ability>(),
+        new ArrayList<>(),
         0);
 
     ArrayList<Unit> units = new ArrayList<>();

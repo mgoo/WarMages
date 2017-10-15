@@ -55,4 +55,6 @@ public interface Usable extends Serializable {
    */
   double getCoolDownProgress();
 
+  boolean canApplyTo(Unit unit);
+
 }
