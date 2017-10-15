@@ -1,6 +1,5 @@
 package main.common.entity.usable;
 
-import main.common.entity.Unit;
 import main.common.entity.Usable;
 
 /**

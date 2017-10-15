@@ -5,15 +5,12 @@ import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
-import java.io.File;
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
@@ -24,7 +21,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.game.model.world.saveandload.DefaultWorldLoader;
@@ -127,13 +123,9 @@ public class Main extends Application {
 
       JSObject window = (JSObject) webEngine.executeScript("window");
       window.setMember("controller", this.currentMenu.getMenuController());
-      Arrays.stream(this.currentMenu.getScripts()).forEach(script -> {
-        webEngine.executeScript(script);
-      });
+      Arrays.stream(this.currentMenu.getScripts()).forEach(script -> webEngine.executeScript(script));
     });
-    webEngine.setOnAlert((WebEvent<String> event) -> {
-      System.out.println("JS Alert: " + event.getData());
-    });
+    webEngine.setOnAlert((WebEvent<String> event) -> System.out.println("JS Alert: " + event.getData()));
 
     this.loadMenu(mainMenu);
 
@@ -141,14 +133,10 @@ public class Main extends Application {
     imageView.setFitHeight(scene.getHeight());
 
     // Mouse events will be handled in html
-    root.setOnKeyPressed(event -> {
-      this.currentMenu.getMenuController().onKeyDown(event);
-    });
+    root.setOnKeyPressed(event -> this.currentMenu.getMenuController().onKeyDown(event));
 
     browser.setOnMouseExited(event -> keepMouseInWindow());
-    browser.setOnMouseMoved(event -> {
-      this.currentMenu.getMenuController().onMouseMove(event);
-    });
+    browser.setOnMouseMoved(event -> this.currentMenu.getMenuController().onMouseMove(event));
 
     primaryStage.setOnCloseRequest(e -> System.exit(0));
 
