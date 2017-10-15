@@ -65,6 +65,7 @@ import test.renderer.RendererTestUtils;
  * </p>
  * @author Andrew McGhie
  * @author Dylan Chong (fixing a bug)
+ * @author Eric Diputado (Renderer tests)
  */
 public class AllJfxTests {
 
@@ -99,7 +100,9 @@ public class AllJfxTests {
   }
 
   /**
-   * Creates the gameviews and imageviews based on a level and hero unit.
+   * Tests whether gameView, imageView and Renderer can work together to draw.
+   *
+   * @author Eric Diputado
    */
   public static Image testImage() {
     hero = new DefaultHeroUnit(

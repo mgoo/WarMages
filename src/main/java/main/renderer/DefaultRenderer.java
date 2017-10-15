@@ -15,7 +15,9 @@ import main.game.view.EntityView;
 import main.game.view.GameView;
 
 /**
-
+ * Implementation of Renderer API.
+ *
+ * @author Eric Diputado
  */
 public class DefaultRenderer implements Renderer {
 
