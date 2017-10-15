@@ -4,7 +4,7 @@ import main.common.entity.MapEntity;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Default implementation of MapEntity.

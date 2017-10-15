@@ -4,9 +4,9 @@ import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
+import main.common.World;
 import main.game.model.entity.unit.DeadUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.world.World;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has

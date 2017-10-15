@@ -1,11 +1,11 @@
 package main.common.entity;
 
 import java.io.Serializable;
+import main.common.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
-import main.game.model.world.World;
 
 /**
  * Entity class: entities have positions on the screen, images, and sizes.

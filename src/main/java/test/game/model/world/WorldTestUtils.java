@@ -23,7 +23,8 @@ import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.BaseAbility;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DefaultItem;
-import main.game.model.world.World;
+import main.common.World;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import test.game.model.entity.StubUnitSpriteSheet;
 
@@ -192,7 +193,7 @@ public class WorldTestUtils {
    * @return a new world
    */
   public static World createWorld(List<Level> levels, HeroUnit heroUnit) {
-    return new World(levels, heroUnit, new DefaultPathFinder());
+    return new DefaultWorld(levels, heroUnit, new DefaultPathFinder());
   }
 
 

@@ -7,7 +7,7 @@ import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
-import main.game.model.world.World;
+import main.common.World;
 
 /**
  * Default implementation of {@link Item}.

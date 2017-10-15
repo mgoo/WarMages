@@ -18,11 +18,11 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
+import main.common.World;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.WalkingUnitState;
 import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
 import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
-import main.game.model.world.World;
 
 /**
  * Default Unit implementation.
