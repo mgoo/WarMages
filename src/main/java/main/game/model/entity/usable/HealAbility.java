@@ -4,13 +4,17 @@ import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.Effect;
+import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
-import main.game.model.entity.Team;
-import main.game.model.entity.Unit;
-import main.game.model.world.World;
+import main.common.entity.Team;
+import main.common.entity.Unit;
+import main.common.World;
 
-public class HealAbility extends Ability {
+/**
+ * Heals a unit instantly.
+ * @author chongdyla
+ */
+public class HealAbility extends BaseAbility {
 
   private static final long serialVersionUID = 1L;
 
@@ -30,7 +34,7 @@ public class HealAbility extends Ability {
   }
 
   @Override
-  public Effect _createEffectForUnit(Unit unit) {
+  public Effect createEffectForUnit(Unit unit) {
     return new HealEffect(unit);
   }
 
@@ -39,7 +43,7 @@ public class HealAbility extends Ability {
   }
 
   @Override
-  public Collection<Unit> _selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
+  public Collection<Unit> selectUnitsToApplyOn(World world, Collection<Unit> selectedUnits) {
     return world.getAllUnits()
         .stream()
         .filter(unit -> unit.getTeam() == Team.PLAYER)

@@ -1,20 +1,23 @@
 package test.game.model.entity;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static test.game.model.world.WorldTestUtils.createDefaultEnemyOrc;
 import static test.game.model.world.WorldTestUtils.createDefaultPlayerKnight;
-import static test.game.model.world.WorldTestUtils.createHeroUnit;
 
-import main.game.model.GameModel;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
-import main.game.model.world.World;
+import main.common.GameModel;
+import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
+import main.game.model.DefaultGameModel;
+import main.common.World;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 
+/**
+ * Tests for Entities.
+ * TODO Gabei shouldnt this be in defaultunittest?.
+ * @author paladogabr
+ */
 public class EntityTest {
-
-  private final int damageAmt = 10;
 
   private World getWorld() {
     return WorldTestUtils
@@ -22,7 +25,7 @@ public class EntityTest {
   }
 
   private HeroUnit getHeroUnit() {
-    return createHeroUnit();
+    return WorldTestUtils.createDefaultHeroUnit();
   }
 
   private Unit getPlayer() {
@@ -35,14 +38,20 @@ public class EntityTest {
 
   @Test
   public void testDamageEnemy() {
-    Unit unit1 = getPlayer();
-    Unit unit2 = getEnemy();
+    Unit player = getPlayer();
+    Unit enemy = getEnemy();
+
+    // Make sure they are in range of each other (by making them on top of each other)
+    double dx = enemy.getCentre().x - player.getCentre().x;
+    double dy = enemy.getCentre().y - player.getCentre().y;
+    player.translatePosition(dx, dy);
+
     World world = getWorld();
-    unit1.setTarget(unit2, world);
-    int prevHealth = unit2.getHealth();
-    for (int i = 0; i < 820; i++) {
-      unit1.tick(GameModel.DELAY, world);
+    player.setTargetUnit(enemy);
+    double prevHealth = enemy.getHealth();
+    for (int i = 0; i < 900; i++) {
+      player.tick(GameModel.DELAY, world);
     }
-    assertEquals(prevHealth - damageAmt, unit2.getHealth());
+    assertTrue(prevHealth > enemy.getHealth());
   }
 }

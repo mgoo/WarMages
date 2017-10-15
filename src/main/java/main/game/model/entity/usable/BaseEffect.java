@@ -1,9 +1,13 @@
 package main.game.model.entity.usable;
 
-import main.common.Effect;
+import main.common.entity.Unit;
+import main.common.entity.usable.Effect;
 import main.common.util.TickTimer;
-import main.game.model.entity.Unit;
 
+/**
+ * All {@link Effect}s should extend this.
+ * @author chongdyla
+ */
 public abstract class BaseEffect implements Effect {
 
   private static final long serialVersionUID = 1L;
@@ -16,8 +20,9 @@ public abstract class BaseEffect implements Effect {
 
   /**
    * Default constructor.
-   * @param durationSeconds Number of seconds before this expires. Set to
-   *     {@link BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
+   *
+   * @param durationSeconds Number of seconds before this expires. Set to {@link
+   * BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
   public BaseEffect(Unit targetUnit, double durationSeconds) {
     if (durationSeconds < 0) {
@@ -62,7 +67,7 @@ public abstract class BaseEffect implements Effect {
   }
 
   @Override
-  public int alterDamageAmount(int currentDamageAmount) {
+  public double alterDamageAmount(double currentDamageAmount) {
     if (!isActive()) {
       throw new IllegalStateException();
     }

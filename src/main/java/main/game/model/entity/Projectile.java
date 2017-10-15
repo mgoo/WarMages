@@ -2,7 +2,9 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import main.game.model.world.World;
+import main.common.entity.Entity;
+import main.common.entity.Unit;
+import main.common.World;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
@@ -10,18 +12,20 @@ import main.common.util.MapSize;
 /**
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and
  * affects it in some way upon impact.
+ * @author paladogabr
  */
-public class Projectile extends Entity {
+public class Projectile extends DefaultEntity {
 
   private static final long serialVersionUID = 1L;
-
   private static final double IMPACT_DISTANCE = 0.01;
 
-  private final int damageAmount;
+  private final double damageAmount;
   private final Unit target;
+  private final Unit owner;
   private final double moveDistancePerTick;
 
   private boolean hasHit = false;
+  private GameImage image;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
@@ -29,20 +33,30 @@ public class Projectile extends Entity {
    * @param coordinates at start of projectile path.
    * @param size of projectile.
    * @param target unit of projectile.
+   * @param owner the unit that fired the projectile
+   * @param gameImage image of the projectile.
+   * @param moveDistancePerTick distance to be moved per tick.
    */
   public Projectile(
       MapPoint coordinates,
       MapSize size,
       Unit target,
+      Unit owner,
       GameImage gameImage,
-      int damageAmount,
       double moveDistancePerTick
   ) {
     super(coordinates, size);
     this.target = requireNonNull(target);
-    this.setImage(gameImage);
-    this.damageAmount = damageAmount;
+    this.owner = owner;
+    // So level ups and buffs do not effect fired projectile damage
+    this.damageAmount = owner.getDamageAmount();
     this.moveDistancePerTick = moveDistancePerTick;
+    this.image = gameImage;
+  }
+
+  @Override
+  public GameImage getImage() {
+    return image;
   }
 
   @Override
@@ -70,11 +84,16 @@ public class Projectile extends Entity {
     }
   }
 
+  @Override
+  public boolean contains(MapPoint point) {
+    return getRect().contains(point);
+  }
+
   public boolean hasHit() {
     return hasHit;
   }
 
-  public int getDamageAmount() {
+  public double getDamageAmount() {
     return damageAmount;
   }
 
@@ -82,7 +101,10 @@ public class Projectile extends Entity {
    * Applies actions to given unit when it is hit by the Projectile.
    */
   private void hitTarget(World world) {
-    target.takeDamage(damageAmount, world);
+    boolean killed = target.takeDamage(damageAmount, world);
+    if (killed) {
+      this.owner.nextLevel();
+    }
     world.removeProjectile(this);
   }
 
