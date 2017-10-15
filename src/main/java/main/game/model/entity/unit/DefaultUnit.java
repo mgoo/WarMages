@@ -307,8 +307,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.target = null;
   }
 
-  @Override
-  public void setDamageAmount(int amount) {
+  private void setDamageAmount(double amount) {
     if (amount <= 0) {
       throw new IllegalArgumentException("Invalid damage: " + amount);
     }
