@@ -1,29 +1,36 @@
 package test.game.view;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import main.game.view.DefaultGameView;
 import main.common.GameView;
 import main.common.entity.HeroUnit;
-import main.game.controller.DefaultGameController;
-import main.game.model.DefaultGameModel;
+import main.common.GameController;
+import main.common.events.AbilityIconClick;
+import main.common.events.ItemIconClick;
+import main.common.events.KeyEvent;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
+import main.common.events.UnitIconClick;
+import main.common.GameModel;
+import main.common.entity.Unit;
 import main.common.entity.Entity;
-import main.game.model.entity.DefaultEntity;
 import main.common.World;
-import main.game.view.DefaultGameView;
-import main.game.view.EntityView;
-import main.images.DefaultImageProvider;
 import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
-import main.common.util.Event;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.MapRect;
@@ -42,6 +49,7 @@ public class GameViewTest {
 
   GameView gameView;
   GameModelMock gameModelMock;
+  GameControllerMock gameControllerMock;
   List<Entity> entityList;
   Config config;
 
@@ -50,9 +58,25 @@ public class GameViewTest {
    */
   @Before
   public void setUp() {
-    final ImageProvider imageProvider = new DefaultImageProvider();
-    final GameControllerMock gameController = new GameControllerMock();
+    final ImageProvider imageProvider = new ImageProvider() {
+      @Override
+      protected BufferedImage load(String filePath) throws IOException {
+        return new BufferedImage(1,1, BufferedImage.TYPE_4BYTE_ABGR);
+      }
+
+      @Override
+      protected void storeInCache(GameImage gameImage, BufferedImage image) {
+
+      }
+
+      @Override
+      protected BufferedImage getFromCache(GameImage gameImage) {
+        return new BufferedImage(1,1, BufferedImage.TYPE_4BYTE_ABGR);
+      }
+    };
+    gameControllerMock = mock(GameControllerMock.class);
     this.gameModelMock = new GameModelMock();
+
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
@@ -61,8 +85,9 @@ public class GameViewTest {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
+    when(world.getCurrentLevelBounds()).thenReturn(new MapRect(-100, -100, 200, 200));
     this.gameView = new DefaultGameView(config,
-        gameController,
+        gameControllerMock,
         gameModelMock,
         imageProvider,
         world);
@@ -71,162 +96,6 @@ public class GameViewTest {
     entityList = new ArrayList<>();
     entityList.add(entity);
     this.gameModelMock.setEntities(entityList);
-  }
-
-  @Test
-  public void testInitialization() {
-    assertNotNull(this.gameView);
-    assertTrue(this.gameView.getRenderables(0).size() == 0);
-
-    this.gameView.onTick(0L);
-
-    assertEquals(1, this.gameView.getRenderables(0).size());
-
-    entityList.add(new EntityMock(new MapPoint(1, 3), new MapSize(1, 1)));
-    this.gameView.onTick(0L);
-
-    assertEquals(2, this.gameView.getRenderables(0).size());
-  }
-
-  @Test
-  public void testAnimation_x_correctPosition() {
-    this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).translatePosition(1, 0);
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-
-    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
-
-    // By time 50 the entities effective position should have arrived to 1,0
-    // Then it should continue afterwards until the next tick.
-    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
-      MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals((double) i / (double) this.config.getGameModelDelay(), effEntityPos.x, 0.001);
-      assertEquals(0D, effEntityPos.y, 0.001);
-    }
-
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
-    assertEquals(1D, effEntityPos.x, 0.001);
-    assertEquals(0D, effEntityPos.y, 0.001);
-  }
-
-  @Test
-  public void testAnimation_y_correctPosition() {
-    this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).translatePosition(0, 1);
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-
-    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
-
-    // By time 50 the entities effective position should have arrived to 0,1
-    // Then it should continue afterwards until the next tick.
-    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
-      MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals(0D, effEntityPos.x, 0.001);
-      assertEquals((double) i / (double) this.config.getGameModelDelay(), effEntityPos.y, 0.001);
-    }
-
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
-    assertEquals(0D, effEntityPos.x, 0.001);
-    assertEquals(1D, effEntityPos.y, 0.001);
-  }
-
-  @Test
-  public void testAnimation_xy_correctPosition() {
-    this.gameView.onTick(0L);
-    ((EntityMock) this.entityList.get(0)).translatePosition(5, 5);
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-
-    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
-
-    // By time 50 the entities effective position should have arrived to 5,5
-    // Then it should continue afterwards until the next tick to 10,10.
-    for (int i = 0; i < this.config.getGameModelDelay() * 2; i++) {
-      MapPoint effEntityPos = er.getEffectiveEntityPosition(i);
-      assertEquals(
-          5D * (double) i / (double) this.config.getGameModelDelay(),
-          effEntityPos.x,
-          0.001
-      );
-      assertEquals(
-          5D * (double) i / (double) this.config.getGameModelDelay(),
-          effEntityPos.y,
-          0.001
-      );
-    }
-
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-    MapPoint effEntityPos = er.getEffectiveEntityPosition(this.config.getGameModelDelay());
-    assertEquals(5D, effEntityPos.x, 0.001);
-    assertEquals(5D, effEntityPos.y, 0.001);
-  }
-
-  @Test
-  public void testAnimation_screenPosition() {
-    this.gameView.onTick(0L);
-    EntityView er = ((EntityView) this.gameView.getRenderables(0).get(0));
-    ((EntityMock) this.entityList.get(0)).translatePosition(1, 1);
-    this.gameView.onTick((long)this.config.getGameModelDelay());
-
-    for (double i = 0; i < this.config.getGameModelDelay(); i++) {
-      MapPoint imagePosition = er.getImagePosition((long) i);
-      MapPoint effEntityPos = er.getEffectiveEntityPosition((long) i);
-
-      assertEquals(i / (double) this.config.getGameModelDelay(), effEntityPos.x, 0.001);
-      assertEquals(
-          -25,
-          imagePosition.x,
-          0.001
-      );
-      assertEquals(
-          config.getEntityViewTilePixelsY() * i / (double) this.config.getGameModelDelay()
-              - config.getEntityViewTilePixelsY() / 2D,
-          imagePosition.y,
-          0.001
-      );
-    }
-
-    this.gameView.onTick((long)this.config.getGameModelDelay() * 2);
-    ((EntityMock) this.entityList.get(0)).translatePosition(1, 0);
-    this.gameView.onTick((long)this.config.getGameModelDelay() * 3);
-
-    // effective position should have arrived to 10,10
-    // image dimensions are 1x1
-    for (int i = this.config.getGameModelDelay() * 2; i < this.config.getGameModelDelay() * 3;
-        i++) {
-      MapPoint imagePosition = er.getImagePosition(i);
-
-      assertEquals(
-          (config.getEntityViewTilePixelsX() / 2)
-              * (i - this.config.getGameModelDelay() * 2) / (double) this.config.getGameModelDelay()
-              - config.getEntityViewTilePixelsX() / 2D,
-          imagePosition.x, 0.001
-      );
-      assertEquals(config.getEntityViewTilePixelsY()
-              + (config.getEntityViewTilePixelsY() / 2)
-              * (i - this.config.getGameModelDelay() * 2) / (double) this.config.getGameModelDelay()
-              - config.getEntityViewTilePixelsY() / 2D,
-          imagePosition.y, 0.001
-      );
-    }
-  }
-
-  @Test
-  public void testImageSize_basecase() {
-    this.gameView.onTick(0L);
-    EntityView er1 = ((EntityView) this.gameView.getRenderables(0).get(0));
-    MapSize imageSize = er1.getImageSize();
-    assertEquals(50D, imageSize.width, 0.001);
-    assertEquals(50D, imageSize.height, 0.001);
-
-    this.entityList.add(new EntityMock(new MapPoint(1, 1), new MapSize(0.2F, 0.2F)));
-    this.gameView.onTick(1L);
-    EntityView er2 = ((EntityView) this.gameView.getRenderables(0).get(1));
-    imageSize = er2.getImageSize();
-    assertEquals(10D, imageSize.width, 0.001);
-    assertEquals(10D, imageSize.height, 0.001);
-
   }
 
   @Test
@@ -243,20 +112,86 @@ public class GameViewTest {
         this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
   }
 
-  private class GameModelMock extends DefaultGameModel {
+  @Test
+  public void test_eventPassThroughs() {
+    this.gameView.onLeftClick(0, 0, true, true);
+    verify(this.gameControllerMock).onMouseEvent(any());
+    this.gameView.onRightClick(0 ,0,false, false);
+    verify(this.gameControllerMock, times(2)).onMouseEvent(any());
+    this.gameView.onDbClick(0 , 0, true, true);
+    verify(this.gameControllerMock).onDbClick(any());
+    this.gameView.onDrag(0, 0, 1, 1, true, false);
+    verify(this.gameControllerMock).onMouseDrag(any());
+    this.gameView.onKeyDown('z', true, false);
+    verify(this.gameControllerMock).onKeyPress(any());
+
+    this.gameView.unitClick(null, true, true, true);
+    verify(this.gameControllerMock).onUnitIconClick(any());
+    this.gameView.abilityClick(null,false, false, true);
+    verify(this.gameControllerMock).onAbilityIconClick(any());
+    this.gameView.itemClick(null, true, true, true);
+    verify(this.gameControllerMock).onItemIconClick(any());
+
+
+  }
+
+  static class GameModelMock implements GameModel {
 
     private List<Entity> entities = new ArrayList<>();
-
-    /**
-     * Creates a mock for testing game model.
-     */
-    GameModelMock() {
-      super(null, null, null, null);
-    }
 
     @Override
     public Collection<Entity> getAllEntities() {
       return this.entities;
+    }
+
+    @Override
+    public void startGame() {
+
+    }
+
+    @Override
+    public void setUnitSelection(Collection<Unit> unitSelection) {
+
+    }
+
+    @Override
+    public Collection<Unit> getUnitSelection() {
+      return Arrays.asList();
+    }
+
+    @Override
+    public void addToUnitSelection(Unit unit) {
+
+    }
+
+    @Override
+    public Collection<Unit> getAllUnits() {
+      return null;
+    }
+
+    @Override
+    public World getWorld() {
+      return null;
+    }
+
+    @Override
+    public HeroUnit getHeroUnit() {
+      return null;
+    }
+
+    @Override
+    public void pauseGame() {
+
+    }
+
+    @Override
+    public void resumeGame() {
+
+    }
+
+    @Override
+    public void stopGame() {
+
     }
 
     void setEntities(List<Entity> entities) {
@@ -265,10 +200,15 @@ public class GameViewTest {
 
   }
 
-  private class EntityMock extends DefaultEntity {
+  static class EntityMock implements Entity {
 
-    public EntityMock(MapPoint position, MapSize size) {
-      super(position, size);
+
+    private MapPoint position;
+    private final MapSize size;
+
+    EntityMock(MapPoint position, MapSize size) {
+      this.position = position;
+      this.size = size;
     }
 
     @Override
@@ -279,6 +219,11 @@ public class GameViewTest {
     @Override
     public void tick(long timeSinceLastTick, World world) {
 
+    }
+
+    @Override
+    public MapPoint getPreviousTopLeft() {
+      return null;
     }
 
     @Override
@@ -293,14 +238,69 @@ public class GameViewTest {
 
     @Override
     public MapPoint getCentre() {
-      return super.getTopLeft();
+      return position;
+    }
+
+    @Override
+    public MapSize getSize() {
+      return this.size;
+    }
+
+    @Override
+    public MapRect getRect() {
+      return null;
+    }
+
+    @Override
+    public void translatePosition(double dx, double dy) {
+      position = new MapPoint(position.x + dx, position.y + dy);
+    }
+
+    @Override
+    public void slidePosition(double dx, double dy) {
+
     }
   }
 
-  private class GameControllerMock extends DefaultGameController {
+  static class GameControllerMock implements GameController {
 
     GameControllerMock() {
-      super(null);
+
+    }
+
+    @Override
+    public void onKeyPress(KeyEvent keyevent) {
+
+    }
+
+    @Override
+    public void onMouseEvent(MouseClick mouseEvent) {
+
+    }
+
+    @Override
+    public void onMouseDrag(MouseDrag mouseEvent) {
+
+    }
+
+    @Override
+    public void onDbClick(MouseClick mouseClick) {
+
+    }
+
+    @Override
+    public void onUnitIconClick(UnitIconClick clickEvent) {
+
+    }
+
+    @Override
+    public void onAbilityIconClick(AbilityIconClick clickEvent) {
+
+    }
+
+    @Override
+    public void onItemIconClick(ItemIconClick clickEvent) {
+
     }
   }
 }

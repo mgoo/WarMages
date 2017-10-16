@@ -64,11 +64,14 @@ public class MainMenuController extends MenuController {
    */
   public void loadBtn(String filename) {
     try {
-      System.out.println(filename); //TODO remove this?
       World world = this.worldSaveModel.load(filename);
       this.startGame(world);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw new RuntimeException(e); // fails silently in production
+      }
     }
   }
 
@@ -80,7 +83,11 @@ public class MainMenuController extends MenuController {
       World world = this.worldLoader.load();
       this.startGame(world);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -104,7 +111,8 @@ public class MainMenuController extends MenuController {
         renderer,
         gameModel,
         imageProvider,
-        filename -> this.worldSaveModel.save(world, filename)
+        filename -> this.worldSaveModel.save(world, filename),
+        config
     );
     tickEvent.registerListener(parameter -> hud.updateIcons());
     tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
@@ -112,12 +120,18 @@ public class MainMenuController extends MenuController {
     wonEvent.registerListener(parameter -> {
       gameModel.stopGame();
       renderer.stop();
-      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "You have Won"));
+      this.main.loadMenu(new GameEndMenu(this.main,
+          this.mainMenu,
+          "You have Won",
+          config));
     });
     lostEvent.registerListener(parameter -> {
       gameModel.stopGame();
       renderer.stop();
-      this.main.loadMenu(new GameEndMenu(this.main, this.mainMenu, "YOU LOST YOUR BAD HAHA"));
+      this.main.loadMenu(new GameEndMenu(this.main,
+          this.mainMenu,
+          "You have lost",
+          config));
     });
     renderer.start();
     gameModel.startGame();

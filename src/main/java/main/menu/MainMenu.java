@@ -100,7 +100,7 @@ public class MainMenu extends Menu {
         BufferedImage.TYPE_4BYTE_ABGR);
     Graphics g = empty.getGraphics();
     g.setColor(config.getBaseFogOfWarColor());
-    g.drawRect(0,0, empty.getWidth(), empty.getHeight());
+    g.fillRect(0,0, empty.getWidth(), empty.getHeight());
     this.imageView.setImage(SwingFXUtils.toFXImage(empty, null));
   }
 }

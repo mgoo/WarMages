@@ -4,6 +4,7 @@ import java.util.Optional;
 
 /**
  * Generates script for displaying alerts for saving.
+ *
  * @author Andrew McGhie
  */
 public class SaveFileAlertGenerator extends ScriptGenerator {

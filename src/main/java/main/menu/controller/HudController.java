@@ -11,6 +11,7 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.menu.MenuController;
 import main.game.view.DefaultGameView;
+import main.common.util.Config;
 import main.menu.MainMenu;
 import main.menu.generators.SaveFileAlertGenerator;
 
@@ -26,17 +27,20 @@ public class HudController extends MenuController {
   final GameView gameView;
   final Renderer renderer;
   final SaveFunction saveFunction;
+  private final Config config;
 
   public HudController(Main main,
                        MainMenu mainMenu,
                        GameView gameView,
                        Renderer renderer,
-                       SaveFunction saveFunction) {
+                       SaveFunction saveFunction,
+                       Config config) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.gameView = gameView;
     this.renderer = renderer;
     this.saveFunction = saveFunction;
+    this.config = config;
   }
 
   /**
@@ -49,7 +53,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.unitClick(unit, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -63,7 +71,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.abilityClick(ability, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -77,7 +89,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.itemClick(item, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -88,7 +104,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.onLeftClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -105,7 +125,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.onDrag(x1, y1, x2, y2, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -116,7 +140,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.onRightClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -127,7 +155,11 @@ public class HudController extends MenuController {
     try {
       this.gameView.onDbClick(x, y, wasShiftDown, wasCtrlDown);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -151,7 +183,11 @@ public class HudController extends MenuController {
       gameView.pauseGame();
       renderer.pause();
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw new RuntimeException(e); // fails silently in production
+      }
     }
   }
 
@@ -163,7 +199,11 @@ public class HudController extends MenuController {
       this.gameView.resumeGame();
       renderer.resume();
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -176,7 +216,11 @@ public class HudController extends MenuController {
       this.gameView.stopGame();
       this.main.loadMenu(this.mainMenu);
     } catch (Exception e) {
-      e.printStackTrace();
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
@@ -198,6 +242,12 @@ public class HudController extends MenuController {
               .setMesg(e.getMessage())
               .getScript()
       );
+    } catch (Exception e) {
+      if (this.config.isDebugMode()) {
+        e.printStackTrace();
+      } else {
+        throw e; // fails silently in production
+      }
     }
   }
 
