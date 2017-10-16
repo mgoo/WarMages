@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import main.common.GameView;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
@@ -31,7 +32,7 @@ public class FogOfWarView implements Renderable {
   /**
    * Recalculates what the fog of war should cover and what it should display.
    */
-  void calculate(Collection<UnitView> unitViews, DefaultGameView gameView, long currentTime) {
+  void calculate(Collection<UnitView> unitViews, GameView gameView, long currentTime) {
     this.fowMask = new BufferedImage((int)this.size.width,
         (int)this.size.height,
         BufferedImage.TYPE_4BYTE_ABGR);
