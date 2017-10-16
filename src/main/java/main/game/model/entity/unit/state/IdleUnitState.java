@@ -46,7 +46,7 @@ public class IdleUnitState extends UnitState {
 
   @Override
   public void onTakeDamage(double amount, World world, Unit attacker) {
-    if (unit.getHealth() == 0) {
+    if (unit.getHealth() == 0 || attacker.getHealth() == 0) {
       return;
     }
 
