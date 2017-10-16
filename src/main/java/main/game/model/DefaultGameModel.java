@@ -3,16 +3,17 @@ package main.game.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import main.common.GameModel;
+import main.common.World;
+import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
+import main.common.entity.Unit;
+import main.common.util.Events;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
-import main.common.entity.Entity;
-import main.common.entity.Unit;
-import main.common.util.Looper;
-import main.common.World;
-import main.common.util.Events;
 import main.common.util.Events.MainGameTick;
+import main.common.util.Looper;
 
 /**
  * Implementation of GameModel.
@@ -64,7 +65,7 @@ public class DefaultGameModel implements GameModel {
 
   @Override
   public void setUnitSelection(Collection<Unit> unitSelection) {
-    selectedUnits = new HashSet<>(unitSelection);
+    selectedUnits = Collections.unmodifiableSet(new HashSet<>(unitSelection));
     if (selectedUnits.contains(null)) {
       throw new NullPointerException();
     }
@@ -77,7 +78,9 @@ public class DefaultGameModel implements GameModel {
 
   @Override
   public void addToUnitSelection(Unit unit) {
-    this.selectedUnits.add(unit);
+    Set<Unit> units = new HashSet<>(this.selectedUnits);
+    units.add(unit);
+    this.selectedUnits = Collections.unmodifiableSet(units);
   }
 
   @Override
