@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javafx.scene.image.ImageView;
+import main.common.GameView;
 import main.common.entity.HeroUnit;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
@@ -12,13 +13,13 @@ import main.game.model.DefaultGameModel;
 import main.common.GameModel;
 import main.common.World;
 import main.common.util.MapPoint;
-import main.game.view.GameView;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.KeyEvent;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
-import main.game.view.events.UnitIconClick;
+import main.common.events.AbilityIconClick;
+import main.common.events.ItemIconClick;
+import main.common.events.KeyEvent;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
+import main.common.events.UnitIconClick;
+import main.game.view.DefaultGameView;
 import main.images.DefaultImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
@@ -102,17 +103,17 @@ public class RendererTestUtils {
   }
 
   /**
-   * Creates a mock GameView used for testing.
+   * Creates a mock DefaultGameView used for testing.
    *
-   * @return mock GameView
+   * @return mock DefaultGameView
    */
   public static GameView createGameView(Config c, GameController gc, GameModel gm) {
     World world = mock(World.class);
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
-    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), new Event<>(), world);
-    gv.updateRenderables(c.getGameModelDelay());
+    GameView gv = new DefaultGameView(c, gc, gm, new DefaultImageProvider(), world);
+    gv.onTick((long)c.getGameModelDelay());
     return gv;
   }
 }

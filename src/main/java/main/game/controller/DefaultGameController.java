@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.common.GameController;
+import main.common.GameView;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.usable.Item;
@@ -16,16 +17,16 @@ import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.GameModel;
 import main.common.exceptions.UsableStillInCoolDownException;
-import main.game.view.GameView;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.KeyEvent;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
-import main.game.view.events.UnitIconClick;
+import main.common.events.AbilityIconClick;
+import main.common.events.ItemIconClick;
+import main.common.events.KeyEvent;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
+import main.common.events.UnitIconClick;
 
 /**
- * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
+ * Allows the user to control the game. Listens to user actions on the view
+ * {@link GameView}, e.g.
  * mouse and keyboard input, and calls methods on the model to respond to the user input.
  *
  * @author Hrshikesh Arora

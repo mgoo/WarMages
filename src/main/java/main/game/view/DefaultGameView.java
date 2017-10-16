@@ -10,12 +10,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import main.common.GameController;
 import main.common.GameModel;
+import main.common.GameView;
 import main.common.World;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
+import main.common.events.ItemIconClick;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
 import main.common.images.GameImageResource;
+import main.common.GameController;
+import main.common.entity.Entity;
+import main.common.GameModel;
+import main.game.view.EntityView.EntityRenderableComparator;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
@@ -23,12 +31,9 @@ import main.common.util.MapPoint;
 import main.common.util.MapPolygon;
 import main.common.util.MapRect;
 import main.game.view.EntityView.EntityRenderableComparator;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
-import main.game.view.events.UnitIconClick;
-import main.renderer.Renderable;
+import main.common.events.AbilityIconClick;
+import main.common.events.UnitIconClick;
+import main.common.Renderable;
 
 /**
  * A View of the Game.
@@ -37,7 +42,7 @@ import main.renderer.Renderable;
  *
  * @author Andrew McGhie
  */
-public class GameView {
+public class DefaultGameView implements GameView {
 
   private static final int SCROLL_AREA_WIDTH = 5;
 
@@ -46,7 +51,6 @@ public class GameView {
   private final GameController gameController;
   private final GameModel model;
   private final ImageProvider imageProvider;
-  private final Event<MouseClick> mouseClickEvent;
   private final World world;
 
   private MapRect viewBox;
@@ -66,17 +70,15 @@ public class GameView {
    * Constructor for game view sets the viewBox to start at origin 0,0.
    * @param config screen width and height must be set here
    */
-  public GameView(Config config,
-                  GameController gameController,
-                  GameModel model,
-                  ImageProvider imageProvider,
-                  Event<MouseClick> mouseClickEvent,
-                  World world) {
+  public DefaultGameView(Config config,
+                         GameController gameController,
+                         GameModel model,
+                         ImageProvider imageProvider,
+                         World world) {
     this.config = config;
     this.gameController = gameController;
     this.model = model;
     this.imageProvider = imageProvider;
-    this.mouseClickEvent = mouseClickEvent;
     this.world = world;
     MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
     this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
@@ -97,22 +99,18 @@ public class GameView {
     }
   }
 
-  /**
-   * Gets a list of the renderables.
-   *
-   * <p><b>N.B.</b> sorts the list so try to minimise calls.</p>
-   * @param currentTime the time stap for the render iteration
-   * @return unmodifiable sorted list
-   */
+  @Override
   public synchronized List<EntityView> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
   }
 
+  @Override
   public synchronized Renderable getFogOfWarView() {
     return this.fogOfWarView;
   }
 
+  @Override
   public synchronized Renderable getBackGroundView() {
     return this.backGroundView;
   }
@@ -121,7 +119,7 @@ public class GameView {
    * called when the Main Game Loop ticks. It updates the current renderables.
    * @param tickTime the time that the tick happened.
    */
-  public synchronized void updateRenderables(long tickTime) {
+  private synchronized void updateRenderables(long tickTime) {
     final Set<EntityView> toRemove = new HashSet<>();
     final Set<Entity> entitiesToAdd = new HashSet<>(this.model.getAllEntities());
 
@@ -187,10 +185,7 @@ public class GameView {
     }
   }
 
-  /**
-   * Ticks the gameView and also checks if game is completed.
-   * @param timeSinceLastTick time since last tick
-   */
+  @Override
   public void onTick(Long timeSinceLastTick) {
     this.updateRenderables(timeSinceLastTick);
     this.updateViewBoxPosition();
@@ -206,7 +201,7 @@ public class GameView {
   /**
    * Takes the position on the screen an turns it into the Map Point that it is on.
    */
-  public /*@ pure; non_null @*/ MapPoint pixToTile(double x, double y) {
+  private  /*@ pure; non_null @*/ MapPoint pixToTile(double x, double y) {
     int originAdjustedX = (int)(x + this.viewBox.x());
     int originAdjustedY = (int)(y + this.viewBox.y());
 
@@ -219,19 +214,20 @@ public class GameView {
     return new MapPoint(mapX, mapY);
   }
 
+  @Override
   public MapRect getViewBox() {
     return this.viewBox;
   }
 
+  @Override
   public void updateMousePosition(int x, int y) {
     this.mousePosition = new MapPoint(x, y);
   }
 
-  /**
-   * Triggers event for when Game View is clicked.
-   */
+
+  @Override
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return true;
@@ -254,15 +250,14 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers the drag event.
-   */
+
+  @Override
   public void onDrag(int x1, int y1, int x2, int y2, boolean wasShiftDown, boolean wasCtrlDown) {
     MapPolygon shape = new MapPolygon(this.pixToTile(new MapPoint(x1,y1)),
         this.pixToTile(new MapPoint(x2, y2)),
         this.pixToTile(new MapPoint(x1, y2)),
         this.pixToTile(new MapPoint(x2, y1)));
-    gameController.onMouseDrag(new MouseDrag() {
+    this.gameController.onMouseDrag(new MouseDrag() {
       @Override
       public boolean wasShiftDown() {
         return wasShiftDown;
@@ -281,11 +276,9 @@ public class GameView {
 
   }
 
-  /**
-   * Triggers event for when Game View is clicked.
-   */
+  @Override
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return false;
@@ -308,9 +301,7 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers the double click event.
-   */
+  @Override
   public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     this.gameController.onDbClick(new MouseClick() {
       @Override
@@ -335,11 +326,9 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers a key event.
-   */
+  @Override
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.gameController.onKeyPress(new main.game.view.events.KeyEvent() {
+    this.gameController.onKeyPress(new main.common.events.KeyEvent() {
       @Override
       public char getKey() {
         return key;
@@ -357,13 +346,14 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers the event when a units icon is clicked.
-   */
-  public void unitClick(Unit unit,
-                        boolean wasShiftDown,
-                        boolean wasCtrlDown,
-                        boolean wasLeftClick) {
+
+  @Override
+  public void unitClick(
+      Unit unit,
+      boolean wasShiftDown,
+      boolean wasCtrlDown,
+      boolean wasLeftClick
+  ) {
     this.gameController.onUnitIconClick(new UnitIconClick() {
       @Override
       public boolean wasShiftDown() {
@@ -387,13 +377,13 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers the event when a abilities icon is clicked.
-   */
-  public void abilityClick(Ability ability,
-                           boolean wasShiftDown,
-                           boolean wasCtrlDown,
-                           boolean wasLeftClick) {
+  @Override
+  public void abilityClick(
+      Ability ability,
+      boolean wasShiftDown,
+      boolean wasCtrlDown,
+      boolean wasLeftClick
+  ) {
     this.gameController.onAbilityIconClick(new AbilityIconClick() {
       @Override
       public Ability getAbility() {
@@ -417,13 +407,13 @@ public class GameView {
     });
   }
 
-  /**
-   * Triggers the event when a item icon is clicked.
-   */
-  public void itemClick(Item item,
-                        boolean wasShiftDown,
-                        boolean wasCtrlDown,
-                        boolean wasLeftClick) {
+  @Override
+  public void itemClick(
+      Item item,
+      boolean wasShiftDown,
+      boolean wasCtrlDown,
+      boolean wasLeftClick
+  ) {
     this.gameController.onItemIconClick(new ItemIconClick() {
       @Override
       public Item getItem() {
@@ -448,23 +438,17 @@ public class GameView {
     });
   }
 
-  /**
-   * Pauses the main game loop inside model.
-   */
+  @Override
   public void pauseGame() {
     model.pauseGame();
   }
 
-  /**
-   * Resumes the main game loop inside model.
-   */
+  @Override
   public void resumeGame() {
     model.resumeGame();
   }
 
-  /**
-   * Stops the main game loop inside model.
-   */
+  @Override
   public void stopGame() {
     model.stopGame();
   }
