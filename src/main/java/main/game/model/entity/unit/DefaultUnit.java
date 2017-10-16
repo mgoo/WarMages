@@ -298,6 +298,9 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public void setTargetUnit(Unit targetUnit) {
+    if (targetUnit.getHealth() == 0 || isDead) {
+      return;
+    }
     this.target = requireNonNull(targetUnit);
     setNextState(new WalkingUnitState(this, new EnemyUnitTarget(this, targetUnit)));
   }

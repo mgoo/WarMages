@@ -41,7 +41,10 @@ public enum Direction {
     return Arrays.stream(values())
         .filter(direction -> direction.isValidFor(degrees))
         .findAny()
-        .orElseThrow(() -> new AssertionError("Direction angle fields musn't be correct"));
+        .orElseGet(() -> {
+          new AssertionError("Direction angle fields musn't be correct").printStackTrace();
+          return DOWN;
+        });
   }
 
   private final double minDegrees;
