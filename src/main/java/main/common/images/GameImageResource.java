@@ -25,16 +25,12 @@ public enum GameImageResource {
 
   // Projectiles
   ARROW_PROJECTILE("images/projectiles/missile-e.png"),
-
   // Use this one as static image, rather than a sequence of images:
   FIREBALL_PROJECTILE("images/projectiles/fireball-impact-1.png"),
-
   WHITE_PROJECTILE("images/projectiles/whitemissile-impact-3.png"),
 
   // Tiles
   GRASS_TILE("images/tiles/grass.png"),
-
-
 
   // Map Entities (Landmark stuff)
   TREE_1(

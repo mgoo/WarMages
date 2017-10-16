@@ -65,7 +65,26 @@ public enum UnitType {
       );
     }
   },
-  LASER(20  * 0.06, 200, 8, 0.08, 5, 2, Sequence.SPELL_CAST) {
+  WHITE_LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+    @Override
+    public boolean canShootProjectiles() {
+      return true;
+    }
+
+    @Override
+    protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      MapSize creatorSize = creator.getSize();
+      return new DefaultProjectile(
+          creator.getCentre().translate(creatorSize.width * 0.15, creatorSize.height * 0.15),
+          new MapSize(0.5, 0.5),
+          target,
+          creator,
+          GameImageResource.WHITE_PROJECTILE.getGameImage(),
+          0.1
+      );
+    }
+  },
+  LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -79,7 +98,7 @@ public enum UnitType {
           new MapSize(0.5, 0.5),
           target,
           creator,
-          GameImageResource.WHITE_PROJECTILE.getGameImage(),
+          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           0.1
       );
     }

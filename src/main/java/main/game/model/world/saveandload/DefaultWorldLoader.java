@@ -366,7 +366,7 @@ public class DefaultWorldLoader implements WorldLoader {
         new MapPoint(3, 5),
         STANDARD_UNIT_SIZE,
         new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
-        UnitType.LASER,
+        UnitType.WHITE_LASER,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
@@ -447,6 +447,10 @@ public class DefaultWorldLoader implements WorldLoader {
               ),
               new DefaultUnit(new MapPoint(4, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(5, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET), UnitType.LASER,
                   1
               ),
               new DefaultUnit(new MapPoint(22, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
