@@ -131,7 +131,7 @@ public class EntityView implements Renderable {
     public int compare(EntityView er1, EntityView er2) {
       MapPoint er1Pos = er1.getEffectiveEntityPosition(this.currentTime);
       MapPoint er2Pos = er2.getEffectiveEntityPosition(this.currentTime);
-      return (int)((er1Pos.x + er1Pos.y) - (er2Pos.x + er2Pos.y));
+      return Double.compare(er1Pos.x + er1Pos.y,er2Pos.x + er2Pos.y);
     }
   }
 }
