@@ -31,6 +31,7 @@ import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.common.images.GameImageResource.FOUNTAIN;
 import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.common.images.GameImageResource.MAGE_CAPE_SPRITE_SHEET;
+import static main.common.images.GameImageResource.MAGE_WHITE_SPRITE_SHEET;
 import static main.common.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.common.images.GameImageResource.POTION_BLUE_ITEM;
@@ -364,8 +365,8 @@ public class DefaultWorldLoader implements WorldLoader {
     final HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(3, 5),
         STANDARD_UNIT_SIZE,
-        new DefaultUnitSpriteSheet(MAGE_CAPE_SPRITE_SHEET),
-        UnitType.MAGICIAN,
+        new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
+        UnitType.LASER,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
