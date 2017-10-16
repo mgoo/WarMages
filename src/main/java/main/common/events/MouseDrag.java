@@ -1,4 +1,4 @@
-package main.game.view.events;
+package main.common.events;
 
 import main.common.util.MapPolygon;
 

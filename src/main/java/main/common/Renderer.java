@@ -1,7 +1,6 @@
 package main.common;
 
 import javafx.scene.image.ImageView;
-import main.game.view.GameView;
 
 /**
  * Renders all renderables onto a canvas and supplies the Renderable interface. Ideally it will use

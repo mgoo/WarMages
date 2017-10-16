@@ -3,6 +3,7 @@ package main.game.view;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Comparator;
+import main.common.Renderable;
 import main.common.entity.Entity;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
@@ -13,7 +14,7 @@ import main.common.util.MapSize;
  * View of an entity.
  * @author Andrew McGhie
  */
-public class EntityView implements main.renderer.Renderable {
+public class EntityView implements Renderable {
 
   final Config config;
 
@@ -131,7 +132,7 @@ public class EntityView implements main.renderer.Renderable {
     public int compare(EntityView er1, EntityView er2) {
       MapPoint er1Pos = er1.getEffectiveEntityPosition(this.currentTime);
       MapPoint er2Pos = er2.getEffectiveEntityPosition(this.currentTime);
-      return (int)((er1Pos.x + er1Pos.y) - (er2Pos.x + er2Pos.y));
+      return Double.compare(er1Pos.x + er1Pos.y,er2Pos.x + er2Pos.y);
     }
   }
 }

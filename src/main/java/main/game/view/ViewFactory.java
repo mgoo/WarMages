@@ -1,13 +1,15 @@
 package main.game.view;
 
 import java.awt.image.BufferedImage;
+import main.common.GameView;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.entity.Entity;
 import main.common.entity.Unit;
 
 /**
- * creates views.
+ * Makes Views.
+ *
  * @author Andrew McGhie
  */
 class ViewFactory {

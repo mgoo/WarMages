@@ -1,9 +1,9 @@
-package main.game.view.events;
+package main.common.events;
 
 import main.common.util.MapPoint;
 
 /**
- * Data class for when a Mouse Button is clicked on the GameView rather than the HUD.
+ * Data class for when a Mouse Button is clicked on the DefaultGameView rather than the HUD.
  *
  * @author Andrew McGhie
  */

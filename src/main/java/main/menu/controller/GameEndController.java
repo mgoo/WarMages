@@ -1,6 +1,7 @@
 package main.menu.controller;
 
 import main.Main;
+import main.common.menu.MenuController;
 import main.common.util.Config;
 import main.menu.MainMenu;
 

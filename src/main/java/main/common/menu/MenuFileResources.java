@@ -1,4 +1,4 @@
-package main.menu;
+package main.common.menu;
 
 /**
  * All the html/css/js resources used on the web engine (currently only contains stuff for menus).

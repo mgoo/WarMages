@@ -31,6 +31,7 @@ import static main.common.images.GameImageResource.FOOT_KNIGHT_SPRITE_SHEET;
 import static main.common.images.GameImageResource.FOUNTAIN;
 import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static main.common.images.GameImageResource.MAGE_CAPE_SPRITE_SHEET;
+import static main.common.images.GameImageResource.MAGE_WHITE_SPRITE_SHEET;
 import static main.common.images.GameImageResource.MALE_MAGE_SPRITE_SHEET;
 import static main.common.images.GameImageResource.ORC_SPEARMAN_SPRITE_SHEET;
 import static main.common.images.GameImageResource.POTION_BLUE_ITEM;
@@ -50,13 +51,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Function;
 import main.common.GameModel;
 import main.common.WorldLoader;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
+import main.common.entity.Projectile;
 import main.common.entity.Team;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
@@ -289,7 +290,7 @@ public class DefaultWorldLoader implements WorldLoader {
   /**
    * Creates a new {@link GameModel} with the single level and example data.
    * This level doesn't have a wall of {@link MapEntity}s around the bounds.
-   * This should have every non {@link main.game.model.entity.Projectile} {@link Entity} in the
+   * This should have every non {@link Projectile} {@link Entity} in the
    * {@link main.game.model.entity} package for maximum coverage in tests.
    */
   public World loadSingleLevelTestWorld() {
@@ -302,7 +303,7 @@ public class DefaultWorldLoader implements WorldLoader {
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 3,
-                30
+                20
             )
         ),
         3
@@ -364,12 +365,12 @@ public class DefaultWorldLoader implements WorldLoader {
     final HeroUnit heroUnit = new DefaultHeroUnit(
         new MapPoint(3, 5),
         STANDARD_UNIT_SIZE,
-        new DefaultUnitSpriteSheet(MAGE_CAPE_SPRITE_SHEET),
-        UnitType.MAGICIAN,
+        new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
+        UnitType.WHITE_LASER,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                20, 90
+                15, 100
             )
         ),
         3
@@ -377,7 +378,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
     LinkedList<Level> levels = new LinkedList<>();
 
-    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(45, 11));
+    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(48, 15));
     Collection<MapEntity> boundEntities =
         generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt);
     boundEntities.add(makeBuilding(14, 3));
@@ -448,6 +449,10 @@ public class DefaultWorldLoader implements WorldLoader {
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER,
                   1
               ),
+              new DefaultUnit(new MapPoint(5, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET), UnitType.LASER,
+                  1
+              ),
               new DefaultUnit(new MapPoint(22, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
                   1
@@ -460,6 +465,10 @@ public class DefaultWorldLoader implements WorldLoader {
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
                   1
               ),
+              new DefaultUnit(new MapPoint(23.5, 7), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
               new DefaultUnit(new MapPoint(23, 4.5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
@@ -469,34 +478,24 @@ public class DefaultWorldLoader implements WorldLoader {
               new DefaultUnit(new MapPoint(23, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new DefaultUnit(new MapPoint(24, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new DefaultUnit(new MapPoint(24, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new DefaultUnit(new MapPoint(24, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(23, 6.6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
-
           ),
           Arrays.asList(
               new DefaultItem(
-                  new MapPoint(21, 5),
+                  new MapPoint(19, 6),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                      30, 30
+                      25, 30
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               )
           ),
           Arrays.asList(
-              makeBarrel(16, 7),
-              makeBarrel(16.4, 7),
-              makeBarrel(16, 7.5),
-              makeBarrel(16, 6.4),
-              makeBarrel(16.4, 6.2),
-              makeBarrel(16.5, 7.5),
               makeBarrel(17, 8),
               makeBarrel(16.4, 8.5),
               makeBarrel(16.5, 9),
@@ -521,7 +520,11 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(29, 6.5)
           ),
           new Goal.AllEnemiesKilled(),
-          "Some Archer have joined your cause<br>Try out your new archers on the new enemies"
+          "Some Archer have joined your cause<br>"
+              + "Try out your new archers on the new enemies<br>"
+              + "<br>"
+              + "To use abilities: <b>Left-Click</b> the icon then <b>Left-Click</b> a unit"
+
       ));
     }
 
@@ -572,15 +575,50 @@ public class DefaultWorldLoader implements WorldLoader {
               new DefaultUnit(new MapPoint(26, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
               ),
+              new DefaultUnit(new MapPoint(26, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new DefaultUnit(new MapPoint(27, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(27, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(27, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
               new DefaultUnit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
               ),
               new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
+              new DefaultUnit(new MapPoint(35, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(35, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(34, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
               new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-                  1
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(34, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(35, 3.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(35, 4.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(35, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(35, 6.5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new DefaultUnit(new MapPoint(36, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN,

@@ -2,9 +2,6 @@ package test.game.view;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,12 +12,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import main.game.view.DefaultGameView;
+import main.common.GameView;
 import main.common.entity.HeroUnit;
 import main.common.GameController;
-import main.game.model.Level;
-import main.game.view.GameView;
+import main.common.events.AbilityIconClick;
+import main.common.events.ItemIconClick;
+import main.common.events.KeyEvent;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
+import main.common.events.UnitIconClick;
 import main.common.GameModel;
 import main.common.entity.Unit;
 import main.common.entity.Entity;
@@ -29,22 +31,15 @@ import main.common.images.GameImage;
 import main.common.images.GameImageResource;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
-import main.common.util.Event;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.MapRect;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.KeyEvent;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
-import main.game.view.events.UnitIconClick;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * tests for the GameView class.
+ * tests for the DefaultGameView class.
  *
  * <p>checks position, initial load and image size.</p>
  *
@@ -90,10 +85,8 @@ public class GameViewTest {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
-    Level level = mock(Level.class); // TODO use interface rather than concreet
-    when(level.getBounds()).thenReturn(new MapRect(-100, -100, 200, 200));
-    when(world.getCurrentLevel()).thenReturn(level);
-    this.gameView = new GameView(config,
+    when(world.getCurrentLevelBounds()).thenReturn(new MapRect(-100, -100, 200, 200));
+    this.gameView = new DefaultGameView(config,
         gameControllerMock,
         gameModelMock,
         imageProvider,
@@ -117,14 +110,6 @@ public class GameViewTest {
         this.gameView.getViewBox().bottomRight.x + config.getGameViewScrollSpeed());
     assertEquals(originalView.bottomRight.y + config.getGameViewScrollSpeed(),
         this.gameView.getViewBox().bottomRight.y + config.getGameViewScrollSpeed());
-  }
-
-  @Test
-  public void testPixToTile() {
-    assertEquals(new MapPoint(1, 1), this.gameView.pixToTile(new MapPoint(0, 50)));
-    assertEquals(new MapPoint(1, 0), this.gameView.pixToTile(new MapPoint(25, 25)));
-    assertEquals(new MapPoint(0, 1), this.gameView.pixToTile(new MapPoint(-25, 25)));
-    assertEquals(new MapPoint(7, 5), this.gameView.pixToTile(new MapPoint(50, 300)));
   }
 
   @Test
