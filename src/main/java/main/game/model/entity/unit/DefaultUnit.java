@@ -192,7 +192,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     } else {
       isDead = true;
       health = 0;
-      setNextState(new DyingState(Sequence.DYING, this));
+      unitState = new DyingState(Sequence.DYING, this);
       return true;
     }
   }
