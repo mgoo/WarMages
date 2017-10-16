@@ -16,11 +16,13 @@ import main.menu.generators.ScriptFileGenerator;
 public class GameEndMenu extends Menu {
 
   private final MainMenu mainMenu;
+  private final Main main;
   private final String message;
 
 
+
   public GameEndMenu(Main main,  MainMenu mainMenu, String message, Config config) {
-    super(main);
+    this.main = main;
     this.message = message;
     this.mainMenu = mainMenu;
     this.menuController = new GameEndController(main, mainMenu, config);

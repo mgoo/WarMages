@@ -39,6 +39,7 @@ import main.common.Renderer;
  */
 public class Hud extends Menu {
 
+  private final Main main;
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
@@ -51,7 +52,7 @@ public class Hud extends Menu {
              ImageProvider imageProvider,
              SaveFunction saveFunction,
              Config config) {
-    super(main);
+    this.main = main;
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
     this.menuController = new HudController(main,

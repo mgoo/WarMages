@@ -23,6 +23,7 @@ import main.menu.generators.ScriptFileGenerator;
  */
 public class MainMenu extends Menu {
 
+  private final Main main;
   private final WorldSaveModel worldSaveModel;
   private final ImageView imageView;
   private final Config config;
@@ -35,7 +36,7 @@ public class MainMenu extends Menu {
                   WorldSaveModel worldSaveModel,
                   ImageView imageView,
                   Config config) {
-    super(main);
+    this.main = main;
     this.worldSaveModel = worldSaveModel;
     this.imageView = imageView;
     this.config = config;
