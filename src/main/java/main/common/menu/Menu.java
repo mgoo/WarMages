@@ -12,12 +12,7 @@ import main.Main;
  */
 public abstract class Menu {
 
-  protected final Main main;
   protected MenuController menuController;
-
-  public Menu(Main main) {
-    this.main = main;
-  }
 
   /**
    * Turns a file into a string.
