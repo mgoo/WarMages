@@ -1,10 +1,11 @@
 package main.game.view;
 
 import java.awt.image.BufferedImage;
+import main.common.GameView;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.renderer.Renderable;
+import main.common.Renderable;
 
 /**
  * The View for the background.

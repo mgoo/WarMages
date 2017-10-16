@@ -6,10 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import main.common.GameView;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.renderer.Renderable;
+import main.common.Renderable;
 
 /**
  * Represents the fog of war that covers anything that the player doesnt have a unit close enough.

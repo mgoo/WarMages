@@ -1,12 +1,11 @@
 package main.common;
 
-import main.game.view.GameView;
-import main.game.view.events.AbilityIconClick;
-import main.game.view.events.ItemIconClick;
-import main.game.view.events.KeyEvent;
-import main.game.view.events.MouseClick;
-import main.game.view.events.MouseDrag;
-import main.game.view.events.UnitIconClick;
+import main.common.events.AbilityIconClick;
+import main.common.events.ItemIconClick;
+import main.common.events.KeyEvent;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
+import main.common.events.UnitIconClick;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view {@link GameView}, e.g.
