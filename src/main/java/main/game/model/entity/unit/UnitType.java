@@ -79,7 +79,7 @@ public enum UnitType {
           new MapSize(0.5, 0.5),
           target,
           creator,
-          GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          GameImageResource.WHITE_PROJECTILE.getGameImage(),
           0.1
       );
     }
