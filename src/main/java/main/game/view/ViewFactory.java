@@ -1,6 +1,7 @@
 package main.game.view;
 
 import java.awt.image.BufferedImage;
+import main.common.GameView;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.entity.Entity;
@@ -26,7 +27,7 @@ public class ViewFactory {
   }
 
   static BackGroundView makeBackGroundView(Config config,
-                                           DefaultGameView gameView,
+                                           GameView gameView,
                                            BufferedImage baseImage) {
     return new BackGroundView(config, gameView, baseImage);
   }
