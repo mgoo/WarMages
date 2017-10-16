@@ -6,7 +6,9 @@ import main.menu.generators.ScriptFileGenerator;
 import org.junit.Test;
 
 /**
- * Created by mgoo on 1/10/17.
+ * Test script file generator.
+ * 
+ * @author Andrew McGhie
  */
 public class ScriptFileGeneratorTest {
 

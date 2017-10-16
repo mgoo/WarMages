@@ -39,7 +39,7 @@ public class AttackingUnitStateTest {
     AtomicInteger attackCount = new AtomicInteger(0);
     doAnswer(invocation -> 1 == attackCount.incrementAndGet())
         .when(target)
-        .takeDamage(anyDouble(), any());
+        .takeDamage(anyDouble(), any(), any());
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
     when(unit.getSize()).thenReturn(new MapSize(1, 1));

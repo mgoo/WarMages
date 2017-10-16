@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 import main.common.entity.Direction;
+import main.common.entity.Unit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitImagesComponent;
 import main.common.World;
@@ -66,4 +67,8 @@ public abstract class UnitState implements Serializable {
    * Gets the next state or this if no change was requested.
    */
   public abstract UnitState updateState();
+
+  public void onTakeDamage(double amount, World world, Unit attacker) {
+    // do nothing
+  }
 }

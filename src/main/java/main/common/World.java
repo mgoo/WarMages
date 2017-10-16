@@ -5,11 +5,11 @@ import java.util.List;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
+import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
-import main.game.model.Level;
-import main.game.model.entity.Projectile;
+import main.common.util.MapRect;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -39,7 +39,7 @@ public interface World {
   Collection<Entity> getAllEntities();
 
   /**
-   * Gets all map entities in the world, including {@link Level#borderEntities}.
+   * Gets all map entities in the world, including borderEntities from Levels.
    *
    * @return an unmodifiable collection of all the mapEntities.
    */
@@ -100,5 +100,5 @@ public interface World {
   /**
    * Gets the current active level.
    */
-  Level getCurrentLevel();
+  MapRect getCurrentLevelBounds();
 }

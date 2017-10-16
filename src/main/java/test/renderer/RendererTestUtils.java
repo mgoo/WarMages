@@ -112,7 +112,7 @@ public class RendererTestUtils {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
-    GameView gv = new DefaultGameView(c, gc, gm, new DefaultImageProvider(), new Event<>(), world);
+    GameView gv = new DefaultGameView(c, gc, gm, new DefaultImageProvider(), world);
     gv.onTick((long)c.getGameModelDelay());
     return gv;
   }
