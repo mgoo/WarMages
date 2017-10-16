@@ -2,10 +2,10 @@ package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import main.common.World;
 import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -18,7 +18,6 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.unit.state.DyingState;
 import main.game.model.entity.unit.state.IdleUnitState;
-import main.common.World;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.unit.state.WalkingUnitState;
 import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
@@ -175,13 +174,15 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public boolean takeDamage(double amount, World world) {
+  public boolean takeDamage(double amount, World world, Unit attacker) {
     if (isDead) {
       return false;
     }
     if (amount < 0) {
       throw new IllegalArgumentException("Amount: " + amount);
     }
+
+    unitState.onTakeDamage(amount, world, attacker);
 
     if (health - amount > 0) {
       // Not dead

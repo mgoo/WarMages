@@ -10,7 +10,10 @@ import static test.game.model.entity.DefaultUnitTest.getHeroUnit;
 
 import java.util.Collections;
 import main.common.GameModel;
+import main.common.World;
 import main.common.entity.HeroUnit;
+import main.common.entity.Team;
+import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Item;
 import main.common.exceptions.UsableStillInCoolDownException;
@@ -24,7 +27,6 @@ import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.usable.HealAbility;
-import main.common.World;
 import org.junit.Test;
 import test.game.model.entity.StubUnitSpriteSheet;
 
@@ -103,9 +105,18 @@ public class UsablesTest {
     World world = mock(World.class);
     when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
     when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
+    // and an enemy
+    Unit enemy = new DefaultUnit(
+        heroUnit.getCentre(),
+        heroUnit.getSize(),
+        Team.ENEMY,
+        new StubUnitSpriteSheet(),
+        UnitType.SWORDSMAN,
+        1
+    );
 
     // when the hero takes damage
-    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld);
+    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld, enemy);
     double lowHealth = heroUnit.getHealth();
     // and the heal is used
     healer.use(world, Collections.singletonList(heroUnit));

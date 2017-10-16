@@ -85,7 +85,7 @@ public class AttackingUnitState extends UnitState {
       world.addProjectile(projectile);
     } else {
       // Non projectile attack (e.g. spear)
-      boolean killed = target.takeDamage(unit.getDamageAmount(), world);
+      boolean killed = target.takeDamage(unit.getDamageAmount(), world, unit);
       if (killed) {
         unit.nextLevel();
       }
