@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Collections;
 import main.common.Renderable;
 import main.common.World;
+import main.common.entity.DeadUnit;
 import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -14,7 +15,6 @@ import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.entity.unit.DeadUnit;
 import main.game.model.entity.unit.UnitType;
 import org.junit.Before;
 import org.junit.Test;
@@ -151,7 +151,12 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public UnitType getType() {
+    public boolean isSameTypeAs(Unit other) {
+      return false;
+    }
+
+    @Override
+    public String getType() {
       return null;
     }
 
