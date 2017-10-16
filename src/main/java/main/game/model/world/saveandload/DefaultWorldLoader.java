@@ -303,7 +303,7 @@ public class DefaultWorldLoader implements WorldLoader {
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
                 3,
-                30
+                20
             )
         ),
         3
@@ -370,7 +370,7 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                20, 150
+                15, 100
             )
         ),
         3
@@ -489,18 +489,12 @@ public class DefaultWorldLoader implements WorldLoader {
                   new MapPoint(15, 6),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                      30, 30
+                      25, 30
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               )
           ),
           Arrays.asList(
-              makeBarrel(16, 7),
-              makeBarrel(16.4, 7),
-              makeBarrel(16, 7.5),
-              makeBarrel(16, 6.4),
-              makeBarrel(16.4, 6.2),
-              makeBarrel(16.5, 7.5),
               makeBarrel(17, 8),
               makeBarrel(16.4, 8.5),
               makeBarrel(16.5, 9),
