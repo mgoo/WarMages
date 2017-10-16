@@ -94,7 +94,7 @@ public enum UnitType {
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       MapSize creatorSize = creator.getSize();
       return new DefaultProjectile(
-          creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
+          creator.getCentre().translate(creatorSize.width * 0.22, creatorSize.height * 0.22),
           new MapSize(0.5, 0.5),
           target,
           creator,
