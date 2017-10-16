@@ -24,10 +24,8 @@ public enum GameImageResource {
   WHITE_BALL_ITEM("images/projectiles/whitemissile-impact-3.png"),
 
   // Projectiles
-  //   NOTE: For consistency, if there are projectiles that have a direction (e.g. an arrow),
-  //   the image should have the projectile pointing upwards.
+  ARROW_PROJECTILE("images/projectiles/missile-e.png"),
   // Use this one as static image, rather than a sequence of images:
-  ARROW_PROJECTILE("images/projectiles/missile-n.png"),
   FIREBALL_PROJECTILE("images/projectiles/fireball-impact-1.png"),
 
   // Tiles
