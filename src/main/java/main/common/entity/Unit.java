@@ -19,7 +19,7 @@ public interface Unit extends Entity {
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
    * @return returns true if the entity died
    */
-  boolean takeDamage(double amount, World world);
+  boolean takeDamage(double amount, World world, Unit attacker);
 
   /**
    * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
