@@ -35,13 +35,26 @@ public class IdleUnitState extends UnitState {
         .orElse(null);
     if (enemyOrNull != null) {
       // Assume that walking state will switch to attacking state if unit is close enough.
-      requestState(new WalkingUnitState(unit, new EnemyUnitTarget(unit, enemyOrNull)));
+      requestAttackUnit(enemyOrNull);
     }
   }
 
   @Override
   public UnitState updateState() {
     return (requestedNextState == null) ? this : requestedNextState;
+  }
+
+  @Override
+  public void onTakeDamage(double amount, World world, Unit attacker) {
+    if (unit.getHealth() == 0) {
+      return;
+    }
+
+    requestAttackUnit(attacker);
+  }
+
+  private void requestAttackUnit(Unit enemy) {
+    requestState(new WalkingUnitState(unit, new EnemyUnitTarget(unit, enemy)));
   }
 
   private double distanceToUnit(Unit target) {
