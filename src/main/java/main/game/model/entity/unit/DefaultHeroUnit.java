@@ -2,21 +2,19 @@ package main.game.model.entity.unit;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import main.common.World;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
+import main.common.entity.usable.Ability;
+import main.common.entity.usable.Item;
+import main.common.exceptions.ItemNotInRangeException;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.exceptions.ItemNotInRangeException;
-import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.DefaultUnit;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.World;
 
 /**
  * Default implementation of HeroUnit.
@@ -29,7 +27,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private final List<Ability> abilities;
 
-  private List<Item> itemInventory = new ArrayList<>();
+  private List<Item> itemInventory = new CopyOnWriteArrayList<>();
 
   /**
    * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
@@ -48,7 +46,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
       int level
   ) {
     super(position, size, Team.PLAYER, sheet, type, level);
-    this.abilities = new ArrayList<>(abilities);
+    this.abilities = new CopyOnWriteArrayList<>(abilities);
   }
 
   /**
