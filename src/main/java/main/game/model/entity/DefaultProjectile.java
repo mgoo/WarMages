@@ -101,7 +101,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   @Override
   public void hitTarget(World world) {
-    boolean killed = target.takeDamage(damageAmount, world);
+    boolean killed = target.takeDamage(damageAmount, world, owner);
     if (killed) {
       this.owner.nextLevel();
     }
