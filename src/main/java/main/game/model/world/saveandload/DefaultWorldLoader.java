@@ -378,7 +378,7 @@ public class DefaultWorldLoader implements WorldLoader {
 
     LinkedList<Level> levels = new LinkedList<>();
 
-    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(45, 11));
+    MapRect bounds = new MapRect(new MapPoint(0, 0), new MapPoint(48, 15));
     Collection<MapEntity> boundEntities =
         generateBorderEntities(bounds, DefaultWorldLoader::newBorderEntityAt);
     boundEntities.add(makeBuilding(14, 3));
@@ -580,14 +580,17 @@ public class DefaultWorldLoader implements WorldLoader {
               new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
-              new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(35, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(35, 3), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               ),
               new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
                   1
               ),
-              new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+              new DefaultUnit(new MapPoint(34, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
                   1
               ),
