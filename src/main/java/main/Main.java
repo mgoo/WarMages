@@ -22,11 +22,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import main.common.util.Config;
-import main.common.util.Event;
 import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
-import main.common.events.MouseClick;
 import main.menu.MainMenu;
 import main.common.menu.Menu;
 import netscape.javascript.JSObject;
@@ -36,7 +34,6 @@ import netscape.javascript.JSObject;
  * logic.
  */
 public class Main extends Application {
-  private static boolean isDebugging = false;
 
   /**
    * Start the app.
@@ -49,8 +46,6 @@ public class Main extends Application {
   private Robot robot = new Robot();
   private WebEngine webEngine;
   private Menu currentMenu;
-
-  private final Event<MouseClick> mouseClickEvent = new Event<>();
 
   public Scene scene;
 
@@ -82,6 +77,10 @@ public class Main extends Application {
     primaryStage.setFullScreenExitHint("");
     primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     primaryStage.setAlwaysOnTop(true);
+    primaryStage.setOnCloseRequest(t -> {
+      Platform.exit();
+      System.exit(0);
+    });
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 
@@ -138,8 +137,6 @@ public class Main extends Application {
 
     browser.setOnMouseExited(event -> keepMouseInWindow());
     browser.setOnMouseMoved(event -> this.currentMenu.getMenuController().onMouseMove(event));
-
-    primaryStage.setOnCloseRequest(e -> System.exit(0));
 
     root.getChildren().setAll(imageView, browser);
     scene.setRoot(root);

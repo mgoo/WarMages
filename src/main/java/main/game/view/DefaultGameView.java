@@ -57,8 +57,9 @@ public class DefaultGameView implements GameView {
   private MapPoint mousePosition;
 
   /**
-   * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
-   * main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying, if
+   * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while
+   * {@link main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying,
+   * if
    * adding a large amount of items to this list, prefer using {@link List#addAll(Collection)}
    * rather than calling {@link List#add(Object)} for each element.
    */
@@ -71,10 +72,11 @@ public class DefaultGameView implements GameView {
    * @param config screen width and height must be set here
    */
   public DefaultGameView(Config config,
-                         GameController gameController,
-                         GameModel model,
-                         ImageProvider imageProvider,
-                         World world) {
+                  GameController gameController,
+                  GameModel model,
+                  ImageProvider imageProvider,
+
+                  World world) {
     this.config = config;
     this.gameController = gameController;
     this.model = model;

@@ -4,11 +4,13 @@ import java.io.File;
 import main.Main;
 import main.common.menu.Menu;
 import main.common.menu.MenuFileResources;
+import main.common.util.Config;
 import main.menu.controller.GameEndController;
 import main.menu.generators.ScriptFileGenerator;
 
 /**
  * This menu is displayed when the game finishes.
+ *
  * @author Andrew McGhie
  */
 public class GameEndMenu extends Menu {
@@ -17,11 +19,11 @@ public class GameEndMenu extends Menu {
   private final String message;
 
 
-  public GameEndMenu(Main main,  MainMenu mainMenu, String message) {
+  public GameEndMenu(Main main,  MainMenu mainMenu, String message, Config config) {
     super(main);
     this.message = message;
     this.mainMenu = mainMenu;
-    this.menuController = new GameEndController(main, mainMenu);
+    this.menuController = new GameEndController(main, mainMenu, config);
   }
 
   @Override

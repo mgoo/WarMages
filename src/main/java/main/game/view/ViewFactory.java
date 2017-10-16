@@ -12,7 +12,7 @@ import main.common.entity.Unit;
  *
  * @author Andrew McGhie
  */
-public class ViewFactory {
+class ViewFactory {
 
   static EntityView makeEntityView(Config config, Entity entity, ImageProvider imageProvider) {
     if (entity instanceof Unit) {

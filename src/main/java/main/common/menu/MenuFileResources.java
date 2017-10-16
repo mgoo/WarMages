@@ -2,6 +2,7 @@ package main.common.menu;
 
 /**
  * All the html/css/js resources used on the web engine (currently only contains stuff for menus).
+ * @author Andrew McGhie
  */
 public enum MenuFileResources {
   JQUERY_JS("resources/html/js/jquery-3.2.1.min.js"),
