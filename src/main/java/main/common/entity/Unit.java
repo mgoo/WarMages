@@ -88,6 +88,13 @@ public interface Unit extends Entity {
   boolean isSameTypeAs(Unit other);
 
   /**
+   * Returns the string representation of the Unit's type.
+   *
+   * @return string type of unit.
+   */
+  String getType();
+
+  /**
    * Elevates the unit to the next level.
    */
   void nextLevel();

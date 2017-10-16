@@ -150,7 +150,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
     hasCreatedDeadUnit = true;
     GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DeadUnit(getTopLeft(), getSize(), deadImage);
+    return new DefaultDeadUnit(getTopLeft(), getSize(), deadImage);
   }
 
   @Override
@@ -334,8 +334,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public boolean isSameTypeAs(Unit other) {
-    //todo fix - other's unitType is not accessible?!
-//    return this.unitType == other.unitType;
+    return this.unitType.toString().equals(other.getType());
   }
 
   public double getSpeed() {
@@ -353,8 +352,9 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return this.levelMultiplyer(attackDistance);
   }
 
-  public UnitType getType() {
-    return this.unitType;
+  @Override
+  public String getType() {
+    return this.unitType.toString();
   }
 
   @Override
