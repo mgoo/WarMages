@@ -1,24 +1,24 @@
 package main.game.model.entity.unit;
 
+import main.common.World;
+import main.common.entity.DeadUnit;
 import main.common.images.GameImage;
+import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultMapEntity;
-import main.common.World;
-import main.common.util.MapPoint;
 
 /**
- * DeadUnit MapEntity.
+ * Concrete implementation of DeadUnit interface.
  *
  * @author paladogabr
  */
-public class DeadUnit extends DefaultMapEntity {
-
+public class DefaultDeadUnit extends DefaultMapEntity implements DeadUnit {
   private static final long serialVersionUID = 1L;
 
   /**
    * Constructor takes the coordinates of the DeadUnit.
    */
-  public DeadUnit(MapPoint coord, MapSize size, GameImage image) {
+  public DefaultDeadUnit(MapPoint coord, MapSize size, GameImage image) {
     super(coord, size, image);
   }
 
@@ -36,4 +36,5 @@ public class DeadUnit extends DefaultMapEntity {
   public boolean isPassable() {
     return true;
   }
+
 }

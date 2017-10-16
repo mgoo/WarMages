@@ -5,8 +5,6 @@ import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.World;
-import main.game.model.entity.unit.DeadUnit;
-import main.game.model.entity.unit.UnitType;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -82,9 +80,19 @@ public interface Unit extends Entity {
   double getHealthPercent();
 
   /**
-   * Gets the base type of the unit.
+   * Returns a boolean based on whether the given unit is the same type as the current unit.
+   *
+   * @param other unit to be compared to
+   * @return boolean same (true) or different (false)
    */
-  UnitType getType();
+  boolean isSameTypeAs(Unit other);
+
+  /**
+   * Returns the string representation of the Unit's type.
+   *
+   * @return string type of unit.
+   */
+  String getType();
 
   /**
    * Elevates the unit to the next level.

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import main.common.World;
+import main.common.entity.DeadUnit;
 import main.common.entity.Direction;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -149,7 +150,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
     hasCreatedDeadUnit = true;
     GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DeadUnit(getTopLeft(), getSize(), deadImage);
+    return new DefaultDeadUnit(getTopLeft(), getSize(), deadImage);
   }
 
   @Override
@@ -273,6 +274,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
   }
 
+
   @Override
   public Unit getTarget() {
     return target;
@@ -333,6 +335,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return health / this.levelMultiplyer(unitType.getStartingHealth());
   }
 
+  @Override
+  public boolean isSameTypeAs(Unit other) {
+    return this.unitType.toString().equals(other.getType());
+  }
+
   public double getSpeed() {
     return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
   }
@@ -348,10 +355,9 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return this.levelMultiplyer(attackDistance);
   }
 
-
   @Override
-  public UnitType getType() {
-    return this.unitType;
+  public String getType() {
+    return this.unitType.toString();
   }
 
   @Override
