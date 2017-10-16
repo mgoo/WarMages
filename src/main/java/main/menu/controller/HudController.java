@@ -4,12 +4,14 @@ import java.io.IOException;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import main.Main;
+import main.common.GameView;
 import main.common.Renderer;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
+import main.common.menu.MenuController;
+import main.game.view.DefaultGameView;
 import main.common.util.Config;
-import main.game.view.GameView;
 import main.menu.MainMenu;
 import main.menu.generators.SaveFileAlertGenerator;
 
@@ -147,7 +149,7 @@ public class HudController extends MenuController {
   }
 
   /**
-   * Triggers the double click event in GameView.
+   * Triggers the double click event in DefaultGameView.
    */
   public void onDbClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
     try {

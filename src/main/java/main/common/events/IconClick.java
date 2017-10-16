@@ -1,4 +1,4 @@
-package main.game.view.events;
+package main.common.events;
 
 /**
  * Parent for dataclasses when an icon is clicked.

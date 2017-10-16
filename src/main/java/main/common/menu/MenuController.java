@@ -1,4 +1,4 @@
-package main.menu.controller;
+package main.common.menu;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
