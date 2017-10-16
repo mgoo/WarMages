@@ -21,7 +21,7 @@ public interface GameView {
    * @param currentTime the time stap for the render iteration
    * @return unmodifiable sorted list
    */
-  List<EntityView> getRenderables(long currentTime);
+  List<Renderable> getRenderables(long currentTime);
 
   Renderable getFogOfWarView();
 

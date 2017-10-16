@@ -102,7 +102,7 @@ public class DefaultGameView implements GameView {
   }
 
   @Override
-  public synchronized List<EntityView> getRenderables(long currentTime) {
+  public synchronized List<Renderable> getRenderables(long currentTime) {
     this.renderablesCache.sort(new EntityRenderableComparator(currentTime));
     return Collections.unmodifiableList(this.renderablesCache);
   }
