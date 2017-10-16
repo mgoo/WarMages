@@ -483,11 +483,10 @@ public class DefaultWorldLoader implements WorldLoader {
               new DefaultUnit(new MapPoint(24, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
-
           ),
           Arrays.asList(
               new DefaultItem(
-                  new MapPoint(21, 5),
+                  new MapPoint(15, 6),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
                       30, 30
@@ -586,6 +585,13 @@ public class DefaultWorldLoader implements WorldLoader {
               ),
               new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
+              ),
+              new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
               ),
               new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
