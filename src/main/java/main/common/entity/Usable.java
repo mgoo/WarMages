@@ -2,12 +2,11 @@ package main.common.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Effect;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
-import main.game.model.entity.usable.BaseUsable;
-import main.common.World;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
@@ -17,9 +16,8 @@ import main.common.World;
 public interface Usable extends Serializable {
 
   /**
-   * Creates an {@link Effect} for each unit through {@link BaseUsable#createEffectForUnit(Unit)}
-   * that this {@link Usable} selects through {@link BaseUsable#selectUnitsToApplyOn(World,
-   * Collection)} and applies the effects.
+   * Creates an {@link Effect} for each {@link Unit} and applies {@link Effect} to whatever
+   * units are chosen by this {@link Usable}.
    *
    * @throws IllegalStateException When this is not ready to be used yet (e.g. cool-down).
    */

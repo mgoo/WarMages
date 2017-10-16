@@ -65,7 +65,6 @@ public class GameViewTest {
         gameController,
         gameModelMock,
         imageProvider,
-        new Event<>(),
         world);
 
     EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));

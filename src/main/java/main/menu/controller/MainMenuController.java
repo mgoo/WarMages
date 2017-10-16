@@ -3,6 +3,7 @@ package main.menu.controller;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.GameView;
+import main.common.menu.MenuController;
 import main.common.util.Events.GameLost;
 import main.common.util.Events.GameWon;
 import main.common.util.Looper;
@@ -86,7 +87,6 @@ public class MainMenuController extends MenuController {
   private void startGame(World world) {
     ImageProvider imageProvider = new DefaultImageProvider();
     MainGameTick tickEvent = new MainGameTick();
-    Event<MouseClick> mouseClickEvent = new Event<>();
     GameWon wonEvent = new GameWon();
     GameLost lostEvent = new GameLost();
     GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
@@ -95,10 +95,8 @@ public class MainMenuController extends MenuController {
         gameController,
         gameModel,
         imageProvider,
-        mouseClickEvent,
         world);
     tickEvent.registerListener(gameView::onTick);
-    mouseClickEvent.registerListener(gameController::onMouseEvent);
     Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
     Hud hud = new Hud(this.main,
         this.mainMenu,

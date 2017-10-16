@@ -4,7 +4,8 @@ import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapSize;
-import main.game.model.entity.Projectile;
+import main.common.entity.Projectile;
+import main.game.model.entity.DefaultProjectile;
 
 /**
  * This enum represents the type of a Unit. A unit can be an archer, a swordsman, a spearman, or a
@@ -21,7 +22,7 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new Projectile(
+      return new DefaultProjectile(
           creator.getCentre(),
           new MapSize(0.4, 0.4),
           target,
@@ -54,7 +55,7 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      return new Projectile(
+      return new DefaultProjectile(
           creator.getCentre(),
           new MapSize(0.5, 0.5),
           target,
@@ -73,7 +74,7 @@ public enum UnitType {
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
       MapSize creatorSize = creator.getSize();
-      return new Projectile(
+      return new DefaultProjectile(
           creator.getCentre().translate(creatorSize.width * 0.2, creatorSize.height * 0.2),
           new MapSize(0.5, 0.5),
           target,

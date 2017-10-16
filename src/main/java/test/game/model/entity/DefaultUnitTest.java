@@ -9,37 +9,31 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static test.game.model.world.WorldTestUtils.createDefaultUnit;
 
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.common.GameModel;
+import main.common.World;
 import main.common.entity.HeroUnit;
+import main.common.entity.Projectile;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.common.util.MapPoint;
-import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.game.model.Level;
-import main.game.model.entity.Projectile;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.usable.DamageBuffAbility;
-import main.game.model.world.DefaultWorld;
-import main.game.model.world.pathfinder.DefaultPathFinder;
 import org.junit.Before;
 import org.junit.Test;
-import test.game.model.world.WorldTestUtils;
 
 /**
  * Tests for DefaultUnits.
+ *
  * @author paladogabr
  * @author chongdyla (Secondary Author)
  */
@@ -47,10 +41,35 @@ public class DefaultUnitTest {
 
   //note that CreateDefaultUnit creates a Spearman who travels with 0.1 travel speed
 
-  private DefaultUnit getUnit() {
-    return createDefaultUnit(new MapPoint(1, 1));
+  /**
+   * Creates and returns a default unit that is on the player's team.
+   *
+   * @return DefaultUnit friendly
+   */
+  public static DefaultUnit getPlayerUnit() {
+    return new DefaultUnit(
+        new MapPoint(1, 1), new MapSize(1, 1), Team.PLAYER, new StubUnitSpriteSheet(),
+        UnitType.ARCHER
+    );
   }
 
+  /**
+   * Creates and returns a default unit that is on the enemy's team.
+   *
+   * @return DefaultUnit foe
+   */
+  public static Unit getEnemyUnit() {
+    return new DefaultUnit(
+        new MapPoint(2, 2), new MapSize(1, 1), Team.ENEMY, new StubUnitSpriteSheet(),
+        UnitType.ARCHER
+    );
+  }
+
+  /**
+   * Returns a list of coordinates going down in a straight line.
+   *
+   * @return path downwards.
+   */
   private List<MapPoint> getPathDown() {
     return Arrays.asList(
         new MapPoint(1, 2),
@@ -64,6 +83,11 @@ public class DefaultUnitTest {
     );
   }
 
+  /**
+   * Returns a list of coordinates going across the screen in a straight line.
+   *
+   * @return path to the right.
+   */
   private List<MapPoint> getPathAcross() {
     return Arrays.asList(
         new MapPoint(2, 1),
@@ -78,6 +102,11 @@ public class DefaultUnitTest {
     );
   }
 
+  /**
+   * Returns a list of coordinates going from top right to bottom left.
+   *
+   * @return path diagonal.
+   */
   private List<MapPoint> getPathDiagonal() {
     return Arrays.asList(
         new MapPoint(2, 2),
@@ -91,10 +120,80 @@ public class DefaultUnitTest {
     );
   }
 
+  /**
+   * Returns a mock of the World class.
+   *
+   * @return World mock.
+   */
+  public static World getWorld(ArrayList<Unit> units, HeroUnit heroUnit) {
+    World world = mock(World.class);
+    when(world.getAllEntities()).thenReturn(new ArrayList<>(units));
+    when(world.getAllUnits()).thenReturn(new ArrayList<>(units));
+    when(world.getHeroUnit()).thenReturn(heroUnit);
+    when(world.isPassable(any())).thenReturn(true);
+    return world;
+  }
+
+  /**
+   * Returns a DefaultHeroUnit.
+   *
+   * @return DHU.
+   */
+  public static HeroUnit getHeroUnit() {
+    return new DefaultHeroUnit(
+        new MapPoint(1, 1),
+        new MapSize(1, 1),
+        new StubUnitSpriteSheet(),
+        UnitType.ARCHER,
+        Arrays.asList(),
+        1
+    );
+  }
+
+  private Unit getPlayer() {
+    return getPlayerUnit();
+  }
+
+  private Unit getEnemy() {
+    return getEnemyUnit();
+  }
+
+  @Test
+  public void testDamageEnemy() {
+    Unit player = new DefaultUnit(
+        new MapPoint(0, 0),
+        new MapSize(100, 100),
+        Team.PLAYER,
+        new StubUnitSpriteSheet(),
+        UnitType.SWORDSMAN
+    );
+    Unit enemy = getEnemy();
+
+    // Make sure they are in range of each other (by making them on top of each other)
+    double dx = enemy.getCentre().x - player.getCentre().x;
+    double dy = enemy.getCentre().y - player.getCentre().y;
+    player.translatePosition(dx, dy);
+
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(player);
+    units.add(enemy);
+    World world = getWorld(units, getHeroUnit());
+    when(world.findPath(any(), any()))
+        .thenReturn(Arrays.asList(enemy.getCentre()));
+    player.setTargetUnit(enemy);
+    double prevHealth = enemy.getHealth();
+    for (int i = 0; i < 900; i++) {
+      player.tick(GameModel.DELAY, world);
+    }
+    assertTrue(prevHealth > enemy.getHealth());
+  }
+
   @Test
   public void testMovingEntity_oneSpaceHorizontally() {
-    Unit unit = getUnit();
-    World world = mock(World.class);
+    Unit unit = getPlayerUnit();
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, getHeroUnit());
 
     List<MapPoint> path = getPathAcross();
     MapPoint targetPoint = path.get(path.size() - 1);
@@ -117,8 +216,10 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_twoSpacesHorizontally() {
-    Unit unit = getUnit();
-    World world = mock(World.class);
+    Unit unit = getPlayerUnit();
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, getHeroUnit());
 
     List<MapPoint> path = getPathAcross();
     MapPoint targetPoint = path.get(path.size() - 1);
@@ -140,8 +241,10 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_oneSpaceVertically() {
-    Unit unit = getUnit();
-    World world = mock(World.class);
+    Unit unit = getPlayerUnit();
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, getHeroUnit());
 
     List<MapPoint> path = getPathDown();
     MapPoint targetPoint = path.get(path.size() - 1);
@@ -163,9 +266,10 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_twoSpacesVertically() {
-    Unit unit = getUnit();
-    World world = mock(World.class);
-
+    Unit unit = getPlayerUnit();
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, getHeroUnit());
     List<MapPoint> path = getPathDown();
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
@@ -186,8 +290,10 @@ public class DefaultUnitTest {
 
   @Test
   public void testMovingEntity_oneSpaceDiagonally() {
-    Unit unit = getUnit();
-    World world = mock(World.class);
+    Unit unit = getPlayerUnit();
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(unit);
+    World world = getWorld(units, getHeroUnit());;
 
     List<MapPoint> path = getPathDiagonal();
     MapPoint targetPoint = path.get(path.size() - 1);
@@ -210,7 +316,8 @@ public class DefaultUnitTest {
 
   @Test
   public void testTickEffects() {
-    Unit unit = new DefaultUnit(new MapPoint(0,0),
+    Unit unit = new DefaultUnit(
+        new MapPoint(0, 0),
         new MapSize(100, 100),
         Team.PLAYER,
         new StubUnitSpriteSheet(),
@@ -242,33 +349,42 @@ public class DefaultUnitTest {
 
   @Test
   public void testEntityAttack() {
-    Unit playerUnit = new DefaultUnit(new MapPoint(0,0),
+    Unit playerUnit = new DefaultUnit(
+        new MapPoint(0, 0),
         new MapSize(0.5, 0.5),
         Team.PLAYER,
         new StubUnitSpriteSheet(),
-        UnitType.ARCHER);
-    Unit enemyUnit = new DefaultUnit(new MapPoint(1,1),
+        UnitType.SWORDSMAN
+    );
+    Unit enemyUnit = new DefaultUnit(
+        new MapPoint(1, 1),
         new MapSize(0.5, 0.5),
         Team.ENEMY,
         new StubUnitSpriteSheet(),
-        UnitType.SPEARMAN);
-    HeroUnit heroUnit = new DefaultHeroUnit(new MapPoint(50,50),
+        UnitType.SPEARMAN
+    );
+    HeroUnit heroUnit = new DefaultHeroUnit(
+        new MapPoint(50, 50),
         new MapSize(0.5, 0.5),
         new StubUnitSpriteSheet(),
         UnitType.ARCHER,
         new ArrayList<>(),
-        0);
+        0
+    );
 
-    List<Level> levels = new ArrayList<>();
-    levels.add(WorldTestUtils.createLevelWith(playerUnit, enemyUnit, heroUnit));
-    World world = new DefaultWorld(levels, heroUnit, new DefaultPathFinder());//TODO mock world
+    ArrayList<Unit> units = new ArrayList<>();
+    units.add(playerUnit);
+    units.add(enemyUnit);
+    World world = getWorld(units, heroUnit);
+    when(world.findPath(any(), any()))
+        .thenAnswer(invocation -> Arrays.asList(enemyUnit.getCentre()));
 
     playerUnit.setTargetUnit(enemyUnit);
 
     double previousHealth = enemyUnit.getHealth();
 
-    for (int i = 0; i < 100; i++) {
-      world.tick(50);
+    for (int i = 0; i < 200; i++) {
+      playerUnit.tick(50, world);
     }
 
     assertNotEquals(enemyUnit.getHealth(), previousHealth);
@@ -276,6 +392,7 @@ public class DefaultUnitTest {
 
   /**
    * Tests related to a unit firing projectiles.
+   *
    * @author chongdyla
    */
   public static class ProjectileTest {
@@ -403,8 +520,9 @@ public class DefaultUnitTest {
     @Test
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      Unit attacker = createEnemyUnit(UnitType.SWORDSMAN);
       double prevHealth = unit.getHealth();
-      unit.takeDamage(5, this.world);
+      unit.takeDamage(5, this.world, attacker);
       assertEquals(prevHealth - 5, unit.getHealth(), 0.001);
     }
 

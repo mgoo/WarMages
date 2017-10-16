@@ -22,6 +22,8 @@ import main.common.entity.Usable;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.GameModel;
+import main.common.menu.Menu;
+import main.common.menu.MenuFileResources;
 import main.common.images.ImageProvider;
 import main.menu.controller.HudController;
 import main.menu.controller.HudController.SaveFunction;

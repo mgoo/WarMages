@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.WorldLoader;
 import main.common.WorldSaveModel;
+import main.common.menu.Menu;
+import main.common.menu.MenuFileResources;
 import main.menu.controller.MainMenuController;
 import main.common.util.Config;
 import main.menu.generators.SaveFilesScriptGenerator;

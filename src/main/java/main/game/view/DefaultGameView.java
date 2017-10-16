@@ -8,26 +8,30 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import main.common.GameController;
+import main.common.GameModel;
 import main.common.GameView;
 import main.common.World;
+import main.common.entity.Entity;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
+import main.common.events.ItemIconClick;
+import main.common.events.MouseClick;
+import main.common.events.MouseDrag;
 import main.common.images.GameImageResource;
 import main.common.GameController;
 import main.common.entity.Entity;
 import main.common.GameModel;
 import main.game.view.EntityView.EntityRenderableComparator;
-import main.common.events.AbilityIconClick;
-import main.common.events.ItemIconClick;
-import main.common.events.MouseClick;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.Event;
 import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.events.MouseDrag;
 import main.common.util.MapPolygon;
+import main.common.util.MapRect;
+import main.game.view.EntityView.EntityRenderableComparator;
+import main.common.events.AbilityIconClick;
 import main.common.events.UnitIconClick;
 import main.common.Renderable;
 
@@ -47,7 +51,6 @@ public class DefaultGameView implements GameView {
   private final GameController gameController;
   private final GameModel model;
   private final ImageProvider imageProvider;
-  private final Event<MouseClick> mouseClickEvent;
   private final World world;
 
   private MapRect viewBox;
@@ -55,9 +58,9 @@ public class DefaultGameView implements GameView {
 
   /**
    * {@link CopyOnWriteArrayList} is required to avoid modifications to the list while {@link
-   * main.renderer.Renderer} is reading it. To avoid unnecessary amounts of copying, if adding a
-   * large amount of items to this list, prefer using {@link List#addAll(Collection)} rather than
-   * calling {@link List#add(Object)} for each element.
+   * main.renderer.DefaultRenderer} is reading it. To avoid unnecessary amounts of copying, if
+   * adding a large amount of items to this list, prefer using {@link List#addAll(Collection)}
+   * rather than calling {@link List#add(Object)} for each element.
    */
   private List<EntityView> renderablesCache = new CopyOnWriteArrayList<>();
   private FogOfWarView fogOfWarView;
@@ -71,13 +74,11 @@ public class DefaultGameView implements GameView {
                          GameController gameController,
                          GameModel model,
                          ImageProvider imageProvider,
-                         Event<MouseClick> mouseClickEvent,
                          World world) {
     this.config = config;
     this.gameController = gameController;
     this.model = model;
     this.imageProvider = imageProvider;
-    this.mouseClickEvent = mouseClickEvent;
     this.world = world;
     MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
     this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
@@ -177,7 +178,7 @@ public class DefaultGameView implements GameView {
 
       MapPolygon mapRectTiles = new MapPolygon(topLeft, topRight, bottomLeft, bottomRight);
 
-      if (!mapRectTiles.contains(this.world.getCurrentLevel().getBounds())) {
+      if (!mapRectTiles.contains(this.world.getCurrentLevelBounds())) {
         return;
       }
       this.viewBox = this.viewBox.move(dx, dy);
@@ -226,7 +227,7 @@ public class DefaultGameView implements GameView {
 
   @Override
   public void onLeftClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return true;
@@ -256,7 +257,7 @@ public class DefaultGameView implements GameView {
         this.pixToTile(new MapPoint(x2, y2)),
         this.pixToTile(new MapPoint(x1, y2)),
         this.pixToTile(new MapPoint(x2, y1)));
-    gameController.onMouseDrag(new MouseDrag() {
+    this.gameController.onMouseDrag(new MouseDrag() {
       @Override
       public boolean wasShiftDown() {
         return wasShiftDown;
@@ -277,7 +278,7 @@ public class DefaultGameView implements GameView {
 
   @Override
   public void onRightClick(int x, int y, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.mouseClickEvent.broadcast(new MouseClick() {
+    this.gameController.onMouseEvent(new MouseClick() {
       @Override
       public boolean wasLeft() {
         return false;
