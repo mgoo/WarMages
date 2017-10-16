@@ -520,8 +520,9 @@ public class DefaultUnitTest {
     @Test
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      Unit attacker = createEnemyUnit(UnitType.SWORDSMAN);
       double prevHealth = unit.getHealth();
-      unit.takeDamage(5, this.world, mock(Unit.class));
+      unit.takeDamage(5, this.world, attacker);
       assertEquals(prevHealth - 5, unit.getHealth(), 0.001);
     }
 

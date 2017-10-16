@@ -12,6 +12,7 @@ import java.util.Collections;
 import main.common.GameModel;
 import main.common.World;
 import main.common.entity.HeroUnit;
+import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Item;
@@ -104,9 +105,18 @@ public class UsablesTest {
     World world = mock(World.class);
     when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
     when(world.getAllUnits()).thenReturn(Collections.singletonList(heroUnit));
+    // and an enemy
+    Unit enemy = new DefaultUnit(
+        heroUnit.getCentre(),
+        heroUnit.getSize(),
+        Team.ENEMY,
+        new StubUnitSpriteSheet(),
+        UnitType.SWORDSMAN,
+        1
+    );
 
     // when the hero takes damage
-    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld, mock(Unit.class));
+    heroUnit.takeDamage(heroUnit.getHealth() - 1, stubWorld, enemy);
     double lowHealth = heroUnit.getHealth();
     // and the heal is used
     healer.use(world, Collections.singletonList(heroUnit));
