@@ -190,12 +190,13 @@ public class DefaultGameController implements GameController {
         // move all selected units to the clicked location
         for (Unit unit : model.getUnitSelection()) {
           unit.setTargetPoint(mouseEvent.getLocation());
+        }
 
-          //if it was a hero unit and item is in range, then pickup item
-          if (unit instanceof HeroUnit && ((HeroUnit) unit).isItemWithinRange(selectedItem)) {
-            ((HeroUnit) unit).pickUp(selectedItem);
-            model.getWorld().removeItem(selectedItem);
-          }
+        //if it was a hero unit and item is in range, then pickup item
+        HeroUnit heroUnit = model.getHeroUnit();
+        if (heroUnit.isItemWithinRange(selectedItem)) {
+          heroUnit.pickUp(selectedItem);
+          model.getWorld().removeItem(selectedItem);
         }
       } else {
         // move all selected units to the clicked location

@@ -3,7 +3,6 @@ package main.game.model.entity.unit;
 import java.io.Serializable;
 import java.util.List;
 import main.common.GameModel;
-import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -69,13 +68,6 @@ public class UnitImagesComponent implements Serializable {
   }
 
   /**
-   * If on last tick.
-   */
-  public boolean isReadyToTransition() {
-    return currentTick == maxNumberOfTicks() - 1;
-  }
-
-  /**
    * True if the current image is the {@link Sequence#attackFrame}. Note this only returns
    * true for one of the {@link UnitImagesComponent#TICKS_PER_FRAME} ticks per frame.
    *
@@ -83,7 +75,7 @@ public class UnitImagesComponent implements Serializable {
    *     specified in {@link Sequence#getAttackFrame()};
    */
   public boolean isOnAttackTick() {
-    if (unit.getUnitType() == UnitType.LASER) {
+    if (unit.getUnitType().name().toLowerCase().contains("laser")) {
       return true;
     }
     return sequence.getAttackFrame() * TICKS_PER_FRAME == currentTick;
