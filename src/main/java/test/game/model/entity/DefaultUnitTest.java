@@ -10,22 +10,20 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import main.common.GameModel;
+import main.common.World;
 import main.common.entity.HeroUnit;
+import main.common.entity.Projectile;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.common.util.MapPoint;
-import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.images.GameImageResource;
+import main.common.util.MapPoint;
 import main.common.util.MapSize;
-import main.common.entity.Projectile;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
@@ -522,8 +520,9 @@ public class DefaultUnitTest {
     @Test
     public void testDamage() {
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
+      Unit attacker = createEnemyUnit(UnitType.SWORDSMAN);
       double prevHealth = unit.getHealth();
-      unit.takeDamage(5, this.world);
+      unit.takeDamage(5, this.world, attacker);
       assertEquals(prevHealth - 5, unit.getHealth(), 0.001);
     }
 
