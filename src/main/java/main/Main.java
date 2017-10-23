@@ -13,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
@@ -134,6 +135,14 @@ public class Main extends Application {
 
     // Mouse events will be handled in html
     root.setOnKeyPressed(event -> this.currentMenu.getMenuController().onKeyDown(event));
+
+    browser.setOnScroll((ScrollEvent event) -> {
+      if (event.getDeltaY() > 0) {
+        config.zoomIn();
+      } else {
+        config.zoomOut();
+      }
+    });
 
     browser.setOnMouseExited(event -> keepMouseInWindow());
     browser.setOnMouseMoved(event -> this.currentMenu.getMenuController().onMouseMove(event));

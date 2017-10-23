@@ -16,13 +16,15 @@ public class Config {
   private double gameViewScrollSpeed = 50;
 
   private double entityViewTilePixelsRatio = 2.0 / 3;
-  private int entityViewTilePixelsX = 120;
+  private int entityViewTilePixelsX = (int)(120);
   private int entityViewTilePixelsY = (int) (entityViewTilePixelsX * entityViewTilePixelsRatio);
 
   private Color baseFogOfWarColor = new Color(54, 59, 88);
 
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
+
+  private double zoom = 1;
 
   public void enableDebugMode() {
     this.isDebugMode = true;
@@ -44,11 +46,12 @@ public class Config {
   }
 
   public int getEntityViewTilePixelsX() {
-    return entityViewTilePixelsX;
+    return (int)(this.zoom * entityViewTilePixelsX);
   }
 
   public int getEntityViewTilePixelsY() {
-    return entityViewTilePixelsY;
+    // Times zoom by 1.1 to give the issusion of change in camera angle
+    return (int)((this.zoom * 1.8) * entityViewTilePixelsY);
   }
 
   public void setEntityViewTilePixelsX(int entityViewTilePixelsX) {
@@ -91,4 +94,23 @@ public class Config {
     this.contextScreenWidth = width;
     this.contextScreenHeight = height;
   }
+
+  public void zoomIn() {
+    this.zoom = this.keepZoomInBounds(this.zoom + 0.3);
+  }
+
+  public void zoomOut() {
+    this.zoom = this.keepZoomInBounds(this.zoom - 0.3);
+  }
+
+  private double keepZoomInBounds(double zoom) {
+    if (zoom < 0.2) {
+      return 0.2;
+    }
+    if (this.zoom > 2) {
+      return 2;
+    }
+    return zoom;
+  }
 }
+
