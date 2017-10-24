@@ -6825,9 +6825,6 @@ body {
   /* Load Menu */
 }
 body .title {
-  animation-name: title-drop;
-  animation-duration: 1s;
-  animation-iteration-count: 1;
   text-align: center;
   width: 75vw;
   position: absolute;
@@ -6841,10 +6838,17 @@ body .title h1 {
   text-align: center;
   overflow: visible;
 }
+body .title.animated {
+  animation-name: title-drop;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
 body .mainmenu-buttons {
   position: absolute;
   bottom: 10vh;
   left: 80vw;
+}
+body .mainmenu-buttons.animated {
   animation-name: buttons-slide;
   animation-duration: 1.5s;
 }
