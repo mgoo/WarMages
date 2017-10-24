@@ -34,9 +34,11 @@ body {
       overflow: visible;
     }
 
-    animation-name: title-drop;
-    animation-duration: 1s;
-    animation-iteration-count: 1;
+    &.animated {
+      animation-name: title-drop;
+      animation-duration: 1s;
+      animation-iteration-count: 1;
+    }
 
     text-align: center;
     width: 75vw;
@@ -51,8 +53,11 @@ body {
     bottom: 10vh;
     left: 80vw;
 
-    animation-name: buttons-slide;
-    animation-duration: 1.5s;
+    &.animated {
+      animation-name: buttons-slide;
+      animation-duration: 1.5s;
+    }
+
     .btn {
       font-size: 2em;
       color: #3a753a;

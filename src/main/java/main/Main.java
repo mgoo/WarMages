@@ -1,10 +1,13 @@
 package main;
 
+import freemarker.template.Configuration;
+import freemarker.template.TemplateExceptionHandler;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.io.File;
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -86,31 +89,38 @@ public class Main extends Application {
 
     this.scene = new Scene(new Group());
     final StackPane root = new StackPane();
-    final WebView browser = new WebView();
+    final WebView webView = new WebView();
     final ImageView imageView = new ImageView();
     final Config config = new Config();
     if (getParameters().getUnnamed().contains("--debug")) {
       config.enableDebugMode();
     }
     config.setScreenDim((int) primaryStage.getWidth(), (int) primaryStage.getHeight());
+
+    Configuration cfg = new Configuration();
+    cfg.setDirectoryForTemplateLoading(new File("resources/html"));
+    cfg.setDefaultEncoding("UTF-8");
+    cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+
     final MainMenu mainMenu = new MainMenu(
         this,
         new DefaultWorldLoader(),
         new DefaultWorldSaveModel(new DefaultFilesystem()),
         imageView,
-        config
+        config,
+        cfg
     );
 
     root.setPrefWidth(config.getContextScreenWidth());
     root.setPrefHeight(config.getContextScreenHeight());
 
-    browser.setPrefHeight(config.getContextScreenWidth());
-    browser.setPrefHeight(config.getContextScreenHeight());
+    webView.setPrefHeight(config.getContextScreenWidth());
+    webView.setPrefHeight(config.getContextScreenHeight());
 
     imageView.setFitWidth(config.getContextScreenWidth());
     imageView.setFitHeight(config.getContextScreenHeight());
 
-    this.webEngine = browser.getEngine();
+    this.webEngine = webView.getEngine();
 
     webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
       if (newState != Worker.State.SUCCEEDED) {
@@ -135,10 +145,10 @@ public class Main extends Application {
     // Mouse events will be handled in html
     root.setOnKeyPressed(event -> this.currentMenu.getMenuController().onKeyDown(event));
 
-    browser.setOnMouseExited(event -> keepMouseInWindow());
-    browser.setOnMouseMoved(event -> this.currentMenu.getMenuController().onMouseMove(event));
+    webView.setOnMouseExited(event -> keepMouseInWindow());
+    webView.setOnMouseMoved(event -> this.currentMenu.getMenuController().onMouseMove(event));
 
-    root.getChildren().setAll(imageView, browser);
+    root.getChildren().setAll(imageView, webView);
     scene.setRoot(root);
     primaryStage.setScene(scene);
     primaryStage.show();

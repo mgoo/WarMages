@@ -1,5 +1,6 @@
 package main.menu.controller;
 
+import freemarker.template.Configuration;
 import javafx.scene.image.ImageView;
 import main.Main;
 import main.common.GameView;
@@ -20,6 +21,7 @@ import main.images.DefaultImageProvider;
 import main.common.images.ImageProvider;
 import main.menu.GameEndMenu;
 import main.menu.Hud;
+import main.menu.LoadingScreen;
 import main.menu.MainMenu;
 import main.common.Renderer;
 import main.common.util.Config;
@@ -40,6 +42,7 @@ public class MainMenuController extends MenuController {
   private final Main main;
   private final ImageView imageView;
   private final Config config;
+  private final Configuration cfg;
 
   /**
    * inject the dependencies.
@@ -49,13 +52,15 @@ public class MainMenuController extends MenuController {
                             WorldLoader worldLoader,
                             WorldSaveModel worldSaveModel,
                             ImageView imageView,
-                            Config config) {
+                            Config config,
+                            Configuration cfg) {
     this.main = main;
     this.mainMenu = mainMenu;
     this.worldLoader = worldLoader;
     this.worldSaveModel = worldSaveModel;
     this.imageView = imageView;
     this.config = config;
+    this.cfg = cfg;
   }
 
   /**
@@ -92,51 +97,59 @@ public class MainMenuController extends MenuController {
   }
 
   private void startGame(World world) {
-    ImageProvider imageProvider = new DefaultImageProvider();
-    MainGameTick tickEvent = new MainGameTick();
-    GameWon wonEvent = new GameWon();
-    GameLost lostEvent = new GameLost();
-    GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
-    GameController gameController = new DefaultGameController(gameModel);
-    GameView gameView = new DefaultGameView(this.config,
-        gameController,
-        gameModel,
-        imageProvider,
-        world);
-    tickEvent.registerListener(gameView::onTick);
-    Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
-    Hud hud = new Hud(this.main,
-        this.mainMenu,
-        gameView,
-        renderer,
-        gameModel,
-        imageProvider,
-        filename -> this.worldSaveModel.save(world, filename),
-        config
-    );
-    tickEvent.registerListener(parameter -> hud.updateIcons());
-    tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
-    tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
-    wonEvent.registerListener(parameter -> {
-      gameModel.stopGame();
-      renderer.stop();
-      this.main.loadMenu(new GameEndMenu(this.main,
+    Runnable loader = () -> {
+      ImageProvider imageProvider = new DefaultImageProvider();
+      MainGameTick tickEvent = new MainGameTick();
+      GameWon wonEvent = new GameWon();
+      GameLost lostEvent = new GameLost();
+      GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
+      GameController gameController = new DefaultGameController(gameModel);
+      GameView gameView = new DefaultGameView(this.config,
+          gameController,
+          gameModel,
+          imageProvider,
+          world);
+      tickEvent.registerListener(gameView::onTick);
+      Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
+      Hud hud = new Hud(this.main,
           this.mainMenu,
-          "You have Won",
-          config));
-    });
-    lostEvent.registerListener(parameter -> {
-      gameModel.stopGame();
-      renderer.stop();
-      this.main.loadMenu(new GameEndMenu(this.main,
-          this.mainMenu,
-          "You have lost",
-          config));
-    });
-    renderer.start();
-    gameModel.startGame();
+          gameView,
+          renderer,
+          gameModel,
+          imageProvider,
+          filename -> this.worldSaveModel.save(world, filename),
+          config
+      );
 
-    this.main.loadMenu(hud);
+      tickEvent.registerListener(parameter -> hud.updateIcons());
+      tickEvent.registerListener(parameter -> hud.updateGoal(world.getCurrentGoalDescription()));
+      tickEvent.registerListener(parameter -> world.tick(config.getGameModelDelay()));
+
+      wonEvent.registerListener(parameter -> {
+        gameModel.stopGame();
+        renderer.stop();
+        this.main.loadMenu(new GameEndMenu(this.main,
+            this.mainMenu,
+            "You have Won",
+            config));
+      });
+
+      lostEvent.registerListener(parameter -> {
+        gameModel.stopGame();
+        renderer.stop();
+        this.main.loadMenu(new GameEndMenu(this.main,
+            this.mainMenu,
+            "You have lost",
+            config));
+      });
+      tickEvent.doOnce(parameter -> {
+        renderer.start();
+      });
+      gameModel.startGame();
+
+      this.main.loadMenu(hud);
+    };
+    this.main.loadMenu(new LoadingScreen(loader, this.cfg));
   }
 
   /**
