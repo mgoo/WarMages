@@ -13,6 +13,7 @@ import main.common.menu.MenuFileResources;
 import main.menu.generators.ScriptFileGenerator;
 
 /**
+ * A Loading screen for when the game is loading.
  * @author Andrew McGhie
  */
 public class LoadingScreen extends Menu {

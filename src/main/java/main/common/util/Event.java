@@ -19,6 +19,9 @@ public class Event<ParamT> {
     return () -> listeners.remove(listener);
   }
 
+  /**
+   * Adds a listener that is only executed on the first event.
+   */
   public Runnable doOnce(Listener<ParamT> listener) {
     Listener removingListener = new Listener<ParamT>() {
       @Override

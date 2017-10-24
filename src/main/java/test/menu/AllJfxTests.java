@@ -1,15 +1,12 @@
 package test.menu;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static test.renderer.RendererTestUtils.createConfig;
 import static test.renderer.RendererTestUtils.createGameController;
 import static test.renderer.RendererTestUtils.createGameView;
 import static test.renderer.RendererTestUtils.createImageView;
 
 import java.awt.Color;
-import java.awt.Desktop;
 import java.util.Arrays;
 import java.util.Collections;
 import javafx.animation.PauseTransition;
@@ -24,28 +21,23 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.Main;
+import main.common.GameModel;
 import main.common.GameView;
-import main.common.WorldLoader;
-import main.common.WorldSaveModel;
+import main.common.Renderer;
 import main.common.entity.HeroUnit;
 import main.common.entity.Team;
 import main.common.images.GameImageResource;
+import main.common.menu.Menu;
 import main.common.util.Config;
 import main.common.util.Events.MainGameTick;
 import main.common.util.Looper;
 import main.common.util.MapPoint;
-import main.common.GameModel;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.view.DefaultGameView;
 import main.images.DefaultUnitSpriteSheet;
-import main.menu.MainMenu;
-import main.common.menu.Menu;
-import main.common.Renderer;
 import main.renderer.DefaultRenderer;
 import netscape.javascript.JSObject;
 import org.junit.Test;
@@ -86,19 +78,19 @@ public class AllJfxTests {
 
   @Test
   public void testMainMenu() {
-//    if (!Desktop.isDesktopSupported()) {
-//      return;
-//    }
-//    WorldSaveModel worldSaveModel = mock(WorldSaveModel.class);
-//    when(worldSaveModel.getExistingGameSaves()).thenReturn(Collections.emptyList());
-//    TestApplication.show(new MainMenu(
-//        mock(Main.class),
-//        mock(WorldLoader.class),
-//        worldSaveModel,
-//        mock(ImageView.class),
-//        mock(Config.class)
-//    ));
-//    assertTrue(true);
+    //    if (!Desktop.isDesktopSupported()) {
+    //      return;
+    //    }
+    //    WorldSaveModel worldSaveModel = mock(WorldSaveModel.class);
+    //    when(worldSaveModel.getExistingGameSaves()).thenReturn(Collections.emptyList());
+    //    TestApplication.show(new MainMenu(
+    //        mock(Main.class),
+    //        mock(WorldLoader.class),
+    //        worldSaveModel,
+    //        mock(ImageView.class),
+    //        mock(Config.class)
+    //    ));
+    //    assertTrue(true);
   }
 
   /**
