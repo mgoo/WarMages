@@ -1,5 +1,6 @@
 package main.menu;
 
+import freemarker.template.Configuration;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -35,7 +36,8 @@ public class MainMenu extends Menu {
                   WorldLoader worldLoader,
                   WorldSaveModel worldSaveModel,
                   ImageView imageView,
-                  Config config) {
+                  Config config,
+                  Configuration cfg) {
     this.main = main;
     this.worldSaveModel = worldSaveModel;
     this.imageView = imageView;
@@ -46,7 +48,8 @@ public class MainMenu extends Menu {
         worldLoader,
         worldSaveModel,
         imageView,
-        config
+        config,
+        cfg
     );
   }
 

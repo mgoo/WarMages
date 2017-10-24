@@ -2,6 +2,7 @@ package main.common.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Similar to the Observable class in Java.
@@ -11,11 +12,22 @@ import java.util.Collection;
  */
 public class Event<ParamT> {
 
-  private Collection<Listener<ParamT>> listeners = new ArrayList<>();
+  private Collection<Listener<ParamT>> listeners = new CopyOnWriteArrayList<>();
 
   public Runnable registerListener(Listener<ParamT> listener) {
     listeners.add(listener);
     return () -> listeners.remove(listener);
+  }
+
+  public Runnable doOnce(Listener<ParamT> listener) {
+    Listener removingListener = new Listener<ParamT>() {
+      @Override
+      public void onNotify(ParamT parameter) {
+        Event.this.listeners.remove(this);
+        listener.onNotify(parameter);
+      }
+    };
+    return this.registerListener(removingListener);
   }
 
   public void broadcast(ParamT parameter) {
