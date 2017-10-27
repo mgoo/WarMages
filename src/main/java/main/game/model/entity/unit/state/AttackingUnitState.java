@@ -46,7 +46,7 @@ public class AttackingUnitState extends UnitState {
       return;
     }
 
-    if (target.getHealth() == 0) {
+    if (unit.getHealth() == 0 || target.getHealth() == 0) {
       return;
     }
 
@@ -80,7 +80,7 @@ public class AttackingUnitState extends UnitState {
     UnitType unitType = unit.getUnitType();
 
     for (int i = 0; i < unitType.getAttackRepeats(); i++) {
-      if (unit.getHealth() == 0) {
+      if (target.getHealth() == 0) {
         break;
       }
 

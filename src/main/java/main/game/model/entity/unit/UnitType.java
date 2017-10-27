@@ -230,18 +230,15 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      double dps, int startingHealth, double attackSpeed, double movingSpeed,
+      double damagePerSequenceCycle, int startingHealth, double attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
-    if (dps <= 0) {
+    if (damagePerSequenceCycle <= 0) {
       throw new IllegalArgumentException();
     }
 
-    this.baselineDamage = dps / getAttackRepeats() / (
-        attacksEveryTick()
-            ? attackSequence.numberOfColumns * UnitImagesComponent.TICKS_PER_FRAME
-            : 1
-    );
+    this.baselineDamage = damagePerSequenceCycle / getAttackRepeats() / (attacksEveryTick()
+            ? attackSequence.numberOfColumns * UnitImagesComponent.TICKS_PER_FRAME : 1);
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
     this.movingSpeed = movingSpeed;
