@@ -1,8 +1,5 @@
 package main.game.model.entity.unit;
 
-import static main.game.model.entity.unit.UnitType.Constants.RAINY_MAGE_NUMBER_OF_PROJECTILES;
-import static main.game.model.entity.unit.UnitType.Constants.LASER_POSITION_OFFSET;
-
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -102,7 +99,7 @@ public enum UnitType {
 
     @Override
     public int getAttackRepeats() {
-      return RAINY_MAGE_NUMBER_OF_PROJECTILES;
+      return 8;
     }
   },
 
@@ -161,6 +158,8 @@ public enum UnitType {
       return true;
     }
   };
+
+  private static final double LASER_POSITION_OFFSET = 0.45;
 
   protected double baselineDamage;
   protected double startingHealth;
@@ -263,10 +262,4 @@ public enum UnitType {
     }
   }
 
-  // Not private just to allow for static import.
-  // Also required because you can't forward reference enum constants in the constructors.
-  static class Constants {
-    static final int RAINY_MAGE_NUMBER_OF_PROJECTILES = 8;
-    static final double LASER_POSITION_OFFSET = 0.45;
-  }
 }
