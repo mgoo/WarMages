@@ -1,6 +1,7 @@
 package main.game.model.entity.unit.state;
 
-import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import main.common.World;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -25,17 +26,16 @@ public class IdleUnitState extends UnitState {
     super.tick(timeSinceLastTick, world);
 
     double autoAttackDistance = unit.getUnitType().getAutoAttackDistance();
-    Unit enemyOrNull = world.getAllUnits()
+    List<Unit> enemiesInRange = world.getAllUnits()
         .stream()
         .filter(worldUnit -> unit.getTeam().canAttack(worldUnit.getTeam()))
         .filter(enemyUnit -> distanceToUnit(enemyUnit) <= autoAttackDistance)
         .filter(enemyUnit -> enemyUnit.getHealth() > 0)
-        .sorted(Comparator.comparingDouble(this::distanceToUnit))
-        .findFirst()
-        .orElse(null);
-    if (enemyOrNull != null) {
+        .collect(Collectors.toList());
+    if (!enemiesInRange.isEmpty()) {
       // Assume that walking state will switch to attacking state if unit is close enough.
-      requestAttackUnit(enemyOrNull);
+      Unit randomEnemy = enemiesInRange.get((int) (enemiesInRange.size() * Math.random()));
+      requestAttackUnit(randomEnemy);
     }
   }
 

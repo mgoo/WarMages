@@ -201,7 +201,7 @@ public enum UnitType {
    * Distance at which the unit decides to automatically attack another unit in sight.
    */
   public double getAutoAttackDistance() {
-    return lineOfSight * 0.8;
+    return lineOfSight * 0.9;
   }
 
   /**
