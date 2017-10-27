@@ -74,23 +74,27 @@ public class AttackingUnitState extends UnitState {
   }
 
   /**
-   * Called when the attack frame is reached in the animation
-   * {@link UnitSpriteSheet.Sequence}.
+   * Called when the attack frame is reached in the animation {@link UnitSpriteSheet.Sequence}.
    */
   private void performAttack(World world) {
     UnitType unitType = unit.getUnitType();
 
-    if (unitType.canShootProjectiles()) {
-      for (int i = 0; i < unitType.getProjectilesPerAttack(); i++) {
+    for (int i = 0; i < unitType.getAttackRepeats(); i++) {
+      if (unit.getHealth() == 0) {
+        break;
+      }
+
+      if (unitType.canShootProjectiles()) {
         Projectile projectile = unitType.createProjectile(unit, target);
         world.addProjectile(projectile);
-      }
-    } else {
-      // Non projectile attack (e.g. spear)
-      boolean killed = target.takeDamage(unit.getDamageAmount(), world, unit);
-      if (killed) {
-        unit.nextLevel();
+      } else {
+        // Non projectile attack (e.g. spear)
+        boolean killed = target.takeDamage(unit.getDamageAmount(), world, unit);
+        if (killed) {
+          unit.nextLevel();
+        }
       }
     }
   }
+
 }

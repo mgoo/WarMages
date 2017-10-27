@@ -76,7 +76,7 @@ public class UnitImagesComponent implements Serializable {
    */
   public boolean isOnAttackTick() {
     if (unit.getUnitType().attacksEveryTick()) {
-       return true;
+      return true;
     }
     return sequence.getAttackFrame() * TICKS_PER_FRAME == currentTick;
   }

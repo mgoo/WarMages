@@ -69,7 +69,7 @@ public enum UnitType {
     }
   },
 
-  RAINY_MAGE(25 / RAINY_MAGE_NUMBER_OF_PROJECTILES, 200, 8, 1.08, 5, 4, Sequence.SPELL_CAST) {
+  RAINY_MAGE(25, 200, 8, 1.08, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -101,12 +101,12 @@ public enum UnitType {
     }
 
     @Override
-    public int getProjectilesPerAttack() {
+    public int getAttackRepeats() {
       return RAINY_MAGE_NUMBER_OF_PROJECTILES;
     }
   },
 
-  WHITE_LASER(25 / Sequence.SPELL_CAST.numberOfColumns, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+  WHITE_LASER(25, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -134,7 +134,7 @@ public enum UnitType {
     }
   },
 
-  LASER(25 / Sequence.SPELL_CAST.numberOfColumns, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+  LASER(25, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -219,11 +219,7 @@ public enum UnitType {
     return doCreateProjectile(creator, target);
   }
 
-  public int getProjectilesPerAttack() {
-    if (!canShootProjectiles()) {
-      throw new UnsupportedOperationException();
-    }
-
+  public int getAttackRepeats() {
     return 1;
   }
 
@@ -234,10 +230,18 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      double baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double dps, int startingHealth, double attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
-    this.baselineDamage = baselineDamage;
+    if (dps <= 0) {
+      throw new IllegalArgumentException();
+    }
+
+    this.baselineDamage = dps / getAttackRepeats() / (
+        attacksEveryTick()
+            ? attackSequence.numberOfColumns * UnitImagesComponent.TICKS_PER_FRAME
+            : 1
+    );
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
     this.movingSpeed = movingSpeed;
