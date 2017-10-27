@@ -81,8 +81,10 @@ public class AttackingUnitState extends UnitState {
     UnitType unitType = unit.getUnitType();
 
     if (unitType.canShootProjectiles()) {
-      Projectile projectile = unitType.createProjectile(unit, target);
-      world.addProjectile(projectile);
+      for (int i = 0; i < unitType.getProjectilesPerAttack(); i++) {
+        Projectile projectile = unitType.createProjectile(unit, target);
+        world.addProjectile(projectile);
+      }
     } else {
       // Non projectile attack (e.g. spear)
       boolean killed = target.takeDamage(unit.getDamageAmount(), world, unit);

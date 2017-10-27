@@ -366,7 +366,7 @@ public class DefaultWorldLoader implements WorldLoader {
         new MapPoint(3, 5),
         STANDARD_UNIT_SIZE,
         new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
-        UnitType.WHITE_LASER,
+        UnitType.RAINY_MAGE,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
@@ -564,7 +564,7 @@ public class DefaultWorldLoader implements WorldLoader {
           bounds,
           Arrays.asList(
               new DefaultUnit(new MapPoint(25, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGE
               ),
               new DefaultUnit(new MapPoint(25, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
                   new DefaultUnitSpriteSheet(ARCHER_SPRITE_SHEET), UnitType.ARCHER
@@ -588,7 +588,7 @@ public class DefaultWorldLoader implements WorldLoader {
                   new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new DefaultUnit(new MapPoint(25, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGICIAN
+                  new DefaultUnitSpriteSheet(MALE_MAGE_SPRITE_SHEET), UnitType.MAGE
               ),
               new DefaultUnit(new MapPoint(35, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
@@ -621,7 +621,7 @@ public class DefaultWorldLoader implements WorldLoader {
                   new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
               ),
               new DefaultUnit(new MapPoint(36, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
                   4
               ),
               new DefaultUnit(new MapPoint(34, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
@@ -662,11 +662,11 @@ public class DefaultWorldLoader implements WorldLoader {
           bounds,
           Arrays.asList(
               new DefaultUnit(new MapPoint(41, 3), HERO_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
                   4
               ),
               new DefaultUnit(new MapPoint(41, 8), HERO_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
                   4
               ),
               new DefaultUnit(new MapPoint(42, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
@@ -696,7 +696,7 @@ public class DefaultWorldLoader implements WorldLoader {
           bounds,
           Arrays.asList(
               new DefaultUnit(new MapPoint(40, 6), HERO_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGICIAN,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
                   20
               )
           ),
@@ -718,7 +718,7 @@ public class DefaultWorldLoader implements WorldLoader {
         new MapPoint(38, 10),
         HERO_SIZE,
         new DefaultUnitSpriteSheet(MAGE_CAPE_SPRITE_SHEET),
-        UnitType.MAGICIAN,
+        UnitType.MAGE,
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),

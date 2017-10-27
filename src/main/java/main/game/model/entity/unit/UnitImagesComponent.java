@@ -75,8 +75,8 @@ public class UnitImagesComponent implements Serializable {
    *     specified in {@link Sequence#getAttackFrame()};
    */
   public boolean isOnAttackTick() {
-    if (unit.getUnitType().name().toLowerCase().contains("laser")) {
-      return true;
+    if (unit.getUnitType().attacksEveryTick()) {
+       return true;
     }
     return sequence.getAttackFrame() * TICKS_PER_FRAME == currentTick;
   }

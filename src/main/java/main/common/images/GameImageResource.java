@@ -26,7 +26,12 @@ public enum GameImageResource {
   // Projectiles
   ARROW_PROJECTILE("images/projectiles/missile-e.png"),
   // Use this one as static image, rather than a sequence of images:
-  FIREBALL_PROJECTILE("images/projectiles/fireball-impact-1.png"),
+  FIREBALL_PROJECTILE(
+      new GameImageBuilder("images/projectiles/fireball-impact-1.png")
+          .setStartY(25)
+          .setHeight(100)
+          .create()
+  ),
   WHITE_PROJECTILE("images/projectiles/whitemissile-impact-3.png"),
 
   // Tiles
