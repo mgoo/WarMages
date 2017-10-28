@@ -14,7 +14,7 @@ import main.game.model.entity.DefaultProjectile;
  */
 public enum UnitType {
 
-  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 3, 0.09, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -40,14 +40,14 @@ public enum UnitType {
     }
   },
 
-  SPEARMAN(15, 200, 5, 0.1, 5, 0.2, Sequence.THRUST) {
+  SPEARMAN(15, 200, 5, 0.11, 5, 0.2, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGE(20, 150, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
+  MAGE(20, 150, 8, 0.12, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;

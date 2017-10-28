@@ -697,6 +697,14 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(
               new DefaultUnit(new MapPoint(40, 6), HERO_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
+                  100
+              ),
+              new DefaultUnit(new MapPoint(41, 6), HERO_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
+                  100
+              ),
+              new DefaultUnit(new MapPoint(40, 7), HERO_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.LASER,
                   20
               )
           ),

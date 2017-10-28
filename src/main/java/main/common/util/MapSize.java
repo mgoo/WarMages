@@ -13,6 +13,9 @@ public class MapSize implements Serializable {
   public final double height;
 
   public MapSize(double width, double height) {
+    if (!Double.isFinite(width) || !Double.isFinite(height)) {
+      throw new IllegalArgumentException(String.format("%f, %f", width, height));
+    }
     this.width = width;
     this.height = height;
   }

@@ -15,13 +15,13 @@ import main.common.World;
 import main.common.entity.Entity;
 import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
+import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
-import main.common.entity.Projectile;
 
 /**
  * Implementation of the World API.
@@ -215,9 +215,16 @@ public class DefaultWorld implements Serializable, World {
           double distance = baseUnit.getCentre().distanceTo(otherUnit.getCentre());
           double minDistance = baseUnit.getSize().width / 2 + otherUnit.getSize().width / 2;
           if (distance < minDistance) {
-            double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
-            double dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
-            double dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
+            double dx;
+            double dy;
+            if (distance == 0) {
+              dx = 0.01;
+              dy = 0.01;
+            } else {
+              double angle = baseUnit.getCentre().angleTo(otherUnit.getCentre()) + (Math.PI) / 2;
+              dx = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.sin(angle);
+              dy = (1 / (UNIT_REPEL_MULTIPLIER * distance)) * Math.cos(angle);
+            }
             unitMovements.computeIfAbsent(baseUnit,
                 unit -> unitMovements.put(unit, new MapSize(0, 0)));
             MapSize currentMovement = unitMovements.get(baseUnit);
