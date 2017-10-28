@@ -370,7 +370,7 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new HealAbility(
                 GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                15, 100
+                15, 200
             )
         ),
         3
@@ -477,12 +477,6 @@ public class DefaultWorldLoader implements WorldLoader {
               ),
               new DefaultUnit(new MapPoint(23, 5.5), STANDARD_UNIT_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new DefaultUnit(new MapPoint(23, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
-              ),
-              new DefaultUnit(new MapPoint(23, 6.6), STANDARD_UNIT_SIZE, Team.ENEMY,
-                  new DefaultUnitSpriteSheet(SKELETON_ARCHER_SPRITE_SHEET), UnitType.ARCHER
               )
           ),
           Arrays.asList(
@@ -490,7 +484,7 @@ public class DefaultWorldLoader implements WorldLoader {
                   new MapPoint(19, 6),
                   new HealAbility(
                       GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                      25, 30
+                      25, 300
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               )
@@ -657,10 +651,27 @@ public class DefaultWorldLoader implements WorldLoader {
     }
 
     {
-      // Surprise ambush level
       levels.add(new Level(
           bounds,
           Arrays.asList(
+              new DefaultUnit(new MapPoint(32, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(32, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN
+              ),
+              new DefaultUnit(new MapPoint(33, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new DefaultUnit(new MapPoint(33, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new DefaultUnit(new MapPoint(34, 5), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
+              new DefaultUnit(new MapPoint(34, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN
+              ),
               new DefaultUnit(new MapPoint(41, 3), HERO_SIZE, Team.ENEMY,
                   new DefaultUnitSpriteSheet(DARK_ELF_SPRITE_SHEET), UnitType.MAGE,
                   4
