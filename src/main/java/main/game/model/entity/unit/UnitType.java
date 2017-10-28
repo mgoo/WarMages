@@ -14,7 +14,7 @@ import main.game.model.entity.DefaultProjectile;
  */
 public enum UnitType {
 
-  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 3, 0.09, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -40,14 +40,14 @@ public enum UnitType {
     }
   },
 
-  SPEARMAN(15, 200, 5, 0.1, 5, 0.2, Sequence.THRUST) {
+  SPEARMAN(15, 200, 5, 0.11, 5, 0.2, Sequence.THRUST) {
     @Override
     public boolean canShootProjectiles() {
       return false;
     }
   },
 
-  MAGICIAN(20, 150, 8, 0.1, 5, 4, Sequence.SPELL_CAST) {
+  MAGE(20, 150, 8, 0.12, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -65,7 +65,8 @@ public enum UnitType {
       );
     }
   },
-  WHITE_LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+
+  RAINY_MAGE(25, 200, 8, 1.08, 5, 4, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -73,18 +74,64 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      MapSize creatorSize = creator.getSize();
+      MapSize projectileSize = new MapSize(0.3, 0.3);
+      double angle = Math.random() * Math.PI * 2;
+      double radius = 10 + (Math.random() * 0.1);
       return new DefaultProjectile(
-          creator.getCentre().translate(creatorSize.width * 0.15, creatorSize.height * 0.15),
-          new MapSize(0.5, 0.5),
+          target.getCentre()
+              .translate(
+                  radius * Math.cos(angle),
+                  radius * Math.sin(angle)
+              )
+              .translate(
+                  -projectileSize.width / 2,
+                  -projectileSize.height / 2
+              ),
+          projectileSize,
+          target,
+          creator,
+          Math.random() > 0.5
+              ? GameImageResource.WHITE_PROJECTILE.getGameImage()
+              : GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
+          0.5
+      );
+    }
+
+    @Override
+    public int getAttackRepeats() {
+      return 8;
+    }
+  },
+
+  WHITE_LASER(25, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+    @Override
+    public boolean canShootProjectiles() {
+      return true;
+    }
+
+    @Override
+    protected Projectile doCreateProjectile(Unit creator, Unit target) {
+      MapSize projectileSize = new MapSize(0.3, 0.3);
+      return new DefaultProjectile(
+          creator.getCentre().translate(
+              -projectileSize.width / 2 + (creator.getSize().width * LASER_POSITION_OFFSET),
+              -projectileSize.height / 2 + (creator.getSize().height * LASER_POSITION_OFFSET)
+          ),
+          projectileSize,
           target,
           creator,
           GameImageResource.WHITE_PROJECTILE.getGameImage(),
           0.1
       );
     }
+
+    @Override
+    public boolean attacksEveryTick() {
+      return true;
+    }
   },
-  LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+
+  LASER(25, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -92,17 +139,27 @@ public enum UnitType {
 
     @Override
     protected Projectile doCreateProjectile(Unit creator, Unit target) {
-      MapSize creatorSize = creator.getSize();
+      MapSize projectileSize = new MapSize(0.3, 0.3);
       return new DefaultProjectile(
-          creator.getCentre().translate(creatorSize.width * 0.22, creatorSize.height * 0.22),
-          new MapSize(0.5, 0.5),
+          creator.getCentre().translate(
+              -projectileSize.width / 2 + (creator.getSize().width * LASER_POSITION_OFFSET),
+              -projectileSize.height / 2 + (creator.getSize().height * LASER_POSITION_OFFSET)
+          ),
+          projectileSize,
           target,
           creator,
           GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
           0.1
       );
     }
+
+    @Override
+    public boolean attacksEveryTick() {
+      return true;
+    }
   };
+
+  private static final double LASER_POSITION_OFFSET = 0.45;
 
   protected double baselineDamage;
   protected double startingHealth;
@@ -136,6 +193,10 @@ public enum UnitType {
     return attackSequence;
   }
 
+  public boolean attacksEveryTick() {
+    return false;
+  }
+
   /**
    * Distance at which the unit decides to automatically attack another unit in sight.
    */
@@ -157,6 +218,10 @@ public enum UnitType {
     return doCreateProjectile(creator, target);
   }
 
+  public int getAttackRepeats() {
+    return 1;
+  }
+
   protected Projectile doCreateProjectile(Unit creator, Unit target) {
     throw new UnsupportedOperationException("Override me to create projectiles");
   }
@@ -164,10 +229,15 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      double baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double damagePerSequenceCycle, int startingHealth, double attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
-    this.baselineDamage = baselineDamage;
+    if (damagePerSequenceCycle <= 0) {
+      throw new IllegalArgumentException();
+    }
+
+    this.baselineDamage = damagePerSequenceCycle / getAttackRepeats() / (attacksEveryTick()
+            ? attackSequence.numberOfColumns * UnitImagesComponent.TICKS_PER_FRAME : 1);
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
     this.movingSpeed = movingSpeed;
@@ -191,6 +261,5 @@ public enum UnitType {
       }
     }
   }
+
 }
-
-

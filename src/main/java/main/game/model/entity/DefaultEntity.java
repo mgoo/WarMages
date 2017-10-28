@@ -63,6 +63,7 @@ public abstract class DefaultEntity implements Entity {
   @Override
   public void slidePosition(double dx, double dy) {
     topLeft = topLeft.translate(dx, dy);
+    previousTopLeft = previousTopLeft.translate(dx, dy);
   }
 
 

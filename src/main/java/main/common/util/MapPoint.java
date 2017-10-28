@@ -16,13 +16,15 @@ public class MapPoint implements Serializable {
   public final double y;
 
   public MapPoint(double x, double y) {
+    if (!Double.isFinite(x) || !Double.isFinite(y)) {
+      throw new IllegalArgumentException(String.format("%f, %f", x, y));
+    }
     this.x = x;
     this.y = y;
   }
 
   public MapPoint(Point p) {
-    this.x = p.x;
-    this.y = p.y;
+    this(p.x, p.y);
   }
 
   /**

@@ -42,6 +42,7 @@ public class AttackingUnitStateTest {
         .takeDamage(anyDouble(), any(), any());
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
+    when(unit.getHealth()).thenReturn(100D);
     when(unit.getSize()).thenReturn(new MapSize(1, 1));
     when(unit.getCentre()).thenReturn(targetLocation);
     when(unit.getAttackDistance()).thenReturn(1D);
