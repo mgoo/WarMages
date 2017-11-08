@@ -11,44 +11,42 @@ import main.common.GameModel;
 import main.common.entity.Direction;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.unit.UnitImagesComponent;
 import org.junit.Test;
 
 /**
  * Some tests.
  * @author chongdyla
  */
-public class UnitImagesComponentTest {
+public class UnitAnimationTest {
 
   @Test
   public void numberOfTicksShouldBeTheSameForEachFrame() {
     // Given a sequence
     Sequence sequence = Sequence.SHOOT;
-    // and a fixed number of ticks per frame
-    int ticksPerFrame = UnitImagesComponent.TICKS_PER_FRAME;
     // and a stub unit
     DefaultUnit unit = mock(DefaultUnit.class);
     when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());
     when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
-    // and a UnitImagesComponent
-    UnitImagesComponent unitImagesComponent = new UnitImagesComponent(sequence, unit);
+    // and a UnitAnimation
+    UnitAnimation unitAnimation = new UnitAnimation(unit, Sequence.SHOOT, 10);
 
     // when we tick many times (for one whole cycle)
     Map<GameImage, Integer> ticksPerFrameCounts = new HashMap<>();
-    do {
+    while (!unitAnimation.isLastTick()) {
       ticksPerFrameCounts.compute(
-          unitImagesComponent.getImage(),
+          unitAnimation.getImage(),
           (image, count) -> count == null ? 1 : count + 1
       );
-      unitImagesComponent.tick(GameModel.DELAY);
-    } while (unitImagesComponent._getCurrentTick() > 0);
+      unitAnimation.tick();
+    }
 
     // then each image should have been shown for the right number of frames
     for (Entry<GameImage, Integer> entry : ticksPerFrameCounts.entrySet()) {
       assertEquals(
           "Failed for " + entry.getKey(),
-          ticksPerFrame,
+          unit.getAttackSpeed() / unit.getSpriteSheet().getImagesForSequence(sequence, Direction.DOWN).size(),
           (int) entry.getValue()
       );
     }

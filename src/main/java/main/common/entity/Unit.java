@@ -3,8 +3,11 @@ package main.common.entity;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.World;
+import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.Target;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -42,8 +45,6 @@ public interface Unit extends Entity {
 
   Team getTeam();
 
-  Unit getTarget();
-
   void addEffect(Effect effect);
 
   UnitSpriteSheet getSpriteSheet();
@@ -52,20 +53,8 @@ public interface Unit extends Entity {
 
   /**
    * Set's the Unit's target to the given Unit.
-   *
-   * @param targetUnit to be attacked
    */
-  void setTargetUnit(Unit targetUnit);
-
-  /**
-   * Set's the Unit's target to the given point.
-   */
-  void setTargetPoint(MapPoint targetPoint);
-
-  /**
-   * Clears the current target.
-   */
-  void clearTarget();
+  void setTarget(Target target);
 
   /**
    * Returns the amount of damage dealt.
@@ -95,6 +84,11 @@ public interface Unit extends Entity {
   String getType();
 
   /**
+   * Gets the Type of the unit.
+   */
+  UnitType getUnitType();
+
+  /**
    * Elevates the unit to the next level.
    */
   void nextLevel();
@@ -108,5 +102,14 @@ public interface Unit extends Entity {
    * Gets the icon of the unit to display on the hud.
    */
   GameImage getIcon();
+
+  /**
+   * Gets the attack speed.
+   * TODO use attack as an object like abilities are so
+   * it can be passed in here rather than the sequence
+   */
+  int getAttackSpeed();
+
+  double getSpeed();
 }
 

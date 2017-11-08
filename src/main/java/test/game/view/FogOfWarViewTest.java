@@ -16,6 +16,7 @@ import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.Target;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -106,11 +107,6 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public Unit getTarget() {
-      return null;
-    }
-
-    @Override
     public void addEffect(Effect effect) {
 
     }
@@ -126,17 +122,7 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public void setTargetUnit(Unit targetUnit) {
-
-    }
-
-    @Override
-    public void setTargetPoint(MapPoint targetPoint) {
-
-    }
-
-    @Override
-    public void clearTarget() {
+    public void setTarget(Target target) {
 
     }
 
@@ -161,6 +147,11 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
+    public UnitType getUnitType() {
+      return null;
+    }
+
+    @Override
     public void nextLevel() {
 
     }
@@ -173,6 +164,16 @@ public class FogOfWarViewTest extends GameViewTest {
     @Override
     public GameImage getIcon() {
       return null;
+    }
+
+    @Override
+    public int getAttackSpeed() {
+      return 0;
+    }
+
+    @Override
+    public double getSpeed() {
+      return 0;
     }
   }
 }

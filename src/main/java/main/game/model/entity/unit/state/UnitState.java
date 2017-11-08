@@ -5,28 +5,29 @@ import static java.util.Objects.requireNonNull;
 import java.io.Serializable;
 import main.common.entity.Direction;
 import main.common.entity.Unit;
+import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.unit.UnitImagesComponent;
 import main.common.World;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
- * An interface for the states of a unit.
+ * Holds information about what a unit is doing.
+ *
  * @author paladogabr
  */
 public abstract class UnitState implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  protected final DefaultUnit unit;
-  protected final UnitImagesComponent imagesComponent;
+  protected final Unit unit;
+  protected final UnitAnimation unitAnimation;
 
   protected UnitState requestedNextState;
 
-  public UnitState(Sequence sequence, DefaultUnit unit) {
+  public UnitState(UnitAnimation unitAnimation, Unit unit) {
     this.unit = unit;
-    this.imagesComponent = new UnitImagesComponent(sequence, unit);
+    this.unitAnimation = unitAnimation;
   }
 
   /**
@@ -35,7 +36,7 @@ public abstract class UnitState implements Serializable {
    * @param timeSinceLastTick time passed since last tick call.
    */
   public void tick(Long timeSinceLastTick, World world) {
-    imagesComponent.tick(timeSinceLastTick);
+    unitAnimation.tick();
   }
 
   /**
@@ -44,7 +45,7 @@ public abstract class UnitState implements Serializable {
    * @return GameImage image of current state.
    */
   public GameImage getImage() {
-    return imagesComponent.getImage();
+    return unitAnimation.getImage();
   }
 
   /**
@@ -71,4 +72,5 @@ public abstract class UnitState implements Serializable {
   public void onTakeDamage(double amount, World world, Unit attacker) {
     // do nothing
   }
+
 }

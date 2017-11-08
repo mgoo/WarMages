@@ -97,10 +97,10 @@ public class EntityView implements Renderable {
   }
 
   /**
-   * Calculates the actual MapPoint of this object based on the animation state.
+   * Calculates the actual MapPoint of this object based on the unitAnimation state.
    * This is the position relative to the map not the screen
    *
-   * @return the MapPoint of the object considering the animation state
+   * @return the MapPoint of the object considering the unitAnimation state
    */
   public MapPoint getEffectiveEntityPosition(long currentTime) {
     double animationMultiplyer = this.calculateAnimationMultiplyer(currentTime);
@@ -110,7 +110,7 @@ public class EntityView implements Renderable {
   }
 
   /**
-   * Calculates the multiplier for a linear animation.
+   * Calculates the multiplier for a linear unitAnimation.
    */
   private double calculateAnimationMultiplyer(long currentTime) {
     return 1D - (((double)this.lastTickTime)

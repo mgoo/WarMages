@@ -17,12 +17,10 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.entity.unit.state.DyingState;
-import main.game.model.entity.unit.state.IdleUnitState;
+import main.game.model.entity.unit.state.Dying;
+import main.game.model.entity.unit.state.Idle;
+import main.game.model.entity.unit.state.Target;
 import main.game.model.entity.unit.state.UnitState;
-import main.game.model.entity.unit.state.WalkingUnitState;
-import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
-import main.game.model.entity.unit.state.WalkingUnitState.MapPointTarget;
 
 /**
  * Default Unit implementation.
@@ -38,7 +36,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private final UnitSpriteSheet spriteSheet;
   private final Team team;
-  private Unit target;
 
   private UnitType unitType;
   private UnitState unitState;
@@ -88,7 +85,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.unitType = unitType;
     this.health = this.levelMultiplyer(unitType.getStartingHealth());
     this.spriteSheet = sheet;
-    this.unitState = new IdleUnitState(this);
+    this.unitState = new Idle(this);
 
     this.speed = unitType.getMovingSpeed();
     this.attackDistance = unitType.getAttackDistance();
@@ -121,8 +118,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.setSize(new MapSize(this.levelMultiplyer(this.originalSize.width, UNIT_MAX_SIZE),
         this.levelMultiplyer(this.originalSize.height, UNIT_MAX_SIZE)));
   }
-
-
 
   /**
    * Sets the Unit's next state to be the given state.
@@ -192,7 +187,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     } else {
       isDead = true;
       health = 0;
-      unitState = new DyingState(Sequence.DYING, this);
+      unitState = new Dying(Sequence.DYING, this);
       return true;
     }
   }
@@ -274,12 +269,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     }
   }
 
-
-  @Override
-  public Unit getTarget() {
-    return target;
-  }
-
   @Override
   public UnitSpriteSheet getSpriteSheet() {
     return spriteSheet;
@@ -295,26 +284,13 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   @Override
   public Direction getCurrentDirection() {
-    return unitState.getCurrentDirection();
+//    return unitState.getCurrentDirection();
+    return Direction.DOWN;
   }
 
   @Override
-  public void setTargetUnit(Unit targetUnit) {
-    if (targetUnit.getHealth() == 0 || isDead) {
-      return;
-    }
-    this.target = requireNonNull(targetUnit);
-    setNextState(new WalkingUnitState(this, new EnemyUnitTarget(this, targetUnit)));
-  }
-
-  @Override
-  public void setTargetPoint(MapPoint targetPoint) {
-    setNextState(new WalkingUnitState(this, new MapPointTarget(this, targetPoint)));
-  }
-
-  @Override
-  public void clearTarget() {
-    this.target = null;
+  public void setTarget(Target target) {
+    this.setNextState(target.getState());
   }
 
   private void setDamageAmount(double amount) {
@@ -340,6 +316,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return this.unitType.toString().equals(other.getType());
   }
 
+  @Override
   public double getSpeed() {
     return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
   }
@@ -373,4 +350,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   public int getLevel() {
     return this.level;
   }
+
+  @Override
+  public int getAttackSpeed() {
+    return this.unitType.getAttackSpeed();
+  }
+
 }

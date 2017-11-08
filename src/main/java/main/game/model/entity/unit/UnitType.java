@@ -14,7 +14,7 @@ import main.game.model.entity.DefaultProjectile;
  */
 public enum UnitType {
 
-  ARCHER(25, 100, 3, 0.1, 6, 5, Sequence.SHOOT) {
+  ARCHER(25, 100, 8, 0.1, 6, 5, Sequence.SHOOT) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -65,7 +65,7 @@ public enum UnitType {
       );
     }
   },
-  WHITE_LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+  WHITE_LASER(2, 200, 1, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -84,7 +84,7 @@ public enum UnitType {
       );
     }
   },
-  LASER(2, 200, 8, 0.08, 5, 3, Sequence.SPELL_CAST) {
+  LASER(2, 200, 1, 0.08, 5, 3, Sequence.SPELL_CAST) {
     @Override
     public boolean canShootProjectiles() {
       return true;
@@ -106,7 +106,7 @@ public enum UnitType {
 
   protected double baselineDamage;
   protected double startingHealth;
-  protected double attackSpeed;
+  protected int attackSpeed;
   protected double movingSpeed;
   protected double lineOfSight;
   protected double attackDistance;
@@ -124,7 +124,7 @@ public enum UnitType {
     return attackDistance;
   }
 
-  public double getAttackSpeed() {
+  public int getAttackSpeed() {
     return attackSpeed;
   }
 
@@ -146,7 +146,7 @@ public enum UnitType {
   /**
    * Creates an appropriate projectile for this {@link UnitType}.
    */
-  public final Projectile createProjectile(DefaultUnit creator, Unit target) {
+  public final Projectile createProjectile(Unit creator, Unit target) {
     if (!canShootProjectiles()) {
       throw new UnsupportedOperationException();
     }
@@ -164,7 +164,7 @@ public enum UnitType {
   public abstract boolean canShootProjectiles();
 
   UnitType(
-      double baselineDamage, int startingHealth, double attackSpeed, double movingSpeed,
+      double baselineDamage, int startingHealth, int attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
     this.baselineDamage = baselineDamage;
@@ -177,18 +177,6 @@ public enum UnitType {
 
     if (lineOfSight < attackDistance) {
       throw new IllegalArgumentException();
-    }
-
-    if (canShootProjectiles()) {
-      try {
-        attackSequence.getAttackFrame();
-      } catch (IllegalStateException e) {
-        throw new Error(String.format(
-            "%s maps to %s that cannot attack",
-            this,
-            attackSequence
-        ));
-      }
     }
   }
 }

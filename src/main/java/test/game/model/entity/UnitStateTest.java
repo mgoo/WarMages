@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import main.common.entity.Team;
 import main.common.entity.Unit;
-import main.common.entity.usable.Ability;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.common.World;
-import main.game.model.entity.unit.state.WalkingUnitState;
+import main.game.model.entity.unit.state.Moving;
+import main.game.model.entity.unit.state.TargetMapPoint;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -47,12 +47,12 @@ public class UnitStateTest {
     when(world.findPath(any(), any()))
         .thenAnswer(invocation -> Arrays.asList(invocation.getArguments()));
 
-    unit.setTargetPoint(new MapPoint(20, 2));
+    unit.setTarget(new TargetMapPoint(unit, new MapPoint(20, 2)));
     unit.tick(50, world);
     unit.tick(50, world);
     unit.tick(50, world);
 
-    assertTrue(unit._getUnitState() instanceof WalkingUnitState);
+    assertTrue(unit._getUnitState() instanceof Moving);
   }
 
   @Ignore

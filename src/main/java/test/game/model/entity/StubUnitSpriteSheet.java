@@ -21,7 +21,7 @@ public class StubUnitSpriteSheet implements UnitSpriteSheet {
         new MapKey(sequence, unitDirection),
         mapKey -> Stream
             .generate(() -> mock(GameImage.class))
-            .limit(sequence.numberOfColumns)
+            .limit(sequence.frames)
             .collect(Collectors.toList())
     );
   }

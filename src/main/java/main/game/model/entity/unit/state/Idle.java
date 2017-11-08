@@ -4,20 +4,19 @@ import java.util.Comparator;
 import main.common.World;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
-import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.unit.state.WalkingUnitState.EnemyUnitTarget;
+import main.game.model.entity.unit.UnitAnimation;
 
 /**
  * Idle state for Unit.
  *
  * @author paladogabr
  */
-public class IdleUnitState extends UnitState {
+public class Idle extends UnitState {
 
   private static final long serialVersionUID = 1L;
 
-  public IdleUnitState(DefaultUnit unit) {
-    super(Sequence.IDLE, unit);
+  public Idle(Unit unit) {
+    super(new UnitAnimation(unit, Sequence.IDLE, Sequence.IDLE.frames * 2), unit);
   }
 
   @Override
@@ -54,7 +53,10 @@ public class IdleUnitState extends UnitState {
   }
 
   private void requestAttackUnit(Unit enemy) {
-    requestState(new WalkingUnitState(unit, new EnemyUnitTarget(unit, enemy)));
+    TargetEnemyUnit enemyTarget = new TargetEnemyUnit(unit, enemy);
+    requestState(new Moving(unit,
+        enemyTarget,
+        new Attacking(unit, enemyTarget, unit.getAttackSpeed()/2))); // TODO make attacks an object
   }
 
   private double distanceToUnit(Unit target) {
