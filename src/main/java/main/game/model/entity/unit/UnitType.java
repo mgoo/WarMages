@@ -167,6 +167,12 @@ public enum UnitType {
       double baselineDamage, int startingHealth, int attackSpeed, double movingSpeed,
       double lineOfSight, double attackDistance, Sequence attackSequence
   ) {
+    assert startingHealth >= 0 : "Health should not be negative when starting";
+    assert attackSpeed > 0 : "Attack speed needs to be greater than 0";
+    assert movingSpeed >= 0 : "Movement speed cannot be negative";
+    assert lineOfSight >= 0 : "Line of Sight cannot be negative";
+    assert attackDistance >= 0 : "Attack distance cannot be negative";
+
     this.baselineDamage = baselineDamage;
     this.startingHealth = startingHealth;
     this.attackSpeed = attackSpeed;
@@ -174,10 +180,6 @@ public enum UnitType {
     this.lineOfSight = lineOfSight;
     this.attackSequence = attackSequence;
     this.attackDistance = attackDistance;
-
-    if (lineOfSight < attackDistance) {
-      throw new IllegalArgumentException();
-    }
   }
 }
 

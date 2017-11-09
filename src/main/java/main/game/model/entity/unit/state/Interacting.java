@@ -39,6 +39,10 @@ public class Interacting extends UnitState {
     return this;
   }
 
+  /**
+   * Assumes that units look at what they are interacting with
+   * @return
+   */
   @Override
   public Direction getCurrentDirection() {
     return Direction.between(unit.getCentre(), target.getDestination());

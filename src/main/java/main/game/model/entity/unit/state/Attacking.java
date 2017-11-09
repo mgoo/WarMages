@@ -30,7 +30,7 @@ public class Attacking extends Interacting {
     this.applicationTick = (int) (unit.getAttackSpeed() * windUp);
     this.windUp = windUp;
 
-    if (target.isStillValid()) {
+    if (!target.isStillValid()) {
       throw new IllegalArgumentException();
     }
   }

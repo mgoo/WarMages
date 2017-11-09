@@ -3,7 +3,6 @@ package main.game.model.entity.unit.state;
 import java.io.Serializable;
 import main.common.entity.Unit;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.DefaultUnit;
 
 public class TargetEnemyUnit extends Target implements Serializable {
 
@@ -13,9 +12,8 @@ public class TargetEnemyUnit extends Target implements Serializable {
 
   public TargetEnemyUnit(Unit unit, Unit enemyUnit) {
     super(unit, null);
-    this.nextState = new Attacking(unit, this, 1.0);
-
     this.enemyUnit = enemyUnit;
+    this.nextState = new Attacking(unit, this, 1.0);
 
     if (!isStillValid()) {
       throw new IllegalArgumentException();

@@ -26,7 +26,7 @@ public class Animation {
   ) {
     this.frames = frames;
     this.length = length;
-    this.ticksPerFrame = length / frames.size();
+    this.ticksPerFrame = Math.max(1, length / frames.size());
   }
 
   /**

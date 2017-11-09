@@ -284,7 +284,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   @Override
   public Direction getCurrentDirection() {
-//    return unitState.getCurrentDirection();
     return Direction.DOWN;
   }
 

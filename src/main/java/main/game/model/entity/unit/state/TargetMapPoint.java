@@ -3,7 +3,6 @@ package main.game.model.entity.unit.state;
 import java.io.Serializable;
 import main.common.entity.Unit;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.DefaultUnit;
 
 public class TargetMapPoint extends Target implements Serializable {
 
@@ -29,7 +28,6 @@ public class TargetMapPoint extends Target implements Serializable {
 
   @Override
   public boolean hasArrived() {
-    return unit.getCentre().
-        distanceTo(target) > LEEWAY_FOR_PATH;
+    return unit.getCentre().distanceTo(target) < LEEWAY_FOR_PATH;
   }
 }
