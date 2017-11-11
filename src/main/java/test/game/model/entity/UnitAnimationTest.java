@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import main.common.GameModel;
 import main.common.entity.Direction;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet.Sequence;
@@ -34,7 +33,7 @@ public class UnitAnimationTest {
 
     // when we tick many times (for one whole cycle)
     Map<GameImage, Integer> ticksPerFrameCounts = new HashMap<>();
-    while (!unitAnimation.isLastTick()) {
+    while (!unitAnimation.isFinished()) {
       ticksPerFrameCounts.compute(
           unitAnimation.getImage(),
           (image, count) -> count == null ? 1 : count + 1
@@ -46,7 +45,7 @@ public class UnitAnimationTest {
     for (Entry<GameImage, Integer> entry : ticksPerFrameCounts.entrySet()) {
       assertEquals(
           "Failed for " + entry.getKey(),
-          unit.getAttackSpeed() / unit.getSpriteSheet().getImagesForSequence(sequence, Direction.DOWN).size(),
+          unit.getAttackSpeedModifier() / unit.getSpriteSheet().getImagesForSequence(sequence, Direction.DOWN).size(),
           (int) entry.getValue()
       );
     }

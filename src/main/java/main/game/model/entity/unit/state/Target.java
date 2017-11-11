@@ -13,8 +13,8 @@ public abstract class Target implements Serializable {
   private static final long serialVersionUID = 1L;
 
   protected final Unit unit;
-  protected UnitState nextState;
-  private final Moving moveToDestination;
+  private UnitState nextState;
+  private Moving moveToDestination;
 
   /**
    *
@@ -32,6 +32,15 @@ public abstract class Target implements Serializable {
     this.moveToDestination = new Moving(unit, this, nextState);
   }
 
+  protected void setNextState(UnitState nextState) {
+    this.moveToDestination = new Moving(unit, this, nextState);
+    this.nextState = nextState;
+  }
+
+  private UnitState getNextState() {
+    return this.nextState;
+  }
+
   /**
    * Can Change.
    */
@@ -40,6 +49,8 @@ public abstract class Target implements Serializable {
   abstract boolean isStillValid();
 
   public abstract boolean hasArrived();
+
+  public abstract double acceptableDistanceFromEnd();
 
   public UnitState getState() {
     if (this.hasArrived()) {

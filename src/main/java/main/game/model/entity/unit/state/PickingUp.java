@@ -12,6 +12,7 @@ import main.game.model.entity.unit.UnitAnimation;
 public class PickingUp extends Interacting {
 
   private final Item item;
+  private final HeroUnit heroUnit;
 
   public PickingUp(
       HeroUnit unit,
@@ -21,6 +22,7 @@ public class PickingUp extends Interacting {
     super(unit,
         new UnitAnimation(unit, sequence, sequence.frames * 2),
         itemTarget);
+    this.heroUnit = unit;
     this.item = itemTarget.getItem();
   }
 
@@ -28,7 +30,7 @@ public class PickingUp extends Interacting {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
     if (this.target.hasArrived()) {
-      ((HeroUnit) unit).pickUp(this.item);
+      this.heroUnit.pickUp(this.item);
       world.removeItem(this.item);
     }
   }

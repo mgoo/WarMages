@@ -44,7 +44,7 @@ public class InteractingTest {
 //    DefaultUnit unit = mock(DefaultUnit.class);
 //    when(unit.getSize()).thenReturn(new MapSize(1, 1));
 //    when(unit.getCentre()).thenReturn(targetLocation);
-//    when(unit.getAttackDistance()).thenReturn(1D);
+//    when(unit.getRangeModifier()).thenReturn(1D);
 //    when(unit.getTeam()).thenReturn(Team.PLAYER);
 //    when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
 //    when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());

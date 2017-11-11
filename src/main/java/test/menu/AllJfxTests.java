@@ -70,117 +70,117 @@ import test.renderer.RendererTestUtils;
  * @author Eric Diputado (Renderer tests)
  */
 public class AllJfxTests {
-
-  private static Level level = null;
-  private static HeroUnit hero = null;
-
-  private static DefaultUnit createDefaultUnit(MapPoint point) {
-    return new DefaultUnit(
-        point,
-        new MapSize(1, 1),
-        Team.ENEMY,
-        new DefaultUnitSpriteSheet(GameImageResource.ORC_SPEARMAN_SPRITE_SHEET),
-        UnitType.SPEARMAN
-    );
-  }
-
-  @Test
-  public void testMainMenu() {
-    if (!Desktop.isDesktopSupported()) {
-      return;
-    }
-    WorldSaveModel worldSaveModel = mock(WorldSaveModel.class);
-    when(worldSaveModel.getExistingGameSaves()).thenReturn(Collections.emptyList());
-    TestApplication.show(new MainMenu(
-        mock(Main.class),
-        mock(WorldLoader.class),
-        worldSaveModel,
-        mock(ImageView.class),
-        mock(Config.class)
-    ));
-    assertTrue(true);
-  }
-
-  /**
-   * Tests whether gameView, imageView and Renderer can work together to draw.
-   *
-   * @author Eric Diputado
-   */
-  public static Image testImage() {
-    hero = new DefaultHeroUnit(
-        new MapPoint(0, 0),
-        new MapSize(1, 1),
-        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
-        UnitType.SWORDSMAN,
-        Collections.emptyList(),
-        0
-    );
-    level = WorldTestUtils.createLevelWith(
-        createDefaultUnit(new MapPoint(1, 0)),
-        createDefaultUnit(new MapPoint(2, 0)),
-        createDefaultUnit(new MapPoint(3, 0))
-    );
-    GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
-        .createWorld(
-            WorldTestUtils.createLevels(level),
-            hero
-        ), new MainGameTick());
-    Config config = createConfig();
-    GameView gv = createGameView(config, createGameController(model), model);
-    ImageView iv = createImageView(config);
-    new DefaultRenderer(gv, iv, config, mock(Looper.class))
-        .drawAll(config.getGameModelDelay(), gv, iv);
-    return iv.getImage();
-  }
-
-  /**
-   * A mock application class.
-   */
-  public static class TestApplication extends Application {
-
-    private static Menu currentMenu;
-
-    public static void show(Menu menu) {
-      currentMenu = menu;
-      launch(new String[0]);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-      final Scene scene = new Scene(new Group());
-      final StackPane root = new StackPane();
-      final WebView browser = new WebView();
-      final ImageView imageView = new ImageView();
-
-      WebEngine webEngine = browser.getEngine();
-
-      webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
-        if (newState != Worker.State.SUCCEEDED) {
-          return;
-        }
-        com.sun.javafx.webkit.Accessor.getPageFor(webEngine)
-            .setBackgroundColor(new Color(0, 0, 0, 0).getRGB());
-
-        JSObject window = (JSObject) webEngine.executeScript("window");
-        window.setMember("controller", currentMenu.getMenuController());
-        Arrays.stream(currentMenu.getScripts()).forEach(script -> {
-          webEngine.executeScript(script);
-        });
-      });
-
-      webEngine.setUserStyleSheetLocation(currentMenu.getStyleSheetLocation());
-      webEngine.loadContent(currentMenu.getHtml());
-
-      imageView.setImage(testImage());
-
-      root.getChildren().setAll(imageView, browser);
-      scene.setRoot(root);
-      primaryStage.setScene(scene);
-      primaryStage.show();
-      PauseTransition delay = new PauseTransition(Duration.seconds(3));
-      delay.setOnFinished(event -> primaryStage.close());
-      delay.play();
-
-    }
-  }
+//
+//  private static Level level = null;
+//  private static HeroUnit hero = null;
+//
+//  private static DefaultUnit createDefaultUnit(MapPoint point) {
+//    return new DefaultUnit(
+//        point,
+//        new MapSize(1, 1),
+//        Team.ENEMY,
+//        new DefaultUnitSpriteSheet(GameImageResource.ORC_SPEARMAN_SPRITE_SHEET),
+//        UnitType.SPEARMAN
+//    );
+//  }
+//
+//  @Test
+//  public void testMainMenu() {
+//    if (!Desktop.isDesktopSupported()) {
+//      return;
+//    }
+//    WorldSaveModel worldSaveModel = mock(WorldSaveModel.class);
+//    when(worldSaveModel.getExistingGameSaves()).thenReturn(Collections.emptyList());
+//    TestApplication.show(new MainMenu(
+//        mock(Main.class),
+//        mock(WorldLoader.class),
+//        worldSaveModel,
+//        mock(ImageView.class),
+//        mock(Config.class)
+//    ));
+//    assertTrue(true);
+//  }
+//
+//  /**
+//   * Tests whether gameView, imageView and Renderer can work together to draw.
+//   *
+//   * @author Eric Diputado
+//   */
+//  public static Image testImage() {
+//    hero = new DefaultHeroUnit(
+//        new MapPoint(0, 0),
+//        new MapSize(1, 1),
+//        new DefaultUnitSpriteSheet(GameImageResource.MALE_MAGE_SPRITE_SHEET),
+//        UnitType.SWORDSMAN,
+//        Collections.emptyList(),
+//        0
+//    );
+//    level = WorldTestUtils.createLevelWith(
+//        createDefaultUnit(new MapPoint(1, 0)),
+//        createDefaultUnit(new MapPoint(2, 0)),
+//        createDefaultUnit(new MapPoint(3, 0))
+//    );
+//    GameModel model = RendererTestUtils.createGameModel(WorldTestUtils
+//        .createWorld(
+//            WorldTestUtils.createLevels(level),
+//            hero
+//        ), new MainGameTick());
+//    Config config = createConfig();
+//    GameView gv = createGameView(config, createGameController(model), model);
+//    ImageView iv = createImageView(config);
+//    new DefaultRenderer(gv, iv, config, mock(Looper.class))
+//        .drawAll(config.getGameModelDelay(), gv, iv);
+//    return iv.getImage();
+//  }
+//
+//  /**
+//   * A mock application class.
+//   */
+//  public static class TestApplication extends Application {
+//
+//    private static Menu currentMenu;
+//
+//    public static void show(Menu menu) {
+//      currentMenu = menu;
+//      launch(new String[0]);
+//    }
+//
+//    @Override
+//    public void start(Stage primaryStage) {
+//      final Scene scene = new Scene(new Group());
+//      final StackPane root = new StackPane();
+//      final WebView browser = new WebView();
+//      final ImageView imageView = new ImageView();
+//
+//      WebEngine webEngine = browser.getEngine();
+//
+//      webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
+//        if (newState != Worker.State.SUCCEEDED) {
+//          return;
+//        }
+//        com.sun.javafx.webkit.Accessor.getPageFor(webEngine)
+//            .setBackgroundColor(new Color(0, 0, 0, 0).getRGB());
+//
+//        JSObject window = (JSObject) webEngine.executeScript("window");
+//        window.setMember("controller", currentMenu.getMenuController());
+//        Arrays.stream(currentMenu.getScripts()).forEach(script -> {
+//          webEngine.executeScript(script);
+//        });
+//      });
+//
+//      webEngine.setUserStyleSheetLocation(currentMenu.getStyleSheetLocation());
+//      webEngine.loadContent(currentMenu.getHtml());
+//
+//      imageView.setImage(testImage());
+//
+//      root.getChildren().setAll(imageView, browser);
+//      scene.setRoot(root);
+//      primaryStage.setScene(scene);
+//      primaryStage.show();
+//      PauseTransition delay = new PauseTransition(Duration.seconds(3));
+//      delay.setOnFinished(event -> primaryStage.close());
+//      delay.play();
+//
+//    }
+//  }
 }

@@ -3,17 +3,20 @@ package main.game.model.entity.unit.state;
 import java.io.Serializable;
 import main.common.entity.Unit;
 import main.common.util.MapPoint;
+import main.game.model.entity.unit.attack.Attack;
 
 public class TargetEnemyUnit extends Target implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private final Unit enemyUnit;
+  private final Attack attack;
 
-  public TargetEnemyUnit(Unit unit, Unit enemyUnit) {
+  public TargetEnemyUnit(Unit unit, Unit enemyUnit, Attack attack) {
     super(unit, null);
     this.enemyUnit = enemyUnit;
-    this.nextState = new Attacking(unit, this, 1.0);
+    this.attack = attack;
+    this.setNextState(new Attacking(unit, this, attack));
 
     if (!isStillValid()) {
       throw new IllegalArgumentException();
@@ -34,11 +37,12 @@ public class TargetEnemyUnit extends Target implements Serializable {
   @Override
   public boolean hasArrived() {
     return unit.getCentre().
-        distanceTo(enemyUnit.getCentre()) > this.getDestinationLeeway();
+        distanceTo(enemyUnit.getCentre()) > this.acceptableDistanceFromEnd();
   }
 
-  private double getDestinationLeeway() {
-    return unit.getUnitType().getAttackDistance() * 0.999 // avoid floating point inaccuracy
+  @Override
+  public double acceptableDistanceFromEnd() {
+    return this.attack.getModifiedRange(this.unit) * 0.999 // avoid floating point inaccuracy
         + unit.getSize().width
         + enemyUnit.getSize().width;
   }

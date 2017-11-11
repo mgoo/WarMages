@@ -56,14 +56,15 @@ public class Moving extends UnitState {
 
     if (!this.target.hasArrived()) {
       // Haven't arrived yet
-      if (path.isEmpty()) {
+      if (path.isEmpty() && unit.getCentre().distanceTo(target.getDestination()) > 1.0) {
         // Can't get to destination
+        System.out.println("Idle");
         return new Idle(unit);
       }
 
       return this;
     }
-
+    System.out.println("nextState: " + nextState.getClass().getCanonicalName());
     // Arrived at destination
     return nextState;
   }

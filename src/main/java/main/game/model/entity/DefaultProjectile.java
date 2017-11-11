@@ -49,7 +49,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
     this.target = requireNonNull(target);
     this.owner = owner;
     // So level ups and buffs do not effect fired projectile damage
-    this.damageAmount = owner.getDamageAmount();
+    this.damageAmount = owner.getDamageModifier();
     this.moveDistancePerTick = moveDistancePerTick;
     this.image = gameImage;
   }
@@ -101,10 +101,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   @Override
   public void hitTarget(World world) {
-    boolean killed = target.takeDamage(damageAmount, world, owner);
-    if (killed) {
-      this.owner.nextLevel();
-    }
+    target.takeDamage(damageAmount, world, owner);
     world.removeProjectile(this);
   }
 

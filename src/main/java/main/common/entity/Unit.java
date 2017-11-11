@@ -3,8 +3,6 @@ package main.common.entity;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.common.util.MapPoint;
 import main.common.World;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.state.Target;
@@ -20,7 +18,7 @@ public interface Unit extends Entity {
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
    * @return returns true if the entity died
    */
-  boolean takeDamage(double amount, World world, Unit attacker);
+  void takeDamage(double amount, World world, Unit attacker);
 
   /**
    * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
@@ -55,13 +53,6 @@ public interface Unit extends Entity {
    * Set's the Unit's target to the given Unit.
    */
   void setTarget(Target target);
-
-  /**
-   * Returns the amount of damage dealt.
-   *
-   * @return int amount of damage dealt.
-   */
-  double getDamageAmount();
 
   /**
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
@@ -104,12 +95,23 @@ public interface Unit extends Entity {
   GameImage getIcon();
 
   /**
-   * Gets the attack speed.
-   * TODO use attack as an object like abilities are so
-   * it can be passed in here rather than the sequence
+   * Gets the amount that the attack speed should be multiplied by
    */
-  int getAttackSpeed();
+  double getAttackSpeedModifier();
 
+  /**
+   * Returns the amount that the damage should be multiplied by
+   */
+  double getDamageModifier();
+
+  /**
+   * Gets the amount that the range of the unit should be multupiled by
+   */
+  double getRangeModifier();
+
+  /**
+   * Gets the movement speed of the unit
+   */
   double getSpeed();
 }
 

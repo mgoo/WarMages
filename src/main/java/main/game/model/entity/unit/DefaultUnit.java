@@ -47,7 +47,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   private int level;
   private double health;
   private double damageAmount;
-  private final double attackDistance;
   private double speed;
   private MapSize originalSize;
 
@@ -88,8 +87,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.unitState = new Idle(this);
 
     this.speed = unitType.getMovingSpeed();
-    this.attackDistance = unitType.getAttackDistance();
-    setDamageAmount(unitType.getBaselineDamage());
   }
 
   /**
@@ -170,9 +167,9 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public boolean takeDamage(double amount, World world, Unit attacker) {
+  public void takeDamage(double amount, World world, Unit attacker) {
     if (isDead) {
-      return false;
+      return;
     }
     if (amount < 0) {
       throw new IllegalArgumentException("Amount: " + amount);
@@ -183,12 +180,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     if (health - amount > 0) {
       // Not dead
       health -= amount;
-      return false;
     } else {
       isDead = true;
       health = 0;
       unitState = new Dying(Sequence.DYING, this);
-      return true;
+      attacker.nextLevel();
     }
   }
 
@@ -243,17 +239,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     if (!effect.isExpired()) {
       activeEffects.add(effect);
     }
-  }
-
-  @Override
-  public double getDamageAmount() {
-    double amount = damageAmount;
-
-    for (Effect activeEffect : activeEffects) {
-      amount = activeEffect.alterDamageAmount(amount);
-    }
-
-    return this.levelMultiplyer(amount);
   }
 
   private void tickEffects(long timeSinceLastTick) {
@@ -327,10 +312,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return unitState;
   }
 
-  public double getAttackDistance() {
-    return this.levelMultiplyer(attackDistance);
-  }
-
   @Override
   public String getType() {
     return this.unitType.toString();
@@ -351,8 +332,24 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   }
 
   @Override
-  public int getAttackSpeed() {
-    return this.unitType.getAttackSpeed();
+  public double getAttackSpeedModifier() {
+    return 1;
+  }
+
+  @Override
+  public double getDamageModifier() {
+    double amount = damageAmount;
+
+    for (Effect activeEffect : activeEffects) {
+      amount = activeEffect.alterDamageModifier(amount);
+    }
+
+    return this.levelMultiplyer(amount);
+  }
+
+  @Override
+  public double getRangeModifier() {
+    return 1;
   }
 
 }

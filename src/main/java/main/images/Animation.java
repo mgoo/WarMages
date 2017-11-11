@@ -14,6 +14,7 @@ public class Animation {
   private final int length;
   private final int ticksPerFrame;
   private int currentTick = 0;
+  private boolean isFinished = false;
 
   /**
    * Constructor uses list of frames and time
@@ -33,15 +34,24 @@ public class Animation {
    * The unit should call this when the {@link GameModel} ticks.
    */
   public void tick() {
-    currentTick = (currentTick + 1) % this.length;
+    if (this.isFinished) {
+      return;
+    }
+    currentTick = (currentTick + 1);
+    if (currentTick >= length) {
+      this.isFinished = true;
+    }
   }
 
   public GameImage getImage() {
+    if (this.isFinished) {
+      return getImages().get(getImages().size() - 1);
+    }
     return getImages().get(this.currentTick / this.ticksPerFrame);
   }
 
-  public boolean isLastTick() {
-    return currentTick == this.length - 1;
+  public boolean isFinished() {
+    return this.isFinished;
   }
 
   private List<GameImage> getImages() {

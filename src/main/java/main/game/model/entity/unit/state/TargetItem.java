@@ -6,7 +6,6 @@ import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.DefaultUnit;
 
 /**
  * @author Andrew McGhie
@@ -14,7 +13,7 @@ import main.game.model.entity.unit.DefaultUnit;
 public class TargetItem extends Target implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final double PICK_UP_MAX_DISTANCE = 2;
+  private static final double PICK_UP_MAX_DISTANCE = 1;
 
   private final MapPoint location;
   private final Item item;
@@ -27,9 +26,9 @@ public class TargetItem extends Target implements Serializable {
 
   public TargetItem(HeroUnit heroUnit, Item item) {
     super(heroUnit);
-    this.nextState = new PickingUp(heroUnit, Sequence.IDLE, this);
     this.item = item;
     this.location = item.getCentre();
+    this.setNextState(new PickingUp(heroUnit, Sequence.DEAD, this));
   }
 
   public Item getItem() {
@@ -49,5 +48,10 @@ public class TargetItem extends Target implements Serializable {
   @Override
   public boolean hasArrived() {
     return unit.getCentre().distanceTo(location) < PICK_UP_MAX_DISTANCE;
+  }
+
+  @Override
+  public double acceptableDistanceFromEnd() {
+    return PICK_UP_MAX_DISTANCE;
   }
 }

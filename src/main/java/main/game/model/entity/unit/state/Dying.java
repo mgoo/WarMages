@@ -21,7 +21,7 @@ public class Dying extends UnitState {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
-    if (unitAnimation.isLastTick()) {
+    if (unitAnimation.isFinished()) {
       world.onEnemyKilled(unit);
     }
   }

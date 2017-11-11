@@ -77,8 +77,8 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public boolean takeDamage(double amount, World world, Unit attacker) {
-      return false;
+    public void takeDamage(double amount, World world, Unit attacker) {
+      return;
     }
 
     @Override
@@ -127,7 +127,12 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public double getDamageAmount() {
+    public double getDamageModifier() {
+      return 0;
+    }
+
+    @Override
+    public double getRangeModifier() {
       return 0;
     }
 
@@ -167,7 +172,7 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public int getAttackSpeed() {
+    public double getAttackSpeedModifier() {
       return 0;
     }
 

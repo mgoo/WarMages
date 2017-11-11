@@ -30,6 +30,13 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
   private static final int SEARCH_LIMIT = 200;
 
+  @Override
+  public Stack<MapPoint> findPath(
+      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  ) {
+    return this.findPath(isPassable, start, end, 0);
+  }
+
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
    * on the world returning a list of points along current path.
@@ -40,7 +47,10 @@ public class DefaultPathFinder implements PathFinder, Serializable {
    * @return a list of points representing the shortest path
    */
   public Stack<MapPoint> findPath(
-      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+      Function<MapPoint, Boolean> isPassable,
+      MapPoint start,
+      MapPoint end,
+      double AcceptableDistanceFromEnd
   ) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, start.distanceTo(end)));
@@ -68,7 +78,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
       visited.add(tuple.getPoint());
 
-      if (tuple.getPoint().isSimilar(end)) {
+      if (tuple.getPoint().distanceTo(end) < AcceptableDistanceFromEnd || tuple.getPoint().isSimilar(end)) {
         return tuple.getPath();
       }
 

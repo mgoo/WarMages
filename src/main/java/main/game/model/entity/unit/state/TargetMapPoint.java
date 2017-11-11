@@ -6,14 +6,24 @@ import main.common.util.MapPoint;
 
 public class TargetMapPoint extends Target implements Serializable {
 
-  private static final double LEEWAY_FOR_PATH = 0.5;
   private static final long serialVersionUID = 1L;
 
+  private final double leewayForPath;
   private final MapPoint target;
 
+  /**
+   * Default distance is 0.5
+   */
   public TargetMapPoint(Unit unit, MapPoint target) {
     super(unit);
     this.target = target;
+    this.leewayForPath = 0.5;
+  }
+
+  public TargetMapPoint(Unit unit, MapPoint target, double distance) {
+    super(unit);
+    this.target = target;
+    this.leewayForPath = distance;
   }
 
   @Override
@@ -28,6 +38,11 @@ public class TargetMapPoint extends Target implements Serializable {
 
   @Override
   public boolean hasArrived() {
-    return unit.getCentre().distanceTo(target) < LEEWAY_FOR_PATH;
+    return unit.getCentre().distanceTo(target) < this.acceptableDistanceFromEnd();
+  }
+
+  @Override
+  public double acceptableDistanceFromEnd() {
+    return leewayForPath;
   }
 }

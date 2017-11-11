@@ -1,12 +1,10 @@
 package main.game.model.entity.unit.state;
 
 import main.common.World;
-import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet;
-import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitAnimation;
-import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.attack.Attack;
 
 /**
  * @author Andrew McGhie
@@ -14,21 +12,25 @@ import main.game.model.entity.unit.UnitType;
 public class Attacking extends Interacting {
 
   private final int applicationTick;
-  private final double windUp;
+  private final Attack attack;
+  private final TargetEnemyUnit targetEnemyUnit;
 
   private int currentTick = 0;
 
   public Attacking(
       Unit unit,
       TargetEnemyUnit target,
-      double windUp
+      Attack attack
   ) {
     super(unit,
-        new UnitAnimation(unit, unit.getUnitType().getAttackSequence(), unit.getAttackSpeed()),
+        new UnitAnimation(unit,
+            unit.getUnitType().getAttackSequence(),
+            attack.getModifiedAttackSpeed(unit)),
         target);
-
-    this.applicationTick = (int) (unit.getAttackSpeed() * windUp);
-    this.windUp = windUp;
+    this.targetEnemyUnit = target;
+    this.applicationTick =
+        (int) (attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion(unit));
+    this.attack = attack;
 
     if (!target.isStillValid()) {
       throw new IllegalArgumentException();
@@ -47,7 +49,7 @@ public class Attacking extends Interacting {
           new Attacking(
               this.unit,
               ((TargetEnemyUnit) this.target),
-              this.windUp // TODO get the windup from the unit rather than the parameter
+              this.attack
           )
       );
       return;
@@ -58,7 +60,7 @@ public class Attacking extends Interacting {
     }
 
     if (this.currentTick == this.applicationTick) {
-      performAttack(world);
+      this.attack.execute(unit, this.targetEnemyUnit.getEnemyUnit(), world);
     }
   }
 
@@ -70,28 +72,11 @@ public class Attacking extends Interacting {
     if (!target.isStillValid()) {
       return new Idle(unit);
     }
-    return this;
-  }
 
-  /**
-   * Called when the attack frame is reached in the unitAnimation.
-   * TODO shift this into attack Object
-   * objects {@link UnitSpriteSheet.Sequence}.
-   */
-  private void performAttack(World world) {
-    UnitType unitType = unit.getUnitType();
-
-    if (unitType.canShootProjectiles()) {
-      Projectile projectile =
-          unitType.createProjectile(unit, ((TargetEnemyUnit) target).getEnemyUnit());
-      world.addProjectile(projectile);
-    } else {
-      // Non projectile attack (e.g. spear)
-      boolean killed =
-          ((TargetEnemyUnit) target).getEnemyUnit().takeDamage(unit.getDamageAmount(), world, unit);
-      if (killed) {
-        unit.nextLevel();
-      }
+    if (this.unitAnimation.isFinished() && target.isStillValid()) {
+      return new Attacking(this.unit, this.targetEnemyUnit, this.attack);
     }
+
+    return this;
   }
 }
