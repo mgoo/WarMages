@@ -1,5 +1,6 @@
 package main.game.model.entity.unit.attack;
 
+import java.io.Serializable;
 import main.common.World;
 import main.common.entity.Unit;
 
@@ -7,7 +8,9 @@ import main.common.entity.Unit;
  * Base class for Attacks.
  * @author Andrew McGhie
  */
-public abstract class Attack {
+public abstract class Attack implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Make the enemy unit take damage.

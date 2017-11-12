@@ -10,6 +10,7 @@ import main.common.util.MapPoint;
  * @author Andrew McGhie
  */
 public abstract class Target implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   protected final Unit unit;

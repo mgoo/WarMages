@@ -1,5 +1,6 @@
 package main.images;
 
+import java.io.Serializable;
 import java.util.List;
 import main.common.GameModel;
 import main.common.images.GameImage;
@@ -8,7 +9,9 @@ import main.common.images.GameImage;
  * Handles what image should be shown as time progresses.
  * @author Andrew McGhie
  */
-public class Animation {
+public class Animation implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private List<GameImage> frames;
   private final int length;
