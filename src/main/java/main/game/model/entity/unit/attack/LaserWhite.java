@@ -20,6 +20,7 @@ public class LaserWhite extends Laser {
         new MapSize(0.5, 0.5),
         enemyUnit,
         unit,
+        this,
         GameImageResource.WHITE_PROJECTILE.getGameImage(),
         0.1
     );

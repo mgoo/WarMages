@@ -12,7 +12,7 @@ public class Animation {
 
   private final List<GameImage> frames;
   private final int length;
-  private final int ticksPerFrame;
+  private final double ticksPerFrame;
   private int currentTick = 0;
   private boolean isFinished = false;
 
@@ -27,7 +27,7 @@ public class Animation {
   ) {
     this.frames = frames;
     this.length = length;
-    this.ticksPerFrame = Math.max(1, length / frames.size());
+    this.ticksPerFrame = (double)length / (double)frames.size();
   }
 
   /**
@@ -37,8 +37,8 @@ public class Animation {
     if (this.isFinished) {
       return;
     }
-    currentTick = (currentTick + 1);
-    if (currentTick >= length) {
+    this.currentTick = this.currentTick + 1;
+    if (this.currentTick >= this.length) {
       this.isFinished = true;
     }
   }
@@ -47,7 +47,7 @@ public class Animation {
     if (this.isFinished) {
       return getImages().get(getImages().size() - 1);
     }
-    return getImages().get(this.currentTick / this.ticksPerFrame);
+    return getImages().get((int)(this.currentTick / this.ticksPerFrame));
   }
 
   public boolean isFinished() {

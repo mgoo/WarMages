@@ -50,7 +50,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       Function<MapPoint, Boolean> isPassable,
       MapPoint start,
       MapPoint end,
-      double AcceptableDistanceFromEnd
+      double acceptableDistanceFromEnd
   ) {
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
     fringe.add(new AStarNode(start, null, 0, start.distanceTo(end)));
@@ -78,7 +78,13 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
       visited.add(tuple.getPoint());
 
-      if (tuple.getPoint().distanceTo(end) < AcceptableDistanceFromEnd || tuple.getPoint().isSimilar(end)) {
+      // @hack to make sure the units can get more exact destinations
+      if (tuple.getPoint().isSimilar(end)) {
+        return new AStarNode(end, tuple.getPrevious(), 0, 0).getPath();
+      }
+      // end hack
+
+      if (tuple.getPoint().distanceTo(end) < acceptableDistanceFromEnd) {
         return tuple.getPath();
       }
 
@@ -186,6 +192,14 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
     double getEstimateToGoal() {
       return totalCost - costFromStart;
+    }
+
+    /**
+     * @Hack to get the previous node so can make end more exact
+     * @return
+     */
+    AStarNode getPrevious() {
+      return this.from;
     }
 
     @Override

@@ -41,6 +41,10 @@ public class PickingUp extends Interacting {
       return requestedNextState;
     }
 
+    if (this.unitAnimation.isFinished()) {
+      return new Idle(unit);
+    }
+
     return this;
   }
 }

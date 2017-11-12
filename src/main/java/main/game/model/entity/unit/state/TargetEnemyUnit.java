@@ -37,7 +37,7 @@ public class TargetEnemyUnit extends Target implements Serializable {
   @Override
   public boolean hasArrived() {
     return unit.getCentre().
-        distanceTo(enemyUnit.getCentre()) > this.acceptableDistanceFromEnd();
+        distanceTo(enemyUnit.getCentre()) < this.acceptableDistanceFromEnd();
   }
 
   @Override

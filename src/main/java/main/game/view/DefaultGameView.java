@@ -255,6 +255,10 @@ public class DefaultGameView implements GameView {
 
   @Override
   public void onDrag(int x1, int y1, int x2, int y2, boolean wasShiftDown, boolean wasCtrlDown) {
+    if (Math.abs(x1 - x2) <= 2 && Math.abs(y1 - y2) <= 2) {
+      this.onLeftClick(x1, y1, wasShiftDown, wasCtrlDown);
+      return;
+    }
     MapPolygon shape = new MapPolygon(this.pixToTile(new MapPoint(x1,y1)),
         this.pixToTile(new MapPoint(x2, y2)),
         this.pixToTile(new MapPoint(x1, y2)),

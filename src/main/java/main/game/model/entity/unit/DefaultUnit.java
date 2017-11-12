@@ -46,7 +46,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   private int level;
   private double health;
-  private double damageAmount;
   private double speed;
   private MapSize originalSize;
 
@@ -94,7 +93,11 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    * @param val the value of the base stat
    */
   private double levelMultiplyer(double val) {
-    return val * (1 + ((double)this.level / LEVEL_DIVISOR));
+    return val * this.getLevelMultiplyer();
+  }
+
+  private double getLevelMultiplyer() {
+    return (1 + ((double)this.level / LEVEL_DIVISOR));
   }
 
   /**
@@ -131,7 +134,7 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getLineOfSight() {
-    return this.levelMultiplyer(this.unitType.lineOfSight);
+    return this.unitType.lineOfSight;
   }
 
   @Override
@@ -277,14 +280,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.setNextState(target.getState());
   }
 
-  private void setDamageAmount(double amount) {
-    if (amount <= 0) {
-      throw new IllegalArgumentException("Invalid damage: " + amount);
-    }
-
-    damageAmount = amount;
-  }
-
   @Override
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
@@ -338,13 +333,13 @@ public class DefaultUnit extends DefaultEntity implements Unit {
 
   @Override
   public double getDamageModifier() {
-    double amount = damageAmount;
+    double amount = 1;
 
     for (Effect activeEffect : activeEffects) {
       amount = activeEffect.alterDamageModifier(amount);
     }
 
-    return this.levelMultiplyer(amount);
+    return amount + this.getLevelMultiplyer();
   }
 
   @Override

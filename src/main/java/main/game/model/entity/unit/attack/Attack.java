@@ -21,6 +21,10 @@ public abstract class Attack {
     return (int)(this.getAttackSpeed(unit) * unit.getAttackSpeedModifier());
   }
 
+  public double getModifiedDamage(Unit unit) {
+    return this.getDamage(unit) * unit.getDamageModifier();
+  }
+
   /**
    * The base range of the attack
    */

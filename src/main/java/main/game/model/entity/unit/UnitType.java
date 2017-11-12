@@ -29,7 +29,8 @@ public enum UnitType {
 
   MAGICIAN(150, 0.1, 5, Sequence.SPELL_CAST, new FireBall()),
 
-  WHITE_LASER(200, 0.08, 5, Sequence.SPELL_CAST, new LaserWhite()),
+  WHITE_LASER(200, 0.08, 5,
+      Sequence.SPELL_CAST, new LaserWhite()),
   LASER(200, 0.08, 5, Sequence.SPELL_CAST, new Laser());
 
   protected double startingHealth;

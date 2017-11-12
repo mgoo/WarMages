@@ -28,6 +28,6 @@ public interface PathFinder {
   Stack<MapPoint> findPath(Function<MapPoint, Boolean> isPassable,
                            MapPoint start,
                            MapPoint end,
-                           double AcceptableDistanceFromEnd);
+                           double acceptableDistanceFromEnd);
 
 }

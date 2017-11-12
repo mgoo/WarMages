@@ -29,7 +29,7 @@ public class Attacking extends Interacting {
         target);
     this.targetEnemyUnit = target;
     this.applicationTick =
-        (int) (attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion(unit));
+        (int)(attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion(unit));
     this.attack = attack;
 
     if (!target.isStillValid()) {
@@ -40,7 +40,6 @@ public class Attacking extends Interacting {
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
-    currentTick++;
 
     if (!target.hasArrived()) {
       requestedNextState = new Moving(
@@ -56,12 +55,14 @@ public class Attacking extends Interacting {
     }
 
     if (!target.isStillValid()) {
+      requestedNextState = new Idle(this.unit);
       return;
     }
 
     if (this.currentTick == this.applicationTick) {
       this.attack.execute(unit, this.targetEnemyUnit.getEnemyUnit(), world);
     }
+    currentTick++;
   }
 
   @Override

@@ -20,6 +20,7 @@ public class BasicArrow extends BaseRangedAttack {
         new MapSize(0.4, 0.4),
         enemyUnit,
         unit,
+        this,
         GameImageResource.ARROW_PROJECTILE.getGameImage(),
         0.5
     );

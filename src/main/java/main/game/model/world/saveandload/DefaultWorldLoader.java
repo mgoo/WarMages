@@ -390,34 +390,34 @@ public class DefaultWorldLoader implements WorldLoader {
       levels.add(new Level(
           bounds,
           Arrays.asList(
-//              new DefaultUnit(new MapPoint(4, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-//                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
-//                  1
-//              ),
-//              new DefaultUnit(new MapPoint(4, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-//                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
-//                  1
-//              ),
-//              new DefaultUnit(new MapPoint(3, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
-//                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-//                  1
-//              ),
-//              new DefaultUnit(new MapPoint(3, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
-//                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-//                  1
-//              ),
-//              new DefaultUnit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
-//                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-//                  0
-//              ),
-//              new DefaultUnit(new MapPoint(11, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
-//                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-//                  0
-//              ),
-//              new DefaultUnit(new MapPoint(11, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
-//                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
-//                  0
-//              )
+              new DefaultUnit(new MapPoint(4, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(4, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(FOOT_KNIGHT_SPRITE_SHEET), UnitType.SWORDSMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(3, 4), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(3, 6), STANDARD_UNIT_SIZE, Team.PLAYER,
+                  new DefaultUnitSpriteSheet(SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  1
+              ),
+              new DefaultUnit(new MapPoint(12, 5), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
+              ),
+              new DefaultUnit(new MapPoint(11, 4), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
+              ),
+              new DefaultUnit(new MapPoint(11, 6), STANDARD_UNIT_SIZE, Team.ENEMY,
+                  new DefaultUnitSpriteSheet(ORC_SPEARMAN_SPRITE_SHEET), UnitType.SPEARMAN,
+                  0
+              )
           ),
           Arrays.asList(
               new DefaultItem(

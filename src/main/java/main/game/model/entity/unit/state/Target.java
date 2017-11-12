@@ -33,7 +33,7 @@ public abstract class Target implements Serializable {
   }
 
   protected void setNextState(UnitState nextState) {
-    this.moveToDestination = new Moving(unit, this, nextState);
+    this.moveToDestination = new Moving(this.unit, this, nextState);
     this.nextState = nextState;
   }
 

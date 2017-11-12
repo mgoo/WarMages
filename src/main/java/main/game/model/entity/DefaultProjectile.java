@@ -8,6 +8,7 @@ import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.entity.unit.attack.Attack;
 
 /**
  * Concrete implementation of Projectile.
@@ -19,9 +20,9 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   private static final long serialVersionUID = 1L;
   private static final double IMPACT_DISTANCE = 0.01;
 
-  private final double damageAmount;
   private final Unit target;
   private final Unit owner;
+  private final Attack attack;
   private final double moveDistancePerTick;
 
   private boolean hasHit = false;
@@ -42,14 +43,14 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       MapSize size,
       Unit target,
       Unit owner,
+      Attack attack,
       GameImage gameImage,
       double moveDistancePerTick
   ) {
     super(coordinates, size);
     this.target = requireNonNull(target);
     this.owner = owner;
-    // So level ups and buffs do not effect fired projectile damage
-    this.damageAmount = owner.getDamageModifier();
+    this.attack = attack;
     this.moveDistancePerTick = moveDistancePerTick;
     this.image = gameImage;
   }
@@ -95,13 +96,8 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   }
 
   @Override
-  public double getDamageAmount() {
-    return damageAmount;
-  }
-
-  @Override
   public void hitTarget(World world) {
-    target.takeDamage(damageAmount, world, owner);
+    target.takeDamage(this.attack.getModifiedDamage(owner), world, owner);
     world.removeProjectile(this);
   }
 

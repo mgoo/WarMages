@@ -498,7 +498,7 @@ public class DefaultUnitTest {
       Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      double projectileDamage = projectile.getDamageAmount();
+      double projectileDamage = unit.getUnitType().getBaseAttack().getModifiedDamage(unit);
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something

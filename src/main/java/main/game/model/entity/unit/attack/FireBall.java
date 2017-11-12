@@ -20,8 +20,9 @@ public class FireBall extends BaseRangedAttack {
         new MapSize(0.5, 0.5),
         enemyUnit,
         unit,
+        this,
         GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-        0.3
+        0.2
     );
   }
 
@@ -32,12 +33,12 @@ public class FireBall extends BaseRangedAttack {
 
   @Override
   int getAttackSpeed(Unit unit) {
-    return 20;
+    return 30;
   }
 
   @Override
   double getDamage(Unit unit) {
-    return 20;
+    return 60;
   }
 
   @Override

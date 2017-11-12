@@ -20,6 +20,7 @@ public class Laser extends BaseRangedAttack {
         new MapSize(0.5, 0.5),
         enemyUnit,
         unit,
+        this,
         GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
         0.1
     );
@@ -37,7 +38,7 @@ public class Laser extends BaseRangedAttack {
 
   @Override
   double getDamage(Unit unit) {
-    return 0.1;
+    return 1;
   }
 
   @Override

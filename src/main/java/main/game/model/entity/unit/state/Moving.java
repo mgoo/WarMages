@@ -29,6 +29,7 @@ public class Moving extends UnitState {
 
   public Moving(Unit unit, Target target, UnitState nextState) {
     super(new UnitAnimation(unit, Sequence.WALK, Sequence.WALK.frames * 2), unit);
+    System.out.println("new Moving");
     this.nextState = nextState;
 
     if (target.unit != unit) {
