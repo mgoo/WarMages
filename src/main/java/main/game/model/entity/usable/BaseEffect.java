@@ -67,11 +67,11 @@ public abstract class BaseEffect implements Effect {
   }
 
   @Override
-  public double alterDamageAmount(double currentDamageAmount) {
+  public double alterDamageModifier(double currentDamageModifier) {
     if (!isActive()) {
       throw new IllegalStateException();
     }
 
-    return currentDamageAmount;
+    return currentDamageModifier;
   }
 }

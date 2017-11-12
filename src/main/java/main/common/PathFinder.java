@@ -1,6 +1,8 @@
 package main.common;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.function.Function;
 import main.common.util.MapPoint;
 
@@ -21,6 +23,11 @@ public interface PathFinder {
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  List<MapPoint> findPath(Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end);
+  Stack<MapPoint> findPath(Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end);
+
+  Stack<MapPoint> findPath(Function<MapPoint, Boolean> isPassable,
+                           MapPoint start,
+                           MapPoint end,
+                           double acceptableDistanceFromEnd);
 
 }

@@ -3,8 +3,9 @@ package main.common.entity;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
 import main.common.World;
+import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.Target;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -15,9 +16,8 @@ public interface Unit extends Entity {
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
-   * @return returns true if the entity died
    */
-  boolean takeDamage(double amount, World world, Unit attacker);
+  void takeDamage(double amount, World world, Unit attacker);
 
   /**
    * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
@@ -42,8 +42,6 @@ public interface Unit extends Entity {
 
   Team getTeam();
 
-  Unit getTarget();
-
   void addEffect(Effect effect);
 
   UnitSpriteSheet getSpriteSheet();
@@ -52,27 +50,8 @@ public interface Unit extends Entity {
 
   /**
    * Set's the Unit's target to the given Unit.
-   *
-   * @param targetUnit to be attacked
    */
-  void setTargetUnit(Unit targetUnit);
-
-  /**
-   * Set's the Unit's target to the given point.
-   */
-  void setTargetPoint(MapPoint targetPoint);
-
-  /**
-   * Clears the current target.
-   */
-  void clearTarget();
-
-  /**
-   * Returns the amount of damage dealt.
-   *
-   * @return int amount of damage dealt.
-   */
-  double getDamageAmount();
+  void setTarget(Target target);
 
   /**
    * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
@@ -95,6 +74,11 @@ public interface Unit extends Entity {
   String getType();
 
   /**
+   * Gets the Type of the unit.
+   */
+  UnitType getUnitType();
+
+  /**
    * Elevates the unit to the next level.
    */
   void nextLevel();
@@ -108,5 +92,25 @@ public interface Unit extends Entity {
    * Gets the icon of the unit to display on the hud.
    */
   GameImage getIcon();
+
+  /**
+   * Gets the amount that the attack speed should be multiplied by.
+   */
+  double getAttackSpeedModifier();
+
+  /**
+   * Returns the amount that the damage should be multiplied by.
+   */
+  double getDamageModifier();
+
+  /**
+   * Gets the amount that the range of the unit should be multiplied by.
+   */
+  double getRangeModifier();
+
+  /**
+   * Gets the movement speed of the unit.
+   */
+  double getSpeed();
 }
 

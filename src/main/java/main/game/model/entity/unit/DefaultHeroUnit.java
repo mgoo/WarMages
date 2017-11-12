@@ -15,6 +15,7 @@ import main.common.exceptions.ItemNotInRangeException;
 import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.entity.unit.state.TargetItem;
 
 /**
  * Default implementation of HeroUnit.
@@ -23,7 +24,6 @@ import main.common.util.MapSize;
 public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private static final long serialVersionUID = 1L;
-  private static final double PICK_UP_MAX_DISTANCE = 2;
 
   private final List<Ability> abilities;
 
@@ -68,7 +68,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   }
 
   public boolean isItemWithinRange(Item item) {
-    return getCentre().distanceTo(item.getCentre()) < PICK_UP_MAX_DISTANCE;
+    return new TargetItem(this, item).hasArrived();
   }
 
   /**

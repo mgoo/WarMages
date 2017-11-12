@@ -142,4 +142,8 @@ public class MapPoint implements Serializable {
   public MapPoint getBottom() {
     return new MapPoint(this.x, this.y + 1);
   }
+
+  public boolean isSimilar(MapPoint other) {
+    return (int)this.x == (int)other.x && (int)this.y == (int)other.y;
+  }
 }

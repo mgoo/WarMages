@@ -16,6 +16,7 @@ import main.common.images.UnitSpriteSheet;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.Target;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,8 +77,8 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public boolean takeDamage(double amount, World world, Unit attacker) {
-      return false;
+    public void takeDamage(double amount, World world, Unit attacker) {
+      return;
     }
 
     @Override
@@ -106,11 +107,6 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public Unit getTarget() {
-      return null;
-    }
-
-    @Override
     public void addEffect(Effect effect) {
 
     }
@@ -126,22 +122,17 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
-    public void setTargetUnit(Unit targetUnit) {
+    public void setTarget(Target target) {
 
     }
 
     @Override
-    public void setTargetPoint(MapPoint targetPoint) {
-
+    public double getDamageModifier() {
+      return 0;
     }
 
     @Override
-    public void clearTarget() {
-
-    }
-
-    @Override
-    public double getDamageAmount() {
+    public double getRangeModifier() {
       return 0;
     }
 
@@ -161,6 +152,11 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
+    public UnitType getUnitType() {
+      return null;
+    }
+
+    @Override
     public void nextLevel() {
 
     }
@@ -173,6 +169,16 @@ public class FogOfWarViewTest extends GameViewTest {
     @Override
     public GameImage getIcon() {
       return null;
+    }
+
+    @Override
+    public double getAttackSpeedModifier() {
+      return 0;
+    }
+
+    @Override
+    public double getSpeed() {
+      return 0;
     }
   }
 }

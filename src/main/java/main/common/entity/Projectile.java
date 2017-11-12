@@ -17,13 +17,6 @@ public interface Projectile extends Entity {
   boolean hasHit();
 
   /**
-   * Returns the damage amount of the Projectile.
-   *
-   * @return double damage amount
-   */
-  double getDamageAmount();
-
-  /**
    * Applies actions to given unit when it is hit by the Projectile.
    */
   void hitTarget(World world);

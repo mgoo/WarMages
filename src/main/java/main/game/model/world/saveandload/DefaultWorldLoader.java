@@ -419,7 +419,15 @@ public class DefaultWorldLoader implements WorldLoader {
                   0
               )
           ),
-          Arrays.asList(),
+          Arrays.asList(
+              new DefaultItem(
+              new MapPoint(7, 6),
+              new HealAbility(
+                  GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+                  25, 30
+              ),
+              POTION_BLUE_ITEM.getGameImage()
+          )),
           boundEntities,
           Arrays.asList(
               makeBuilding(16, 5)

@@ -25,8 +25,6 @@ public abstract class DefaultEntity implements Entity {
    */
   public DefaultEntity(MapPoint topLeft, MapSize size) {
     this.topLeft = requireNonNull(topLeft);
-    // look down by default (on diagonal map)
-    this.previousTopLeft = topLeft.translate(-1e-3, -1e-3); // tiny numbers
     this.size = requireNonNull(size);
   }
 
@@ -56,18 +54,11 @@ public abstract class DefaultEntity implements Entity {
 
   @Override
   public void translatePosition(double dx, double dy) {
-    previousTopLeft = topLeft;
     topLeft = topLeft.translate(dx, dy);
   }
 
   @Override
   public void slidePosition(double dx, double dy) {
     topLeft = topLeft.translate(dx, dy);
-  }
-
-
-  @Override
-  public MapPoint getPreviousTopLeft() {
-    return previousTopLeft;
   }
 }

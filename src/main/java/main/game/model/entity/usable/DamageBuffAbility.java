@@ -63,8 +63,8 @@ public class DamageBuffAbility extends BaseAbility {
     }
 
     @Override
-    public double alterDamageAmount(double currentDamageAmount) {
-      return super.alterDamageAmount(currentDamageAmount) + damageIncrease;
+    public double alterDamageModifier(double currentDamageModifier) {
+      return super.alterDamageModifier(currentDamageModifier) + damageIncrease;
     }
   }
 

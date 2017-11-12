@@ -27,6 +27,8 @@ import main.common.util.MapSize;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.TargetEnemyUnit;
+import main.game.model.entity.unit.state.TargetMapPoint;
 import main.game.model.entity.usable.DamageBuffAbility;
 import org.junit.Before;
 import org.junit.Test;
@@ -180,7 +182,7 @@ public class DefaultUnitTest {
     World world = getWorld(units, getHeroUnit());
     when(world.findPath(any(), any()))
         .thenReturn(Arrays.asList(enemy.getCentre()));
-    player.setTargetUnit(enemy);
+    player.setTarget(new TargetEnemyUnit(player, enemy, player.getUnitType().getBaseAttack()));
     double prevHealth = enemy.getHealth();
     for (int i = 0; i < 900; i++) {
       player.tick(GameModel.DELAY, world);
@@ -199,7 +201,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint);
+    unit.setTarget(new TargetMapPoint(unit, targetPoint));
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -225,7 +227,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint);
+    unit.setTarget(new TargetMapPoint(unit, targetPoint));
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -250,7 +252,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint);
+    unit.setTarget(new TargetMapPoint(unit, targetPoint));
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -274,7 +276,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint);
+    unit.setTarget(new TargetMapPoint(unit, targetPoint));
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -299,7 +301,7 @@ public class DefaultUnitTest {
     MapPoint targetPoint = path.get(path.size() - 1);
     when(world.findPath(any(), any())).thenReturn(path);
 
-    unit.setTargetPoint(targetPoint);
+    unit.setTarget(new TargetMapPoint(unit, targetPoint));
     unit.translatePosition(-unit.getSize().width / 2, -unit.getSize().height / 2);
 
     // Allow unit to go to from idle to walking state
@@ -331,20 +333,20 @@ public class DefaultUnitTest {
     final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
     final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
 
-    double baseDamageAmount = unit.getDamageAmount();
-    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
+    double baseDamageAmount = unit.getDamageModifier();
+    assertEquals(baseDamageAmount, unit.getDamageModifier(), 0.001);
     ability1.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 1, unit.getDamageAmount(), 0.001);
+    assertEquals(baseDamageAmount + 1, unit.getDamageModifier(), 0.001);
     ability2.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 2, unit.getDamageAmount(), 0.001);
+    assertEquals(baseDamageAmount + 2, unit.getDamageModifier(), 0.001);
     ability3.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 3, unit.getDamageAmount(), 0.001);
+    assertEquals(baseDamageAmount + 3, unit.getDamageModifier(), 0.001);
 
     for (int i = 0; i < 200; i++) {
       unit.tick(GameModel.DELAY, world);
     }
 
-    assertEquals(baseDamageAmount, unit.getDamageAmount(), 0.001);
+    assertEquals(baseDamageAmount, unit.getDamageModifier(), 0.001);
   }
 
   @Test
@@ -379,7 +381,9 @@ public class DefaultUnitTest {
     when(world.findPath(any(), any()))
         .thenAnswer(invocation -> Arrays.asList(enemyUnit.getCentre()));
 
-    playerUnit.setTargetUnit(enemyUnit);
+    playerUnit.setTarget(new TargetEnemyUnit(playerUnit,
+        enemyUnit,
+        playerUnit.getUnitType().getBaseAttack()));
 
     double previousHealth = enemyUnit.getHealth();
 
@@ -430,7 +434,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and an archer that targets the enemy
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit);
+      unit.setTarget(new TargetEnemyUnit(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -446,7 +450,6 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and an archer that has no target
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.clearTarget();
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -462,7 +465,6 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.SWORDSMAN);
-      unit.setTargetUnit(enemyUnit);
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -478,7 +480,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTargetUnit(enemyUnit);
+      unit.setTarget(new TargetEnemyUnit(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
       // and the initial health of the enemy
       final double enemyStartingHealth = enemyUnit.getHealth();
 
@@ -496,7 +498,7 @@ public class DefaultUnitTest {
       Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      double projectileDamage = projectile.getDamageAmount();
+      double projectileDamage = unit.getUnitType().getBaseAttack().getModifiedDamage(unit);
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something

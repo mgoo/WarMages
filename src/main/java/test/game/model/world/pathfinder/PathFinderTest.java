@@ -148,7 +148,7 @@ public class PathFinderTest {
     MapPoint start = new MapPoint(1.1, 1.1);
     MapPoint end = new MapPoint(3.45, 1.234);
     List<MapPoint> actual = new DefaultPathFinder().findPath(isPassable, start, end);
-    List<MapPoint> expected = new ArrayList<>(Arrays.asList(new MapPoint(2, 1), end));
+    List<MapPoint> expected = new ArrayList<>(Arrays.asList(new MapPoint(2.1, 1.1), end));
 
     assertEquals(expected, actual);
   }

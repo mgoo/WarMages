@@ -195,7 +195,7 @@ public class UsablesTest {
         Collections.singletonList(buffAbility),
         0
     );
-    double baseDamageAmount = heroUnit.getDamageAmount();
+    double baseDamageAmount = heroUnit.getDamageModifier();
     // and a mock world
     World world = mock(World.class);
     when(world.getAllEntities()).thenReturn(Collections.singletonList(heroUnit));
@@ -207,12 +207,12 @@ public class UsablesTest {
     // damageAmount should increase for several ticks
     int effectDurationTicks = TickTimer.secondsToTicks(buffAbility.getEffectDurationSeconds());
     for (int i = 0; i < effectDurationTicks; i++) {
-      double buffedDamageAmount = heroUnit.getDamageAmount();
+      double buffedDamageAmount = heroUnit.getDamageModifier();
       assertEquals(baseDamageAmount + damageIncrease, buffedDamageAmount, 0.001);
       heroUnit.tick(GameModel.DELAY, stubWorld); // should tick ability
     }
 
     // then damageAmount should go back to normal
-    assertEquals(baseDamageAmount, heroUnit.getDamageAmount(), 0.001);
+    assertEquals(baseDamageAmount, heroUnit.getDamageModifier(), 0.001);
   }
 }

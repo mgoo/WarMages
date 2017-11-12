@@ -1,12 +1,17 @@
 package main.game.model.world.pathfinder;
 
 import java.io.Serializable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import main.common.PathFinder;
@@ -25,6 +30,13 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
   private static final int SEARCH_LIMIT = 200;
 
+  @Override
+  public Stack<MapPoint> findPath(
+      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  ) {
+    return this.findPath(isPassable, start, end, 0);
+  }
+
   /**
    * Uses the A* path finding algorithm to find the shortest path from a start point to an end point
    * on the world returning a list of points along current path.
@@ -34,20 +46,14 @@ public class DefaultPathFinder implements PathFinder, Serializable {
    * @param end the end/goal point of the path
    * @return a list of points representing the shortest path
    */
-  public List<MapPoint> findPath(
-      Function<MapPoint, Boolean> isPassable, MapPoint start, MapPoint end
+  public Stack<MapPoint> findPath(
+      Function<MapPoint, Boolean> isPassable,
+      MapPoint start,
+      MapPoint end,
+      double acceptableDistanceFromEnd
   ) {
-    MapPoint endUnrounded = end;
-
-    start = start.rounded();
-    end = end.rounded();
-
-    if (start.equals(end)) {
-      return Collections.singletonList(endUnrounded);
-    }
-
     PriorityQueue<AStarNode> fringe = new PriorityQueue<>();
-    fringe.add(new AStarNode(start, null, 0, estimate(start, end)));
+    fringe.add(new AStarNode(start, null, 0, start.distanceTo(end)));
 
     Set<MapPoint> visited = new HashSet<>();
 
@@ -72,31 +78,30 @@ public class DefaultPathFinder implements PathFinder, Serializable {
 
       visited.add(tuple.getPoint());
 
+      // @hack to make sure the units can get more exact destinations
+      if (tuple.getPoint().isSimilar(end)) {
+        return new AStarNode(end, tuple.getPrevious(), 0, 0).getPath();
+      }
+      // end hack
 
-      if (tuple.getPoint().equals(end)) {
-        List<MapPoint> path = tuple.getPath();
-
-        if (!path.isEmpty()) {
-          path.remove(path.size() - 1);
-          path.add(endUnrounded);
-        }
-        return path;
+      if (tuple.getPoint().distanceTo(end) < acceptableDistanceFromEnd) {
+        return tuple.getPath();
       }
 
       for (MapPoint neigh : getPassableNeighbours(isPassable, tuple.getPoint())) {
         if (!visited.contains(neigh)) {
           double costToNeigh = tuple.getCostFromStart() + tuple.getPoint().distanceTo(neigh);
-          double estTotal = costToNeigh + estimate(neigh, end);
+          double estTotal = costToNeigh + neigh.distanceTo(end);
           List<MapPoint> neighPath = new ArrayList<>(tuple.getPath());
           neighPath.add(neigh);
           fringe.add(
-              new AStarNode(neigh, tuple.getPoint(), costToNeigh, estTotal, neighPath));
+              new AStarNode(neigh, tuple, costToNeigh, estTotal));
         }
       }
 
     }
 
-    return (bestPath != null) ? bestPath.getPath() : Collections.emptyList();
+    return (bestPath != null) ? bestPath.getPath() : new Stack<>();
   }
 
 
@@ -145,10 +150,6 @@ public class DefaultPathFinder implements PathFinder, Serializable {
     return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
   }
 
-  private static double estimate(MapPoint current, MapPoint goal) {
-    return current.distanceTo(goal);
-  }
-
   /**
    * Represents a Node in the A* path finding algorithm. Each node stores the following info:
    * <ul><li>Current point</li><li>How did we get to this point? I.e. parent point</li><li>Cost from
@@ -157,10 +158,9 @@ public class DefaultPathFinder implements PathFinder, Serializable {
   public class AStarNode implements Comparable<AStarNode> {
 
     private final MapPoint currentPoint;
-    private final MapPoint from;
+    private final AStarNode from;
     private final double costFromStart;
     private final double totalCost;
-    private List<MapPoint> pathTaken;
 
     /**
      * Constructor for this AStarNode class.
@@ -170,20 +170,11 @@ public class DefaultPathFinder implements PathFinder, Serializable {
      * @param costFromStart -- the cost to get up to this node
      * @param totalCost -- the total estimated cost to the goal
      */
-    AStarNode(MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost) {
+    AStarNode(MapPoint currentPoint, AStarNode from, double costFromStart, double totalCost) {
       this.currentPoint = currentPoint;
       this.from = from;
       this.costFromStart = costFromStart;
       this.totalCost = totalCost;
-      this.pathTaken = new ArrayList<>();
-    }
-
-    AStarNode(
-        MapPoint currentPoint, MapPoint from, double costFromStart, double totalCost,
-        List<MapPoint> pathTaken
-    ) {
-      this(currentPoint, from, costFromStart, totalCost);
-      this.pathTaken = pathTaken;
     }
 
     @Override
@@ -203,6 +194,14 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       return totalCost - costFromStart;
     }
 
+    /**
+     * Gets the node before this node.
+     * @Hack to get the previous node so can make end more exact
+     */
+    AStarNode getPrevious() {
+      return this.from;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -217,8 +216,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       return (Double.compare(aStarNode.costFromStart, costFromStart) == 0)
           && (Double.compare(aStarNode.totalCost, totalCost) == 0)
           && currentPoint.equals(aStarNode.currentPoint)
-          && from.equals(aStarNode.from)
-          && pathTaken.equals(aStarNode.pathTaken);
+          && from.equals(aStarNode.from);
     }
 
     @Override
@@ -231,12 +229,21 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       result = 31 * result + (int) (temp ^ (temp >>> 32));
       temp = Double.doubleToLongBits(totalCost);
       result = 31 * result + (int) (temp ^ (temp >>> 32));
-      result = 31 * result + pathTaken.hashCode();
       return result;
     }
 
-    public List<MapPoint> getPath() {
-      return pathTaken;
+    /**
+     * Gets the entire path.
+     */
+    public Stack<MapPoint> getPath() {
+      Stack<MapPoint> path;
+      if (this.from == null) {
+        path = new Stack<>();
+      } else {
+        path = this.from.getPath();
+        path.push(this.currentPoint);
+      }
+      return path;
     }
 
     @Override

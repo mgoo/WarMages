@@ -23,6 +23,9 @@ import main.common.events.KeyEvent;
 import main.common.events.MouseClick;
 import main.common.events.MouseDrag;
 import main.common.events.UnitIconClick;
+import main.game.model.entity.unit.state.TargetEnemyUnit;
+import main.game.model.entity.unit.state.TargetItem;
+import main.game.model.entity.unit.state.TargetMapPoint;
 
 /**
  * Allows the user to control the game. Listens to user actions on the view
@@ -184,24 +187,21 @@ public class DefaultGameController implements GameController {
       if (selectedUnit != null && closest instanceof Unit) {
         //attack an enemy
         for (Unit unit : model.getUnitSelection()) {
-          unit.setTargetUnit(selectedUnit);
+          unit.setTarget(
+              new TargetEnemyUnit(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
         }
       } else if (selectedItem != null && closest instanceof Item) {
         // move all selected units to the clicked location
         for (Unit unit : model.getUnitSelection()) {
-          unit.setTargetPoint(mouseEvent.getLocation());
+          unit.setTarget(new TargetItem(unit, selectedItem));
         }
-
-        //if it was a hero unit and item is in range, then pickup item
-        HeroUnit heroUnit = model.getHeroUnit();
-        if (heroUnit.isItemWithinRange(selectedItem)) {
-          heroUnit.pickUp(selectedItem);
-          model.getWorld().removeItem(selectedItem);
+        if (model.getUnitSelection().contains(model.getHeroUnit())) {
+          model.getHeroUnit().setTarget(new TargetItem(model.getHeroUnit(), selectedItem));
         }
       } else {
         // move all selected units to the clicked location
         for (Unit unit : model.getUnitSelection()) {
-          unit.setTargetPoint(mouseEvent.getLocation());
+          unit.setTarget(new TargetMapPoint(unit, mouseEvent.getLocation()));
         }
       }
     }

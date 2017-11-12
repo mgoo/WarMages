@@ -73,7 +73,7 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
     int row = sequence.firstRow
         + (sequence.supportsDirections ? direction.ordinal() : 0);
 
-    return IntStream.range(0, sequence.numberOfColumns)
+    return IntStream.range(0, sequence.frames)
         .map(col -> col + sequence.firstColumn())
         .mapToObj(col ->
             new GameImageBuilder(filePath)

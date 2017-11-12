@@ -25,11 +25,11 @@ public interface UnitSpriteSheet extends Serializable {
    *     animations examples.
    */
   enum Sequence {
-    SPELL_CAST(0, 7, true, 6),
-    THRUST(4, 8, true, 5),
+    SPELL_CAST(0, 7, true),
+    THRUST(4, 8, true),
     WALK(8, 9, true),
-    SLASH(12, 6, true, 4),
-    SHOOT(16, 13, true, 9),
+    SLASH(12, 6, true),
+    SHOOT(16, 13, true),
     DYING(20, 6, false),
     DEAD(20, 1, false) {
       @Override
@@ -37,6 +37,7 @@ public interface UnitSpriteSheet extends Serializable {
         return 5;
       }
     },
+    PICKUP(20, 4, false), // Uses the first 4 frames of dying
     /**
      * Just reuses the first few frames of the {@link UnitSpriteSheet.Sequence#WALK} sequence.
      */
@@ -44,41 +45,15 @@ public interface UnitSpriteSheet extends Serializable {
 
     public static final int UNIT_WIDTH = 64;
     public static final int UNIT_HEIGHT = 64;
-    public static final int NOT_AN_ATTACK_SEQUENCE = -1;
 
     public final int firstRow;
-    public final int numberOfColumns;
+    public final int frames;
     public final boolean supportsDirections;
-    private final int attackFrame;
 
-    Sequence(int firstRow, int numberOfColumns, boolean supportsDirections) {
+    Sequence(int firstRow, int frames, boolean supportsDirections) {
       this.firstRow = firstRow;
-      this.numberOfColumns = numberOfColumns;
+      this.frames = frames;
       this.supportsDirections = supportsDirections;
-      this.attackFrame = NOT_AN_ATTACK_SEQUENCE;
-    }
-
-    Sequence(int firstRow, int numberOfColumns, boolean supportsDirections, int attackFrame) {
-      if (attackFrame < 0 || attackFrame > numberOfColumns) {
-        throw new IllegalArgumentException();
-      }
-
-      this.firstRow = firstRow;
-      this.numberOfColumns = numberOfColumns;
-      this.supportsDirections = supportsDirections;
-      this.attackFrame = attackFrame;
-    }
-
-    /**
-     * Returns the index of the frame where the attack action should occur (whether it be launching
-     * a projectile or applying damage with the sword attack.
-     */
-    public int getAttackFrame() {
-      if (attackFrame == NOT_AN_ATTACK_SEQUENCE) {
-        throw new IllegalStateException("This is not an attack sequence" + name());
-      }
-
-      return attackFrame;
     }
 
     public int firstColumn() {

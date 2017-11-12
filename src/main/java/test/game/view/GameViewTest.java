@@ -120,7 +120,7 @@ public class GameViewTest {
     verify(this.gameControllerMock, times(2)).onMouseEvent(any());
     this.gameView.onDbClick(0 , 0, true, true);
     verify(this.gameControllerMock).onDbClick(any());
-    this.gameView.onDrag(0, 0, 1, 1, true, false);
+    this.gameView.onDrag(0, 0, 5, 5, true, false);
     verify(this.gameControllerMock).onMouseDrag(any());
     this.gameView.onKeyDown('z', true, false);
     verify(this.gameControllerMock).onKeyPress(any());
@@ -219,11 +219,6 @@ public class GameViewTest {
     @Override
     public void tick(long timeSinceLastTick, World world) {
 
-    }
-
-    @Override
-    public MapPoint getPreviousTopLeft() {
-      return null;
     }
 
     @Override
