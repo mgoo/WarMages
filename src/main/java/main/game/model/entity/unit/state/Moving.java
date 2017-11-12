@@ -29,7 +29,6 @@ public class Moving extends UnitState {
 
   public Moving(Unit unit, Target target, UnitState nextState) {
     super(new UnitAnimation(unit, Sequence.WALK, Sequence.WALK.frames * 2), unit);
-    System.out.println("new Moving");
     this.nextState = nextState;
 
     if (target.unit != unit) {
@@ -59,13 +58,11 @@ public class Moving extends UnitState {
       // Haven't arrived yet
       if (path.isEmpty() && unit.getCentre().distanceTo(target.getDestination()) > 1.0) {
         // Can't get to destination
-        System.out.println("Idle");
         return new Idle(unit);
       }
 
       return this;
     }
-    System.out.println("nextState: " + nextState.getClass().getCanonicalName());
     // Arrived at destination
     return nextState;
   }
