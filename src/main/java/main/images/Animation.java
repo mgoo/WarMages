@@ -10,7 +10,7 @@ import main.common.images.GameImage;
  */
 public class Animation {
 
-  private final List<GameImage> frames;
+  private List<GameImage> frames;
   private final int length;
   private final double ticksPerFrame;
   private int currentTick = 0;
@@ -41,6 +41,16 @@ public class Animation {
     if (this.currentTick >= this.length) {
       this.isFinished = true;
     }
+  }
+
+  /**
+   * Changes the images in the animation half way through.
+   * An example usage is for units changing direction part way through the animation.
+   */
+  protected void setImages(List<GameImage> frames) {
+    assert this.frames.size() == frames.size()
+        : "Cannot change animation to have a different amount of frames";
+    this.frames = frames;
   }
 
   /**

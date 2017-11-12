@@ -60,9 +60,7 @@ public abstract class UnitState implements Serializable {
   /**
    * Gets the direction the unit should face, defaults to face away from the last position.
    */
-  public Direction getCurrentDirection() {
-    return Direction.between(unit.getPreviousTopLeft(), unit.getTopLeft());
-  }
+  public abstract Direction getCurrentDirection();
 
   /**
    * Gets the next state or this if no change was requested.

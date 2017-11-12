@@ -39,7 +39,7 @@ public class BasicArrow extends BaseRangedAttack {
 
   @Override
   double getDamage(Unit unit) {
-    return 20;
+    return 18;
   }
 
   @Override

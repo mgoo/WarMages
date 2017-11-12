@@ -1,5 +1,6 @@
 package main.game.model.entity.unit.state;
 
+import main.common.entity.Direction;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.DefaultUnit;
 import main.common.World;
@@ -27,7 +28,14 @@ public class Dying extends UnitState {
   }
 
   @Override
+  public Direction getCurrentDirection() {
+    return Direction.DOWN;
+  }
+
+  @Override
   public UnitState updateState() {
     return this;
   }
+
+
 }

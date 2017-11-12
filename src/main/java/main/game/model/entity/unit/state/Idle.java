@@ -2,6 +2,7 @@ package main.game.model.entity.unit.state;
 
 import java.util.Comparator;
 import main.common.World;
+import main.common.entity.Direction;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.UnitAnimation;
@@ -14,9 +15,11 @@ import main.game.model.entity.unit.UnitAnimation;
 public class Idle extends UnitState {
 
   private static final long serialVersionUID = 1L;
+  private final Direction direction;
 
   public Idle(Unit unit) {
     super(new UnitAnimation(unit, Sequence.IDLE, Sequence.IDLE.frames * 2), unit);
+    this.direction = unit.getCurrentDirection();
   }
 
   @Override
@@ -36,6 +39,11 @@ public class Idle extends UnitState {
       // Assume that walking state will switch to attacking state if unit is close enough.
       requestAttackUnit(enemyOrNull);
     }
+  }
+
+  @Override
+  public Direction getCurrentDirection() {
+    return this.direction;
   }
 
   @Override

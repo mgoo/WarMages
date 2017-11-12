@@ -222,11 +222,6 @@ public class GameViewTest {
     }
 
     @Override
-    public MapPoint getPreviousTopLeft() {
-      return null;
-    }
-
-    @Override
     public boolean contains(MapPoint point) {
       return false;
     }

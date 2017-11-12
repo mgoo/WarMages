@@ -1,12 +1,7 @@
 package main.game.model.entity.unit;
 
 import java.io.Serializable;
-import java.util.List;
-import main.common.GameModel;
-import main.common.entity.Direction;
 import main.common.entity.Unit;
-import main.common.images.GameImage;
-import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.images.Animation;
 
@@ -19,6 +14,8 @@ import main.images.Animation;
 public class UnitAnimation extends Animation implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  private final Unit unit;
+  private final Sequence sequence;
 
   /**
    * Constructor takes the sequence relevant to the unit's state, the sprite sheet for the unit, and
@@ -31,6 +28,12 @@ public class UnitAnimation extends Animation implements Serializable {
   ) {
     super(unit.getSpriteSheet().getImagesForSequence(sequence, unit.getCurrentDirection()),
         length);
+    this.unit = unit;
+    this.sequence = sequence;
+  }
+
+  public void updateDirection() {
+    this.setImages(unit.getSpriteSheet().getImagesForSequence(sequence, unit.getCurrentDirection()));
   }
 
 }

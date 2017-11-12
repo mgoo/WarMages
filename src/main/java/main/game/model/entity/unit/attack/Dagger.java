@@ -15,12 +15,12 @@ public class Dagger extends BaseMeleeAttack {
 
   @Override
   int getAttackSpeed(Unit unit) {
-    return 16;
+    return 14;
   }
 
   @Override
   double getDamage(Unit unit) {
-    return 5;
+    return 15;
   }
 
   @Override

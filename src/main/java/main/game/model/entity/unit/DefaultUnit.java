@@ -82,10 +82,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     this.team = team;
     this.unitType = unitType;
     this.health = this.levelMultiplyer(unitType.getStartingHealth());
+    this.speed = unitType.getMovingSpeed();
     this.spriteSheet = sheet;
     this.unitState = new Idle(this);
 
-    this.speed = unitType.getMovingSpeed();
   }
 
   /**
@@ -272,7 +272,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   @Override
   public Direction getCurrentDirection() {
-    return Direction.DOWN;
+    if (unitState == null) {
+      return Direction.DOWN;
+    }
+    return unitState.getCurrentDirection();
   }
 
   @Override

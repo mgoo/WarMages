@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 import main.common.World;
+import main.common.entity.Direction;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
@@ -23,6 +24,7 @@ public class Moving extends UnitState {
 
   private final Target target;
   private final UnitState nextState;
+  private Direction direction;
 
   private MapPoint lastKnownDestination;
   private Queue<MapPoint> path;
@@ -36,12 +38,18 @@ public class Moving extends UnitState {
     }
 
     this.target = target;
+    this.direction = unit.getCurrentDirection();
   }
 
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
     tickPosition(timeSinceLastTick, world);
+  }
+
+  @Override
+  public Direction getCurrentDirection() {
+    return direction;
   }
 
   @Override
@@ -100,7 +108,13 @@ public class Moving extends UnitState {
         : "the unit tried to move faster than its speed";
     assert Math.abs(mx) > 0 || Math.abs(my) > 0;
 
+    MapPoint previousPosition = unit.getCentre();
+
     unit.translatePosition(mx, my);
+
+    MapPoint newPosition = unit.getCentre();
+    this.direction = Direction.between(previousPosition, newPosition);
+    unitAnimation.updateDirection();
   }
 
   /**
