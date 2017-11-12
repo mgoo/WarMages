@@ -37,6 +37,7 @@ public interface UnitSpriteSheet extends Serializable {
         return 5;
       }
     },
+    PICKUP(20, 4, false), // Uses the first 4 frames of dying
     /**
      * Just reuses the first few frames of the {@link UnitSpriteSheet.Sequence#WALK} sequence.
      */

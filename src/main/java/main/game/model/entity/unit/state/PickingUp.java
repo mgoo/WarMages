@@ -17,11 +17,10 @@ public class PickingUp extends Interacting {
 
   public PickingUp(
       HeroUnit unit,
-      Sequence sequence,
       TargetItem itemTarget
   ) {
     super(unit,
-        new UnitAnimation(unit, sequence, sequence.frames * 2),
+        new UnitAnimation(unit, Sequence.PICKUP, Sequence.PICKUP.frames * 3),
         itemTarget);
     this.heroUnit = unit;
     this.item = itemTarget.getItem();
@@ -30,7 +29,7 @@ public class PickingUp extends Interacting {
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
-    if (this.target.hasArrived()) {
+    if (this.target.hasArrived() && this.unitAnimation.isFinished()) {
       this.heroUnit.pickUp(this.item);
       world.removeItem(this.item);
     }

@@ -30,7 +30,7 @@ public class TargetItem extends Target implements Serializable {
     super(heroUnit);
     this.item = item;
     this.location = item.getCentre();
-    this.setNextState(new PickingUp(heroUnit, Sequence.DEAD, this));
+    this.setNextState(new PickingUp(heroUnit, this));
   }
 
   public Item getItem() {
