@@ -25,11 +25,11 @@ public interface UnitSpriteSheet extends Serializable {
    *     animations examples.
    */
   enum Sequence {
-    SPELL_CAST(0, 7, true),//6
-    THRUST(4, 8, true),//5
+    SPELL_CAST(0, 7, true),
+    THRUST(4, 8, true),
     WALK(8, 9, true),
-    SLASH(12, 6, true),//4
-    SHOOT(16, 13, true),//9
+    SLASH(12, 6, true),
+    SHOOT(16, 13, true),
     DYING(20, 6, false),
     DEAD(20, 1, false) {
       @Override

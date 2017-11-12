@@ -44,7 +44,7 @@ public class BasicArrow extends BaseRangedAttack {
 
   @Override
   public double getWindupPortion(Unit unit) {
-    return 0.8;
+    return 0.7;
   }
 
   @Override

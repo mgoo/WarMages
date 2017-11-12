@@ -25,7 +25,7 @@ public class Spear extends BaseMeleeAttack {
 
   @Override
   public double getWindupPortion(Unit unit) {
-    return 0.5;
+    return 0.625;
   }
 
   @Override

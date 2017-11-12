@@ -45,7 +45,7 @@ public class FireBall extends BaseRangedAttack {
 
   @Override
   public double getWindupPortion(Unit unit) {
-    return 0.9;
+    return 0.85;
   }
 
   @Override
