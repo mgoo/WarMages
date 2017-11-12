@@ -40,8 +40,7 @@ public class Interacting extends UnitState {
   }
 
   /**
-   * Assumes that units look at what they are interacting with
-   * @return
+   * Assumes that units look at what they are interacting with.
    */
   @Override
   public Direction getCurrentDirection() {

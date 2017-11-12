@@ -195,8 +195,8 @@ public class DefaultPathFinder implements PathFinder, Serializable {
     }
 
     /**
+     * Gets the node before this node.
      * @Hack to get the previous node so can make end more exact
-     * @return
      */
     AStarNode getPrevious() {
       return this.from;
@@ -232,6 +232,9 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       return result;
     }
 
+    /**
+     * Gets the entire path.
+     */
     public Stack<MapPoint> getPath() {
       Stack<MapPoint> path;
       if (this.from == null) {

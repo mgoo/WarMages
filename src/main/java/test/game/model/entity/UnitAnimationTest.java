@@ -45,7 +45,8 @@ public class UnitAnimationTest {
     for (Entry<GameImage, Integer> entry : ticksPerFrameCounts.entrySet()) {
       assertEquals(
           "Failed for " + entry.getKey(),
-          unit.getAttackSpeedModifier() / unit.getSpriteSheet().getImagesForSequence(sequence, Direction.DOWN).size(),
+          unit.getAttackSpeedModifier()
+              / unit.getSpriteSheet().getImagesForSequence(sequence, Direction.DOWN).size(),
           (int) entry.getValue()
       );
     }

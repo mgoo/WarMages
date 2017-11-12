@@ -3,9 +3,10 @@ package main.game.model.entity.unit.attack;
 import main.common.entity.Unit;
 
 /**
+ * Spear attack.
  * @author Andrew McGhie
  */
-public class Spear extends BaseMeleeAttack{
+public class Spear extends BaseMeleeAttack {
 
   @Override
   double getRange(Unit unit) {

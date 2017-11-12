@@ -17,7 +17,7 @@ public class Animation {
   private boolean isFinished = false;
 
   /**
-   * Constructor uses list of frames and time
+   * Constructor uses list of frames and time.
    *
    * @param length how many tick one play of the unitAnimation should take
    */
@@ -43,6 +43,10 @@ public class Animation {
     }
   }
 
+  /**
+   * Gets the current GameImage.
+   * If the animation is finished it will just return the last one.
+   */
   public GameImage getImage() {
     if (this.isFinished) {
       return getImages().get(getImages().size() - 1);

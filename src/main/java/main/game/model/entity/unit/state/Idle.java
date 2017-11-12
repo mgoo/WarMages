@@ -53,7 +53,8 @@ public class Idle extends UnitState {
   }
 
   private void requestAttackUnit(Unit enemy) {
-    TargetEnemyUnit enemyTarget = new TargetEnemyUnit(unit, enemy, unit.getUnitType().getBaseAttack());
+    TargetEnemyUnit enemyTarget =
+        new TargetEnemyUnit(unit, enemy, unit.getUnitType().getBaseAttack());
     requestState(new Moving(unit,
         enemyTarget,
         new Attacking(unit, enemyTarget, unit.getUnitType().getBaseAttack())));

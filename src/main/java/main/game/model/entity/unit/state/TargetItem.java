@@ -8,6 +8,8 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 
 /**
+ * Target for and item.
+ * hero will pick it up where units will just walk to it.
  * @author Andrew McGhie
  */
 public class TargetItem extends Target implements Serializable {

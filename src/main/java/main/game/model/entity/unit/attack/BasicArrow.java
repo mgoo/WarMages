@@ -7,6 +7,7 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 
 /**
+ * A basic arrow attack for any archer.
  * @author Andrew McGhie
  */
 public class BasicArrow extends BaseRangedAttack {

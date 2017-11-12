@@ -5,6 +5,7 @@ import main.common.entity.Projectile;
 import main.common.entity.Unit;
 
 /**
+ * The base Ranged attack.
  * @author Andrew McGhie
  */
 public abstract class BaseRangedAttack extends Attack {

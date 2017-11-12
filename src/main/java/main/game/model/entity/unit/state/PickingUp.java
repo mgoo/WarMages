@@ -7,6 +7,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.UnitAnimation;
 
 /**
+ * State for when the unit is picking an item up off the ground.
  * @author Andrew McGhie
  */
 public class PickingUp extends Interacting {

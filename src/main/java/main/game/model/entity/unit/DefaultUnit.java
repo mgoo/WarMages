@@ -96,10 +96,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return val * this.getLevelMultiplyer();
   }
 
-  private double getLevelMultiplyer() {
-    return (1 + ((double)this.level / LEVEL_DIVISOR));
-  }
-
   /**
    * Buffs the base stats based on what level  the unit is on.
    * Cannot go above max
@@ -108,6 +104,10 @@ public class DefaultUnit extends DefaultEntity implements Unit {
    */
   private double levelMultiplyer(double val, double max) {
     return Math.min(max, levelMultiplyer(val));
+  }
+
+  private double getLevelMultiplyer() {
+    return (1 + ((double)this.level / LEVEL_DIVISOR));
   }
 
   /**

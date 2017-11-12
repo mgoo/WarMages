@@ -187,7 +187,8 @@ public class DefaultGameController implements GameController {
       if (selectedUnit != null && closest instanceof Unit) {
         //attack an enemy
         for (Unit unit : model.getUnitSelection()) {
-          unit.setTarget(new TargetEnemyUnit(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
+          unit.setTarget(
+              new TargetEnemyUnit(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
         }
       } else if (selectedItem != null && closest instanceof Item) {
         // move all selected units to the clicked location

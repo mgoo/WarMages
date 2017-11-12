@@ -17,7 +17,7 @@ public abstract class Target implements Serializable {
   private Moving moveToDestination;
 
   /**
-   *
+   * Makes a Target.
    * @param nextState The state to switch to unit to when it arrives at the target
    */
   protected Target(Unit unit, UnitState nextState) {
@@ -52,6 +52,9 @@ public abstract class Target implements Serializable {
 
   public abstract double acceptableDistanceFromEnd();
 
+  /**
+   * Gets the state that the unit should be in to execute what it should do for the target.
+   */
   public UnitState getState() {
     if (this.hasArrived()) {
       return this.nextState;

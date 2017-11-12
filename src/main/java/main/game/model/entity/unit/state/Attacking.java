@@ -2,11 +2,11 @@ package main.game.model.entity.unit.state;
 
 import main.common.World;
 import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet;
 import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.attack.Attack;
 
 /**
+ * The State for when a unit is attacking another one.
  * @author Andrew McGhie
  */
 public class Attacking extends Interacting {

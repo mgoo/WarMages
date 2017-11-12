@@ -16,7 +16,6 @@ public interface Unit extends Entity {
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
-   * @return returns true if the entity died
    */
   void takeDamage(double amount, World world, Unit attacker);
 
@@ -95,22 +94,22 @@ public interface Unit extends Entity {
   GameImage getIcon();
 
   /**
-   * Gets the amount that the attack speed should be multiplied by
+   * Gets the amount that the attack speed should be multiplied by.
    */
   double getAttackSpeedModifier();
 
   /**
-   * Returns the amount that the damage should be multiplied by
+   * Returns the amount that the damage should be multiplied by.
    */
   double getDamageModifier();
 
   /**
-   * Gets the amount that the range of the unit should be multupiled by
+   * Gets the amount that the range of the unit should be multiplied by.
    */
   double getRangeModifier();
 
   /**
-   * Gets the movement speed of the unit
+   * Gets the movement speed of the unit.
    */
   double getSpeed();
 }

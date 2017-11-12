@@ -7,6 +7,7 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 
 /**
+ * Laser with a different looking projectile.
  * @author Andrew McGhie
  */
 public class LaserWhite extends Laser {

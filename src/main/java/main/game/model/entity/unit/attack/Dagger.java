@@ -3,6 +3,7 @@ package main.game.model.entity.unit.attack;
 import main.common.entity.Unit;
 
 /**
+ * A dagger attack for melee units that don't have spears.
  * @author Andrew McGhie
  */
 public class Dagger extends BaseMeleeAttack {

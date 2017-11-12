@@ -7,6 +7,7 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 
 /**
+ * Ummm yea laser.
  * @author Andrew McGhie
  */
 public class Laser extends BaseRangedAttack {

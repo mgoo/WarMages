@@ -7,6 +7,8 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 
 /**
+ * Fireball attack for mages.
+ * Lots of damage but slow to cast.
  * @author Andrew McGhie
  */
 public class FireBall extends BaseRangedAttack {
