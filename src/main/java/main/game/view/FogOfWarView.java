@@ -16,7 +16,7 @@ import main.common.Renderable;
  * Represents the fog of war that covers anything that the player doesnt have a unit close enough.
  * @author Andrew McGhie
  */
-public class FogOfWarView implements Renderable {
+public class FogOfWarView {
 
   private final Color baseColor;
   private final MapPoint origin = new MapPoint(0, 0);
@@ -59,17 +59,16 @@ public class FogOfWarView implements Renderable {
     });
   }
 
-  @Override
   public MapPoint getImagePosition(long currentTime) {
     return this.origin;
   }
 
-  @Override
+
   public MapSize getImageSize() {
     return this.size;
   }
 
-  @Override
+
   public BufferedImage getImage() {
     return this.fowMask;
   }

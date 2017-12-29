@@ -1,6 +1,8 @@
 package main.common;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 
@@ -28,5 +30,10 @@ public interface Renderable {
    *
    * @return the image representation of this object
    */
-  BufferedImage getImage();
+  GameImage getImage();
+
+  /**
+   * Adds decorations to the image such as health bar and selection circle.
+   */
+  void drawDecorations(Graphics2D g, int x, int y, int width, int height);
 }

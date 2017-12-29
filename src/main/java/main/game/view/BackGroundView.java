@@ -11,7 +11,7 @@ import main.common.Renderable;
  * The View for the background.
  * @author Andrew McGhie
  */
-public class BackGroundView implements Renderable {
+public class BackGroundView {
 
   private final Config config;
   private final GameView gameView;
@@ -52,7 +52,7 @@ public class BackGroundView implements Renderable {
         null);
   }
 
-  @Override
+
   public MapPoint getImagePosition(long currentTime) {
     double x = gameView.getViewBox().x() < 0
         ? - gameView.getViewBox().x() % config.getContextScreenWidth()
@@ -67,12 +67,12 @@ public class BackGroundView implements Renderable {
         y - config.getContextScreenHeight());
   }
 
-  @Override
+
   public MapSize getImageSize() {
     return this.size;
   }
 
-  @Override
+
   public BufferedImage getImage() {
     return this.background;
   }

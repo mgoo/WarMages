@@ -5,7 +5,9 @@ import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.util.MapRect;
+import main.game.view.BackGroundView;
 import main.game.view.EntityView;
+import main.game.view.FogOfWarView;
 
 /**
  * Interface for Game View.
@@ -23,9 +25,9 @@ public interface GameView {
    */
   List<Renderable> getRenderables(long currentTime);
 
-  Renderable getFogOfWarView();
+  FogOfWarView getFogOfWarView();
 
-  Renderable getBackGroundView();
+  BackGroundView getBackGroundView();
 
   /**
    * Ticks the gameView and also checks if game is completed.

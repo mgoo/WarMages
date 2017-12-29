@@ -16,9 +16,9 @@ class ViewFactory {
 
   static EntityView makeEntityView(Config config, Entity entity, ImageProvider imageProvider) {
     if (entity instanceof Unit) {
-      return new UnitView(config, (Unit)entity, imageProvider);
+      return new UnitView(config, (Unit)entity);
     } else {
-      return new EntityView(config, entity, imageProvider);
+      return new EntityView(config, entity);
     }
   }
 

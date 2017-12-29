@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import main.common.GameModel;
 import main.common.Renderable;
+import main.game.view.BackGroundView;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class BackGroundViewTest extends GameViewTest {
   public void testBackgroundView_move() {
     this.gameView.onTick(0L);
 
-    Renderable bg = gameView.getBackGroundView();
+    BackGroundView bg = gameView.getBackGroundView();
 
     // Test initial position
     assertEquals(0, bg.getImagePosition(0).x, 0.001);

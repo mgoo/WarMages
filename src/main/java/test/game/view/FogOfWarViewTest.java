@@ -17,6 +17,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.state.Target;
+import main.game.view.FogOfWarView;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class FogOfWarViewTest extends GameViewTest {
   public void testFogOfWar_withoutUnit() {
     this.gameView.onTick(0L);
 
-    Renderable fow = this.gameView.getFogOfWarView();
+    FogOfWarView fow = this.gameView.getFogOfWarView();
     assertEquals(0, fow.getImagePosition(0).x, 0.001);
     assertEquals(0, fow.getImagePosition(0).y, 0.001);
     assertEquals(this.config.getContextScreenWidth(), fow.getImageSize().width, 0.001);
@@ -56,7 +57,7 @@ public class FogOfWarViewTest extends GameViewTest {
     );
     this.gameView.onTick(0L);
 
-    Renderable fow = this.gameView.getFogOfWarView();
+    FogOfWarView fow = this.gameView.getFogOfWarView();
     assertEquals(0, fow.getImagePosition(0).x, 0.001);
     assertEquals(0, fow.getImagePosition(0).y, 0.001);
     assertEquals(this.config.getContextScreenWidth(), fow.getImageSize().width, 0.001);

@@ -9,6 +9,7 @@ import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.attack.Attack;
+import main.images.Animation;
 
 /**
  * Concrete implementation of Projectile.

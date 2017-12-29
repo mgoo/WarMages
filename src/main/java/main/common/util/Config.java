@@ -24,6 +24,9 @@ public class Config {
   private int contextScreenWidth = CONTEXT_SCREEN_SIZE_NOT_SET;
   private int contextScreenHeight = CONTEXT_SCREEN_SIZE_NOT_SET;
 
+  private boolean server = false;
+  private boolean client = false;
+
   public void enableDebugMode() {
     this.isDebugMode = true;
   }
@@ -90,5 +93,23 @@ public class Config {
   public void setScreenDim(int width, int height) {
     this.contextScreenWidth = width;
     this.contextScreenHeight = height;
+  }
+
+  public void setServer() {
+    assert !this.client : "Cannot be a server as well as a client";
+    this.server = true;
+  }
+
+  public void setClient() {
+    assert !this.server : "Cannot be a client as well as a server";
+    this.client = true;
+  }
+
+  public boolean isServer() {
+    return this.server;
+  }
+
+  public boolean  isClient() {
+    return this.client;
   }
 }
