@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
 import main.common.GameView;
-import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Ability;
@@ -42,7 +44,13 @@ public class Hud extends Menu {
   private final Main main;
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
+  private final Config config;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
+  private List<Unit> unitsShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Ability> abilitiesShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Item> itemsShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Item> abilitiesInCoolDown = new CopyOnWriteArrayList<>();
+  private List<Item> itemsInCoolDown = new CopyOnWriteArrayList<>();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -53,6 +61,7 @@ public class Hud extends Menu {
              SaveFunction saveFunction,
              Config config) {
     this.main = main;
+    this.config = config;
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
     this.menuController = new HudController(main,
@@ -100,15 +109,88 @@ public class Hud extends Menu {
    * Upate the icons that are displayed in the HUD.
    */
   public void updateIcons() {
-    this.gameModel.getUnitSelection().forEach(this::addUnitIcon);
-    this.main.callJsFunction("switchUnitHolder");
+    Collection<Unit> selectedUnits = this.gameModel.getUnitSelection();
+    selectedUnits.stream()
+        .filter(unit -> !this.unitsShowingIcons.contains(unit))
+        .forEach(unit -> {
+          addUnitIcon(unit);
+          this.unitsShowingIcons.add(unit);
+        });
+    this.unitsShowingIcons.stream()
+        .filter(unit -> !selectedUnits.contains(unit))
+        .forEach(unit -> {
 
+          int index = this.unitsShowingIcons.indexOf(unit);
+          this.main.callJsFunction("removeUnitIcon", index);
+          this.unitsShowingIcons.remove(unit);
+        });
+
+
+    Collection<Ability> visibleAbilities;
     if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
-      this.gameModel.getHeroUnit().getAbilities().forEach(this::addAbilityIcon);
-      this.gameModel.getHeroUnit().getItemInventory().forEach(this::addItemIcon);
+      visibleAbilities = this.gameModel.getHeroUnit().getAbilities();
+    } else {
+      visibleAbilities = Collections.emptySet();
     }
-    this.main.callJsFunction("switchAbilitiesHolder");
-    this.main.callJsFunction("switchItemsHolder");
+    visibleAbilities.stream()
+        .filter(ability -> !this.abilitiesShowingIcons.contains(ability))
+        .forEach(ability -> {
+          addAbilityIcon(ability);
+          this.abilitiesShowingIcons.add(ability);
+        });
+    this.abilitiesShowingIcons.stream()
+        .filter(ability -> !visibleAbilities.contains(ability))
+        .forEach(ability -> {
+          int index = this.abilitiesShowingIcons.indexOf(ability);
+          this.main.callJsFunction("removeAbilityIcon", index);
+          this.abilitiesShowingIcons.remove(ability);
+        });
+
+
+    Collection<Item> visibleItems;
+    if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
+      visibleItems = this.gameModel.getHeroUnit().getItemInventory();
+    } else {
+      visibleItems = Collections.emptySet();
+    }
+    visibleItems.stream()
+        .filter(item -> !this.itemsShowingIcons.contains(item))
+        .forEach(item -> {
+          addItemIcon(item);
+          this.itemsShowingIcons.add(item);
+        });
+    this.itemsShowingIcons.stream()
+        .filter(item -> !visibleItems.contains(item))
+        .forEach(item -> {
+          int index = this.itemsShowingIcons.indexOf(item);
+          this.main.callJsFunction("removeItemIcon", index);
+          this.itemsShowingIcons.remove(item);
+        });
+
+    // Add cooldown bars
+    visibleAbilities.stream()
+        .filter(ability -> ability.getCoolDownProgress() < 0.999
+            && !this.abilitiesInCoolDown.contains(ability))
+        .forEach(ability -> {
+          int index = this.abilitiesShowingIcons.indexOf(ability);
+          int time = ability.getCoolDownTicks() * config.getGameModelDelay();
+          this.main.callJsFunction("setAbilityIconToCoolDown", index, time);
+        });
+    this.abilitiesInCoolDown.stream()
+        .filter(ability -> ability.getCoolDownProgress() > 0.999)
+        .forEach(ability -> this.abilitiesInCoolDown.remove(ability));
+
+    visibleItems.stream()
+        .filter(item -> item.getCoolDownProgress() < 0.999
+            && !this.itemsInCoolDown.contains(item))
+        .forEach(item -> {
+          int index = this.itemsShowingIcons.indexOf(item);
+          int time = item.getCoolDownTicks() * config.getGameModelDelay();
+          this.main.callJsFunction("setItemIconToCoolDown", index, time);
+        });
+    this.itemsInCoolDown.stream()
+        .filter(item -> item.getCoolDownProgress() > 0.999)
+        .forEach(item -> this.itemsInCoolDown.remove(item));
   }
 
   private void addUnitIcon(Unit unit) {
@@ -144,7 +226,8 @@ public class Hud extends Menu {
           (int)(icon.getWidth() * unit.getHealthPercent()),
           10);
 
-      this.addIcon("addUnitIcon", icon, unit);
+      String entityIcon = this.formatImageForHtml(icon);
+      this.main.callJsFunction("addUnitIcon", entityIcon, unit, generateUnitTooltip(unit));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -208,6 +291,20 @@ public class Hud extends Menu {
     }
   }
 
+  private String generateUnitTooltip(Unit unit) {
+    int damage = (int)unit.getUnitType().getBaseAttack().getModifiedDamage(unit);
+    int attackSpeed = (int)unit.getUnitType().getBaseAttack().getModifiedAttackSpeed(unit);
+    int range = (int)unit.getUnitType().getBaseAttack().getModifiedRange(unit);
+    int maxHealth = (int)unit.getMaxHealth();
+    int currentHealth = (int)unit.getHealth();
+    double movementSpeed = Math.round(unit.getSpeed() * 100.0) / 100.0;
+
+    return "<b>Health</b>: " + currentHealth + "/" + maxHealth + "<br>"
+        + "<b>Damage</b>: " + damage + "<br>"
+        + "<b>Range</b>: " + range + "<br>"
+        + "<b>Attack Speed</b>: " + attackSpeed + "<br>"
+        + "<b>Movement Speed</b>: " + movementSpeed;
+  }
 
   /**
    * Assumes that the image is png formatted.
@@ -227,5 +324,4 @@ public class Hud extends Menu {
     dataUri = dataUri.replace("\\", "\\\\");
     return dataUri;
   }
-
 }

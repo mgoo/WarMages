@@ -6849,6 +6849,7 @@ body {
   width: 100vw;
   height: 30vh;
   pointer-events: none;
+  overflow: visible;
 }
 .bottom-bar .holder {
   pointer-events: initial;
@@ -6878,7 +6879,7 @@ body {
   height: 70%;
   background: linear-gradient(#133615, #254b25, #133615);
   border-top: #000 ridge 5px;
-  overflow-y: auto;
+  overflow: visible;
 }
 .bottom-bar .unit-holder .icon {
   background-color: #9f9f9e;
@@ -6904,6 +6905,15 @@ body {
     width: 16.66666667%;
   }
 }
+.bottom-bar .right-box .holder .icon .cooldown-bar {
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.5;
+}
 .bottom-bar .right-box .holder.ability-holder .icon {
   background-color: #9c8d46;
 }
@@ -6922,4 +6932,37 @@ body {
 }
 .modal-content input {
   -webkit-user-select: initial;
+}
+.icon-tooltip {
+  overflow: visible;
+}
+.icon-tooltip:hover .icon-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.icon-tooltip .icon-tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+.icon-tooltip .icon-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
 }

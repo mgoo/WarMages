@@ -17,6 +17,7 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Dying;
 import main.game.model.entity.unit.state.Idle;
 import main.game.model.entity.unit.state.Target;
@@ -227,6 +228,16 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return health;
   }
 
+  public double getMaxHealth() {
+    return this.levelMultiplyer(unitType.getStartingHealth());
+  }
+
+  @Override
+  public double getHealthPercent() {
+    return this.getHealth() / this.getMaxHealth();
+  }
+
+
   /**
    * Add a new effect and start it.
    */
@@ -286,11 +297,6 @@ public class DefaultUnit extends DefaultEntity implements Unit {
   @Override
   public boolean contains(MapPoint point) {
     return getRect().contains(point);
-  }
-
-  @Override
-  public double getHealthPercent() {
-    return health / this.levelMultiplyer(unitType.getStartingHealth());
   }
 
   @Override

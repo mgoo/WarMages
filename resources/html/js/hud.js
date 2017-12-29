@@ -3,88 +3,85 @@
  * @author Andrew McGhie
  */
 
-function addUnitIcon(image, unit) {
-  $('.unit-holder').each(function(idx, unit_holder) {
-    if (!$(unit_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function(event) {
-        controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
-      });
-      $(unit_holder).append(icon);
-    }
+// Icons *************************************************
+
+function addUnitIcon(image, unit, tooltip) {
+  var icon = $(
+      '<div class="icon icon-tooltip">'
+      + '<div class="icon-tooltiptext">' + tooltip + '</div>'
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function(event) {
+    controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
   });
+  $('.unit-holder').append(icon);
 }
 
 function addAbilityIcon(image, ability) {
-  $('.ability-holder').each(function(idx, ability_holder) {
-    if (!$(ability_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function (event) {
-        controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
-            event.which === 1);
-      });
-      $(ability_holder).append(icon);
-    }
+  var icon = $(
+      '<div '
+      + 'class="icon" '
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function (event) {
+    controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
+        event.which === 1);
   });
+  $('.ability-holder').append(icon);
 }
 
 function addItemIcon(image, item) {
-  $('.item-holder').each(function(idx, item_holder) {
-    if (!$(item_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function (event) {
-        controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
-            event.which === 1);
-      });
-      $(item_holder).append(icon);
-    }
+  var icon = $(
+      '<div '
+      + 'class="icon" '
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function (event) {
+    controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
+        event.which === 1);
   });
+  $('.item-holder').append(icon);
 }
 
-function switchUnitHolder() {
-  $('.unit-holder').each(function(idx, unit_holder) {
-    if ($(unit_holder).is(":visible")) {
-      $(unit_holder).hide();
-      $(unit_holder).html('');
-    } else {
-      $(unit_holder).show();
-    }
-  });
+function removeUnitIcon(index) {
+  $('.unit-holder div:nth-child(' + (index + 1) + ')').remove();
+}
+function removeAbilityIcon(index) {
+  $('.ability-holder div:nth-child(' + (index + 1) + ')').remove();
+}
+function removeItemIcon(index) {
+  $('.item-holder div:nth-child(' + (index + 1) + ')').remove();
 }
 
-function switchAbilitiesHolder() {
-  $('.ability-holder').each(function(idx, ability_holder) {
-    if ($(ability_holder).is(":visible")) {
-      $(ability_holder).hide();
-      $(ability_holder).html('');
-    } else {
-      $(ability_holder).show();
-    }
+function setAbilityIconToCoolDown(index, time) {
+  if ($('.ability-holder div:nth-child(' + (index + 1) + ') .bottom-bar').length !== 0) {
+    return;
+  }
+  var abilityIcon = $('.ability-holder div:nth-child(' + (index + 1) + ')');
+  var bottomBar = $('<div class="cooldown-bar"></div>');
+  bottomBar.animate({
+    width: 0
+  }, time, function () {
+    $(this).remove();
   });
+  abilityIcon.append(bottomBar);
 }
 
-function switchItemsHolder() {
-  $('.item-holder').each(function(idx, item_holder) {
-    if ($(item_holder).is(":visible")) {
-      $(item_holder).hide();
-      $(item_holder).html('');
-    } else {
-      $(item_holder).show();
-    }
+function setItemIconToCoolDown(index, time) {
+  if ($('.item-holder div:nth-child(' + (index + 1) + ') .cooldown-bar').length !== 0) {
+    return;
+  }
+  var abilityIcon = $('.item-holder div:nth-child(' + (index + 1) + ')');
+  var cooldownBar = $('<div class="cooldown-bar"></div>');
+  cooldownBar.animate({
+    width: 0
+  }, time, function () {
+    $(this).remove();
   });
+  abilityIcon.append(cooldownBar);
 }
+
+// Clicking *********************************************
 
 var gameViewProxy = $('#game-view-proxy');
 var menuButton = $('#menu-button');
@@ -99,6 +96,8 @@ gameViewProxy.on('dblclick', function (event) {
   controller.onDbClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
   return false;
 });
+
+// Pause menu ******************************************
 
 menuButton.on('click', function (event) {
     $('#overlay').fadeIn();
@@ -122,6 +121,8 @@ resumeButton.on('click', function (event) {
     $('#overlay').fadeOut();
     $('#pause-menu').fadeOut();
 });
+
+// Rectangle select **********************************
 
 gameViewProxy
   .on('mousedown', function (event) {
@@ -148,20 +149,20 @@ gameViewProxy
 
 $('.bottom-bar')
   .on('mouseup', function (event) {
-    doDragSelect(event);
+    doDragSelect(event); // Pass the mouse up event through to the dragselect
   })
   .on('mousemove', function (event) {
     if (Rect.visible) {
-      Rect.update(event.pageX, event.pageY);
+      Rect.update(event.pageX, event.pageY);  // Update the rectangle
     }
   });
 $('.top-bar')
   .on('mouseup', function (event) {
-    doDragSelect(event);
+    doDragSelect(event);  // Pass the mouse up event through to the dragselect
   })
   .on('mousemove', function (event) {
     if (Rect.visible) {
-      Rect.update(event.pageX, event.pageY);
+      Rect.update(event.pageX, event.pageY); // Update the rectangle
     }
   });
 
