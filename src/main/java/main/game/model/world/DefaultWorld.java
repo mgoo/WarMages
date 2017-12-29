@@ -22,6 +22,7 @@ import main.common.util.MapRect;
 import main.common.util.MapSize;
 import main.game.model.Level;
 import main.common.entity.Projectile;
+import main.game.model.entity.StaticEntity;
 
 /**
  * Implementation of the World API.
@@ -41,6 +42,7 @@ public class DefaultWorld implements Serializable, World {
   private final Set<Item> items;
   private final Set<MapEntity> mapEntities;
   private final Set<Projectile> projectiles;
+  private final Set<StaticEntity> staticEntities;
   private final PathFinder pathFinder;
 
   /**
@@ -64,6 +66,7 @@ public class DefaultWorld implements Serializable, World {
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = newConcurrentSet();
     this.pathFinder = pathfinder;
+    staticEntities = newConcurrentSet();
   }
 
   private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
@@ -109,6 +112,7 @@ public class DefaultWorld implements Serializable, World {
             addAll(mapEntities);
             addAll(items);
             addAll(projectiles);
+            addAll(staticEntities);
           }
         });
   }
@@ -137,6 +141,20 @@ public class DefaultWorld implements Serializable, World {
   @Override
   public Collection<Projectile> getProjectiles() {
     return Collections.unmodifiableCollection(projectiles);
+  }
+
+  public void addStaticEntity(StaticEntity staticEntity) {
+    staticEntities.add(staticEntity);
+  }
+
+  @Override
+  public void removeStaticEntity(StaticEntity staticEntity) {
+    staticEntities.remove(staticEntity);
+  }
+
+  @Override
+  public Collection<StaticEntity> getStaticEntities() {
+    return Collections.unmodifiableCollection(staticEntities);
   }
 
   @Override

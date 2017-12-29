@@ -24,10 +24,11 @@ public enum GameImageResource {
   WHITE_BALL_ITEM("images/projectiles/whitemissile-impact-3.png"),
 
   // Projectiles
-  ARROW_PROJECTILE("images/projectiles/missile-e.png"),
+  ARROW_PROJECTILE("images/projectile-sheets/arrow-sheet.png"),
   // Use this one as static image, rather than a sequence of images:
-  FIREBALL_PROJECTILE("images/projectiles/fireball-impact-1.png"),
-  WHITE_PROJECTILE("images/projectiles/whitemissile-impact-3.png"),
+  FIREBALL_PROJECTILE("images/projectile-sheets/fireball-sheet.png"),
+  WHITE_PROJECTILE("images/projectile-sheets/whitemissile-sheet.png"),
+  ICE_PROJECTILE("images/projectile-sheets/icemissile-sheet.png"),
 
   // Tiles
   GRASS_TILE("images/tiles/grass.png"),

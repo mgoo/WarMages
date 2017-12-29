@@ -108,12 +108,12 @@ public class DefaultGameView implements GameView {
   }
 
   @Override
-  public synchronized Renderable getFogOfWarView() {
+  public synchronized FogOfWarView getFogOfWarView() {
     return this.fogOfWarView;
   }
 
   @Override
-  public synchronized Renderable getBackGroundView() {
+  public synchronized BackGroundView getBackGroundView() {
     return this.backGroundView;
   }
 
@@ -140,8 +140,7 @@ public class DefaultGameView implements GameView {
         .collect(Collectors.toList());
     this.renderablesCache.addAll(entityViewsToAdd);
 
-    this.renderablesCache.forEach(entityView -> entityView.update(tickTime,
-        this.model.getUnitSelection().contains(entityView.getEntity())));
+    this.renderablesCache.forEach(entityView -> entityView.update(tickTime, model));
 
     // Update FoW
 

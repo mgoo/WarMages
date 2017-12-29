@@ -3,17 +3,21 @@ package main.renderer;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
 import main.common.GameView;
 import main.common.Renderable;
 import main.common.Renderer;
+import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.common.util.Looper;
+import main.game.view.BackGroundView;
 import main.game.view.EntityView;
+import main.images.DefaultImageProvider;
 
 /**
  * Implementation of Renderer API.
@@ -26,6 +30,7 @@ public class DefaultRenderer implements Renderer {
   private final ImageView imageView;
   private final Config config;
   private final Looper looper;
+  private final ImageProvider imageProvider = new DefaultImageProvider();
 
   /**
    * Creates a Renderer and the rendering loop.
@@ -56,7 +61,7 @@ public class DefaultRenderer implements Renderer {
         RenderingHints.VALUE_ANTIALIAS_ON
     );
     g.setRenderingHints(rh);
-    Renderable background = gameView.getBackGroundView();
+    BackGroundView background = gameView.getBackGroundView();
     g.drawImage(background.getImage(),
         (int)background.getImagePosition(0).x,
         (int)background.getImagePosition(0).y,
@@ -66,12 +71,25 @@ public class DefaultRenderer implements Renderer {
     for (Renderable r : gameView.getRenderables(currentTime)) {
       MapPoint position = r.getImagePosition(currentTime);
       MapSize size = r.getImageSize();
-      g.drawImage(r.getImage(),
+      try {
+        r.getImage().drawOnto(g,
+            this.imageProvider,
+            (int)(position.x - gameView.getViewBox().topLeft.x),
+            (int)(position.y - gameView.getViewBox().topLeft.y),
+            (int)size.width,
+            (int)size.height);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    for (Renderable renderable : gameView.getRenderables(currentTime)) {
+      MapPoint position = renderable.getImagePosition(currentTime);
+      MapSize size = renderable.getImageSize();
+      renderable.drawDecorations(g,
           (int)(position.x - gameView.getViewBox().topLeft.x),
           (int)(position.y - gameView.getViewBox().topLeft.y),
           (int)size.width,
-          (int)size.height,
-          null);
+          (int)size.height);
     }
     g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
 

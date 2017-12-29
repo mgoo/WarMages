@@ -33,7 +33,7 @@ public class Attacking extends Interacting {
     this.attack = attack;
 
     if (!target.isStillValid()) {
-      throw new IllegalArgumentException();
+      requestState(new Idle(unit));
     }
   }
 

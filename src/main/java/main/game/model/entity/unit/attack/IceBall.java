@@ -8,26 +8,21 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 import main.images.DefaultProjectileSpriteSheet;
 
-/**
- * Laser with a different looking projectile.
- * @author Andrew McGhie
- */
-public class LaserWhite extends Laser {
-
+public class IceBall extends FireBall {
   @Override
   Projectile createProjectile(
       Unit unit, Unit enemyUnit
   ) {
     return new DefaultProjectile(
         unit.getCentre(),
-        new MapSize(0.5, 0.5),
+        new MapSize(0.8, 0.8),
         enemyUnit,
         unit,
         this,
-        new DefaultProjectileSpriteSheet(GameImageResource.WHITE_PROJECTILE),
-        Sequence.WHITEMISSILE_FLY,
-        Sequence.WHITEMISSILE_IMPACT,
-        0.1
+        new DefaultProjectileSpriteSheet(GameImageResource.ICE_PROJECTILE),
+        Sequence.ICE_FLY,
+        Sequence.ICE_IMPACT,
+        0.4
     );
   }
 }

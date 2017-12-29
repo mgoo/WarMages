@@ -1,6 +1,7 @@
 package main.common.images;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.common.World;
@@ -52,6 +53,8 @@ public class GameImage implements Serializable {
   private final int overflowBottom;
   private final int overflowLeft;
 
+  private final AffineTransform transformation;
+
   /**
    * Don't use this directly. Use {@link GameImageBuilder}.
    */
@@ -81,6 +84,39 @@ public class GameImage implements Serializable {
     this.overflowRight = overflowRight;
     this.overflowBottom = overflowBottom;
     this.overflowLeft = overflowLeft;
+
+    this.transformation = new AffineTransform();
+  }
+
+  private GameImage(
+      String filePath,
+      int startX,
+      int startY,
+      int width,
+      int height,
+      int overflowTop,
+      int overflowRight,
+      int overflowBottom,
+      int overflowLeft,
+      AffineTransform transformation
+  ) {
+    if (filePath.startsWith("/")) {
+      throw new IllegalArgumentException();
+    }
+
+    this.filePath = filePath;
+
+    this.startX = startX;
+    this.startY = startY;
+    this.width = width;
+    this.height = height;
+
+    this.overflowTop = overflowTop;
+    this.overflowRight = overflowRight;
+    this.overflowBottom = overflowBottom;
+    this.overflowLeft = overflowLeft;
+
+    this.transformation = transformation;
   }
 
   public String getFilePath() {
@@ -118,7 +154,6 @@ public class GameImage implements Serializable {
   ) throws IOException {
     BufferedImage subImage = load(imageProvider);
     graphics2D.drawImage(subImage, x, y, width, height, null);
-
     // TODO eric - remember to take into account the offset fields
   }
 
@@ -154,7 +189,6 @@ public class GameImage implements Serializable {
     if (h == FILL_SPACE) {
       h = image.getHeight() - startY;
     }
-
     return image.getSubimage(startX, startY, w, h);
   }
 

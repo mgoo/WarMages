@@ -1,8 +1,8 @@
 package main.images;
 
 import static java.util.Objects.requireNonNull;
-import static main.common.images.UnitSpriteSheet.Sequence.UNIT_HEIGHT;
-import static main.common.images.UnitSpriteSheet.Sequence.UNIT_WIDTH;
+import static main.common.images.ProjectileSpriteSheet.Sequence.PROJECTILE_HEIGHT;
+import static main.common.images.ProjectileSpriteSheet.Sequence.PROJECTILE_WIDTH;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,46 +11,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import main.common.entity.Direction;
 import main.common.images.GameImage;
 import main.common.images.GameImageBuilder;
 import main.common.images.GameImageResource;
-import main.common.images.UnitSpriteSheet;
-import main.common.entity.Direction;
+import main.common.images.ProjectileSpriteSheet;
 
-/**
- * Default implementation.
- * @author chongdyla
- */
-public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
+public class DefaultProjectileSpriteSheet implements ProjectileSpriteSheet {
 
   private static final long serialVersionUID = 1L;
 
   private final GameImageResource resource;
   private transient Map<MapKey, List<GameImage>> sequenceToImages = new HashMap<>();
 
-  /**
-   * Default constructor.
-   * @param baseImageResource A sprite sheet image.
-   */
-  public DefaultUnitSpriteSheet(GameImageResource baseImageResource) {
+
+  public DefaultProjectileSpriteSheet(GameImageResource baseImageResource) {
     this.resource = baseImageResource;
-
-    if (resource.getGameImage().getStartX() != 0 || resource.getGameImage().getStartY() != 0) {
-      throw new IllegalArgumentException(
-          "Base images with an offset are not supported yet: " + baseImageResource
-      );
-    }
-
-    if (!baseImageResource.name().endsWith("_SPRITE_SHEET")) {
-      throw new IllegalArgumentException(
-          "The given image resource is not a sprite sheet: " + baseImageResource
-      );
-    }
   }
 
   /**
-   * Called during deserialisation.
-   */
+  * Called during deserialisation.
+  */
   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
     in.defaultReadObject();
 
@@ -70,25 +51,22 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
   }
 
   private List<GameImage> getImages(Sequence sequence, Direction direction, String filePath) {
-    int row = sequence.firstRow
+    int row = sequence.row
         + (sequence.supportsDirections ? direction.ordinal() : 0);
 
     return IntStream.range(0, sequence.frames)
         .map(col -> col + sequence.firstColumn())
         .mapToObj(col ->
             new GameImageBuilder(filePath)
-                .setStartX(col * UNIT_WIDTH)
-                .setStartY(row * UNIT_HEIGHT)
-                .setWidth(UNIT_WIDTH)
-                .setHeight(UNIT_HEIGHT)
+                .setStartX(col * PROJECTILE_WIDTH)
+                .setStartY(row * PROJECTILE_HEIGHT)
+                .setWidth(PROJECTILE_WIDTH)
+                .setHeight(PROJECTILE_HEIGHT)
                 .create()
         )
         .collect(Collectors.toList());
   }
 
-  /**
-   * Key in {@link DefaultUnitSpriteSheet#sequenceToImages}.
-   */
   static class MapKey {
 
     private final Sequence sequence;
@@ -128,4 +106,6 @@ public class DefaultUnitSpriteSheet implements UnitSpriteSheet {
       return result;
     }
   }
+
+
 }

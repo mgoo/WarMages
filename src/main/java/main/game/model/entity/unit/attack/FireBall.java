@@ -3,8 +3,10 @@ package main.game.model.entity.unit.attack;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
+import main.common.images.ProjectileSpriteSheet.Sequence;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
+import main.images.DefaultProjectileSpriteSheet;
 
 /**
  * Fireball attack for mages.
@@ -19,12 +21,14 @@ public class FireBall extends BaseRangedAttack {
   ) {
     return new DefaultProjectile(
         unit.getCentre(),
-        new MapSize(0.5, 0.5),
+        new MapSize(0.8, 0.8),
         enemyUnit,
         unit,
         this,
-        GameImageResource.FIREBALL_PROJECTILE.getGameImage(),
-        0.2
+        new DefaultProjectileSpriteSheet(GameImageResource.FIREBALL_PROJECTILE),
+        Sequence.FIREBALL_FLY,
+        Sequence.FIREBALL_IMPACT,
+        0.4
     );
   }
 
