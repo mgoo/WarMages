@@ -43,8 +43,8 @@ public interface UnitSpriteSheet extends Serializable {
      */
     IDLE(8, 1, true);
 
-    public static final int UNIT_WIDTH = 128;
-    public static final int UNIT_HEIGHT = 128;
+    public static final int UNIT_WIDTH = 64;
+    public static final int UNIT_HEIGHT = 64;
 
     public final int firstRow;
     public final int frames;

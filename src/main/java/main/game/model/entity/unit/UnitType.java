@@ -10,6 +10,7 @@ import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.BasicArrow;
 import main.game.model.entity.unit.attack.Dagger;
 import main.game.model.entity.unit.attack.FireBall;
+import main.game.model.entity.unit.attack.IceBall;
 import main.game.model.entity.unit.attack.Laser;
 import main.game.model.entity.unit.attack.LaserWhite;
 import main.game.model.entity.unit.attack.Spear;
@@ -27,7 +28,8 @@ public enum UnitType {
 
   SPEARMAN(200, 0.1, 5, Sequence.THRUST, new Spear()),
 
-  MAGICIAN(150, 0.1, 5, Sequence.SPELL_CAST, new FireBall()),
+  MAGE_FIRE(150, 0.1, 5, Sequence.SPELL_CAST, new FireBall()),
+  MAGE_ICE(150, 0.1, 5, Sequence.SPELL_CAST, new IceBall()),
 
   WHITE_LASER(200, 0.08, 5,
       Sequence.SPELL_CAST, new LaserWhite()),

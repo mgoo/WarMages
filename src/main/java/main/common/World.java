@@ -10,6 +10,7 @@ import main.common.entity.Unit;
 import main.common.entity.usable.Item;
 import main.common.util.MapPoint;
 import main.common.util.MapRect;
+import main.game.model.entity.StaticEntity;
 
 /**
  * World class is a representation of all the in-play entities and in-play entities: all entity
@@ -57,6 +58,12 @@ public interface World {
   void removeProjectile(Projectile projectile);
 
   Collection<Projectile> getProjectiles();
+
+  void addStaticEntity(StaticEntity staticEntity);
+
+  void removeStaticEntity(StaticEntity staticEntity);
+
+  Collection<StaticEntity> getStaticEntities();
 
   /**
    * A getter method which checks if a certain point in the map can be moved into. Returns false for

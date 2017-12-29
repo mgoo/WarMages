@@ -52,7 +52,9 @@ public class BackGroundView {
         null);
   }
 
-
+  /**
+   * Gets the position that the background image should be drawn.
+   */
   public MapPoint getImagePosition(long currentTime) {
     double x = gameView.getViewBox().x() < 0
         ? - gameView.getViewBox().x() % config.getContextScreenWidth()

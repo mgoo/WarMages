@@ -82,14 +82,14 @@ public class DefaultRenderer implements Renderer {
         e.printStackTrace();
       }
     }
-    for (Renderable r : gameView.getRenderables(currentTime)) {
-      MapPoint position = r.getImagePosition(currentTime);
-      MapSize size = r.getImageSize();
-        r.drawDecorations(g,
-            (int)(position.x - gameView.getViewBox().topLeft.x),
-            (int)(position.y - gameView.getViewBox().topLeft.y),
-            (int)size.width,
-            (int)size.height);
+    for (Renderable renderable : gameView.getRenderables(currentTime)) {
+      MapPoint position = renderable.getImagePosition(currentTime);
+      MapSize size = renderable.getImageSize();
+      renderable.drawDecorations(g,
+          (int)(position.x - gameView.getViewBox().topLeft.x),
+          (int)(position.y - gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height);
     }
     g.drawImage(gameView.getFogOfWarView().getImage(), 0, 0, null);
 

@@ -154,11 +154,6 @@ public class GameImage implements Serializable {
   ) throws IOException {
     BufferedImage subImage = load(imageProvider);
     graphics2D.drawImage(subImage, x, y, width, height, null);
-//    AffineTransform tempTransformation = new AffineTransform(this.transformation);
-//    tempTransformation.setToTranslation(x, y);
-//    tempTransformation.setToScale(width / this.width, height / this.height);
-//    graphics2D.drawImage(subImage, tempTransformation, null);
-
     // TODO eric - remember to take into account the offset fields
   }
 
@@ -180,21 +175,6 @@ public class GameImage implements Serializable {
     return image;
   }
 
-  public GameImage rotate(double theta) {
-    AffineTransform rotation = new AffineTransform(this.transformation);
-    rotation.setToRotation(theta, this.width/2, this.height/2);
-    return new GameImage(filePath,
-        startX,
-        startY,
-        width,
-        height,
-        overflowTop,
-        overflowRight,
-        overflowBottom,
-        overflowLeft,
-        rotation);
-  }
-
   private BufferedImage clipToBounds(BufferedImage image) {
     int w = width;
     int h = height;
@@ -209,7 +189,6 @@ public class GameImage implements Serializable {
     if (h == FILL_SPACE) {
       h = image.getHeight() - startY;
     }
-
     return image.getSubimage(startX, startY, w, h);
   }
 

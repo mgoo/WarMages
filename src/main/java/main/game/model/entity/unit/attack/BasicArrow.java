@@ -3,8 +3,10 @@ package main.game.model.entity.unit.attack;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
+import main.common.images.ProjectileSpriteSheet.Sequence;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
+import main.images.DefaultProjectileSpriteSheet;
 
 /**
  * A basic arrow attack for any archer.
@@ -18,11 +20,13 @@ public class BasicArrow extends BaseRangedAttack {
   ) {
     return new DefaultProjectile(
         unit.getCentre(),
-        new MapSize(0.4, 0.4),
+        new MapSize(0.7, 0.7),
         enemyUnit,
         unit,
         this,
-        GameImageResource.ARROW_PROJECTILE.getGameImage(),
+        new DefaultProjectileSpriteSheet(GameImageResource.ARROW_PROJECTILE),
+        Sequence.ARROW,
+        Sequence.ARROW,
         0.5
     );
   }
