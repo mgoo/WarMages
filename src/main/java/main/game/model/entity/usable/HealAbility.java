@@ -33,8 +33,8 @@ public class HealAbility extends BaseAbility {
   }
 
   @Override
-  public Effect createEffectForUnit(Unit unit) {
-    return new HealEffect(unit);
+  public Effect createEffectForUnit(Unit unit, World world) {
+    return new HealEffect(unit, world);
   }
 
   public int getHealAmount() {
@@ -51,16 +51,18 @@ public class HealAbility extends BaseAbility {
     private static final long serialVersionUID = 1L;
 
     private final Unit unit;
+    private final World world;
 
-    HealEffect(Unit unit) {
-      super(unit, INSTANT_EFFECT_DURATION);
+    HealEffect(Unit unit, World world) {
+      super(unit, world, INSTANT_EFFECT_DURATION);
       this.unit = unit;
+      this.world = world;
     }
 
     @Override
     public void start() {
       super.start();
-      unit.gainHealth(healAmount);
+      unit.gainHealth(healAmount, world);
     }
   }
 

@@ -88,9 +88,15 @@ public class FogOfWarViewTest extends GameViewTest {
     }
 
     @Override
+    public void gainHealth(double amount, World world) {
+
+    }
+
+    @Override
     public double getHealth() {
       return 100;
     }
+
 
     @Override
     public double getLineOfSight() {

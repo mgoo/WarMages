@@ -50,16 +50,16 @@ public class DamageBuffAbility extends BaseAbility {
   }
 
   @Override
-  public Effect createEffectForUnit(Unit unit) {
-    return new DamageBuffEffect(unit, getEffectDurationSeconds());
+  public Effect createEffectForUnit(Unit unit, World world) {
+    return new DamageBuffEffect(unit, world, getEffectDurationSeconds());
   }
 
   private class DamageBuffEffect extends BaseEffect {
 
     private static final long serialVersionUID = 1L;
 
-    DamageBuffEffect(Unit targetUnit, double durationSeconds) {
-      super(targetUnit, durationSeconds);
+    DamageBuffEffect(Unit targetUnit, World world, double durationSeconds) {
+      super(targetUnit, world, durationSeconds);
     }
 
     @Override

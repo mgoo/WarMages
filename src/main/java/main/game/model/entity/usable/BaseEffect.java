@@ -1,5 +1,6 @@
 package main.game.model.entity.usable;
 
+import main.common.World;
 import main.common.entity.Unit;
 import main.common.entity.usable.Effect;
 import main.common.util.TickTimer;
@@ -24,7 +25,7 @@ public abstract class BaseEffect implements Effect {
    * @param durationSeconds Number of seconds before this expires. Set to {@link
    * BaseEffect#INSTANT_EFFECT_DURATION} for one-shot effects.
    */
-  public BaseEffect(Unit targetUnit, double durationSeconds) {
+  public BaseEffect(Unit targetUnit, World world, double durationSeconds) {
     if (durationSeconds < 0) {
       throw new IllegalArgumentException();
     }
