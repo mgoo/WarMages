@@ -8,11 +8,15 @@ import main.common.GameModel;
 import main.common.Renderable;
 import main.common.World;
 import main.common.entity.Entity;
+import main.common.entity.Projectile;
+import main.common.entity.Unit;
 import main.common.images.GameImage;
 import main.common.images.ImageProvider;
 import main.common.util.Config;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
+import main.game.model.entity.DefaultEntity;
+import main.game.model.entity.unit.DefaultDeadUnit;
 
 /**
  * View of an entity.
@@ -30,11 +34,23 @@ public class EntityView implements Renderable {
 
   private long lastTickTime;
 
+  /** The smaller the number the close to the front. */
+  private final int layer;
+
   EntityView(Config config, Entity entity) {
     this.config = config;
     this.entity = entity;
     this.oldPosition = entity.getCentre();
     this.destination = entity.getCentre();
+    if (entity.getLayer() != -1) {
+      this.layer = entity.getLayer();
+    } else if (entity instanceof Projectile) {
+      this.layer = 1; // Make projectiles in front of all other entities
+    } else if (entity instanceof DefaultDeadUnit) {
+      this.layer = 3; // Make dead units behind all other entites
+    } else {
+      this.layer = 2;
+    }
   }
 
   void update(long tickTime, GameModel model) {
@@ -133,9 +149,13 @@ public class EntityView implements Renderable {
 
     @Override
     public int compare(EntityView er1, EntityView er2) {
-      MapPoint er1Pos = er1.getEffectiveEntityPosition(this.currentTime);
-      MapPoint er2Pos = er2.getEffectiveEntityPosition(this.currentTime);
-      return Double.compare(er1Pos.x + er1Pos.y,er2Pos.x + er2Pos.y);
+      if (er1.layer == er2.layer) {
+        MapPoint er1Pos = er1.getEffectiveEntityPosition(this.currentTime);
+        MapPoint er2Pos = er2.getEffectiveEntityPosition(this.currentTime);
+        return Double.compare(er1Pos.x + er1Pos.y, er2Pos.x + er2Pos.y);
+      } else {
+        return Integer.compare(er2.layer, er1.layer);
+      }
     }
   }
 }

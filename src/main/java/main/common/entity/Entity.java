@@ -14,6 +14,17 @@ import main.common.util.MapSize;
 public interface Entity extends Serializable {
 
   /**
+   * Gets the layer that the entity wants to render on.
+   * Used to force the layers in the renderer.
+   * the smaller the number the close to the front
+   *
+   * @return -1 for not set
+   */
+  default int getLayer() {
+    return -1;
+  }
+
+  /**
    * Returns the position at the top left of the Entity.
    *
    * @return the entity's top left position.
