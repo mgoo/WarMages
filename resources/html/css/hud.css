@@ -6923,6 +6923,9 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+.bottom-bar .right-box .holder .icon.selected {
+  border: thick solid #904140;
+}
 @media (min-width: 1200px) {
   .bottom-bar .right-box .holder .icon {
     float: left;

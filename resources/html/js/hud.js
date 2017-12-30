@@ -92,11 +92,23 @@ function updateIcons() {
   for (let i = 0; i < abilities.length; i++) {
     let icon = $('.ability-holder div:nth-child(' + (i + 1) + ')');
     icon.find('.cooldown').width((abilities[i].getCoolDownProgress() * 100) + '%');
+    if (abilities[i].isSelected() && !icon.hasClass('selected')) {
+      icon.addClass('selected');
+    }
+    if (!abilities[i].isSelected() && icon.hasClass('selected')) {
+      icon.removeClass('selected');
+    }
   }
 
   for (let i = 0; i < items.length; i++) {
     let icon = $('.item-holder div:nth-child(' + (i + 1) + ')');
     icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
+    if (items[i].isSelected() && !icon.hasClass('selected')) {
+      icon.addClass('selected');
+    }
+    if (!items[i].isSelected() && icon.hasClass('selected')) {
+      icon.removeClass('selected');
+    }
   }
 }
 

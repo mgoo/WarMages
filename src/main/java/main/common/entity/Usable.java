@@ -7,6 +7,7 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Effect;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
+import main.common.util.MapPoint;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
@@ -56,5 +57,11 @@ public interface Usable extends Serializable {
   int getCoolDownTicks();
 
   boolean canApplyTo(Unit unit);
+
+  boolean canApplyTo(MapPoint target);
+
+  boolean isSelected();
+
+  void setSelected(boolean selected);
 
 }

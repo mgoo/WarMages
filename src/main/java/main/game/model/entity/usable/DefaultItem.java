@@ -1,7 +1,6 @@
 package main.game.model.entity.usable;
 
 import java.util.Collection;
-import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
@@ -18,6 +17,8 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
 
   private static final long serialVersionUID = 1L;
   private final Ability ability;
+
+  private boolean selected = false;
 
   /**
    * Constructor takes the coordinates of the item.
@@ -76,11 +77,28 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
 
   @Override
   public boolean canApplyTo(Unit unit) {
-    return unit.getTeam() == Team.PLAYER;
+    return this.ability.canApplyTo(unit);
+  }
+
+  @Override
+  public boolean canApplyTo(MapPoint target) {
+    return this.ability.canApplyTo(target);
+  }
+
+  @Override
+  public boolean isSelected() {
+    return this.selected;
+  }
+
+  @Override
+  public void setSelected(boolean selected) {
+    this.selected = selected;
   }
 
   @Override
   public int getCoolDownTicks() {
     return ability.getCoolDownTicks();
   }
+
+
 }

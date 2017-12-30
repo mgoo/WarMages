@@ -6,6 +6,8 @@ import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.World;
 import main.common.images.GameImage;
+import main.common.util.MapPoint;
+import main.game.model.entity.unit.state.TargetUnit;
 
 /**
  * The {@link DamageBuffAbility} is a type of Ability that allows the HeroUnit using it to deal more
@@ -66,6 +68,11 @@ public class DamageBuffAbility extends BaseAbility {
     public double alterDamageModifier(double currentDamageModifier) {
       return super.alterDamageModifier(currentDamageModifier) + damageIncrease;
     }
+  }
+
+  @Override
+  public boolean canApplyTo(MapPoint target) {
+    return false;
   }
 
   @Override
