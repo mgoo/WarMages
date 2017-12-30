@@ -25,6 +25,12 @@ public interface Unit extends Entity {
   void gainHealth(double amount);
 
   /**
+   * Gives the Unit the given amount of health. Requires the amount given is a positive integer.
+   * Will add effects to the world
+   */
+  void gainHealth(double amount, World world);
+
+  /**
    * Returns the current health of the Unit.
    *
    * @return unt health of the Unit.

@@ -133,8 +133,8 @@ public class WorldTestUtils {
       }
 
       @Override
-      public Effect createEffectForUnit(Unit unit) {
-        return new BaseEffect(unit, 1) {
+      public Effect createEffectForUnit(Unit unit, World world) {
+        return new BaseEffect(unit, world, 1) {
         };
       }
 

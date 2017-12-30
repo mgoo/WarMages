@@ -30,6 +30,8 @@ public enum GameImageResource {
   WHITE_PROJECTILE("images/projectile-sheets/whitemissile-sheet.png"),
   ICE_PROJECTILE("images/projectile-sheets/icemissile-sheet.png"),
 
+  HEAL_SPRITESHEET("images/misc-spritesheets/healeffect.png"),
+
   // Tiles
   GRASS_TILE("images/tiles/grass.png"),
 

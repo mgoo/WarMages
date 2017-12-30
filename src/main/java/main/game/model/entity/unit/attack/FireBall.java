@@ -3,10 +3,10 @@ package main.game.model.entity.unit.attack;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.GameImageResource;
-import main.common.images.ProjectileSpriteSheet.Sequence;
+import main.common.images.SpriteSheet.Sequence;
+import main.common.images.SpriteSheet.Sheet;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
-import main.images.DefaultProjectileSpriteSheet;
 
 /**
  * Fireball attack for mages.
@@ -25,7 +25,7 @@ public class FireBall extends BaseRangedAttack {
         enemyUnit,
         unit,
         this,
-        new DefaultProjectileSpriteSheet(GameImageResource.FIREBALL_PROJECTILE),
+        Sheet.FIREBALL_PROJECTILE,
         Sequence.FIREBALL_FLY,
         Sequence.FIREBALL_IMPACT,
         0.4
