@@ -60,7 +60,7 @@ public class Attacking extends Interacting {
     }
 
     if (this.currentTick == this.applicationTick) {
-      this.attack.execute(unit, this.targetEnemyUnit.getEnemyUnit(), world);
+      this.attack.execute(unit, this.targetEnemyUnit.getTargetUnit(), world);
     }
     currentTick++;
   }

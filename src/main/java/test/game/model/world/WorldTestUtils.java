@@ -142,6 +142,11 @@ public class WorldTestUtils {
       public boolean canApplyTo(Unit unit) {
         return true;
       }
+
+      @Override
+      public boolean canApplyTo(MapPoint target) {
+        return false;
+      }
     };
   }
 

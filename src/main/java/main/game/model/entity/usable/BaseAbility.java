@@ -18,6 +18,8 @@ public abstract class BaseAbility extends BaseUsable implements Ability {
   private final TickTimer coolDownTimer;
   private final double effectDurationSeconds;
 
+  private boolean selected = false;
+
   public BaseAbility(
       String description,
       GameImage icon,
@@ -74,6 +76,16 @@ public abstract class BaseAbility extends BaseUsable implements Ability {
   @Override
   public int getCoolDownTicks() {
     return coolDownTimer.getMaxTicks();
+  }
+
+  @Override
+  public boolean isSelected() {
+    return this.selected;
+  }
+
+  @Override
+  public void setSelected(boolean selected) {
+    this.selected = selected;
   }
 
 }

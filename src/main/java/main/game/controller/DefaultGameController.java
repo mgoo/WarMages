@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import main.common.GameController;
 import main.common.GameView;
 import main.common.entity.Entity;
-import main.common.entity.HeroUnit;
+import main.common.entity.Usable;
 import main.common.entity.usable.Item;
 import main.common.entity.Team;
 import main.common.entity.Unit;
@@ -23,6 +23,7 @@ import main.common.events.KeyEvent;
 import main.common.events.MouseClick;
 import main.common.events.MouseDrag;
 import main.common.events.UnitIconClick;
+import main.common.util.MapPoint;
 import main.game.model.entity.unit.state.TargetEnemyUnit;
 import main.game.model.entity.unit.state.TargetItem;
 import main.game.model.entity.unit.state.TargetMapPoint;
@@ -38,8 +39,41 @@ public class DefaultGameController implements GameController {
 
   private final GameModel model;
 
-  private AbilityIconClick ability = null;
-  private ItemIconClick item = null;
+  private Usable selectedUsable = null;
+
+  private void selectUsable(Usable usable) {
+    if (!usable.isReadyToBeUsed()) {
+      throw new UsableStillInCoolDownException();
+    }
+    if (this.selectedUsable != null) {
+      this.selectedUsable.setSelected(false);
+    }
+    usable.setSelected(true);
+    this.selectedUsable = usable;
+  }
+
+  private void deselectUsable() {
+    if (this.selectedUsable == null) {
+      return;
+    }
+
+    this.selectedUsable.setSelected(false);
+    this.selectedUsable = null;
+  }
+
+  private boolean useUsable(MapPoint target) {
+    // TODO make some abilities apply to mapPoints
+    return this.selectedUsable.canApplyTo(target);
+  }
+
+  private boolean useUsable(Unit unit) {
+    if (this.selectedUsable.canApplyTo(unit)) {
+      this.selectedUsable.use(model.getWorld(), Collections.singletonList(unit));
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public DefaultGameController(GameModel model) {
     this.model = model;
@@ -126,18 +160,15 @@ public class DefaultGameController implements GameController {
     //If it was a left click
     if (mouseEvent.wasLeft()) {
 
-      //check if clicked on a valid unit so need to activate ability
-      if (selectedUnit != null && ability != null
-          && ability.getAbility().canApplyTo(selectedUnit)) {
-        ability.getAbility().use(model.getWorld(), Collections.singletonList(selectedUnit));
-        ability = null;
+      if (this.selectedUsable != null) {
+        if (selectedUnit != null) {
+          this.useUsable(selectedUnit);
+          this.deselectUsable();
+          return;
+        }
+        this.useUsable(mouseEvent.getLocation());
+        this.deselectUsable();
         return;
-      } else if (selectedUnit != null && item != null && item.getItem().isReadyToBeUsed()) {
-        item.getItem().use(model.getWorld(), Collections.singletonList(selectedUnit));
-        item = null;
-        return;
-      } else {
-        ability = null;
       }
 
       if (mouseEvent.wasShiftDown()) {
@@ -165,6 +196,7 @@ public class DefaultGameController implements GameController {
         }
       }
     } else { //otherwise, it must have been a right click
+      this.deselectUsable();
 
       //select the item under the click if there is one
       Item selectedItem = model.getAllEntities()
@@ -305,21 +337,13 @@ public class DefaultGameController implements GameController {
    * When a heros ability icon is clicked in from the hud.
    */
   public void onAbilityIconClick(AbilityIconClick clickEvent) {
-    if (clickEvent.getAbility().isReadyToBeUsed()) {
-      this.ability = clickEvent;
-    } else {
-      throw new UsableStillInCoolDownException();
-    }
+    this.selectUsable(clickEvent.getAbility());
   }
 
   /**
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    if (clickEvent.getItem().isReadyToBeUsed()) {
-      this.item = clickEvent;
-    } else {
-      throw new UsableStillInCoolDownException();
-    }
+    this.selectUsable(clickEvent.getItem());
   }
 }

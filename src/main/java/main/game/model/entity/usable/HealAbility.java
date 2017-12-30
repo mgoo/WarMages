@@ -8,6 +8,8 @@ import main.common.images.GameImage;
 import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.World;
+import main.common.util.MapPoint;
+import main.game.model.entity.unit.state.TargetUnit;
 
 /**
  * Heals a unit instantly.
@@ -64,6 +66,11 @@ public class HealAbility extends BaseAbility {
       super.start();
       unit.gainHealth(healAmount, world);
     }
+  }
+
+  @Override
+  public boolean canApplyTo(MapPoint target) {
+    return false;
   }
 
   @Override
