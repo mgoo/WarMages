@@ -29,7 +29,7 @@ public abstract class BaseUsable implements Usable {
     );
 
     for (Unit unit : unitsToApplyOn) {
-      Effect effect = createEffectForUnit(unit);
+      Effect effect = createEffectForUnit(unit, world);
       unit.addEffect(effect);
     }
 
@@ -57,7 +57,7 @@ public abstract class BaseUsable implements Usable {
   /**
    * Creates a new effect. Does not need to check {@link Usable#isReadyToBeUsed()}.
    */
-  protected abstract Effect createEffectForUnit(Unit unit);
+  protected abstract Effect createEffectForUnit(Unit unit, World world);
 
   public abstract boolean canApplyTo(Unit unit);
 

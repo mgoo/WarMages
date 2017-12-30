@@ -12,12 +12,15 @@ import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.entity.usable.Effect;
 import main.common.images.GameImage;
+import main.common.images.SpriteSheet;
+import main.common.images.SpriteSheet.Sheet;
 import main.common.images.UnitSpriteSheet;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.StaticEntity;
 import main.game.model.entity.unit.state.Dying;
 import main.game.model.entity.unit.state.Idle;
 import main.game.model.entity.unit.state.Target;
@@ -206,6 +209,19 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     if (health > this.levelMultiplyer(this.unitType.getStartingHealth())) {
       health = this.levelMultiplyer(this.unitType.getStartingHealth());
     }
+  }
+
+  @Override
+  public void gainHealth(double amt, World world) {
+    this.gainHealth(amt);
+    world.addStaticEntity(
+        new StaticEntity(
+            this.getTopLeft(),
+            this.getSize(),
+            Sheet.HEAL_EFFECT.getImagesForSequence(SpriteSheet.Sequence.HEAL),
+            false
+        )
+    );
   }
 
   /**

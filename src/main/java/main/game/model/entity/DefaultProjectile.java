@@ -8,8 +8,8 @@ import main.common.entity.Direction;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.GameImage;
-import main.common.images.ProjectileSpriteSheet;
-import main.common.images.ProjectileSpriteSheet.Sequence;
+import main.common.images.SpriteSheet;
+import main.common.images.SpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.attack.Attack;
@@ -34,7 +34,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   private Direction direction;
   private boolean hasHit = false;
-  private ProjectileSpriteSheet spriteSheet;
+  private SpriteSheet.Sheet spriteSheet;
   private List<GameImage> flingImages;
   private double currentImage = 0;
 
@@ -56,7 +56,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       Unit target,
       Unit owner,
       Attack attack,
-      ProjectileSpriteSheet spriteSheet,
+      SpriteSheet.Sheet spriteSheet,
       Sequence flySequence,
       Sequence impactSequence,
       double moveDistancePerTick

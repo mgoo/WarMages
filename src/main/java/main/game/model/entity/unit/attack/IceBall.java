@@ -2,11 +2,10 @@ package main.game.model.entity.unit.attack;
 
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
-import main.common.images.GameImageResource;
-import main.common.images.ProjectileSpriteSheet.Sequence;
+import main.common.images.SpriteSheet.Sequence;
+import main.common.images.SpriteSheet.Sheet;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
-import main.images.DefaultProjectileSpriteSheet;
 
 public class IceBall extends FireBall {
   @Override
@@ -19,7 +18,7 @@ public class IceBall extends FireBall {
         enemyUnit,
         unit,
         this,
-        new DefaultProjectileSpriteSheet(GameImageResource.ICE_PROJECTILE),
+        Sheet.ICEMISSSILE_PROJECTILE,
         Sequence.ICE_FLY,
         Sequence.ICE_IMPACT,
         0.4
