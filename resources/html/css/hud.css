@@ -6849,6 +6849,7 @@ body {
   width: 100vw;
   height: 30vh;
   pointer-events: none;
+  overflow: visible;
 }
 .bottom-bar .holder {
   pointer-events: initial;
@@ -6859,7 +6860,8 @@ body {
   height: 9vh;
   margin: 5px;
   background-size: 100% 100%;
-  border: #5b825c ridge 2px;
+  border-radius: 5px;
+  box-shadow: 2px 2px #0f0f0f;
   position: relative;
   min-height: 1px;
   padding-left: 0;
@@ -6871,6 +6873,20 @@ body {
     width: 8.33333333%;
   }
 }
+.bottom-bar .holder .icon .icon-bottom-bar {
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.bottom-bar .holder .icon .icon-top-bar {
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .bottom-bar .unit-holder {
   position: absolute;
   left: 0;
@@ -6878,10 +6894,19 @@ body {
   height: 70%;
   background: linear-gradient(#133615, #254b25, #133615);
   border-top: #000 ridge 5px;
-  overflow-y: auto;
+  overflow: visible;
 }
 .bottom-bar .unit-holder .icon {
   background-color: #9f9f9e;
+}
+.bottom-bar .unit-holder .icon .icon-bottom-bar {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+.bottom-bar .unit-holder .icon .icon-bottom-bar .health-bar {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 .bottom-bar .right-box {
   display: block;
@@ -6904,11 +6929,19 @@ body {
     width: 16.66666667%;
   }
 }
+.bottom-bar .right-box .holder .icon .cooldown {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #286090;
+  opacity: 0.5;
+}
 .bottom-bar .right-box .holder.ability-holder .icon {
-  background-color: #9c8d46;
+  background-color: #7c9c5f;
 }
 .bottom-bar .right-box .holder.item-holder .icon {
-  background-color: #433ab9;
+  background-color: #d0cd3d;
 }
 .modal-content {
   color: #f5f5f5;
@@ -6922,4 +6955,37 @@ body {
 }
 .modal-content input {
   -webkit-user-select: initial;
+}
+.icon-tooltip {
+  overflow: visible;
+}
+.icon-tooltip:hover .icon-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.icon-tooltip .icon-tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+.icon-tooltip .icon-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
 }

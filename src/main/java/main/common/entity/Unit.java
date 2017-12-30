@@ -5,6 +5,7 @@ import main.common.images.GameImage;
 import main.common.images.UnitSpriteSheet;
 import main.common.World;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Target;
 
 /**
@@ -37,6 +38,18 @@ public interface Unit extends Entity {
    */
   double getHealth();
 
+  /**
+   * Gets the maximum health of the unit after appling the level multiplyer.
+   *
+   * @return max health of unit
+   */
+  double getMaxHealth();
+
+  /**
+   * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
+   */
+  double getHealthPercent();
+
   double getLineOfSight();
 
   /**
@@ -58,11 +71,6 @@ public interface Unit extends Entity {
    * Set's the Unit's target to the given Unit.
    */
   void setTarget(Target target);
-
-  /**
-   * Gets the percentage of health remaining. Should be below 1 and above 0 if alive.
-   */
-  double getHealthPercent();
 
   /**
    * Returns a boolean based on whether the given unit is the same type as the current unit.

@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
 import main.common.GameView;
-import main.common.entity.HeroUnit;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Ability;
@@ -43,6 +45,9 @@ public class Hud extends Menu {
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
+  private List<Unit> unitsShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Ability> abilitiesShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Item> itemsShowingIcons = new CopyOnWriteArrayList<>();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -100,51 +105,70 @@ public class Hud extends Menu {
    * Upate the icons that are displayed in the HUD.
    */
   public void updateIcons() {
-    this.gameModel.getUnitSelection().forEach(this::addUnitIcon);
-    this.main.callJsFunction("switchUnitHolder");
+    Collection<Unit> selectedUnits = this.gameModel.getUnitSelection();
+    selectedUnits.stream()
+        .filter(unit -> !this.unitsShowingIcons.contains(unit))
+        .forEach(unit -> {
+          addUnitIcon(unit);
+          this.unitsShowingIcons.add(unit);
+        });
+    this.unitsShowingIcons.stream()
+        .filter(unit -> !selectedUnits.contains(unit) || unit.getHealth() == 0)
+        .forEach(unit -> {
+          int index = this.unitsShowingIcons.indexOf(unit);
+          this.main.callJsFunction("removeUnitIcon", index);
+          this.unitsShowingIcons.remove(unit);
+        });
 
+
+    Collection<Ability> visibleAbilities;
     if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
-      this.gameModel.getHeroUnit().getAbilities().forEach(this::addAbilityIcon);
-      this.gameModel.getHeroUnit().getItemInventory().forEach(this::addItemIcon);
+      visibleAbilities = this.gameModel.getHeroUnit().getAbilities();
+    } else {
+      visibleAbilities = Collections.emptySet();
     }
-    this.main.callJsFunction("switchAbilitiesHolder");
-    this.main.callJsFunction("switchItemsHolder");
+    visibleAbilities.stream()
+        .filter(ability -> !this.abilitiesShowingIcons.contains(ability))
+        .forEach(ability -> {
+          addAbilityIcon(ability);
+          this.abilitiesShowingIcons.add(ability);
+        });
+    this.abilitiesShowingIcons.stream()
+        .filter(ability -> !visibleAbilities.contains(ability))
+        .forEach(ability -> {
+          int index = this.abilitiesShowingIcons.indexOf(ability);
+          this.main.callJsFunction("removeAbilityIcon", index);
+          this.abilitiesShowingIcons.remove(ability);
+        });
+
+
+    Collection<Item> visibleItems;
+    if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
+      visibleItems = this.gameModel.getHeroUnit().getItemInventory();
+    } else {
+      visibleItems = Collections.emptySet();
+    }
+    visibleItems.stream()
+        .filter(item -> !this.itemsShowingIcons.contains(item))
+        .forEach(item -> {
+          addItemIcon(item);
+          this.itemsShowingIcons.add(item);
+        });
+    this.itemsShowingIcons.stream()
+        .filter(item -> !visibleItems.contains(item))
+        .forEach(item -> {
+          int index = this.itemsShowingIcons.indexOf(item);
+          this.main.callJsFunction("removeItemIcon", index);
+          this.itemsShowingIcons.remove(item);
+        });
+
+    this.main.callJsFunction("updateIcons");
   }
 
   private void addUnitIcon(Unit unit) {
     try {
-      BufferedImage baseIcon = unit.getIcon().load(this.imageProvider);
-      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-          baseIcon.getHeight(),
-          BufferedImage.TYPE_4BYTE_ABGR);
-      Graphics2D g = ((Graphics2D) icon.getGraphics());
-      g.drawImage(baseIcon, 0, 0, null);
-
-      // Adds the units level
-      g.setColor(Color.decode("#000000"));
-      g.drawString(Integer.toString(unit.getLevel()), 1, 10);
-
-      // Adds the health bar
-      g.setColor(new Color(200,200,200, 155));
-      g.fillRect(0,
-          icon.getHeight() - 10,
-          icon.getWidth(),
-          10);
-      Color healthColor;
-      if (unit.getHealthPercent() > 0.5) {
-        healthColor = new Color(84,255, 106);
-      } else if (unit.getHealthPercent() > 0.25) {
-        healthColor = new Color(255, 194, 41);
-      } else {
-        healthColor = new Color(255, 0, 61);
-      }
-      g.setColor(healthColor);
-      g.fillRect(0,
-          icon.getHeight() - 10,
-          (int)(icon.getWidth() * unit.getHealthPercent()),
-          10);
-
-      this.addIcon("addUnitIcon", icon, unit);
+      String entityIcon = this.formatImageForHtml(unit.getIcon().load(this.imageProvider));
+      this.main.callJsFunction("addUnitIcon", entityIcon, unit);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -152,7 +176,7 @@ public class Hud extends Menu {
 
   private void addItemIcon(Item item) {
     try {
-      this.addIcon("addItemIcon", this.getIcon(item), item);
+      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -160,43 +184,10 @@ public class Hud extends Menu {
 
   private void addAbilityIcon(Ability ability) {
     try {
-      this.addIcon("addAbilityIcon", this.getIcon(ability), ability);
+      this.addIcon("addAbilityIcon", ability.getIconImage().load(this.imageProvider), ability);
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  private BufferedImage getIcon(Usable usable) throws IOException {
-    BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
-
-    BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-        baseIcon.getHeight(),
-        BufferedImage.TYPE_4BYTE_ABGR);
-    Graphics2D g = ((Graphics2D) icon.getGraphics());
-
-    // @HACK to top the icon background from flashing from the lag of css appyling
-    if (usable instanceof Item) {
-      g.setColor(Color.decode("#433ab9"));
-    }
-    if (usable instanceof Ability) {
-      g.setColor(Color.decode("#9c8d46"));
-    }
-
-    g.fillRect(0, 0, icon.getWidth(), icon.getHeight());
-    g.drawImage(baseIcon, 0, 0, null);
-    if (usable.isReadyToBeUsed()) {
-      return icon;
-    }
-
-    double progress = usable.getCoolDownProgress();
-    Arc2D arc = new Double(0, 0,
-        icon.getWidth(), icon.getHeight(),
-        90, (360 - (int)(360 * progress)) % 360,
-        Arc2D.PIE);
-    g.setColor(new Color(0,0,0, 155));
-    g.fill(arc);
-
-    return icon;
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
@@ -207,7 +198,6 @@ public class Hud extends Menu {
       e.printStackTrace();
     }
   }
-
 
   /**
    * Assumes that the image is png formatted.
@@ -227,5 +217,4 @@ public class Hud extends Menu {
     dataUri = dataUri.replace("\\", "\\\\");
     return dataUri;
   }
-
 }

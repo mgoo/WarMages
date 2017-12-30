@@ -53,6 +53,8 @@ public interface Usable extends Serializable {
    */
   double getCoolDownProgress();
 
+  int getCoolDownTicks();
+
   boolean canApplyTo(Unit unit);
 
 }

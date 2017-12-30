@@ -63,6 +63,8 @@ div, body {
 
   pointer-events: none;
 
+  overflow: visible;
+
   .holder {
     pointer-events: initial;
     .icon {
@@ -74,11 +76,31 @@ div, body {
 
       background-size: 100% 100%;
 
-      border: @hub-border-color ridge 2px;
+      border-radius: 5px;
+      box-shadow: 2px 2px #0f0f0f;
+
+      //border: @hub-border-color ridge 2px;
 
       .make-lg-column(@columns: 1, @gutter: 0);
+
+      .icon-bottom-bar {
+        width: 100%;
+        height: 15px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+
+      .icon-top-bar {
+        width: 100%;
+        height: 15px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
   }
+
 
   .unit-holder {
     position: absolute;
@@ -89,10 +111,19 @@ div, body {
     background: @hub-background;
     border-top: #000 ridge 5px;
 
-    overflow-y: auto;
+    overflow: visible;
 
     .icon {
       background-color: @unit-icon-bg;
+      .icon-bottom-bar {
+        background-color: rgba(200, 200, 200, 0.5);
+        .health-bar {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+        }
+      }
     }
   }
 
@@ -110,6 +141,14 @@ div, body {
     .holder {
       .icon {
         .make-lg-column(@columns: 2, @gutter: 0);
+        .cooldown {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-color: #286090;
+          opacity: 0.5;
+        }
       }
       &.ability-holder .icon {
         background-color: @ability-icon-bg;
@@ -131,5 +170,41 @@ div, body {
   background: @hub-background;
   input {
     -webkit-user-select: initial;
+  }
+}
+
+.icon-tooltip {
+  overflow: visible;
+
+  &:hover .icon-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .icon-tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  .icon-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
   }
 }

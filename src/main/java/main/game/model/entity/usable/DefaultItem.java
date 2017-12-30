@@ -78,4 +78,9 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   public boolean canApplyTo(Unit unit) {
     return unit.getTeam() == Team.PLAYER;
   }
+
+  @Override
+  public int getCoolDownTicks() {
+    return ability.getCoolDownTicks();
+  }
 }

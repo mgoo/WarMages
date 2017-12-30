@@ -3,92 +3,121 @@
  * @author Andrew McGhie
  */
 
+// Icons *************************************************
+
+let units = [];
+let abilities = [];
+let items = [];
+
 function addUnitIcon(image, unit) {
-  $('.unit-holder').each(function(idx, unit_holder) {
-    if (!$(unit_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function(event) {
-        controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
-      });
-      $(unit_holder).append(icon);
-    }
+  units.push(unit);
+  let icon = $(
+      '<div class="icon icon-tooltip">'
+      + '<div class="icon-tooltiptext"></div>'
+      + '<div class="icon-top-bar"><span class="level"></span></div>'
+      + '<div class="icon-bottom-bar"><div class="health-bar"></div></div>'
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function(event) {
+    controller.unitIconBtn(unit, event.shiftKey, event.ctrlKey, event.which === 1);
   });
+  $('.unit-holder').append(icon);
 }
 
 function addAbilityIcon(image, ability) {
-  $('.ability-holder').each(function(idx, ability_holder) {
-    if (!$(ability_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function (event) {
-        controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
-            event.which === 1);
-      });
-      $(ability_holder).append(icon);
-    }
+  abilities.push(ability);
+  let icon = $(
+      '<div class="icon">'
+      + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function (event) {
+    controller.abilityIconBtn(ability, event.shiftKey, event.ctrlKey,
+        event.which === 1);
   });
+  $('.ability-holder').append(icon);
 }
 
 function addItemIcon(image, item) {
-  $('.item-holder').each(function(idx, item_holder) {
-    if (!$(item_holder).is(":visible")) {
-      var icon = $(
-          '<div '
-          + 'class="icon" '
-          + '</div>');
-      icon.css('background-image', 'url("' + image + '")');
-      icon.on('mouseup', function (event) {
-        controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
-            event.which === 1);
-      });
-      $(item_holder).append(icon);
-    }
+  items.push(item);
+  let icon = $(
+      '<div class="icon">'
+      + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
+      + '</div>');
+  icon.css('background-image', 'url("' + image + '")');
+  icon.on('mouseup', function (event) {
+    controller.itemIconBtn(item, event.shiftKey, event.ctrlKey,
+        event.which === 1);
   });
+  $('.item-holder').append(icon);
 }
 
-function switchUnitHolder() {
-  $('.unit-holder').each(function(idx, unit_holder) {
-    if ($(unit_holder).is(":visible")) {
-      $(unit_holder).hide();
-      $(unit_holder).html('');
+function updateIcons() {
+  for (let i = 0; i < units.length; i++) {
+    let icon = $('.unit-holder div:nth-child(' + (i + 1) + ')');
+    let healthPercentage = units[i].getHealthPercent();
+    let healthBar = icon.find('.health-bar');
+    healthBar.width((healthPercentage * 100) + '%');
+    if (healthPercentage > 0.5) {
+      healthBar.css('background-color', '#54FF6A')
+    } else if (healthPercentage > 0.25) {
+      healthBar.css('background-color', '#FFC229')
     } else {
-      $(unit_holder).show();
+      healthBar.css('background-color', '#FF003D')
     }
-  });
+    let level = icon.find('.level');
+    level.html(units[i].getLevel());
+
+    let damage = Math.round(
+        units[i].getUnitType().getBaseAttack().getModifiedDamage(units[i])
+    );
+    let attackSpeed = Math.round(
+        units[i].getUnitType().getBaseAttack().getModifiedAttackSpeed(units[i])
+    );
+    let range = units[i].getUnitType().
+        getBaseAttack().getModifiedRange(units[i]).toFixed(1);
+    let maxHealth = Math.round(units[i].getMaxHealth());
+    let currentHealth = Math.round(units[i].getHealth());
+    let movementSpeed = units[i].getSpeed().toFixed(2);
+
+    let tooltiptext = "<b>Health</b>: " + currentHealth + "/" + maxHealth + "<br>"
+        + "<b>Damage</b>: " + damage + "<br>"
+        + "<b>Range</b>: " + range + "<br>"
+        + "<b>Attack Speed</b>: " + attackSpeed + "<br>"
+        + "<b>Movement Speed</b>: " + movementSpeed;
+
+    icon.find('.icon-tooltiptext').html(tooltiptext)
+  }
+
+  for (let i = 0; i < abilities.length; i++) {
+    let icon = $('.ability-holder div:nth-child(' + (i + 1) + ')');
+    icon.find('.cooldown').width((abilities[i].getCoolDownProgress() * 100) + '%');
+  }
+
+  for (let i = 0; i < items.length; i++) {
+    let icon = $('.item-holder div:nth-child(' + (i + 1) + ')');
+    icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
+  }
 }
 
-function switchAbilitiesHolder() {
-  $('.ability-holder').each(function(idx, ability_holder) {
-    if ($(ability_holder).is(":visible")) {
-      $(ability_holder).hide();
-      $(ability_holder).html('');
-    } else {
-      $(ability_holder).show();
-    }
-  });
+function removeUnitIcon(index) {
+  units.splice(index, 1);
+  $('.unit-holder div:nth-child(' + (index + 1) + ')').remove();
+}
+function removeAbilityIcon(index) {
+  abilities.splice(index, 1);
+  $('.ability-holder div:nth-child(' + (index + 1) + ')').remove();
+}
+function removeItemIcon(index) {
+  items.splice(index, 1);
+  $('.item-holder div:nth-child(' + (index + 1) + ')').remove();
 }
 
-function switchItemsHolder() {
-  $('.item-holder').each(function(idx, item_holder) {
-    if ($(item_holder).is(":visible")) {
-      $(item_holder).hide();
-      $(item_holder).html('');
-    } else {
-      $(item_holder).show();
-    }
-  });
-}
+// Clicking *********************************************
 
-var gameViewProxy = $('#game-view-proxy');
-var menuButton = $('#menu-button');
-var resumeButton = $('#resume-btn');
+let gameViewProxy = $('#game-view-proxy');
+let menuButton = $('#menu-button');
+let resumeButton = $('#resume-btn');
 
 gameViewProxy.on('contextmenu', function (event) {
   controller.onRightClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
@@ -99,6 +128,8 @@ gameViewProxy.on('dblclick', function (event) {
   controller.onDbClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
   return false;
 });
+
+// Pause menu ******************************************
 
 menuButton.on('click', function (event) {
     $('#overlay').fadeIn();
@@ -123,6 +154,8 @@ resumeButton.on('click', function (event) {
     $('#pause-menu').fadeOut();
 });
 
+// Rectangle select **********************************
+
 gameViewProxy
   .on('mousedown', function (event) {
     if (event.which !== 1) return;
@@ -138,7 +171,7 @@ gameViewProxy
     }
   })
   .on('mouseup', function (event) {
-      var wasDrag = doDragSelect(event);
+    let wasDrag = doDragSelect(event);
       if (!wasDrag && event.which === 1) {
         controller.onLeftClick(event.pageX, event.pageY, event.shiftKey,
             event.ctrlKey);
@@ -148,24 +181,24 @@ gameViewProxy
 
 $('.bottom-bar')
   .on('mouseup', function (event) {
-    doDragSelect(event);
+    doDragSelect(event); // Pass the mouse up event through to the dragselect
   })
   .on('mousemove', function (event) {
     if (Rect.visible) {
-      Rect.update(event.pageX, event.pageY);
+      Rect.update(event.pageX, event.pageY);  // Update the rectangle
     }
   });
 $('.top-bar')
   .on('mouseup', function (event) {
-    doDragSelect(event);
+    doDragSelect(event);  // Pass the mouse up event through to the dragselect
   })
   .on('mousemove', function (event) {
     if (Rect.visible) {
-      Rect.update(event.pageX, event.pageY);
+      Rect.update(event.pageX, event.pageY); // Update the rectangle
     }
   });
 
-var doDragSelect = function (event) {
+let doDragSelect = function (event) {
   if (event.which === 1 && Rect.visible) {
     controller.onDrag(Rect.box.originX,
         Rect.box.originY,
@@ -180,7 +213,7 @@ var doDragSelect = function (event) {
 };
 
 
-var Rect = {
+let Rect = {
     rect: $('<div class="rect"></div>'),
     visible: false,
     mouseDown: false,
@@ -211,10 +244,10 @@ var Rect = {
     update: function(x, y) {
       this.box.x = x;
       this.box.y = y;
-      var dispX = Math.min(this.box.x, this.box.originX);
-      var dispY = Math.min(this.box.y, this.box.originY);
-      var dispWidth = Math.abs(this.box.x - this.box.originX);
-      var dispHeight = Math.abs(this.box.y - this.box.originY);
+      let dispX = Math.min(this.box.x, this.box.originX);
+      let dispY = Math.min(this.box.y, this.box.originY);
+      let dispWidth = Math.abs(this.box.x - this.box.originX);
+      let dispHeight = Math.abs(this.box.y - this.box.originY);
 
       this.rect.css('left', dispX + 'px');
       this.rect.css('top', dispY + 'px');

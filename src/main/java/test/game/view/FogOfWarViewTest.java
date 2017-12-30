@@ -99,6 +99,11 @@ public class FogOfWarViewTest extends GameViewTest {
 
 
     @Override
+    public double getMaxHealth() {
+      return 100;
+    }
+
+    @Override
     public double getLineOfSight() {
       return 1;
     }
