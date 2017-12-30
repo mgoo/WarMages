@@ -132,6 +132,8 @@ div, body {
     position: absolute;
     bottom: 0;
 
+    overflow: visible;
+
     height: 100%;
 
     background: @hub-background;
@@ -139,6 +141,8 @@ div, body {
     border-left: @hub-border-color ridge 5px;
 
     .holder {
+      display: -webkit-box;
+      overflow: visible;
       .icon {
         &.selected {
           border: thick solid #904140;

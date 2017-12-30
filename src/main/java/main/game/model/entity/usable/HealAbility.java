@@ -25,7 +25,7 @@ public class HealAbility extends BaseAbility {
    * Constructor takes a string description of the ability, and the icon that represent the ability.
    */
   public HealAbility(GameImage icon, double coolDownSeconds, int healAmount) {
-    super("Instantly heals units", icon, coolDownSeconds, INSTANT_EFFECT_DURATION);
+    super(icon, coolDownSeconds, INSTANT_EFFECT_DURATION);
 
     if (healAmount <= 0) {
       throw new IllegalArgumentException();
@@ -69,12 +69,19 @@ public class HealAbility extends BaseAbility {
   }
 
   @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit.getTeam() == Team.PLAYER;
+  }
+
+  @Override
   public boolean canApplyTo(MapPoint target) {
     return false;
   }
 
   @Override
-  public boolean canApplyTo(Unit unit) {
-    return unit.getTeam() == Team.PLAYER;
+  public String getDescription() {
+    return "Heals Friendly Units<br>"
+        + "<b>Amount</b>: " + healAmount + "<br>"
+        + "<b>Cooldown</b>: " + this.coolDownSeconds + "s";
   }
 }

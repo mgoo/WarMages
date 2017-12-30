@@ -6912,10 +6912,15 @@ body {
   display: block;
   position: absolute;
   bottom: 0;
+  overflow: visible;
   height: 100%;
   background: linear-gradient(#133615, #254b25, #133615);
   border-top: #5b825c ridge 5px;
   border-left: #5b825c ridge 5px;
+}
+.bottom-bar .right-box .holder {
+  display: -webkit-box;
+  overflow: visible;
 }
 .bottom-bar .right-box .holder .icon {
   position: relative;

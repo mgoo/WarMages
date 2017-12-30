@@ -27,7 +27,8 @@ function addUnitIcon(image, unit) {
 function addAbilityIcon(image, ability) {
   abilities.push(ability);
   let icon = $(
-      '<div class="icon">'
+      '<div class="icon icon-tooltip">'
+      + '<div class="icon-tooltiptext"></div>'
       + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
@@ -41,7 +42,8 @@ function addAbilityIcon(image, ability) {
 function addItemIcon(image, item) {
   items.push(item);
   let icon = $(
-      '<div class="icon">'
+      '<div class="icon icon-tooltip">'
+      + '<div class="icon-tooltiptext"></div>'
       + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
@@ -98,6 +100,7 @@ function updateIcons() {
     if (!abilities[i].isSelected() && icon.hasClass('selected')) {
       icon.removeClass('selected');
     }
+    icon.find('.icon-tooltiptext').html(abilities[i].getDescription())
   }
 
   for (let i = 0; i < items.length; i++) {
@@ -109,6 +112,7 @@ function updateIcons() {
     if (!items[i].isSelected() && icon.hasClass('selected')) {
       icon.removeClass('selected');
     }
+    icon.find('.icon-tooltiptext').html(items[i].getDescription())
   }
 }
 

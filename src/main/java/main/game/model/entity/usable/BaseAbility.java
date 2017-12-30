@@ -13,15 +13,15 @@ public abstract class BaseAbility extends BaseUsable implements Ability {
   private static final long serialVersionUID = 1L;
 
   private final GameImage iconImage;
-  private final String description;
+
+  protected final int coolDownSeconds;
 
   private final TickTimer coolDownTimer;
-  private final double effectDurationSeconds;
+  protected final double effectDurationSeconds;
 
   private boolean selected = false;
 
   public BaseAbility(
-      String description,
       GameImage icon,
       double coolDownSeconds,
       double effectDurationSeconds
@@ -32,8 +32,8 @@ public abstract class BaseAbility extends BaseUsable implements Ability {
     if (effectDurationSeconds < 0) {
       throw new IllegalArgumentException();
     }
-    this.description = description;
     this.iconImage = icon;
+    this.coolDownSeconds = (int)coolDownSeconds;
     this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
     this.effectDurationSeconds = effectDurationSeconds;
   }
@@ -51,11 +51,6 @@ public abstract class BaseAbility extends BaseUsable implements Ability {
   @Override
   public GameImage getIconImage() {
     return iconImage;
-  }
-
-  @Override
-  public String getDescription() {
-    return description;
   }
 
   @Override

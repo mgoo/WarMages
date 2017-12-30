@@ -28,9 +28,7 @@ public class DamageBuffAbility extends BaseAbility {
       double coolDownSeconds,
       double effectDurationSeconds
   ) {
-    super(
-        "This ability buffs the heroUnit using it, allowing the heroUnit to cause more damage.",
-        icon,
+    super(icon,
         coolDownSeconds,
         effectDurationSeconds
     );
@@ -68,6 +66,12 @@ public class DamageBuffAbility extends BaseAbility {
     public double alterDamageModifier(double currentDamageModifier) {
       return super.alterDamageModifier(currentDamageModifier) + damageIncrease;
     }
+
+  }
+
+  @Override
+  public boolean canApplyTo(Unit unit) {
+    return unit.getTeam() == Team.PLAYER;
   }
 
   @Override
@@ -76,7 +80,10 @@ public class DamageBuffAbility extends BaseAbility {
   }
 
   @Override
-  public boolean canApplyTo(Unit unit) {
-    return unit.getTeam() == Team.PLAYER;
+  public String getDescription() {
+    return "This ability buffs a unit, allowing it to cause more damage.<br>"
+        + "<b>Amount</b>: " + this.damageIncrease + "<br>"
+        + "<b>Duration</b>: " + (int)this.effectDurationSeconds + "s<br>"
+        + "<b>Cooldown</b>: " + this.coolDownSeconds + "s";
   }
 }
