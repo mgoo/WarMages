@@ -121,14 +121,14 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   public void hitTarget(World world) {
     target.takeDamage(this.attack.getModifiedDamage(owner), world, owner);
     world.removeProjectile(this);
-    world.addStaticEntity(
-        new StaticEntity(this.getTopLeft(),
-            this.getSize(),
-            this.spriteSheet.getImagesForSequence(this.impactSequence, this.direction),
-            false,
-            2
-        )
+    StaticEntity hitMarker = new StaticEntity(this.getTopLeft(),
+        this.getSize(),
+        this.spriteSheet.getImagesForSequence(this.impactSequence, this.direction),
+        false,
+        2
     );
+    hitMarker.setLayer(1); // Same Layer as the projectile
+    world.addStaticEntity(hitMarker);
   }
 
   @Override

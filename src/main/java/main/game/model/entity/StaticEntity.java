@@ -8,6 +8,7 @@ import main.common.util.MapSize;
 
 public class StaticEntity extends DefaultEntity {
 
+  private int layer = -1;
   private final double animationSpeed;
 
   private final List<GameImage> gameImageList;
@@ -32,6 +33,14 @@ public class StaticEntity extends DefaultEntity {
     this.loop = loop;
   }
 
+  /**
+   * Should be set immediately if you want to set it.
+   * If you dont the entity view will cache it and it wont have any effect
+   */
+  public void setLayer(int layer) {
+    this.layer = layer;
+  }
+
   @Override
   public GameImage getImage() {
     return this.gameImageList.get((int)currentImage);
@@ -52,5 +61,10 @@ public class StaticEntity extends DefaultEntity {
   @Override
   public boolean contains(MapPoint point) {
     return false;
+  }
+
+  @Override
+  public int getLayer() {
+    return this.layer;
   }
 }
