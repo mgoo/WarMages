@@ -5,10 +5,17 @@
 
 // Icons *************************************************
 
-function addUnitIcon(image, unit, tooltip) {
-  var icon = $(
+let units = [];
+let abilities = [];
+let items = [];
+
+function addUnitIcon(image, unit) {
+  units.push(unit);
+  let icon = $(
       '<div class="icon icon-tooltip">'
-      + '<div class="icon-tooltiptext">' + tooltip + '</div>'
+      + '<div class="icon-tooltiptext"></div>'
+      + '<div class="icon-top-bar"><span class="level"></span></div>'
+      + '<div class="icon-bottom-bar"><div class="health-bar"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
   icon.on('mouseup', function(event) {
@@ -18,9 +25,10 @@ function addUnitIcon(image, unit, tooltip) {
 }
 
 function addAbilityIcon(image, ability) {
-  var icon = $(
-      '<div '
-      + 'class="icon" '
+  abilities.push(ability);
+  let icon = $(
+      '<div class="icon">'
+      + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
   icon.on('mouseup', function (event) {
@@ -31,9 +39,10 @@ function addAbilityIcon(image, ability) {
 }
 
 function addItemIcon(image, item) {
-  var icon = $(
-      '<div '
-      + 'class="icon" '
+  items.push(item);
+  let icon = $(
+      '<div class="icon">'
+      + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
   icon.on('mouseup', function (event) {
@@ -43,49 +52,72 @@ function addItemIcon(image, item) {
   $('.item-holder').append(icon);
 }
 
+function updateIcons() {
+  for (let i = 0; i < units.length; i++) {
+    let icon = $('.unit-holder div:nth-child(' + (i + 1) + ')');
+    let healthPercentage = units[i].getHealthPercent();
+    let healthBar = icon.find('.health-bar');
+    healthBar.width((healthPercentage * 100) + '%');
+    if (healthPercentage > 0.5) {
+      healthBar.css('background-color', '#54FF6A')
+    } else if (healthPercentage > 0.25) {
+      healthBar.css('background-color', '#FFC229')
+    } else {
+      healthBar.css('background-color', '#FF003D')
+    }
+    let level = icon.find('.level');
+    level.html(units[i].getLevel());
+
+    let damage = Math.round(
+        units[i].getUnitType().getBaseAttack().getModifiedDamage(units[i])
+    );
+    let attackSpeed = Math.round(
+        units[i].getUnitType().getBaseAttack().getModifiedAttackSpeed(units[i])
+    );
+    let range = units[i].getUnitType().
+        getBaseAttack().getModifiedRange(units[i]).toFixed(1);
+    let maxHealth = Math.round(units[i].getMaxHealth());
+    let currentHealth = Math.round(units[i].getHealth());
+    let movementSpeed = units[i].getSpeed().toFixed(2);
+
+    let tooltiptext = "<b>Health</b>: " + currentHealth + "/" + maxHealth + "<br>"
+        + "<b>Damage</b>: " + damage + "<br>"
+        + "<b>Range</b>: " + range + "<br>"
+        + "<b>Attack Speed</b>: " + attackSpeed + "<br>"
+        + "<b>Movement Speed</b>: " + movementSpeed;
+
+    icon.find('.icon-tooltiptext').html(tooltiptext)
+  }
+
+  for (let i = 0; i < abilities.length; i++) {
+    let icon = $('.ability-holder div:nth-child(' + (i + 1) + ')');
+    icon.find('.cooldown').width((abilities[i].getCoolDownProgress() * 100) + '%');
+  }
+
+  for (let i = 0; i < items.length; i++) {
+    let icon = $('.item-holder div:nth-child(' + (i + 1) + ')');
+    icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
+  }
+}
+
 function removeUnitIcon(index) {
+  units.splice(index, 1);
   $('.unit-holder div:nth-child(' + (index + 1) + ')').remove();
 }
 function removeAbilityIcon(index) {
+  abilities.splice(index, 1);
   $('.ability-holder div:nth-child(' + (index + 1) + ')').remove();
 }
 function removeItemIcon(index) {
+  items.splice(index, 1);
   $('.item-holder div:nth-child(' + (index + 1) + ')').remove();
-}
-
-function setAbilityIconToCoolDown(index, time) {
-  if ($('.ability-holder div:nth-child(' + (index + 1) + ') .bottom-bar').length !== 0) {
-    return;
-  }
-  var abilityIcon = $('.ability-holder div:nth-child(' + (index + 1) + ')');
-  var bottomBar = $('<div class="cooldown-bar"></div>');
-  bottomBar.animate({
-    width: 0
-  }, time, function () {
-    $(this).remove();
-  });
-  abilityIcon.append(bottomBar);
-}
-
-function setItemIconToCoolDown(index, time) {
-  if ($('.item-holder div:nth-child(' + (index + 1) + ') .cooldown-bar').length !== 0) {
-    return;
-  }
-  var abilityIcon = $('.item-holder div:nth-child(' + (index + 1) + ')');
-  var cooldownBar = $('<div class="cooldown-bar"></div>');
-  cooldownBar.animate({
-    width: 0
-  }, time, function () {
-    $(this).remove();
-  });
-  abilityIcon.append(cooldownBar);
 }
 
 // Clicking *********************************************
 
-var gameViewProxy = $('#game-view-proxy');
-var menuButton = $('#menu-button');
-var resumeButton = $('#resume-btn');
+let gameViewProxy = $('#game-view-proxy');
+let menuButton = $('#menu-button');
+let resumeButton = $('#resume-btn');
 
 gameViewProxy.on('contextmenu', function (event) {
   controller.onRightClick(event.pageX, event.pageY, event.shiftKey, event.ctrlKey);
@@ -139,7 +171,7 @@ gameViewProxy
     }
   })
   .on('mouseup', function (event) {
-      var wasDrag = doDragSelect(event);
+    let wasDrag = doDragSelect(event);
       if (!wasDrag && event.which === 1) {
         controller.onLeftClick(event.pageX, event.pageY, event.shiftKey,
             event.ctrlKey);
@@ -166,7 +198,7 @@ $('.top-bar')
     }
   });
 
-var doDragSelect = function (event) {
+let doDragSelect = function (event) {
   if (event.which === 1 && Rect.visible) {
     controller.onDrag(Rect.box.originX,
         Rect.box.originY,
@@ -181,7 +213,7 @@ var doDragSelect = function (event) {
 };
 
 
-var Rect = {
+let Rect = {
     rect: $('<div class="rect"></div>'),
     visible: false,
     mouseDown: false,
@@ -212,10 +244,10 @@ var Rect = {
     update: function(x, y) {
       this.box.x = x;
       this.box.y = y;
-      var dispX = Math.min(this.box.x, this.box.originX);
-      var dispY = Math.min(this.box.y, this.box.originY);
-      var dispWidth = Math.abs(this.box.x - this.box.originX);
-      var dispHeight = Math.abs(this.box.y - this.box.originY);
+      let dispX = Math.min(this.box.x, this.box.originX);
+      let dispY = Math.min(this.box.y, this.box.originY);
+      let dispWidth = Math.abs(this.box.x - this.box.originX);
+      let dispHeight = Math.abs(this.box.y - this.box.originY);
 
       this.rect.css('left', dispX + 'px');
       this.rect.css('top', dispY + 'px');

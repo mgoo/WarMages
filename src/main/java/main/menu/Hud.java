@@ -44,13 +44,10 @@ public class Hud extends Menu {
   private final Main main;
   private final GameModel gameModel;
   private final ImageProvider imageProvider;
-  private final Config config;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
   private List<Unit> unitsShowingIcons = new CopyOnWriteArrayList<>();
   private List<Ability> abilitiesShowingIcons = new CopyOnWriteArrayList<>();
   private List<Item> itemsShowingIcons = new CopyOnWriteArrayList<>();
-  private List<Item> abilitiesInCoolDown = new CopyOnWriteArrayList<>();
-  private List<Item> itemsInCoolDown = new CopyOnWriteArrayList<>();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -61,7 +58,6 @@ public class Hud extends Menu {
              SaveFunction saveFunction,
              Config config) {
     this.main = main;
-    this.config = config;
     this.gameModel = gameModel;
     this.imageProvider = imageProvider;
     this.menuController = new HudController(main,
@@ -117,9 +113,8 @@ public class Hud extends Menu {
           this.unitsShowingIcons.add(unit);
         });
     this.unitsShowingIcons.stream()
-        .filter(unit -> !selectedUnits.contains(unit))
+        .filter(unit -> !selectedUnits.contains(unit) || unit.getHealth() == 0)
         .forEach(unit -> {
-
           int index = this.unitsShowingIcons.indexOf(unit);
           this.main.callJsFunction("removeUnitIcon", index);
           this.unitsShowingIcons.remove(unit);
@@ -167,67 +162,13 @@ public class Hud extends Menu {
           this.itemsShowingIcons.remove(item);
         });
 
-    // Add cooldown bars
-    visibleAbilities.stream()
-        .filter(ability -> ability.getCoolDownProgress() < 0.999
-            && !this.abilitiesInCoolDown.contains(ability))
-        .forEach(ability -> {
-          int index = this.abilitiesShowingIcons.indexOf(ability);
-          int time = ability.getCoolDownTicks() * config.getGameModelDelay();
-          this.main.callJsFunction("setAbilityIconToCoolDown", index, time);
-        });
-    this.abilitiesInCoolDown.stream()
-        .filter(ability -> ability.getCoolDownProgress() > 0.999)
-        .forEach(ability -> this.abilitiesInCoolDown.remove(ability));
-
-    visibleItems.stream()
-        .filter(item -> item.getCoolDownProgress() < 0.999
-            && !this.itemsInCoolDown.contains(item))
-        .forEach(item -> {
-          int index = this.itemsShowingIcons.indexOf(item);
-          int time = item.getCoolDownTicks() * config.getGameModelDelay();
-          this.main.callJsFunction("setItemIconToCoolDown", index, time);
-        });
-    this.itemsInCoolDown.stream()
-        .filter(item -> item.getCoolDownProgress() > 0.999)
-        .forEach(item -> this.itemsInCoolDown.remove(item));
+    this.main.callJsFunction("updateIcons");
   }
 
   private void addUnitIcon(Unit unit) {
     try {
-      BufferedImage baseIcon = unit.getIcon().load(this.imageProvider);
-      BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-          baseIcon.getHeight(),
-          BufferedImage.TYPE_4BYTE_ABGR);
-      Graphics2D g = ((Graphics2D) icon.getGraphics());
-      g.drawImage(baseIcon, 0, 0, null);
-
-      // Adds the units level
-      g.setColor(Color.decode("#000000"));
-      g.drawString(Integer.toString(unit.getLevel()), 1, 10);
-
-      // Adds the health bar
-      g.setColor(new Color(200,200,200, 155));
-      g.fillRect(0,
-          icon.getHeight() - 10,
-          icon.getWidth(),
-          10);
-      Color healthColor;
-      if (unit.getHealthPercent() > 0.5) {
-        healthColor = new Color(84,255, 106);
-      } else if (unit.getHealthPercent() > 0.25) {
-        healthColor = new Color(255, 194, 41);
-      } else {
-        healthColor = new Color(255, 0, 61);
-      }
-      g.setColor(healthColor);
-      g.fillRect(0,
-          icon.getHeight() - 10,
-          (int)(icon.getWidth() * unit.getHealthPercent()),
-          10);
-
-      String entityIcon = this.formatImageForHtml(icon);
-      this.main.callJsFunction("addUnitIcon", entityIcon, unit, generateUnitTooltip(unit));
+      String entityIcon = this.formatImageForHtml(unit.getIcon().load(this.imageProvider));
+      this.main.callJsFunction("addUnitIcon", entityIcon, unit);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -235,7 +176,7 @@ public class Hud extends Menu {
 
   private void addItemIcon(Item item) {
     try {
-      this.addIcon("addItemIcon", this.getIcon(item), item);
+      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -243,43 +184,10 @@ public class Hud extends Menu {
 
   private void addAbilityIcon(Ability ability) {
     try {
-      this.addIcon("addAbilityIcon", this.getIcon(ability), ability);
+      this.addIcon("addAbilityIcon", ability.getIconImage().load(this.imageProvider), ability);
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  private BufferedImage getIcon(Usable usable) throws IOException {
-    BufferedImage baseIcon = usable.getIconImage().load(this.imageProvider);
-
-    BufferedImage icon = new BufferedImage(baseIcon.getWidth(),
-        baseIcon.getHeight(),
-        BufferedImage.TYPE_4BYTE_ABGR);
-    Graphics2D g = ((Graphics2D) icon.getGraphics());
-
-    // @HACK to top the icon background from flashing from the lag of css appyling
-    if (usable instanceof Item) {
-      g.setColor(Color.decode("#433ab9"));
-    }
-    if (usable instanceof Ability) {
-      g.setColor(Color.decode("#9c8d46"));
-    }
-
-    g.fillRect(0, 0, icon.getWidth(), icon.getHeight());
-    g.drawImage(baseIcon, 0, 0, null);
-    if (usable.isReadyToBeUsed()) {
-      return icon;
-    }
-
-    double progress = usable.getCoolDownProgress();
-    Arc2D arc = new Double(0, 0,
-        icon.getWidth(), icon.getHeight(),
-        90, (360 - (int)(360 * progress)) % 360,
-        Arc2D.PIE);
-    g.setColor(new Color(0,0,0, 155));
-    g.fill(arc);
-
-    return icon;
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {
@@ -289,21 +197,6 @@ public class Hud extends Menu {
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
-  }
-
-  private String generateUnitTooltip(Unit unit) {
-    int damage = (int)unit.getUnitType().getBaseAttack().getModifiedDamage(unit);
-    int attackSpeed = (int)unit.getUnitType().getBaseAttack().getModifiedAttackSpeed(unit);
-    int range = (int)unit.getUnitType().getBaseAttack().getModifiedRange(unit);
-    int maxHealth = (int)unit.getMaxHealth();
-    int currentHealth = (int)unit.getHealth();
-    double movementSpeed = Math.round(unit.getSpeed() * 100.0) / 100.0;
-
-    return "<b>Health</b>: " + currentHealth + "/" + maxHealth + "<br>"
-        + "<b>Damage</b>: " + damage + "<br>"
-        + "<b>Range</b>: " + range + "<br>"
-        + "<b>Attack Speed</b>: " + attackSpeed + "<br>"
-        + "<b>Movement Speed</b>: " + movementSpeed;
   }
 
   /**

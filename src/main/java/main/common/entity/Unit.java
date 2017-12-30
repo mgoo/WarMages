@@ -39,7 +39,7 @@ public interface Unit extends Entity {
   double getHealth();
 
   /**
-   * Gets the maximum health of the unit after appling the level multiplyer
+   * Gets the maximum health of the unit after appling the level multiplyer.
    *
    * @return max health of unit
    */
