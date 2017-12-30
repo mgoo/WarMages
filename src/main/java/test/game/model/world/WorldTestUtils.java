@@ -123,7 +123,7 @@ public class WorldTestUtils {
    * Creates and ability that does nothing.
    */
   public static Ability createStubAbility() {
-    return new BaseAbility("", GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
+    return new BaseAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
 
       @Override
       public Collection<Unit> selectUnitsToApplyOn(
@@ -136,6 +136,11 @@ public class WorldTestUtils {
       public Effect createEffectForUnit(Unit unit, World world) {
         return new BaseEffect(unit, world, 1) {
         };
+      }
+
+      @Override
+      public String getDescription() {
+        return null;
       }
 
       @Override
