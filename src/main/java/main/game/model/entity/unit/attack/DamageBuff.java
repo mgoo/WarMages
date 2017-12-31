@@ -1,10 +1,10 @@
 package main.game.model.entity.unit.attack;
 
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.usable.BaseEffect;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet;
 
 public class DamageBuff extends BaseSpellAttack {
 

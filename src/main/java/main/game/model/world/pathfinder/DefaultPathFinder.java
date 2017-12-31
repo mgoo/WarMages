@@ -1,21 +1,15 @@
 package main.game.model.world.pathfinder;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import main.common.PathFinder;
-import main.common.util.MapPoint;
+import main.util.MapPoint;
 
 /**
  * Implements the A* path finding algorithm to find the shortest path between two places on the map

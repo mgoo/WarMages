@@ -1,8 +1,8 @@
 package main.game.model.entity.unit.state;
 
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.util.MapPoint;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
+import main.util.MapPoint;
 
 public class TargetUnit extends Target {
 

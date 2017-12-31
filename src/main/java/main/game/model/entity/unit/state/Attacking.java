@@ -1,9 +1,9 @@
 package main.game.model.entity.unit.state;
 
-import main.common.World;
-import main.common.entity.Unit;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.attack.Attack;
+import main.game.model.world.World;
 
 /**
  * The State for when a unit is attacking another one.

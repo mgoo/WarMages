@@ -1,8 +1,7 @@
 package main.game.model.entity.usable;
 
-import main.common.entity.usable.Ability;
-import main.common.images.GameImage;
-import main.common.util.TickTimer;
+import main.images.GameImage;
+import main.util.TickTimer;
 
 /**
  * Superclass for all {@link Ability} implementations.

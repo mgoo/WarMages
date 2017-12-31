@@ -2,9 +2,9 @@ package main.game.model.entity.unit.state;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.util.MapPoint;
+import main.game.model.entity.Unit;
+import main.game.model.world.World;
+import main.util.MapPoint;
 
 public class MapPointTarget implements Targetable {
 

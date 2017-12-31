@@ -17,13 +17,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import main.game.model.DefaultGameModel;
-import main.common.util.Events.GameLost;
-import main.common.util.Events.GameWon;
-import main.common.entity.HeroUnit;
-import main.common.entity.Unit;
-import main.common.util.Events.MainGameTick;
-import main.common.util.MapPoint;
-import main.common.GameModel;
+import main.game.model.GameModel;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Unit;
+import main.util.Events.GameLost;
+import main.util.Events.GameWon;
+import main.util.Events.MainGameTick;
+import main.util.MapPoint;
 import org.junit.Test;
 
 /**

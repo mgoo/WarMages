@@ -1,8 +1,8 @@
 package main.game.model.entity.unit.attack;
 
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet;
-import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Unit;
+import main.images.UnitSpriteSheet;
+import main.images.UnitSpriteSheet.Sequence;
 
 /**
  * A dagger attack for melee units that don't have spears.

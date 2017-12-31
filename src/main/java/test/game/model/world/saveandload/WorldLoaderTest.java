@@ -2,9 +2,9 @@ package test.game.model.world.saveandload;
 
 import static org.junit.Assert.assertNotNull;
 
-import main.common.WorldLoader;
-import main.common.World;
+import main.game.model.world.World;
 import main.game.model.world.saveandload.DefaultWorldLoader;
+import main.game.model.world.saveandload.WorldLoader;
 import org.junit.Test;
 
 /**

@@ -13,8 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import main.common.WorldSaveModel;
-import main.common.World;
+import main.game.model.world.World;
 
 /**
  * Default implementation.

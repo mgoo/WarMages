@@ -7,17 +7,16 @@ import java.io.IOException;
 import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
-import main.common.GameView;
-import main.common.Renderable;
-import main.common.Renderer;
-import main.common.images.ImageProvider;
-import main.common.util.Config;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
-import main.common.util.Looper;
+import main.game.model.entity.Renderable;
 import main.game.view.BackGroundView;
 import main.game.view.EntityView;
+import main.game.view.GameView;
 import main.images.DefaultImageProvider;
+import main.images.ImageProvider;
+import main.util.Config;
+import main.util.Looper;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Implementation of Renderer API.

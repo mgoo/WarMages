@@ -3,9 +3,9 @@ package test.game.view;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
 import main.game.view.UnitView;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 import test.game.view.FogOfWarViewTest.UnitMock;

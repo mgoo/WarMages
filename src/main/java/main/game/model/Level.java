@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Stream;
-import main.common.WorldSaveModel;
-import main.common.entity.Entity;
-import main.common.entity.usable.Item;
-import main.common.entity.MapEntity;
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.World;
-import main.common.util.MapRect;
+import main.game.model.entity.Entity;
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
+import main.game.model.world.saveandload.WorldSaveModel;
+import main.util.MapRect;
 
 /**
  * Represent the {@link World} state.

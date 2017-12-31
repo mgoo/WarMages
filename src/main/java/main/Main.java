@@ -21,12 +21,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import main.common.util.Config;
 import main.game.model.world.saveandload.DefaultWorldLoader;
 import main.game.model.world.saveandload.DefaultWorldSaveModel;
 import main.game.model.world.saveandload.DefaultWorldSaveModel.DefaultFilesystem;
 import main.menu.MainMenu;
-import main.common.menu.Menu;
+import main.menu.Menu;
+import main.util.Config;
 import netscape.javascript.JSObject;
 
 /**

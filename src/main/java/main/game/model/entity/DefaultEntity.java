@@ -2,10 +2,9 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
-import main.common.entity.Entity;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
+import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 
 /**
  * Default implementation of {@link Entity}.

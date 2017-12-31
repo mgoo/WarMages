@@ -2,8 +2,7 @@ package test.game.view;
 
 import static org.junit.Assert.assertEquals;
 
-import main.common.GameModel;
-import main.common.Renderable;
+import main.game.model.GameModel;
 import main.game.view.BackGroundView;
 import org.junit.Before;
 import org.junit.Test;

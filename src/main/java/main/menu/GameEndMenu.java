@@ -2,11 +2,9 @@ package main.menu;
 
 import java.io.File;
 import main.Main;
-import main.common.menu.Menu;
-import main.common.menu.MenuFileResources;
-import main.common.util.Config;
 import main.menu.controller.GameEndController;
 import main.menu.generators.ScriptFileGenerator;
+import main.util.Config;
 
 /**
  * This menu is displayed when the game finishes.

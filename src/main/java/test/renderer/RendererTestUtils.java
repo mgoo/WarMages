@@ -4,26 +4,25 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javafx.scene.image.ImageView;
-import main.common.GameView;
-import main.common.entity.HeroUnit;
-import main.common.util.Events.GameLost;
-import main.common.util.Events.GameWon;
-import main.common.GameController;
+import main.game.controller.GameController;
 import main.game.model.DefaultGameModel;
-import main.common.GameModel;
-import main.common.World;
-import main.common.util.MapPoint;
-import main.common.events.AbilityIconClick;
-import main.common.events.ItemIconClick;
-import main.common.events.KeyEvent;
-import main.common.events.MouseClick;
-import main.common.events.MouseDrag;
-import main.common.events.UnitIconClick;
+import main.game.model.GameModel;
+import main.game.model.entity.HeroUnit;
+import main.game.model.world.World;
 import main.game.view.DefaultGameView;
+import main.game.view.GameView;
 import main.images.DefaultImageProvider;
-import main.common.util.Config;
-import main.common.util.Event;
-import main.common.util.Events.MainGameTick;
+import main.menu.controller.events.AbilityIconClick;
+import main.menu.controller.events.ItemIconClick;
+import main.menu.controller.events.KeyEvent;
+import main.menu.controller.events.MouseClick;
+import main.menu.controller.events.MouseDrag;
+import main.menu.controller.events.UnitIconClick;
+import main.util.Config;
+import main.util.Events.GameLost;
+import main.util.Events.GameWon;
+import main.util.Events.MainGameTick;
+import main.util.MapPoint;
 
 public class RendererTestUtils {
 

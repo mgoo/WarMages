@@ -2,10 +2,10 @@ package main.game.model.entity.unit.attack;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet;
 
 public class HealAttack extends BaseSpellAttack {
 

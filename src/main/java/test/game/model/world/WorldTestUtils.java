@@ -1,32 +1,29 @@
 package test.game.model.world;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import main.common.entity.HeroUnit;
-import main.common.entity.MapEntity;
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Effect;
-import main.common.entity.usable.Item;
-import main.common.images.GameImageResource;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.game.model.Level;
 import main.game.model.entity.DefaultMapEntity;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseAbility;
-import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DefaultItem;
-import main.common.World;
+import main.game.model.entity.usable.Item;
 import main.game.model.world.DefaultWorld;
+import main.game.model.world.World;
 import main.game.model.world.pathfinder.DefaultPathFinder;
+import main.images.GameImageResource;
+import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 import test.game.model.entity.StubUnitSpriteSheet;
 
 /**

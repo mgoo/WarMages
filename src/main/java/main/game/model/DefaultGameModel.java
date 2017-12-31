@@ -4,16 +4,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import main.common.GameModel;
-import main.common.World;
-import main.common.entity.Entity;
-import main.common.entity.HeroUnit;
-import main.common.entity.Unit;
-import main.common.util.Events;
-import main.common.util.Events.GameLost;
-import main.common.util.Events.GameWon;
-import main.common.util.Events.MainGameTick;
-import main.common.util.Looper;
+import main.game.model.entity.Entity;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Unit;
+import main.game.model.world.World;
+import main.util.Events;
+import main.util.Events.GameLost;
+import main.util.Events.GameWon;
+import main.util.Events.MainGameTick;
+import main.util.Looper;
 
 /**
  * Implementation of GameModel.

@@ -3,8 +3,8 @@ package test.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import main.common.util.MapPoint;
-import main.common.util.MapPolygon;
+import main.util.MapPoint;
+import main.util.MapPolygon;
 import org.junit.Test;
 
 /**

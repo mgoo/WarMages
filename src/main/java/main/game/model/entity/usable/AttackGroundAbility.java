@@ -2,15 +2,15 @@ package main.game.model.entity.usable;
 
 import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
 
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.exceptions.UsableStillInCoolDownException;
-import main.common.images.GameImage;
-import main.common.util.MapPoint;
+import main.exceptions.UsableStillInCoolDownException;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.MapPointTarget;
 import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.util.MapPoint;
 
 public class AttackGroundAbility extends BaseAbility {
 

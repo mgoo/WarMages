@@ -10,19 +10,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import main.common.PathFinder;
-import main.common.World;
-import main.common.entity.Entity;
-import main.common.entity.HeroUnit;
-import main.common.entity.MapEntity;
-import main.common.entity.Unit;
-import main.common.entity.usable.Item;
-import main.common.util.MapPoint;
-import main.common.util.MapRect;
-import main.common.util.MapSize;
 import main.game.model.Level;
-import main.common.entity.Projectile;
+import main.game.model.entity.Entity;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Projectile;
 import main.game.model.entity.StaticEntity;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.pathfinder.PathFinder;
+import main.util.MapPoint;
+import main.util.MapRect;
+import main.util.MapSize;
 
 /**
  * Implementation of the World API.

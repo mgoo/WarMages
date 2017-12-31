@@ -2,7 +2,7 @@ package test.util;
 
 import static org.junit.Assert.assertEquals;
 
-import main.common.util.MapPoint;
+import main.util.MapPoint;
 import org.junit.Test;
 
 /**

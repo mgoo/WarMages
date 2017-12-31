@@ -1,9 +1,8 @@
 package main.menu.controller;
 
 import main.Main;
-import main.common.menu.MenuController;
-import main.common.util.Config;
 import main.menu.MainMenu;
+import main.util.Config;
 
 /**
  * This is the controller for the menu displayed at the end of the game.

@@ -1,11 +1,10 @@
 package main.game.model.entity.unit.state;
 
 import java.io.Serializable;
-import main.common.entity.HeroUnit;
-import main.common.entity.Unit;
-import main.common.entity.usable.Item;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.common.util.MapPoint;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
+import main.util.MapPoint;
 
 /**
  * Target for and item.

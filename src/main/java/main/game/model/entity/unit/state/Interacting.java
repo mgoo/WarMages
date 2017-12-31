@@ -1,10 +1,9 @@
 package main.game.model.entity.unit.state;
 
-import main.common.entity.Direction;
-import main.common.entity.Unit;
-import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.Direction;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
-import main.common.World;
+import main.game.model.world.World;
 
 /**
  * Attacking state for Unit.

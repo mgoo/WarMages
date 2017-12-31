@@ -2,22 +2,21 @@ package test.game.model.entity;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static test.game.model.entity.DefaultUnitTest.getWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.World;
 import main.game.model.entity.unit.state.Moving;
 import main.game.model.entity.unit.state.TargetMapPoint;
+import main.game.model.world.World;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Ignore;
 import org.junit.Test;
 

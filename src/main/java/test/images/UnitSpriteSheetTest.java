@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
-import main.common.images.GameImage;
-import main.common.images.GameImageResource;
-import main.common.images.UnitSpriteSheet;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.common.entity.Direction;
+import main.game.model.entity.Direction;
 import main.images.DefaultImageProvider;
 import main.images.DefaultUnitSpriteSheet;
+import main.images.GameImage;
+import main.images.GameImageResource;
+import main.images.UnitSpriteSheet;
+import main.images.UnitSpriteSheet.Sequence;
 import org.junit.Test;
 
 /**

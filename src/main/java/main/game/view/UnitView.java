@@ -2,15 +2,11 @@ package main.game.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import main.common.GameModel;
-import main.common.World;
-import main.common.images.ImageProvider;
-import main.common.util.Config;
-import main.common.util.MapSize;
-import main.common.entity.Team;
-import main.common.entity.Unit;
+import main.game.model.GameModel;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
+import main.util.Config;
+import main.util.MapSize;
 
 /**
  * View of a unit.
@@ -27,15 +23,6 @@ public class UnitView extends EntityView {
   ) {
     super(config, unit);
     this.unit = unit;
-  }
-
-  private BufferedImage addHealthBar(BufferedImage image) {
-    BufferedImage newImage = new BufferedImage(image.getWidth(),
-        image.getHeight(),
-        BufferedImage.TYPE_4BYTE_ABGR);
-    Graphics2D g = ((Graphics2D) newImage.getGraphics());
-
-    return newImage;
   }
 
   MapSize getLos() {

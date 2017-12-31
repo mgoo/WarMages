@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
-import main.common.images.GameImage;
-import main.common.images.ImageProvider;
 
 /**
  * Load the images from the resources folder.

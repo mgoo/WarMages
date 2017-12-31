@@ -3,13 +3,12 @@ package main.game.model.entity.unit.state;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import main.common.World;
-import main.common.entity.Direction;
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.common.util.MapPoint;
-import main.game.model.entity.unit.DefaultUnit;
+import main.game.model.entity.Direction;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet.Sequence;
+import main.util.MapPoint;
 
 /**
  * Walking state for a Unit.

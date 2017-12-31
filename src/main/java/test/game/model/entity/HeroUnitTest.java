@@ -8,21 +8,21 @@ import static org.mockito.Mockito.when;
 import static test.game.model.entity.DefaultUnitTest.getHeroUnit;
 
 import java.util.Arrays;
-import main.common.GameModel;
-import main.common.entity.HeroUnit;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.exceptions.ItemNotInRangeException;
-import main.common.images.GameImage;
-import main.common.images.GameImageResource;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.exceptions.ItemNotInRangeException;
+import main.game.model.GameModel;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
-import main.common.World;
 import main.game.model.entity.unit.attack.DamageBuff;
+import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.AttackUnitAbility;
 import main.game.model.entity.usable.DefaultItem;
-import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.images.GameImageResource;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Test;
 
 /**

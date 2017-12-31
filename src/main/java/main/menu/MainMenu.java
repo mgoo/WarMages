@@ -7,14 +7,12 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.common.WorldLoader;
-import main.common.WorldSaveModel;
-import main.common.menu.Menu;
-import main.common.menu.MenuFileResources;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
 import main.menu.controller.MainMenuController;
-import main.common.util.Config;
 import main.menu.generators.SaveFilesScriptGenerator;
 import main.menu.generators.ScriptFileGenerator;
+import main.util.Config;
 
 /**
  * The definitions of the file paths to the html file for the Main Menu.

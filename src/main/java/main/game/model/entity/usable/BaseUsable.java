@@ -1,14 +1,10 @@
 package main.game.model.entity.usable;
 
-import static java.util.Objects.requireNonNull;
-
-import main.common.entity.Unit;
-import main.common.entity.Usable;
-import main.common.entity.usable.Effect;
-import main.common.exceptions.UsableStillInCoolDownException;
-import main.common.World;
-import main.common.util.MapPoint;
+import main.exceptions.UsableStillInCoolDownException;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
+import main.util.MapPoint;
 
 /**
  * All {@link Usable}s should extend {@link BaseUsable}.

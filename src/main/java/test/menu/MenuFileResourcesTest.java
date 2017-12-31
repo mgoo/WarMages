@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import main.common.menu.MenuFileResources;
+import main.menu.MenuFileResources;
 import org.junit.Test;
 
 /**
