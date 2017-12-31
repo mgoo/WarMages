@@ -62,33 +62,6 @@ public class DefaultGameController implements GameController {
     this.selectedUsable = null;
   }
 
-
-  /**
-   * Try to apply the usable to a MapPoint.
-   * @return if the usable was applied
-   */
-  private boolean useUsable(MapPoint target) {
-    if (this.selectedUsable.canApplyTo(target)) {
-      this.selectedUsable.use(model.getWorld(), target);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Try to apply the usable to a unit.
-   * @return if the usable was applied
-   */
-  private boolean useUsable(Unit unit) {
-    if (this.selectedUsable.canApplyTo(unit)) {
-      this.selectedUsable.use(model.getWorld(), unit);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public DefaultGameController(GameModel model) {
     this.model = model;
   }
@@ -172,18 +145,15 @@ public class DefaultGameController implements GameController {
 
     if (this.selectedUsable != null) {
       if (mouseEvent.wasLeft()) {
-        if (selectedUnit != null && this.selectedUsable.canApplyTo(selectedUnit)) {
-          this.useUsable(selectedUnit);
-          this.deselectUsable();
-          return;
+        if (selectedUnit != null
+            && this.selectedUsable.canApplyTo(selectedUnit, model.getWorld())) {
+          this.selectedUsable.use(model.getWorld(), selectedUnit);
+        } else if (this.selectedUsable.canApplyTo(mouseEvent.getLocation(), model.getWorld())) {
+          this.selectedUsable.use(model.getWorld(), mouseEvent.getLocation());
         }
-        this.useUsable(mouseEvent.getLocation());
-        this.deselectUsable();
-        return;
-      } else {
-        this.deselectUsable();
-        return;
       }
+      this.deselectUsable();
+      return;
     }
 
     //If it was a left click

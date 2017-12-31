@@ -53,21 +53,12 @@ public class AttackUnitAbility extends BaseAbility {
   }
 
   @Override
-  public boolean canApplyTo(Unit unit) {
-    // TODO need world to use attack.getEffectedUnits
-    if (this.attack.canEffectUnits == CanEffect.EVERYONE) {
-      return true;
-    } else if (this.attack.canEffectUnits == CanEffect.ENEMIES) {
-      return unit.getTeam().canAttack(this.owner.getTeam());
-    } else if (this.attack.canEffectUnits == CanEffect.ALLIES) {
-      return !unit.getTeam().canAttack(this.owner.getTeam());
-    } else {
-      throw new IllegalStateException("The targets value was not recognosed");
-    }
+  public boolean canApplyTo(Unit unit, World world) {
+    return this.attack.getEffectedUnits(this.owner, world, unit).size() != 0;
   }
 
   @Override
-  public boolean canApplyTo(MapPoint target) {
+  public boolean canApplyTo(MapPoint target, World world) {
     return false;
   }
 }

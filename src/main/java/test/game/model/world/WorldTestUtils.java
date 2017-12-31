@@ -131,18 +131,18 @@ public class WorldTestUtils {
       }
 
       @Override
-      protected void execute(World world, Targetable target) {
-
-      }
-
-      @Override
-      public boolean canApplyTo(Unit unit) {
+      public boolean canApplyTo(Unit unit, World world) {
         return true;
       }
 
       @Override
-      public boolean canApplyTo(MapPoint target) {
-        return false;
+      public boolean canApplyTo(MapPoint target, World world) {
+        return true;
+      }
+
+      @Override
+      protected void execute(World world, Targetable target) {
+
       }
     };
   }
