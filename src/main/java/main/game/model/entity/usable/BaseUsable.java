@@ -46,8 +46,4 @@ public abstract class BaseUsable implements Usable {
    * Starts the cool-down period.
    */
   protected abstract void startCoolDown();
-
-
-  public abstract boolean canApplyTo(Unit unit);
-
 }

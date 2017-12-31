@@ -1,5 +1,7 @@
 package main.game.model.entity.unit.attack;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
 import main.common.World;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet;
@@ -51,5 +53,15 @@ public class HealAttack extends BaseSpellAttack {
   @Override
   AttackType getType(Unit unit) {
     return AttackType.HEAL;
+  }
+
+  @Override
+  public Collection<Unit> getEffectedUnits(
+      Unit owner, World world, Targetable target
+  ) {
+    return super.getEffectedUnits(owner, world, target)
+        .stream()
+        .filter(u -> u.getHealthPercent() < 0.999)
+        .collect(Collectors.toSet());
   }
 }

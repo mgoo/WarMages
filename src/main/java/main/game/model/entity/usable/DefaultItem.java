@@ -86,13 +86,13 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   }
 
   @Override
-  public boolean canApplyTo(Unit unit) {
-    return this.ability.canApplyTo(unit);
+  public boolean canApplyTo(Unit unit, World world) {
+    return this.ability.canApplyTo(unit, world);
   }
 
   @Override
-  public boolean canApplyTo(MapPoint target) {
-    return this.ability.canApplyTo(target);
+  public boolean canApplyTo(MapPoint target, World world) {
+    return this.ability.canApplyTo(target, world);
   }
 
   @Override

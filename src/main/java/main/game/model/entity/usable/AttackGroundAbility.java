@@ -65,12 +65,12 @@ public class AttackGroundAbility extends BaseAbility {
   }
 
   @Override
-  public boolean canApplyTo(Unit unit) {
+  public boolean canApplyTo(Unit unit, World world) {
     return false;
   }
 
   @Override
-  public boolean canApplyTo(MapPoint target) {
+  public boolean canApplyTo(MapPoint target, World world) {
     return true;
   }
 }

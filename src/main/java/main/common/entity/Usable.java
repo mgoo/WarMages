@@ -63,9 +63,9 @@ public interface Usable extends Serializable {
 
   int getCoolDownTicks();
 
-  boolean canApplyTo(Unit unit);
+  boolean canApplyTo(Unit unit, World world);
 
-  boolean canApplyTo(MapPoint target);
+  boolean canApplyTo(MapPoint target, World world);
 
   boolean isSelected();
 
