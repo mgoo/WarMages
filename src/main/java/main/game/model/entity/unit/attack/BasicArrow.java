@@ -5,6 +5,7 @@ import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.SpriteSheet.Sequence;
 import main.common.images.SpriteSheet.Sheet;
+import main.common.images.UnitSpriteSheet;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 import main.game.model.entity.unit.state.Targetable;
@@ -53,6 +54,11 @@ public class BasicArrow extends BaseRangedAttack {
   @Override
   public double getWindupPortion(Unit unit) {
     return 0.7;
+  }
+
+  @Override
+  public UnitSpriteSheet.Sequence getAttackSequence() {
+    return UnitSpriteSheet.Sequence.SHOOT;
   }
 
   @Override

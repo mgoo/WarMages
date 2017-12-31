@@ -25,7 +25,7 @@ public class Attacking extends Interacting {
   public Attacking(Unit unit, TargetToAttack target, Attack attack,  boolean singleAttack) {
     super(unit,
         new UnitAnimation(unit,
-            unit.getUnitType().getAttackSequence(),
+            attack.getAttackSequence(),
             attack.getModifiedAttackSpeed(unit)),
         target);
     this.targetToAttack = target;

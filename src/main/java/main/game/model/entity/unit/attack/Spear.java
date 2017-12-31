@@ -1,6 +1,8 @@
 package main.game.model.entity.unit.attack;
 
 import main.common.entity.Unit;
+import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * Spear attack.
@@ -30,6 +32,11 @@ public class Spear extends BaseMeleeAttack {
   @Override
   public double getWindupPortion(Unit unit) {
     return 0.625;
+  }
+
+  @Override
+  public UnitSpriteSheet.Sequence getAttackSequence() {
+    return Sequence.THRUST;
   }
 
   @Override

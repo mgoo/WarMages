@@ -2,6 +2,7 @@ package main.game.model.entity.unit.attack;
 
 import main.common.World;
 import main.common.entity.Unit;
+import main.common.images.UnitSpriteSheet;
 import main.game.model.entity.unit.state.Targetable;
 
 public class HealAttack extends BaseSpellAttack {
@@ -40,6 +41,11 @@ public class HealAttack extends BaseSpellAttack {
   @Override
   public double getWindupPortion(Unit unit) {
     return 0.85;
+  }
+
+  @Override
+  public UnitSpriteSheet.Sequence getAttackSequence() {
+    return UnitSpriteSheet.Sequence.SPELL_CAST;
   }
 
   @Override

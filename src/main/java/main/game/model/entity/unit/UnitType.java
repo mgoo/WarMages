@@ -22,23 +22,21 @@ import main.game.model.entity.unit.attack.Spear;
  */
 public enum UnitType {
 
-  ARCHER(100, 0.1, 6, Sequence.SHOOT, new BasicArrow()),
+  ARCHER(100, 0.1, 6, new BasicArrow()),
 
-  SWORDSMAN(300, 0.1, 5,  Sequence.SLASH, new Dagger()),
+  SWORDSMAN(300, 0.1, 5, new Dagger()),
 
-  SPEARMAN(200, 0.1, 5, Sequence.THRUST, new Spear()),
+  SPEARMAN(200, 0.1, 5, new Spear()),
 
-  MAGE_FIRE(150, 0.1, 5, Sequence.SPELL_CAST, new FireBall()),
-  MAGE_ICE(150, 0.1, 8, Sequence.SPELL_CAST, new IceBall()),
+  MAGE_FIRE(150, 0.1, 5, new FireBall()),
+  MAGE_ICE(150, 0.1, 8, new IceBall()),
 
-  WHITE_LASER(200, 0.08, 5,
-      Sequence.SPELL_CAST, new LaserWhite()),
-  LASER(200, 0.08, 5, Sequence.SPELL_CAST, new Laser());
+  WHITE_LASER(200, 0.08, 5, new LaserWhite()),
+  LASER(200, 0.08, 5, new Laser());
 
   protected double startingHealth;
   protected double movingSpeed;
   protected double lineOfSight;
-  protected Sequence attackSequence;
   protected Attack baseAttack;
 
   public double getStartingHealth() {
@@ -47,10 +45,6 @@ public enum UnitType {
 
   public double getMovingSpeed() {
     return movingSpeed;
-  }
-
-  public Sequence getAttackSequence() {
-    return attackSequence;
   }
 
   public Attack getBaseAttack() {
@@ -66,8 +60,7 @@ public enum UnitType {
   }
 
   UnitType(
-      int startingHealth, double movingSpeed, double lineOfSight, Sequence attackSequence,
-      Attack baseAttack
+      int startingHealth, double movingSpeed, double lineOfSight, Attack baseAttack
   ) {
     assert startingHealth >= 0 : "Health should not be negative when starting";
     assert movingSpeed >= 0 : "Movement speed cannot be negative";
@@ -76,7 +69,6 @@ public enum UnitType {
     this.startingHealth = startingHealth;
     this.movingSpeed = movingSpeed;
     this.lineOfSight = lineOfSight;
-    this.attackSequence = attackSequence;
     this.baseAttack = baseAttack;
   }
 }

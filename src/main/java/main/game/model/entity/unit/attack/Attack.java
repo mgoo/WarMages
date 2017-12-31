@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import main.common.World;
 import main.common.entity.Unit;
+import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.state.Targetable;
 
 /**
@@ -64,6 +65,11 @@ public abstract class Attack implements Serializable {
    * The portion of the animation that plays before the attack should trigger.
    */
   public abstract double getWindupPortion(Unit unit);
+
+  /**
+   * Gets the sequence that the unit should do when doing the attack.
+   */
+  public abstract Sequence getAttackSequence();
 
   /**
    * Get the type of attack.
