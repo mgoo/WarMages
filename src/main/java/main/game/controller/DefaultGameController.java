@@ -24,7 +24,8 @@ import main.common.events.MouseClick;
 import main.common.events.MouseDrag;
 import main.common.events.UnitIconClick;
 import main.common.util.MapPoint;
-import main.game.model.entity.unit.state.TargetEnemyUnit;
+import main.game.model.entity.unit.state.MapPointTarget;
+import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.entity.unit.state.TargetItem;
 import main.game.model.entity.unit.state.TargetMapPoint;
 
@@ -61,14 +62,27 @@ public class DefaultGameController implements GameController {
     this.selectedUsable = null;
   }
 
+
+  /**
+   * Try to apply the usable to a MapPoint.
+   * @return if the usable was applied
+   */
   private boolean useUsable(MapPoint target) {
-    // TODO make some abilities apply to mapPoints
-    return this.selectedUsable.canApplyTo(target);
+    if (this.selectedUsable.canApplyTo(target)) {
+      this.selectedUsable.use(model.getWorld(), target);
+      return true;
+    } else {
+      return false;
+    }
   }
 
+  /**
+   * Try to apply the usable to a unit.
+   * @return if the usable was applied
+   */
   private boolean useUsable(Unit unit) {
     if (this.selectedUsable.canApplyTo(unit)) {
-      this.selectedUsable.use(model.getWorld(), Collections.singletonList(unit));
+      this.selectedUsable.use(model.getWorld(), unit);
       return true;
     } else {
       return false;
@@ -152,16 +166,13 @@ public class DefaultGameController implements GameController {
         .stream()
         .filter(u -> u.getCentre().distanceTo(mouseEvent.getLocation())
             <= Math.max(u.getSize().width, u.getSize().height))
-        .filter(u -> u.getTeam() == (mouseEvent.wasLeft() ? Team.PLAYER : Team.ENEMY))
         .sorted(Comparator.comparingDouble(
             s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
         .findFirst().orElse(null);
 
-    //If it was a left click
-    if (mouseEvent.wasLeft()) {
-
-      if (this.selectedUsable != null) {
-        if (selectedUnit != null) {
+    if (this.selectedUsable != null) {
+      if (mouseEvent.wasLeft()) {
+        if (selectedUnit != null && this.selectedUsable.canApplyTo(selectedUnit)) {
           this.useUsable(selectedUnit);
           this.deselectUsable();
           return;
@@ -169,35 +180,37 @@ public class DefaultGameController implements GameController {
         this.useUsable(mouseEvent.getLocation());
         this.deselectUsable();
         return;
-      }
-
-      if (mouseEvent.wasShiftDown()) {
-        //add the new selected unit to the previously selected ones
-        if (selectedUnit != null) {
-          model.addToUnitSelection(selectedUnit);
-        }
-
-      } else if (mouseEvent.wasCtrlDown()) {
-        //if clicked unit already selected, deselect it. otherwise, select it
-        Collection<Unit> updatedUnits = new ArrayList<>(model.getUnitSelection());
-
-        if (updatedUnits.contains(selectedUnit)) {
-          updatedUnits.remove(selectedUnit);
-        } else if (selectedUnit != null) {
-          updatedUnits.add(selectedUnit);
-        }
-        model.setUnitSelection(updatedUnits);
-
       } else {
-        //deselect all previous selected units and select the clicked unit
-        model.setUnitSelection(new ArrayList<>());
-        if (selectedUnit != null) {
+        this.deselectUsable();
+        return;
+      }
+    }
+
+    //If it was a left click
+    if (mouseEvent.wasLeft()) {
+      if (selectedUnit != null && selectedUnit.getTeam() == Team.PLAYER) {
+        if (mouseEvent.wasShiftDown()) {
+          //add the new selected unit to the previously selected ones
+          model.addToUnitSelection(selectedUnit);
+        } else if (mouseEvent.wasCtrlDown()) {
+          //if clicked unit already selected, deselect it. otherwise, select it
+          Collection<Unit> updatedUnits = new ArrayList<>(model.getUnitSelection());
+
+          if (updatedUnits.contains(selectedUnit)) {
+            updatedUnits.remove(selectedUnit);
+          } else {
+            updatedUnits.add(selectedUnit);
+          }
+          model.setUnitSelection(updatedUnits);
+
+        } else {
+          //deselect all previous selected units and select the clicked unit
           model.setUnitSelection(Collections.singletonList(selectedUnit));
         }
+      } else {
+        model.setUnitSelection(new ArrayList<>());
       }
     } else { //otherwise, it must have been a right click
-      this.deselectUsable();
-
       //select the item under the click if there is one
       Item selectedItem = model.getAllEntities()
           .stream()
@@ -219,8 +232,14 @@ public class DefaultGameController implements GameController {
       if (selectedUnit != null && closest instanceof Unit) {
         //attack an enemy
         for (Unit unit : model.getUnitSelection()) {
-          unit.setTarget(
-              new TargetEnemyUnit(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
+          if (unit
+              .getUnitType()
+              .getBaseAttack()
+              .getEffectedUnits(unit, model.getWorld(), selectedUnit)
+              .size() != 0) {
+            unit.setTarget(
+                new TargetToAttack(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
+          }
         }
       } else if (selectedItem != null && closest instanceof Item) {
         // move all selected units to the clicked location

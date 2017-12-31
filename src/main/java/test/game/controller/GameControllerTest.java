@@ -31,14 +31,21 @@ public class GameControllerTest {
   public void checkSelectOneUnit() {
     GameWon gc = new GameWon();
     GameLost gl = new GameLost();
-    gameModel = new DefaultGameModel(new DefaultWorld(
-        WorldTestUtils.createLevels(WorldTestUtils.createLevelWith(
-            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0)),
-            WorldTestUtils.createDefaultUnit(new MapPoint(1, 0))
-        )),
-        WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
-        new DefaultPathFinder()),
-        new MainGameTick(), gc, gl);
+    gameModel = new DefaultGameModel(
+        new DefaultWorld(
+          WorldTestUtils.createLevels(
+              WorldTestUtils.createLevelWith(
+                WorldTestUtils.createDefaultUnit(new MapPoint(3, 0)),
+                WorldTestUtils.createDefaultUnit(new MapPoint(2, 0))
+              )
+          ),
+          WorldTestUtils.createDefaultHeroUnit(new MapPoint(1,0)),
+          new DefaultPathFinder()
+        ),
+        new MainGameTick(),
+        gc,
+        gl
+    );
     controller = new DefaultGameController(gameModel);
     controller.onMouseEvent(new MouseClick() {
       @Override

@@ -20,6 +20,7 @@ import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.usable.BaseAbility;
 import main.game.model.entity.usable.BaseEffect;
 import main.game.model.entity.usable.DefaultItem;
@@ -124,23 +125,14 @@ public class WorldTestUtils {
    */
   public static Ability createStubAbility() {
     return new BaseAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
-
-      @Override
-      public Collection<Unit> selectUnitsToApplyOn(
-          World world, Collection<Unit> selectedDefaultUnits
-      ) {
-        return Collections.emptyList();
-      }
-
-      @Override
-      public Effect createEffectForUnit(Unit unit, World world) {
-        return new BaseEffect(unit, world, 1) {
-        };
-      }
-
       @Override
       public String getDescription() {
         return null;
+      }
+
+      @Override
+      protected void execute(World world, Targetable target) {
+
       }
 
       @Override

@@ -7,13 +7,14 @@ import main.common.World;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Target;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
  * health, and can attack other team units.
  * @author paladogabr
  */
-public interface Unit extends Entity {
+public interface Unit extends Entity, Targetable {
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
@@ -126,5 +127,10 @@ public interface Unit extends Entity {
    * Gets the movement speed of the unit.
    */
   double getSpeed();
+
+  /**
+   * Gets the distance that the unit should auto attack.
+   */
+  double getAutoAttackDistance();
 }
 

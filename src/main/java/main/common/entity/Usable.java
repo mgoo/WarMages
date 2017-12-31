@@ -1,13 +1,13 @@
 package main.common.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import main.common.World;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Effect;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.common.util.MapPoint;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * An usable {@link Item} or {@link Ability} - these have some effect on the unit (e.g. instant
@@ -17,12 +17,19 @@ import main.common.util.MapPoint;
 public interface Usable extends Serializable {
 
   /**
+   * Sets the unit the owns this ability.
+   */
+  void setOwner(Unit unit);
+
+  /**
    * Creates an {@link Effect} for each {@link Unit} and applies {@link Effect} to whatever
    * units are chosen by this {@link Usable}.
    *
    * @throws IllegalStateException When this is not ready to be used yet (e.g. cool-down).
    */
-  void use(World world, Collection<Unit> selectedUnits);
+  void use(World world, Unit selectedUnit);
+
+  void use(World world, MapPoint target);
 
   /**
    * False if currently in a cool-down state.

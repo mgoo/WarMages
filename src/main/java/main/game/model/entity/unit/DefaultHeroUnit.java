@@ -47,6 +47,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   ) {
     super(position, size, Team.PLAYER, sheet, type, level);
     this.abilities = new CopyOnWriteArrayList<>(abilities);
+    abilities.forEach(ability -> ability.setOwner(this));
   }
 
   /**
@@ -65,6 +66,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
     }
 
     itemInventory.add(item);
+    item.setOwner(this);
   }
 
   public boolean isItemWithinRange(Item item) {

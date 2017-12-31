@@ -8,6 +8,10 @@ import main.common.entity.Unit;
  */
 public class Dagger extends BaseMeleeAttack {
 
+  public Dagger() {
+    super(CanEffect.ENEMIES);
+  }
+
   @Override
   double getRange(Unit unit) {
     return 0.02;

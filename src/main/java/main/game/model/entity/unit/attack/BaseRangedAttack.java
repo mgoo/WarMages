@@ -3,6 +3,7 @@ package main.game.model.entity.unit.attack;
 import main.common.World;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * The base Ranged attack.
@@ -10,13 +11,17 @@ import main.common.entity.Unit;
  */
 public abstract class BaseRangedAttack extends Attack {
 
+  public BaseRangedAttack(CanEffect canEffect) {
+    super(canEffect);
+  }
+
   @Override
   public void execute(
-      Unit unit, Unit enemyUnit, World world
+      Unit unit, Targetable target, World world
   ) {
-    Projectile projectile = this.createProjectile(unit, enemyUnit);
+    Projectile projectile = this.createProjectile(unit, target);
     world.addProjectile(projectile);
   }
 
-  abstract Projectile createProjectile(Unit unit, Unit enemyUnit);
+  abstract Projectile createProjectile(Unit unit, Targetable target);
 }

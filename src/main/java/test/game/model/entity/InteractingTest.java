@@ -7,10 +7,10 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 import main.common.GameModel;
 import main.game.model.entity.unit.DefaultUnit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.state.Attacking;
 import main.game.model.entity.unit.state.Interacting;
 import main.common.entity.Direction;
@@ -19,7 +19,7 @@ import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.UnitType;
 import main.common.World;
-import main.game.model.entity.unit.state.TargetEnemyUnit;
+import main.game.model.entity.unit.state.TargetToAttack;
 import org.junit.Test;
 
 /**
@@ -37,11 +37,8 @@ public class InteractingTest {
     when(target.getTeam()).thenReturn(Team.ENEMY);
     MapPoint targetLocation = new MapPoint(0, 0);
     when(target.getCentre()).thenReturn(targetLocation);
-    // that counts attacks received
-    AtomicInteger attackCount = new AtomicInteger(0);
-    doAnswer(invocation -> 1 == attackCount.incrementAndGet())
-        .when(target)
-        .takeDamage(anyDouble(), any(), any());
+    when(target.getLocation()).thenReturn(targetLocation);
+    when(target.getEffectedUnits(any())).thenReturn(Collections.singleton(target));
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
     when(unit.getSize()).thenReturn(new MapSize(1, 1));
@@ -51,13 +48,22 @@ public class InteractingTest {
     when(unit.getUnitType()).thenReturn(UnitType.SWORDSMAN);
     when(unit.getSpriteSheet()).thenReturn(new StubUnitSpriteSheet());
     when(unit.getCurrentDirection()).thenReturn(Direction.DOWN);
+    when(unit.getAttackSpeedModifier()).thenReturn(1.0);
+
+    when(target.isValidTargetFor(unit)).thenReturn(true);
+    // that counts attacks received
+    AtomicInteger attackCount = new AtomicInteger(0);
+    doAnswer(invocation -> 1 == attackCount.incrementAndGet())
+        .when(target)
+        .takeDamage(anyDouble(), any(), any());
+
     // with some configuration parameters
     final int totalTicks = unit.getUnitType().getBaseAttack().getModifiedAttackSpeed(unit);
     final int attackTick = (int)(unit.getUnitType().getBaseAttack().getWindupPortion(unit)
         * totalTicks);
     // and the state to test
     Interacting state = new Attacking(unit,
-        new TargetEnemyUnit(unit, target, unit.getUnitType().getBaseAttack()),
+        new TargetToAttack(unit, target, unit.getUnitType().getBaseAttack()),
         unit.getUnitType().getBaseAttack());
     // and a stub world
     World world = mock(World.class);

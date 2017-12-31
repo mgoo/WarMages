@@ -25,7 +25,11 @@ public interface SpriteSheet extends Serializable {
     ICE_FLY(0, 2, true),
     ICE_IMPACT(4, 7, true),
     ARROW(0, 1, true),
-    HEAL(0, 5, false);
+    HEAL(0, 5, false),
+    LIGHTING_1(0, 4, false),
+    LIGHTING_2(1, 4, false),
+    LIGHTING_3(2, 4, false),
+    EXPLOSION_1(0, 13, false);
 
     public final int row;
     public final int frames;
@@ -57,7 +61,13 @@ public interface SpriteSheet extends Serializable {
         new Sequence[]{Sequence.ICE_FLY, Sequence.ICE_IMPACT}),
     ARROW_PROJECTILE(GameImageResource.ARROW_PROJECTILE,
         150, 150,
-        new Sequence[]{Sequence.ARROW});
+        new Sequence[]{Sequence.ARROW}),
+    LIGHTING(GameImageResource.LIGHTING,
+        200, 360,
+        new Sequence[]{Sequence.LIGHTING_1, Sequence.LIGHTING_2, Sequence.LIGHTING_3}),
+    EXPLOSIONS(GameImageResource.EXPLOSION,
+        256, 256,
+        new Sequence[]{Sequence.EXPLOSION_1});
 
     public final GameImageResource baseImage;
     public final int tileWidth;

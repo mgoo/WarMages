@@ -3,6 +3,8 @@ package main.game.model.entity.unit;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import main.common.World;
@@ -19,11 +21,11 @@ import main.common.images.UnitSpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.StaticEntity;
 import main.game.model.entity.unit.state.Dying;
 import main.game.model.entity.unit.state.Idle;
 import main.game.model.entity.unit.state.Target;
+import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.unit.state.UnitState;
 
 /**
@@ -31,7 +33,7 @@ import main.game.model.entity.unit.state.UnitState;
  * @author paladogabr
  * @author chongdyla (Secondary author)
  */
-public class DefaultUnit extends DefaultEntity implements Unit {
+public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
 
   private static final long serialVersionUID = 1L;
   private static final double LEVEL_DIVISOR = 10;
@@ -325,6 +327,16 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
   }
 
+  @Override
+  public double getAutoAttackDistance() {
+    double range = this.getUnitType().baseAttack.getModifiedRange(this);
+    if (range < 2) {
+      return this.getUnitType().lineOfSight * 0.7;
+    } else {
+      return range;
+    }
+  }
+
   /**
    * Public for testing only.
    */
@@ -372,4 +384,18 @@ public class DefaultUnit extends DefaultEntity implements Unit {
     return 1;
   }
 
+  @Override
+  public MapPoint getLocation() {
+    return this.getCentre();
+  }
+
+  @Override
+  public Collection<Unit> getEffectedUnits(World world) {
+    return Collections.singleton(this);
+  }
+
+  @Override
+  public boolean isValidTargetFor(Unit unit) {
+    return !this.isDead;
+  }
 }

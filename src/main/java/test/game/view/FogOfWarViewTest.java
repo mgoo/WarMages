@@ -3,6 +3,7 @@ package test.game.view;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.Collection;
 import java.util.Collections;
 import main.common.Renderable;
 import main.common.World;
@@ -191,6 +192,26 @@ public class FogOfWarViewTest extends GameViewTest {
     @Override
     public double getSpeed() {
       return 0;
+    }
+
+    @Override
+    public double getAutoAttackDistance() {
+      return 0;
+    }
+
+    @Override
+    public MapPoint getLocation() {
+      return null;
+    }
+
+    @Override
+    public Collection<Unit> getEffectedUnits(World world) {
+      return null;
+    }
+
+    @Override
+    public boolean isValidTargetFor(Unit unit) {
+      return false;
     }
   }
 }

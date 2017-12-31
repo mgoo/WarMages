@@ -2,13 +2,13 @@ package main.game.model.entity.usable;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collection;
 import main.common.entity.Unit;
 import main.common.entity.Usable;
 import main.common.entity.usable.Effect;
-import main.common.exceptions.CantApplyToUnitsException;
 import main.common.exceptions.UsableStillInCoolDownException;
 import main.common.World;
+import main.common.util.MapPoint;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * All {@link Usable}s should extend {@link BaseUsable}.
@@ -17,47 +17,36 @@ public abstract class BaseUsable implements Usable {
 
   private static final long serialVersionUID = 1L;
 
+  protected Unit owner;
+
+  public void setOwner(Unit unit) {
+    this.owner = unit;
+  }
+
   @Override
-  public final void use(World world, Collection<Unit> selectedUnits) {
+  public void use(World world, Unit unit) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
 
-    Collection<Unit> unitsToApplyOn = selectUnitsToApplyOn(
-        requireNonNull(world),
-        requireNonNull(selectedUnits)
-    );
-
-    for (Unit unit : unitsToApplyOn) {
-      Effect effect = createEffectForUnit(unit, world);
-      unit.addEffect(effect);
-    }
+    this.execute(world, unit);
 
     startCoolDown();
   }
 
-  /**
-   * Pick what units to apply this ability to.
-   *
-   * @param selectedUnits The units that are currently selected by the user.
-   * @throws CantApplyToUnitsException When there is a unit that we cannot apply this {@link Usable}
-   *     to.
-   */
-  protected abstract Collection<Unit> selectUnitsToApplyOn(
-      World world,
-      Collection<Unit> selectedUnits
-  );
+  @Override
+  public void use(World world, MapPoint mapPoint) {
+    throw new RuntimeException("This usable cannot be used on a MapPoint");
+  }
 
+
+  protected abstract void execute(World world, Targetable target);
 
   /**
    * Starts the cool-down period.
    */
   protected abstract void startCoolDown();
 
-  /**
-   * Creates a new effect. Does not need to check {@link Usable#isReadyToBeUsed()}.
-   */
-  protected abstract Effect createEffectForUnit(Unit unit, World world);
 
   public abstract boolean canApplyTo(Unit unit);
 

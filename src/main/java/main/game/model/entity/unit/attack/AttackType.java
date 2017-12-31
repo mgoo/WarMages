@@ -10,6 +10,9 @@ public enum AttackType {
   SLASH,
   STAB,
   MAGIC,
-  MISSILE
+  MISSILE,
+  HEAL,
+  BUFF,
+  DEBUFF
 
 }
