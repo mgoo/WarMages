@@ -1,10 +1,10 @@
 package main.game.model.entity;
 
 import java.util.List;
-import main.common.World;
-import main.common.images.GameImage;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 public class StaticEntity extends DefaultEntity {
 

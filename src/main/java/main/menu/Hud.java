@@ -1,16 +1,11 @@
 package main.menu;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Arc2D.Double;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -18,21 +13,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import main.Main;
-import main.common.GameView;
-import main.common.entity.Unit;
-import main.common.entity.Usable;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.GameModel;
-import main.common.util.Config;
-import main.common.menu.Menu;
-import main.common.menu.MenuFileResources;
-import main.common.images.ImageProvider;
+import main.game.model.GameModel;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Item;
+import main.game.view.GameView;
+import main.images.ImageProvider;
 import main.menu.controller.HudController;
 import main.menu.controller.HudController.SaveFunction;
 import main.menu.generators.GoalTextGenerator;
 import main.menu.generators.ScriptFileGenerator;
-import main.common.Renderer;
+import main.renderer.Renderer;
+import main.util.Config;
 
 /**
  * The definitions of the file paths to the html file for the Heads Up Display.

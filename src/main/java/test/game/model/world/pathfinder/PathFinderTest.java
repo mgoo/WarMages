@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.util.MapPoint;
+import main.util.MapPoint;
 import org.junit.Ignore;
 import org.junit.Test;
 

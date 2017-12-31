@@ -1,14 +1,14 @@
 package main.game.model.entity.unit.attack;
 
-import main.common.entity.Direction;
-import main.common.entity.Projectile;
-import main.common.entity.Unit;
-import main.common.images.SpriteSheet.Sequence;
-import main.common.images.SpriteSheet.Sheet;
-import main.common.images.UnitSpriteSheet;
-import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
+import main.game.model.entity.Direction;
+import main.game.model.entity.Projectile;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
+import main.images.SpriteSheet.Sequence;
+import main.images.SpriteSheet.Sheet;
+import main.images.UnitSpriteSheet;
+import main.util.MapSize;
 
 /**
  * Ummm yea laser.

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import main.Main;
-import main.common.menu.Menu;
+import main.menu.Menu;
 import org.junit.Ignore;
 import org.junit.Test;
 

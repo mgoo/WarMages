@@ -9,9 +9,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import main.images.DefaultImageProvider;
-import main.common.images.GameImage;
-import main.common.images.GameImageResource;
-import main.common.images.ImageProvider;
+import main.images.GameImage;
+import main.images.GameImageResource;
+import main.images.ImageProvider;
 import org.junit.Test;
 
 /**

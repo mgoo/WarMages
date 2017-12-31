@@ -5,8 +5,8 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 import main.game.view.EntityView;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 

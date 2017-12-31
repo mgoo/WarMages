@@ -1,13 +1,10 @@
 package main.game.model.entity.usable;
 
-import main.common.entity.Unit;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.images.GameImage;
-import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
-import main.common.World;
-import main.game.model.entity.unit.state.Targetable;
+import main.game.model.entity.Unit;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.util.MapPoint;
 
 /**
  * Default implementation of {@link Item}.

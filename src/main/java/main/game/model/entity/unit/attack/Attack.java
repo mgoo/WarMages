@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet.Sequence;
 
 /**
  * Base class for Attacks.

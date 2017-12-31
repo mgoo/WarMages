@@ -14,12 +14,12 @@ import static test.game.model.world.WorldTestUtils.createStubItem;
 import static test.game.model.world.WorldTestUtils.createStubMapEntity;
 import static test.game.model.world.WorldTestUtils.createWorld;
 
-import main.common.entity.HeroUnit;
-import main.common.entity.MapEntity;
-import main.common.entity.Unit;
-import main.common.entity.usable.Item;
-import main.common.World;
-import main.common.util.MapPoint;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.MapEntity;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
+import main.util.MapPoint;
 import org.junit.Test;
 
 /**

@@ -1,9 +1,9 @@
 package main.game.model.entity.unit;
 
 import java.io.Serializable;
-import main.common.entity.Unit;
-import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Unit;
 import main.images.Animation;
+import main.images.UnitSpriteSheet.Sequence;
 
 /**
  * Handles what image should be shown as time progresses.

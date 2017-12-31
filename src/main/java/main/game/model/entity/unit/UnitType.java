@@ -1,11 +1,5 @@
 package main.game.model.entity.unit;
 
-import main.common.entity.Unit;
-import main.common.images.GameImageResource;
-import main.common.images.UnitSpriteSheet.Sequence;
-import main.common.util.MapSize;
-import main.common.entity.Projectile;
-import main.game.model.entity.DefaultProjectile;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.BasicArrow;
 import main.game.model.entity.unit.attack.Dagger;

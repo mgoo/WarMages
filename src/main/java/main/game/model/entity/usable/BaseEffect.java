@@ -1,9 +1,8 @@
 package main.game.model.entity.usable;
 
-import main.common.World;
-import main.common.entity.Unit;
-import main.common.entity.usable.Effect;
-import main.common.util.TickTimer;
+import main.game.model.entity.Unit;
+import main.game.model.world.World;
+import main.util.TickTimer;
 
 /**
  * All {@link Effect}s should extend this.

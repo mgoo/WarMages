@@ -1,10 +1,9 @@
 package main.game.model.entity.unit.state;
 
 import java.io.Serializable;
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.util.MapPoint;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
+import main.util.MapPoint;
 
 public class TargetToAttack extends Target implements Serializable {
 

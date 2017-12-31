@@ -6,16 +6,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import main.common.World;
-import main.common.entity.HeroUnit;
-import main.common.entity.Team;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.exceptions.ItemNotInRangeException;
-import main.common.images.UnitSpriteSheet;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.exceptions.ItemNotInRangeException;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Team;
 import main.game.model.entity.unit.state.TargetItem;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Default implementation of HeroUnit.

@@ -2,17 +2,17 @@ package test.game.controller;
 
 import static org.junit.Assert.assertEquals;
 
-import main.common.util.Events.GameLost;
-import main.common.util.Events.GameWon;
-import main.common.GameController;
 import main.game.controller.DefaultGameController;
+import main.game.controller.GameController;
 import main.game.model.DefaultGameModel;
-import main.common.GameModel;
+import main.game.model.GameModel;
 import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
-import main.common.events.MouseClick;
-import main.common.util.Events.MainGameTick;
-import main.common.util.MapPoint;
+import main.menu.controller.events.MouseClick;
+import main.util.Events.GameLost;
+import main.util.Events.GameWon;
+import main.util.Events.MainGameTick;
+import main.util.MapPoint;
 import org.junit.Test;
 import test.game.model.world.WorldTestUtils;
 

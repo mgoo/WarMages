@@ -3,13 +3,11 @@ package main.game.model.entity.unit.state;
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
-import main.common.entity.Direction;
-import main.common.entity.Unit;
+import main.game.model.entity.Direction;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
-import main.game.model.entity.unit.DefaultUnit;
-import main.common.World;
-import main.common.images.GameImage;
-import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.world.World;
+import main.images.GameImage;
 
 /**
  * Holds information about what a unit is doing.

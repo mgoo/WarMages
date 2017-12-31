@@ -1,8 +1,8 @@
 package main.images;
 
 import static java.util.Objects.requireNonNull;
-import static main.common.images.UnitSpriteSheet.Sequence.UNIT_HEIGHT;
-import static main.common.images.UnitSpriteSheet.Sequence.UNIT_WIDTH;
+import static main.images.UnitSpriteSheet.Sequence.UNIT_HEIGHT;
+import static main.images.UnitSpriteSheet.Sequence.UNIT_WIDTH;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import main.common.images.GameImage;
-import main.common.images.GameImageBuilder;
-import main.common.images.GameImageResource;
-import main.common.images.UnitSpriteSheet;
-import main.common.entity.Direction;
+import main.game.model.entity.Direction;
 
 /**
  * Default implementation.

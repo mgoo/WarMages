@@ -1,11 +1,11 @@
 package main.game.model.entity.unit;
 
-import main.common.World;
-import main.common.entity.DeadUnit;
-import main.common.images.GameImage;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.game.model.entity.DeadUnit;
 import main.game.model.entity.DefaultMapEntity;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Concrete implementation of DeadUnit interface.

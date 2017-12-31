@@ -2,30 +2,27 @@ package main.menu.controller;
 
 import javafx.scene.image.ImageView;
 import main.Main;
-import main.common.GameView;
-import main.common.menu.MenuController;
-import main.common.util.Events.GameLost;
-import main.common.util.Events.GameWon;
-import main.common.util.Looper;
-import main.common.GameController;
 import main.game.controller.DefaultGameController;
+import main.game.controller.GameController;
 import main.game.model.DefaultGameModel;
-import main.common.GameModel;
-import main.common.World;
-import main.common.WorldLoader;
-import main.common.WorldSaveModel;
-import main.common.events.MouseClick;
+import main.game.model.GameModel;
+import main.game.model.world.World;
+import main.game.model.world.saveandload.WorldLoader;
+import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.view.DefaultGameView;
+import main.game.view.GameView;
 import main.images.DefaultImageProvider;
-import main.common.images.ImageProvider;
+import main.images.ImageProvider;
 import main.menu.GameEndMenu;
 import main.menu.Hud;
 import main.menu.MainMenu;
-import main.common.Renderer;
-import main.common.util.Config;
-import main.common.util.Event;
-import main.common.util.Events.MainGameTick;
 import main.renderer.DefaultRenderer;
+import main.renderer.Renderer;
+import main.util.Config;
+import main.util.Events.GameLost;
+import main.util.Events.GameWon;
+import main.util.Events.MainGameTick;
+import main.util.Looper;
 
 /**
  * Controller for the Main Menu. Responsible for making a new game loading a game and exiting.

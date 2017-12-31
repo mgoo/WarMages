@@ -1,10 +1,10 @@
 package main.game.model.entity.unit.state;
 
-import main.common.entity.Direction;
-import main.common.images.UnitSpriteSheet.Sequence;
+import main.game.model.entity.Direction;
 import main.game.model.entity.unit.DefaultUnit;
-import main.common.World;
 import main.game.model.entity.unit.UnitAnimation;
+import main.game.model.world.World;
+import main.images.UnitSpriteSheet.Sequence;
 
 /**
  * Used for representing the dying unitAnimation when a unit is dead.

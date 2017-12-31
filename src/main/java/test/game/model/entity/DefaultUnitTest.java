@@ -1,7 +1,7 @@
 package test.game.model.entity;
 
 import static junit.framework.TestCase.assertFalse;
-import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
+import static main.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,26 +13,22 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import main.common.GameModel;
-import main.common.World;
-import main.common.entity.HeroUnit;
-import main.common.entity.Projectile;
-import main.common.entity.Team;
-import main.common.entity.Unit;
-import main.common.entity.usable.Ability;
-import main.common.images.GameImageResource;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
+import main.game.model.GameModel;
+import main.game.model.entity.HeroUnit;
+import main.game.model.entity.Projectile;
+import main.game.model.entity.Team;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.entity.unit.state.TargetMapPoint;
+import main.game.model.entity.unit.state.TargetToAttack;
+import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
+import main.util.MapPoint;
+import main.util.MapSize;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**

@@ -1,19 +1,12 @@
 package main.game.model.entity;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.List;
-import main.common.World;
-import main.common.entity.Direction;
-import main.common.entity.Projectile;
-import main.common.entity.Unit;
-import main.common.images.GameImage;
-import main.common.images.SpriteSheet;
-import main.common.images.SpriteSheet.Sequence;
-import main.common.util.MapPoint;
-import main.common.util.MapSize;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
+import main.images.GameImage;
+import main.util.MapPoint;
+import main.util.MapSize;
 
 /**
  * Concrete implementation of Projectile.

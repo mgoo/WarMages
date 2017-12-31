@@ -1,9 +1,9 @@
 package main.game.model.entity.unit.attack;
 
-import main.common.World;
-import main.common.entity.Projectile;
-import main.common.entity.Unit;
+import main.game.model.entity.Projectile;
+import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
 
 /**
  * The base Ranged attack.

@@ -2,8 +2,7 @@ package main.images;
 
 import java.io.Serializable;
 import java.util.List;
-import main.common.GameModel;
-import main.common.images.GameImage;
+import main.game.model.GameModel;
 
 /**
  * Handles what image should be shown as time progresses.

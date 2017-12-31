@@ -8,32 +8,26 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
-import main.common.GameController;
-import main.common.GameModel;
-import main.common.GameView;
-import main.common.World;
-import main.common.entity.Entity;
-import main.common.entity.Unit;
-import main.common.entity.usable.Ability;
-import main.common.entity.usable.Item;
-import main.common.events.ItemIconClick;
-import main.common.events.MouseClick;
-import main.common.events.MouseDrag;
-import main.common.images.GameImageResource;
-import main.common.GameController;
-import main.common.entity.Entity;
-import main.common.GameModel;
+import main.game.controller.GameController;
+import main.game.model.GameModel;
+import main.game.model.entity.Entity;
+import main.game.model.entity.Renderable;
+import main.game.model.entity.Unit;
+import main.game.model.entity.usable.Ability;
+import main.game.model.entity.usable.Item;
+import main.game.model.world.World;
 import main.game.view.EntityView.EntityRenderableComparator;
-import main.common.images.ImageProvider;
-import main.common.util.Config;
-import main.common.util.Event;
-import main.common.util.MapPoint;
-import main.common.util.MapPolygon;
-import main.common.util.MapRect;
-import main.game.view.EntityView.EntityRenderableComparator;
-import main.common.events.AbilityIconClick;
-import main.common.events.UnitIconClick;
-import main.common.Renderable;
+import main.images.GameImageResource;
+import main.images.ImageProvider;
+import main.menu.controller.events.AbilityIconClick;
+import main.menu.controller.events.ItemIconClick;
+import main.menu.controller.events.MouseClick;
+import main.menu.controller.events.MouseDrag;
+import main.menu.controller.events.UnitIconClick;
+import main.util.Config;
+import main.util.MapPoint;
+import main.util.MapPolygon;
+import main.util.MapRect;
 
 /**
  * A View of the Game.
@@ -333,7 +327,7 @@ public class DefaultGameView implements GameView {
 
   @Override
   public void onKeyDown(char key, boolean wasShiftDown, boolean wasCtrlDown) {
-    this.gameController.onKeyPress(new main.common.events.KeyEvent() {
+    this.gameController.onKeyPress(new main.menu.controller.events.KeyEvent() {
       @Override
       public char getKey() {
         return key;

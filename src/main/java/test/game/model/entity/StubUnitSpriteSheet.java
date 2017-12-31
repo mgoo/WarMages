@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import main.common.entity.Direction;
-import main.common.images.GameImage;
-import main.common.images.UnitSpriteSheet;
+import main.game.model.entity.Direction;
+import main.images.GameImage;
+import main.images.UnitSpriteSheet;
 
 public class StubUnitSpriteSheet implements UnitSpriteSheet {
 
