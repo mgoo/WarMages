@@ -10,9 +10,6 @@ import main.game.model.entity.DefaultProjectile;
 import main.game.model.entity.unit.state.Targetable;
 
 public class IceBall extends FireBall {
-
-
-
   @Override
   Projectile createProjectile(
       Unit unit, Targetable target

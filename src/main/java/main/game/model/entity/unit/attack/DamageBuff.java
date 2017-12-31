@@ -2,6 +2,7 @@ package main.game.model.entity.unit.attack;
 
 import main.common.World;
 import main.common.entity.Unit;
+import main.common.images.UnitSpriteSheet;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.usable.BaseEffect;
 
@@ -45,6 +46,12 @@ public class DamageBuff extends BaseSpellAttack {
   public double getWindupPortion(Unit unit) {
     return 0.85;
   }
+
+  @Override
+  public UnitSpriteSheet.Sequence getAttackSequence() {
+    return UnitSpriteSheet.Sequence.SPELL_CAST;
+  }
+
 
   @Override
   AttackType getType(Unit unit) {

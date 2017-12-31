@@ -1,6 +1,8 @@
 package main.game.model.entity.unit.attack;
 
 import main.common.entity.Unit;
+import main.common.images.UnitSpriteSheet;
+import main.common.images.UnitSpriteSheet.Sequence;
 
 /**
  * A dagger attack for melee units that don't have spears.
@@ -30,6 +32,11 @@ public class Dagger extends BaseMeleeAttack {
   @Override
   public double getWindupPortion(Unit unit) {
     return 0.66;
+  }
+
+  @Override
+  public UnitSpriteSheet.Sequence getAttackSequence() {
+    return Sequence.SLASH;
   }
 
   @Override
