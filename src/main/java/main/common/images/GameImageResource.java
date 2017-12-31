@@ -23,12 +23,20 @@ public enum GameImageResource {
   RING_GOLD_ITEM("images/items/ring-gold.png"),
   WHITE_BALL_ITEM("images/projectiles/whitemissile-impact-3.png"),
 
+  HEAL_SPELL_ICON("images/icons/potion_green_medium.png"),
+  SMALL_POTION_ICON("images/icons/potion_green_small.png"),
+  RING_ICON("images/icons/ring_gold.png"),
+  FIREBALL_ICON("images/icons/fireball.png"),
+  LIGHTING_ICON("images/icons/lightning.png"),
+
   // Projectiles
   ARROW_PROJECTILE("images/projectile-sheets/arrow-sheet.png"),
   // Use this one as static image, rather than a sequence of images:
   FIREBALL_PROJECTILE("images/projectile-sheets/fireball-sheet.png"),
   WHITE_PROJECTILE("images/projectile-sheets/whitemissile-sheet.png"),
   ICE_PROJECTILE("images/projectile-sheets/icemissile-sheet.png"),
+  LIGHTING("images/projectile-sheets/lighting-sheet.png"),
+  EXPLOSION("images/projectile-sheets/explosion1-sheet.png"),
 
   HEAL_SPRITESHEET("images/misc-spritesheets/healeffect.png"),
 

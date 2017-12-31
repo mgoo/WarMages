@@ -3,6 +3,7 @@ package main.game.model.entity.unit.state;
 import java.util.Comparator;
 import main.common.World;
 import main.common.entity.Direction;
+import main.common.entity.Team;
 import main.common.entity.Unit;
 import main.common.images.UnitSpriteSheet.Sequence;
 import main.game.model.entity.unit.UnitAnimation;
@@ -26,7 +27,7 @@ public class Idle extends UnitState {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
-    double autoAttackDistance = unit.getUnitType().getAutoAttackDistance();
+    double autoAttackDistance = unit.getAutoAttackDistance();
     Unit enemyOrNull = world.getAllUnits()
         .stream()
         .filter(worldUnit -> unit.getTeam().canAttack(worldUnit.getTeam()))
@@ -53,7 +54,7 @@ public class Idle extends UnitState {
 
   @Override
   public void onTakeDamage(double amount, World world, Unit attacker) {
-    if (unit.getHealth() == 0 || attacker.getHealth() == 0) {
+    if (unit.getHealth() <= 0 || attacker.getHealth() <= 0 || attacker.getTeam() == Team.PLAYER) {
       return;
     }
 
@@ -61,8 +62,8 @@ public class Idle extends UnitState {
   }
 
   private void requestAttackUnit(Unit enemy) {
-    TargetEnemyUnit enemyTarget =
-        new TargetEnemyUnit(unit, enemy, unit.getUnitType().getBaseAttack());
+    TargetToAttack enemyTarget =
+        new TargetToAttack(unit, enemy, unit.getUnitType().getBaseAttack());
     requestState(new Moving(unit,
         enemyTarget,
         new Attacking(unit, enemyTarget, unit.getUnitType().getBaseAttack())));

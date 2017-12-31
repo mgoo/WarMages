@@ -9,14 +9,10 @@ import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
 import main.game.model.entity.unit.state.Targetable;
 
-/**
- * Ummm yea laser.
- * @author Andrew McGhie
- */
-public class Laser extends BaseRangedAttack {
+public class FireBolt extends BaseRangedAttack {
 
-  public Laser() {
-    super(CanEffect.ENEMIES);
+  public FireBolt() {
+    super(CanEffect.EVERYONE);
   }
 
   @Override
@@ -26,35 +22,35 @@ public class Laser extends BaseRangedAttack {
     Direction direction = Direction.between(unit.getCentre(), target.getLocation());
     return new DefaultProjectile(
         unit.getCentre(),
-        new MapSize(0.5, 0.5),
+        new MapSize(0.8, 0.8),
         unit,
         target,
         this,
         Sheet.FIREBALL_PROJECTILE.getImagesForSequence(Sequence.FIREBALL_FLY, direction),
-        Sheet.FIREBALL_PROJECTILE.getImagesForSequence(Sequence.FIREBALL_IMPACT, direction),
-        new MapSize(0.5, 0.5),
-        0.1
+        Sheet.EXPLOSIONS.getImagesForSequence(Sequence.EXPLOSION_1, direction),
+        new MapSize(2, 2),
+        0.6
     );
   }
 
   @Override
   double getRange(Unit unit) {
-    return 3;
+    return 4;
   }
 
   @Override
   int getAttackSpeed(Unit unit) {
-    return 1;
+    return 30;
   }
 
   @Override
   double getDamage(Unit unit) {
-    return 1;
+    return 200;
   }
 
   @Override
   public double getWindupPortion(Unit unit) {
-    return 0;
+    return 0.85;
   }
 
   @Override

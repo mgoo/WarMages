@@ -13,6 +13,7 @@ import main.common.images.SpriteSheet.Sequence;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * Concrete implementation of Projectile.
@@ -26,16 +27,17 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   private static final double IMPACT_DISTANCE = 0.01;
   private static final double ANIMATION_SPEED = 0.4;
 
-  private final Unit target;
   private final Unit owner;
+  private final Targetable target;
   private final Attack attack;
-  private final Sequence impactSequence;
+  private final List<GameImage> flyImages;
+  private final List<GameImage> impactImages;
+  private final MapSize impactSize;
   private final double moveDistancePerTick;
 
-  private Direction direction;
   private boolean hasHit = false;
-  private SpriteSheet.Sheet spriteSheet;
-  private List<GameImage> flingImages;
+
+
   private double currentImage = 0;
 
   /**
@@ -43,38 +45,35 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
    * and the target of the projectile.
    * @param coordinates at start of projectile path.
    * @param size of projectile.
-   * @param target unit of projectile.
    * @param owner the unit that fired the projectile
-   * @param spriteSheet the spritesheet for the projectile
-   * @param flySequence the animation that happens when the projectile is flying
-   * @param impactSequence the animation to play once when the projectile hits
+   * @param flyImages images to show when the prjectile is flying
+   * @param impactImages images to show when the projectile hits
    * @param moveDistancePerTick distance to be moved per tick.
    */
   public DefaultProjectile(
       MapPoint coordinates,
       MapSize size,
-      Unit target,
       Unit owner,
+      Targetable target,
       Attack attack,
-      SpriteSheet.Sheet spriteSheet,
-      Sequence flySequence,
-      Sequence impactSequence,
+      List<GameImage> flyImages,
+      List<GameImage> impactImages,
+      MapSize impactSize,
       double moveDistancePerTick
   ) {
     super(coordinates, size);
-    this.target = requireNonNull(target);
     this.owner = owner;
+    this.target = target;
     this.attack = attack;
-    this.impactSequence = impactSequence;
+    this.flyImages = flyImages;
+    this.impactImages = impactImages;
+    this.impactSize = impactSize;
     this.moveDistancePerTick = moveDistancePerTick;
-    this.spriteSheet = spriteSheet;
-    this.direction = Direction.between(owner.getCentre(), target.getCentre());
-    this.flingImages = spriteSheet.getImagesForSequence(flySequence, this.direction);
   }
 
   @Override
   public GameImage getImage() {
-    return this.flingImages.get((int)this.currentImage);
+    return this.flyImages.get((int)this.currentImage);
   }
 
   @Override
@@ -84,7 +83,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
     }
 
     this.currentImage += ANIMATION_SPEED;
-    if (this.currentImage >= this.flingImages.size()) {
+    if (this.currentImage >= this.flyImages.size()) {
       this.currentImage = 0;
     }
 
@@ -97,8 +96,8 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
     }
 
     translatePosition(
-        percentage * (target.getCentre().x - getCentre().x),
-        percentage * (target.getCentre().y - getCentre().y)
+        percentage * (this.target.getLocation().x - getCentre().x),
+        percentage * (this.target.getLocation().y - getCentre().y)
     );
 
     if (getDistanceToTarget() <= IMPACT_DISTANCE) {
@@ -119,11 +118,12 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   @Override
   public void hitTarget(World world) {
-    target.takeDamage(this.attack.getModifiedDamage(owner), world, owner);
+    this.attack.getEffectedUnits(this.owner, world, target)
+        .forEach(u -> u.takeDamage(this.attack.getModifiedDamage(owner), world, owner));
     world.removeProjectile(this);
     StaticEntity hitMarker = new StaticEntity(this.getTopLeft(),
-        this.getSize(),
-        this.spriteSheet.getImagesForSequence(this.impactSequence, this.direction),
+        this.impactSize,
+        this.impactImages,
         false,
         2
     );
@@ -133,6 +133,6 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   @Override
   public double getDistanceToTarget() {
-    return getCentre().distanceTo(target.getCentre());
+    return getCentre().distanceTo(target.getLocation());
   }
 }

@@ -1,6 +1,5 @@
 package main.game.model.entity.usable;
 
-import java.util.Collection;
 import main.common.entity.Unit;
 import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
@@ -8,6 +7,7 @@ import main.common.images.GameImage;
 import main.common.util.MapPoint;
 import main.game.model.entity.DefaultMapEntity;
 import main.common.World;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * Default implementation of {@link Item}.
@@ -30,8 +30,18 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   }
 
   @Override
-  public void use(World world, Collection<Unit> selectedUnits) {
-    ability.use(world, selectedUnits);
+  public void setOwner(Unit unit) {
+    this.ability.setOwner(unit);
+  }
+
+  @Override
+  public void use(World world, Unit selectedUnit) {
+    ability.use(world, selectedUnit);
+  }
+
+  @Override
+  public void use(World world, MapPoint target) {
+    ability.use(world, target);
   }
 
   @Override

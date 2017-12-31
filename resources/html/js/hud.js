@@ -56,7 +56,7 @@ function addItemIcon(image, item) {
 
 function updateIcons() {
   for (let i = 0; i < units.length; i++) {
-    let icon = $('.unit-holder div:nth-child(' + (i + 1) + ')');
+    let icon = $('.unit-holder .icon:nth-child(' + (i + 1) + ')');
     let healthPercentage = units[i].getHealthPercent();
     let healthBar = icon.find('.health-bar');
     healthBar.width((healthPercentage * 100) + '%');
@@ -92,7 +92,7 @@ function updateIcons() {
   }
 
   for (let i = 0; i < abilities.length; i++) {
-    let icon = $('.ability-holder div:nth-child(' + (i + 1) + ')');
+    let icon = $('.ability-holder .icon:nth-child(' + (i + 1) + ')');
     icon.find('.cooldown').width((abilities[i].getCoolDownProgress() * 100) + '%');
     if (abilities[i].isSelected() && !icon.hasClass('selected')) {
       icon.addClass('selected');
@@ -104,7 +104,7 @@ function updateIcons() {
   }
 
   for (let i = 0; i < items.length; i++) {
-    let icon = $('.item-holder div:nth-child(' + (i + 1) + ')');
+    let icon = $('.item-holder .icon:nth-child(' + (i + 1) + ')');
     icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
     if (items[i].isSelected() && !icon.hasClass('selected')) {
       icon.addClass('selected');
@@ -118,15 +118,15 @@ function updateIcons() {
 
 function removeUnitIcon(index) {
   units.splice(index, 1);
-  $('.unit-holder div:nth-child(' + (index + 1) + ')').remove();
+  $('.unit-holder .icon:nth-child(' + (index + 1) + ')').remove();
 }
 function removeAbilityIcon(index) {
   abilities.splice(index, 1);
-  $('.ability-holder div:nth-child(' + (index + 1) + ')').remove();
+  $('.ability-holder .icon:nth-child(' + (index + 1) + ')').remove();
 }
 function removeItemIcon(index) {
   items.splice(index, 1);
-  $('.item-holder div:nth-child(' + (index + 1) + ')').remove();
+  $('.item-holder .icon:nth-child(' + (index + 1) + ')').remove();
 }
 
 // Clicking *********************************************

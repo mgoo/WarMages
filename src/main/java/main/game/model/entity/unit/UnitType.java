@@ -29,7 +29,7 @@ public enum UnitType {
   SPEARMAN(200, 0.1, 5, Sequence.THRUST, new Spear()),
 
   MAGE_FIRE(150, 0.1, 5, Sequence.SPELL_CAST, new FireBall()),
-  MAGE_ICE(150, 0.1, 5, Sequence.SPELL_CAST, new IceBall()),
+  MAGE_ICE(150, 0.1, 8, Sequence.SPELL_CAST, new IceBall()),
 
   WHITE_LASER(200, 0.08, 5,
       Sequence.SPELL_CAST, new LaserWhite()),

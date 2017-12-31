@@ -1,11 +1,13 @@
 package main.game.model.entity.unit.attack;
 
+import main.common.entity.Direction;
 import main.common.entity.Projectile;
 import main.common.entity.Unit;
 import main.common.images.SpriteSheet.Sequence;
 import main.common.images.SpriteSheet.Sheet;
 import main.common.util.MapSize;
 import main.game.model.entity.DefaultProjectile;
+import main.game.model.entity.unit.state.Targetable;
 
 /**
  * A basic arrow attack for any archer.
@@ -13,19 +15,22 @@ import main.game.model.entity.DefaultProjectile;
  */
 public class BasicArrow extends BaseRangedAttack {
 
+  public BasicArrow() {
+    super(CanEffect.ENEMIES);
+  }
+
   @Override
-  Projectile createProjectile(
-      Unit unit, Unit enemyUnit
-  ) {
+  Projectile createProjectile(Unit unit, Targetable target) {
+    Direction direction = Direction.between(unit.getCentre(), target.getLocation());
     return new DefaultProjectile(
         unit.getCentre(),
         new MapSize(0.7, 0.7),
-        enemyUnit,
         unit,
+        target,
         this,
-        Sheet.ARROW_PROJECTILE,
-        Sequence.ARROW,
-        Sequence.ARROW,
+        Sheet.ARROW_PROJECTILE.getImagesForSequence(Sequence.ARROW, direction),
+        Sheet.ARROW_PROJECTILE.getImagesForSequence(Sequence.ARROW, direction),
+        new MapSize(0.7, 0.7),
         0.5
     );
   }

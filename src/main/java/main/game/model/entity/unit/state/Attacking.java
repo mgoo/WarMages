@@ -13,21 +13,23 @@ public class Attacking extends Interacting {
 
   private final int applicationTick;
   private final Attack attack;
-  private final TargetEnemyUnit targetEnemyUnit;
+  private final TargetToAttack targetToAttack;
+  private final boolean singleAttack;
 
   private int currentTick = 0;
 
-  public Attacking(
-      Unit unit,
-      TargetEnemyUnit target,
-      Attack attack
-  ) {
+  public Attacking(Unit unit, TargetToAttack target, Attack attack) {
+    this(unit, target, attack, false);
+  }
+
+  public Attacking(Unit unit, TargetToAttack target, Attack attack,  boolean singleAttack) {
     super(unit,
         new UnitAnimation(unit,
             unit.getUnitType().getAttackSequence(),
             attack.getModifiedAttackSpeed(unit)),
         target);
-    this.targetEnemyUnit = target;
+    this.targetToAttack = target;
+    this.singleAttack = singleAttack;
     this.applicationTick =
         (int)(attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion(unit));
     this.attack = attack;
@@ -47,8 +49,9 @@ public class Attacking extends Interacting {
           new TargetMapPoint(unit, target.getDestination()),
           new Attacking(
               this.unit,
-              ((TargetEnemyUnit) this.target),
-              this.attack
+              ((TargetToAttack) this.target),
+              this.attack,
+              singleAttack
           )
       );
       return;
@@ -60,7 +63,7 @@ public class Attacking extends Interacting {
     }
 
     if (this.currentTick == this.applicationTick) {
-      this.attack.execute(unit, this.targetEnemyUnit.getTargetUnit(), world);
+      this.attack.execute(unit, this.targetToAttack.getTarget(), world);
     }
     currentTick++;
   }
@@ -75,7 +78,11 @@ public class Attacking extends Interacting {
     }
 
     if (this.unitAnimation.isFinished() && target.isStillValid()) {
-      return new Attacking(this.unit, this.targetEnemyUnit, this.attack);
+      if (!this.singleAttack) {
+        return new Attacking(this.unit, this.targetToAttack, this.attack, singleAttack);
+      } else {
+        return new Idle(unit);
+      }
     }
 
     return this;

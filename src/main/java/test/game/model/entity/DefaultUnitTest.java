@@ -1,6 +1,7 @@
 package test.game.model.entity;
 
 import static junit.framework.TestCase.assertFalse;
+import static main.common.images.GameImageResource.GOLDEN_HERO_SPRITE_SHEET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,10 +28,11 @@ import main.common.util.MapSize;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.state.TargetEnemyUnit;
+import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.entity.unit.state.TargetMapPoint;
-import main.game.model.entity.usable.DamageBuffAbility;
+import main.images.DefaultUnitSpriteSheet;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -145,7 +147,7 @@ public class DefaultUnitTest {
     return new DefaultHeroUnit(
         new MapPoint(1, 1),
         new MapSize(1, 1),
-        new StubUnitSpriteSheet(),
+        new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.ARCHER,
         Arrays.asList(),
         1
@@ -182,7 +184,7 @@ public class DefaultUnitTest {
     World world = getWorld(units, getHeroUnit());
     when(world.findPath(any(), any()))
         .thenReturn(Arrays.asList(enemy.getCentre()));
-    player.setTarget(new TargetEnemyUnit(player, enemy, player.getUnitType().getBaseAttack()));
+    player.setTarget(new TargetToAttack(player, enemy, player.getUnitType().getBaseAttack()));
     double prevHealth = enemy.getHealth();
     for (int i = 0; i < 900; i++) {
       player.tick(GameModel.DELAY, world);
@@ -317,39 +319,6 @@ public class DefaultUnitTest {
   }
 
   @Test
-  public void testTickEffects() {
-    Unit unit = new DefaultUnit(
-        new MapPoint(0, 0),
-        new MapSize(100, 100),
-        Team.PLAYER,
-        new StubUnitSpriteSheet(),
-        UnitType.ARCHER
-    );
-
-    World world = mock(World.class);
-    when(world.getAllUnits()).thenReturn(Collections.singletonList(unit));
-
-    final Ability ability1 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
-    final Ability ability2 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
-    final Ability ability3 = new ApplyToAllUnitsDamageBuffAbility(1, 2, 3);
-
-    double baseDamageAmount = unit.getDamageModifier();
-    assertEquals(baseDamageAmount, unit.getDamageModifier(), 0.001);
-    ability1.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 1, unit.getDamageModifier(), 0.001);
-    ability2.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 2, unit.getDamageModifier(), 0.001);
-    ability3.use(world, Collections.singletonList(unit));
-    assertEquals(baseDamageAmount + 3, unit.getDamageModifier(), 0.001);
-
-    for (int i = 0; i < 200; i++) {
-      unit.tick(GameModel.DELAY, world);
-    }
-
-    assertEquals(baseDamageAmount, unit.getDamageModifier(), 0.001);
-  }
-
-  @Test
   public void testEntityAttack() {
     Unit playerUnit = new DefaultUnit(
         new MapPoint(0, 0),
@@ -381,7 +350,7 @@ public class DefaultUnitTest {
     when(world.findPath(any(), any()))
         .thenAnswer(invocation -> Arrays.asList(enemyUnit.getCentre()));
 
-    playerUnit.setTarget(new TargetEnemyUnit(playerUnit,
+    playerUnit.setTarget(new TargetToAttack(playerUnit,
         enemyUnit,
         playerUnit.getUnitType().getBaseAttack()));
 
@@ -434,7 +403,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and an archer that targets the enemy
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTarget(new TargetEnemyUnit(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
+      unit.setTarget(new TargetToAttack(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
 
       // when the game ticks several times
       for (int i = 0; i < 100; i++) {
@@ -480,7 +449,7 @@ public class DefaultUnitTest {
       // Given all the objects in the setUp()
       // and a swordsman
       Unit unit = createPlayerUnit(UnitType.ARCHER);
-      unit.setTarget(new TargetEnemyUnit(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
+      unit.setTarget(new TargetToAttack(unit, enemyUnit, unit.getUnitType().getBaseAttack()));
       // and the initial health of the enemy
       final double enemyStartingHealth = enemyUnit.getHealth();
 
@@ -548,22 +517,6 @@ public class DefaultUnitTest {
       );
     }
 
-  }
-
-  private static class ApplyToAllUnitsDamageBuffAbility extends DamageBuffAbility {
-
-    public ApplyToAllUnitsDamageBuffAbility(
-        int damageIncrease,
-        double coolDownSeconds,
-        double effectDurationSeconds
-    ) {
-      super(
-          GameImageResource.TEST_IMAGE_1_1.getGameImage(),
-          damageIncrease,
-          coolDownSeconds,
-          effectDurationSeconds
-      );
-    }
   }
 
 }

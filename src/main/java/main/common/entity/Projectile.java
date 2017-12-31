@@ -1,6 +1,7 @@
 package main.common.entity;
 
 import main.common.World;
+import main.common.util.MapPoint;
 
 /**
  * Projectile extends {@link Entity}. A projectile is fired by a unit at a target (another unit) and

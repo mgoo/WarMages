@@ -8,6 +8,10 @@ import main.common.entity.Unit;
  */
 public class Spear extends BaseMeleeAttack {
 
+  public Spear() {
+    super(CanEffect.ENEMIES);
+  }
+
   @Override
   double getRange(Unit unit) {
     return 0.2;

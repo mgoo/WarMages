@@ -14,11 +14,13 @@ import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.exceptions.ItemNotInRangeException;
 import main.common.images.GameImage;
+import main.common.images.GameImageResource;
 import main.common.util.MapPoint;
 import main.common.util.MapSize;
 import main.game.model.entity.unit.UnitType;
 import main.common.World;
-import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.unit.attack.DamageBuff;
+import main.game.model.entity.usable.AttackUnitAbility;
 import main.game.model.entity.usable.DefaultItem;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import org.junit.Test;
@@ -43,11 +45,11 @@ public class HeroUnitTest {
   public static Item getItem(MapPoint pos) {
     return new DefaultItem(
         pos,
-        new DamageBuffAbility(
-            mock(GameImage.class),
-            5,
-            10D,
-            20D
+        new AttackUnitAbility(
+            GameImageResource.RING_ICON.getGameImage(),
+            20,
+            new DamageBuff(10, 1),
+            "Buff the damage on a friendly unit"
         ),
         mock(GameImage.class)
     );

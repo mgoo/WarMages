@@ -59,6 +59,7 @@ import main.common.entity.HeroUnit;
 import main.common.entity.MapEntity;
 import main.common.entity.Projectile;
 import main.common.entity.Team;
+import main.common.entity.usable.Ability;
 import main.common.entity.usable.Item;
 import main.common.images.GameImage;
 import main.common.images.GameImageResource;
@@ -72,10 +73,14 @@ import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
 import main.game.model.entity.unit.DefaultHeroUnit;
-import main.game.model.entity.usable.DamageBuffAbility;
+import main.game.model.entity.unit.attack.DamageBuff;
+import main.game.model.entity.unit.attack.FireBolt;
+import main.game.model.entity.unit.attack.HealAttack;
+import main.game.model.entity.unit.attack.LightingBolt;
+import main.game.model.entity.usable.AttackUnitAbility;
 import main.game.model.entity.usable.DefaultItem;
-import main.game.model.entity.usable.HealAbility;
 import main.common.World;
+import main.game.model.entity.usable.AttackGroundAbility;
 import main.game.model.world.DefaultWorld;
 import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
@@ -300,10 +305,11 @@ public class DefaultWorldLoader implements WorldLoader {
         new DefaultUnitSpriteSheet(GOLDEN_HERO_SPRITE_SHEET),
         UnitType.SWORDSMAN,
         Arrays.asList(
-            new HealAbility(
-                GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                3,
-                20
+            new AttackUnitAbility(
+                GameImageResource.HEAL_SPELL_ICON.getGameImage(),
+                2,
+                new HealAttack(3),
+                "Heals a unit instantly"
             )
         ),
         3
@@ -323,20 +329,21 @@ public class DefaultWorldLoader implements WorldLoader {
         Arrays.asList(
             new DefaultItem(
                 new MapPoint(2, 2),
-                new HealAbility(
-                    GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                    30,
-                    30
+                new AttackUnitAbility(
+                  GameImageResource.HEAL_SPELL_ICON.getGameImage(),
+                  2,
+                  new HealAttack(3),
+                  "Heals a unit instantly"
                 ),
                 POTION_BLUE_ITEM.getGameImage()
             ),
             new DefaultItem(
                 new MapPoint(3, 3),
-                new DamageBuffAbility(
-                    GameImageResource.RING_GOLD_ITEM.getGameImage(),
-                    50,
-                    15,
-                    20
+                new AttackUnitAbility(
+                    GameImageResource.RING_ICON.getGameImage(),
+                    20,
+                    new DamageBuff(10, 1),
+                    "Buff the damage on a friendly unit"
                 ),
                 RING_GOLD_ITEM.getGameImage()
             )
@@ -368,9 +375,24 @@ public class DefaultWorldLoader implements WorldLoader {
         new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
         UnitType.MAGE_ICE,
         Arrays.asList(
-            new HealAbility(
-                GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                15, 100
+            new AttackUnitAbility(
+                GameImageResource.HEAL_SPELL_ICON.getGameImage(),
+                15,
+                new HealAttack(100),
+                "Heals a unit instantly"
+            ),
+            new AttackUnitAbility(
+                GameImageResource.LIGHTING_ICON.getGameImage(),
+                20,
+                new LightingBolt(),
+                "Smite a unit with a bolt from heaven"
+            ),
+            new AttackGroundAbility(
+                GameImageResource.FIREBALL_ICON.getGameImage(),
+                20,
+                new FireBolt(),
+                2,
+                "Fires an explosive bolt of fire"
             )
         ),
         3
@@ -421,13 +443,15 @@ public class DefaultWorldLoader implements WorldLoader {
           ),
           Arrays.asList(
               new DefaultItem(
-              new MapPoint(7, 6),
-              new HealAbility(
-                  GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                  25, 30
-              ),
-              POTION_BLUE_ITEM.getGameImage()
-          )),
+                new MapPoint(7, 6),
+                  new AttackUnitAbility(
+                      GameImageResource.SMALL_POTION_ICON.getGameImage(),
+                      10,
+                      new HealAttack(50),
+                      "Heals a unit instantly"
+                  ),
+                POTION_BLUE_ITEM.getGameImage()
+              )),
           boundEntities,
           Arrays.asList(
               makeBuilding(16, 5)
@@ -496,9 +520,11 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(
               new DefaultItem(
                   new MapPoint(19, 6),
-                  new HealAbility(
-                      GameImageResource.POTION_BLUE_ITEM.getGameImage(),
-                      25, 30
+                  new AttackUnitAbility(
+                      GameImageResource.SMALL_POTION_ICON.getGameImage(),
+                      10,
+                      new HealAttack(50),
+                      "Heals a unit instantly"
                   ),
                   POTION_BLUE_ITEM.getGameImage()
               )
@@ -540,9 +566,11 @@ public class DefaultWorldLoader implements WorldLoader {
       // A level with a few units, and items
       Item goldRing = new DefaultItem(
           new MapPoint(24, 5),
-          new DamageBuffAbility(
-              GameImageResource.RING_GOLD_ITEM.getGameImage(),
-              20, 15, 10
+          new AttackUnitAbility(
+              GameImageResource.RING_ICON.getGameImage(),
+              20,
+              new DamageBuff(10, 1),
+              "Buff the damage on a friendly unit"
           ),
           RING_GOLD_ITEM.getGameImage()
       );
@@ -728,9 +756,11 @@ public class DefaultWorldLoader implements WorldLoader {
         new DefaultUnitSpriteSheet(MAGE_CAPE_SPRITE_SHEET),
         UnitType.MAGE_FIRE,
         Arrays.asList(
-            new HealAbility(
-                GameImageResource.WHITE_BALL_ITEM.getGameImage(),
-                120, 90
+            new AttackUnitAbility(
+                GameImageResource.HEAL_SPELL_ICON.getGameImage(),
+                2,
+                new HealAttack(3),
+                "Heals a unit instantly"
             )
         ),
         3
