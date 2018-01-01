@@ -67,11 +67,20 @@ public class DefaultRenderer implements Renderer {
         (int)background.getImageSize().width,
         (int)background.getImageSize().height,
         null);
-    for (Renderable r : gameView.getRenderables(currentTime)) {
-      MapPoint position = r.getImagePosition(currentTime);
-      MapSize size = r.getImageSize();
+    for (Renderable renderable : gameView.getRenderables(currentTime)) {
+      MapPoint position = renderable.getImagePosition(currentTime);
+      MapSize size = renderable.getImageSize();
+      renderable.drawDecorationsBeneth(g,
+          (int)(position.x - gameView.getViewBox().topLeft.x),
+          (int)(position.y - gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height);
+    }
+    for (Renderable renderable : gameView.getRenderables(currentTime)) {
+      MapPoint position = renderable.getImagePosition(currentTime);
+      MapSize size = renderable.getImageSize();
       try {
-        r.getImage().drawOnto(g,
+        renderable.getImage().drawOnto(g,
             this.imageProvider,
             (int)(position.x - gameView.getViewBox().topLeft.x),
             (int)(position.y - gameView.getViewBox().topLeft.y),
@@ -84,7 +93,7 @@ public class DefaultRenderer implements Renderer {
     for (Renderable renderable : gameView.getRenderables(currentTime)) {
       MapPoint position = renderable.getImagePosition(currentTime);
       MapSize size = renderable.getImageSize();
-      renderable.drawDecorations(g,
+      renderable.drawDecorationsOntop(g,
           (int)(position.x - gameView.getViewBox().topLeft.x),
           (int)(position.y - gameView.getViewBox().topLeft.y),
           (int)size.width,

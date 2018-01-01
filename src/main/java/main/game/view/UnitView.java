@@ -6,6 +6,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.util.Config;
+import main.util.MapPoint;
 import main.util.MapSize;
 
 /**
@@ -43,11 +44,20 @@ public class UnitView extends EntityView {
   }
 
   @Override
-  public void drawDecorations(Graphics2D g, int x, int y, int width, int height) {
+  public void drawDecorationsBeneth(Graphics2D g, int x, int y, int width, int height) {
     if (this.isSelected) {
-      g.drawOval(x, y, width, height);
+      MapSize unitScreenSize = new MapSize(
+          (int)(this.unit.getSize().width * this.config.getEntityViewTilePixelsX()),
+          (int)(this.unit.getSize().height * this.config.getEntityViewTilePixelsY())
+      );
+      int ovalX = x + (int)((width - unitScreenSize.width) / 2);
+      int ovalY = y + (int)(height - unitScreenSize.height);
+      g.drawOval(ovalX, ovalY, (int)unitScreenSize.width, (int)unitScreenSize.height);
     }
+  }
 
+  @Override
+  public void drawDecorationsOntop(Graphics2D g, int x, int y, int width, int height) {
     // 0.999 cause doubles are anoying
     if (unit.getHealthPercent() < 0.999) {
       g.setColor(new Color(200,200,200, 155));
@@ -69,5 +79,11 @@ public class UnitView extends EntityView {
           (int)(width * unit.getHealthPercent()),
           config.getEntityViewTilePixelsY() / 20);
     }
+  }
+
+  @Override
+  public MapSize getImageSize() {
+    // @Hack to get the units to display bigger.
+    return super.getImageSize().scaledBy(1.4);
   }
 }

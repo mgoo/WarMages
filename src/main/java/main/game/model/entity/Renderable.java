@@ -33,6 +33,13 @@ public interface Renderable {
 
   /**
    * Adds decorations to the image such as health bar and selection circle.
+   * Draws Decorations beneth all entities
    */
-  void drawDecorations(Graphics2D g, int x, int y, int width, int height);
+  void drawDecorationsBeneth(Graphics2D g, int x, int y, int width, int height);
+
+  /**
+   * Adds decorations to the image such as health bar and selection circle.
+   * Draws the decorations ontop of all entities
+   */
+  void drawDecorationsOntop(Graphics2D g, int x, int y, int width, int height);
 }

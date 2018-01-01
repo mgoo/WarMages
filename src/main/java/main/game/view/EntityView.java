@@ -105,8 +105,13 @@ public class EntityView implements Renderable {
   }
 
   @Override
-  public void drawDecorations(Graphics2D g, int x, int y, int width, int height) {
-    return;
+  public void drawDecorationsBeneth(Graphics2D g, int x, int y, int width, int height) {
+
+  }
+
+  @Override
+  public void drawDecorationsOntop(Graphics2D g, int x, int y, int width, int height) {
+
   }
 
   /**
