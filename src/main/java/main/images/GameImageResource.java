@@ -191,16 +191,16 @@ public enum GameImageResource {
   BUILDING_21("images/map-entities/building_21.png"),
 
   // Unit Sprite Sheets
-  ARCHER_SPRITE_SHEET("images/units/archer.png"),
-  DARK_ELF_SPRITE_SHEET("images/units/dark_elf.png"),
-  FOOT_KNIGHT_SPRITE_SHEET("images/units/footknight.png"),
-  SPEARMAN_SPRITE_SHEET("images/units/spearman.png"),
-  GOLDEN_HERO_SPRITE_SHEET("images/units/golden_hero.png"),
-  MALE_MAGE_SPRITE_SHEET("images/units/male_mage.png"),
-  MAGE_CAPE_SPRITE_SHEET("images/units/female_mage.png"),
-  MAGE_WHITE_SPRITE_SHEET("images/units/white_mage.png"),
-  ORC_SPEARMAN_SPRITE_SHEET("images/units/orc_spearman.png"),
-  SKELETON_ARCHER_SPRITE_SHEET("images/units/skeleton_archer.png"),
+  ARCHER_SPRITE_SHEET("images/hdunits/archer.png"),
+  DARK_ELF_SPRITE_SHEET("images/hdunits/dark_elf.png"),
+  FOOT_KNIGHT_SPRITE_SHEET("images/hdunits/footknight.png"),
+  SPEARMAN_SPRITE_SHEET("images/hdunits/spearman.png"),
+  GOLDEN_HERO_SPRITE_SHEET("images/hdunits/golden_hero.png"),
+  MALE_MAGE_SPRITE_SHEET("images/hdunits/male_mage.png"),
+  MAGE_CAPE_SPRITE_SHEET("images/hdunits/female_mage.png"),
+  MAGE_WHITE_SPRITE_SHEET("images/hdunits/white_mage.png"),
+  ORC_SPEARMAN_SPRITE_SHEET("images/hdunits/orc_spearman.png"),
+  SKELETON_ARCHER_SPRITE_SHEET("images/hdunits/skeleton_archer.png"),
 
   // Test Images
   TEST_IMAGE_FULL_SIZE("fixtures/images/image_for_image_provider_tests.png"),
