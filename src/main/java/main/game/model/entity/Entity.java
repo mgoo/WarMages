@@ -2,7 +2,11 @@ package main.game.model.entity;
 
 import java.io.Serializable;
 import main.game.model.world.World;
+import main.game.view.Renderable;
+import main.game.view.ViewVisitor;
 import main.images.GameImage;
+import main.util.Config;
+import main.util.Event;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
@@ -80,4 +84,14 @@ public interface Entity extends Serializable {
    * @return boolean true if contained, false otherwise.
    */
   boolean contains(MapPoint point);
+
+  /**
+   * Calls the method on the viewVisitor to create the Renderable for this entity.
+   */
+  Renderable accept(Config config, ViewVisitor viewVisitor);
+
+  /**
+   * Gets the event that is triggered when the enitity is removed from the world.
+   */
+  Event<Void> getRemovedEvent();
 }

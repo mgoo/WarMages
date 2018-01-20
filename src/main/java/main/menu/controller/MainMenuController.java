@@ -9,7 +9,6 @@ import main.game.model.GameModel;
 import main.game.model.world.World;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
-import main.game.view.DefaultGameView;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
 import main.images.ImageProvider;
@@ -95,7 +94,7 @@ public class MainMenuController extends MenuController {
     GameLost lostEvent = new GameLost();
     GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
     GameController gameController = new DefaultGameController(gameModel);
-    GameView gameView = new DefaultGameView(this.config,
+    GameView gameView = new GameView(this.config,
         gameController,
         gameModel,
         imageProvider,

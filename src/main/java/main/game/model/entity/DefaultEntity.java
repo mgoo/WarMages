@@ -2,6 +2,10 @@ package main.game.model.entity;
 
 import static java.util.Objects.requireNonNull;
 
+import main.game.view.Renderable;
+import main.game.view.ViewVisitor;
+import main.util.Config;
+import main.util.Event;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
@@ -19,12 +23,18 @@ public abstract class DefaultEntity implements Entity {
   private MapPoint previousTopLeft;
   private MapSize size;
 
+  private final Event<Void> removedEvent = new Event<>();
+
   /**
    * Constructor takes the topLeft of the entity and the size.
    */
   public DefaultEntity(MapPoint topLeft, MapSize size) {
     this.topLeft = requireNonNull(topLeft);
     this.size = requireNonNull(size);
+  }
+
+  public Event<Void> getRemovedEvent() {
+    return this.removedEvent;
   }
 
   protected void setSize(MapSize size) {
@@ -59,5 +69,9 @@ public abstract class DefaultEntity implements Entity {
   @Override
   public void slidePosition(double dx, double dy) {
     topLeft = topLeft.translate(dx, dy);
+  }
+
+  public Renderable accept(Config config, ViewVisitor viewVisitor) {
+    return viewVisitor.makeDefaultView(config, this);
   }
 }

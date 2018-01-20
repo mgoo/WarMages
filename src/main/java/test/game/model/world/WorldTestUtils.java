@@ -113,7 +113,8 @@ public class WorldTestUtils {
     return new DefaultItem(
         point,
         createStubAbility(),
-        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+        ""
     );
   }
 

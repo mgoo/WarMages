@@ -1,7 +1,13 @@
-package main.game.model.entity;
+package main.game.view;
 
 import java.awt.Graphics2D;
+import main.game.model.GameModel;
+import main.game.view.EntityView;
+import main.game.view.ViewVisitor;
+import main.game.model.GameModel;
 import main.images.GameImage;
+import main.images.ImageProvider;
+import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -42,4 +48,20 @@ public interface Renderable {
    * Draws the decorations ontop of all entities
    */
   void drawDecorationsOntop(Graphics2D g, int x, int y, int width, int height);
+
+  /**
+   * Gets the layer to draw the entity on.
+   */
+  int getLayer();
+
+  /**
+   * Gets the approximate position based on the entities previous.
+   * velocity and the current time
+   */
+  MapPoint getEffectiveEntityPosition(long currentTime);
+
+  /**
+   * Updates the Renderable each tick.
+   */
+  void onTick(long tickTime, GameModel model);
 }

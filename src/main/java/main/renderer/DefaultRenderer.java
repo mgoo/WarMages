@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
-import main.game.model.entity.Renderable;
+import main.game.view.Renderable;
 import main.game.view.BackGroundView;
 import main.game.view.EntityView;
 import main.game.view.GameView;
@@ -62,8 +62,8 @@ public class DefaultRenderer implements Renderer {
     g.setRenderingHints(rh);
     BackGroundView background = gameView.getBackGroundView();
     g.drawImage(background.getImage(),
-        (int)background.getImagePosition(0).x,
-        (int)background.getImagePosition(0).y,
+        (int)background.getImagePosition().x,
+        (int)background.getImagePosition().y,
         (int)background.getImageSize().width,
         (int)background.getImageSize().height,
         null);

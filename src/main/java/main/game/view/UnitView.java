@@ -2,6 +2,9 @@ package main.game.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 import main.game.model.GameModel;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
@@ -15,6 +18,8 @@ import main.util.MapSize;
  */
 public class UnitView extends EntityView {
 
+  private final Collection<HealthChangeIndicator> healthChangeIndicators =
+      new CopyOnWriteArrayList<>();
   private Unit unit;
   private boolean isSelected = false;
 
@@ -37,14 +42,24 @@ public class UnitView extends EntityView {
     return this.unit.getTeam() == Team.PLAYER;
   }
 
+  void addHealthChangeIndicator(HealthChangeIndicator healthChangeIndicator) {
+    this.healthChangeIndicators.add(healthChangeIndicator);
+  }
+
+  void removeHealthChangeIndicator(HealthChangeIndicator healthChangeIndicator) {
+    this.healthChangeIndicators.remove(healthChangeIndicator);
+  }
+
   @Override
-  void update(long tickTime, GameModel model) {
-    super.update(tickTime, model);
+  public void onTick(long tickTime, GameModel model) {
+    super.onTick(tickTime, model);
+    this.healthChangeIndicators.forEach(HealthChangeIndicator::onTick);
     this.isSelected = model.getUnitSelection().contains(unit);
   }
 
   @Override
   public void drawDecorationsBeneth(Graphics2D g, int x, int y, int width, int height) {
+    g.setColor(new Color(255, 255, 255));
     if (this.isSelected) {
       MapSize unitScreenSize = new MapSize(
           (int)(this.unit.getSize().width * this.config.getEntityViewTilePixelsX()),
@@ -79,6 +94,8 @@ public class UnitView extends EntityView {
           (int)(width * unit.getHealthPercent()),
           config.getEntityViewTilePixelsY() / 20);
     }
+
+    this.healthChangeIndicators.forEach(di -> di.draw(g, x, y, width, height));
   }
 
   @Override

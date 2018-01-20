@@ -10,6 +10,7 @@ import java.util.List;
 import main.game.model.entity.DeadUnit;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.Direction;
+import main.game.view.Renderable;
 import main.game.model.entity.StaticEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
@@ -20,11 +21,14 @@ import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
+import main.game.view.ViewVisitor;
 import main.images.GameImage;
 import main.images.SpriteSheet;
 import main.images.SpriteSheet.Sheet;
 import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
+import main.util.Config;
+import main.util.Event;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -54,6 +58,9 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   private double health;
   private double speed;
   private MapSize originalSize;
+
+  private final Event<Double> damagedEvent = new Event<>();
+  private final Event<Double> healedEvent = new Event<>();
 
   /**
    * Constructor takes the unit's position, size, and team.
@@ -189,6 +196,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     if (health - amount > 0) {
       // Not dead
       health -= amount;
+      this.damagedEvent.broadcast(amount);
     } else {
       isDead = true;
       health = 0;
@@ -216,6 +224,9 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   @Override
   public void gainHealth(double amt, World world) {
     this.gainHealth(amt);
+    this.healedEvent.broadcast(amt);
+
+    // TODO remove
     world.addStaticEntity(
         new StaticEntity(
             this.getTopLeft(),
@@ -318,6 +329,13 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   }
 
   @Override
+  public Renderable accept(
+      Config config, ViewVisitor viewVisitor
+  ) {
+    return viewVisitor.makeUnitView(config, this);
+  }
+
+  @Override
   public boolean isSameTypeAs(Unit other) {
     return this.unitType.toString().equals(other.getType());
   }
@@ -335,6 +353,16 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     } else {
       return range;
     }
+  }
+
+  @Override
+  public Event<Double> getDamagedEvent() {
+    return this.damagedEvent;
+  }
+
+  @Override
+  public Event<Double> getHealedEvent() {
+    return this.healedEvent;
   }
 
   /**

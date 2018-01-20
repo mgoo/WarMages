@@ -3,7 +3,10 @@ package main.game.model.entity.usable;
 import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
+import main.game.view.Renderable;
+import main.game.view.ViewVisitor;
 import main.images.GameImage;
+import main.util.Config;
 import main.util.MapPoint;
 
 /**
@@ -16,14 +19,16 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   private final Ability ability;
 
   private boolean selected = false;
+  private final String name;
 
   /**
    * Constructor takes the coordinates of the item.
    * @param onMapImage What this image looks like when it's on the map.
    */
-  public DefaultItem(MapPoint coord, Ability ability, GameImage onMapImage) {
+  public DefaultItem(MapPoint coord, Ability ability, GameImage onMapImage, String name) {
     super(coord, onMapImage);
     this.ability = ability;
+    this.name = name;
   }
 
   @Override
@@ -108,4 +113,15 @@ public class DefaultItem extends DefaultMapEntity implements Item  {
   }
 
 
+  @Override
+  public String getName() {
+    return this.name;
+  }
+
+  @Override
+  public Renderable accept(
+      Config config, ViewVisitor viewVisitor
+  ) {
+    return viewVisitor.makeItemView(config, this);
+  }
 }

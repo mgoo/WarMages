@@ -10,30 +10,20 @@ import static org.mockito.Mockito.when;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import main.game.controller.GameController;
+import main.game.model.DefaultGameModel;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
-import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
+import main.game.model.entity.unit.DefaultHeroUnit;
+import main.game.model.world.DefaultWorld;
 import main.game.model.world.World;
-import main.game.view.DefaultGameView;
 import main.game.view.GameView;
 import main.images.GameImage;
-import main.images.GameImageResource;
 import main.images.ImageProvider;
-import main.menu.controller.events.AbilityIconClick;
-import main.menu.controller.events.ItemIconClick;
-import main.menu.controller.events.KeyEvent;
-import main.menu.controller.events.MouseClick;
-import main.menu.controller.events.MouseDrag;
-import main.menu.controller.events.UnitIconClick;
 import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapRect;
-import main.util.MapSize;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,10 +38,10 @@ import org.junit.Test;
 public class GameViewTest {
 
   GameView gameView;
-  GameModelMock gameModelMock;
-  GameControllerMock gameControllerMock;
-  List<Entity> entityList;
+  GameModel gameModel;
+  GameController gameController;
   Config config;
+  World world;
 
   /**
    * sets up the class variables that are used in every test.
@@ -74,28 +64,26 @@ public class GameViewTest {
         return new BufferedImage(1,1, BufferedImage.TYPE_4BYTE_ABGR);
       }
     };
-    gameControllerMock = mock(GameControllerMock.class);
-    this.gameModelMock = new GameModelMock();
+    gameController = mock(GameController.class);
+    this.gameModel = mock(DefaultGameModel.class);
+    world = mock(DefaultWorld.class);
+    when(this.gameModel.getWorld()).thenReturn(world);
+    DefaultHeroUnit hero = mock(DefaultHeroUnit.class);
+    when(hero.getCentre()).thenReturn(new MapPoint(1, 1));
+    when(world.getHeroUnit()).thenReturn(hero);
 
     this.config = new Config();
     this.config.setScreenDim(1000, 1000);
     this.config.setEntityViewTilePixelsX(50);
     this.config.setEntityViewTilePixelsY(50);
-    World world = mock(World.class);
-    HeroUnit hero = mock(HeroUnit.class);
-    when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
-    when(world.getHeroUnit()).thenReturn(hero);
     when(world.getCurrentLevelBounds()).thenReturn(new MapRect(-100, -100, 200, 200));
-    this.gameView = new DefaultGameView(config,
-        gameControllerMock,
-        gameModelMock,
+    this.gameView = new GameView(
+        config,
+        gameController,
+        gameModel,
         imageProvider,
-        world);
-
-    EntityMock entity = new EntityMock(new MapPoint(0, 0), new MapSize(1, 1));
-    entityList = new ArrayList<>();
-    entityList.add(entity);
-    this.gameModelMock.setEntities(entityList);
+        world
+    );
   }
 
   @Test
@@ -115,187 +103,21 @@ public class GameViewTest {
   @Test
   public void test_eventPassThroughs() {
     this.gameView.onLeftClick(0, 0, true, true);
-    verify(this.gameControllerMock).onMouseEvent(any());
+    verify(this.gameController).onMouseEvent(any());
     this.gameView.onRightClick(0 ,0,false, false);
-    verify(this.gameControllerMock, times(2)).onMouseEvent(any());
+    verify(this.gameController, times(2)).onMouseEvent(any());
     this.gameView.onDbClick(0 , 0, true, true);
-    verify(this.gameControllerMock).onDbClick(any());
+    verify(this.gameController).onDbClick(any());
     this.gameView.onDrag(0, 0, 5, 5, true, false);
-    verify(this.gameControllerMock).onMouseDrag(any());
+    verify(this.gameController).onMouseDrag(any());
     this.gameView.onKeyDown('z', true, false);
-    verify(this.gameControllerMock).onKeyPress(any());
+    verify(this.gameController).onKeyPress(any());
 
     this.gameView.unitClick(null, true, true, true);
-    verify(this.gameControllerMock).onUnitIconClick(any());
+    verify(this.gameController).onUnitIconClick(any());
     this.gameView.abilityClick(null,false, false, true);
-    verify(this.gameControllerMock).onAbilityIconClick(any());
+    verify(this.gameController).onAbilityIconClick(any());
     this.gameView.itemClick(null, true, true, true);
-    verify(this.gameControllerMock).onItemIconClick(any());
-
-
-  }
-
-  static class GameModelMock implements GameModel {
-
-    private List<Entity> entities = new ArrayList<>();
-
-    @Override
-    public Collection<Entity> getAllEntities() {
-      return this.entities;
-    }
-
-    @Override
-    public void startGame() {
-
-    }
-
-    @Override
-    public void setUnitSelection(Collection<Unit> unitSelection) {
-
-    }
-
-    @Override
-    public Collection<Unit> getUnitSelection() {
-      return Arrays.asList();
-    }
-
-    @Override
-    public void addToUnitSelection(Unit unit) {
-
-    }
-
-    @Override
-    public Collection<Unit> getAllUnits() {
-      return null;
-    }
-
-    @Override
-    public World getWorld() {
-      return null;
-    }
-
-    @Override
-    public HeroUnit getHeroUnit() {
-      return null;
-    }
-
-    @Override
-    public void pauseGame() {
-
-    }
-
-    @Override
-    public void resumeGame() {
-
-    }
-
-    @Override
-    public void stopGame() {
-
-    }
-
-    void setEntities(List<Entity> entities) {
-      this.entities = entities;
-    }
-
-  }
-
-  static class EntityMock implements Entity {
-
-
-    private MapPoint position;
-    private final MapSize size;
-
-    EntityMock(MapPoint position, MapSize size) {
-      this.position = position;
-      this.size = size;
-    }
-
-    @Override
-    public GameImage getImage() {
-      return GameImageResource.TEST_IMAGE_1_1.getGameImage();
-    }
-
-    @Override
-    public void tick(long timeSinceLastTick, World world) {
-
-    }
-
-    @Override
-    public boolean contains(MapPoint point) {
-      return false;
-    }
-
-    @Override
-    public MapPoint getTopLeft() {
-      throw new AssertionError("This method is not used here");
-    }
-
-    @Override
-    public MapPoint getCentre() {
-      return position;
-    }
-
-    @Override
-    public MapSize getSize() {
-      return this.size;
-    }
-
-    @Override
-    public MapRect getRect() {
-      return null;
-    }
-
-    @Override
-    public void translatePosition(double dx, double dy) {
-      position = new MapPoint(position.x + dx, position.y + dy);
-    }
-
-    @Override
-    public void slidePosition(double dx, double dy) {
-
-    }
-  }
-
-  static class GameControllerMock implements GameController {
-
-    GameControllerMock() {
-
-    }
-
-    @Override
-    public void onKeyPress(KeyEvent keyevent) {
-
-    }
-
-    @Override
-    public void onMouseEvent(MouseClick mouseEvent) {
-
-    }
-
-    @Override
-    public void onMouseDrag(MouseDrag mouseEvent) {
-
-    }
-
-    @Override
-    public void onDbClick(MouseClick mouseClick) {
-
-    }
-
-    @Override
-    public void onUnitIconClick(UnitIconClick clickEvent) {
-
-    }
-
-    @Override
-    public void onAbilityIconClick(AbilityIconClick clickEvent) {
-
-    }
-
-    @Override
-    public void onItemIconClick(ItemIconClick clickEvent) {
-
-    }
+    verify(this.gameController).onItemIconClick(any());
   }
 }

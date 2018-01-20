@@ -1,5 +1,6 @@
 package main.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,7 +10,7 @@ import java.util.Collection;
  * @param <ParamT> the arg
  * @author chongdyla
  */
-public class Event<ParamT> {
+public class Event<ParamT> implements Serializable {
 
   private Collection<Listener<ParamT>> listeners = new ArrayList<>();
 

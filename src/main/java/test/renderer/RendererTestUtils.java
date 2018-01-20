@@ -9,7 +9,6 @@ import main.game.model.DefaultGameModel;
 import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.world.World;
-import main.game.view.DefaultGameView;
 import main.game.view.GameView;
 import main.images.DefaultImageProvider;
 import main.menu.controller.events.AbilityIconClick;
@@ -111,7 +110,7 @@ public class RendererTestUtils {
     HeroUnit hero = mock(HeroUnit.class);
     when(hero.getCentre()).thenReturn(new MapPoint(20, 0));
     when(world.getHeroUnit()).thenReturn(hero);
-    GameView gv = new DefaultGameView(c, gc, gm, new DefaultImageProvider(), world);
+    GameView gv = new GameView(c, gc, gm, new DefaultImageProvider(), world);
     gv.onTick((long)c.getGameModelDelay());
     return gv;
   }

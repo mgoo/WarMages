@@ -7,6 +7,7 @@ import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet;
+import main.util.Event;
 
 /**
  * Unit extends{@link Entity}. A unit is a part of a team, specified by an enum colour. It has
@@ -131,5 +132,9 @@ public interface Unit extends Entity, Targetable {
    * Gets the distance that the unit should auto attack.
    */
   double getAutoAttackDistance();
+
+  Event<Double> getDamagedEvent();
+
+  Event<Double> getHealedEvent();
 }
 

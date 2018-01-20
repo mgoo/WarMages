@@ -51,7 +51,8 @@ public class HeroUnitTest {
             new DamageBuff(10, 1),
             "Buff the damage on a friendly unit"
         ),
-        mock(GameImage.class)
+        mock(GameImage.class),
+        ""
     );
   }
 
