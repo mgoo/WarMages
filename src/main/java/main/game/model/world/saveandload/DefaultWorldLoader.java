@@ -333,7 +333,8 @@ public class DefaultWorldLoader implements WorldLoader {
                   new HealAttack(3),
                   "Heals a unit instantly"
                 ),
-                POTION_BLUE_ITEM.getGameImage()
+                POTION_BLUE_ITEM.getGameImage(),
+                "Healing Potion"
             ),
             new DefaultItem(
                 new MapPoint(3, 3),
@@ -343,7 +344,8 @@ public class DefaultWorldLoader implements WorldLoader {
                     new DamageBuff(10, 1),
                     "Buff the damage on a friendly unit"
                 ),
-                RING_GOLD_ITEM.getGameImage()
+                RING_GOLD_ITEM.getGameImage(),
+                "Ring of much buffs"
             )
         ),
         Arrays.asList(
@@ -448,7 +450,8 @@ public class DefaultWorldLoader implements WorldLoader {
                       new HealAttack(50),
                       "Heals a unit instantly"
                   ),
-                POTION_BLUE_ITEM.getGameImage()
+                POTION_BLUE_ITEM.getGameImage(),
+                "Health Potion"
               )),
           boundEntities,
           Arrays.asList(
@@ -524,7 +527,8 @@ public class DefaultWorldLoader implements WorldLoader {
                       new HealAttack(50),
                       "Heals a unit instantly"
                   ),
-                  POTION_BLUE_ITEM.getGameImage()
+                  POTION_BLUE_ITEM.getGameImage(),
+                  "Health Potion"
               )
           ),
           Arrays.asList(
@@ -570,7 +574,8 @@ public class DefaultWorldLoader implements WorldLoader {
               new DamageBuff(10, 1),
               "Buff the damage on a friendly unit"
           ),
-          RING_GOLD_ITEM.getGameImage()
+          RING_GOLD_ITEM.getGameImage(),
+          "Ring of Damage boost"
       );
       levels.add(new Level(
           bounds,

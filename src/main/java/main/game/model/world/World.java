@@ -108,4 +108,6 @@ public interface World {
    * Gets the current active level.
    */
   MapRect getCurrentLevelBounds();
+
+  Collection<Entity> recieveRecentlyAddedEntities();
 }

@@ -12,4 +12,6 @@ import main.game.model.entity.MapEntity;
  * @author chongdyla
  */
 public interface Item extends MapEntity, Usable {
+
+  String getName();
 }

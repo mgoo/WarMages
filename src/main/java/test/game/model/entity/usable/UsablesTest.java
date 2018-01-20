@@ -86,7 +86,8 @@ public class UsablesTest {
     Item healItem = new DefaultItem(
         heroUnit.getTopLeft().translate(0.001, 0.001),
         healAbility,
-        GameImageResource.POTION_BLUE_ITEM.getGameImage()
+        GameImageResource.POTION_BLUE_ITEM.getGameImage(),
+        ""
     );
     heroUnit.pickUp(healItem);
 

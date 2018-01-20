@@ -2,10 +2,11 @@ package main.game.view;
 
 import java.awt.Graphics2D;
 import java.util.Comparator;
+import java.util.Observable;
+import java.util.Observer;
 import main.game.model.GameModel;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Projectile;
-import main.game.model.entity.Renderable;
 import main.game.model.entity.unit.DefaultDeadUnit;
 import main.images.GameImage;
 import main.util.Config;
@@ -47,7 +48,8 @@ public class EntityView implements Renderable {
     }
   }
 
-  void update(long tickTime, GameModel model) {
+  @Override
+  public void onTick(long tickTime, GameModel model) {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
     this.destination = entity.getCentre();
@@ -114,6 +116,11 @@ public class EntityView implements Renderable {
 
   }
 
+  @Override
+  public int getLayer() {
+    return this.layer;
+  }
+
   /**
    * Calculates the actual MapPoint of this object based on the unitAnimation state.
    * This is the position relative to the map not the screen
@@ -135,7 +142,7 @@ public class EntityView implements Renderable {
         - ((double)currentTime)) / ((double)this.config.getGameModelDelay());
   }
 
-  static class EntityRenderableComparator implements Comparator<EntityView> {
+  static class EntityRenderableComparator implements Comparator<Renderable> {
     private final long currentTime;
 
     /**
@@ -147,13 +154,13 @@ public class EntityView implements Renderable {
     }
 
     @Override
-    public int compare(EntityView er1, EntityView er2) {
-      if (er1.layer == er2.layer) {
+    public int compare(Renderable er1, Renderable er2) {
+      if (er1.getLayer() == er2.getLayer()) {
         MapPoint er1Pos = er1.getEffectiveEntityPosition(this.currentTime);
         MapPoint er2Pos = er2.getEffectiveEntityPosition(this.currentTime);
         return Double.compare(er1Pos.x + er1Pos.y, er2Pos.x + er2Pos.y);
       } else {
-        return Integer.compare(er2.layer, er1.layer);
+        return Integer.compare(er2.getLayer(), er1.getLayer());
       }
     }
   }

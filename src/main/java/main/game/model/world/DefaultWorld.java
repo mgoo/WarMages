@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,9 @@ public class DefaultWorld implements Serializable, World {
   private final Set<StaticEntity> staticEntities;
   private final PathFinder pathFinder;
 
+  /** The entities that were recently added to the world. */
+  private Set<Entity> recentlyAddedEntities = new HashSet<>();
+
   /**
    * Creates the world.
    *
@@ -57,21 +61,63 @@ public class DefaultWorld implements Serializable, World {
       throw new IllegalArgumentException("Cannot have empty levels");
     }
     this.heroUnit = heroUnit;
+    this.recentlyAddedEntities.add(heroUnit);
     this.levels = new ArrayList<>(levels);
-    this.units = newConcurrentSetOf(currentLevel().getUnits());
+    this.units = newConcurrentSet();
     this.recentlyKilledUnits = newConcurrentSet();
-    this.items = newConcurrentSetOf(currentLevel().getItems());
-    this.mapEntities = newConcurrentSetOf(currentLevel().getMapEntities());
+    this.items = newConcurrentSet();
+    this.mapEntities = newConcurrentSet();
     this.mapEntities.addAll(currentLevel().getBorderEntities());
     this.projectiles = newConcurrentSet();
     this.pathFinder = pathfinder;
     staticEntities = newConcurrentSet();
+
+    this.addAllEntity(currentLevel().getUnits(), this.units);
+    this.addAllEntity(currentLevel().getItems(), this.items);
+    this.addAllEntity(currentLevel().getMapEntities(), this.mapEntities);
   }
 
-  private <T> Set<T> newConcurrentSetOf(Collection<T> collection) {
-    Set<T> set = newConcurrentSet();
-    set.addAll(collection);
-    return set;
+  /**
+   * Gets the entities that were recently added to the world.
+   * Then resets the recently added collection.
+   */
+  public Collection<Entity> recieveRecentlyAddedEntities() {
+    if (this.recentlyAddedEntities.size() == 0) {
+      return this.recentlyAddedEntities;
+    }
+    Set<Entity> recentlyAdded = this.recentlyAddedEntities;
+    this.recentlyAddedEntities = new HashSet<>();
+    return recentlyAdded;
+  }
+
+  private <T extends Entity> void addAllEntity(Collection<T> entitiesToAdd, Collection<T> to) {
+    this.recentlyAddedEntities.addAll(entitiesToAdd);
+    to.addAll(entitiesToAdd);
+  }
+
+  private <T extends Entity> void addEntity(T entity, Collection<T> to) {
+    this.recentlyAddedEntities.add(entity);
+    to.add(entity);
+  }
+
+  private <T extends Entity> void removeEntity(T entity, Collection<T> from) {
+    boolean wasRemoved = from.remove(entity);
+    if (wasRemoved) {
+      entity.getRemovedEvent().broadcast(null);
+    }
+  }
+
+  /**
+   * This will cause all the views for the entities to be removed whether they are removed or not
+   * so use with caution. If in dout use a loop round the {@link this.removeEntity()} method
+   */
+  private <T extends Entity> void removeAllEntity(
+      Collection<T> entitiesToRemove, Collection<T> from
+  ) {
+    boolean result = from.removeAll(entitiesToRemove);
+    if (result) {
+      entitiesToRemove.forEach(e -> e.getRemovedEvent().broadcast(null));
+    }
   }
 
   private <T> Set<T> newConcurrentSet() {
@@ -123,18 +169,16 @@ public class DefaultWorld implements Serializable, World {
 
   @Override
   public void removeItem(Item item) {
-    if (items.contains(item)) {
-      items.remove(item);
-    }
+    this.removeEntity(item, this.items);
   }
 
   public void addProjectile(Projectile projectile) {
-    projectiles.add(projectile);
+    this.addEntity(projectile, projectiles);
   }
 
   @Override
   public void removeProjectile(Projectile projectile) {
-    projectiles.remove(projectile);
+    this.removeEntity(projectile, this.projectiles);
   }
 
   @Override
@@ -143,12 +187,12 @@ public class DefaultWorld implements Serializable, World {
   }
 
   public void addStaticEntity(StaticEntity staticEntity) {
-    staticEntities.add(staticEntity);
+    this.addEntity(staticEntity, this.staticEntities);
   }
 
   @Override
   public void removeStaticEntity(StaticEntity staticEntity) {
-    staticEntities.remove(staticEntity);
+    this.removeEntity(staticEntity, this.staticEntities);
   }
 
   @Override
@@ -189,13 +233,13 @@ public class DefaultWorld implements Serializable, World {
     if (levels.size() == 1) {
       return;
     }
-    mapEntities.removeAll(currentLevel().getBorderEntities());
+    this.removeAllEntity(currentLevel().getBorderEntities(), this.mapEntities);
     levels.remove(0);
 
-    items.addAll(currentLevel().getItems());
-    mapEntities.addAll(currentLevel().getMapEntities());
-    mapEntities.addAll(currentLevel().getBorderEntities());
-    units.addAll(currentLevel().getUnits());
+    this.addAllEntity(currentLevel().getItems(), this.items);
+    this.addAllEntity(currentLevel().getMapEntities(), this.mapEntities);
+    this.addAllEntity(currentLevel().getBorderEntities(), this.mapEntities);
+    this.addAllEntity(currentLevel().getUnits(), this.units);
   }
 
   @Override
@@ -210,8 +254,8 @@ public class DefaultWorld implements Serializable, World {
       Unit deadUnit = iterator.next();
       iterator.remove();
 
-      units.remove(deadUnit);
-      mapEntities.add(deadUnit.createDeadUnit());
+      this.removeEntity(deadUnit, units);
+      this.addEntity(deadUnit.createDeadUnit(), this.mapEntities);
     }
 
     this.repelUnits();

@@ -2,8 +2,6 @@ package main.game.view;
 
 import java.awt.image.BufferedImage;
 import main.game.model.entity.Entity;
-import main.game.model.entity.Unit;
-import main.images.ImageProvider;
 import main.util.Config;
 
 /**
@@ -13,12 +11,13 @@ import main.util.Config;
  */
 class ViewFactory {
 
-  static EntityView makeEntityView(Config config, Entity entity, ImageProvider imageProvider) {
-    if (entity instanceof Unit) {
-      return new UnitView(config, (Unit)entity);
-    } else {
-      return new EntityView(config, entity);
-    }
+  static ViewVisitor viewVisitor = new ViewVisitor();
+
+  /**
+   * Makes the view for an entity.
+   */
+  static Renderable makeEntityView(Config config, Entity entity) {
+    return entity.accept(config, viewVisitor);
   }
 
   static FogOfWarView makeFogOfWarView(Config config) {
@@ -30,5 +29,4 @@ class ViewFactory {
                                            BufferedImage baseImage) {
     return new BackGroundView(config, gameView, baseImage);
   }
-
 }
