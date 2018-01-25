@@ -22,6 +22,8 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.unit.attack.HealAttack;
 import main.game.model.entity.unit.state.TargetMapPoint;
 import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.world.World;
@@ -463,7 +465,8 @@ public class DefaultUnitTest {
       Projectile projectile = firedProjectiles.get(0);
 
       // then the projectile should do damage
-      double projectileDamage = unit.getUnitType().getBaseAttack().getModifiedDamage(unit);
+      double projectileDamage =
+          ((Attack) unit.getUnitType().getBaseAttack()).getModifiedAmount(unit);
       assertTrue(projectileDamage > 0);
 
       // when the projectile eventually hits something

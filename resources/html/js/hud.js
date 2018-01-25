@@ -71,7 +71,7 @@ function updateIcons() {
     level.html(units[i].getLevel());
 
     let damage = Math.round(
-        units[i].getUnitType().getBaseAttack().getModifiedDamage(units[i])
+        units[i].getUnitType().getBaseAttack().getModifiedAmount(units[i])
     );
     let attackSpeed = Math.round(
         units[i].getUnitType().getBaseAttack().getModifiedAttackSpeed(units[i])

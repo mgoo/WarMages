@@ -6,53 +6,33 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.UnitSpriteSheet;
+import main.images.UnitSpriteSheet.Sequence;
 
-public class HealAttack extends BaseSpellAttack {
+public class HealAttack extends FixedAttack {
 
   private final double amount;
 
-  public HealAttack(double amount) {
-    super(CanEffect.ALLIES);
+  public HealAttack(double range,
+                    int attackSpeed,
+                    double windupPortion,
+                    Sequence sequence,
+                    double amount) {
+    super(
+        CanEffect.ALLIES,
+        "resources/scripts/healSpell.js",
+        range,
+        attackSpeed,
+        windupPortion,
+        sequence,
+        AttackType.HEAL);
     this.amount = amount;
   }
 
-  @Override
-  public void execute(
-      Unit unit, Targetable target, World world
-  ) {
-    target.getEffectedUnits(world).forEach(u -> {
-      u.gainHealth(this.getModifiedDamage(unit), world);
-    });
-  }
-
-  @Override
-  double getRange(Unit unit) {
-    return 4;
-  }
-
-  @Override
-  int getAttackSpeed(Unit unit) {
-    return 10;
-  }
-
-  @Override
-  double getDamage(Unit unit) {
-    return this.amount;
-  }
-
-  @Override
-  public double getWindupPortion(Unit unit) {
-    return 0.85;
-  }
-
-  @Override
-  public UnitSpriteSheet.Sequence getAttackSequence() {
-    return UnitSpriteSheet.Sequence.SPELL_CAST;
-  }
-
-  @Override
-  AttackType getType(Unit unit) {
-    return AttackType.HEAL;
+  /**
+   * Expose the amount to javascript.
+   */
+  public double getAmount() {
+    return amount;
   }
 
   @Override

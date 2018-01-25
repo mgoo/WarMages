@@ -65,10 +65,11 @@ import main.game.model.entity.Team;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.attack.DamageBuff;
-import main.game.model.entity.unit.attack.FireBolt;
+import main.game.model.entity.unit.attack.FixedAttack.CanEffect;
 import main.game.model.entity.unit.attack.HealAttack;
-import main.game.model.entity.unit.attack.LightingBolt;
 import main.game.model.entity.usable.AttackGroundAbility;
 import main.game.model.entity.usable.AttackUnitAbility;
 import main.game.model.entity.usable.DefaultItem;
@@ -79,6 +80,7 @@ import main.game.model.world.pathfinder.DefaultPathFinder;
 import main.images.DefaultUnitSpriteSheet;
 import main.images.GameImage;
 import main.images.GameImageResource;
+import main.images.UnitSpriteSheet.Sequence;
 import main.util.MapPoint;
 import main.util.MapRect;
 import main.util.MapSize;
@@ -306,7 +308,13 @@ public class DefaultWorldLoader implements WorldLoader {
             new AttackUnitAbility(
                 GameImageResource.HEAL_SPELL_ICON.getGameImage(),
                 2,
-                new HealAttack(3),
+                new HealAttack(
+                    4,
+                    0,
+                    0,
+                    Sequence.SPELL_CAST,
+                    50
+                ),
                 "Heals a unit instantly"
             )
         ),
@@ -330,7 +338,13 @@ public class DefaultWorldLoader implements WorldLoader {
                 new AttackUnitAbility(
                   GameImageResource.HEAL_SPELL_ICON.getGameImage(),
                   2,
-                  new HealAttack(3),
+                    new HealAttack(
+                        4,
+                        0,
+                        0,
+                        Sequence.SPELL_CAST,
+                        50
+                    ),
                   "Heals a unit instantly"
                 ),
                 POTION_BLUE_ITEM.getGameImage(),
@@ -378,19 +392,43 @@ public class DefaultWorldLoader implements WorldLoader {
             new AttackUnitAbility(
                 GameImageResource.HEAL_SPELL_ICON.getGameImage(),
                 15,
-                new HealAttack(100),
+                new HealAttack(
+                    4,
+                    10,
+                    0.85,
+                    Sequence.SPELL_CAST,
+                    100
+                ),
                 "Heals a unit instantly"
             ),
             new AttackUnitAbility(
                 GameImageResource.LIGHTING_ICON.getGameImage(),
                 20,
-                new LightingBolt(),
+                new Attack(
+                    CanEffect.ENEMIES,
+                    "resources/scripts/lightningBolt.js",
+                    4,
+                    30,
+                    0.85,
+                    Sequence.SPELL_CAST,
+                    AttackType.MAGIC,
+                    400
+                ),
                 "Smite a unit with a bolt from heaven"
             ),
             new AttackGroundAbility(
                 GameImageResource.FIREBALL_ICON.getGameImage(),
                 20,
-                new FireBolt(),
+                new Attack(
+                    CanEffect.EVERYONE,
+                    "resources/scripts/firebolt.js",
+                    4,
+                    10,
+                    0.66,
+                    Sequence.SLASH,
+                    AttackType.MAGIC,
+                    200
+                ),
                 2,
                 "Fires an explosive bolt of fire"
             )
@@ -447,7 +485,13 @@ public class DefaultWorldLoader implements WorldLoader {
                   new AttackUnitAbility(
                       GameImageResource.SMALL_POTION_ICON.getGameImage(),
                       10,
-                      new HealAttack(50),
+                      new HealAttack(
+                          4,
+                          0,
+                          0,
+                          Sequence.SPELL_CAST,
+                          50
+                      ),
                       "Heals a unit instantly"
                   ),
                 POTION_BLUE_ITEM.getGameImage(),
@@ -524,7 +568,13 @@ public class DefaultWorldLoader implements WorldLoader {
                   new AttackUnitAbility(
                       GameImageResource.SMALL_POTION_ICON.getGameImage(),
                       10,
-                      new HealAttack(50),
+                      new HealAttack(
+                          4,
+                          0,
+                          0,
+                          Sequence.SPELL_CAST,
+                          50
+                      ),
                       "Heals a unit instantly"
                   ),
                   POTION_BLUE_ITEM.getGameImage(),
@@ -762,7 +812,13 @@ public class DefaultWorldLoader implements WorldLoader {
             new AttackUnitAbility(
                 GameImageResource.HEAL_SPELL_ICON.getGameImage(),
                 2,
-                new HealAttack(3),
+                new HealAttack(
+                    4,
+                    0,
+                    0,
+                    Sequence.SPELL_CAST,
+                    50
+                ),
                 "Heals a unit instantly"
             )
         ),
