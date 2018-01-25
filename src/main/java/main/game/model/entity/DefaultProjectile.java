@@ -1,7 +1,13 @@
 package main.game.model.entity;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.List;
-import main.game.model.entity.unit.attack.Attack;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import main.game.model.entity.unit.attack.FixedAttack;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.GameImage;
@@ -22,11 +28,12 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   private final Unit owner;
   private final Targetable target;
-  private final Attack attack;
+  private final FixedAttack attack;
   private final List<GameImage> flyImages;
   private final List<GameImage> impactImages;
   private final MapSize impactSize;
   private final double moveDistancePerTick;
+  private final Invocable engine;
 
   private boolean hasHit = false;
 
@@ -48,7 +55,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       MapSize size,
       Unit owner,
       Targetable target,
-      Attack attack,
+      FixedAttack attack,
       List<GameImage> flyImages,
       List<GameImage> impactImages,
       MapSize impactSize,
@@ -62,6 +69,16 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
     this.impactImages = impactImages;
     this.impactSize = impactSize;
     this.moveDistancePerTick = moveDistancePerTick;
+
+    // TODO allow for projectiles to do other stuff than instant damaged
+    // eg pass the script location in as a string.
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    try {
+      engine.eval(new FileReader("resources/scripts/instantDamage.js"));
+    } catch (ScriptException | FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    this.engine = (Invocable) engine;
   }
 
   @Override
@@ -112,7 +129,13 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   @Override
   public void hitTarget(World world) {
     this.attack.getEffectedUnits(this.owner, world, target)
-        .forEach(u -> u.takeDamage(this.attack.getModifiedDamage(owner), world, owner));
+        .forEach(u -> {
+          try {
+            this.engine.invokeFunction("apply", this.owner, u, this.attack, world);
+          } catch (ScriptException | NoSuchMethodException e) {
+            e.printStackTrace();
+          }
+        });
     world.removeProjectile(this);
     StaticEntity hitMarker = new StaticEntity(this.getTopLeft(),
         this.impactSize,

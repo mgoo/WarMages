@@ -28,6 +28,7 @@ import main.game.model.entity.usable.Usable;
 import main.game.model.world.World;
 import main.images.DefaultUnitSpriteSheet;
 import main.images.GameImageResource;
+import main.images.UnitSpriteSheet.Sequence;
 import main.util.MapPoint;
 import main.util.MapSize;
 import main.util.TickTimer;
@@ -46,7 +47,12 @@ public class UsablesTest {
     Ability healAbility = new AttackUnitAbility(
         GameImageResource.HEAL_SPELL_ICON.getGameImage(),
         2,
-        new HealAttack(3),
+        new HealAttack(
+            4,
+            10,
+            0.85,
+            Sequence.SPELL_CAST,
+            6),
         "Heals a unit instantly"
     );
     HeroUnit heroUnit = new DefaultHeroUnit(
@@ -80,7 +86,12 @@ public class UsablesTest {
     Ability healAbility = new AttackUnitAbility(
         GameImageResource.HEAL_SPELL_ICON.getGameImage(),
         2,
-        new HealAttack(3),
+        new HealAttack(
+            4,
+            10,
+            0.85,
+            Sequence.SPELL_CAST,
+            6),
         "Heals a unit instantly"
     );
     Item healItem = new DefaultItem(
@@ -160,7 +171,12 @@ public class UsablesTest {
     Ability healAbility = new AttackUnitAbility(
         GameImageResource.HEAL_SPELL_ICON.getGameImage(),
         2,
-        new HealAttack(3),
+        new HealAttack(
+            4,
+            10,
+            0.85,
+            Sequence.SPELL_CAST,
+            3),
         "Heals a unit instantly"
     );
     healAbility.setOwner(heroUnit);

@@ -1,6 +1,6 @@
 package main.game.model.entity.unit.state;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
@@ -26,10 +26,10 @@ public class MapPointTarget implements Targetable {
   }
 
   @Override
-  public Collection<Unit> getEffectedUnits(World world) {
+  public List<Unit> getEffectedUnits(World world) {
     return world.getAllUnits().stream()
         .filter(u -> u.getCentre().distanceTo(this.mapPoint) < this.radius)
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
   @Override

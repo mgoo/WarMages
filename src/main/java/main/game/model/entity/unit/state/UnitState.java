@@ -51,7 +51,7 @@ public abstract class UnitState implements Serializable {
    *
    * @param nextState the requested state.
    */
-  public void requestState(UnitState nextState) {
+  public void setState(UnitState nextState) {
     this.requestedNextState = requireNonNull(nextState);
   }
 

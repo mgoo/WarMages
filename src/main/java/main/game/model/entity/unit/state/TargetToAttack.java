@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import java.io.Serializable;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.unit.attack.FixedAttack;
 import main.util.MapPoint;
 
 public class TargetToAttack extends Target implements Serializable {
@@ -10,13 +10,13 @@ public class TargetToAttack extends Target implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private final Targetable target;
-  private final Attack attack;
+  private final FixedAttack attack;
 
-  public TargetToAttack(Unit unit, Targetable target, Attack attack) {
+  public TargetToAttack(Unit unit, Targetable target, FixedAttack attack) {
     this(unit, target, attack, false);
   }
 
-  public TargetToAttack(Unit unit, Targetable target, Attack attack, boolean singleUse) {
+  public TargetToAttack(Unit unit, Targetable target, FixedAttack attack, boolean singleUse) {
     super(unit);
     this.target = target;
     this.attack = attack;

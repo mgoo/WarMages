@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
-import main.game.model.entity.unit.attack.Attack;
+import main.game.model.entity.unit.attack.FixedAttack;
 import main.game.model.world.World;
 
 /**
@@ -12,17 +12,17 @@ import main.game.model.world.World;
 public class Attacking extends Interacting {
 
   private final int applicationTick;
-  private final Attack attack;
+  private final FixedAttack attack;
   private final TargetToAttack targetToAttack;
   private final boolean singleAttack;
 
   private int currentTick = 0;
 
-  public Attacking(Unit unit, TargetToAttack target, Attack attack) {
+  public Attacking(Unit unit, TargetToAttack target, FixedAttack attack) {
     this(unit, target, attack, false);
   }
 
-  public Attacking(Unit unit, TargetToAttack target, Attack attack,  boolean singleAttack) {
+  public Attacking(Unit unit, TargetToAttack target, FixedAttack attack, boolean singleAttack) {
     super(unit,
         new UnitAnimation(unit,
             attack.getAttackSequence(),
@@ -31,11 +31,11 @@ public class Attacking extends Interacting {
     this.targetToAttack = target;
     this.singleAttack = singleAttack;
     this.applicationTick =
-        (int)(attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion(unit));
+        (int)(attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion());
     this.attack = attack;
 
     if (!target.isStillValid()) {
-      requestState(new Idle(unit));
+      this.setState(new Idle(unit));
     }
   }
 

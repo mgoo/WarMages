@@ -38,7 +38,7 @@ public class InteractingTest {
     MapPoint targetLocation = new MapPoint(0, 0);
     when(target.getCentre()).thenReturn(targetLocation);
     when(target.getLocation()).thenReturn(targetLocation);
-    when(target.getEffectedUnits(any())).thenReturn(Collections.singleton(target));
+    when(target.getEffectedUnits(any())).thenReturn(Collections.singletonList(target));
     // and a swordsman
     DefaultUnit unit = mock(DefaultUnit.class);
     when(unit.getSize()).thenReturn(new MapSize(1, 1));
@@ -59,7 +59,7 @@ public class InteractingTest {
 
     // with some configuration parameters
     final int totalTicks = unit.getUnitType().getBaseAttack().getModifiedAttackSpeed(unit);
-    final int attackTick = (int)(unit.getUnitType().getBaseAttack().getWindupPortion(unit)
+    final int attackTick = (int)(unit.getUnitType().getBaseAttack().getWindupPortion()
         * totalTicks);
     // and the state to test
     Interacting state = new Attacking(unit,

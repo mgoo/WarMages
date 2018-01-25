@@ -3,7 +3,6 @@ package main.game.model.entity.unit;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +10,6 @@ import main.game.model.entity.DeadUnit;
 import main.game.model.entity.DefaultEntity;
 import main.game.model.entity.Direction;
 import main.game.view.Renderable;
-import main.game.model.entity.StaticEntity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Dying;
@@ -23,8 +21,6 @@ import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
 import main.game.view.ViewVisitor;
 import main.images.GameImage;
-import main.images.SpriteSheet;
-import main.images.SpriteSheet.Sheet;
 import main.images.UnitSpriteSheet;
 import main.images.UnitSpriteSheet.Sequence;
 import main.util.Config;
@@ -95,7 +91,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     this.team = team;
     this.unitType = unitType;
     this.health = this.levelMultiplyer(unitType.getStartingHealth());
-    this.speed = unitType.getMovingSpeed();
+    this.speed = unitType.getMovementSpeed();
     this.spriteSheet = sheet;
     this.unitState = new Idle(this);
 
@@ -138,7 +134,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
    * @param state to be changed to.
    */
   private void setNextState(UnitState state) {
-    unitState.requestState(requireNonNull(state));
+    unitState.setState(requireNonNull(state));
   }
 
   public UnitType getUnitType() {
@@ -164,8 +160,8 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   @Override
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
-    unitState.tick(timeSinceLastTick, world);
-    unitState = requireNonNull(this.unitState.updateState());
+    this.unitState.tick(timeSinceLastTick, world);
+    this.unitState = requireNonNull(this.unitState.updateState());
     tickEffects(timeSinceLastTick);
   }
 
@@ -219,22 +215,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     if (health > this.levelMultiplyer(this.unitType.getStartingHealth())) {
       health = this.levelMultiplyer(this.unitType.getStartingHealth());
     }
-  }
-
-  @Override
-  public void gainHealth(double amt, World world) {
-    this.gainHealth(amt);
-    this.healedEvent.broadcast(amt);
-
-    // TODO remove
-    world.addStaticEntity(
-        new StaticEntity(
-            this.getTopLeft(),
-            this.getSize(),
-            Sheet.HEAL_EFFECT.getImagesForSequence(SpriteSheet.Sequence.HEAL),
-            false
-        )
-    );
+    this.healedEvent.broadcast(amount);
   }
 
   /**
@@ -382,8 +363,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     double originalHealth = this.getHealthPercent();
     this.setLevel(this.level + 1);
     // Maintain current level of health
-    this.gainHealth(levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth
-        - this.health);
+    this.health = levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth;
   }
 
   @Override
@@ -418,8 +398,8 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   }
 
   @Override
-  public Collection<Unit> getEffectedUnits(World world) {
-    return Collections.singleton(this);
+  public List<Unit> getEffectedUnits(World world) {
+    return Collections.singletonList(this);
   }
 
   @Override
