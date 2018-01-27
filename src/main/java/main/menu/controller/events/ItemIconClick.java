@@ -1,6 +1,6 @@
 package main.menu.controller.events;
 
-import main.game.model.entity.usable.Item;
+import main.game.model.entity.usable.Ability;
 
 /**
  * Data class for when a Item Icon is clicked.
@@ -9,5 +9,5 @@ import main.game.model.entity.usable.Item;
  */
 public interface ItemIconClick extends IconClick {
 
-  Item getItem();
+  Ability getItemAbility();
 }

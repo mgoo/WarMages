@@ -3,6 +3,7 @@ package main.game.model.entity.usable;
 import main.exceptions.UsableStillInCoolDownException;
 
 import main.game.model.entity.Unit;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.state.MapPointTarget;
 import main.game.model.entity.unit.state.TargetToAttack;
@@ -24,7 +25,7 @@ public class AttackGroundAbility extends BaseAbility {
   ) {
     this(icon, coolDownSeconds, radius, description, scriptLocation, range,
         attackSpeed, windupPortion, attackSequence, attackType,
-        0, 0
+        Attack.FIXED_AMOUNT, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES
     );
   }
 
@@ -36,10 +37,9 @@ public class AttackGroundAbility extends BaseAbility {
   ) {
     this(icon, coolDownSeconds, radius, description, scriptLocation, range,
         attackSpeed, windupPortion, attackSequence, attackType,
-        amount, 0
+        amount, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES
     );
   }
-
 
   public AttackGroundAbility(
       GameImage icon, double coolDownSeconds, double radius, String description,
@@ -47,9 +47,21 @@ public class AttackGroundAbility extends BaseAbility {
       Sequence attackSequence, AttackType attackType,
       double amount, double duration
   ) {
+    this(icon, coolDownSeconds, radius, description, scriptLocation, range,
+        attackSpeed, windupPortion, attackSequence, attackType,
+        amount, duration, BaseAbility.INFINITE_USES
+    );
+  }
+
+  public AttackGroundAbility(
+      GameImage icon, double coolDownSeconds, double radius, String description,
+      String scriptLocation, double range, int attackSpeed, double windupPortion,
+      Sequence attackSequence, AttackType attackType,
+      double amount, double duration, int uses
+  ) {
     super(icon, coolDownSeconds, description, scriptLocation, range,
-      attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration);
+        attackSpeed, windupPortion, attackSequence, attackType,
+        amount, duration, uses);
     this.radius = radius;
   }
 

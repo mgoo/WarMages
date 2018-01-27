@@ -21,6 +21,7 @@ var apply = function(owner, target, attack, world) {
 
   if (attack instanceof Java.type('main.game.model.entity.usable.Ability')) {
     attack.startCoolDown();
+    attack.consume();
   }
 };
 

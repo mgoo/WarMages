@@ -405,15 +405,15 @@ public class GameView {
    * When an item icon was clicked.
    */
   public void itemClick(
-      Item item,
+      Ability itemAbility,
       boolean wasShiftDown,
       boolean wasCtrlDown,
       boolean wasLeftClick
   ) {
     this.gameController.onItemIconClick(new ItemIconClick() {
       @Override
-      public Item getItem() {
-        return item;
+      public Ability getItemAbility() {
+        return itemAbility;
       }
 
       @Override

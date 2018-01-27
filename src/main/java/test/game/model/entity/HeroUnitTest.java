@@ -55,7 +55,7 @@ public class HeroUnitTest {
   public void addingAnItemToTheInventoryShouldWorkWhenItemInRange() {
     Item item = getItem(heroUnit.getTopLeft().translate(0.001, 0.001));
     heroUnit.pickUp(item);
-    assertTrue(heroUnit.getItemInventory().contains(item));
+    assertTrue(heroUnit.getItemAbilities().contains(item.getAbility()));
   }
 
   @Test(expected = ItemNotInRangeException.class)

@@ -3,6 +3,7 @@ package main.game.model.entity.usable;
 import main.exceptions.UsableStillInCoolDownException;
 
 import main.game.model.entity.Unit;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.world.World;
@@ -21,7 +22,7 @@ public class AttackUnitAbility extends BaseAbility {
   ) {
     super(icon, coolDownSeconds, description,
         scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        0, 0);
+        Attack.FIXED_AMOUNT, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES);
   }
 
   public AttackUnitAbility(
@@ -32,7 +33,7 @@ public class AttackUnitAbility extends BaseAbility {
   ) {
     super(icon, coolDownSeconds, description,
         scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        amount, 0);
+        amount, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES);
   }
 
   public AttackUnitAbility(
@@ -43,7 +44,19 @@ public class AttackUnitAbility extends BaseAbility {
   ) {
     super(icon, coolDownSeconds, description,
         scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration);
+        amount, duration, INFINITE_USES);
+  }
+
+
+  public AttackUnitAbility(
+      GameImage icon, double coolDownSeconds, String description,
+      String scriptLocation, double range, int attackSpeed,
+      double windupPortion, Sequence attackSequence, AttackType attackType,
+      double amount, double duration, int uses
+  ) {
+    super(icon, coolDownSeconds, description,
+        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
+        amount, duration, uses);
   }
 
   @Override

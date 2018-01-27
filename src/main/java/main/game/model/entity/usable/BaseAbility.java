@@ -1,5 +1,6 @@
 package main.game.model.entity.usable;
 
+import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.AttackType;
@@ -15,13 +16,16 @@ public abstract class BaseAbility extends Attack implements Ability {
 
   private static final long serialVersionUID = 1L;
 
+  public static final int INFINITE_USES = -1;
+
   private final GameImage iconImage;
 
   protected final int coolDownSeconds;
 
+  private int uses;
   private final TickTimer coolDownTimer;
   private final String description;
-  protected Unit owner;
+  protected HeroUnit owner;
 
   private boolean selected = false;
 
@@ -36,7 +40,8 @@ public abstract class BaseAbility extends Attack implements Ability {
       Sequence attackSequence,
       AttackType attackType,
       double amount,
-      double duration
+      double duration,
+      int uses
   ) {
     super(scriptLocation, range, attackSpeed, windupPortion,
         attackSequence, attackType, amount, duration);
@@ -46,11 +51,16 @@ public abstract class BaseAbility extends Attack implements Ability {
     }
     this.iconImage = icon;
     this.coolDownSeconds = (int)coolDownSeconds;
-    this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
+    if (this.coolDownSeconds != 0) {
+      this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
+    } else {
+      this.coolDownTimer = new TickTimer(1);
+    }
+    this.uses = uses;
   }
 
   @Override
-  public void setOwner(Unit unit) {
+  public void setOwner(HeroUnit unit) {
     this.owner = unit;
   }
 
@@ -92,6 +102,28 @@ public abstract class BaseAbility extends Attack implements Ability {
   @Override
   public void setSelected(boolean selected) {
     this.selected = selected;
+  }
+
+  @Override
+  public void consume() {
+    if (this.uses != INFINITE_USES) {
+      this.uses = this.uses - 1;
+      if (this.uses == 0) {
+        this.owner.removeItemAbility(this);
+      }
+    }
+  }
+
+  @Override
+  public void addUse(int number) {
+    if (this.uses != INFINITE_USES) {
+      this.uses = this.uses + number;
+    }
+  }
+
+  @Override
+  public int getUses() {
+    return this.uses;
   }
 
   /**

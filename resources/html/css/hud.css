@@ -6928,6 +6928,15 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+.bottom-bar .right-box .holder .icon .icon-uses {
+  background-color: #aaaaaa;
+  border-radius: 100%;
+  padding: 3px;
+  margin: 2px;
+}
+.bottom-bar .right-box .holder .icon .icon-uses:empty {
+  display: none;
+}
 .bottom-bar .right-box .holder .icon.selected {
   border: thick solid #904140;
 }
