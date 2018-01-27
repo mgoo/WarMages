@@ -71,7 +71,7 @@ function updateIcons() {
     level.html(units[i].getLevel());
 
     let damage = Math.round(
-        units[i].getUnitType().getBaseAttack().getModifiedAmount(units[i])
+        units[i].getUnitType().getBaseAttack().getAmount()
     );
     let attackSpeed = Math.round(
         units[i].getUnitType().getBaseAttack().getModifiedAttackSpeed(units[i])
@@ -105,14 +105,14 @@ function updateIcons() {
 
   for (let i = 0; i < items.length; i++) {
     let icon = $('.item-holder .icon:nth-child(' + (i + 1) + ')');
-    icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
-    if (items[i].isSelected() && !icon.hasClass('selected')) {
+    icon.find('.cooldown').width((items[i].getAbility().getCoolDownProgress() * 100) + '%');
+    if (items[i].getAbility().isSelected() && !icon.hasClass('selected')) {
       icon.addClass('selected');
     }
-    if (!items[i].isSelected() && icon.hasClass('selected')) {
+    if (!items[i].getAbility().isSelected() && icon.hasClass('selected')) {
       icon.removeClass('selected');
     }
-    icon.find('.icon-tooltiptext').html(items[i].getDescription())
+    icon.find('.icon-tooltiptext').html(items[i].getAbility().getDescription())
   }
 }
 

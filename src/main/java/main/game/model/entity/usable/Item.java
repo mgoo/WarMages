@@ -11,7 +11,9 @@ import main.game.model.entity.MapEntity;
  * </p>
  * @author chongdyla
  */
-public interface Item extends MapEntity, Usable {
+public interface Item extends MapEntity {
 
   String getName();
+
+  Ability getAbility();
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 import main.exceptions.ItemNotInRangeException;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Team;
@@ -66,7 +67,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
     }
 
     itemInventory.add(item);
-    item.setOwner(this);
+    item.getAbility().setOwner(this);
   }
 
   public boolean isItemWithinRange(Item item) {
@@ -79,6 +80,13 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
   @Override
   public Collection<Ability> getAbilities() {
     return Collections.unmodifiableList(abilities);
+  }
+
+  @Override
+  public Collection<Ability> getItemAbilities() {
+    return this.itemInventory.stream()
+        .map(Item::getAbility)
+        .collect(Collectors.toList());
   }
 
   /**
@@ -94,6 +102,6 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
     super.tick(timeSinceLastTick, world);
 
     abilities.forEach(ability -> ability.usableTick(timeSinceLastTick));
-    itemInventory.forEach(item -> item.usableTick(timeSinceLastTick));
+    this.getItemAbilities().forEach(itemAbility -> itemAbility.usableTick(timeSinceLastTick));
   }
 }

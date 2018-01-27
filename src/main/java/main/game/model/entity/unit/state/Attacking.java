@@ -2,7 +2,7 @@ package main.game.model.entity.unit.state;
 
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.UnitAnimation;
-import main.game.model.entity.unit.attack.FixedAttack;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.world.World;
 
 /**
@@ -12,17 +12,17 @@ import main.game.model.world.World;
 public class Attacking extends Interacting {
 
   private final int applicationTick;
-  private final FixedAttack attack;
+  private final Attack attack;
   private final TargetToAttack targetToAttack;
   private final boolean singleAttack;
 
   private int currentTick = 0;
 
-  public Attacking(Unit unit, TargetToAttack target, FixedAttack attack) {
+  public Attacking(Unit unit, TargetToAttack target, Attack attack) {
     this(unit, target, attack, false);
   }
 
-  public Attacking(Unit unit, TargetToAttack target, FixedAttack attack, boolean singleAttack) {
+  public Attacking(Unit unit, TargetToAttack target, Attack attack, boolean singleAttack) {
     super(unit,
         new UnitAnimation(unit,
             attack.getAttackSequence(),

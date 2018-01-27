@@ -1,58 +1,73 @@
 package main.game.model.entity.usable;
 
-import static main.game.model.entity.usable.BaseEffect.INSTANT_EFFECT_DURATION;
-
 import main.exceptions.UsableStillInCoolDownException;
+
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.attack.FixedAttack;
+import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.state.TargetToAttack;
-import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.GameImage;
+import main.images.UnitSpriteSheet.Sequence;
 import main.util.MapPoint;
 
 public class AttackUnitAbility extends BaseAbility {
 
   private static final long serialVersionUID = 1L;
 
-  private final FixedAttack attack;
-  private final String description;
+  public AttackUnitAbility(
+      GameImage icon, double coolDownSeconds, String description,
+      String scriptLocation, double range, int attackSpeed,
+      double windupPortion, Sequence attackSequence, AttackType attackType
+  ) {
+    super(icon, coolDownSeconds, description,
+        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
+        0, 0);
+  }
 
   public AttackUnitAbility(
-      GameImage icon, double coolDownSeconds, FixedAttack attack, String description
+      GameImage icon, double coolDownSeconds, String description,
+      String scriptLocation, double range, int attackSpeed,
+      double windupPortion, Sequence attackSequence, AttackType attackType,
+      double amount
   ) {
-    super(icon, coolDownSeconds, INSTANT_EFFECT_DURATION);
-    this.attack = attack;
-    this.description = description;
+    super(icon, coolDownSeconds, description,
+        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
+        amount, 0);
+  }
+
+  public AttackUnitAbility(
+      GameImage icon, double coolDownSeconds, String description,
+      String scriptLocation, double range, int attackSpeed,
+      double windupPortion, Sequence attackSequence, AttackType attackType,
+      double amount, double duration
+  ) {
+    super(icon, coolDownSeconds, description,
+        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
+        amount, duration);
   }
 
   @Override
-  protected void execute(World world, Targetable target) {
+  public void use(World world, Unit unit) {
     if (!isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
-
     this.owner.setTarget(new TargetToAttack(
         this.owner,
-        target,
-        this.attack,
+        unit,
+        this,
         true
     ));
-
-    startCoolDown();
   }
 
   @Override
-  public String getDescription() {
-    int coolDownProgressSeconds = (int)(this.coolDownSeconds * this.getCoolDownProgress());
-    return this.description + "<br>"
-        + "<b>Range</b>: " + Math.round(this.attack.getModifiedRange(this.owner)) + "<br>"
-        + "<b>Cooldown</b>: " + coolDownProgressSeconds + "/" + this.coolDownSeconds + "s";
+  public void use(World world, MapPoint mapPoint) {
+    throw new RuntimeException("This usable cannot be used on a MapPoint");
   }
+
 
   @Override
   public boolean canApplyTo(Unit unit, World world) {
-    return this.attack.getEffectedUnits(this.owner, world, unit).size() != 0;
+    return this.getEffectedUnits(this.owner, world, unit).size() != 0;
   }
 
   @Override

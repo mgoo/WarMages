@@ -1,33 +1,183 @@
 package main.game.model.entity.unit.attack;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import main.game.model.entity.Unit;
+import main.game.model.entity.unit.state.Targetable;
+import main.game.model.world.World;
 import main.images.UnitSpriteSheet.Sequence;
 
-public class Attack extends FixedAttack {
+/**
+ * Base class for Attacks.
+ * @author Andrew McGhie
+ */
+public class Attack implements Serializable {
 
+  private final String scriptLocation;
+  private final double range;
+  private final int attackSpeed;
+  private final double windupPortion;
+  private final Sequence attackSequence;
+  private final AttackType attackType;
   private final double amount;
+  private final double duration;
 
-  public Attack(
-      CanEffect canEffect, String scriptLocation, double range, int attackSpeed,
-      double windupPortion,
-      Sequence attackSequence,
-      AttackType attackType,
-      double amount
-  ) {
-    super(canEffect, scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType);
+  private static final long serialVersionUID = 1L;
+  private transient Invocable engine;
 
+  public Attack(String scriptLocation,
+                double range,
+                int attackSpeed,
+                double windupPortion,
+                Sequence attackSequence,
+                AttackType attackType) {
+    this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
+        attackType, 0, 0);
+  }
+
+  public Attack(String scriptLocation,
+                double range,
+                int attackSpeed,
+                double windupPortion,
+                Sequence attackSequence,
+                AttackType attackType,
+                double amount) {
+    this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
+        attackType, amount, 0);
+  }
+
+  public Attack(String scriptLocation,
+                double range,
+                int attackSpeed,
+                double windupPortion,
+                Sequence attackSequence,
+                AttackType attackType,
+                double amount,
+                double duration) {
+    this.scriptLocation = scriptLocation;
+    this.range = range;
+    this.attackSpeed = attackSpeed;
+    this.windupPortion = windupPortion;
+    this.attackSequence = attackSequence;
+    this.attackType = attackType;
     this.amount = amount;
+    this.duration = duration;
+
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    try {
+      engine.eval(new FileReader(scriptLocation));
+    } catch (ScriptException | FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    this.engine = (Invocable) engine;
   }
 
   /**
-   * Base damage of the attack.
+   * Called during deserialisation.
    */
-  double getAmount() {
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    try {
+      engine.eval(new FileReader(this.scriptLocation));
+    } catch (ScriptException | FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    this.engine = (Invocable) engine;
+  }
+
+  /**
+   * Gets the amount of the attack.
+   * eg damage amount, heal amount, damage buff amount.
+   * -1 for no amount.
+   * Handleing of the amount should be handled by javascript.
+   */
+  public double getAmount() {
     return this.amount;
   }
 
-  public double getModifiedAmount(Unit unit) {
-    return this.getAmount() * unit.getDamageModifier();
+  /**
+   * Gets the duration of the attack.
+   * -1 for instant.
+   * Handling of the duration should be handled by javascript
+   */
+  public double getDuration() {
+    return this.duration;
   }
 
+  /**
+   * Make the enemy unit take damage.
+   */
+  public void execute(Unit unit, Targetable target, World world) {
+    try {
+      this.engine.invokeFunction("apply", unit, target, this, world);
+    } catch (ScriptException | NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public double getModifiedRange(Unit unit) {
+    return this.getRange() * unit.getRangeModifier();
+  }
+
+  public int getModifiedAttackSpeed(Unit unit) {
+    return (int)(this.getAttackSpeed() * unit.getAttackSpeedModifier());
+  }
+
+  /**
+   * The base range of the attack.
+   */
+  double getRange() {
+    return this.range;
+  }
+
+  /**
+   * The base time that the animation should take.
+   */
+  int getAttackSpeed() {
+    return this.attackSpeed;
+  }
+
+  /**
+   * The portion of the animation that plays before the attack should trigger.
+   */
+  public double getWindupPortion() {
+    return this.windupPortion;
+  }
+
+  /**
+   * Gets the sequence that the unit should do when doing the attack.
+   */
+  public Sequence getAttackSequence() {
+    return this.attackSequence;
+  }
+
+  /**
+   * Get the type of attack.
+   */
+  AttackType getType() {
+    return this.attackType;
+  }
+
+  /**
+   * Gets the Units that are effected by the attack at the target.
+   */
+  public Collection<Unit> getEffectedUnits(Unit owner, World world, Targetable target) {
+    try {
+      return (List<Unit>)this.engine.invokeFunction("getEffectedUnits", owner, world, target);
+    } catch (ScriptException | NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

@@ -12,6 +12,7 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.unit.UnitType;
+import main.game.model.entity.unit.attack.AttackCache;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.BaseAbility;
@@ -122,27 +123,7 @@ public class WorldTestUtils {
    * Creates and ability that does nothing.
    */
   public static Ability createStubAbility() {
-    return new BaseAbility(GameImageResource.TEST_IMAGE_1_1.getGameImage(), 1, 2) {
-      @Override
-      public String getDescription() {
-        return null;
-      }
-
-      @Override
-      public boolean canApplyTo(Unit unit, World world) {
-        return true;
-      }
-
-      @Override
-      public boolean canApplyTo(MapPoint target, World world) {
-        return true;
-      }
-
-      @Override
-      protected void execute(World world, Targetable target) {
-
-      }
-    };
+    return AttackCache.TEST_HEAL;
   }
 
   /**
