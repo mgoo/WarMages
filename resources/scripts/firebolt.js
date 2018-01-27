@@ -18,4 +18,12 @@ var apply = function(owner, target, attack, world) {
       0.6
   );
   world.addProjectile(projectile);
+
+  if (attack instanceof Java.type('main.game.model.entity.usable.Ability')) {
+    attack.startCoolDown();
+  }
+};
+
+var getEffectedUnits = function(owner, world, target) {
+  return target.getEffectedUnits(world);
 };

@@ -17,6 +17,8 @@ public interface HeroUnit extends Unit {
 
   Collection<Ability> getAbilities();
 
+  Collection<Ability> getItemAbilities();
+
   Collection<Item> getItemInventory();
 
 }

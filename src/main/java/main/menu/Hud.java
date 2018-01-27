@@ -168,7 +168,7 @@ public class Hud extends Menu {
 
   private void addItemIcon(Item item) {
     try {
-      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
+      this.addIcon("addItemIcon", item.getAbility().getIconImage().load(this.imageProvider), item);
     } catch (IOException e) {
       e.printStackTrace();
     }

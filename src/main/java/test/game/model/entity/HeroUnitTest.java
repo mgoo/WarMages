@@ -13,7 +13,7 @@ import main.game.model.GameModel;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.unit.DefaultHeroUnit;
 import main.game.model.entity.unit.UnitType;
-import main.game.model.entity.unit.attack.DamageBuff;
+import main.game.model.entity.unit.attack.AttackCache;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.AttackUnitAbility;
 import main.game.model.entity.usable.DefaultItem;
@@ -45,12 +45,7 @@ public class HeroUnitTest {
   public static Item getItem(MapPoint pos) {
     return new DefaultItem(
         pos,
-        new AttackUnitAbility(
-            GameImageResource.RING_ICON.getGameImage(),
-            20,
-            new DamageBuff(10, 1),
-            "Buff the damage on a friendly unit"
-        ),
+        AttackCache.TEST_HEAL,
         mock(GameImage.class),
         ""
     );
@@ -89,28 +84,5 @@ public class HeroUnitTest {
 
     // then ability's tick should have been called
     verify(mockAbility, times(1)).usableTick(delay);
-  }
-
-  @Test
-  public void heroUnitShouldTickItemsButOnlyWhenInTheInventory() {
-    // Given a hero
-    long delay = GameModel.DELAY;
-    // and an item close to the hero
-    Item mockItem = mock(Item.class);
-    when(mockItem.getCentre()).thenReturn(heroUnit.getCentre());
-
-    // when I call tick
-    heroUnit.tick(delay, mockWorld);
-
-    // then item's tick should not have been called
-    verify(mockItem, times(0)).usableTick(delay);
-
-    // when I add the item to the unit
-    heroUnit.pickUp(mockItem);
-    // and then call tick
-    heroUnit.tick(delay, mockWorld);
-
-    // then item's tick should have been called
-    verify(mockItem, times(1)).usableTick(delay);
   }
 }

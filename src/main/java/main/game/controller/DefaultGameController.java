@@ -16,8 +16,8 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.TargetItem;
 import main.game.model.entity.unit.state.TargetMapPoint;
 import main.game.model.entity.unit.state.TargetToAttack;
+import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
-import main.game.model.entity.usable.Usable;
 import main.game.view.GameView;
 import main.menu.controller.events.AbilityIconClick;
 import main.menu.controller.events.ItemIconClick;
@@ -37,26 +37,26 @@ public class DefaultGameController implements GameController {
 
   private final GameModel model;
 
-  private Usable selectedUsable = null;
+  private Ability selectedAbility = null;
 
-  private void selectUsable(Usable usable) {
-    if (!usable.isReadyToBeUsed()) {
+  private void selectUsable(Ability ability) {
+    if (!ability.isReadyToBeUsed()) {
       throw new UsableStillInCoolDownException();
     }
-    if (this.selectedUsable != null) {
-      this.selectedUsable.setSelected(false);
+    if (this.selectedAbility != null) {
+      this.selectedAbility.setSelected(false);
     }
-    usable.setSelected(true);
-    this.selectedUsable = usable;
+    ability.setSelected(true);
+    this.selectedAbility = ability;
   }
 
   private void deselectUsable() {
-    if (this.selectedUsable == null) {
+    if (this.selectedAbility == null) {
       return;
     }
 
-    this.selectedUsable.setSelected(false);
-    this.selectedUsable = null;
+    this.selectedAbility.setSelected(false);
+    this.selectedAbility = null;
   }
 
   public DefaultGameController(GameModel model) {
@@ -119,12 +119,21 @@ public class DefaultGameController implements GameController {
    * following scenarios are taken care of:
    *
    * <ul>
-   * <li>LEFT click => Deselect all previously selected units and select only the clicked unit</li>
-   * <li>LEFT click + SHIFT => Add the clicked unit to the previously selected units</li>
-   * <li>LEFT click + CTRL => If the clicked unit is already selected, deselect it. Otherwise,
+   * <li>
+   *   LEFT click => Deselect all previously selectedAbility units and select only the clicked unit
+   * </li>
+   * <li>
+   *   LEFT click + SHIFT => Add the clicked unit to the previously selectedAbility units
+   * </li>
+   * <li>
+   *   LEFT click + CTRL => If the clicked unit is already selectedAbility, deselect it. Otherwise,
    *   select that unit.</li>
-   * <li>RIGHT click => All selected units move to the clicked location</li>
-   * <li>RIGHT click on an enemy => All selected units will attack the enemy unit</li>
+   * <li>
+   *   RIGHT click => All selectedAbility units move to the clicked location
+   * </li>
+   * <li>
+   *   RIGHT click on an enemy => All selectedAbility units will attack the enemy unit
+   * </li>
    * </ul>
    *
    * @param mouseEvent -- the MouseClick object for the current mouse click
@@ -140,13 +149,13 @@ public class DefaultGameController implements GameController {
             s -> s.getCentre().distanceTo(mouseEvent.getLocation())))
         .findFirst().orElse(null);
 
-    if (this.selectedUsable != null) {
+    if (this.selectedAbility != null) {
       if (mouseEvent.wasLeft()) {
         if (selectedUnit != null
-            && this.selectedUsable.canApplyTo(selectedUnit, model.getWorld())) {
-          this.selectedUsable.use(model.getWorld(), selectedUnit);
-        } else if (this.selectedUsable.canApplyTo(mouseEvent.getLocation(), model.getWorld())) {
-          this.selectedUsable.use(model.getWorld(), mouseEvent.getLocation());
+            && this.selectedAbility.canApplyTo(selectedUnit, model.getWorld())) {
+          this.selectedAbility.use(model.getWorld(), selectedUnit);
+        } else if (this.selectedAbility.canApplyTo(mouseEvent.getLocation(), model.getWorld())) {
+          this.selectedAbility.use(model.getWorld(), mouseEvent.getLocation());
         }
       }
       this.deselectUsable();
@@ -157,10 +166,10 @@ public class DefaultGameController implements GameController {
     if (mouseEvent.wasLeft()) {
       if (selectedUnit != null && selectedUnit.getTeam() == Team.PLAYER) {
         if (mouseEvent.wasShiftDown()) {
-          //add the new selected unit to the previously selected ones
+          //add the new selectedAbility unit to the previously selectedAbility ones
           model.addToUnitSelection(selectedUnit);
         } else if (mouseEvent.wasCtrlDown()) {
-          //if clicked unit already selected, deselect it. otherwise, select it
+          //if clicked unit already selectedAbility, deselect it. otherwise, select it
           Collection<Unit> updatedUnits = new ArrayList<>(model.getUnitSelection());
 
           if (updatedUnits.contains(selectedUnit)) {
@@ -171,7 +180,7 @@ public class DefaultGameController implements GameController {
           model.setUnitSelection(updatedUnits);
 
         } else {
-          //deselect all previous selected units and select the clicked unit
+          //deselect all previous selectedAbility units and select the clicked unit
           model.setUnitSelection(Collections.singletonList(selectedUnit));
         }
       } else {
@@ -209,7 +218,7 @@ public class DefaultGameController implements GameController {
           }
         }
       } else if (selectedItem != null && closest instanceof Item) {
-        // move all selected units to the clicked location
+        // move all selectedAbility units to the clicked location
         for (Unit unit : model.getUnitSelection()) {
           unit.setTarget(new TargetItem(unit, selectedItem));
         }
@@ -217,7 +226,7 @@ public class DefaultGameController implements GameController {
           model.getHeroUnit().setTarget(new TargetItem(model.getHeroUnit(), selectedItem));
         }
       } else {
-        // move all selected units to the clicked location
+        // move all selectedAbility units to the clicked location
         for (Unit unit : model.getUnitSelection()) {
           unit.setTarget(new TargetMapPoint(unit, mouseEvent.getLocation()));
         }
@@ -230,10 +239,14 @@ public class DefaultGameController implements GameController {
    * following scenarios are taken care of:
    *
    * <ul>
-   * <li>LEFT drag => Deselect all previously selected units and select only the units under the
-   *   drag rectangle</li>
-   * <li>LEFT drag + SHIFT => Add all units in the drag rectangle to the selected units</li>
-   * <li>LEFT drag + CTRL => Toggle all units in the drag rectangle. If the unit was selected,
+   * <li>
+   *   LEFT drag => Deselect all previously selectedAbility units and select only the units under
+   *   the drag rectangle</li>
+   * <li>
+   *   LEFT drag + SHIFT => Add all units in the drag rectangle to the selectedAbility units
+   * </li>
+   * <li>
+   *   LEFT drag + CTRL => Toggle all units in the drag rectangle. If the unit was selectedAbility,
    *   deselect it. Otherwise, select it.</li>
    * </ul>
    * @param mouseEvent -- the MouseClick object for the current mouse click
@@ -246,7 +259,7 @@ public class DefaultGameController implements GameController {
         .collect(Collectors.toSet());
 
     if (mouseEvent.wasShiftDown()) {
-      //add all units in the drag rectangle to the currently selected units
+      //add all units in the drag rectangle to the currently selectedAbility units
       Collection<Unit> updatedUnitSelection = new ArrayList<>(model.getUnitSelection());
       updatedUnitSelection.addAll(selectedUnits);
       model.setUnitSelection(updatedUnitSelection);
@@ -307,7 +320,7 @@ public class DefaultGameController implements GameController {
   }
 
   /**
-   * When a selected units icon is clicked in from the hud.
+   * When a selectedAbility units icon is clicked in from the hud.
    */
   public void onUnitIconClick(UnitIconClick clickEvent) {
     if (clickEvent.wasCtrlDown()) {
@@ -330,6 +343,6 @@ public class DefaultGameController implements GameController {
    * When a items icon that has being picked up by the hero is clicked in from the hud.
    */
   public void onItemIconClick(ItemIconClick clickEvent) {
-    this.selectUsable(clickEvent.getItem());
+    this.selectUsable(clickEvent.getItem().getAbility());
   }
 }

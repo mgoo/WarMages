@@ -7,7 +7,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import main.game.model.entity.unit.attack.FixedAttack;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.GameImage;
@@ -28,7 +28,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   private final Unit owner;
   private final Targetable target;
-  private final FixedAttack attack;
+  private final Attack attack;
   private final List<GameImage> flyImages;
   private final List<GameImage> impactImages;
   private final MapSize impactSize;
@@ -55,7 +55,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       MapSize size,
       Unit owner,
       Targetable target,
-      FixedAttack attack,
+      Attack attack,
       List<GameImage> flyImages,
       List<GameImage> impactImages,
       MapSize impactSize,
