@@ -1,3 +1,4 @@
+var DamageBuffEffect = Java.type('main.game.model.entity.usable.DamageBuffEffect');
 var Collectors = Java.type('java.util.stream.Collectors');
 
 var apply = function(owner, target, attack, world) {
@@ -6,10 +7,19 @@ var apply = function(owner, target, attack, world) {
     return;
   }
   var unit = effectedUnits.get(0);
-  unit.addEffect(attack.makeEffect(target, world));
+
+  unit.addEffect(
+      new DamageBuffEffect(
+          unit,
+          world,
+          attack.getDuration(),
+          attack.getAmount()
+      )
+  );
 
   if (attack instanceof Java.type('main.game.model.entity.usable.Ability')) {
     attack.startCoolDown();
+    attack.consume();
   }
 };
 

@@ -39,7 +39,7 @@ public class Hud extends Menu {
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
   private List<Unit> unitsShowingIcons = new CopyOnWriteArrayList<>();
   private List<Ability> abilitiesShowingIcons = new CopyOnWriteArrayList<>();
-  private List<Item> itemsShowingIcons = new CopyOnWriteArrayList<>();
+  private List<Ability> itemsShowingIcons = new CopyOnWriteArrayList<>();
 
   public Hud(Main main,
              MainMenu mainMenu,
@@ -134,17 +134,17 @@ public class Hud extends Menu {
         });
 
 
-    Collection<Item> visibleItems;
+    Collection<Ability> visibleItems;
     if (gameModel.getUnitSelection().contains(this.gameModel.getHeroUnit())) {
-      visibleItems = this.gameModel.getHeroUnit().getItemInventory();
+      visibleItems = this.gameModel.getHeroUnit().getItemAbilities();
     } else {
       visibleItems = Collections.emptySet();
     }
     visibleItems.stream()
-        .filter(item -> !this.itemsShowingIcons.contains(item))
-        .forEach(item -> {
-          addItemIcon(item);
-          this.itemsShowingIcons.add(item);
+        .filter(itemAbility -> !this.itemsShowingIcons.contains(itemAbility))
+        .forEach(itemAbility -> {
+          addItemIcon(itemAbility);
+          this.itemsShowingIcons.add(itemAbility);
         });
     this.itemsShowingIcons.stream()
         .filter(item -> !visibleItems.contains(item))
@@ -166,9 +166,9 @@ public class Hud extends Menu {
     }
   }
 
-  private void addItemIcon(Item item) {
+  private void addItemIcon(Ability item) {
     try {
-      this.addIcon("addItemIcon", item.getAbility().getIconImage().load(this.imageProvider), item);
+      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
     } catch (IOException e) {
       e.printStackTrace();
     }

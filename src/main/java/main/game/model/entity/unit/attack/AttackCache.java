@@ -113,9 +113,13 @@ public class AttackCache {
       100
   );
 
-  public static final Ability HEAL_POTION_SMALL = new AttackUnitAbility(
+  /**
+   * Makes a new small potion heal ability.
+   */
+  public static Ability makeHealPotionSmall() {
+    return new AttackUnitAbility(
       GameImageResource.SMALL_POTION_ICON.getGameImage(),
-      10,
+      .01,
       "Heals a unit instantly",
       "resources/scripts/healSpell.js",
       4,
@@ -123,7 +127,25 @@ public class AttackCache {
       0,
       Sequence.SPELL_CAST,
       AttackType.HEAL,
-      50
+      50,
+      Attack.INSTANT_DURATION,
+      3
+    );
+  }
+
+  public static final Ability HEAL_POTION_SMALL = new AttackUnitAbility(
+      GameImageResource.SMALL_POTION_ICON.getGameImage(),
+      .01,
+      "Heals a unit instantly",
+      "resources/scripts/healSpell.js",
+      4,
+      0,
+      0,
+      Sequence.SPELL_CAST,
+      AttackType.HEAL,
+      50,
+      Attack.INSTANT_DURATION,
+      3
   );
 
   public static final Ability DAMAGE_BUFF = new AttackUnitAbility(
@@ -136,8 +158,8 @@ public class AttackCache {
       0.85,
       Sequence.SPELL_CAST,
       AttackType.BUFF,
-      1,
-      10
+      100,
+      40
   );
 
 

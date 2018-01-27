@@ -28,7 +28,7 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   private final List<Ability> abilities;
 
-  private List<Item> itemInventory = new CopyOnWriteArrayList<>();
+  private List<Ability> itemAbilities = new CopyOnWriteArrayList<>();
 
   /**
    * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
@@ -62,12 +62,17 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
       throw new ItemNotInRangeException("Item is too far away");
     }
 
-    if (itemInventory.contains(item)) {
+    Ability itemAbility = item.getAbility();
+
+    int indexOf = itemAbilities.indexOf(itemAbility);
+    // If the hero already has the ability
+    if (indexOf != -1) {
+      itemAbilities.get(indexOf).addUse(itemAbility.getUses());
       return;
     }
 
-    itemInventory.add(item);
-    item.getAbility().setOwner(this);
+    itemAbilities.add(itemAbility);
+    itemAbility.setOwner(this);
   }
 
   public boolean isItemWithinRange(Item item) {
@@ -84,17 +89,11 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   @Override
   public Collection<Ability> getItemAbilities() {
-    return this.itemInventory.stream()
-        .map(Item::getAbility)
-        .collect(Collectors.toList());
+    return Collections.unmodifiableList(this.itemAbilities);
   }
 
-  /**
-   * Returns the HeroUnit's itemInventory.
-   */
-  @Override
-  public Collection<Item> getItemInventory() {
-    return Collections.unmodifiableList(itemInventory);
+  public void removeItemAbility(Ability itemAbility) {
+    this.itemAbilities.remove(itemAbility);
   }
 
   @Override

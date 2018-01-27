@@ -80,12 +80,12 @@ public class HudController extends MenuController {
   /**
    * Triggers event for when the icon of an item is clicked.
    */
-  public void itemIconBtn(Item item,
+  public void itemIconBtn(Ability itemAbility,
                           boolean wasShiftDown,
                           boolean wasCtrlDown,
                           boolean wasLeftClick) {
     try {
-      this.gameView.itemClick(item, wasShiftDown, wasCtrlDown, wasLeftClick);
+      this.gameView.itemClick(itemAbility, wasShiftDown, wasCtrlDown, wasLeftClick);
     } catch (Exception e) {
       if (this.config.isDebugMode()) {
         e.printStackTrace();

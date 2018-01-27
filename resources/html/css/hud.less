@@ -144,6 +144,15 @@ div, body {
       display: -webkit-box;
       overflow: visible;
       .icon {
+        .icon-uses {
+          background-color: #aaaaaa;
+          border-radius: 100%;
+          padding: 3px;
+          margin: 2px;
+          &:empty {
+            display: none;
+          }
+        }
         &.selected {
           border: thick solid #904140;
         }

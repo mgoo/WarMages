@@ -446,7 +446,7 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(
               new DefaultItem(
                 new MapPoint(7, 6),
-                  AttackCache.HEAL_POTION_SMALL,
+                  AttackCache.makeHealPotionSmall(),
                   POTION_BLUE_ITEM.getGameImage(),
                 "Health Potion"
               )),
@@ -518,7 +518,7 @@ public class DefaultWorldLoader implements WorldLoader {
           Arrays.asList(
               new DefaultItem(
                   new MapPoint(19, 6),
-                  AttackCache.HEAL_POTION_SMALL,
+                  AttackCache.makeHealPotionSmall(),
                   POTION_BLUE_ITEM.getGameImage(),
                   "Health Potion"
               )
@@ -578,7 +578,8 @@ public class DefaultWorldLoader implements WorldLoader {
               makeBarrel(30, 5),
               makeBarrel(30, 6)
           ),
-          (level, world) -> world.getHeroUnit().getItemInventory().contains(goldRing),
+          (level, world)
+              -> world.getHeroUnit().getItemAbilities().contains(AttackCache.DAMAGE_BUFF),
           "Pick up the Gold Ring<br>"
             + "<b>Right-Click</b> on the ring when the hero is over it"
       ));

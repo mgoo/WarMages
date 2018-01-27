@@ -2,8 +2,8 @@ package main.game.model.entity.usable;
 
 import java.io.Serializable;
 import main.game.model.entity.Entity;
+import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.util.MapPoint;
@@ -26,7 +26,13 @@ public interface Ability extends Serializable {
   /**
    * Sets the unit the owns this ability.
    */
-  void setOwner(Unit unit);
+  void setOwner(HeroUnit unit);
+
+  void consume();
+
+  void addUse(int number);
+
+  int getUses();
 
   /**
    * False if currently in a cool-down state.

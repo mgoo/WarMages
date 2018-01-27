@@ -44,6 +44,7 @@ function addItemIcon(image, item) {
   let icon = $(
       '<div class="icon icon-tooltip">'
       + '<div class="icon-tooltiptext"></div>'
+      + '<span class="icon-uses"></span>'
       + '<div class="icon-bottom-bar"><div class="cooldown"></div></div>'
       + '</div>');
   icon.css('background-image', 'url("' + image + '")');
@@ -105,14 +106,17 @@ function updateIcons() {
 
   for (let i = 0; i < items.length; i++) {
     let icon = $('.item-holder .icon:nth-child(' + (i + 1) + ')');
-    icon.find('.cooldown').width((items[i].getAbility().getCoolDownProgress() * 100) + '%');
-    if (items[i].getAbility().isSelected() && !icon.hasClass('selected')) {
+    if (items[i].getUses() >= 0) {
+      icon.find('.icon-uses').html(items[i].getUses());
+    }
+    icon.find('.cooldown').width((items[i].getCoolDownProgress() * 100) + '%');
+    if (items[i].isSelected() && !icon.hasClass('selected')) {
       icon.addClass('selected');
     }
-    if (!items[i].getAbility().isSelected() && icon.hasClass('selected')) {
+    if (!items[i].isSelected() && icon.hasClass('selected')) {
       icon.removeClass('selected');
     }
-    icon.find('.icon-tooltiptext').html(items[i].getAbility().getDescription())
+    icon.find('.icon-tooltiptext').html(items[i].getDescription())
   }
 }
 

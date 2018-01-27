@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.script.Invocable;
@@ -24,6 +25,10 @@ import main.images.UnitSpriteSheet.Sequence;
  */
 public class Attack implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+  public static final double INSTANT_DURATION = 0;
+  public static final double FIXED_AMOUNT = 0;
+
   private final String scriptLocation;
   private final double range;
   private final int attackSpeed;
@@ -33,7 +38,6 @@ public class Attack implements Serializable {
   private final double amount;
   private final double duration;
 
-  private static final long serialVersionUID = 1L;
   private transient Invocable engine;
 
   public Attack(String scriptLocation,
@@ -43,7 +47,7 @@ public class Attack implements Serializable {
                 Sequence attackSequence,
                 AttackType attackType) {
     this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
-        attackType, 0, 0);
+        attackType, FIXED_AMOUNT, INSTANT_DURATION);
   }
 
   public Attack(String scriptLocation,
@@ -54,7 +58,7 @@ public class Attack implements Serializable {
                 AttackType attackType,
                 double amount) {
     this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
-        attackType, amount, 0);
+        attackType, amount, INSTANT_DURATION);
   }
 
   public Attack(String scriptLocation,
@@ -179,5 +183,30 @@ public class Attack implements Serializable {
     } catch (ScriptException | NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Attack)) {
+      return false;
+    }
+    Attack attack = (Attack) o;
+    return Double.compare(attack.range, range) == 0
+        && attackSpeed == attack.attackSpeed
+        && Double.compare(attack.windupPortion, windupPortion) == 0
+        && Double.compare(attack.amount, amount) == 0
+        && Double.compare(attack.duration, duration) == 0
+        && Objects.equals(scriptLocation, attack.scriptLocation)
+        && attackType == attack.attackType;
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects
+        .hash(scriptLocation, range, attackSpeed, windupPortion, attackType, amount, duration);
   }
 }

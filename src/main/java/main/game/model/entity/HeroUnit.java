@@ -19,6 +19,5 @@ public interface HeroUnit extends Unit {
 
   Collection<Ability> getItemAbilities();
 
-  Collection<Item> getItemInventory();
-
+  void removeItemAbility(Ability itemAbility);
 }
