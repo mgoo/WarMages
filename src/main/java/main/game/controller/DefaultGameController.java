@@ -76,36 +76,52 @@ public class DefaultGameController implements GameController {
         //select all units owned  by the player
         model.setUnitSelection(model.getAllUnits());
         break;
-      case 'w': //up
-        if (keyevent.wasCtrlDown()) {
-          throw new Error("Not yet implemented!"); //TODO
-        }
-        if (keyevent.wasShiftDown()) {
-          throw new Error("Not yet implemented!"); //TODO
+      case 'q':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getAbilities().size() >= 1) {
+          this.selectUsable(model.getHeroUnit().getAbilities().get(0));
         }
         break;
-      case 'a': //left
-        if (keyevent.wasCtrlDown()) {
-          throw new Error("Not yet implemented!"); //TODO
-        }
-        if (keyevent.wasShiftDown()) {
-          throw new Error("Not yet implemented!"); //TODO
+      case 'w':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getAbilities().size() >= 2) {
+          this.selectUsable(model.getHeroUnit().getAbilities().get(1));
         }
         break;
-      case 's': //down
-        if (keyevent.wasCtrlDown()) {
-          throw new Error("Not yet implemented!"); //TODO
-        }
-        if (keyevent.wasShiftDown()) {
-          throw new Error("Not yet implemented!"); //TODO
+      case 'e':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getAbilities().size() >= 3) {
+          this.selectUsable(model.getHeroUnit().getAbilities().get(2));
         }
         break;
-      case 'd': //right
-        if (keyevent.wasCtrlDown()) {
-          throw new Error("Not yet implemented!"); //TODO
+      case 'r':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getAbilities().size() >= 4) {
+          this.selectUsable(model.getHeroUnit().getAbilities().get(3));
         }
-        if (keyevent.wasShiftDown()) {
-          throw new Error("Not yet implemented!"); //TODO
+        break;
+      case 'a':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getItemAbilities().size() >= 1) {
+          this.selectUsable(model.getHeroUnit().getItemAbilities().get(0));
+        }
+        break;
+      case 's':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getItemAbilities().size() >= 2) {
+          this.selectUsable(model.getHeroUnit().getItemAbilities().get(1));
+        }
+        break;
+      case 'd':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getItemAbilities().size() >= 3) {
+          this.selectUsable(model.getHeroUnit().getItemAbilities().get(2));
+        }
+        break;
+      case 'f':
+        if (model.getUnitSelection().contains(model.getHeroUnit())
+            && model.getHeroUnit().getItemAbilities().size() >= 4) {
+          this.selectUsable(model.getHeroUnit().getItemAbilities().get(3));
         }
         break;
       default:

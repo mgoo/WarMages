@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 import main.exceptions.ItemNotInRangeException;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Team;
@@ -83,12 +82,12 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
    * Returns the HeroUnit's abilities.
    */
   @Override
-  public Collection<Ability> getAbilities() {
+  public List<Ability> getAbilities() {
     return Collections.unmodifiableList(abilities);
   }
 
   @Override
-  public Collection<Ability> getItemAbilities() {
+  public List<Ability> getItemAbilities() {
     return Collections.unmodifiableList(this.itemAbilities);
   }
 

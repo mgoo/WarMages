@@ -168,7 +168,7 @@ public class HudController extends MenuController {
 
   @Override
   public void onKeyDown(KeyEvent event) {
-    this.gameView.onKeyDown(event.getCharacter().charAt(0),
+    this.gameView.onKeyDown(event.getText().charAt(0),
         event.isShiftDown(),
         event.isControlDown());
   }
