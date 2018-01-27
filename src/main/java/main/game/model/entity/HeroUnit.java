@@ -1,6 +1,6 @@
 package main.game.model.entity;
 
-import java.util.Collection;
+import java.util.List;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 
@@ -15,9 +15,9 @@ public interface HeroUnit extends Unit {
 
   boolean isItemWithinRange(Item item);
 
-  Collection<Ability> getAbilities();
+  List<Ability> getAbilities();
 
-  Collection<Ability> getItemAbilities();
+  List<Ability> getItemAbilities();
 
   void removeItemAbility(Ability itemAbility);
 }
