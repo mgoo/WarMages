@@ -28,6 +28,7 @@ public enum GameImageResource {
   RING_ICON("images/icons/ring_gold.png"),
   FIREBALL_ICON("images/icons/fireball.png"),
   LIGHTING_ICON("images/icons/lightning.png"),
+  FAIRYFIRE_ICON("images/icons/faerie-fire.png"),
 
   // Projectiles
   ARROW_PROJECTILE("images/projectile-sheets/arrow-sheet.png"),
@@ -201,6 +202,7 @@ public enum GameImageResource {
   MAGE_WHITE_SPRITE_SHEET("images/hdunits/white_mage.png"),
   ORC_SPEARMAN_SPRITE_SHEET("images/hdunits/orc_spearman.png"),
   SKELETON_ARCHER_SPRITE_SHEET("images/hdunits/skeleton_archer.png"),
+  CRYSTAL_SPRITE_SHEET("images/hdunits/crystal.png"),
 
   // Test Images
   TEST_IMAGE_FULL_SIZE("fixtures/images/image_for_image_provider_tests.png"),

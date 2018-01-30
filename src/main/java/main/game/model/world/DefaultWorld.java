@@ -143,6 +143,10 @@ public class DefaultWorld implements Serializable, World {
     return this.heroUnit;
   }
 
+  public void addUnit(Unit unit) {
+    this.addEntity(unit, this.units);
+  }
+
   /**
    * Gets all entities in the world (including map entities, units, projectiles and other entities.
    *

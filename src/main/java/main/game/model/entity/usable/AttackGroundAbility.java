@@ -7,6 +7,7 @@ import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.state.MapPointTarget;
 import main.game.model.entity.unit.state.TargetToAttack;
+import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
 import main.images.GameImage;
 import main.images.UnitSpriteSheet.Sequence;
@@ -84,6 +85,17 @@ public class AttackGroundAbility extends BaseAbility {
             true
         )
     );
+  }
+
+  @Override
+  public void execute(
+      Unit unit, Targetable target, World world
+  ) {
+    if (target instanceof MapPointTarget) {
+      super.execute(unit, target, world);
+    } else {
+      super.execute(unit, new MapPointTarget(target.getLocation(), this.radius), world);
+    }
   }
 
   @Override

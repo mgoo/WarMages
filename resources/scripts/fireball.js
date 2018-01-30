@@ -15,7 +15,7 @@ var apply = function(owner, target, attack, world) {
   var direction = Direction.between(owner.getCentre(), unit.getLocation());
   var projectile = new DefaultProjectile(
       owner.getCentre(),
-      new MapSize(0.8, 0.8),
+      new MapSize(1.5, 1.5),
       owner,
       unit,
       attack,
