@@ -22,7 +22,9 @@ public enum UnitType {
   MAGE_ICE(150, 0.1, 8, AttackCache.ICEBALL),
 
   LASER(200, 0.08, 5, AttackCache.LASER),
-  WHITE_LASER(200, 0.08, 5, AttackCache.ICE_LASER);
+  WHITE_LASER(200, 0.08, 5, AttackCache.ICE_LASER),
+
+  TURRET(50, 0, 4, AttackCache.FIREBALL);
 
   protected double startingHealth;
   protected double movementSpeed;

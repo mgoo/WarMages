@@ -393,7 +393,8 @@ public class DefaultWorldLoader implements WorldLoader {
         new DefaultUnitSpriteSheet(MAGE_WHITE_SPRITE_SHEET),
         UnitType.MAGE_ICE,
         Arrays.asList(
-            AttackCache.FIREBOLT,
+            AttackCache.TURRET,
+            AttackCache.makeFirebolt(),
             AttackCache.HEAL_SPELL,
             AttackCache.LIGHTNING
         ),

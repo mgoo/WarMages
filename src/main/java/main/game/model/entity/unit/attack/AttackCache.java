@@ -3,6 +3,7 @@ package main.game.model.entity.unit.attack;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.AttackGroundAbility;
 import main.game.model.entity.usable.AttackUnitAbility;
+import main.game.model.entity.usable.BaseAbility;
 import main.images.GameImageResource;
 import main.images.UnitSpriteSheet.Sequence;
 
@@ -72,22 +73,26 @@ public class AttackCache {
       1
   );
 
+  /**
+   * Creates a new Firebolt ability.
+   */
+  public static BaseAbility makeFirebolt() {
+    return new AttackGroundAbility(
+        GameImageResource.FIREBALL_ICON.getGameImage(),
+        20,
+        2,
+        "Fires an explosive bolt of fire",
+        "resources/scripts/firebolt.js",
+        4,
+        10,
+        0.66,
+        Sequence.SPELL_CAST,
+        AttackType.MAGIC,
+        200
+    );
+  }
 
-  public static final Ability FIREBOLT = new AttackGroundAbility(
-      GameImageResource.FIREBALL_ICON.getGameImage(),
-      20,
-      2,
-      "Fires an explosive bolt of fire",
-      "resources/scripts/firebolt.js",
-      4,
-      10,
-      0.66,
-      Sequence.SLASH,
-      AttackType.MAGIC,
-      200
-  );
-
-  public static final Ability LIGHTNING = new AttackUnitAbility(
+  public static final BaseAbility LIGHTNING = new AttackUnitAbility(
       GameImageResource.LIGHTING_ICON.getGameImage(),
       20,
       "Smite a unit with a bolt from heaven",
@@ -100,7 +105,7 @@ public class AttackCache {
       400
   );
 
-  public static final Ability HEAL_SPELL = new AttackUnitAbility(
+  public static final BaseAbility HEAL_SPELL = new AttackUnitAbility(
       GameImageResource.HEAL_SPELL_ICON.getGameImage(),
       15,
       "Heals a unit instantly",
@@ -116,7 +121,7 @@ public class AttackCache {
   /**
    * Makes a new small potion heal ability.
    */
-  public static Ability makeHealPotionSmall() {
+  public static BaseAbility makeHealPotionSmall() {
     return new AttackUnitAbility(
       GameImageResource.SMALL_POTION_ICON.getGameImage(),
       .01,
@@ -133,7 +138,7 @@ public class AttackCache {
     );
   }
 
-  public static final Ability HEAL_POTION_SMALL = new AttackUnitAbility(
+  public static final BaseAbility HEAL_POTION_SMALL = new AttackUnitAbility(
       GameImageResource.SMALL_POTION_ICON.getGameImage(),
       .01,
       "Heals a unit instantly",
@@ -148,7 +153,7 @@ public class AttackCache {
       3
   );
 
-  public static final Ability DAMAGE_BUFF = new AttackUnitAbility(
+  public static final BaseAbility DAMAGE_BUFF = new AttackUnitAbility(
       GameImageResource.RING_ICON.getGameImage(),
       20,
       "Buff the damage on a friendly unit",
@@ -160,6 +165,18 @@ public class AttackCache {
       AttackType.BUFF,
       100,
       40
+  );
+  public static final BaseAbility TURRET = new AttackGroundAbility(
+      GameImageResource.FAIRYFIRE_ICON.getGameImage(),
+      60,
+      0,
+      "Spawn a turret to kill everything",
+      "resources/scripts/turret.js",
+      1,
+      20,
+      0.85,
+      Sequence.SPELL_CAST,
+      AttackType.MAGIC
   );
 
 
