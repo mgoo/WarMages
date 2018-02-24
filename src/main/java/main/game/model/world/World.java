@@ -27,6 +27,10 @@ public interface World {
    */
   Collection<Unit> getAllUnits();
 
+  void addUnitEntity(Unit unit);
+
+  void removeUnitEntity(Unit unit);
+
   /**
    * Gets the hero unit in the world.
    */

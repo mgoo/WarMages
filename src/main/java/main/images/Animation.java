@@ -1,8 +1,10 @@
 package main.images;
 
 import java.io.Serializable;
-import java.util.List;
 import main.game.model.GameModel;
+import main.game.model.data.dataobject.AnimationData;
+import main.game.model.data.dataobject.ImageData;
+import main.game.model.data.dataobject.SpriteSheetData;
 
 /**
  * Handles what image should be shown as time progresses.
@@ -12,65 +14,84 @@ public class Animation implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private List<GameImage> frames;
-  private final int length;
-  private final double ticksPerFrame;
-  private int currentTick = 0;
+  protected final AnimationData animationData;
+  private final SpriteSheetData spriteSheet;
+  protected final int length;
+  protected final double ticksPerFrame;
+  protected int currentTick = 0;
   private boolean isFinished = false;
 
   /**
    * Constructor uses list of frames and time.
    *
-   * @param length how many tick one play of the unitAnimation should take
+   * @param length how many ticks one play of the Animation should take
    */
   public Animation(
-      List<GameImage> frames,
+      SpriteSheetData spriteSheet,
+      String animation,
       int length
   ) {
-    this.frames = frames;
+    this.spriteSheet = spriteSheet;
+    this.animationData = this.spriteSheet.getAnimation(animation);
     this.length = length;
-    this.ticksPerFrame = (double)length / (double)frames.size();
+    this.ticksPerFrame = (double)length / (double)this.animationData.getFrames();
   }
 
   /**
-   * The unit should call this when the {@link GameModel} ticks.
+   * This will be called every tick {@link GameModel} ticks.
    */
   public void tick() {
     if (this.isFinished) {
       return;
     }
     this.currentTick = this.currentTick + 1;
-    if (this.currentTick >= this.length) {
+    if (this.currentTick >= this.length - 1) {
       this.isFinished = true;
     }
   }
 
   /**
-   * Changes the images in the animation half way through.
-   * An example usage is for units changing direction part way through the animation.
+   * Gets the current GameImage.
+   * If the animation is finished it will just return the last one.
+   * Will pick the closest direction to the angle.
+   * @param angle the angle in radians that you want the frame for.
    */
-  protected void setImages(List<GameImage> frames) {
-    assert this.frames.size() == frames.size()
-        : "Cannot change animation to have a different amount of frames";
-    this.frames = frames;
+  public ImageData getImage(double angle) {
+    int direction = this.angleToDirection(angle);
+
+    if (direction >= this.animationData.getDirections()) {
+      direction = 0;
+    }
+    if (this.isFinished) {
+      this.spriteSheet.getImage(
+          this.animationData.getId(), this.animationData.getFrames() - 1,
+          direction
+      );
+    }
+
+    int currentFrame = (int)(this.currentTick / this.ticksPerFrame);
+    if (currentFrame >= this.animationData.getFrames()) {
+      currentFrame = this.animationData.getFrames() - 1;
+    }
+    return this.spriteSheet.getImage(this.animationData.getId(), currentFrame, direction);
   }
 
   /**
-   * Gets the current GameImage.
-   * If the animation is finished it will just return the last one.
+   * Converts radians into a direction index.
    */
-  public GameImage getImage() {
-    if (this.isFinished) {
-      return getImages().get(getImages().size() - 1);
+  private int angleToDirection(double angle) {
+    angle += Math.PI / 2;
+    angle = angle % 2 * Math.PI;
+
+    double angleStep = 2 * Math.PI / this.animationData.getDirections();
+    int direction = (int)Math.round(angle / angleStep);
+    if (direction == this.animationData.getDirections()) {
+      direction = 0;
     }
-    return getImages().get((int)(this.currentTick / this.ticksPerFrame));
+    return direction;
   }
 
   public boolean isFinished() {
     return this.isFinished;
-  }
-
-  private List<GameImage> getImages() {
-    return this.frames;
   }
 }

@@ -1,18 +1,20 @@
 package main.game.model.entity.unit;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import main.game.model.entity.DeadUnit;
+import java.util.stream.Collectors;
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataobject.ImageData;
+import main.game.model.data.dataobject.SpriteSheetData;
+import main.game.model.data.dataobject.UnitData;
 import main.game.model.entity.DefaultEntity;
-import main.game.model.entity.Direction;
+import main.game.model.entity.StaticEntity;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.view.Renderable;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.state.Dying;
 import main.game.model.entity.unit.state.Idle;
 import main.game.model.entity.unit.state.Target;
 import main.game.model.entity.unit.state.Targetable;
@@ -20,9 +22,7 @@ import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
 import main.game.view.ViewVisitor;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
-import main.images.UnitSpriteSheet.Sequence;
+import main.images.Animation;
 import main.util.Config;
 import main.util.Event;
 import main.util.MapPoint;
@@ -40,20 +40,19 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   private static final double UNIT_MAX_SPEED = 0.12;
   private static final double UNIT_MAX_SIZE = 1;
 
-  private final UnitSpriteSheet spriteSheet;
+  private final SpriteSheetData spriteSheet;
   private final Team team;
 
-  private UnitType unitType;
   private UnitState unitState;
   private List<Effect> activeEffects = new ArrayList<>();
   private boolean isDead = false;
 
-  private boolean hasCreatedDeadUnit = false;
-
   private int level;
   private double health;
-  private double speed;
+
   private MapSize originalSize;
+  private Attack baseAttack;
+  private UnitData unitData;
 
   private final Event<Double> damagedEvent = new Event<>();
   private final Event<Double> healedEvent = new Event<>();
@@ -63,38 +62,36 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
    * Defaults the level to 0
    */
   public DefaultUnit(
+      UnitData unitData,
       MapPoint position,
-      MapSize size,
       Team team,
-      UnitSpriteSheet sheet,
-      UnitType unitType
+      DataLoader dataLoader
   ) {
-    this(position, size, team, sheet, unitType, 0);
+    this(unitData, position, team,  dataLoader, 0);
   }
 
   /**
    * Constructor takes the unit's position, size, and team.
    */
   public DefaultUnit(
+      UnitData unitData,
       MapPoint position,
-      MapSize size,
       Team team,
-      UnitSpriteSheet sheet,
-      UnitType unitType,
+      DataLoader dataLoader,
       int level
   ) {
-    super(position, size);
+    super(position, new MapSize(unitData.getSize(), unitData.getSize()));
+    this.unitData = unitData;
     this.level = level;
-    this.originalSize = size;
-    this.setSize(new MapSize(this.levelMultiplyer(size.width, UNIT_MAX_SIZE),
-        this.levelMultiplyer(size.height, UNIT_MAX_SIZE)));
+    this.originalSize = new MapSize(unitData.getSize(), unitData.getSize());
+    this.setSize(
+        new MapSize(this.levelMultiplyer(this.originalSize.width, UNIT_MAX_SIZE),
+        this.levelMultiplyer(this.originalSize.height, UNIT_MAX_SIZE)));
     this.team = team;
-    this.unitType = unitType;
-    this.health = this.levelMultiplyer(unitType.getStartingHealth());
-    this.speed = unitType.getMovementSpeed();
-    this.spriteSheet = sheet;
+    this.health = this.levelMultiplyer(unitData.getStartingHealth());
+    this.spriteSheet = unitData.getSpritesheetData();
     this.unitState = new Idle(this);
-
+    this.baseAttack = new Attack(unitData.getBaseAttackData(), dataLoader);
   }
 
   /**
@@ -128,45 +125,25 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
         this.levelMultiplyer(this.originalSize.height, UNIT_MAX_SIZE)));
   }
 
-  /**
-   * Sets the Unit's next state to be the given state.
-   *
-   * @param state to be changed to.
-   */
-  private void setNextState(UnitState state) {
-    unitState.setState(requireNonNull(state));
-  }
-
-  public UnitType getUnitType() {
-    return unitType;
-  }
-
   @Override
   public double getLineOfSight() {
-    return this.unitType.lineOfSight;
-  }
-
-  @Override
-  public DeadUnit createDeadUnit() {
-    if (!isDead || hasCreatedDeadUnit) {
-      throw new IllegalStateException();
-    }
-
-    hasCreatedDeadUnit = true;
-    GameImage deadImage = spriteSheet.getImagesForSequence(Sequence.DEAD, Direction.DOWN).get(0);
-    return new DefaultDeadUnit(getTopLeft(), getSize(), deadImage);
+    return this.unitData.getLineOfSight();
   }
 
   @Override
   public void tick(long timeSinceLastTick, World world) {
     //update image and state if applicable
     this.unitState.tick(timeSinceLastTick, world);
-    this.unitState = requireNonNull(this.unitState.updateState());
     tickEffects(timeSinceLastTick);
   }
 
   @Override
-  public GameImage getImage() {
+  public void setState(UnitState state) {
+    this.unitState = state;
+  }
+
+  @Override
+  public ImageData getImage() {
     return unitState.getImage();
   }
 
@@ -176,6 +153,11 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
       return;
     }
     super.translatePosition(dx, dy);
+  }
+
+  @Override
+  public Attack getBaseAttack() {
+    return this.baseAttack;
   }
 
   @Override
@@ -194,11 +176,23 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
       health -= amount;
       this.damagedEvent.broadcast(amount);
     } else {
-      isDead = true;
-      health = 0;
-      unitState = new Dying(Sequence.DYING, this);
+      this.die(world);
       attacker.nextLevel();
     }
+  }
+
+  private void die(World world) {
+    isDead = true;
+    health = 0;
+    world.removeUnitEntity(this);
+    StaticEntity deadUnit = new StaticEntity(
+        this.getTopLeft(),
+        this.getSize(),
+        new Animation(this.getSpriteSheet(), "animation:dying", 5),
+        this.getCurrentAngle()
+    );
+    deadUnit.setLayer(3);
+    world.addStaticEntity(deadUnit);
   }
 
   @Override
@@ -212,8 +206,8 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
 
     health += amount;
 
-    if (health > this.levelMultiplyer(this.unitType.getStartingHealth())) {
-      health = this.levelMultiplyer(this.unitType.getStartingHealth());
+    if (health > this.levelMultiplyer(this.unitData.getStartingHealth())) {
+      health = this.levelMultiplyer(this.unitData.getStartingHealth());
     }
     this.healedEvent.broadcast(amount);
   }
@@ -239,7 +233,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   }
 
   public double getMaxHealth() {
-    return this.levelMultiplyer(unitType.getStartingHealth());
+    return this.levelMultiplyer(this.unitData.getStartingHealth());
   }
 
   @Override
@@ -279,29 +273,29 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   }
 
   @Override
-  public UnitSpriteSheet getSpriteSheet() {
+  public SpriteSheetData getSpriteSheet() {
     return spriteSheet;
   }
 
   @Override
-  public GameImage getIcon() {
-    return this.spriteSheet.getImagesForSequence(Sequence.IDLE, Direction.DOWN).get(0);
+  public ImageData getIcon() {
+    return this.spriteSheet.getImage("animation:idle", 0, 0);
   }
 
   /**
    * Gets the direction from the current state.
    */
   @Override
-  public Direction getCurrentDirection() {
+  public double getCurrentAngle() {
     if (unitState == null) {
-      return Direction.DOWN;
+      return 0;
     }
-    return unitState.getCurrentDirection();
+    return unitState.getCurrentAngle();
   }
 
   @Override
   public void setTarget(Target target) {
-    this.setNextState(target.getState());
+    this.setState(target.getState());
   }
 
   @Override
@@ -318,22 +312,19 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
 
   @Override
   public boolean isSameTypeAs(Unit other) {
-    return this.unitType.toString().equals(other.getType());
+    return this.getType().equals(other.getType());
   }
 
   @Override
   public double getSpeed() {
-    return this.levelMultiplyer(speed, UNIT_MAX_SPEED);
+    return this.levelMultiplyer(this.unitData.getMovementSpeed(), UNIT_MAX_SPEED);
   }
 
   @Override
   public double getAutoAttackDistance() {
-    double range = this.getUnitType().baseAttack.getModifiedRange(this);
-    if (range < 2) {
-      return this.getUnitType().lineOfSight * 0.7;
-    } else {
-      return range;
-    }
+    double range = this.baseAttack.getModifiedRange(this);
+    double los = this.unitData.getLineOfSight();
+    return Math.max(los * 0.7, range);
   }
 
   @Override
@@ -346,16 +337,9 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     return this.healedEvent;
   }
 
-  /**
-   * Public for testing only.
-   */
-  public UnitState _getUnitState() {
-    return unitState;
-  }
-
   @Override
   public String getType() {
-    return this.unitType.toString();
+    return this.unitData.getId();
   }
 
   @Override
@@ -363,7 +347,7 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
     double originalHealth = this.getHealthPercent();
     this.setLevel(this.level + 1);
     // Maintain current level of health
-    this.health = levelMultiplyer(this.unitType.getStartingHealth()) * originalHealth;
+    this.health = levelMultiplyer(this.unitData.getStartingHealth()) * originalHealth;
   }
 
   @Override
@@ -398,8 +382,14 @@ public class DefaultUnit extends DefaultEntity implements Unit, Targetable {
   }
 
   @Override
-  public List<Unit> getEffectedUnits(World world) {
-    return Collections.singletonList(this);
+  public List<Unit> getEffectedUnits(World world, double radius) {
+    if (radius == 0) {
+      return Collections.singletonList(this);
+    } else {
+      return world.getAllUnits().stream()
+          .filter(unit -> unit.getCentre().distanceTo(this.getLocation()) < radius)
+          .collect(Collectors.toList());
+    }
   }
 
   @Override

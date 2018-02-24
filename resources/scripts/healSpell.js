@@ -1,21 +1,27 @@
-var Sheet = Java.type('main.images.SpriteSheet.Sheet');
-var Sequence = Java.type('main.images.SpriteSheet.Sequence');
-var StaticEntity = Java.type('main.game.model.entity.StaticEntity');
+var AnimationEntity = Java.type('main.game.model.entity.AnimationEntity');
 var Collectors = Java.type('java.util.stream.Collectors');
+var Animation = Java.type('main.images.Animation');
+
+// This is set from java.
+var dataLoader = null;
 
 var apply = function(owner, target, attack, world) {
-  var effectedUnits = getEffectedUnits(owner, world, target);
+  var effectedUnits = getEffectedUnits(owner, world, target, attack);
   if (effectedUnits.size() == 0) {
     return;
   }
   var unit = effectedUnits.get(0);
   unit.gainHealth(attack.getAmount());
   world.addStaticEntity(
-      new StaticEntity(
+      new AnimationEntity(
           unit.getTopLeft(),
           unit.getSize(),
-          Sheet.HEAL_EFFECT.getImagesForSequence(Sequence.HEAL),
-          false
+          new Animation(
+              dataLoader.getDataForSpriteSheet('misc_sheet:healeffect'),
+              'animation:healeffect',
+              10
+          ),
+          0
       )
   );
 
@@ -25,8 +31,8 @@ var apply = function(owner, target, attack, world) {
   }
 };
 
-var getEffectedUnits = function (owner, world, target) {
-  return target.getEffectedUnits(world)
+var getEffectedUnits = function (owner, world, target, attack) {
+  return target.getEffectedUnits(world, attack.getRadius())
   .stream()
   .filter(function (u) {
     return !owner.getTeam().canAttack(u.getTeam());

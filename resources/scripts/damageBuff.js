@@ -2,7 +2,7 @@ var DamageBuffEffect = Java.type('main.game.model.entity.usable.DamageBuffEffect
 var Collectors = Java.type('java.util.stream.Collectors');
 
 var apply = function(owner, target, attack, world) {
-  var effectedUnits = getEffectedUnits(owner, world, target);
+  var effectedUnits = getEffectedUnits(owner, world, target, zattack);
   if (effectedUnits.size() == 0) {
     return;
   }
@@ -23,8 +23,8 @@ var apply = function(owner, target, attack, world) {
   }
 };
 
-var getEffectedUnits = function(owner, world, target) {
-  return target.getEffectedUnits(world)
+var getEffectedUnits = function(owner, world, target, attack) {
+  return target.getEffectedUnits(world, attack.getRadius())
   .stream()
   .filter(function (u) {
     return !owner.getTeam().canAttack(u.getTeam());

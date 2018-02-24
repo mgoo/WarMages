@@ -5,6 +5,10 @@ import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
 import main.util.MapPoint;
 
+/**
+ * A target for a unit that is for when they are trying to attack a targetable.
+ * @author Andrew McGhie
+ */
 public class TargetToAttack extends Target implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -12,10 +16,19 @@ public class TargetToAttack extends Target implements Serializable {
   private final Targetable target;
   private final Attack attack;
 
+  /**
+   * Creates a TargetToAttack that will continue after the first attack.
+   * @param unit unit that the target is for
+   * @param target target for that unit
+   * @param attack the attack to do to that target
+   */
   public TargetToAttack(Unit unit, Targetable target, Attack attack) {
     this(unit, target, attack, false);
   }
 
+  /**
+   * Creates a TargetToAttack that the unit will go Idle after finishing the animation.
+   */
   public TargetToAttack(Unit unit, Targetable target, Attack attack, boolean singleUse) {
     super(unit);
     this.target = target;

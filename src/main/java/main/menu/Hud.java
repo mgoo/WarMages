@@ -16,9 +16,7 @@ import main.Main;
 import main.game.model.GameModel;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
 import main.game.view.GameView;
-import main.images.ImageProvider;
 import main.menu.controller.HudController;
 import main.menu.controller.HudController.SaveFunction;
 import main.menu.generators.GoalTextGenerator;
@@ -35,7 +33,6 @@ public class Hud extends Menu {
 
   private final Main main;
   private final GameModel gameModel;
-  private final ImageProvider imageProvider;
   private final GoalTextGenerator goalScript = new GoalTextGenerator();
   private List<Unit> unitsShowingIcons = new CopyOnWriteArrayList<>();
   private List<Ability> abilitiesShowingIcons = new CopyOnWriteArrayList<>();
@@ -46,12 +43,10 @@ public class Hud extends Menu {
              GameView gameView,
              Renderer renderer,
              GameModel gameModel,
-             ImageProvider imageProvider,
              SaveFunction saveFunction,
              Config config) {
     this.main = main;
     this.gameModel = gameModel;
-    this.imageProvider = imageProvider;
     this.menuController = new HudController(main,
         mainMenu,
         gameView,
@@ -159,7 +154,7 @@ public class Hud extends Menu {
 
   private void addUnitIcon(Unit unit) {
     try {
-      String entityIcon = this.formatImageForHtml(unit.getIcon().load(this.imageProvider));
+      String entityIcon = this.formatImageForHtml(unit.getIcon().getImage());
       this.main.callJsFunction("addUnitIcon", entityIcon, unit);
     } catch (IOException e) {
       e.printStackTrace();
@@ -167,19 +162,11 @@ public class Hud extends Menu {
   }
 
   private void addItemIcon(Ability item) {
-    try {
-      this.addIcon("addItemIcon", item.getIconImage().load(this.imageProvider), item);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    this.addIcon("addItemIcon", item.getIconImage().getImage(), item);
   }
 
   private void addAbilityIcon(Ability ability) {
-    try {
-      this.addIcon("addAbilityIcon", ability.getIconImage().load(this.imageProvider), ability);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    this.addIcon("addAbilityIcon", ability.getIconImage().getImage(), ability);
   }
 
   private void addIcon(String method, BufferedImage image, Object entity) {

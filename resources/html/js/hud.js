@@ -72,13 +72,12 @@ function updateIcons() {
     level.html(units[i].getLevel());
 
     let damage = Math.round(
-        units[i].getUnitType().getBaseAttack().getAmount()
+        units[i].getBaseAttack().getAmount()
     );
     let attackSpeed = Math.round(
-        units[i].getUnitType().getBaseAttack().getModifiedAttackSpeed(units[i])
+        units[i].getBaseAttack().getModifiedAttackSpeed(units[i])
     );
-    let range = units[i].getUnitType().
-        getBaseAttack().getModifiedRange(units[i]).toFixed(1);
+    let range = units[i].getBaseAttack().getModifiedRange(units[i]).toFixed(1);
     let maxHealth = Math.round(units[i].getMaxHealth());
     let currentHealth = Math.round(units[i].getHealth());
     let movementSpeed = units[i].getSpeed().toFixed(2);

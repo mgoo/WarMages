@@ -1,11 +1,11 @@
 package main.game.model.entity.usable;
 
 import java.io.Serializable;
+import main.game.model.data.dataobject.ImageData;
 import main.game.model.entity.Entity;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Unit;
 import main.game.model.world.World;
-import main.images.GameImage;
 import main.util.MapPoint;
 
 /**
@@ -50,7 +50,7 @@ public interface Ability extends Serializable {
    *
    * @return GameImage of the Ability.
    */
-  GameImage getIconImage();
+  ImageData getIconImage();
 
   /**
    * Returns a string description of the Ability.

@@ -18,6 +18,7 @@ import main.game.model.entity.MapEntity;
 import main.game.model.entity.Projectile;
 import main.game.model.entity.StaticEntity;
 import main.game.model.entity.Unit;
+import main.game.model.entity.unit.DefaultUnit;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.pathfinder.PathFinder;
 import main.util.MapPoint;
@@ -204,6 +205,14 @@ public class DefaultWorld implements Serializable, World {
     return Collections.unmodifiableCollection(staticEntities);
   }
 
+  public void addUnitEntity(Unit unit) {
+    this.addEntity(unit, units);
+  }
+
+  public void removeUnitEntity(Unit unit) {
+    this.removeEntity(unit, units);
+  }
+
   @Override
   public boolean isPassable(MapPoint point) {
     if (!currentLevel().getBounds().contains(point)) {
@@ -254,14 +263,6 @@ public class DefaultWorld implements Serializable, World {
   @Override
   public void tick(long timeSinceLastTick) {
     getAllEntities().forEach(e -> e.tick(timeSinceLastTick, this));
-    for (Iterator<Unit> iterator = recentlyKilledUnits.iterator(); iterator.hasNext(); ) {
-      Unit deadUnit = iterator.next();
-      iterator.remove();
-
-      this.removeEntity(deadUnit, units);
-      this.addEntity(deadUnit.createDeadUnit(), this.mapEntities);
-    }
-
     this.repelUnits();
     checkLevelCompletion();
   }

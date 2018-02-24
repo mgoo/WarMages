@@ -1,26 +1,35 @@
-var Direction = Java.type('main.game.model.entity.Direction');
-var Sheet = Java.type('main.images.SpriteSheet.Sheet');
-var Sequence = Java.type('main.images.SpriteSheet.Sequence');
+var Animation = Java.type('main.images.Animation');
+var AnimationLoop = Java.type('main.images.AnimationLoop');
 var DefaultProjectile = Java.type('main.game.model.entity.DefaultProjectile');
 var MapSize = Java.type('main.util.MapSize');
 var Collectors = Java.type('java.util.stream.Collectors');
 
+// This is set from java.
+var dataLoader = null;
+
 var apply = function(owner, target, attack, world) {
-  var effectedUnits = getEffectedUnits(owner, world, target);
+  var effectedUnits = getEffectedUnits(owner, world, target, attack);
   if (effectedUnits.size() == 0) {
     return;
   }
   var unit = effectedUnits.get(0);
 
-  var direction = Direction.between(owner.getCentre(), unit.getLocation());
   var projectile = new DefaultProjectile(
-      owner.getCentre(),
+      owner.getTopLeft(),
       new MapSize(0.7, 0.7),
       owner,
       unit,
       attack,
-      Sheet.ARROW_PROJECTILE.getImagesForSequence(Sequence.ARROW, direction),
-      Sheet.ARROW_PROJECTILE.getImagesForSequence(Sequence.ARROW, direction),
+      new AnimationLoop(
+          dataLoader.getDataForSpriteSheet('projectile_sheet:arrow'),
+          'animation:arrow',
+          2
+      ),
+      new Animation(
+          dataLoader.getDataForSpriteSheet('projectile_sheet:arrow'),
+          'animation:arrow',
+          2
+      ),
       new MapSize(0.7, 0.7),
       0.5
   );
@@ -33,8 +42,8 @@ var apply = function(owner, target, attack, world) {
   }
 };
 
-var getEffectedUnits = function(owner, world, target) {
-  return target.getEffectedUnits(world)
+var getEffectedUnits = function(owner, world, target, attack) {
+  return target.getEffectedUnits(world, attack.getRadius())
   .stream()
   .filter(function (u) {
     return owner.getTeam().canAttack(u.getTeam());

@@ -7,15 +7,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import main.exceptions.ItemNotInRangeException;
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataobject.UnitData;
 import main.game.model.entity.HeroUnit;
 import main.game.model.entity.Team;
 import main.game.model.entity.unit.state.TargetItem;
 import main.game.model.entity.usable.Ability;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet;
 import main.util.MapPoint;
-import main.util.MapSize;
 
 /**
  * Default implementation of HeroUnit.
@@ -31,21 +31,15 @@ public class DefaultHeroUnit extends DefaultUnit implements HeroUnit {
 
   /**
    * Constructor takes initial position of HeroUnit, size, sprite sheet, and unit type.
-   *
-   * @param position of HeroUnit.
-   * @param size of HeroUnit on Map.
-   * @param sheet SpriteSheet of HeroUnit images.
-   * @param type of HeroUnit.
    */
   public DefaultHeroUnit(
+      UnitData unitData,
       MapPoint position,
-      MapSize size,
-      UnitSpriteSheet sheet,
-      UnitType type,
       Collection<Ability> abilities,
+      DataLoader dataLoader,
       int level
   ) {
-    super(position, size, Team.PLAYER, sheet, type, level);
+    super(unitData, position, Team.PLAYER, dataLoader, level);
     this.abilities = new CopyOnWriteArrayList<>(abilities);
     abilities.forEach(ability -> ability.setOwner(this));
   }

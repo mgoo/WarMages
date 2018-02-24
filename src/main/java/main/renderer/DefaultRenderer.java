@@ -3,7 +3,6 @@ package main.renderer;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Objects;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
@@ -11,8 +10,6 @@ import main.game.view.Renderable;
 import main.game.view.BackGroundView;
 import main.game.view.EntityView;
 import main.game.view.GameView;
-import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
 import main.util.Config;
 import main.util.Looper;
 import main.util.MapPoint;
@@ -29,7 +26,6 @@ public class DefaultRenderer implements Renderer {
   private final ImageView imageView;
   private final Config config;
   private final Looper looper;
-  private final ImageProvider imageProvider = new DefaultImageProvider();
 
   /**
    * Creates a Renderer and the rendering loop.
@@ -68,8 +64,8 @@ public class DefaultRenderer implements Renderer {
         (int)background.getImageSize().height,
         null);
     for (Renderable renderable : gameView.getRenderables(currentTime)) {
-      MapPoint position = renderable.getImagePosition(currentTime);
-      MapSize size = renderable.getImageSize();
+      MapPoint position = renderable.getEntityScreenPosition(currentTime);
+      MapSize size = renderable.getEntityScreenSize();
       renderable.drawDecorationsBeneth(g,
           (int)(position.x - gameView.getViewBox().topLeft.x),
           (int)(position.y - gameView.getViewBox().topLeft.y),
@@ -79,20 +75,16 @@ public class DefaultRenderer implements Renderer {
     for (Renderable renderable : gameView.getRenderables(currentTime)) {
       MapPoint position = renderable.getImagePosition(currentTime);
       MapSize size = renderable.getImageSize();
-      try {
-        renderable.getImage().drawOnto(g,
-            this.imageProvider,
-            (int)(position.x - gameView.getViewBox().topLeft.x),
-            (int)(position.y - gameView.getViewBox().topLeft.y),
-            (int)size.width,
-            (int)size.height);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      g.drawImage(renderable.getImage().getImage(),
+          (int)(position.x - gameView.getViewBox().topLeft.x),
+          (int)(position.y - gameView.getViewBox().topLeft.y),
+          (int)size.width,
+          (int)size.height,
+          null);
     }
     for (Renderable renderable : gameView.getRenderables(currentTime)) {
-      MapPoint position = renderable.getImagePosition(currentTime);
-      MapSize size = renderable.getImageSize();
+      MapPoint position = renderable.getEntityScreenPosition(currentTime);
+      MapSize size = renderable.getEntityScreenSize();
       renderable.drawDecorationsOntop(g,
           (int)(position.x - gameView.getViewBox().topLeft.x),
           (int)(position.y - gameView.getViewBox().topLeft.y),

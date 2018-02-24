@@ -9,15 +9,9 @@ import main.util.MapPoint;
 public class MapPointTarget implements Targetable {
 
   private final MapPoint mapPoint;
-  private final double radius;
-
-  public MapPointTarget(MapPoint mapPoint, double radius) {
-    this.mapPoint = mapPoint;
-    this.radius = radius;
-  }
 
   public MapPointTarget(MapPoint mapPoint) {
-    this(mapPoint, 0D);
+    this.mapPoint = mapPoint;
   }
 
   @Override
@@ -26,9 +20,9 @@ public class MapPointTarget implements Targetable {
   }
 
   @Override
-  public List<Unit> getEffectedUnits(World world) {
+  public List<Unit> getEffectedUnits(World world, double radius) {
     return world.getAllUnits().stream()
-        .filter(u -> u.getCentre().distanceTo(this.mapPoint) < this.radius)
+        .filter(u -> u.getCentre().distanceTo(this.mapPoint) - u.getSize().width < radius)
         .collect(Collectors.toList());
   }
 
