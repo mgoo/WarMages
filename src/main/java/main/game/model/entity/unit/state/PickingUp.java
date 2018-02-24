@@ -1,10 +1,9 @@
 package main.game.model.entity.unit.state;
 
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet.Sequence;
+import main.images.Animation;
 
 /**
  * State for when the unit is picking an item up off the ground.
@@ -19,9 +18,11 @@ public class PickingUp extends Interacting {
       HeroUnit unit,
       TargetItem itemTarget
   ) {
-    super(unit,
-        new UnitAnimation(unit, Sequence.PICKUP, Sequence.PICKUP.frames * 3),
-        itemTarget);
+    super(
+        unit,
+        new Animation(unit.getSpriteSheet(), "animation:pickup", 10),
+        itemTarget
+    );
     this.heroUnit = unit;
     this.item = itemTarget.getItem();
   }
@@ -29,22 +30,14 @@ public class PickingUp extends Interacting {
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
+    
     if (this.target.hasArrived() && this.unitAnimation.isFinished()) {
       this.heroUnit.pickUp(this.item);
       world.removeItem(this.item);
+      this.heroUnit.setState(new Idle(this.heroUnit));
     }
-  }
-
-  @Override
-  public UnitState updateState() {
-    if (requestedNextState != null) {
-      return requestedNextState;
+    if (!this.target.hasArrived()) {
+      this.heroUnit.setTarget(new TargetItem(heroUnit, item));
     }
-
-    if (this.unitAnimation.isFinished()) {
-      return new Idle(unit);
-    }
-
-    return this;
   }
 }

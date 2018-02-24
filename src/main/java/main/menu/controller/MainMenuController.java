@@ -10,8 +10,6 @@ import main.game.model.world.World;
 import main.game.model.world.saveandload.WorldLoader;
 import main.game.model.world.saveandload.WorldSaveModel;
 import main.game.view.GameView;
-import main.images.DefaultImageProvider;
-import main.images.ImageProvider;
 import main.menu.GameEndMenu;
 import main.menu.Hud;
 import main.menu.MainMenu;
@@ -88,25 +86,25 @@ public class MainMenuController extends MenuController {
   }
 
   private void startGame(World world) {
-    ImageProvider imageProvider = new DefaultImageProvider();
     MainGameTick tickEvent = new MainGameTick();
     GameWon wonEvent = new GameWon();
     GameLost lostEvent = new GameLost();
     GameModel gameModel = new DefaultGameModel(world, tickEvent, wonEvent, lostEvent);
     GameController gameController = new DefaultGameController(gameModel);
-    GameView gameView = new GameView(this.config,
+    GameView gameView = new GameView(
+        this.config,
         gameController,
         gameModel,
-        imageProvider,
-        world);
+        world
+    );
     tickEvent.registerListener(gameView::onTick);
     Renderer renderer = new DefaultRenderer(gameView, this.imageView, config, new Looper());
-    Hud hud = new Hud(this.main,
+    Hud hud = new Hud(
+        this.main,
         this.mainMenu,
         gameView,
         renderer,
         gameModel,
-        imageProvider,
         filename -> this.worldSaveModel.save(world, filename),
         config
     );

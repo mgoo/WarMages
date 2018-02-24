@@ -2,61 +2,28 @@ package main.game.model.entity.usable;
 
 import main.exceptions.UsableStillInCoolDownException;
 
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataobject.AbilityData;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.attack.Attack;
-import main.game.model.entity.unit.attack.AttackType;
 import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet.Sequence;
 import main.util.MapPoint;
 
+/**
+ * An ability that targets a unit rather than a MapPoint.
+ * @author Andrew McGhie
+ */
 public class AttackUnitAbility extends BaseAbility {
 
   private static final long serialVersionUID = 1L;
 
-  public AttackUnitAbility(
-      GameImage icon, double coolDownSeconds, String description,
-      String scriptLocation, double range, int attackSpeed,
-      double windupPortion, Sequence attackSequence, AttackType attackType
-  ) {
-    super(icon, coolDownSeconds, description,
-        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        Attack.FIXED_AMOUNT, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES);
-  }
-
-  public AttackUnitAbility(
-      GameImage icon, double coolDownSeconds, String description,
-      String scriptLocation, double range, int attackSpeed,
-      double windupPortion, Sequence attackSequence, AttackType attackType,
-      double amount
-  ) {
-    super(icon, coolDownSeconds, description,
-        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        amount, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES);
-  }
-
-  public AttackUnitAbility(
-      GameImage icon, double coolDownSeconds, String description,
-      String scriptLocation, double range, int attackSpeed,
-      double windupPortion, Sequence attackSequence, AttackType attackType,
-      double amount, double duration
-  ) {
-    super(icon, coolDownSeconds, description,
-        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration, INFINITE_USES);
+  protected AttackUnitAbility(AbilityData abilityData, DataLoader dataLoader) {
+    super(abilityData, dataLoader, INFINITE_USES);
   }
 
 
-  public AttackUnitAbility(
-      GameImage icon, double coolDownSeconds, String description,
-      String scriptLocation, double range, int attackSpeed,
-      double windupPortion, Sequence attackSequence, AttackType attackType,
-      double amount, double duration, int uses
-  ) {
-    super(icon, coolDownSeconds, description,
-        scriptLocation, range, attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration, uses);
+  protected AttackUnitAbility(AbilityData abilityData, DataLoader dataLoader, int uses) {
+    super(abilityData, dataLoader, uses);
   }
 
   @Override
@@ -74,7 +41,7 @@ public class AttackUnitAbility extends BaseAbility {
 
   @Override
   public void use(World world, MapPoint mapPoint) {
-    throw new RuntimeException("This usable cannot be used on a MapPoint");
+    throw new RuntimeException("This ability cannot be used on a MapPoint");
   }
 
 

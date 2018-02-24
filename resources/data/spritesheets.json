@@ -1,0 +1,94 @@
+[
+  {
+    "id": "unit_sheet:archer",
+    "location": "resources/images/hdunits/archer.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:dark_elf",
+    "location": "resources/images/hdunits/dark_elf.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:footknight",
+    "location": "resources/images/hdunits/footknight.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:spearman",
+    "location": "resources/images/hdunits/spearman.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:hero_gold",
+    "location": "resources/images/hdunits/golden_hero.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:mage_male",
+    "location": "resources/images/hdunits/male_mage.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:mage_cape",
+    "location": "resources/images/hdunits/female_mage.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:mage_white",
+    "location": "resources/images/hdunits/white_mage.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:spearman_orc",
+    "location": "resources/images/hdunits/orc_spearman.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:archer_skeleton",
+    "location": "resources/images/hdunits/skeleton_archer.png",
+    "type": "sheet_type:unit"
+  },
+  {
+    "id": "unit_sheet:crystal",
+    "location": "resources/images/hdunits/crystal.png",
+    "type": "sheet_type:unit"
+  },
+
+  {
+    "id": "projectile_sheet:arrow",
+    "location": "resources/images/projectile-sheets/arrow-sheet.png",
+    "type": "sheet_type:arrow"
+  },
+  {
+    "id": "projectile_sheet:fireball",
+    "location": "resources/images/projectile-sheets/fireball-sheet.png",
+    "type": "sheet_type:fireball"
+  },
+  {
+    "id": "projectile_sheet:icemissile",
+    "location": "resources/images/projectile-sheets/icemissile-sheet.png",
+    "type": "sheet_type:icemissile"
+  },
+  {
+    "id": "projectile_sheet:whitemissile",
+    "location": "resources/images/projectile-sheets/whitemissile-sheet.png",
+    "type": "sheet_type:whitemissile"
+  },
+
+  {
+    "id": "misc_sheet:healeffect",
+    "location": "resources/images/misc-spritesheets/healeffect.png",
+    "type": "sheet_type:healeffect"
+  },
+  {
+    "id": "misc_sheet:explosion",
+    "location": "resources/images/projectile-sheets/explosion1-sheet.png",
+    "type": "sheet_type:explosion"
+  },
+  {
+    "id": "misc_sheet:lightning",
+    "location": "resources/images/projectile-sheets/lighting-sheet.png",
+    "type": "sheet_type:lightning"
+  }
+]

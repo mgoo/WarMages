@@ -2,13 +2,9 @@ package main.game.view;
 
 import java.awt.Graphics2D;
 import java.util.Comparator;
-import java.util.Observable;
-import java.util.Observer;
 import main.game.model.GameModel;
+import main.game.model.data.dataobject.ImageData;
 import main.game.model.entity.Entity;
-import main.game.model.entity.Projectile;
-import main.game.model.entity.unit.DefaultDeadUnit;
-import main.images.GameImage;
 import main.util.Config;
 import main.util.MapPoint;
 import main.util.MapSize;
@@ -23,7 +19,7 @@ public class EntityView implements Renderable {
 
   private final Entity entity;
 
-  GameImage currentImage;
+  private ImageData currentImage;
   private MapPoint oldPosition;
   private MapPoint destination;
 
@@ -35,14 +31,10 @@ public class EntityView implements Renderable {
   EntityView(Config config, Entity entity) {
     this.config = config;
     this.entity = entity;
-    this.oldPosition = entity.getCentre();
-    this.destination = entity.getCentre();
+    this.oldPosition = entity.getTopLeft();
+    this.destination = entity.getTopLeft();
     if (entity.getLayer() != -1) {
       this.layer = entity.getLayer();
-    } else if (entity instanceof Projectile) {
-      this.layer = 1; // Make projectiles in front of all other entities
-    } else if (entity instanceof DefaultDeadUnit) {
-      this.layer = 3; // Make dead units behind all other entites
     } else {
       this.layer = 2;
     }
@@ -52,7 +44,7 @@ public class EntityView implements Renderable {
   public void onTick(long tickTime, GameModel model) {
     this.lastTickTime = tickTime;
     this.oldPosition = this.destination;
-    this.destination = entity.getCentre();
+    this.destination = entity.getTopLeft();
     this.currentImage = entity.getImage();
   }
 
@@ -62,30 +54,45 @@ public class EntityView implements Renderable {
 
   @Override
   public MapPoint getImagePosition(long currentTime) {
-    MapPoint entityPosition = this.getEffectiveEntityPosition(currentTime);
-    MapPoint entityScreenPosition = tileToPix(entityPosition, config);
+    MapPoint entityScreenPosition = this.getEntityScreenPosition(currentTime);
+    MapSize entityScreenSize = this.getEntityScreenSize();
 
-    MapSize imageSize = this.getImageSize();
+    int spritePosX = (int)(entityScreenPosition.x
+        - entityScreenSize.width * this.currentImage.getWestOverflow());
+    int spritePosY = (int)(entityScreenPosition.y
+        - entityScreenSize.height * this.currentImage.getNorthOverflow());
 
-    return new MapPoint(entityScreenPosition.x - imageSize.width / 2D,
-        entityScreenPosition.y
-            - (imageSize.height
-              - (int)(this.entity.getSize().height * (double)this.config.getEntityViewTilePixelsY())
-                / 2D));
+    return new MapPoint(spritePosX, spritePosY);
   }
 
   @Override
   public MapSize getImageSize() {
-    MapSize entityScreenSize = new MapSize(
+    MapSize entitySize = this.getEntityScreenSize();
+    int spriteWidth = (int)(entitySize.width
+        + entitySize.width * currentImage.getEastOverflow()
+        + entitySize.width * currentImage.getWestOverflow());
+    int spriteHeight = (int)(entitySize.height
+        + entitySize.height * currentImage.getNorthOverflow()
+        + entitySize.height * currentImage.getSouthOverflow());
+
+    return new MapSize(spriteWidth, spriteHeight);
+  }
+
+  /**
+   * Gets the position in pixels of the unit.
+   */
+  public MapPoint getEntityScreenPosition(long currentTime) {
+    return tileToPix(this.getEffectiveEntityPosition(currentTime), config);
+  }
+
+  /**
+   * Gets the size of the unit in pixels.
+   */
+  public MapSize getEntityScreenSize() {
+    return  new MapSize(
         (int)(this.entity.getSize().width * this.config.getEntityViewTilePixelsX()),
         (int)(this.entity.getSize().height * this.config.getEntityViewTilePixelsY())
     );
-
-    int entitySpriteHeight =
-        (int)Math.round(currentImage.getHeight()
-            * (entityScreenSize.width / (double)currentImage.getWidth()));
-
-    return new MapSize(entityScreenSize.width, entitySpriteHeight);
   }
 
   /**
@@ -101,8 +108,22 @@ public class EntityView implements Renderable {
     );
   }
 
+  /**
+   * Calculates the actual MapPoint of this object based on the unitAnimation state.
+   * This is the position relative to the map not the screen
+   *
+   * @return the MapPoint of the object considering the unitAnimation state
+   */
+  public MapPoint getEffectiveEntityPosition(long currentTime) {
+    double animationMultiplyer = 1D - (((double)this.lastTickTime)
+        - ((double)currentTime)) / ((double)this.config.getGameModelDelay());
+    double deltaX = (this.destination.x - this.oldPosition.x) * animationMultiplyer;
+    double deltaY = (this.destination.y - this.oldPosition.y) * animationMultiplyer;
+    return new MapPoint(oldPosition.x + deltaX, oldPosition.y + deltaY);
+  }
+
   @Override
-  public GameImage getImage() {
+  public ImageData getImage() {
     return this.currentImage;
   }
 
@@ -119,27 +140,6 @@ public class EntityView implements Renderable {
   @Override
   public int getLayer() {
     return this.layer;
-  }
-
-  /**
-   * Calculates the actual MapPoint of this object based on the unitAnimation state.
-   * This is the position relative to the map not the screen
-   *
-   * @return the MapPoint of the object considering the unitAnimation state
-   */
-  public MapPoint getEffectiveEntityPosition(long currentTime) {
-    double animationMultiplyer = this.calculateAnimationMultiplyer(currentTime);
-    double deltaX = (this.destination.x - this.oldPosition.x) * animationMultiplyer;
-    double deltaY = (this.destination.y - this.oldPosition.y) * animationMultiplyer;
-    return new MapPoint(oldPosition.x + deltaX, oldPosition.y + deltaY);
-  }
-
-  /**
-   * Calculates the multiplier for a linear unitAnimation.
-   */
-  private double calculateAnimationMultiplyer(long currentTime) {
-    return 1D - (((double)this.lastTickTime)
-        - ((double)currentTime)) / ((double)this.config.getGameModelDelay());
   }
 
   static class EntityRenderableComparator implements Comparator<Renderable> {

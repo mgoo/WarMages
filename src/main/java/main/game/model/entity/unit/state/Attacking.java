@@ -1,9 +1,9 @@
 package main.game.model.entity.unit.state;
 
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.world.World;
+import main.images.Animation;
 
 /**
  * The State for when a unit is attacking another one.
@@ -23,19 +23,23 @@ public class Attacking extends Interacting {
   }
 
   public Attacking(Unit unit, TargetToAttack target, Attack attack, boolean singleAttack) {
-    super(unit,
-        new UnitAnimation(unit,
-            attack.getAttackSequence(),
-            attack.getModifiedAttackSpeed(unit)),
-        target);
+    super(
+        unit,
+        new Animation(
+            unit.getSpriteSheet(),
+            attack.getAnimation().getId(),
+            attack.getModifiedAttackSpeed(unit)
+        ),
+        target
+    );
     this.targetToAttack = target;
     this.singleAttack = singleAttack;
     this.applicationTick =
-        (int)(attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion());
+        (int) (attack.getModifiedAttackSpeed(unit) * attack.getWindupPortion());
     this.attack = attack;
 
     if (!target.isStillValid()) {
-      this.setState(new Idle(unit));
+      this.unit.setState(new Idle(unit));
     }
   }
 
@@ -43,48 +47,36 @@ public class Attacking extends Interacting {
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
 
+    if (!target.isStillValid()) {
+      this.unit.setState(new Idle(this.unit));
+      return;
+    }
+    // Target is valid
+
     if (!target.hasArrived()) {
-      requestedNextState = new Moving(
-          unit,
-          new TargetMapPoint(unit, target.getDestination()),
-          new Attacking(
-              this.unit,
-              ((TargetToAttack) this.target),
-              this.attack,
-              singleAttack
-          )
+      this.unit.setTarget(
+          new TargetToAttack(this.unit, targetToAttack.getTarget(), this.attack, this.singleAttack)
       );
       return;
     }
 
-    if (!target.isStillValid()) {
-      requestedNextState = new Idle(this.unit);
-      return;
-    }
-
+    // If need to execute attack
     if (this.currentTick == this.applicationTick) {
       this.attack.execute(unit, this.targetToAttack.getTarget(), world);
     }
-    currentTick++;
-  }
 
-  @Override
-  public UnitState updateState() {
-    if (requestedNextState != null) {
-      return requestedNextState;
-    }
-    if (!target.isStillValid()) {
-      return new Idle(unit);
-    }
-
+    // Attack is finished
     if (this.unitAnimation.isFinished() && target.isStillValid()) {
       if (!this.singleAttack) {
-        return new Attacking(this.unit, this.targetToAttack, this.attack, singleAttack);
+        this.unit.setTarget(
+            new TargetToAttack(this.unit, targetToAttack.getTarget(), this.attack, false)
+        );
       } else {
-        return new Idle(unit);
+        this.unit.setState(new Idle(unit));
       }
+      return;
     }
 
-    return this;
+    currentTick++;
   }
 }

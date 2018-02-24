@@ -1,0 +1,51 @@
+[
+  {
+    "id": "ability:firebolt",
+    "attack": "attack:firebolt",
+    "icon": "icon:fireball",
+    "cooldown": 20,
+    "description": "Fires an explosive bolt of fire",
+    "targets": "ground"
+  },
+  {
+    "id": "ability:lightning",
+    "attack": "attack:lightning",
+    "icon": "icon:lightning",
+    "cooldown": 20,
+    "description": "Smite a unit with a bolt from heaven",
+    "targets": "units"
+  },
+  {
+    "id": "ability:healspell",
+    "attack": "attack:healspell",
+    "icon": "icon:heal_spell",
+    "cooldown": 15,
+    "description": "Heals a unit instantly",
+    "targets": "units"
+  },
+  {
+    "id": "ability:healpotion",
+    "attack": "attack:healpotion",
+    "icon": "icon:small_potion",
+    "cooldown": 0.1,
+    "description": "Heals a unit instantly",
+    "uses": 3,
+    "targets": "units"
+  },
+  {
+    "id": "ability:damagebuff",
+    "attack": "attack:damagebuff",
+    "icon": "icon:ring_gold",
+    "cooldown": 15,
+    "description": "Buff the damage on a friendly unit",
+    "targets": "units"
+  },
+  {
+    "id": "ability:turret",
+    "attack": "attack:turret",
+    "icon": "icon:faerie_fire",
+    "cooldown": 40,
+    "description": "Spawn a turret to kill everything",
+    "targets": "ground"
+  }
+]

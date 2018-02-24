@@ -1,9 +1,8 @@
 package main.game.model.entity.unit.state;
 
-import main.game.model.entity.Direction;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.world.World;
+import main.images.Animation;
 
 /**
  * Attacking state for Unit.
@@ -16,33 +15,21 @@ public class Interacting extends UnitState {
 
   protected final Target target;
 
-  public Interacting(Unit unit,
-                     UnitAnimation unitAnimation,
-                     Target target) {
-    super(unitAnimation, unit);
+  public Interacting(Unit unit, Animation animation, Target target) {
+    super(animation, unit);
     this.target = target;
   }
 
   @Override
   public void tick(Long timeSinceLastTick, World world) {
     super.tick(timeSinceLastTick, world);
-
-  }
-
-  @Override
-  public UnitState updateState() {
-    if (requestedNextState != null) {
-      return requestedNextState;
-    }
-
-    return this;
   }
 
   /**
    * Assumes that units look at what they are interacting with.
    */
   @Override
-  public Direction getCurrentDirection() {
-    return Direction.between(unit.getCentre(), target.getDestination());
+  public double getCurrentAngle() {
+    return unit.getCentre().angleTo(target.getDestination());
   }
 }

@@ -1,12 +1,11 @@
-# SWEN 222 Group Project  [![pipeline status](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/badges/master/pipeline.svg)](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/commits/master)  [![coverage report](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/badges/master/coverage.svg)](https://gitlab.ecs.vuw.ac.nz/swen222-2017-p1-t9/swen222-group-project/commits/master)
+# War Mages
+
+War Mages is a Real-time strategy game that was created as part of a group project at Uni. 
 
 ## Installation
 
-Download the repository and checkout this swen221-submittable-base branch. If
-you would like to avoid the command line click the green `Clone or Download`
-button on Github then `Download ZIP`, otherwise run this from the command line:
-
-    git clone https://gitlab.ecs.vuw.ac.nz/chongdyla/swen222-group-project
+Clone the project then its just a standard Gradle project so running ./gradlew build and ./gradlew run from the project root will build and run the War Mages.
+This does requrire java8 to be installed. Other than that Gradle will handle all the dependancies.
 
 ### Setup IntelliJ project
 
@@ -66,16 +65,6 @@ Put any `.jar` libraries in the `./lib`.
 If you want to run stuff from the terminal, run `./gradlew test` (ignore the
 `./` if you are on Windows)
 
-## Submitting assignments
-
-You can export the jar to the `./submit` directory for submitting jars
-
-- If you like the command line:
-    - Go into your project directory
-    - Run `./gradlew clean submit` (ignore the `./` if you are on Windows)
-
-Then open the `./submit directory`
-
 ## Workflow Instructions
 
 Our current workflow will work like this (this is only a summary):
@@ -127,29 +116,6 @@ to the start of the merge request title.
 
 You don't need to set any labels on the merge request, because there are
 already labels on the issue.
-
-### How To Do Code Review (NEEDS UPDATING)
-
-1. Find a ticket under the Code Review list in the issues board
-1. Open the merge request for this issue
-1. Assign the merge request to yourself, so other people know that you are
-   reviewing it
-1. Have a look at the changes (there's a `Changes` button halfway down the
-   page) Look for any:
-    - Code styling issues
-    - Anything that looks wrong
-    - Better solutions to what was written
-1. Ensure that all that the required tasks on the issue are done
-1. Fetch and check out the branch, run the app, and make sure that everything
-   works as intended. Try to break things to be a thorough tester!
-
-If the code is ok, click the merge button, or add a thumbs up reaction to the
-merge request and ask someone else to click merge.
-
-If the code is not ok, drag the issue back to the In Development list.
-
-**NOTE: Some of this information has been duplicated in the [merge request
-template](./.gitlab/merge_request_templates/default_merge_request_template.md)**
 
 ### Code Linting
 

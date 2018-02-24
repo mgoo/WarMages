@@ -1,12 +1,10 @@
 package main.game.view;
 
 import java.awt.Color;
-import main.game.model.entity.DefaultMapEntity;
 import main.game.model.entity.Entity;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Item;
-import main.images.ImageProvider;
 import main.util.Config;
 
 public class ViewVisitor {

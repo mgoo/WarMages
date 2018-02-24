@@ -20,7 +20,6 @@ public abstract class DefaultEntity implements Entity {
   private static final long serialVersionUID = 1L;
 
   private MapPoint topLeft;
-  private MapPoint previousTopLeft;
   private MapSize size;
 
   private final Event<Void> removedEvent = new Event<>();

@@ -1,5 +1,6 @@
 package main.game.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,16 +9,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
 import main.game.controller.GameController;
 import main.game.model.GameModel;
-import main.game.model.entity.Entity;
 import main.game.model.entity.Unit;
 import main.game.model.entity.usable.Ability;
-import main.game.model.entity.usable.Item;
 import main.game.model.world.World;
 import main.game.view.EntityView.EntityRenderableComparator;
-import main.images.GameImageResource;
-import main.images.ImageProvider;
 import main.menu.controller.events.AbilityIconClick;
 import main.menu.controller.events.ItemIconClick;
 import main.menu.controller.events.MouseClick;
@@ -43,7 +41,6 @@ public class GameView {
 
   private final GameController gameController;
   private final GameModel model;
-  private final ImageProvider imageProvider;
   private final World world;
 
   private MapRect viewBox;
@@ -67,12 +64,10 @@ public class GameView {
   public GameView(Config config,
                   GameController gameController,
                   GameModel model,
-                  ImageProvider imageProvider,
                   World world) {
     this.config = config;
     this.gameController = gameController;
     this.model = model;
-    this.imageProvider = imageProvider;
     this.world = world;
     MapPoint initialPositionPixel = EntityView.tileToPix(world.getHeroUnit().getCentre(), config);
     this.viewBox = new MapRect(initialPositionPixel.x - this.config.getContextScreenWidth() / 2 ,
@@ -83,10 +78,11 @@ public class GameView {
     this.mousePosition = new MapPoint(config.getContextScreenWidth() / 2,
         config.getContextScreenHeight() / 2);
     try {
+      // TODO load this though the dataloader as tiles rather than one big image.
       this.backGroundView = ViewFactory.makeBackGroundView(
           config,
           this,
-          GameImageResource.GRASS_TILE.getGameImage().load(imageProvider)
+          ImageIO.read(new File("resources/images/tiles/grass.png"))
       );
     } catch (IOException e) {
       throw new RuntimeException("Cannot load backgroud image");
@@ -188,8 +184,8 @@ public class GameView {
     double tileWidthHalf = this.config.getEntityViewTilePixelsX() / 2D;
     double tileHeightHalf = this.config.getEntityViewTilePixelsY() / 2D;
 
-    double mapX = (originAdjustedX / tileWidthHalf + originAdjustedY / tileHeightHalf) / 2;
-    double mapY = (originAdjustedY / tileHeightHalf - (originAdjustedX / tileWidthHalf)) / 2;
+    double mapX = ((originAdjustedY / tileHeightHalf) + (originAdjustedX / tileWidthHalf)) / 2;
+    double mapY = ((originAdjustedY / tileHeightHalf) - (originAdjustedX / tileWidthHalf)) / 2;
 
     return new MapPoint(mapX, mapY);
   }

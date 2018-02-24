@@ -92,12 +92,6 @@ public class Main extends Application {
     if (getParameters().getUnnamed().contains("--debug")) {
       config.enableDebugMode();
     }
-    if (getParameters().getUnnamed().contains("--server")) {
-      config.setServer();
-    }
-    if (getParameters().getUnnamed().contains("--client")) {
-      config.setClient();
-    }
     config.setScreenDim((int) primaryStage.getWidth(), (int) primaryStage.getHeight());
     final MainMenu mainMenu = new MainMenu(
         this,

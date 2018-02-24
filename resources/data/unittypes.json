@@ -1,0 +1,111 @@
+// Depends on Attacks
+//{
+//  "id": String,
+//  "startingHealth": double,
+//  "movementSpeed": double,
+//  "lineOfSight": double,
+//  "baseAttack": String Forign key for attacks,
+//  "size": double,
+//  "spritesheet": String
+//}
+[
+  {
+    "id": "unittype:archer",
+    "startingHealth": 100,
+    "movementSpeed": 0.2,
+    "lineOfSight": 6,
+    "baseAttack": "attack:arrow",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:archer"
+  },
+  {
+    "id": "unittype:swordsman",
+    "startingHealth": 300,
+    "movementSpeed": 0.1,
+    "lineOfSight": 5,
+    "baseAttack": "attack:dagger",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:footknight"
+  },
+  {
+    "id": "unittype:spearman",
+    "startingHealth": 200,
+    "movementSpeed": 0.1,
+    "lineOfSight": 5,
+    "baseAttack": "attack:spear",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:spearman"
+  },
+  {
+    "id": "unittype:orcspearman",
+    "startingHealth": 200,
+    "movementSpeed": 0.1,
+    "lineOfSight": 5,
+    "baseAttack": "attack:spear",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:spearman_orc"
+  },
+  {
+    "id": "unittype:skeletonarcher",
+    "startingHealth": 100,
+    "movementSpeed": 0.2,
+    "lineOfSight": 6,
+    "baseAttack": "attack:arrow",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:archer_skeleton"
+  },
+  {
+    "id": "unittype:firedarkelf",
+    "startingHealth": 150,
+    "movementSpeed": 0.08,
+    "lineOfSight": 5,
+    "baseAttack": "attack:fireball",
+    "size": 0.7,
+    "spriteSheet": "unit_sheet:dark_elf"
+  },
+  {
+    "id": "unittype:firemage",
+    "startingHealth": 150,
+    "movementSpeed": 0.08,
+    "lineOfSight": 5,
+    "baseAttack": "attack:fireball",
+    "size": 0.5,
+    "spriteSheet": "unit_sheet:mage_male"
+  },
+  {
+    "id": "unittype:icemage",
+    "startingHealth": 150,
+    "movementSpeed": 0.08,
+    "lineOfSight": 10,
+    "baseAttack": "attack:iceball",
+    "size": 0.7,
+    "spriteSheet": "unit_sheet:mage_cape"
+  },
+  {
+    "id": "unittype:lasermage",
+    "startingHealth": 200,
+    "movementSpeed": 0.08,
+    "lineOfSight": 5,
+    "baseAttack": "attack:laser",
+    "size": 0.7,
+    "spriteSheet": "unit_sheet:hero_gold"
+  },
+  {
+    "id": "unittype:icelasermage",
+    "startingHealth": 200,
+    "movementSpeed": 0.08,
+    "lineOfSight": 5,
+    "baseAttack": "attack:icelaser",
+    "size": 0.7,
+    "spriteSheet": "unit_sheet:mage_white"
+  },
+  {
+    "id": "unittype:turret",
+    "startingHealth": 50,
+    "movementSpeed": 0,
+    "lineOfSight": 4,
+    "baseAttack": "attack:fireball",
+    "size": 0.3,
+    "spriteSheet": "unit_sheet:crystal"
+  }
+]

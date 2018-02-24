@@ -1,12 +1,13 @@
 package main.game.model.entity;
 
-import main.game.model.entity.unit.UnitType;
+import main.game.model.data.dataobject.ImageData;
+import main.game.model.data.dataobject.SpriteSheetData;
+import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Target;
 import main.game.model.entity.unit.state.Targetable;
+import main.game.model.entity.unit.state.UnitState;
 import main.game.model.entity.usable.Effect;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet;
 import main.util.Event;
 
 /**
@@ -15,6 +16,8 @@ import main.util.Event;
  * @author paladogabr
  */
 public interface Unit extends Entity, Targetable {
+
+  Attack getBaseAttack();
 
   /**
    * Applies the given damage to the Unit. Requires the amount given is a positive integer.
@@ -47,25 +50,20 @@ public interface Unit extends Entity, Targetable {
 
   double getLineOfSight();
 
-  /**
-   * Returns a DeadUnit to replace the current Unit when it dies.
-   *
-   * @return DeadUnit to represent dead current Unit.
-   */
-  DeadUnit createDeadUnit();
-
   Team getTeam();
 
   void addEffect(Effect effect);
 
-  UnitSpriteSheet getSpriteSheet();
+  SpriteSheetData getSpriteSheet();
 
-  Direction getCurrentDirection();
+  double getCurrentAngle();
 
   /**
    * Set's the Unit's target to the given Unit.
    */
   void setTarget(Target target);
+
+  void setState(UnitState state);
 
   /**
    * Returns a boolean based on whether the given unit is the same type as the current unit.
@@ -83,11 +81,6 @@ public interface Unit extends Entity, Targetable {
   String getType();
 
   /**
-   * Gets the Type of the unit.
-   */
-  UnitType getUnitType();
-
-  /**
    * Elevates the unit to the next level.
    */
   void nextLevel();
@@ -100,7 +93,7 @@ public interface Unit extends Entity, Targetable {
   /**
    * Gets the icon of the unit to display on the hud.
    */
-  GameImage getIcon();
+  ImageData getIcon();
 
   /**
    * Gets the amount that the attack speed should be multiplied by.
