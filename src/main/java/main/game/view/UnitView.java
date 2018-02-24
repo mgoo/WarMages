@@ -59,15 +59,9 @@ public class UnitView extends EntityView {
 
   @Override
   public void drawDecorationsBeneth(Graphics2D g, int x, int y, int width, int height) {
-    g.setColor(new Color(255, 255, 255));
     if (this.isSelected) {
-      MapSize unitScreenSize = new MapSize(
-          (int)(this.unit.getSize().width * this.config.getEntityViewTilePixelsX()),
-          (int)(this.unit.getSize().height * this.config.getEntityViewTilePixelsY())
-      );
-      int ovalX = x + (int)((width - unitScreenSize.width) / 2);
-      int ovalY = y + (int)(height - unitScreenSize.height);
-      g.drawOval(ovalX, ovalY, (int)unitScreenSize.width, (int)unitScreenSize.height);
+      g.setColor(new Color(255, 255, 255));
+      g.drawOval(x, y, width, height);
     }
   }
 
@@ -93,14 +87,10 @@ public class UnitView extends EntityView {
           y,
           (int)(width * unit.getHealthPercent()),
           config.getEntityViewTilePixelsY() / 20);
+
+      g.setColor(new Color(255, 255, 255));
     }
 
     this.healthChangeIndicators.forEach(di -> di.draw(g, x, y, width, height));
-  }
-
-  @Override
-  public MapSize getImageSize() {
-    // @Hack to get the units to display bigger.
-    return super.getImageSize().scaledBy(1.4);
   }
 }

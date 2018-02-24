@@ -1,0 +1,202 @@
+[
+  {
+    "id": "animation:spellcast",
+    "width": 128,
+    "height": 128,
+    "frames": 7,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:thrust",
+    "width": 128,
+    "height": 128,
+    "frames": 8,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:walk",
+    "width": 128,
+    "height": 128,
+    "frames": 9,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:slash",
+    "width": 128,
+    "height": 128,
+    "frames": 6,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:shoot",
+    "width": 128,
+    "height": 128,
+    "frames": 13,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:dying",
+    "width": 128,
+    "height": 128,
+    "frames": 6,
+    "directions": 1,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:pickup",
+    "width": 128,
+    "height": 128,
+    "frames": 4,
+    "directions": 1,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+  {
+    "id": "animation:idle",
+    "width": 128,
+    "height": 128,
+    "frames": 1,
+    "directions": 4,
+    "northOverflow": 0.2,
+    "southOverflow": 0,
+    "eastOverflow": 0.1,
+    "westOverflow": 0.1
+  },
+
+  {
+    "id": "animation:arrow",
+    "width": 150,
+    "height": 150,
+    "frames": 1,
+    "directions": 4,
+    "northOverflow": 0.5,
+    "southOverflow": 0.5,
+    "eastOverflow": 0.5,
+    "westOverflow": 0.5
+  },
+  {
+    "id": "animation:fireball",
+    "width": 150,
+    "height": 150,
+    "frames": 4,
+    "directions": 4,
+    "northOverflow": 0.5,
+    "southOverflow": 0.5,
+    "eastOverflow": 0.5,
+    "westOverflow": 0.5
+  },
+  {
+    "id": "animation:fireball-impact",
+    "width": 150,
+    "height": 150,
+    "frames": 15,
+    "directions": 4,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:icemissile",
+    "width": 150,
+    "height": 150,
+    "frames": 2,
+    "directions": 4,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:icemissile-impact",
+    "width": 150,
+    "height": 150,
+    "frames": 7,
+    "directions": 4,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:whitemissile",
+    "width": 150,
+    "height": 150,
+    "frames": 4,
+    "directions": 4,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:whitemissile-impact",
+    "width": 150,
+    "height": 150,
+    "frames": 6,
+    "directions": 4,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+
+  {
+    "id": "animation:healeffect",
+    "width": 150,
+    "height": 150,
+    "frames": 5,
+    "directions": 1,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:explosion",
+    "width": 256,
+    "height": 256,
+    "frames": 13,
+    "directions": 1,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  },
+  {
+    "id": "animation:lightning",
+    "width": 200,
+    "height": 360,
+    "frames": 4,
+    "directions": 1,
+    "northOverflow": 0,
+    "southOverflow": 0,
+    "eastOverflow": 0,
+    "westOverflow": 0
+  }
+]

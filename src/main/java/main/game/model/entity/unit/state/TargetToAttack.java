@@ -12,6 +12,12 @@ public class TargetToAttack extends Target implements Serializable {
   private final Targetable target;
   private final Attack attack;
 
+  /**
+   *
+   * @param unit unit that the target is for
+   * @param target target for that unit
+   * @param attack the attack to do to that target
+   */
   public TargetToAttack(Unit unit, Targetable target, Attack attack) {
     this(unit, target, attack, false);
   }

@@ -1,10 +1,10 @@
 package main.game.model.entity;
 
 import java.io.Serializable;
+import main.game.model.data.dataObject.ImageData;
 import main.game.model.world.World;
 import main.game.view.Renderable;
 import main.game.view.ViewVisitor;
-import main.images.GameImage;
 import main.util.Config;
 import main.util.Event;
 import main.util.MapPoint;
@@ -70,7 +70,7 @@ public interface Entity extends Serializable {
    *
    * @return GameImage of the Entity.
    */
-  GameImage getImage();
+  ImageData getImage();
 
   /**
    * Updates the Entity's position.

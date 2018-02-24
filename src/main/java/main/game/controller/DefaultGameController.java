@@ -126,7 +126,6 @@ public class DefaultGameController implements GameController {
         break;
       default:
         break;
-      //TODO need to do each of qwerasdfzxcv events
     }
   }
 
@@ -225,12 +224,11 @@ public class DefaultGameController implements GameController {
         //attack an enemy
         for (Unit unit : model.getUnitSelection()) {
           if (unit
-              .getUnitType()
               .getBaseAttack()
               .getEffectedUnits(unit, model.getWorld(), selectedUnit)
               .size() != 0) {
             unit.setTarget(
-                new TargetToAttack(unit, selectedUnit, unit.getUnitType().getBaseAttack()));
+                new TargetToAttack(unit, selectedUnit, unit.getBaseAttack()));
           }
         }
       } else if (selectedItem != null && closest instanceof Item) {
@@ -321,8 +319,7 @@ public class DefaultGameController implements GameController {
     Set<Unit> unitsSelected = model.getAllUnits()
         .stream()
         .filter(u -> u.getTeam() == Team.PLAYER)
-        .filter(unit -> dbClickedUnit.getType() == unit.getType())
-        .filter(unit -> dbClickedUnit.getClass() == unit.getClass())
+        .filter(unit -> unit.isSameTypeAs(dbClickedUnit))
         .collect(Collectors.toSet());
 
     if (mouseEvent.wasShiftDown()) {

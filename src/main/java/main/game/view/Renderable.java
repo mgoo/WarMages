@@ -2,12 +2,7 @@ package main.game.view;
 
 import java.awt.Graphics2D;
 import main.game.model.GameModel;
-import main.game.view.EntityView;
-import main.game.view.ViewVisitor;
-import main.game.model.GameModel;
-import main.images.GameImage;
-import main.images.ImageProvider;
-import main.util.Config;
+import main.game.model.data.dataObject.ImageData;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -17,7 +12,7 @@ import main.util.MapSize;
 public interface Renderable {
 
   /**
-   * Getter method to get the position of this object.
+   * Get the position that the image for this should be drawn at.
    *
    * @return the point on map which this Renderable object is on
    */
@@ -35,7 +30,7 @@ public interface Renderable {
    *
    * @return the image representation of this object
    */
-  GameImage getImage();
+  ImageData getImage();
 
   /**
    * Adds decorations to the image such as health bar and selection circle.
@@ -59,6 +54,17 @@ public interface Renderable {
    * velocity and the current time
    */
   MapPoint getEffectiveEntityPosition(long currentTime);
+
+  /**
+   * Gets the position the entity should be on the screen.
+   * Does not adujst for viewbox changes.
+   */
+  MapPoint getEntityScreenPosition(long currentTime);
+
+  /**
+   * Gets the size the entity should be on the screen.
+   */
+  MapSize getEntityScreenSize();
 
   /**
    * Updates the Renderable each tick.

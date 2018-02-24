@@ -1,0 +1,145 @@
+//{
+//  "id": String,
+//  "scriptLocation": String,
+//  "range": double,
+//  "attackSpeed": int,
+//  "windupPortion": double,
+//  "animation": String,
+//  "type": String,
+//  "amount": double, OPTIONAL
+//  "duration": double OPTIONAL
+//  "radius": double OPTIONAL
+//}
+[
+  {
+    "id": "attack:arrow",
+    "scriptLocation": "resources/scripts/basicArrow.js",
+    "range": 4.3,
+    "attackSpeed": 20,
+    "windupPortion": 0.7,
+    "animation": "animation:shoot",
+    "type": "MISSILE",
+    "amount": 18
+  },
+  {
+    "id": "attack:dagger",
+    "scriptLocation": "resources/scripts/instantDamage.js",
+    "range": 0.2,
+    "attackSpeed": 14,
+    "windupPortion": 0.66,
+    "animation": "animation:slash",
+    "type": "SLASH",
+    "amount": 15
+  },
+  {
+    "id": "attack:spear",
+    "scriptLocation": "resources/scripts/instantDamage.js",
+    "range": 0.3,
+    "attackSpeed": 16,
+    "windupPortion": 0.625,
+    "animation": "animation:thrust",
+    "type": "STAB",
+    "amount": 10
+  },
+  {
+    "id": "attack:fireball",
+    "scriptLocation": "resources/scripts/fireball.js",
+    "range": 4,
+    "attackSpeed": 30,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "MAGIC",
+    "amount": 60
+  },
+  {
+    "id": "attack:iceball",
+    "scriptLocation": "resources/scripts/iceball.js",
+    "range": 4,
+    "attackSpeed": 30,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "MAGIC",
+    "amount": 60
+  },
+  {
+    "id": "attack:laser",
+    "scriptLocation": "resources/scripts/laser.js",
+    "range": 3,
+    "attackSpeed": 1,
+    "windupPortion": 0,
+    "animation": "animation:spellcast",
+    "type": "MAGIC",
+    "amount": 1
+  },
+  {
+    "id": "attack:icelaser",
+    "scriptLocation": "resources/scripts/laserWhite.js",
+    "range": 3,
+    "attackSpeed": 1,
+    "windupPortion": 0,
+    "animation": "animation:spellcast",
+    "type": "MAGIC",
+    "amount": 1
+  },
+  {
+    "id": "attack:firebolt",
+    "scriptLocation": "resources/scripts/firebolt.js",
+    "range": 8,
+    "attackSpeed": 10,
+    "windupPortion": 0.66,
+    "animation": "animation:slash",
+    "type": "MAGIC",
+    "amount": 50,
+    "radius": 2
+  },
+  {
+    "id": "attack:lightning",
+    "scriptLocation": "resources/scripts/lightningBolt.js",
+    "range": 4,
+    "attackSpeed": 30,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "MAGIC",
+    "amount": 400
+  },
+  {
+    "id": "attack:healspell",
+    "scriptLocation": "resources/scripts/healSpell.js",
+    "range": 4,
+    "attackSpeed": 10,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "HEAL",
+    "amount": 100
+  },
+  {
+    "id": "attack:healpotion",
+    "scriptLocation": "resources/scripts/healSpell.js",
+    "range": 0.2,
+    "attackSpeed": 0,
+    "windupPortion": 0,
+    "animation": "animation:spellcast",
+    "type": "HEAL",
+    "amount": 50
+  },
+  {
+    "id": "attack:damagebuff",
+    "scriptLocation": "resources/scripts/damageBuff.js",
+    "range": 4,
+    "attackSpeed": 10,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "BUFF",
+    "amount": 100,
+    "duration": 40
+  },
+  {
+    "id": "attack:turret",
+    "scriptLocation": "resources/scripts/turret.js",
+    "range": 1,
+    "attackSpeed": 20,
+    "windupPortion": 0.85,
+    "animation": "animation:spellcast",
+    "type": "MAGIC"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "sheet_type:unit",
+    "animations": {
+      "animation:spellcast": 0,
+      "animation:thrust": 512,
+      "animation:walk": 1024,
+      "animation:idle": 1024,
+      "animation:slash": 1536,
+      "animation:shoot": 2048,
+      "animation:dying": 2560,
+      "animation:pickup": 2560
+    }
+  },
+
+  {
+    "id": "sheet_type:arrow",
+    "animations": {
+      "animation:arrow": 0
+    }
+  },
+  {
+    "id": "sheet_type:fireball",
+    "animations": {
+      "animation:fireball": 0,
+      "animation:fireball-impact": 600
+    }
+  },
+  {
+    "id": "sheet_type:icemissile",
+    "animations": {
+      "animation:icemissile": 0,
+      "animation:icemissile-impact": 600
+    }
+  },
+  {
+    "id": "sheet_type:whitemissile",
+    "animations": {
+      "animation:whitemissile": 0,
+      "animation:whitemissile-impact": 600
+    }
+  },
+
+  {
+    "id": "sheet_type:healeffect",
+    "animations": {
+      "animation:healeffect": 0
+    }
+  },
+  {
+    "id": "sheet_type:explosion",
+    "animations": {
+      "animation:explosion": 0
+    }
+  },
+  {
+    "id": "sheet_type:lightning",
+    "animations": {
+      "animation:lightning": 0
+    }
+  }
+]

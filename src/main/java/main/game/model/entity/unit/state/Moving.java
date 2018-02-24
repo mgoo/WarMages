@@ -3,11 +3,9 @@ package main.game.model.entity.unit.state;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import main.game.model.entity.Direction;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet.Sequence;
+import main.images.Animation;
 import main.util.MapPoint;
 
 /**
@@ -19,17 +17,20 @@ import main.util.MapPoint;
 public class Moving extends UnitState {
 
   private static final long serialVersionUID = 1L;
-  private static final double LEEWAY_FOR_PATH = 0.5;
+  private static final double LEEWAY_FOR_PATH = 0.1;
 
   private final Target target;
   private final UnitState nextState;
-  private Direction direction;
+  private double direction;
 
   private MapPoint lastKnownDestination;
   private Queue<MapPoint> path;
 
   public Moving(Unit unit, Target target, UnitState nextState) {
-    super(new UnitAnimation(unit, Sequence.WALK, Sequence.WALK.frames * 2), unit);
+    super(
+        new Animation(unit.getSpriteSheet(), "animation:walk", 10),
+        unit
+    );
     this.nextState = nextState;
 
     if (target.unit != unit) {
@@ -37,7 +38,7 @@ public class Moving extends UnitState {
     }
 
     this.target = target;
-    this.direction = unit.getCurrentDirection();
+    this.direction = unit.getCurrentAngle();
   }
 
   @Override
@@ -47,31 +48,8 @@ public class Moving extends UnitState {
   }
 
   @Override
-  public Direction getCurrentDirection() {
+  public double getCurrentAngle() {
     return direction;
-  }
-
-  @Override
-  public UnitState updateState() {
-    if (requestedNextState != null) {
-      return requestedNextState;
-    }
-
-    if (!target.isStillValid()) {
-      return new Idle(unit);
-    }
-
-    if (!this.target.hasArrived()) {
-      // Haven't arrived yet
-      if (path.isEmpty() && unit.getCentre().distanceTo(target.getDestination()) > 1.0) {
-        // Can't get to destination
-        return new Idle(unit);
-      }
-
-      return this;
-    }
-    // Arrived at destination
-    return nextState;
   }
 
   /**
@@ -111,9 +89,25 @@ public class Moving extends UnitState {
 
     unit.translatePosition(mx, my);
 
-    MapPoint newPosition = unit.getCentre();
-    this.direction = Direction.between(previousPosition, newPosition);
-    unitAnimation.updateDirection();
+    this.direction = previousPosition.angleTo(unit.getCentre());
+
+
+    if (!this.target.isStillValid()) {
+      this.unit.setState(new Idle(unit));
+    }
+
+    if (this.target.hasArrived()) {
+      // Has arrived.
+      this.unit.setState(this.nextState);
+    } else {
+      // Haven't arrived yet
+      // TODO this will mean that when units as repeled greater than 2 spaces away from their target
+      // When they have arrived then they will go idle instead of attacking.
+      if (path.isEmpty() && unit.getCentre().distanceTo(this.target.getDestination()) > 2.0) {
+        // Can't get to destination
+        this.unit.setState(new Idle(unit));
+      }
+    }
   }
 
   /**

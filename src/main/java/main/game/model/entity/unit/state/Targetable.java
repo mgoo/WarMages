@@ -11,8 +11,9 @@ public interface Targetable {
 
   /**
    * Returns a list of the units that are effected in the order of priority.
+   * finds all units within the radius
    */
-  List<Unit> getEffectedUnits(World world);
+  List<Unit> getEffectedUnits(World world, double radius);
 
   boolean isValidTargetFor(Unit unit);
 }

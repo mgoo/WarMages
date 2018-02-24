@@ -1,0 +1,48 @@
+[
+  {
+    "id": "sprite:potion_blue",
+    "location": "resources/images/items/potion-blue.png"
+  },
+  {
+    "id": "sprite:ring_gold",
+    "location": "resources/images/items/ring-gold.png"
+  },
+  {
+    "id": "sprite:white_ball",
+    "location": "resources/images/projectiles/whitemissile-impact-3.png"
+  },
+
+  {
+    "id": "icon:heal_spell",
+    "location": "resources/images/icons/potion_green_medium.png"
+  },
+  {
+    "id": "icon:small_potion",
+    "location": "resources/images/icons/potion_green_small.png"
+  },
+  {
+    "id": "icon:ring_gold",
+    "location": "resources/images/icons/ring_gold.png"
+  },
+  {
+    "id": "icon:fireball",
+    "location": "resources/images/icons/fireball.png"
+  },
+  {
+    "id": "icon:lightning",
+    "location": "resources/images/icons/lightning.png"
+  },
+  {
+    "id": "icon:faerie_fire",
+    "location": "resources/images/icons/faerie-fire.png"
+  },
+
+  {
+    "id": "background:grass",
+    "location": "resources/images/tiles/grass.png"
+  },
+  {
+    "id": "background:building1",
+    "location": "resources/images/map-entities/building_1.png"
+  }
+]

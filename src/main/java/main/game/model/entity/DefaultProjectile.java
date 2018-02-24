@@ -2,15 +2,15 @@ package main.game.model.entity;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import main.game.model.data.dataObject.ImageData;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
-import main.images.GameImage;
+import main.images.Animation;
 import main.util.MapPoint;
 import main.util.MapSize;
 
@@ -29,44 +29,42 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   private final Unit owner;
   private final Targetable target;
   private final Attack attack;
-  private final List<GameImage> flyImages;
-  private final List<GameImage> impactImages;
+  private final Animation flyAnimation;
+  private final Animation impactAnimation;
   private final MapSize impactSize;
   private final double moveDistancePerTick;
   private final Invocable engine;
 
+  private double angle = 0;
   private boolean hasHit = false;
-
-
-  private double currentImage = 0;
 
   /**
    * Constructor takes the starting coordinates of the projectile, the size,
    * and the target of the projectile.
-   * @param coordinates at start of projectile path.
+   * @param topLeft at start of projectile path.
    * @param size of projectile.
    * @param owner the unit that fired the projectile
-   * @param flyImages images to show when the prjectile is flying
-   * @param impactImages images to show when the projectile hits
+   * @param flyAnimation images to show when the prjectile is flying
+   * @param impactAnimation images to show when the projectile hits
    * @param moveDistancePerTick distance to be moved per tick.
    */
   public DefaultProjectile(
-      MapPoint coordinates,
+      MapPoint topLeft,
       MapSize size,
       Unit owner,
       Targetable target,
       Attack attack,
-      List<GameImage> flyImages,
-      List<GameImage> impactImages,
+      Animation flyAnimation,
+      Animation impactAnimation,
       MapSize impactSize,
       double moveDistancePerTick
   ) {
-    super(coordinates, size);
+    super(topLeft, size);
     this.owner = owner;
     this.target = target;
     this.attack = attack;
-    this.flyImages = flyImages;
-    this.impactImages = impactImages;
+    this.flyAnimation = flyAnimation;
+    this.impactAnimation = impactAnimation;
     this.impactSize = impactSize;
     this.moveDistancePerTick = moveDistancePerTick;
 
@@ -82,8 +80,8 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   }
 
   @Override
-  public GameImage getImage() {
-    return this.flyImages.get((int)this.currentImage);
+  public ImageData getImage() {
+    return this.flyAnimation.getImage(this.angle);
   }
 
   @Override
@@ -92,10 +90,7 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       throw new IllegalStateException();
     }
 
-    this.currentImage += ANIMATION_SPEED;
-    if (this.currentImage >= this.flyImages.size()) {
-      this.currentImage = 0;
-    }
+    this.flyAnimation.tick();
 
     double distToTarget = getDistanceToTarget();
     // 0.5 if we move halfway there, 1 or greater if we move all the way there, etc
@@ -105,10 +100,12 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
       percentage = 1; // teleport there because we are close enough
     }
 
+    this.angle = this.target.getLocation().angleTo(this.getCentre());
     translatePosition(
         percentage * (this.target.getLocation().x - getCentre().x),
         percentage * (this.target.getLocation().y - getCentre().y)
     );
+
 
     if (getDistanceToTarget() <= IMPACT_DISTANCE) {
       hasHit = true;
@@ -128,20 +125,17 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
 
   @Override
   public void hitTarget(World world) {
-    this.attack.getEffectedUnits(this.owner, world, target)
-        .forEach(u -> {
-          try {
-            this.engine.invokeFunction("apply", this.owner, u, this.attack, world);
-          } catch (ScriptException | NoSuchMethodException e) {
-            e.printStackTrace();
-          }
-        });
+    try {
+      this.engine.invokeFunction("apply", this.owner, this.target, this.attack, world);
+    } catch (ScriptException | NoSuchMethodException e) {
+      e.printStackTrace();
+    }
     world.removeProjectile(this);
-    StaticEntity hitMarker = new StaticEntity(this.getTopLeft(),
+    AnimationEntity hitMarker = new AnimationEntity(
+        this.getTopLeft(),
         this.impactSize,
-        this.impactImages,
-        false,
-        2
+        this.impactAnimation,
+        this.angle
     );
     hitMarker.setLayer(1); // Same Layer as the projectile
     world.addStaticEntity(hitMarker);
@@ -150,5 +144,10 @@ public class DefaultProjectile extends DefaultEntity implements Projectile {
   @Override
   public double getDistanceToTarget() {
     return getCentre().distanceTo(target.getLocation());
+  }
+
+  @Override
+  public int getLayer() {
+    return 1;
   }
 }

@@ -2,6 +2,9 @@ package main.game.model.entity.usable;
 
 import main.exceptions.UsableStillInCoolDownException;
 
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataObject.AbilityData;
+import main.game.model.data.dataObject.AttackData;
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
 import main.game.model.entity.unit.attack.AttackType;
@@ -9,61 +12,16 @@ import main.game.model.entity.unit.state.MapPointTarget;
 import main.game.model.entity.unit.state.TargetToAttack;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet.Sequence;
 import main.util.MapPoint;
 
 public class AttackGroundAbility extends BaseAbility {
 
-  private final double radius;
-
-
-  public AttackGroundAbility(
-      GameImage icon, double coolDownSeconds, double radius, String description,
-      String scriptLocation, double range, int attackSpeed, double windupPortion,
-      Sequence attackSequence,
-      AttackType attackType
+  protected AttackGroundAbility(
+      AbilityData abilityData,
+      DataLoader dataLoader,
+      int uses
   ) {
-    this(icon, coolDownSeconds, radius, description, scriptLocation, range,
-        attackSpeed, windupPortion, attackSequence, attackType,
-        Attack.FIXED_AMOUNT, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES
-    );
-  }
-
-  public AttackGroundAbility(
-      GameImage icon, double coolDownSeconds, double radius, String description,
-      String scriptLocation, double range, int attackSpeed, double windupPortion,
-      Sequence attackSequence, AttackType attackType,
-      double amount
-  ) {
-    this(icon, coolDownSeconds, radius, description, scriptLocation, range,
-        attackSpeed, windupPortion, attackSequence, attackType,
-        amount, Attack.INSTANT_DURATION, BaseAbility.INFINITE_USES
-    );
-  }
-
-  public AttackGroundAbility(
-      GameImage icon, double coolDownSeconds, double radius, String description,
-      String scriptLocation, double range, int attackSpeed, double windupPortion,
-      Sequence attackSequence, AttackType attackType,
-      double amount, double duration
-  ) {
-    this(icon, coolDownSeconds, radius, description, scriptLocation, range,
-        attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration, BaseAbility.INFINITE_USES
-    );
-  }
-
-  public AttackGroundAbility(
-      GameImage icon, double coolDownSeconds, double radius, String description,
-      String scriptLocation, double range, int attackSpeed, double windupPortion,
-      Sequence attackSequence, AttackType attackType,
-      double amount, double duration, int uses
-  ) {
-    super(icon, coolDownSeconds, description, scriptLocation, range,
-        attackSpeed, windupPortion, attackSequence, attackType,
-        amount, duration, uses);
-    this.radius = radius;
+    super(abilityData, dataLoader, uses);
   }
 
   @Override
@@ -80,7 +38,7 @@ public class AttackGroundAbility extends BaseAbility {
     this.owner.setTarget(
         new TargetToAttack(
             this.owner,
-            new MapPointTarget(target, this.radius),
+            new MapPointTarget(target),
             this,
             true
         )
@@ -94,7 +52,7 @@ public class AttackGroundAbility extends BaseAbility {
     if (target instanceof MapPointTarget) {
       super.execute(unit, target, world);
     } else {
-      super.execute(unit, new MapPointTarget(target.getLocation(), this.radius), world);
+      super.execute(unit, new MapPointTarget(target.getLocation()), world);
     }
   }
 

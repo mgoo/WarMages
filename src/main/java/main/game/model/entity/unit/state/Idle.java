@@ -1,12 +1,10 @@
 package main.game.model.entity.unit.state;
 
 import java.util.Comparator;
-import main.game.model.entity.Direction;
 import main.game.model.entity.Team;
 import main.game.model.entity.Unit;
-import main.game.model.entity.unit.UnitAnimation;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet.Sequence;
+import main.images.Animation;
 
 /**
  * Idle state for Unit.
@@ -16,11 +14,11 @@ import main.images.UnitSpriteSheet.Sequence;
 public class Idle extends UnitState {
 
   private static final long serialVersionUID = 1L;
-  private final Direction direction;
+  private final double angle;
 
   public Idle(Unit unit) {
-    super(new UnitAnimation(unit, Sequence.IDLE, Sequence.IDLE.frames * 2), unit);
-    this.direction = unit.getCurrentDirection();
+    super(new Animation(unit.getSpriteSheet(), "animation:idle", 2), unit);
+    this.angle = unit.getCurrentAngle();
   }
 
   @Override
@@ -43,13 +41,8 @@ public class Idle extends UnitState {
   }
 
   @Override
-  public Direction getCurrentDirection() {
-    return this.direction;
-  }
-
-  @Override
-  public UnitState updateState() {
-    return (requestedNextState == null) ? this : requestedNextState;
+  public double getCurrentAngle() {
+    return this.angle;
   }
 
   @Override
@@ -63,10 +56,8 @@ public class Idle extends UnitState {
 
   private void requestAttackUnit(Unit enemy) {
     TargetToAttack enemyTarget =
-        new TargetToAttack(unit, enemy, unit.getUnitType().getBaseAttack());
-    setState(new Moving(unit,
-        enemyTarget,
-        new Attacking(unit, enemyTarget, unit.getUnitType().getBaseAttack())));
+        new TargetToAttack(unit, enemy, unit.getBaseAttack());
+    this.unit.setTarget(enemyTarget);
   }
 
   private double distanceToUnit(Unit target) {

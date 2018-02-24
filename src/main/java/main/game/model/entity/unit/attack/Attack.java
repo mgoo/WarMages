@@ -8,16 +8,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataObject.AnimationData;
+import main.game.model.data.dataObject.AttackData;
 import main.game.model.entity.Unit;
 import main.game.model.entity.unit.state.Targetable;
 import main.game.model.world.World;
-import main.images.UnitSpriteSheet.Sequence;
 
 /**
  * Base class for Attacks.
@@ -29,58 +29,24 @@ public class Attack implements Serializable {
   public static final double INSTANT_DURATION = 0;
   public static final double FIXED_AMOUNT = 0;
 
-  private final String scriptLocation;
-  private final double range;
-  private final int attackSpeed;
-  private final double windupPortion;
-  private final Sequence attackSequence;
   private final AttackType attackType;
-  private final double amount;
-  private final double duration;
+
+  private final AttackData data;
 
   private transient Invocable engine;
 
-  public Attack(String scriptLocation,
-                double range,
-                int attackSpeed,
-                double windupPortion,
-                Sequence attackSequence,
-                AttackType attackType) {
-    this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
-        attackType, FIXED_AMOUNT, INSTANT_DURATION);
-  }
+  // Save the data loader only so it can be loaded back into the script engine on deserialization.
+  private final DataLoader dataLoader;
 
-  public Attack(String scriptLocation,
-                double range,
-                int attackSpeed,
-                double windupPortion,
-                Sequence attackSequence,
-                AttackType attackType,
-                double amount) {
-    this(scriptLocation, range, attackSpeed, windupPortion, attackSequence,
-        attackType, amount, INSTANT_DURATION);
-  }
-
-  public Attack(String scriptLocation,
-                double range,
-                int attackSpeed,
-                double windupPortion,
-                Sequence attackSequence,
-                AttackType attackType,
-                double amount,
-                double duration) {
-    this.scriptLocation = scriptLocation;
-    this.range = range;
-    this.attackSpeed = attackSpeed;
-    this.windupPortion = windupPortion;
-    this.attackSequence = attackSequence;
-    this.attackType = attackType;
-    this.amount = amount;
-    this.duration = duration;
+  public Attack(AttackData data, DataLoader dataLoader) {
+    this.attackType = AttackType.valueOf(data.getType());
+    this.dataLoader = dataLoader;
+    this.data = data;
 
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     try {
-      engine.eval(new FileReader(scriptLocation));
+      engine.eval(new FileReader(this.data.getScriptLocation()));
+      engine.put("dataLoader", dataLoader);
     } catch (ScriptException | FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -94,7 +60,8 @@ public class Attack implements Serializable {
     in.defaultReadObject();
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     try {
-      engine.eval(new FileReader(this.scriptLocation));
+      engine.eval(new FileReader(this.data.getScriptLocation()));
+      engine.put("dataLoader", dataLoader);
     } catch (ScriptException | FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -108,7 +75,7 @@ public class Attack implements Serializable {
    * Handleing of the amount should be handled by javascript.
    */
   public double getAmount() {
-    return this.amount;
+    return this.data.getAmount();
   }
 
   /**
@@ -117,7 +84,50 @@ public class Attack implements Serializable {
    * Handling of the duration should be handled by javascript
    */
   public double getDuration() {
-    return this.duration;
+    return this.data.getDuration();
+  }
+
+  /**
+   * Gets the radius to apply the attack to.
+   * 0 for no radius
+   */
+  public double getRadius() {
+    return this.data.getRadius();
+  }
+
+  /**
+   * The base range of the attack.
+   */
+  double getRange() {
+    return this.data.getRange();
+  }
+
+  /**
+   * The base time that the animation should take.
+   */
+  int getAttackSpeed() {
+    return this.data.getAttackSpeed();
+  }
+
+  /**
+   * The portion of the animation that plays before the attack should trigger.
+   */
+  public double getWindupPortion() {
+    return this.data.getWindupPortion();
+  }
+
+  /**
+   * Gets the sequence that the unit should do when doing the attack.
+   */
+  public AnimationData getAnimation() {
+    return this.data.getAnimation();
+  }
+
+  /**
+   * Get the type of attack.
+   */
+  AttackType getType() {
+    return this.attackType;
   }
 
   /**
@@ -140,46 +150,11 @@ public class Attack implements Serializable {
   }
 
   /**
-   * The base range of the attack.
-   */
-  double getRange() {
-    return this.range;
-  }
-
-  /**
-   * The base time that the animation should take.
-   */
-  int getAttackSpeed() {
-    return this.attackSpeed;
-  }
-
-  /**
-   * The portion of the animation that plays before the attack should trigger.
-   */
-  public double getWindupPortion() {
-    return this.windupPortion;
-  }
-
-  /**
-   * Gets the sequence that the unit should do when doing the attack.
-   */
-  public Sequence getAttackSequence() {
-    return this.attackSequence;
-  }
-
-  /**
-   * Get the type of attack.
-   */
-  AttackType getType() {
-    return this.attackType;
-  }
-
-  /**
    * Gets the Units that are effected by the attack at the target.
    */
   public Collection<Unit> getEffectedUnits(Unit owner, World world, Targetable target) {
     try {
-      return (List<Unit>)this.engine.invokeFunction("getEffectedUnits", owner, world, target);
+      return (List<Unit>)this.engine.invokeFunction("getEffectedUnits", owner, world, target, this);
     } catch (ScriptException | NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
@@ -194,19 +169,11 @@ public class Attack implements Serializable {
       return false;
     }
     Attack attack = (Attack) o;
-    return Double.compare(attack.range, range) == 0
-        && attackSpeed == attack.attackSpeed
-        && Double.compare(attack.windupPortion, windupPortion) == 0
-        && Double.compare(attack.amount, amount) == 0
-        && Double.compare(attack.duration, duration) == 0
-        && Objects.equals(scriptLocation, attack.scriptLocation)
-        && attackType == attack.attackType;
+    return Objects.equals(data, attack.data);
   }
 
   @Override
   public int hashCode() {
-
-    return Objects
-        .hash(scriptLocation, range, attackSpeed, windupPortion, attackType, amount, duration);
+    return Objects.hash(data);
   }
 }

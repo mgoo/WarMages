@@ -1,11 +1,10 @@
 package main.game.model.entity.usable;
 
+import main.game.model.data.DataLoader;
+import main.game.model.data.dataObject.AbilityData;
+import main.game.model.data.dataObject.ImageData;
 import main.game.model.entity.HeroUnit;
-import main.game.model.entity.Unit;
 import main.game.model.entity.unit.attack.Attack;
-import main.game.model.entity.unit.attack.AttackType;
-import main.images.GameImage;
-import main.images.UnitSpriteSheet.Sequence;
 import main.util.TickTimer;
 
 /**
@@ -16,11 +15,13 @@ public abstract class BaseAbility extends Attack implements Ability {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String TARGETS_UNITS = "units";
+  public static final String TARGETS_GROUND = "ground";
   public static final int INFINITE_USES = -1;
 
-  private final GameImage iconImage;
+  private final ImageData iconImage;
 
-  protected final int coolDownSeconds;
+  protected final double coolDownSeconds;
 
   private int uses;
   private final TickTimer coolDownTimer;
@@ -29,32 +30,34 @@ public abstract class BaseAbility extends Attack implements Ability {
 
   private boolean selected = false;
 
-  public BaseAbility(
-      GameImage icon,
-      double coolDownSeconds,
-      String description,
-      String scriptLocation,
-      double range,
-      int attackSpeed,
-      double windupPortion,
-      Sequence attackSequence,
-      AttackType attackType,
-      double amount,
-      double duration,
+  public static Ability buildAbility(
+      AbilityData abilityData,
+      DataLoader dataLoader,
       int uses
   ) {
-    super(scriptLocation, range, attackSpeed, windupPortion,
-        attackSequence, attackType, amount, duration);
-    this.description = description;
-    if (coolDownSeconds <= 0) {
-      throw new IllegalArgumentException();
+    switch (abilityData.getTargets()) {
+      case TARGETS_UNITS:
+        return new AttackUnitAbility(abilityData, dataLoader, uses);
+      case TARGETS_GROUND:
+        return new AttackGroundAbility(abilityData, dataLoader, uses);
+      default:
+        throw new IllegalArgumentException("The targeting option was not found. Fix the data");
     }
-    this.iconImage = icon;
-    this.coolDownSeconds = (int)coolDownSeconds;
-    if (this.coolDownSeconds != 0) {
-      this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
-    } else {
+  }
+
+  protected BaseAbility(
+      AbilityData abilityData,
+      DataLoader dataLoader,
+      int uses
+  ) {
+    super(abilityData.getAttackData(), dataLoader);
+    this.description = abilityData.getDescription();
+    this.iconImage = abilityData.getIcon();
+    this.coolDownSeconds = abilityData.getCooldown();
+    if (this.coolDownSeconds == 0) {
       this.coolDownTimer = new TickTimer(1);
+    } else {
+      this.coolDownTimer = TickTimer.withPeriodInSeconds(coolDownSeconds);
     }
     this.uses = uses;
   }
@@ -75,7 +78,7 @@ public abstract class BaseAbility extends Attack implements Ability {
   }
 
   @Override
-  public GameImage getIconImage() {
+  public ImageData getIconImage() {
     return iconImage;
   }
 
@@ -142,7 +145,7 @@ public abstract class BaseAbility extends Attack implements Ability {
     desctiptionPopup += "<b>Range</b>: " + Math.round(this.getModifiedRange(this.owner)) + "<br>";
     if (this.coolDownSeconds > 0) {
       desctiptionPopup +=
-          "<b>Cooldown</b>: " + coolDownProgressSeconds + "/" + this.coolDownSeconds + "s";
+          "<b>Cooldown</b>: " + coolDownProgressSeconds + "/" + (int)this.coolDownSeconds + "s";
     }
     return desctiptionPopup;
   }

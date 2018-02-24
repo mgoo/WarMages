@@ -1,19 +1,28 @@
-var Direction = Java.type('main.game.model.entity.Direction');
-var Sheet = Java.type('main.images.SpriteSheet.Sheet');
-var Sequence = Java.type('main.images.SpriteSheet.Sequence');
+var Animation = Java.type('main.images.Animation');
+var AnimationLoop = Java.type('main.images.AnimationLoop');
 var DefaultProjectile = Java.type('main.game.model.entity.DefaultProjectile');
 var MapSize = Java.type('main.util.MapSize');
 
+// This is set from java.
+var dataLoader = null;
+
 var apply = function(owner, target, attack, world) {
-  var direction = Direction.between(owner.getCentre(), target.getLocation());
   var projectile = new DefaultProjectile(
-      owner.getCentre(),
+      owner.getTopLeft(),
       new MapSize(0.8, 0.8),
       owner,
       target,
       attack,
-      Sheet.FIREBALL_PROJECTILE.getImagesForSequence(Sequence.FIREBALL_FLY, direction),
-      Sheet.EXPLOSIONS.getImagesForSequence(Sequence.EXPLOSION_1, direction),
+      new AnimationLoop(
+          dataLoader.getDataForSpriteSheet('projectile_sheet:fireball'),
+          'animation:fireball',
+          2
+      ),
+      new Animation(
+          dataLoader.getDataForSpriteSheet('misc_sheet:explosion'),
+          'animation:explosion',
+          5
+      ),
       new MapSize(2, 2),
       0.6
   );
@@ -25,6 +34,6 @@ var apply = function(owner, target, attack, world) {
   }
 };
 
-var getEffectedUnits = function(owner, world, target) {
-  return target.getEffectedUnits(world);
+var getEffectedUnits = function(owner, world, target, attack) {
+  return target.getEffectedUnits(world, attack.getRadius());
 };
