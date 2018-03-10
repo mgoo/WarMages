@@ -97,11 +97,6 @@ public abstract class BaseAbility extends Attack implements Ability {
   }
 
   @Override
-  public int getCoolDownTicks() {
-    return coolDownTimer.getMaxTicks();
-  }
-
-  @Override
   public boolean isSelected() {
     return this.selected;
   }

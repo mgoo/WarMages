@@ -2,9 +2,62 @@ import java.awt.*
 import java.util.regex.Pattern
 
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "http://dl.bintray.com/jetbrains/spek" }
+}
+
+dependencies {
+    // Put any libraries here:
+    // for example, put this:
+    // compile group: 'com.google.code.gson', name: 'gson', version: '1.7.1'
+    // to include this library https://github.com/google/gson if you like ...
+
+    // Required dependencies for assignments (not tests):
+    compile fileTree(dir: 'lib', include: ['*.jar']) // Include libraries in 'lib' directory
+
+    // Tests are run in main module
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+}
+
+// setup the plugin
+buildscript {
+    ext.kotlin_version = '1.2.30'
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
+}
+
+dependencies {
+    testCompile 'org.jetbrains.spek:spek-api:1.1.5'
+    testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+}
 
 jacoco {
     toolVersion = "0.7.6.201602180812"
@@ -43,26 +96,6 @@ task(handleFindbugsFailure) {
 findbugsMain.finalizedBy handleFindbugsFailure
 
 version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // Put any libraries here:
-    // for example, put this:
-    // compile group: 'com.google.code.gson', name: 'gson', version: '1.7.1'
-    // to include this library https://github.com/google/gson if you like ...
-
-    // Required dependencies for assignments (not tests):
-    compile fileTree(dir: 'lib', include: ['*.jar']) // Include libraries in 'lib' directory
-
-    // Tests are run in main module (which is unusual, but that's how SWEN221 is)
-    compile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
-    compile 'com.google.code.gson:gson:2.8.2'
-
-}
 
 sourceSets {
     test {
@@ -172,4 +205,15 @@ jar {
 
 clean {
     delete exportPath
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

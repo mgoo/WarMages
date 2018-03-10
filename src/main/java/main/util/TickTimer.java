@@ -34,7 +34,7 @@ public class TickTimer implements Serializable {
    * Prefer to use the factory method {@link TickTimer#withPeriodInSeconds(double)}.
    */
   public TickTimer(int maxTicks) {
-    if (maxTicks < 0) {
+    if (maxTicks <= 0) {
       throw new IllegalArgumentException();
     }
     this.maxTicks = maxTicks;
@@ -48,6 +48,7 @@ public class TickTimer implements Serializable {
    * 0 if just used, 1 if ready to use.
    */
   public double getProgress() {
+    if(this.isFinished()) return 1;
     double progress = 1 - (((double) ticksLeft) / maxTicks);
     assert progress >= 0 && progress <= 1;
     return progress;
@@ -59,9 +60,5 @@ public class TickTimer implements Serializable {
 
   public void restart() {
     ticksLeft = maxTicks;
-  }
-
-  public int getMaxTicks() {
-    return maxTicks;
   }
 }

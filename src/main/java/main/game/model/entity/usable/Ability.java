@@ -64,8 +64,6 @@ public interface Ability extends Serializable {
    */
   double getCoolDownProgress();
 
-  int getCoolDownTicks();
-
   boolean isSelected();
 
   void setSelected(boolean selected);
