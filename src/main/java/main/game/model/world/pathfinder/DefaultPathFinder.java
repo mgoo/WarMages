@@ -2,6 +2,7 @@ package main.game.model.world.pathfinder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -73,7 +74,7 @@ public class DefaultPathFinder implements PathFinder, Serializable {
       visited.add(tuple.getPoint());
 
       // @hack to make sure the units can get more exact destinations
-      if (tuple.getPoint().isSimilar(end)) {
+      if (this.isSimilar(tuple.getPoint(), end)) {
         return new AStarNode(end, tuple.getPrevious(), 0, 0).getPath();
       }
       // end hack
@@ -110,38 +111,22 @@ public class DefaultPathFinder implements PathFinder, Serializable {
   private static Set<MapPoint> getPassableNeighbours(
       Function<MapPoint, Boolean> isPassable, MapPoint current
   ) {
-    Set<MapPoint> passableNeighbours = new HashSet<>(current.getSides());
+    List<MapPoint> neighbours = Arrays.asList(
+        new MapPoint(current.x, current.y - 1),
+        new MapPoint(current.x + 1, current.y),
+        new MapPoint(current.x, current.y + 1),
+        new MapPoint(current.x - 1, current.y)
+    );
 
-    MapPoint[] corners = new MapPoint[]{
-        new MapPoint(current.x - 1, current.y - 1), //top-left
-        new MapPoint(current.x + 1, current.y - 1), //top-right
-        new MapPoint(current.x - 1, current.y + 1), //bottom-left
-        new MapPoint(current.x + 1, current.y + 1) //bottom-right
-    };
+    return neighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
+  }
 
-    //note: only add the corners if atleast one of the adjacent sides to the corner is passable
-
-    //check top-left corner
-    if (isPassable.apply(corners[0].getRight()) || isPassable.apply(corners[0].getBottom())) {
-      passableNeighbours.add(corners[0]);
-    }
-
-    //check top-right corner
-    if (isPassable.apply(corners[1].getLeft()) || isPassable.apply(corners[1].getBottom())) {
-      passableNeighbours.add(corners[1]);
-    }
-
-    //check bottom-left corner
-    if (isPassable.apply(corners[2].getRight()) || isPassable.apply(corners[2].getTop())) {
-      passableNeighbours.add(corners[2]);
-    }
-
-    //check bottom-right corner
-    if (isPassable.apply(corners[3].getLeft()) || isPassable.apply(corners[3].getTop())) {
-      passableNeighbours.add(corners[3]);
-    }
-
-    return passableNeighbours.stream().filter(isPassable::apply).collect(Collectors.toSet());
+  /**
+   * Figures out if two MapPoints are close enough.
+   */
+  private boolean isSimilar(MapPoint a, MapPoint b) {
+    return Math.round(a.x) == Math.round(b.x)
+        && Math.round(a.y) == Math.round(b.y);
   }
 
   /**

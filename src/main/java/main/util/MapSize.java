@@ -49,8 +49,4 @@ public class MapSize implements Serializable {
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
-
-  public MapSize scaledBy(double scale) {
-    return new MapSize(width * scale, height * scale);
-  }
 }

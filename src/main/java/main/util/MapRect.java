@@ -71,17 +71,6 @@ public class MapRect implements Serializable {
         && y <= bottomRight.y;
   }
 
-  /**
-   * The point in the exact centre of this rectangle. The coordinates, of course, may not be
-   * rounded.
-   */
-  public MapPoint getCenter() {
-    return new MapPoint(
-        getWidth() / 2 + topLeft.x,
-        getHeight() / 2 + topLeft.y
-    );
-  }
-
   public double x() {
     return this.topLeft.x;
   }
@@ -100,10 +89,6 @@ public class MapRect implements Serializable {
 
   public MapRect move(double x, double y) {
     return new MapRect(this.topLeft.x + x, this.topLeft.y + y, this.getWidth(), this.getHeight());
-  }
-
-  public boolean overlapsWith(MapRect mapRect) {
-    return toAwtRectangle().intersects(mapRect.toAwtRectangle());
   }
 
   @Override
@@ -140,14 +125,5 @@ public class MapRect implements Serializable {
         getWidth(),
         getHeight()
       );
-  }
-
-  private Rectangle2D.Double toAwtRectangle() {
-    return new Rectangle2D.Double(
-        topLeft.x,
-        topLeft.y,
-        getWidth(),
-        getHeight()
-    );
   }
 }

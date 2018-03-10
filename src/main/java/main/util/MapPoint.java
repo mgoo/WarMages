@@ -20,31 +20,6 @@ public class MapPoint implements Serializable {
     this.y = y;
   }
 
-  public MapPoint(Point p) {
-    this.x = p.x;
-    this.y = p.y;
-  }
-
-  /**
-   * Rounds x and y.
-   */
-  public MapPoint rounded() {
-    return new MapPoint(
-        Math.round(x),
-        Math.round(y)
-    );
-  }
-
-  /**
-   * Floors the x and y coordinates.
-   */
-  public MapPoint floored() {
-    return new MapPoint(
-        Math.floor(x),
-        Math.floor(y)
-    );
-  }
-
   /**
    * Returns a new point where this point is translated by the given amount.
    *
@@ -106,7 +81,7 @@ public class MapPoint implements Serializable {
    * @return radians
    */
   public double angleTo(MapPoint pointA) {
-    MapPoint pointB = this.getRight();
+    MapPoint pointB = new MapPoint(this.x + 1, this.y);
     MapPoint pointC = this;
     // Cosign rule for C
     double a = pointB.distanceTo(pointC);
@@ -121,29 +96,5 @@ public class MapPoint implements Serializable {
     } else {
       return angleC;
     }
-  }
-
-  public List<MapPoint> getSides() {
-    return Arrays.asList(getLeft(), getRight(), getTop(), getBottom());
-  }
-
-  public MapPoint getLeft() {
-    return new MapPoint(this.x - 1, this.y);
-  }
-
-  public MapPoint getRight() {
-    return new MapPoint(this.x + 1, this.y);
-  }
-
-  public MapPoint getTop() {
-    return new MapPoint(this.x, this.y - 1);
-  }
-
-  public MapPoint getBottom() {
-    return new MapPoint(this.x, this.y + 1);
-  }
-
-  public boolean isSimilar(MapPoint other) {
-    return (int)this.x == (int)other.x && (int)this.y == (int)other.y;
   }
 }
