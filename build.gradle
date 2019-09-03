@@ -1,11 +1,10 @@
-import java.awt.*
 import java.util.regex.Pattern
 
 plugins {
-  id 'java'
-  id 'application'
-  id 'jacoco'
-  id "org.openjfx.javafxplugin" version "0.0.8"
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
 
@@ -17,7 +16,15 @@ jacocoTestReport.dependsOn(test)
 
 javafx {
     version = "12.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = [
+      'javafx.web',
+      'javafx.base',
+      'javafx.controls',
+      'javafx.fxml',
+      'javafx.graphics',
+      'javafx.media',
+      'javafx.swing',
+    ]
 }
 
 version '1.0-SNAPSHOT'
@@ -40,6 +47,10 @@ dependencies {
     compile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     compile 'com.google.code.gson:gson:2.8.2'
 
+    // The bind package was removed in java 11
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'com.sun.xml.bind:jaxb-core:2.3.0'
+    compile 'com.sun.xml.bind:jaxb-impl:2.3.0'
 }
 
 sourceSets {
