@@ -4,7 +4,6 @@ import java.util.regex.Pattern
 plugins {
   id 'java'
   id 'application'
-  id 'findbugs'
   id 'jacoco'
   id "org.openjfx.javafxplugin" version "0.0.8"
 }
@@ -15,36 +14,6 @@ jacoco {
     reportsDir = file("$projectDir/reports/")
 }
 jacocoTestReport.dependsOn(test)
-
-findbugs {
-    toolVersion = "3.0.1"
-    reportsDir = file("$projectDir/findbugsReports")
-    effort = "max"
-    reportLevel = "high"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-gradle.startParameter.excludedTaskNames.add("findbugsTest")
-
-task(handleFindbugsFailure) {
-    onlyIf {
-        findbugsMain.state.failure != null
-    }
-    doFirst {
-        print 'There were probably bugs found by Findbugs! If you see this error on the build ' +
-                'server, then build the project locally to see the error info.'
-
-        if (Desktop.isDesktopSupported()) {
-            // Open findbugs report in system browser
-            Desktop.desktop.browse new File("findbugsReports/main.html").toURI()
-        }
-    }
-}
-findbugsMain.finalizedBy handleFindbugsFailure
 
 javafx {
     version = "12.0.2"
