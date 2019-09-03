@@ -4,10 +4,6 @@
 /build/
 /*.iml
 
-# IntelliJ project stuff to keep consistent across all IntelliJ users
-!/.idea/runConfigurations/
-!/.idea/codeStyleSettings.xml
-
 # Gradle
 /.gradle/
 
